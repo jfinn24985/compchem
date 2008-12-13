@@ -1,0 +1,291 @@
+class ArcStanzaB
+!!!253865.cpp!!!	_processGeometry(inout archiveSegments : std::vector<std::string>, inout curs : uint) : void
+      // for recombining geometry
+      std::stringstream _l_geomCollector;
+
+      // Signal the start of the structure in results vector.
+      results().push_back( "STRUCTURE" );
+
+      // The charge and multiplicity come from the archiveSegments
+      unsigned int pos = archiveSegments[curs].find( "," );
+      if ( pos < archiveSegments[curs].size() ) 
+	{
+	  // "charge"
+	  results().push_back( archiveSegments[curs].substr( 0, pos ) );
+	  // "multiplicity
+	  results().push_back( archiveSegments[curs].substr( pos + 1 ) );
+	}
+      else
+	{
+	  // "charge"
+	  results().push_back( "X" );
+	  // "multiplicity
+	  results().push_back( "X" );
+	};
+
+      // Now we need to add the content
+      // Assume is XYZ format
+      results().push_back( "axyz" ); 
+
+      // start collecting geometry info
+      ++curs;
+      _l_geomCollector << archiveSegments[curs];
+      ++curs;
+
+      while ( curs < archiveSegments.size() && !archiveSegments[curs].empty() ) 
+	{
+	  _l_geomCollector << "\\";
+	  _l_geomCollector << archiveSegments[curs];
+	  ++curs;
+	};
+
+      DEBUG( "Check for zmt or version", archiveSegments[curs + 1].c_str() );
+
+      if ( !PurpleTree::Regex::search( "Version", archiveSegments[curs + 1] ) )
+	{
+	  // Have ZMT format, so change attribute
+	  results().back() = "alad";
+	  _l_geomCollector << "\\";
+	  ++curs;
+	    
+	  // Now need to add some more date
+	  while ( curs < archiveSegments.size() &&
+		  !archiveSegments[curs].empty() ) 
+	    {
+	      _l_geomCollector << "\\";
+	      _l_geomCollector << archiveSegments[curs];
+	      ++curs;
+	    };
+	};
+      // Add the structure to the results.
+      results().push_back( _l_geomCollector.str() );
+    
+!!!253993.cpp!!!	_processResults() : void
+      //! Cursor into the archive segments vector
+      unsigned int _l_cursor; 
+      //! Position of '=' in 'name=value' segments.
+      unsigned int _nv_pos;      
+      // Check that something has been found.
+      if ( _m_archiveCollector.str().empty() )
+	{
+	  throw new Filters::IllegalStateException( "Gaussian::ArcStanzaB: No archive section found." );
+	};
+
+      //! Vector containing segments of the archive.
+      std::vector< std::string > _l_archiveSegments = 
+	PurpleTree::Regex::splitByDelimiter( "\\\\", _m_archiveCollector.str() );
+
+#ifdef __DEBUG__
+      copy(_l_archiveSegments.begin(), _l_archiveSegments.end(), std::ostream_iterator<std::string>( std::cerr, ", "));
+      std::cerr << std::endl;
+#endif
+
+      // Look for calculation "type"
+      // ( Operating mode, here eg opt, freq, irc )
+      results()[MECH_MODE] =  // Using (test)? X: Y;
+	( _l_archiveSegments[3].empty() )?
+	"unknown":
+	_l_archiveSegments[3];
+      
+      // Look for calculation "method"
+      if ( _l_archiveSegments[4].empty() )
+	{
+	  // method, eg b3lyp or oniom
+	  results()[CALC_METHOD] = "unknown";
+	  // the basis-set or oniom specificaton
+	  results()[BASIS_SET] = "unknown";
+	} 
+      else 
+	{
+	// Check for ONIOM
+	  PurpleTree::Regex oniomCheck( "ONIOM(.*)$" );
+	  if ( oniomCheck.process( _l_archiveSegments[4] ) )
+	    {
+	      // method, eg b3lyp or oniom
+	      results()[CALC_METHOD] = "ONIOM";
+	      // the basis-set or oniom specificaton
+	      results()[BASIS_SET] = oniomCheck[1];
+	      DEBUG("Basis Set is", oniomCheck[1].c_str() );
+	    } 
+	  else 
+	    {
+	      // method, eg b3lyp or oniom
+	      results()[CALC_METHOD] = _l_archiveSegments[4];
+	      // Should be "normal" basis set.
+	      if ( !_l_archiveSegments[5].empty() )
+		{
+		  // the basis-set or oniom specificaton
+		  results()[BASIS_SET] = _l_archiveSegments[5];
+		} 
+	      else
+		{
+		  // the basis-set or oniom specificaton
+		  results()[BASIS_SET] = "unknown";
+		};
+	    };
+	};
+
+#ifdef __DEBUG__
+	if ( _l_archiveSegments[10].empty() )
+	  {
+	    DEBUG( "ArcStanzaB::output: Empty string at [10] -> this is correct!!" );
+	  }
+	else 
+	  {
+	    DEBUG( "ArcStanzaB::output: Non-empty string at [10] -> This is not correct", _l_archiveSegments[_l_cursor].c_str() );
+	  };
+#endif
+
+	// Command string (this has been gathered elsewhere)
+	if ( !_l_archiveSegments[11].empty() ) 
+	  {
+	    // the command section, eg "\c #P \c OPT(..)"
+	    results()[COMMAND] = _l_archiveSegments[11];
+	  };
+
+#ifdef __DEBUG__
+	if ( _l_archiveSegments[12].empty() )
+	  {
+	    DEBUG( "ArcStanzaB::output: Empty string at [12] -> this is correct!!" );
+	  } 
+	else 
+	  {
+	    DEBUG( "ArcStanzaB::output: Non-empty string at [12] -> This is not correct", _l_archiveSegments[_l_cursor].c_str() );
+	  };
+#endif
+
+	// Title
+	if ( !_l_archiveSegments[13].empty() )
+	  {
+	    // The title string from the output file
+	    results()[TITLE] = _l_archiveSegments[13];
+	  };
+
+	// "blank" before compounds's structure definition
+#ifdef __DEBUG__
+	if ( _l_archiveSegments[14].empty() )
+	  {
+	    DEBUG( "ArcStanzaB::output: Empty string at [14] -> this is correct!!" );
+	  } 
+	else
+	  {
+	    DEBUG( "ArcStanzaB::output: Non-empty string at [14] -> This is not correct", _l_archiveSegments[_l_cursor].c_str() );
+	  };
+#endif
+
+	// set to "charge,multiplicity"
+	_l_cursor = 15;
+
+	_processGeometry( _l_archiveSegments, _l_cursor );
+
+	// the cursor should now point to the "blank" before the version information.
+#ifdef __DEBUG__
+	std::stringstream _s;
+	if ( _l_archiveSegments[_l_cursor].empty() ) {
+	  _s << "ArcStanzaB::output: Empty string at [" << _l_cursor << "] -> this is correct!!";
+	  DEBUG( _s.str().c_str() );
+	} else {
+	  _s << "ArcStanzaB::output: Non-empty string at [" << _l_cursor << "] -> this is not correct";
+	  DEBUG( _s.str().c_str(), _l_archiveSegments[_l_cursor].c_str() );
+	};
+#endif
+
+	// Search for the version string after the structure segment
+	++_l_cursor;
+	_nv_pos = _l_archiveSegments[_l_cursor].find( "=" );
+
+	DEBUG( "@0", _l_archiveSegments[_l_cursor].c_str() );
+
+	if ( _l_archiveSegments[_l_cursor].empty() ||
+	     _l_archiveSegments[_l_cursor].size() < _nv_pos ||
+	     _l_archiveSegments[_l_cursor].substr( 0, _nv_pos ) != "Version" )
+	  {
+	    throw new Filters::IllegalStateException( "Gaussian::ArcStanzaB: Expected \"Version\" section of ARC not found" );
+	  }
+	else
+	  {
+	    // Found the version string, add it to results
+	    // ID of mechanism, here g94, g98, g03
+	    if ( _l_archiveSegments[_l_cursor].size() - _nv_pos > 
+		 _l_archiveSegments[_l_cursor].substr( _nv_pos + 1 ).find("G94" ) ) 
+	      {
+		results()[MECHANISM_ID] = "g94";
+	      } 
+	    else if ( _l_archiveSegments[_l_cursor].size() - _nv_pos > 
+		      _l_archiveSegments[_l_cursor].substr( _nv_pos + 1 ).find("G98" ) )
+	      {
+		results()[MECHANISM_ID] = "g98";
+	      } 
+	    else if ( _l_archiveSegments[_l_cursor].size() - _nv_pos > 
+		      _l_archiveSegments[_l_cursor].substr( _nv_pos + 1 ).find("G03" ) )
+	      {
+		results()[MECHANISM_ID] = "g03";
+	      } 
+	    else 
+	      {
+		results()[MECHANISM_ID] = "unknown";
+	      };
+	    
+	    // The version of the \c Gaussian program
+	    results()[VERSION] = _l_archiveSegments[_l_cursor].substr( _nv_pos + 1 );
+	  };
+
+	DEBUG( "Post Version section" );
+	// What we have now is a section of name=value pairs. We can loop over this.
+	++_l_cursor;
+	while ( 1 ) {
+	  _nv_pos = _l_archiveSegments[_l_cursor].find( "=" );
+	  if ( _l_archiveSegments[_l_cursor].empty() || 
+	       _l_archiveSegments[_l_cursor].size() < _nv_pos  ) 
+	    {
+	      break;
+	    };
+
+	  results().push_back( _l_archiveSegments[_l_cursor].substr( 0, _nv_pos ) );
+	  results().push_back( _l_archiveSegments[_l_cursor].substr( _nv_pos + 1 ) );
+	  ++_l_cursor;
+	};
+
+	DEBUG( "Post Name/Value section" );
+	// the cursor should now point to a blank before an unspecified
+	// section. What I do here simply add stuff to a non-specific data
+	// node until we get a blank, then we add it to the root node. 2
+	// blanks in a row cause us to exit.
+	++_l_cursor;
+	while ( _l_cursor < _l_archiveSegments.size() 
+		&& !_l_archiveSegments[_l_cursor].empty()
+		&& _l_archiveSegments[_l_cursor] != "@" ) {
+	  // Add data
+	  results().push_back( "arc_section" );
+	  results().push_back( _l_archiveSegments[_l_cursor] );
+	  ++_l_cursor;
+	  while ( _l_cursor < _l_archiveSegments.size() && 
+		  !_l_archiveSegments[_l_cursor].empty() ) 
+	    {
+	      results().back() += "\\" + _l_archiveSegments[_l_cursor];
+	      ++_l_cursor;
+	    };
+	  ++_l_cursor;
+	};
+	// We are all done now...
+	DEBUG( "Post all sections" );
+    	DEBUG( "ArcStanzaB::output -> done" );
+    
+!!!254377.cpp!!!	processLine(in line : string) : void
+      if ( _m_archiveStartRegex.search( line ) )
+	{
+	  // ARC start
+	  _m_archiveFound = true;
+	};
+      if ( _m_archiveFound )
+	{
+	  _m_archiveCollector << line.substr( 1, 70 );
+	};
+      if ( _m_archiveEndRegex.search( line ) )
+	{
+	  // ARC end
+	  _m_archiveFound = false;
+	  // Process the results
+	  _processResults();
+	};
+    

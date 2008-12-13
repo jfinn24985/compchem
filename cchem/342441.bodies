@@ -1,0 +1,186 @@
+class page_vw
+!!!1056553.cpp!!!	create_list_control(in a_node : purpletree::dom::element) : std::auto_ptr< control::item_ctl >
+  return std::auto_ptr< control::item_ctl >(new control::page_ctl (a_node));
+!!!1056681.cpp!!!	finalise_page() : void
+  // DO
+  CHECK (not control::page_ctl::is_done (get_cursor ()), "Cannot finalise a page that is already finalised");
+  
+  // If unsaved changes, save them now.
+  if (is_changed ())
+  {
+    poll ();
+  }
+  
+  // Finalise the page.
+  control::page_ctl::finalise (get_cursor ());
+  
+  // Update views.
+  update ();
+  entry_view.update ();
+  info_view.update ();
+!!!1056809.cpp!!!	is_changed() : bool
+  // DO
+  if (!base_t::is_changed ())
+  {
+    if (entry_view.is_changed () or info_view.is_changed ())
+      {
+        on_change ();
+      }
+    else
+      { 
+        if (is_state_four ())
+  	{
+  	  CHECK (title_view->get_text () == control::page_ctl::get_title (get_cursor ())
+  		 , "Title field is not editable");
+  	  CHECK (pageref_view->get_text () == control::page_ctl::get_pageref (get_cursor ())
+  		 , "Page reference field is not editable.");
+  	  CHECK (startdate_view->get_text () == ui_traits::date_to_text (control::page_ctl::get_start_date (get_cursor ()))
+  		 , "Start date field is not editable.");
+  	  CHECK (not control::page_ctl::is_done (get_cursor ())
+  		 or enddate_view->get_text () == ui_traits::date_to_text (control::page_ctl::get_final_date (get_cursor ()))
+  		 , "End date field is not editable.");
+  	}
+        else
+  	{
+  	  CHECK (title_view->get_text ().empty ()
+  		 , "Title field should be empty");
+  	  CHECK (pageref_view->get_text ().empty ()
+  		 , "Page reference field should be empty.");
+  	  CHECK (startdate_view->get_text ().empty ()
+  		 , "Start date field should be empty.");
+  	  CHECK (enddate_view->get_text ().empty ()
+  		 , "End date field should be empty.");
+  	}
+      }
+  }
+  return base_t::is_changed ();
+!!!1056937.cpp!!!	is_valid() : void
+  base_t::is_valid ();
+  INVARIANT (NULL != title_view, "Unable to find title widget");
+  INVARIANT (NULL != pageref_view, "Unable to find page reference widget");
+  INVARIANT (NULL != startdate_view, "Unable to find start date widget");
+  INVARIANT (NULL != enddate_view, "Unable to find end date widget");
+  INVARIANT (NULL != finalise_button, "Unable to find finalise button");
+  INVARIANT (false == enddate_view->is_sensitive ()
+  	   , "End date widget must never be be sensitive");
+  INVARIANT (false == pageref_view->is_sensitive ()
+             , "Page reference widget must never be be sensitive"); 
+  INVARIANT (false == startdate_view->is_sensitive ()
+             , "Start date widget must never be be sensitive");
+  INVARIANT (false == title_view->is_sensitive ()
+             , "Title widget must never be be sensitive");
+  INVARIANT (entry_view.is_state_one () == info_view.is_state_one ()
+  	   , "Sub-views should be in state one or not at the same time.");
+!!!1057193.cpp!!!	page_vw(in a_journal_view : base_view)
+  is_valid ();
+  // Connect to finalise button.
+  finalise_button->signal_clicked ().connect (sigc::mem_fun (this, &page_vw::finalise_page));
+  
+  // All display views are insensitive
+  enddate_view->set_sensitive (false);
+  pageref_view->set_sensitive (false);
+  startdate_view->set_sensitive (false);
+  title_view->set_sensitive (false);
+  // Button view starts insensitive
+  finalise_button->set_sensitive (false);
+  // Main window starts insensitive
+  get_rep()->set_sensitive (false);
+!!!1057577.cpp!!!	set_row(in a_row : row_iterator_t, in a_cursor : control::item_iterator) : void
+  // const row_iterator_t & a_row, const item_iterator & a_cursor
+  // Get definition
+  const columns* l_defn (dynamic_cast < const columns* > (m_columns.get ()));
+  CHECK (NULL != l_defn, "Column definition is of the wrong type.");
+  // Convert to ustring.
+  (*a_row)[l_defn->m_pageref] = Glib::ustring(control::page_ctl::get_pageref (a_cursor));
+  (*a_row)[l_defn->m_iterator] = a_cursor;
+!!!1057705.cpp!!!	virt_create_item(inout a_cursor : control::item_iterator) : void
+  // DO
+  REQUIRE (not a_cursor.is_null (), "Cannot set values on a null node.");
+  // LOCAL
+  try
+  {
+    std::string l_title (control::page_ctl::get_title (a_cursor));
+  std::string l_pageref (control::page_ctl::get_pageref (a_cursor));
+  // DO
+  const ui_traits::ask_info l_title_request ("A title for the new page (may not be empty)");
+  const ui_traits::ask_info l_pageref_request ("Replace or accept page reference  (may not be empty)");
+  do
+  {
+    ui_traits::ask_query (l_title_request, l_title);
+  }
+  while (l_title.empty ());
+  
+  do
+  {
+    ui_traits::ask_query (l_pageref_request, l_pageref);
+  }
+  while (l_pageref.empty ());
+  
+  // Set values.
+  control::page_ctl::set_pageref (a_cursor, l_pageref);
+  control::page_ctl::set_title (a_cursor, l_title);
+  }
+  catch (const std::exception &a_err)
+  {
+    ALWAYS(false, a_err.what ());
+  }
+!!!1057833.cpp!!!	virt_poll() : void
+  // DO
+  if (entry_view.is_changed ())
+  {
+    entry_view.poll ();
+  }
+  
+  if (info_view.is_changed ())
+  {
+    info_view.poll ();
+  }
+  
+  reset_change_flag ();
+!!!1057961.cpp!!!	virt_update() : void
+  // LOCAL
+  const string_t l_empty;
+  // PRE
+  // update() REQUIREs not is_changed
+  is_valid ();
+  // DO
+  
+  // Reset data in sub-views (both are in the same state)
+  if (not entry_view.is_state_one ())
+  {
+    entry_view.clear_parent_node ();
+    info_view.clear_parent_node ();
+  }
+  
+  // Update data in current view and in sub-views
+  if (is_state_four ())
+  {
+    title_view->set_text (control::page_ctl::get_title (get_cursor ()));
+    pageref_view->set_text (control::page_ctl::get_pageref (get_cursor ()));
+    startdate_view->set_text (ui_traits::date_to_text (control::page_ctl::get_start_date (get_cursor ())));
+  
+    // Set up final date and finalise button.
+    if (control::page_ctl::is_done (get_cursor ()))
+      {
+        enddate_view->set_text (ui_traits::date_to_text (control::page_ctl::get_final_date (get_cursor ())));
+        // If is_done then finalise button is not necessary
+        finalise_button->set_sensitive (false);
+      }
+    else
+      {
+        enddate_view->set_text (l_empty);
+        // If not is_done then finalise button is necessary
+        finalise_button->set_sensitive (true);
+      }
+    // Pass data onto sub-views
+    entry_view.set_parent_node (control::page_ctl::get_entry_parent_node (get_cursor ()));
+    info_view.set_parent_node (control::page_ctl::get_information_parent_node (get_cursor ()));
+  }
+  else
+  {
+    title_view->set_text (l_empty);
+    pageref_view->set_text (l_empty);
+    startdate_view->set_text (l_empty);
+    enddate_view->set_text (l_empty);
+    finalise_button->set_sensitive (false);
+  }

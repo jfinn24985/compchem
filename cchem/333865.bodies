@@ -1,0 +1,32 @@
+class query_user_terminal
+!!!1002025.cpp!!!	ask(inout a_question : std::list<query_item>) : bool
+for (std::list<query_item>::iterator l_iter = a_question.begin ();
+	l_iter != a_question.end();
+	++l_iter)
+{
+  std::string Result;
+
+  std::cout << l_iter->get_label ();
+  if (l_iter->get_flag () & query_item::NOECHO != 0)
+  {
+    no_tty_echo l_sentry;
+    while (1)
+      {
+        const char l_key(std::cin.get ());
+	if ('\n' == l_key) break;
+	Result.push_back (l_key);
+      }
+  }
+  else
+  {
+    no_tty_echo l_sentry;
+    while (1)
+      {
+        const char l_key(std::cin.get ());
+	if ('\n' == l_key) break;
+	Result.push_back (l_key);
+      }
+  }
+  l_iter->set_value (Result);	
+}
+return true;

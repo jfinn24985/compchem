@@ -1,0 +1,862 @@
+format 61
+"xmlreader" // /xmlreader::xmlreader
+  revision 35
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "xmlreader"
+  cpp_namespace "xmlreader"
+  classview 128553 "reader"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 165801 // reader
+    class 149033 "basic_xml_reader"
+      visibility package 
+      nformals 1
+      formal name "t_reader_traits" type "typename" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/ \\brief Interface to an XML reader type
+/
+/ The implementation can instantiate an object of this type by
+/ calling the make_xml_reader function."
+      class 149161 "reader_t"
+	visibility package stereotype "typedef" explicit_base_type "t_reader_traits::reader_t"
+	cpp_decl "${comment}typedef  typename ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+      end
+
+      class 151337 "node_type"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum {
+${items}
+};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	attribute 132009 "START_ELEMENT"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::START_ELEMENT"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132137 "ATTRIBUTE"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::ATTRIBUTE"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132265 "TEXT"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::TEXT"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132393 "CDATA"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::CDATA"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132521 "ENTITY"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::ENTITY"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132777 "PI"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::PI"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132649 "ENTITY_DECL"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::ENTITY_DECL"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 132905 "COMMENT"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::COMMENT"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 133033 "DOCUMENT"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::DOCUMENT"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 133161 "DOCTYPE"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::DOCTYPE"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 133417 "NOTATION"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::NOTATION"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 133289 "DOCFRAG"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::DOCFRAG"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 133545 "END_ELEMENT"
+	  public explicit_type ""
+	  init_value "= t_reader_traits::END_ELEMENT"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+      end
+
+      class 500777 "parser_property"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name}
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	comment "Constants that can be used to control optional aspects of the 
+parser/reader.
+
+If a property is unsupported the following will be true:
+<prop> == UNSUPPORTED"
+	attribute 410793 "UNSUPPORTED"
+	  public type class_ref 500777 // parser_property
+	  init_value "= t_reader_traits::UNSUPPORTED"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Value to compare with another property value to
+see if the property is unsupported."
+	end
+
+	attribute 410921 "LOAD_DTD"
+	  public type class_ref 500777 // parser_property
+	  init_value "= t_reader_traits::LOAD_DTD"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Load the DTD while parsing the document."
+	end
+
+	attribute 411049 "DEFAULT_ATTRIBUTES"
+	  public type class_ref 500777 // parser_property
+	  init_value "= t_reader_traits::DEFAULT_ATTRIBUTES"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Will automatically set default attributes (implies
+loading the DTD)."
+	end
+
+	attribute 411177 "VALIDATE"
+	  public type class_ref 500777 // parser_property
+	  init_value "= t_reader_traits::VALIDATE"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Validate the document against the DTD (implies
+loading the DTD.)"
+	end
+
+	attribute 411305 "EXPAND_ENTITIES"
+	  public type class_ref 500777 // parser_property
+	  init_value "= t_reader_traits::EXPAND_ENTITIES"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Expand any entities into their final form (implies
+loading the DTD)"
+	end
+      end
+
+      attribute 133673 "m_parser_okay"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 533161 // m_reader (<directional composition>)
+	relation 515881 *-->
+	  a role_name "m_reader" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 533161 // m_reader (<directional composition>)
+	  b parent class_ref 149161 // reader_t
+      end
+
+      operation 172713 "attribute"
+	const public explicit_return_type "string"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->has_attribute (a_key), \"No attribute with given name: \" + a_key);
+  return t_reader_traits::attribute (this->m_reader, a_key); }
+"
+	
+	
+	
+	
+	comment "Get value of attribute of give name from element
+
+\\pre has_attribute (a_key)"
+      end
+
+      operation 171561 "attribute_count"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(not this->is_attribute (), \"Cannot get attribute from an attribute\");
+  return t_reader_traits::attribute_count (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "How many attributes are present?
+
+\\pre !is_attribute"
+      end
+
+      operation 172841 "base_uri"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::base_uri (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Base URI of document"
+      end
+
+      operation 1213097 "debug"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  t_reader_traits::debug (); }
+"
+	
+	
+	
+	
+	comment "Provide some debugging information."
+      end
+
+      operation 171689 "depth"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+   return t_reader_traits::depth (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Depth of node in tree"
+      end
+
+      operation 171817 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::empty (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Does element have no content?"
+      end
+
+      operation 173865 "first_attribute"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->has_attributes ()
+		, \"Cannot use first_attribute() on element with no attributes\");
+  t_reader_traits::first_attribute (this->m_reader, this->m_parser_okay); }
+"
+	
+	
+	
+	
+	comment "Move to first attribute of this element
+
+\\pre has_attributes()"
+      end
+
+      operation 171945 "has_attributes"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(not this->is_attribute (), \"Cannot get attribute from an attribute\");
+  return t_reader_traits::has_attributes (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Does element have attributes?
+
+\\pre !is_attribute"
+      end
+
+      operation 172073 "has_attribute"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(not this->is_attribute (), \"Cannot get attribute from an attribute\");
+  return t_reader_traits::has_attribute (this->m_reader, a_key); }
+"
+	
+	
+	
+	
+	comment "Does element have attribute of give name?"
+      end
+
+      operation 172201 "has_value"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::has_value (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Does element have a value?"
+      end
+
+      operation 172329 "is_attribute"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return (basic_xml_reader::ATTRIBUTE == this->node_type ()); }
+"
+	
+	
+	
+	
+	comment "Is the current position an attribute node?"
+      end
+
+      operation 172457 "is_default"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_attribute (), \"Must be an attribute\");
+  return t_reader_traits::is_default (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Does the attribute have its default value
+
+\\pre is_attribute()"
+      end
+
+      operation 172585 "is_doc_valid"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return this->m_parser_okay; }
+"
+	
+	
+	
+	
+	comment "Has the parser found the document valid so far
+
+This should always be true until next() returns false. Then
+this indicates whether the next() failed because the end of
+document was reached or if the document was some how invalid.
+
+This is implicit \\pre condition to all methods"
+      end
+
+      operation 172969 "local_name"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::local_name (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "local name of node"
+      end
+
+      operation 173097 "name"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::name (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "name, possibly qualified, of node"
+      end
+
+      operation 173225 "namespace_uri"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::namespace_uri (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "URI of namespace of node"
+      end
+
+      operation 1588777 "next_attribute"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_attribute ()
+		, \"Cannot use next_attribute() on non-attribute\");
+  return t_reader_traits::next_attribute (this->m_reader, this->m_parser_okay); }
+"
+	
+	
+	
+	
+	comment "Move to next attribute of an element
+
+\\pre is_attribute
+
+\\return false if no next attribute"
+      end
+
+      operation 173353 "node_type"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::node_type (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "Type of node"
+      end
+
+      operation 1590313 "parser_property"
+	stereotype "get"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_option" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return t_reader_traits::get_${name}(m_reader, ${p0}, m_parser_okay);
+}
+
+"
+	
+	
+	
+	
+	comment "Attempt to get parser property corresponding to a_option.  
+Returns the current state of the property if option is 
+supported by the current implementation. Unsupported 
+properties always return false. 
+
+Throws an error if getting a valid option failed in CHECK mode"
+      end
+
+      operation 1590441 "parser_property"
+	stereotype "set"
+	public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_option" explicit_type "int"
+	  param in name "a_on" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  bool Result (false);
+  if (${p0} != UNSUPPORTED)
+  {
+    t_reader_traits::set_${name}(m_reader, ${p0}, ${p1}, m_parser_okay);
+    Result = m_parser_okay;
+  }
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Attempt to set parser attribute corresponding to a_option to
+on or off.  Returns true if option is supported by the
+current implementation and option was set, false if unsupported
+or an error occured setting the property.
+
+Throws an error if setting a valid option failed in CHECK mode"
+      end
+
+      operation 173481 "prefix"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::prefix (this->m_reader); }"
+	
+	
+	
+	
+	comment "Prefix part of name"
+      end
+
+      operation 174249 "read"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(not this->is_attribute (), \"Cannot use read() on attribute\");
+  return t_reader_traits::read (this->m_reader, this->m_parser_okay); }
+"
+	
+	
+	
+	
+	comment "Move the reader to the next node. 
+
+\\return false at end of document.
+
+\\pre !is_attribute"
+      end
+
+      operation 174121 "to_element"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_attribute (), \"Cannot use to_element() on non-attribute\");
+  t_reader_traits::to_element (this->m_reader, this->m_parser_okay); }
+"
+	
+	
+	
+	
+	comment "Move from attribute to enclosing element
+
+\\pre is_attribute"
+      end
+
+      operation 173609 "value"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::value (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "The textual value of node"
+      end
+
+      operation 173737 "xml_lang"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
+  return t_reader_traits::xml_lang (this->m_reader); }
+"
+	
+	
+	
+	
+	comment "XML:Lang thingy"
+      end
+
+      operation 174377 "basic_xml_reader"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_parser_okay(false)
+, m_reader(t_reader_traits::new_reader (${p0})) {
+  this->m_parser_okay = (NULL != this->m_reader); }
+"
+	
+	
+	
+	
+	comment "create an xml_reader from a file"
+      end
+
+      operation 174505 "basic_xml_reader"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_stream" explicit_type "std::istream"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: m_parser_okay (false)
+, m_reader (t_reader_traits::new_reader (${p0})) {
+  this->m_parser_okay = (NULL != this->m_reader); }
+"
+	
+	
+	
+	
+	comment "create an xml_reader from a stream"
+      end
+
+      operation 1588905 "basic_xml_reader"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} * ${p0}, ${t1} ${p1}${)}${volatile}${throw}
+: m_parser_okay(false)
+, m_reader(t_reader_traits::new_reader (${p0}, ${p1})) {
+  this->m_parser_okay = (NULL != this->m_reader); }
+"
+	
+	
+	
+	
+	comment "create an xml_reader from a buffer.  This uses the buffer directly
+and it is the responsibility of the creator to ensure that this
+buffer exists for the duration of the reader."
+      end
+
+      operation 174633 "~basic_xml_reader"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {
+  if (this->m_reader != NULL){
+    t_reader_traits::delete_reader (this->m_reader); }}
+"
+	
+	
+	
+	
+      end
+
+      operation 174761 "basic_xml_reader"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}explicit ${name}${(}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no default"
+      end
+
+      operation 174889 "basic_xml_reader"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "" type class_ref 149033 // basic_xml_reader
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 175017 "operator ="
+	private return_type class_ref 149033 // basic_xml_reader
+	nparams 1
+	  param in name "" type class_ref 149033 // basic_xml_reader
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+  end
+
+  deploymentview 165801 "reader"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 129577 "xml_reader"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 149033 // basic_xml_reader
+      end
+      ncouples 1
+      key "version" value "$revision:$"
+    end
+  end
+end

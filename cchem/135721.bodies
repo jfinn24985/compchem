@@ -1,0 +1,24 @@
+class view
+!!!322601.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+!!!329513.cpp!!!	get_source() : string
+// check
+CHECK(has_attribute (S_HREF_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_HREF_NAME, m_rep);
+!!!329641.cpp!!!	get_type() : string
+// check
+CHECK(has_attribute (S_TYPE_NAME, m_rep), "Invalid document");
+// end
+return get_attribute (S_TYPE_NAME, m_rep);
+!!!329769.cpp!!!	view(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_REPORT_FORM_NAME, m_rep), "Node, object type mismatch");
+!!!330153.cpp!!!	operator=(in source : view) : view
+// do
+m_rep = source.m_rep;
+// end
+return *this;

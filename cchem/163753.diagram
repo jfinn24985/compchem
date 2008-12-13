@@ -1,0 +1,6 @@
+format 55
+
+componentcanvas 128041 component_ref 128681 // data_scheme
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 179 28 2000 165 59
+end

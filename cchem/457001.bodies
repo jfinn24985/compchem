@@ -1,0 +1,28 @@
+class test_file_helper
+!!!1456425.cpp!!!	main_test() : void
+xml_access_helper & l_helper (xml_access_helper::helper ());
+if (not l_helper.empty ())
+{
+// Print list of search directories
+  {
+    int l_c (1);
+    for (xml_access_helper::const_iterator l_i (l_helper.begin ()); l_i != l_helper.end (); ++l_i, ++l_c)
+    {
+      log () << WTCH << "Directory [" << l_c << "] = \"" << l_i->string () << "\"\n";
+    }
+  }
+// Perform search.
+//    meta_datum l_memo_dfn (names::memo_name (), names::label_name ()
+//      , names::list (names::datum_name (), names::info_name ())
+//      , names::list (names::mechanism_name (), names::href_name ()
+//           , names::filter_name (), names::formula_name (), names::compound_name ()));
+//    std::auto_ptr < xml_persistence > l_file (new xml_persistence (m_path, m_base));
+//    boost::filesystem::path l_path (l_helper.find (l_memo_dfn, *(l_file.get ()), m_key));
+//    log () << WTCH << "Found path = \"" << l_path.string () << "\"\n";
+}
+!!!1456681.cpp!!!	register_options() : void
+utility::program_options::helper ().public_options ().add_options ()
+  ("search-path", boost::program_options::value< std::string > ()->notifier (boost::bind (&test_file_helper::set_path, this, _1)), "search file name (relative to base)")
+  ("search-base", boost::program_options::value< std::string > ()->notifier (boost::bind (&test_file_helper::set_base, this, _1)), "search base path")
+  ("search-key", boost::program_options::value< std::string > (&(this->m_key)), "search key");
+

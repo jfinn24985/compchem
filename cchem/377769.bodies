@@ -1,0 +1,43 @@
+class utility
+!!!1223465.cpp!!!	convert_string_to_list(in a_str : string, out a_set : string_list_t) : void
+try {
+if (not a_str.empty ()) {
+  boost::tokenizer < boost::escaped_list_separator < char > > l_tok (a_str);
+  a_set.clear ();
+  for (boost::tokenizer < boost::escaped_list_separator < char > >::const_iterator l_ix (l_tok.begin ());
+       l_ix != l_tok.end ();
+       ++l_ix) {
+    // Strip any whitespace around quotes eg. [  ".."  ]
+    unsigned int b (l_ix->find_first_not_of ("\" "));
+    unsigned int e (l_ix->find_last_not_of ("\" "));
+    if (b + 1 != e) {
+      a_set.push_back (l_ix->substr (b, e - b + 1));}
+    else {
+      a_set.push_back (*l_ix); }}}}
+catch (const std::bad_alloc &) {
+  throw; }
+catch (const std::exception &l_err) {
+  COMPCHEM_ALWAYS(false, l_err.what ()); }
+catch(...) {
+  COMPCHEM_ALWAYS(false, "Unknown error"); }
+!!!1225513.cpp!!!	get_control(in a_widget : widget_t) : control
+map_t::iterator l_cursor (std::find_if (widget_map().begin (), widget_map().end ()
+                                        , boost::bind (&utility::match_class, _1, a_widget)));
+COMPCHEM_REQUIRE (l_cursor != widget_map().end (), "Unknown widget class.");
+if (l_cursor == widget_map().end ()) {
+  throw std::out_of_range ("Unknown widget class in guistate::utility::get_control()."); }
+return *(l_cursor->second);
+!!!1225385.cpp!!!	widget_map() : map_t
+static map_t Result;
+if (Result.empty ()) {
+  // Initialise map
+  static text_control s_text;
+  static field_control s_field;
+  static chooser_control s_chooser;
+  static list_control s_list;
+
+  Result.push_back (std::make_pair (xmtInputFieldWidgetClass, &s_field));
+  Result.push_back (std::make_pair (xmTextWidgetClass, &s_text));
+  Result.push_back (std::make_pair (xmtChooserWidgetClass, &s_chooser));
+  Result.push_back (std::make_pair (xmListWidgetClass, &s_list)); }
+return Result;

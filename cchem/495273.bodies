@@ -1,0 +1,20 @@
+class test_cfm_report
+!!!1579817.cpp!!!	main_test() : void
+try
+{
+  // Read database
+  data_scheme::program l_program (m_database);
+  if (l_program.begin_project () != l_program.end_project ())
+  {
+    // Generate report on first project
+    report::project_cfm_report l_reporter;
+    l_reporter (*(l_program.begin_project ()), log ());
+  }
+}
+catch (const std::exception &a_err)
+{
+  log () << EXCP << "Caught exception:\n" << a_err.what () << "\n";
+}
+!!!1579945.cpp!!!	register_options(inout a_optset : options_description) : void
+a_optset.add_options ()("database", boost::program_options::value< std::string >(&m_database), "XML database file");
+

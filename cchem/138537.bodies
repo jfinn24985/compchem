@@ -1,0 +1,4 @@
+class _xml_node_init
+!!!173609.cpp!!!	_xml_node_init()
+  xml_rb_node::add_default_maker( new maker_cmd_T<xml_node>() );
+  xml_rb_node::add_maker( "#PCDATA", new maker_cmd_T<xml_text>() );

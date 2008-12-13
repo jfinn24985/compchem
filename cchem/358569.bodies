@@ -1,0 +1,40 @@
+class base_node_visitor
+!!!1146793.cpp!!!	increment() : void
+COMPCHEM_REQUIRE (not m_cursor.is_null (), "Cannot increment past end of a tree");
+if (m_is_first) {
+  if (m_cursor.has_child_nodes ()) {
+    // If the node has children step to first child
+    m_is_first = true;
+    m_cursor = m_cursor.first_child (); }
+  else {
+    m_is_first = false; }}
+if (not m_is_first) {
+  // If no children then go to parent or next sibling.  This
+  // may involve multiple moves up ancestor tree.
+  if (not m_cursor.next_sibling ().is_null ()) {
+    m_is_first = true;
+    m_cursor = m_cursor.next_sibling (); }
+  else {
+    // m_is_first = false; Use traits version to get nul from doc nodes
+    m_cursor.set_equal (t_node_traits::parent_node (m_cursor.get_node_rep ())); }}
+!!!1146921.cpp!!!	end() : base_node_visitor
+class_t Result;
+// Add case for parent OR m_cursor being a document node
+if (not m_cursor.is_null ()) {
+  const unsigned short l_type (m_cursor.node_type ());
+  if (node_t::DOCUMENT_NODE == l_type or node_t::DOCUMENT_FRAGMENT_NODE == l_type) {
+    Result = m_cursor; } // For document nodes iter.end == iter
+  else {
+    const unsigned short l_par_type (m_cursor.parent_node ().node_type ()); // N.1
+    if (node_t::DOCUMENT_NODE == l_par_type or node_t::DOCUMENT_FRAGMENT_NODE == l_par_type) {
+      Result = m_cursor.parent_node (); }
+    else { // Use node_iterator logic
+//      {{base_node_iterator< t_node_traits, t_node_conformance > l_cursor (m_cursor);
+//      if (l_cursor) {
+//        l_cursor = l_cursor.end(); }
+//      Result = *l_cursor; }}
+      Result = m_cursor;
+      Result.m_is_first = false;
+      ++Result; }}}
+return Result;
+// N.1 parent_node can only be null for null objects or DOCUMENT_NODEs?

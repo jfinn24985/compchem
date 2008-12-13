@@ -1,0 +1,9 @@
+class base_bufstream
+!!!1078441.cpp!!!	next_segment(inout a_buffer : char, inout a_bsize : int) : bool
+// DO
+// If we want nul terminated, read one less character then set nul
+if (flags () & NUL_TERM) { --a_bsize; }
+a_bsize = stream ().readsome (a_buffer, a_bsize);
+if (flags () & NUL_TERM) { *(a_buffer + a_bsize) = '\0'; }
+// END
+return good ();

@@ -1,0 +1,1429 @@
+format 61
+"filetype" // /compchem/report::filetype
+  revision 24
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "report/filetype"
+  cpp_src_dir "../src/report/filetype"
+  cpp_namespace "report::filetype"
+  comment "This packages contains output data file types.  The basic requirement of 
+these types is that they can write an output file.  Being able to read the 
+data file is an extension."
+  classview 132649 "filetypes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 134185 // filetypes
+    classdiagram 134697 "Filetypes"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 351529 "base_out_decor"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Abstract base class for header sections (and tail sections) of report files.  This class comes about because most report formats consist of the data set preceded by some header section and followed by some tail section.  This class heirarchy is responsible for writing out the header section of some data file."
+      classrelation 285609 // m_header (<directional aggregation>)
+	relation 279593 o-->
+	  a role_name "m_header" multiplicity "1" const_relation protected
+	    comment "The output header to serialise."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 285609 // m_header (<directional aggregation>)
+	  b parent class_ref 349865 // output_header
+      end
+
+      operation 1106217 "base_out_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}: m_header (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1103273 "~base_out_decor"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1106345 "base_out_decor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 351529 // base_out_decor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1106473 "operator="
+	private return_type class_ref 351529 // base_out_decor
+	nparams 1
+	  param in name "source" type class_ref 351529 // base_out_decor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1103017 "serialise_header"
+	abstract const cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 1103401 "serialise_tail"
+	abstract const cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 351913 "base_in_decor"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Abstract base class for header sections (and tail sections) of report files.  This class comes about because most report formats consist of the data set preceded by some header section and followed by some tail section.  This class heirarchy is responsible for reading in the header section of some data file."
+      classrelation 285481 // m_header (<directional aggregation>)
+	relation 279465 o-->
+	  a role_name "m_header" multiplicity "1" protected
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 285481 // m_header (<directional aggregation>)
+	  b parent class_ref 349865 // output_header
+      end
+
+      operation 1105833 "base_in_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}: m_header (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1105961 "base_in_decor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 351913 // base_in_decor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1105193 "~base_in_decor"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1103145 "deserialise_header"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 1103529 "deserialise_tail"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 1106089 "operator="
+	private return_type class_ref 351913 // base_in_decor
+	nparams 1
+	  param in name "source" type class_ref 351913 // base_in_decor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 352041 "csv_in_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 285097 // <generalisation>
+	relation 279081 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 285097 // <generalisation>
+	  b parent class_ref 351913 // base_in_decor
+      end
+
+      operation 1106601 "csv_in_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}: base_in_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1106729 "~csv_in_decor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1096745 "deserialise_header"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1103657 "deserialise_tail"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 352169 "csv_out_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 285225 // <generalisation>
+	relation 279209 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 285225 // <generalisation>
+	  b parent class_ref 351529 // base_out_decor
+      end
+
+      operation 1106857 "csv_out_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}: base_out_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1106985 "~csv_out_decor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1103785 "serialise_tail"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1096617 "serialise_header"
+	const cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1107113 "escape_string"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method adds '\\' before those characters in a_str that need them for CSV encoding."
+      end
+    end
+
+    class 351785 "jcampdx_in_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 284841 // <generalisation>
+	relation 278825 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 284841 // <generalisation>
+	  b parent class_ref 351913 // base_in_decor
+      end
+
+      operation 1104041 "deserialise_header"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1103913 "deserialise_tail"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1105321 "jcampdx_in_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}: base_in_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1105449 "~jcampdx_in_decor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 351657 "jcampdx_out_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This type decorates the data of its associated outfile_header object with JCAMP-DX formatting."
+      classrelation 284329 // <generalisation>
+	relation 278313 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 284329 // <generalisation>
+	  b parent class_ref 351529 // base_out_decor
+      end
+
+      operation 1104297 "serialise_tail"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1104169 "serialise_header"
+	const cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1104425 "jcampdx_out_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}: base_out_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1104553 "~jcampdx_out_decor"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 349865 "output_header"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Type for the header section of JCAMP-DX format data file."
+      class 351273 "map_type"
+	visibility package stereotype "typedef" explicit_base_type "std::map< std::string, std::string >"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 351145 "const_iterator"
+	visibility package stereotype "typedef" base_type class_ref 351273 // map_type
+	cpp_decl "${comment}typedef ${type}::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      attribute 256169 "m_data_type"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The \"data type\" header value.  This is a general description of the contents."
+      end
+
+      classrelation 283177 // m_date (<directional composition>)
+	relation 277161 *-->
+	  a role_name "m_date" multiplicity "1" private
+	    comment "The date the data was created on."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 283177 // m_date (<directional composition>)
+	  b parent class_ref 349993 // date
+      end
+
+      classrelation 283689 // m_header_map (<directional composition>)
+	relation 277673 *-->
+	  a role_name "m_header_map" multiplicity "1" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 283689 // m_header_map (<directional composition>)
+	  b parent class_ref 351273 // map_type
+      end
+
+      attribute 255913 "m_origin"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The source of the data"
+      end
+
+      attribute 256425 "m_owner"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The organisation or individual who owns the data"
+      end
+
+      attribute 255785 "m_title"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The user supplied title for the data"
+      end
+
+      operation 1094953 "output_header"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1095209 "output_header"
+	stereotype "copy"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1095081 "~output_header"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1093929 "data_type"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_data_type; }
+"
+	
+	
+	
+	
+      end
+
+      operation 1095721 "data_type"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} { m_${name}.assign (${p0}); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1095593 "date"
+	stereotype "get"
+	const public return_type class_ref 349993 // date
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_date;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1095849 "date"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" type class_ref 349993 // date
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} { m_${name} = ${p0}; }
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1094057 "date_string"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return boost::gregorian::to_iso_extended_string (m_date); }
+"
+	
+	
+	
+	
+	comment "The date as a ISO formatted string"
+      end
+
+      operation 1095977 "date_string"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl} { m_date = boost::lexical_cast <boost::gregorian::date> (${p0}); }
+"
+	
+	
+	
+	
+	comment "The date from a ISO formatted string"
+      end
+
+      operation 1094313 "get_header_map"
+	stereotype "const"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const std::map< ${type}, ${type} >& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_header_map;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1094441 "get_header_map"
+	stereotype "get"
+	public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::map< ${type}, ${type} >& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_header_map;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1102249 "has_key"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract} { return (0 != m_header_map.count (${p0})); }
+"
+	
+	
+	
+	
+	comment "Is the given key in the header map (this excludes the standard keys for title, version etc)."
+      end
+
+      operation 1102121 "key"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_key" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract} { m_header_map.insert (std::make_pair (a_key, a_value)); }
+"
+	
+	
+	
+	
+	comment "Set value of map[a_key] = a_value"
+      end
+
+      operation 1101993 "key"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract} { 
+ REQUIRE (has_key (${p0}), \"Key is not in header map\");
+ return m_header_map.find (a_key)->second; }
+"
+	
+	
+	
+	
+	comment "Get value of map.at (a_key)
+
+\\pre has_key (a_key)"
+      end
+
+      operation 1095337 "operator="
+	cpp_inline public return_type class_ref 349865 // output_header
+	nparams 1
+	  param in name "source" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1094569 "origin"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_origin; }
+"
+	
+	
+	
+	
+      end
+
+      operation 1096105 "origin"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} { m_${name}.assign (${p0}); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1094697 "owner"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_owner; }
+"
+	
+	
+	
+	
+      end
+
+      operation 1096233 "owner"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} { m_${name}.assign (${p0}); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1094825 "title"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_title; }
+"
+	
+	
+	
+	
+      end
+
+      operation 1096361 "title"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} { m_${name}.assign (${p0}); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1096873 "clear"
+	cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "clears all member variables"
+      end
+    end
+
+    class 351401 "output_header_options"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Sub-type that allows some of the header section of JCAMP-DX format data file to be set from program options."
+      operation 1102889 "register_options"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_opt_set" type class_ref 350761 // options_description
+	  param inout name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      classrelation 284713 // <dependency>
+	relation 278697 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 284713 // <dependency>
+	  b parent class_ref 349865 // output_header
+      end
+    end
+
+    class 352553 "text_in_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 285993 // <generalisation>
+	relation 279977 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 285993 // <generalisation>
+	  b parent class_ref 351913 // base_in_decor
+      end
+
+      operation 1108777 "text_in_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}: base_in_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1108905 "~text_in_decor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109033 "deserialise_header"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109161 "deserialise_tail"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_is" explicit_type "std::istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 352681 "text_out_decor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 286121 // <generalisation>
+	relation 280105 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 286121 // <generalisation>
+	  b parent class_ref 351529 // base_out_decor
+      end
+
+      operation 1109289 "text_out_decor"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_header" type class_ref 349865 // output_header
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}: base_out_decor (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109417 "~text_out_decor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109545 "serialise_tail"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109673 "serialise_header"
+	const cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "std::ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 134185 "filetypes"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 255785 "filetypes"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 155177 // output_header_options
+	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 154793 // output_header
+	artifact_ref 252969 // regex
+	artifact_ref 155561 // csv_decor
+	artifact_ref 155689 // text_decor
+	artifact_ref 155433 // jcampdx_decor
+      end
+      ncouples 1
+      key "butter type" value "static"
+    end
+
+    artifact 155305 "base_decor"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 351529 // base_out_decor
+	class_ref 351913 // base_in_decor
+      end
+    end
+
+    artifact 155561 "csv_decor"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/tokenizer.hpp>
+//-
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 352041 // csv_in_decor
+	class_ref 352169 // csv_out_decor
+      end
+    end
+
+    artifact 155433 "jcampdx_decor"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual Includes
+#include <boost/regex.hpp>
+// - 
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 351657 // jcampdx_out_decor
+	class_ref 351785 // jcampdx_in_decor
+      end
+    end
+
+    artifact 154793 "output_header"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual Includes
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
+#include <boost/regex.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 349865 // output_header
+      end
+    end
+
+    artifact 155177 "output_header_options"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/bind.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 351401 // output_header_options
+      end
+    end
+
+    artifact 155689 "text_decor"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual Includes
+#include <boost/regex.hpp>
+// - 
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 352553 // text_in_decor
+	class_ref 352681 // text_out_decor
+      end
+    end
+  end
+end

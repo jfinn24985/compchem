@@ -1,0 +1,5065 @@
+format 61
+"/compchem/supplier" // /compchem/supplier
+  revision 114
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "framework"
+  cpp_h_dir "supplier"
+  cpp_src_dir "../src/supplier"
+  cpp_namespace "supplier"
+  comment "This package provides objects that input data into the database. While some input may be obtained from the user, most input data is obtained by filtering of data files from external sources.
+
+The core component deals with how to register a new input object with the system.  A input object can register some source-recognition data. An input object can request user input for required information not obtained from the source file. It can also register regularly required information that it wants placed in the user-preferences dataset.
+
+The input object interface to the main system is through a set of C-based interface functions. These are wrapped in C++ classes for writing supplier plugins in this language. The C-based interface should allow supplier plugins to be written in any language the can attach to these interface functions.
+"
+  classview 132393 "C (POD) types"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 133545 // C (POD) types
+    class 345129 "result_value"
+      visibility package stereotype "enum"
+      cpp_decl "${comment}enum {
+${items}
+};
+"
+      java_decl "${comment}${@}${public}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}enum ${name} {
+${items}};
+"
+      explicit_switch_type ""
+      
+      comment "A set of return values from the various methods. (should be one of 
+enum result_values; ON_ERROR, ON_LOADERROR, ON_NOFILE
+or ON_BADDATA)"
+      attribute 239017 "CCHEM_SUPPLIER_SUCCESS"
+	public explicit_type ""
+	init_value "= 0"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Return value for when a function performed some task and is not in an error state."
+      end
+
+      attribute 378665 "CCHEM_SUPPLIER_COMPLETE"
+	public type class_ref 345129 // result_value
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This value is returned by a process method when the 
+filter no longer needs to process the file to generate 
+its result."
+      end
+
+      attribute 239145 "CCHEM_SUPPLIER_UNUSABLE"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Return value when a function fails but is not in an error state.  For example this is returned when a plugin filter can not process the given file type."
+      end
+
+      attribute 239273 "CCHEM_SUPPLIER_FATAL"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The lowest return value that indicates a function encountered an error.  This implies that the filter has writen an error message in the supplied error buffer.  Additionally, any number larger than this value also indicates an error."
+      end
+
+      attribute 296745 "CCHEM_SUPPLIER_LOADERROR"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that loading a dynamic library failed."
+      end
+
+      attribute 296873 "CCHEM_SUPPLIER_NOFILE"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that a file was not found. This is a type of fatal error"
+      end
+
+      attribute 298921 "CCHEM_SUPPLIER_BADDATA"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that inconsistent data has been obtained. This is a
+type of fatal error."
+      end
+
+      attribute 331561 "CCHEM_SUPPLIER_BADCONFIG"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate a problem with the system configuration. This is a type of
+fatal error"
+      end
+    end
+
+    class 413737 "plugin_flag"
+      visibility package stereotype "enum"
+      cpp_decl "${comment}enum {
+${items}
+};
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Set of flags for communicating state between plugin and application"
+      attribute 313001 "CCHEM_SUPPLIER_LINE_ORIENTED"
+	public explicit_type ""
+	init_value "= 1"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin is designed to operate line-by-line."
+      end
+
+      attribute 378153 "CCHEM_SUPPLIER_BUFFER_ORIENTED"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 2"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin can act on fixed size segments of the file."
+      end
+
+      attribute 378281 "CCHEM_SUPPLIER_FILE_ORIENTED"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 4"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin takes the filename and manages reading
+internally."
+      end
+
+      attribute 378409 "CCHEM_SUPPLIER_STRING_OUTPUT"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 8"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the filter outputs results as a string
+containing XML elements."
+      end
+
+      attribute 378537 "CCHEM_SUPPLIER_DIRECT_OUTPUT"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 16"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that the filter can create elements directly."
+      end
+    end
+
+    class 485545 "add_content_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, char const * const, int);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the text content of
+datum objects."
+    end
+
+    class 485417 "create_datum_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef ${type} (*${name})(${type}, char const* const, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for creating a new datum object that is the child
+of another object (memo or datum)."
+    end
+
+    class 486057 "initialise_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type}* a_filter, char const *const a_buffer, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to feed the file being processed to the filter."
+    end
+
+    class 344745 "process_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type}* a_filter, char const *const a_buffer, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to feed the file being processed to the filter."
+    end
+
+    class 344873 "output_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type} * a_filter, void * a_data);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to indicate that the parsing
+stage is complete.  It should finalise the outputbuf object with any cached 
+results and call the outputbuf callback before returning.  If called multiple 
+times the function should short-circuit after the first call.
+
+\\param a_cb_data: An object to use as the first parameter to m_output_cb"
+    end
+
+    class 345001 "reset_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef void (*${name})(${type}*);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is called to clean up filter state before 
+deleting the object.  This **MUST** set the m_internal_state attribute 
+and all the callback function pointers of the passed object to NULL. 
+It can not report any errors."
+    end
+
+    class 485929 "set_int_attribute_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, int);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the hint and ordinal of
+datum objects."
+    end
+
+    class 485673 "set_string_attribute_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, char const* const, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the format and scale of
+datum objects."
+    end
+
+    class 411305 "set_string_output_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef void (*${name})(${type} a_parent, char const *const a_result, int a_sz);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The output callback function type.  Object of this type are supplied 
+by the application to the filter.  Such a function should be called 
+by the filter in response to the application calling an output_method_t 
+function at the end of the filtering process."
+    end
+
+    class 344489 "basic_filter_traits"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This structure is used to communicate between the filter manager and 
+the filter libraries.  It is a \"C\" structure that contains \"C\" style callback
+ functions and a pointer to filter state.  This pointer is considered 
+opaque by the filter manager and can be used by the library to hold its 
+state object.
+
+DIRECT_OUTPUT is always the preferred output method.
+
+The contract between the application and plugin are:
+* The data from m_identity to m_flags is owned and controlled by the 
+plugin. The application may read these variables but will not change them.
+* The data from m_output_cb to m_set_scale_cb is owned and controlled
+by the application. The plugin may read these variable but must not
+change them.
+* Only m_error and m_internal_state may contain allocated memory.
+* Only after calling m_initialise may m_internal_state be non-nul.
+* After calling m_finalise m_internal_state and m_error must be nul."
+      attribute 239657 "m_identity"
+	const_attribute public explicit_type "char"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A string containing information about the plugin."
+      end
+
+      attribute 239785 "m_error"
+	const_attribute public explicit_type "char"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "When an error occurs, this will point to a textual 
+message about the error."
+      end
+
+      attribute 238889 "m_internal_state"
+	public explicit_type "any"
+	init_value "(NULL)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This pointer should be used by the filter library to hold its state
+information. It is not accessed by the filter manager.
+
+This is the only pointer in the structure that may be NULL."
+      end
+
+      classrelation 506793 // m_initialise (<directional composition>)
+	relation 491049 *-->
+	  a role_name "m_initialise" public
+	    comment "This initialises the plugin. It gets the text from a 'detect' filter as
+its argument and should initialise itself accordingly. If it is not 
+suitable for this file it can return UNUSABLE and remain in the
+'nul' state."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506793 // m_initialise (<directional composition>)
+	  b parent class_ref 486057 // initialise_t
+      end
+
+      classrelation 473897 // m_process (<directional composition>)
+	relation 463017 *-->
+	  a role_name "m_process" multiplicity "1" public
+	    comment "A pointer to the method to use to filter the input. When this
+is LINE_ORIENTED or BUFFER_ORIENTED then the passed
+character pointer contains a piece of the target file. When this
+is FILE_ORIENTED then the passed character pointer is the
+the filename"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 473897 // m_process (<directional composition>)
+	  b parent class_ref 344745 // process_method_t
+      end
+
+      classrelation 276649 // m_output (<directional composition>)
+	relation 270633 *-->
+	  a role_name "m_output" multiplicity "1" public
+	    comment "The method to transfer the filtered data from the filter plugin to the filter 
+manager. When this is a STRING_OUTPUT method then the second 
+argument to the function should be passed back as the first argument 
+of m_output_cb. When this is a DIRECT_OUTPUT method then the 
+second rgument is the memo object to add results to."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 276649 // m_output (<directional composition>)
+	  b parent class_ref 344873 // output_method_t
+      end
+
+      classrelation 276777 // m_reset (<directional composition>)
+	relation 270761 *-->
+	  a role_name "m_reset" multiplicity "1" public
+	    comment "A method to clean-up the plugin state. This resets the plugin
+object to its 'nul' state."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 276777 // m_reset (<directional composition>)
+	  b parent class_ref 345001 // reset_method_t
+      end
+
+      attribute 312873 "m_flags"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A set of state flags of type plugin_flag"
+      end
+
+      classrelation 382121 // m_output_cb (<directional composition>)
+	relation 373417 *-->
+	  a role_name "m_output_cb" multiplicity "1" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_STRING.  It should be called by the filter to return the 
+result of a filter operation. It will be nul in OUTPUT_DIRECT mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 382121 // m_output_cb (<directional composition>)
+	  b parent class_ref 411305 // set_string_output_t
+      end
+
+      classrelation 506025 // m_create_datum_cb (<directional composition>)
+	relation 490281 *-->
+	  a role_name "m_create_datum_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to create a new datum
+child of its first argument. It will be nul in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506025 // m_create_datum_cb (<directional composition>)
+	  b parent class_ref 485417 // create_datum_t
+      end
+
+      classrelation 506153 // m_add_content_cb (<directional composition>)
+	relation 490409 *-->
+	  a role_name "m_add_content_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to create add text 
+content to a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506153 // m_add_content_cb (<directional composition>)
+	  b parent class_ref 485545 // add_content_t
+      end
+
+      classrelation 506281 // m_set_format_cb (<directional composition>)
+	relation 490537 *-->
+	  a role_name "m_set_format_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the format 
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506281 // m_set_format_cb (<directional composition>)
+	  b parent class_ref 485673 // set_string_attribute_t
+      end
+
+      classrelation 506537 // m_set_ordinal_cb (<directional composition>)
+	relation 490793 *-->
+	  a role_name "m_set_ordinal_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the ordinal
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506537 // m_set_ordinal_cb (<directional composition>)
+	  b parent class_ref 485929 // set_int_attribute_t
+      end
+
+      classrelation 506665 // m_set_scale_cb (<directional composition>)
+	relation 490921 *-->
+	  a role_name "m_set_scale_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the scale
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506665 // m_set_scale_cb (<directional composition>)
+	  b parent class_ref 485673 // set_string_attribute_t
+      end
+    end
+
+    class 485289 "datum_traits"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This provides a series of functions for managing datum objects that can 
+be called from \"C\". These are given to the plugin as the m_create_datum_cb
+... m_set_scale_cb and enable the implementation of the OUTPUT_DIRECT 
+mode. The creation, attributes and content can all be set. Note that the 
+navigation of the tree is not supported so must be managed by the caller."
+      operation 1547049 "create"
+	class_operation public explicit_return_type "any"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_outcome" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const* const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const* const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method creates and returns a new datum object as a child
+of the given object.
+
+\\param a_node The parent node of the new datum.
+\\param a_outcome The value of the new datum's outcome attribute.
+\\return The newly create datum object (ptr owned by parent).
+
+\\errors Will return NULL if an error occurs.
+"
+      end
+
+      operation 1547177 "add_content"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_content" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the text contents of the given node. This will insert the
+text at the current \"position\".
+
+\\param The new content string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547305 "set_format"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the format attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The new format string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547561 "set_ordinal"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_ordinal" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the ordinal attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The ordinal, (> 0)
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547689 "set_scale"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_scale" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the scale attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The new scale string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+    end
+  end
+
+  deploymentview 133545 "C (POD) types"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 151337 "basic_filter_traits"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+
+#ifdef __cplusplus
+extern \"C\" {
+#endif
+${declarations}
+struct ${name};
+${definition}
+#ifdef __cplusplus
+}
+#endif
+#endif
+"
+      associated_classes
+	class_ref 485545 // add_content_t
+	class_ref 485417 // create_datum_t
+	class_ref 486057 // initialise_t
+	class_ref 344873 // output_method_t
+	class_ref 344745 // process_method_t
+	class_ref 345001 // reset_method_t
+	class_ref 485929 // set_int_attribute_t
+	class_ref 485673 // set_string_attribute_t
+	class_ref 411305 // set_string_output_t
+	class_ref 344489 // basic_filter_traits
+      end
+    end
+
+    artifact 226345 "datum_traits"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/lexical_cast.hpp>
+#include \"data_scheme/basic_datum.hpp\"
+#include \"data_access/names.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 485289 // datum_traits
+      end
+    end
+
+    artifact 227625 "supplier_constants"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 413737 // plugin_flag
+	class_ref 345129 // result_value
+      end
+    end
+  end
+
+  classview 129833 "supplier"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 131625 // supplier
+    comment "An object type to test the plugin filter system and to allow testing of individual plugins.
+
+\\todo At the moment plugins must create libxml nodes to put results into.  The next update
+will instead pass character buffers that the plugins should put the results into as strings 
+containing XML twiglets. The supplier manager will then interpret and merge these into 
+the result twiglet. The merge operation will combine the duplicated parts of XML twiglets, 
+allowing filters to cooperate to provide result sets. Partial matching between duplicated 
+nodes occurs if the attributes of one node is a subset of the other. In the new DTD the 
+results from a single file exist in a single subtree.  The root of this subtree is assumed 
+as the root of the plugin twiglets."
+    classdiagram 134057 "Suppliers"
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    collaborationdiagram 161449 "Parser process"
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 345513 "filter_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This manages the processing of plugin-filters over a raw data file.
+
+On reprocessing a memo, a non-empty memo with the mechanism set
+will be assumed to have the correct mechanism. In this case the datum
+with outcome containing the word 'detect' will be used to intialise the
+filters. When not present no string will be used to intialise the filters.
+
+ROLE:
+* Given a configuration file, this collects a set of appropriate filters.
+(These filters are made available for dynamic configuration (including removal), 
+and mechanism/subtype can be checked)
+* Filters are then applied to the raw data file and the
+extracted data is added to a DOM twiglet for entry into the data system.
+
+Plugin description file looks something like:
+<group [label=\"??\"]> <!-- label here is informative only -->
+ <filetype ....> <!-- see supplier_file_manager -->
+ <mechanism label=\"??\" />(*) <!-- label to match with filetype -->
+ <plugin src=\"??\" !public=\"??\"! !options=?? name=??! />(*)  <!-- locations to retrieve plugin from.
+In future a public label may be used for XML catalog style plugin lookup.
+In future options/name will be available for dynamic filter configuration. -->
+</group>"
+      classrelation 388393 // <dependency>
+	relation 379689 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 388393 // <dependency>
+	  b parent class_ref 400681 // basic_filter
+      end
+
+      classrelation 508073 // <dependency>
+	relation 492329 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 508073 // <dependency>
+	  b parent class_ref 484009 // content_visitor
+      end
+
+      classrelation 507945 // <dependency>
+	relation 492201 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 507945 // <dependency>
+	  b parent class_ref 355369 // datum
+      end
+
+      classrelation 499241 // <dependency>
+	relation 485801 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 499241 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 545961 // <dependency>
+	relation 524841 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 545961 // <dependency>
+	  b parent class_ref 361385 // filesystem
+      end
+
+      classrelation 500009 // <dependency>
+	relation 486569 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 500009 // <dependency>
+	  b parent class_ref 407593 // matcher_filter
+      end
+
+      classrelation 499753 // <dependency>
+	relation 486313 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 499753 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+
+      classrelation 499881 // <dependency>
+	relation 486441 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 499881 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 481321 // <dependency>
+	relation 470185 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 481321 // <dependency>
+	  b parent class_ref 449449 // persistence
+      end
+
+      classrelation 365097 // <dependency>
+	relation 356521 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 365097 // <dependency>
+	  b parent class_ref 349225 // plugin_filter
+      end
+
+      classrelation 499497 // <dependency>
+	relation 486057 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 499497 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 479913 // <dependency>
+	relation 468777 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 479913 // <dependency>
+	  b parent class_ref 478121 // ptr_map
+      end
+
+      classrelation 364969 // <dependency>
+	relation 356393 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 364969 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      classrelation 546089 // <dependency>
+	relation 524969 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 546089 // <dependency>
+	  b parent class_ref 505641 // scoped_open
+      end
+
+      classrelation 478761 // <dependency>
+	relation 467625 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 478761 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      class 345897 "iterator"
+	visibility public stereotype "typedef" base_type class_ref 400681 // basic_filter
+	cpp_visibility private cpp_decl "${comment}typedef boost::ptr_vector< ${type} >::iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "The iterator type for the filter objects."
+      end
+
+      class 349353 "const_iterator"
+	visibility public stereotype "typedef" base_type class_ref 400681 // basic_filter
+	cpp_visibility private cpp_decl "${comment}typedef  boost::ptr_vector< ${type} >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "The const iterator type for the filter objects."
+      end
+
+      class 477993 "map_t"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef boost::ptr_map< ${type},
+     boost::ptr_vector< basic_filter > > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 362281 // m_filters (<directional composition>)
+	relation 353705 *-->
+	  stereotype "ptr_vector"
+	  a role_name "m_filters" multiplicity "*" private
+	    comment "The map/ list of currently active filters."
+	    constraint "!have_file -> m_filters.empty
+have_plugins <-> !m_filters.empty"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}boost::ptr_map< ${association},
+ ${stereotype}<${type}> > ${name}${value}; "
+	    classrelation_ref 362281 // m_filters (<directional composition>)
+	  b parent class_ref 400681 // basic_filter
+	  association_explicit_type "string"
+      end
+
+      operation 1556265 "count_filters"
+	public explicit_return_type "uint"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  ${type} Result (0);
+  if (m_filters.count (${p0}) != 0) Result = m_filters[${p0}].size ();
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The number of filters already created for this (mechanism) label.
+
+\\result 0 if no filter_set[label] or filter_set[label].empty otherwise filter_set[label].size"
+      end
+
+      operation 1325737 "discover_filters"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_mechanism" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(not ${p0}.empty_filter (), \"Can not ${name} with an empty mechanism object.\");
+  ${body}
+  @{ensure}(0 != m_filters.count (a_mechanism.label ()), \"Failed to add filter set for target mechanism.\");
+}
+"
+	
+	
+	
+	
+	comment "Instantiate the filters contained in a_mechanism, ignoring 'detect' filters.
+
+\\pre not a_mechanism.empty
+\\post 0 != m_filter.count (a_mechanism)"
+      end
+
+      operation 1550633 "discover_filters"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_begin" type class_ref 447913 // const_mechanism_iterator
+	  param in name "a_end" type class_ref 447913 // const_mechanism_iterator
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Instantiate the 'detect' filters for all mechanisms of a_prog.
+
+\\post 0 != m_filter.count ('detect')"
+      end
+
+      operation 1511465 "make_filter"
+	class_operation private return_type class_ref 400681 // basic_filter
+	nparams 1
+	  param in name "a_filter" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Construct a basic_filter object from the a_filter XML element.
+
+* Detect filter type [regex:plugin(:python)] and instantiate relevant
+filter type."
+      end
+
+      operation 1508137 "process"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_memo" type class_ref 357033 // memo
+	  param in name "a_path" type class_ref 361513 // path
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "The main operation function to update a_memo with a possibly new result 
+file.
+
+Internally this:
+1: determines the mechanism of a_path and sets it on a_memo
+2: loads the filters for the mechanism.
+3: creates a working filter set by removing filters that have already been applied
+    to a_memo or do not supply outcomes in the project.
+4: calls apply_filters
+
+\\pre a_memo.href (implies a_memo.target_mechanism) or exists (a_path)
+\\post a_memo.href implies a_memo.target_mechanism"
+      end
+
+      operation 1508265 "process"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_project" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method update the content of a_project with the project's current 
+outcome  set. This scans through the memo objects and updates their 
+results. For example this could be done after a project has added a new 
+outcome label.
+
+Internally for each memo in a_project
+1a: if memo.href but not memo.target_mechanism then call process (memo, \"\")
+1b: else loads the filters for memo.target_mechanism.
+  2: creates a working filter set by removing filters that have already been applied
+    to memo or do not supply outcomes in the project.
+  3: calls apply_filters
+"
+      end
+
+      extra_member 146345 "class reset_helper"
+	
+	cpp "" "class reset_helper__		// Ensure basic_filter object has reset called.
+{
+public:
+  mutable basic_filter * m_filter;
+  // Capture filter.
+  reset_helper__ (basic_filter * a_f):m_filter (a_f)
+  {}
+  // Swap filters when \"copying\".
+  reset_helper__ (const reset_helper__ & a_f):m_filter (a_f.m_filter)
+  {
+    a_f.m_filter = NULL;
+  }
+  ~reset_helper__ ()
+  {
+    if (NULL != m_filter) m_filter->reset ();
+  }
+private:
+  // no copy
+  reset_helper__ & operator= (const reset_helper__&);
+};
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+	comment "Class to ensure reset is called on basic_filter objects in apply_filters"
+      end
+
+      operation 1549097 "apply_filters"
+	private explicit_return_type "int"
+	nparams 6
+	  param inout name "a_twiglet" type class_ref 357033 // memo
+	  param in name "a_out_begin" explicit_type "string"
+	  param in name "a_out_end" explicit_type "string"
+	  param in name "a_filter_begin" type class_ref 345897 // iterator
+	  param in name "a_filter_end" type class_ref 345897 // iterator
+	  param in name "a_find_first" explicit_type "bool"
+	nexceptions 1
+	  exception class_ref 431529 // supplier_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, std::set< ${t1} >::const_iterator ${p1}, std::set< ${t2} >::const_iterator ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, std::set< ${t1} >::const_iterator ${p1}, std::set< ${t2} >::const_iterator ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method applies filters to the file named in a_twiglet.href then
+adds the results to a_twiglet. It limits the range a_filter_begin to
+a_filter_end to those with outcomes contained in a_out_begin to
+a_out_end.
+This method operates in two modes.  When a_find_first is true it 
+is being called to detect the mechanism of a_twiglet.href.  In this 
+mode it stops processing when the first filter object returns 
+COMPLETE. The results from the filter are added to a_twiglet as
+usual, however the a_twiglet.target_mechanism is also set. When 
+a_find_first is false then it will process the entire file and filters and
+add all the results to a_twiglet."
+      end
+
+      operation 1064489 "filter_manager"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+: m_filters ()
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Construct a filter manager that uses a configuration file for finding 
+filetypes and filters.
+
+\\param a_conf_filename - The name of the configuration file to use."
+      end
+
+      operation 1064617 "~filter_manager"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+
+      operation 1064745 "filter_manager"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 345513 // filter_manager
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "non-copyable"
+      end
+
+      operation 1064873 "operator="
+	private return_type class_ref 345513 // filter_manager
+	nparams 1
+	  param in name "source" type class_ref 345513 // filter_manager
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "non-copyable"
+      end
+
+      operation 1076009 "serialise"
+	const cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" type class_ref 416553 // basic_ostream
+	cpp_decl "    ${comment}template< typename charT, typename traits > ${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< typename charT, typename traits > ${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Print information from the list of currently loaded filters.  This is primarily a 
+logging/debugging aid."
+      end
+
+      extra_member 130729 "operator<< (ostream, filter_manager): ostream"
+	
+	cpp "
+" "// Friendly serialise method
+template < typename charT, typename traits > static inline
+  std::ostream &
+operator<< (std::basic_ostream < charT, traits > &a_os, const filter_manager & a_man)
+{
+  a_man.serialise (a_os);
+  return a_os;
+}
+" inline
+	java ""
+	php ""
+	python ""
+	idl ""
+	comment "Free function to serialise the filter manager."
+      end
+    end
+
+    class 431529 "supplier_error"
+      visibility protected 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Exception class to report filter failures."
+      classrelation 416425 // <generalisation>
+	relation 406697 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 416425 // <generalisation>
+	  b parent class_ref 396073 // logic_error
+      end
+
+      attribute 331433 "level"
+	const_attribute public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The error subtype. This should be one of the result_values:
+ON_ERROR, ON_LOADERROR, ON_NOFILE, ON_BADDATA
+or ON_BADCONFIG"
+      end
+
+      operation 1364393 "supplier_error"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "a_msg" explicit_type "string"
+	  param in name "a_val" explicit_type "uint"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${volatile}${throw}
+: std::logic_error (${p0})
+, level (${p1})
+{}
+"
+	
+	
+	
+	
+	comment "Create an error"
+      end
+
+      operation 1364521 "~supplier_error"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 472873 "supplier_helper"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This singleton class manages configuration information for the supplier library.
+
+Registered options
+  experiment,e = The target experiment for this application run.
+  file,i = The target result file for this application run.
+  memo,m = The target memo for this application run.
+  filter-dir,F = directory paths to search for filters (may be used multiple times).
+  compound,c = The target compound for the target memo (req for new memos)
+  formula,f = The target formula for the target memo (req for new memos)"
+      classrelation 472745 // <dependency>
+	relation 461865 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 472745 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      class 476841 "dir_iterator"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef std::vector< ${type} >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      attribute 383273 "m_plugin_dirs"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "vector"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of directories to search for filters."
+      end
+
+      attribute 394537 "m_target_compound"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target_memo's compound reference."
+      end
+
+      attribute 376873 "m_target_experiment"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target experiment."
+      end
+
+      attribute 376745 "m_target_file"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target file for the filter."
+      end
+
+      attribute 394665 "m_target_formula"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target_memo's compound's formula."
+      end
+
+      attribute 376617 "m_target_memo"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target memo for the filter/parser."
+      end
+
+      attribute 420649 "m_target_memo_src"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A path for the memo-src file."
+      end
+
+      attribute 377001 "s_exemplar"
+	class_attribute private type class_ref 472873 // supplier_helper
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The Singleton object."
+      end
+
+      operation 1555113 "add_directory"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_dirname" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_plugin_dirs.push_back (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Add a single directory name to the list of directories."
+      end
+
+      operation 1519913 "begin_directory"
+	const public return_type class_ref 476841 // dir_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_plugin_dirs.begin ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1520041 "end_directory"
+	const public return_type class_ref 476841 // dir_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_plugin_dirs.end ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1506601 "supplier_helper"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+: m_plugin_dirs ()
+, m_target_compound ()
+, m_target_experiment ()
+, m_target_file ()
+, m_target_formula ()
+, m_target_memo () 
+, m_target_memo_src () 
+{
+  register_options ();
+}
+"
+	
+	
+	
+	
+	comment "Constructor for singleton."
+      end
+
+      operation 1506729 "~supplier_helper"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1506857 "supplier_helper"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 472873 // supplier_helper
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1506985 "helper"
+	class_operation public return_type class_ref 472873 // supplier_helper
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return s_exemplar;
+}
+"
+	
+	
+	
+	
+	comment "Get the singleton."
+      end
+
+      operation 1507113 "operator="
+	private return_type class_ref 472873 // supplier_helper
+	nparams 1
+	  param in name "source" type class_ref 472873 // supplier_helper
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1507241 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add options to the configuration helper."
+      end
+
+      operation 1559465 "target_compound"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1559593 "target_compound"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name}.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+
+      operation 1507369 "target_experiment"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1507497 "target_experiment"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name}.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+
+      operation 1507625 "target_file"
+	stereotype "get"
+	const public return_type class_ref 361513 // path
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1507753 "target_file"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name} = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+
+      operation 1559337 "target_formula"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1559209 "target_formula"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name}.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+
+      operation 1507881 "target_memo"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1508009 "target_memo"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name}.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+
+      operation 1605033 "target_memo_src"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The label of the target project, default is \"default\"!"
+      end
+
+      operation 1605161 "target_memo_src"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_${name}.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Set the target project from a std string."
+      end
+    end
+  end
+
+  deploymentview 131625 "supplier"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 254889 "supplier"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 181417 // matcher_filter
+	artifact_ref 230057 // data_access
+	artifact_ref 151465 // plugin_filter
+	artifact_ref 225193 // supplier_helper
+	artifact_ref 235177 // matcher_types
+	artifact_ref 157993 // utility
+	artifact_ref 252969 // regex
+	artifact_ref 226345 // datum_traits
+	artifact_ref 229929 // data_scheme
+	artifact_ref 179113 // basic_filter
+	artifact_ref 151721 // filter_manager
+	artifact_ref 230313 // filesystem
+	artifact_ref 239785 // basic_plugin_handler
+      end
+    end
+
+    artifact 151721 "filter_manager"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP
+#define COMPCHEM_SUPPLIER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <vector>
+#include <algorithm>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/function.hpp>
+// --
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_access/xml_persistence.hpp\"
+#include <memory>
+#include <sstream>
+#include <iterator>
+#include <boost/bind.hpp>
+#include <boost/token_iterator.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 345513 // filter_manager
+      end
+    end
+
+    artifact 226473 "supplier_error"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 431529 // supplier_error
+      end
+    end
+
+    artifact 225193 "supplier_helper"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/bind.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 472873 // supplier_helper
+      end
+    end
+  end
+
+  classview 151081 "base filter subtypes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 150057 // basic filter subtypes
+    comment "This is the collection of generic filter subtypes.
+
+* basic_filter (base)          ****
+* python_filter                  *
+** basic_filter_py             *
+* matcher_filter                **
+** basic_matcher             ****
+** matcher_bytes             ****
+** matcher_lines              ****
+** matcher_pair                **
+** matcher_regex             ***
+** matcher_regex_search ***
+** matcher_string             ***
+** matcher_string_search ***
+** plugin_filter                  ****"
+    classdiagram 162601 "regex_filter"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    classdiagram 148009 "match types"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 400681 "basic_filter"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Abstract base class for supplier filters managed by the filter manager
+class.
+
+The filters with outcome 'detect' should preferentially operate in BUFFER 
+mode. When they have output for the other node sets the should return
+SUCCESS to an output method which is also added to the result set. When
+they have no output they return UNUSABLE to a output method."
+      classrelation 477225 // <dependency>
+	relation 466089 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 477225 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      classrelation 477353 // <dependency>
+	relation 466217 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 477353 // <dependency>
+	  b parent class_ref 413737 // plugin_flag
+      end
+
+      classrelation 498857 // m_filter (<directional aggregation>)
+	relation 485673 o-->
+	  a role_name "m_filter" multiplicity "1" const_relation private
+	    comment "The data_scheme filter object this basic_filter object
+is instantiated from."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 498857 // m_filter (<directional aggregation>)
+	  b parent class_ref 354729 // filter
+      end
+
+      operation 1521321 "basic_filter"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filter" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
+: m_filter (${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Main Ctor"
+      end
+
+      operation 1288873 "~basic_filter"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1504553 "error_message"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "An error message created when, for example, a method returns on of
+the error return values (ie not SUCCESS, UNUSABLE or COMPLETE)."
+      end
+
+      operation 1503913 "flags"
+	abstract const cpp_virtual public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Indicate the parser/filter subtype:
+* LINE_ORIENTED: process the file line-by-line.
+* BUFFER_ORIENTED: process the file in 32kbyte buffered pieces.
+* FILE_ORIENTED: work directly on the file.
+
+Indicate how this object will return results.
+* STRING_OUTPUT: Return the result as a string containing 
+XML datum elements. The string is then interpreted and
+inserted into the memo object be the manager.
+* DIRECT_OUTPUT: Can accept a memo object and insert the
+results directly."
+      end
+
+      operation 1504425 "identity"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Information that identifies the filter/parser. This will
+be placed into log messages from the manager and not in
+the database. A typical message might contain a
+descriptive name, version and author, eg.
+\"Nibble filter for Froggles: version 0.001: 2020/12/25: by P.J. Teeps\""
+      end
+
+      operation 1548841 "initial_test"
+	cpp_virtual public explicit_return_type "int"
+	nparams 1
+	  param in name "a_phrase" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return CCHEM_SUPPLIER_SUCCESS;
+}
+"
+	
+	
+	
+	
+	comment "After creation of a filter object this method is called with a_phrase obtained 
+from the 'detect' filter (or the filename for 'detect' filters) to prescreen the filter 
+to see if they are usuable. The default implementation always returns 
+SUCCESS.  When this returns anything other than SUCCESS the filter
+must be in the same state as after a call to reset ()."
+      end
+
+      operation 1333161 "label"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return m_filter.${name} ();
+}
+"
+	
+	
+	
+	
+	comment "A unique identifier for this filter within the set of filters
+that operate on the mechanism. This may not be empty."
+      end
+
+      operation 1549353 "mechanism_label"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return m_filter.parent ().label ();
+}
+"
+	
+	
+	
+	
+	comment "The label of the mechanism associated with this filter."
+      end
+
+      operation 1504937 "output_direct"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 1
+	  param inout name "a_memo" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Output the results directly into the a_memo object."
+      end
+
+      operation 1504809 "output_string"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 1
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Put the results into a_result string containing XML elements."
+      end
+
+      operation 1504041 "process_file"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Process the entire file. This is called for FILE_ORIENTED subtypes 
+only. For mechanism discovery filters, the SUCCESS result indicates
+that the file type was detected."
+      end
+
+      operation 1504169 "process_part"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 1
+	  param in name "a_buffer" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Process a piece of the file.  This will only be called
+on LINE_ORIENTED and BUFFER_ORIENTED subtypes. The
+return is one of SUCCESS, FAIL_FATAL or FAIL_UNUSABLE.
+
+The result FAIL_UNUSABLE indicates this object is not
+usuable on this file and can be removed from the current
+filter/parser set."
+      end
+
+      operation 1333289 "outcomes"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return m_filter.${name} (); 
+}
+"
+	
+	
+	
+	
+	comment "The identifier for the mechanism this filter operates with."
+      end
+
+      operation 1286569 "reset"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Reset any internal result set."
+      end
+
+      extra_member 131241 "operator<<(inout a_os: ostream, in a_f: basic_filter): ostream"
+	
+	cpp "" "/**
+ * Write basic information about the plugin.  This 
+   serialises the details of the plugin and is not 
+   related to the filtering process.
+ */
+static inline std::ostream &
+operator<< (std::ostream & a_os, const basic_filter & a_f)
+{
+  a_os << \"Filter Identity: \" << a_f.identity () << \"\\n\";
+  a_os << \"       Provides: \" << a_f.outcomes () << \"\\n\";
+  a_os << \"   Process type: \";
+  if (a_f.flags () & CCHEM_SUPPLIER_LINE_ORIENTED)
+  {
+    a_os << \"LINE\\n\";
+  }
+  else if (a_f.flags () & CCHEM_SUPPLIER_BUFFER_ORIENTED)
+  {
+    a_os << \"BUFFER\\n\";
+  }
+  else
+  {
+    a_os << \"FILE\\n\";
+  }
+  a_os << \"   Output style: \";
+  if (a_f.flags () & CCHEM_SUPPLIER_STRING_OUTPUT)
+  {
+    a_os << \"STRING\\n\";
+  }
+  else
+  {
+    a_os << \"DIRECT\\n\";
+  }
+  return a_os;
+}
+" inline
+	java ""
+	php ""
+	python ""
+	idl ""
+	comment "Write basic information about the plugin.  This 
+serialises the details of the plugin and is not 
+related to the filtering process."
+      end
+
+      operation 1540009 "get_filter"
+	stereotype "const"
+	const protected return_type class_ref 354729 // filter
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_filter;
+}
+"
+	
+	
+	
+	
+	comment "Return the defining filter object."
+      end
+
+      classrelation 508201 // <dependency>
+	relation 492457 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 508201 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+    end
+
+    class 483881 "basic_filter_py"
+      visibility package 
+      nactuals 1
+      actual class class_ref 458153 // python::wrapper
+        rank 0 value class_ref 400681 // basic_filter
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class virtualises the C++ filter base class into Python. Python
+filters derive and instantiate a version of this class. The python
+source file must have a method \"initialise\" that returns an object
+derived from the Python version of this class."
+      classrelation 497449 // <generalisation>
+	relation 484265 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 497449 // <generalisation>
+	  b parent class_ref 400681 // basic_filter
+      end
+
+      classrelation 501417 // <realization>
+	relation 487977 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 501417 // <realization>
+	  b parent class_ref 458153 // python::wrapper
+      end
+
+      operation 1543465 "error_message"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")();
+}
+"
+	
+	
+	
+	
+	comment "An error message created when, for example, a method returns FAIL_FATAL.
+Generally this is only called internally to generate exceptions."
+      end
+
+      operation 1543593 "flags"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")();
+}
+"
+	
+	
+	
+	
+	comment "Indicate the parser/filter subtype:
+* LINE_ORIENTED: process the file line-by-line.
+* BUFFER_ORIENTED: process the file in 32kbyte buffered pieces.
+* FILE_ORIENTED: work directly on the file.
+
+The first two are managed by a parser/filter manager
+
+Indicate how this object will return results.
+* XMLSTRING: Return the result as a string containing 
+XML datum elements. The string is then interpreted and
+inserted into the memo object be the manager.
+* or: Can accept a memo object and insert the
+results directly."
+      end
+
+      operation 1543721 "identity"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")();
+}
+"
+	
+	
+	
+	
+	comment "Information that identifies the filter/parser. This will
+be placed into log messages from the manager and not in
+the database. A typical message might contain a
+descriptive name, version and author, eg.
+\"Nibble filter for Froggles: version 0.001: 2020/12/25: by P.J. Teeps\""
+      end
+
+      operation 1543849 "output_direct"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "a_memo" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")(${p0});
+}
+"
+	
+	
+	
+	
+	comment "Output the results directly into the a_memo object."
+      end
+
+      operation 1543977 "output_string"
+	public explicit_return_type "int"
+	nparams 1
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")(${p0});
+}
+"
+	
+	
+	
+	
+	comment "Put the results into a_result string containing XML elements."
+      end
+
+      operation 1544105 "process_file"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")(${p0});
+}
+"
+	
+	
+	
+	
+	comment "Process the entire file. This is called for FILE_ORIENTED subtypes 
+only. For mechanism discovery filters, the SUCCESS result indicates
+that the file type was detected."
+      end
+
+      operation 1544233 "process_part"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_buffer" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"${name}\")(${p0});
+}
+"
+	
+	
+	
+	
+	comment "Process a piece of the file.  This will only be called
+on LINE_ORIENTED and BUFFER_ORIENTED subtypes. The
+return is one of SUCCESS, FAIL_FATAL or FAIL_UNUSABLE.
+
+The result FAIL_UNUSABLE indicates this object is not
+usuable on this file and can be removed from the current
+filter/parser set."
+      end
+
+      operation 1544489 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->get_override(\"${name}\")();
+}
+"
+	
+	
+	
+	
+	comment "Reset any internal result set."
+      end
+
+      operation 1544617 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Generate the python version of the basic_filter C++ class."
+      end
+    end
+
+    class 401961 "basic_matcher"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A matcher object is used as a sub-part of the matcher_filter. This
+enables a matcher_filter object to be composed of several steps.
+
+"
+      classrelation 500265 // <dependency>
+	relation 486825 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 500265 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      attribute 390569 "mode"
+	const_attribute public explicit_type "uchar"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The mode:
+0 = first (default)
+1 = last
+2 = accum"
+      end
+
+      operation 1294121 "basic_matcher"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: mode (0)
+{}
+"
+	
+	
+	
+	
+	comment "Default contructor.  
+
+\\param a_line: Whether this matcher is line or buffer oriented."
+      end
+
+      operation 1542057 "basic_matcher"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_mode" explicit_type "uchar"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
+: mode (${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Default contructor.  
+
+\\param a_line: Whether this matcher is line or buffer oriented."
+      end
+
+      operation 1292073 "~basic_matcher"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+	comment "Destructor. At the base level does nothing special."
+      end
+
+      operation 1293865 "process_part"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Perform a match against a_target.  If there is a match return true 
+and set a_result.  This is a pure virtual method that will provided by 
+derived classes.
+
+\\return Did a match occur?"
+      end
+
+      operation 1294889 "basic_matcher"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 401961 // basic_matcher
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1295017 "operator="
+	private return_type class_ref 401961 // basic_matcher
+	nparams 1
+	  param in name "source" type class_ref 401961 // basic_matcher
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 490793 "basic_plugin_handler"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class for handling a dynamically loaded external library containing 
+a basic_filter_traits based object. This provides methods for the 
+basic_filter virtual functions but is not a descendent of that class and 
+does not set the callback functions of m_plugin."
+      classrelation 523305 // <dependency>
+	relation 507561 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 523305 // <dependency>
+	  b parent class_ref 344489 // basic_filter_traits
+      end
+
+      classrelation 523177 // <dependency>
+	relation 507433 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 523177 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      classrelation 523049 // <dependency>
+	relation 507305 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 523049 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      classrelation 523433 // <dependency>
+	relation 507689 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 523433 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      attribute 399529 "m_dll_handle"
+	private explicit_type "any"
+	init_value "NULL"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A pointer to the DLL information returned by the dynamic loader."
+      end
+
+      classrelation 522921 // m_plugin (<directional aggregation>)
+	relation 507177 o-->
+	  a role_name "m_plugin" multiplicity "0..1" protected
+	    comment "The plugin object (reference).
+
+\\always  m_plugin /= nul -> m_dll_handle /= nul"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 522921 // m_plugin (<directional aggregation>)
+	  b parent class_ref 344489 // basic_filter_traits
+      end
+
+      attribute 399401 "plugin_object_name"
+	class_attribute const_attribute public explicit_type "char"
+	init_value "= \"plugin_object\""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}[]${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The symbol name of a static base_filter_traits object in a 
+dynamic plugin module that is used to work with the module.  
+This is placed here largely to document the name of the 
+object that is searched for."
+      end
+
+      operation 1569961 "basic_plugin_handler"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} 
+: m_dll_handle (NULL)
+, m_plugin (NULL)
+{
+  @{require} (not ${p0}.empty (), \"Filename cannot be empty string.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Attempt to create a plugin object for the library in a_filename. 
+This does not set the callback members of basic_filter_traits.
+
+\\post nul /= m_dll_handle and nul /= plugin and nul /= plugin->identity
+plugin->flags & LINE xor plugin->flags & BUFFER xor plugin->flags & FILE
+plugin->flags & STRING xor plugin->flags & DIRECT
+nul /= plugin->m_process and nul /= plugin->finalise"
+      end
+
+      operation 1569833 "basic_plugin_handler"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 490793 // basic_plugin_handler
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1569705 "~basic_plugin_handler"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  if (m_dll_handle != NULL)
+  {
+    unload_plugin ();
+  }
+}"
+	
+	
+	
+	
+	comment "Deconstruct the object, automatically unloading the plugin if necessary."
+      end
+
+      operation 1569577 "operator="
+	private return_type class_ref 490793 // basic_plugin_handler
+	nparams 1
+	  param in name "source" type class_ref 490793 // basic_plugin_handler
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1569449 "error_message"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  ${type} Result;
+  if (NULL != m_plugin->m_error)
+  {
+    Result.assign (m_plugin->m_error);
+  }
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "An error message created when, for example, a method returns FATAL."
+      end
+
+      operation 1569321 "flags"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_plugin->m_flags;
+}
+"
+	
+	
+	
+	
+	comment "What are the flags for this filter. A combination of:
+LINE_ORIENTED or BUFFER_ORIENTED or FILE_ORIENTED
+with
+DIRECT_OUTPUT or STRING_OUTPUT"
+      end
+
+      operation 1569193 "identity"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (m_plugin->m_${name});
+}
+"
+	
+	
+	
+	
+	comment "A descriptive name for this plugin object.  It may not be an 
+empty string."
+      end
+
+      operation 1569065 "initialise"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_phrase" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require}(NULL == (m_plugin->m_internal_state), \"Plugin is already initialised.\");
+  // Perform processing.
+  return (*(m_plugin->m_initialise))(m_plugin, ${p0}.data (), ${p0}.size ());
+}"
+	
+	
+	
+	
+	comment "After creation of a filter object this method is called with a_phrase obtained 
+from the 'detect' filter (or the filename for 'detect' filters) to prescreen the filter 
+to see if they are usuable. This calls the m_initialise functor of the 
+basic_filter_traits object.
+
+\\pre not is_initialised"
+      end
+
+      operation 1570089 "is_initialised"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != m_plugin->m_internal_state;
+}
+"
+	
+	
+	
+	
+	comment "Check whether this plugin has been intialised
+
+\\return nul /= m_plugin->m_internal_state"
+      end
+
+      operation 1568937 "output"
+	public explicit_return_type "int"
+	nparams 1
+	  param out name "a_result" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require}(NULL != (m_plugin->m_internal_state), \"Plugin is not initialised.\");
+  // Perform operation
+  return (*(m_plugin->m_output))(m_plugin, ${p0});
+}
+
+"
+	
+	
+	
+	
+	comment "Get the plugin to output the results. For STRING this will pass a_result
+to the m_output_cb member of m_pluign. For DIRECT this will pass
+a_result to m_create_datum_cb etc.
+
+\\pre is_initialised
+\\return indicates if a_result is usable"
+      end
+
+      operation 1568553 "process"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} const* const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require}(NULL != (m_plugin->m_internal_state), \"Plugin is not initialised.\");
+  // Perform processing.
+  return (*(m_plugin->m_process))(m_plugin, ${p0}, ${p1});
+}
+
+"
+	
+	
+	
+	
+	comment "Process the file.  For LINE_ORIENTED and BUFFER_ORIENTED 
+subtypes a_buffer contains a piece of a file. For FILE_ORIENTED
+subtypes a_buffer contains the filename.
+
+The result UNUSABLE indicates this object is not
+usuable on this file and can be removed from the current
+filter/parser set.
+
+The result COMPLETE indicates this filter has finished gathering 
+results and 'process' should not be called until after a reinitialising
+the object.
+
+\\pre is_initialised"
+      end
+
+      operation 1568425 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  (*(m_plugin->m_reset))(m_plugin);
+}
+"
+	
+	
+	
+	
+	comment "Reset any internal result state."
+      end
+
+      operation 1568297 "state"
+	protected explicit_return_type "t_type"
+	nparams 0
+	cpp_decl "    ${comment}${friend}template< class t_type >${static}${inline}${virtual}${type} * ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require}(NULL != (m_plugin->m_internal_state), \"Plugin is not initialised.\");
+  return static_cast< t_type * >(m_plugin->m_internal_state);
+}
+"
+	
+	
+	
+	
+	comment "Get the plugin state object.  This is to allow standalone filter programs
+to access the data set so they can produce different outputs.  
+
+\\pre is_initialised"
+      end
+
+      operation 1568169 "unload_plugin"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Unload a plugin object.  This will also destroy the plugin object. Only called 
+during destruction.
+
+\\pre m_dll_handle /= nul
+\\post m_dll_handle = nul && m_plugin = nul"
+      end
+    end
+
+    class 484137 "bmh_find"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Use Boyle, Moore, Horspool string searching engine."
+      attribute 390825 "m_jump"
+	private explicit_type "int"
+	multiplicity "256"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The search hop array. "
+      end
+
+      attribute 390953 "m_phrase"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The search phrase"
+      end
+
+      operation 1542185 "bmh_find"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_phrase" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} 
+: m_jump ()
+, m_phrase (${p0})
+, m_start ()
+{
+  @{require}(not ${p0}.empty (), \"Can not search for nothing.\")
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "a_phrase to search for."
+      end
+
+      operation 1542313 "search"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_target" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Searchs for m_phrase in a_target, returns true if found."
+      end
+    end
+
+    class 482089 "matcher_bytes"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "When searching in a file it is useful to define the possible start and end point
+of a search.  This class provides the interface for managing a start/end point
+as a fixed number of bytes."
+      classrelation 495017 // <generalisation>
+	relation 481833 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 495017 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 388521 "count"
+	public explicit_type "uint64"
+	multiplicity "1"
+	init_value "0"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This is the current total number of bytes."
+      end
+
+      attribute 388649 "offset"
+	const_attribute public explicit_type "uint64"
+	multiplicity "1"
+	init_value "0"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target offset."
+      end
+
+      operation 1537065 "process_part"
+	cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  count += ${p0}.size ();
+  return (count >= offset ? CCHEM_SUPPLIER_COMPLETE : CCHEM_SUPPLIER_SUCCESS);
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_target.  If there is a match return true 
+and set a_result.  This is a pure virtual method that will provided by 
+derived classes.
+
+\\return Did a match occur?"
+      end
+
+      operation 1537449 "matcher_bytes"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_count" explicit_type "uint64"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
+: @{base_class}()
+, count (0)
+, offset (${p0})
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1536937 "~matcher_bytes"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+	comment "Base class virtual destructor, does nothing special."
+      end
+    end
+
+    class 482217 "matcher_lines"
+      visibility public 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "When searching in a file it is useful to define the possible start and end point
+of a search.  This class provides the interface for managing a start/end point
+as a fixed number of lines."
+      classrelation 495145 // <generalisation>
+	relation 481961 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 495145 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 388777 "count"
+	public explicit_type "uint"
+	multiplicity "1"
+	init_value "0"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This is the current total number of lines."
+      end
+
+      attribute 388905 "offset"
+	const_attribute public explicit_type "uint"
+	multiplicity "1"
+	init_value "0"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The target offset."
+      end
+
+      operation 1537193 "process_part"
+	cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ++count;
+  return (count >= offset ? CCHEM_SUPPLIER_COMPLETE : CCHEM_SUPPLIER_SUCCESS);
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_target.  If there is a match return true .
+
+\\return Did a match occur?"
+      end
+
+      operation 1537577 "matcher_lines"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_count" explicit_type "uint"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
+: @{base_class}()
+, count (0)
+, offset (${p0})
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1537321 "~matcher_lines"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+	comment "Base class virtual destructor, does nothing special."
+      end
+    end
+
+    class 482473 "matcher_pair"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "Hold a main and end matcher."
+      classrelation 495401 // <generalisation>
+	relation 482217 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 495401 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 495657 // end (<directional composition>)
+	relation 482473 *-->
+	  stereotype "auto_ptr"
+	  a role_name "end" multiplicity "0..1" private
+	    comment "The end matcher"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 495657 // end (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 495529 // main (<directional composition>)
+	relation 482345 *-->
+	  stereotype "auto_ptr"
+	  a role_name "main" multiplicity "0..1" private
+	    comment "The main matcher"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 495529 // main (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      operation 1537705 "process_part"
+	cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_target.  If there is a match return true 
+and set a_result.  This is a pure virtual method that will provided by 
+derived classes.
+
+\\return Did a match occur?"
+      end
+
+      operation 1537833 "matcher_pair"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_main" type class_ref 401961 // basic_matcher
+	  param inout name "a_end" type class_ref 401961 // basic_matcher
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw} 
+: @{base_class}(${p0}->mode)
+, end (${p1})
+, main (${p0})
+{
+  @{require}(NULL != ${p0}, \"Main submatch must not be nul\");
+  @{require}(NULL != ${p1}, \"End submatch must not be nul\");
+  @{require}(0 == ${p1}->mode, \"End submatch must have 'first' match mode\");
+}
+"
+	
+	
+	
+	
+	comment "Make a pair matcher. It is not possible to get results from a_end matcher.
+
+\\pre a_main /= nul, a_end /= nul
+\\pre 'first' = a_end.mode"
+      end
+
+      operation 1537961 "~matcher_pair"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 401833 "matcher_regex"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "This type will use a regular expression to inspect buffers.  On
+a successful match a boost::regex 'format' string is used to 
+construct a result. (Note this format string is not the same as
+for matcher_string)
+
+TODO: mode!"
+      classrelation 366249 // <generalisation>
+	relation 357673 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 366249 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 366377 // finder (<directional composition>)
+	relation 357801 *-->
+	  a role_name "finder" multiplicity "1" const_relation public
+	    comment "The regular expression."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 366377 // finder (<directional composition>)
+	  b parent class_ref 346153 // regex
+      end
+
+      attribute 302121 "format"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The result format string.  The system uses boost::regex (std::tr1::regex?)
+library and this string is the format string passed to a boost::regex_match
+object. It should produce a string containing valid datum XML element(s)."
+      end
+
+      operation 1297065 "process_part"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_buf (of a_sz).  This buffer is a_off from the beginning
+of the file. If a match is made against the buffer the format string is used to 
+extract text into a_result.
+
+\\return true is a match occurred."
+      end
+
+      operation 1298217 "matcher_regex"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "a_rgx" explicit_type "string"
+	  param in name "a_lbl" explicit_type "string"
+	  param in name "a_flags" explicit_type "uchar"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw}
+: @{base_class} (${p2})
+, finder (${p0})
+, format (${p1})
+{
+  @{require} (!${p0}.empty (), \"Can not match an empty string!\");
+  @{require} (!${p1}.empty (), \"Can not use an empty format string!\");
+}
+"
+	
+	
+	
+	
+	comment "Construct a regular expression matcher. If a_line is true no flags
+are set by default, if false then a default set of flags for buffer oriented
+searches is used..
+
+\\param a_rgx:  The regular expression in POSIX syntax (see boost::regex)
+\\param a_lbl: a 'sed' like replacement string where \\1, \\2 etc represent 
+    the sub-matches from the regular expression. (see format() in boost::regex_match)
+
+\\pre not a_rgx.empty and not a_lbl.empty
+\\pre a_rgx is a valid regular expression."
+      end
+
+      operation 1298345 "~matcher_regex"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+    end
+
+    class 481961 "matcher_regex_search"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "This type will use a regular expression to inspect buffers.  However
+it can not produce results, only the fact the match occurs is
+relevant."
+      classrelation 494761 // <generalisation>
+	relation 481577 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 494761 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 494889 // finder (<directional composition>)
+	relation 481705 *-->
+	  a role_name "finder" multiplicity "1" const_relation public
+	    comment "The regular expression."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 494889 // finder (<directional composition>)
+	  b parent class_ref 346153 // regex
+      end
+
+      operation 1536425 "process_part"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_buf (of a_sz).  This buffer is a_off from the beginning
+of the file. If a match is made against the buffer the format string is used to 
+extract text into a_result.
+
+\\return true is a match occurred."
+      end
+
+      operation 1536553 "matcher_regex_search"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_rgx" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: @{base_class} ()
+, finder (${p0})
+{
+  @{require} (!${p0}.empty (), \"Can not match an empty string!\");
+}
+"
+	
+	
+	
+	
+	comment "Construct a regular expression matcher. If a_line is true no flags
+are set by default, if false then a default set of flags for buffer oriented
+searches is used..
+
+\\param a_rgx:  The regular expression in POSIX syntax (see boost::regex)
+\\param a_lbl: a 'sed' like replacement string where \\1, \\2 etc represent 
+    the sub-matches from the regular expression. (see format() in boost::regex_match)
+
+\\pre not a_rgx.empty and not a_lbl.empty
+\\pre a_rgx is a valid regular expression."
+      end
+
+      operation 1536681 "~matcher_regex_search"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+    end
+
+    class 402217 "matcher_string"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "Match a simple substring
+
+This has two attributes.
+* A 'phrase' that is matched directly with the target.
+* A 'format' that is a boost::format string for processing the match. The format
+is applied like printf (format, a_target, phrase) where format can take positional
+arguments to use either a_target or phrase or neither.
+
+TODO: mode!"
+      classrelation 366761 // <generalisation>
+	relation 358185 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 366761 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 495273 // <dependency>
+	relation 482089 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 495273 // <dependency>
+	  b parent class_ref 482345 // format
+      end
+
+      attribute 300585 "phrase"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The phrase to match"
+      end
+
+      attribute 300713 "format"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A boost format string that is used to build a datum XML element."
+      end
+
+      operation 1295529 "process_part"
+	cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_buf (of a_sz).  This buffer is a_off from the beginning
+of the file. If m_phrase is found in the buffer then a_result contains m_label if 
+m_label is not empty, otherwise it contains m_phrase.
+
+\\result true if match occurred"
+      end
+
+      operation 1294633 "matcher_string"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "a_phr" explicit_type "string"
+	  param in name "a_lbl" explicit_type "string"
+	    defaultvalue "\"<datum outcome=\\\"unknown\\\">%1%</datum>\""
+	  param in name "a_flagset" explicit_type "uchar"
+	    defaultvalue "0"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1} = ${t1}(), ${t2} ${p2} = 0${)}${volatile}${throw}
+: @{base_class} (${p2})
+, phrase (${p0})
+, format (${p1})
+{
+  @{require} (!${p0}.empty (), \"Can not match an empty string!\");
+  @{require} (!${p1}.empty (), \"Can not format using an empty string!\");
+}
+"
+	
+	
+	
+	
+	comment "Default ctor. Searches for literal text of a_phr.  If a match 
+occurs a_lbl is used to format the result.
+
+\\pre not a_phr.empty and not a_lbl.empty
+ (note a_lbl has a non-empty default)"
+      end
+
+      operation 1294761 "~matcher_string"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+    end
+
+    class 482601 "matcher_string_search"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_matcher"
+      comment "Search a simple substring and return COMPLETE when found.
+
+This has two attributes.
+* A 'phrase' that is matched directly with the target."
+      classrelation 495785 // <generalisation>
+	relation 482601 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 495785 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 389033 "phrase"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The phrase to match"
+      end
+
+      operation 1538089 "process_part"
+	cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a match against a_target.  Return COMPLETE on a match
+
+\\result SUCCESS on no match, COMPLETE on match."
+      end
+
+      operation 1538217 "matcher_string_search"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_phr" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: @{base_class} ()
+, phrase (${p0})
+{
+  @{require} (!${p0}.empty (), \"Can not match an empty string!\");
+}
+"
+	
+	
+	
+	
+	comment "Default ctor. Searches for literal text of a_phr.  If a match 
+occurs a_lbl is used to format the result.
+
+\\pre not a_phr.empty and not a_lbl.empty
+ (note a_lbl has a non-empty default)"
+      end
+
+      operation 1538345 "~matcher_string_search"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+    end
+
+    class 407593 "matcher_filter"
+      visibility protected 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_filter"
+      comment "A matcher filter uses plain-text, regular-expression or a counter to 
+extract information from a file. It can have up to three submatch 
+objects:
+* start: signals the 'start' of the main match process. Optionally it can
+collect top-level result information.
+* main: collects the results. This can use a repetitive, first or last match
+sequence.
+* end: signals the end of the main match process, not results can 
+be collected.
+
+For 'simplicity' this type of filter is always LINE_ORIENTED and produces
+STRING_OUTPUT.
+
+The features of the submatchers are:
+* plain-text exact match as substring of line, output uses printf like format string
+* regular-expression match as subpart of line, output uses sed like re_format 
+string.
+* count: counts bytes or lines, no result match
+
+Results:
+* A top-level format string (if present) is used as container of the result set.
+* With no top-level string AND multiple results a container element is 
+automatically created using the filter object's outcome.
+* Matchers use a format string to generate results. This must encode a 
+'datum' start tag but no ending tag. The system uses the boost regex library
+so for regex matchers the format string is as per this library. It is similar to
+a sed format string. The system uses the boost format lbrary for plain-text
+searchs, this is similar to posix printf (ie has positional arguments that can be
+ignored)
+
+TODO: * The optional phrase '%COUNT%', if present
+in the format string, will be replaced with the current number of matchs
+(1 based).
+
+The matcher can operate in three modes:
+* first: in this mode the first match returns 'COMPLETE'. For the top
+matcher_filter matching a start submatch this triggers the state change
+to the main submatch and 'SUCCESS' is returned.
+* accum: in this mode the results of the main submatch are collected.
+* last: this mode is similar 'accum' except earlier results are discarded 
+every time 'main' matches.
+
+Notes: For logical reasons the start and end submatch must have 
+mode = first.
+
+
+An optional ON_NO_MATCH can be set to one of the default return values.
+This is then the return value used when no match has occurred (you can
+also set an error message string).
+
+A matcher functor object is used to extract information from a buffer.  A
+matcher is a combination of a base_matcher object for inspecting the
+buffer and a starting and an ending offset.  When being fed a buffer 
+piecemeal it uses the offsets to decide when to inspect the buffer for
+a match.  If the ending offset is passed, no_match is true to indicate 
+the base_matcher object will not be used on subsequent match()
+operations.  When a match has occurred have_result is true and you 
+can get the result.  The matcher's internal state can be reset() if 
+the object is going to be reused."
+      classrelation 496297 // <generalisation>
+	relation 483113 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 496297 // <generalisation>
+	  b parent class_ref 400681 // basic_filter
+      end
+
+      classrelation 496169 // m_current (<directional aggregation>)
+	relation 482985 o-->
+	  a role_name "m_current" multiplicity "0..1" private
+	    comment "The currently in-use matcher."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 496169 // m_current (<directional aggregation>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 389289 "m_error"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The error message (if any)."
+      end
+
+      classrelation 377769 // m_main (<directional composition>)
+	relation 369193 *-->
+	  stereotype "auto_ptr"
+	  a role_name "m_main" multiplicity "0..1" private
+	    comment "The main matcher object"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 377769 // m_main (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 308393 "m_result"
+	private type class_ref 431401 // stringstream
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The result (no match if empty)"
+      end
+
+      classrelation 496041 // m_start (<directional composition>)
+	relation 482857 *-->
+	  stereotype "auto_ptr"
+	  a role_name "m_start" multiplicity "0..1" private
+	    comment "The (possible) first match."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 496041 // m_start (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 390697 "m_start_result"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The result from the start matcher."
+      end
+
+      operation 1538473 "error_message"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_error;
+}
+"
+	
+	
+	
+	
+	comment "An error message created when, for example, a method returns FAIL_FATAL.
+Generally this is only called internally to generate exceptions."
+      end
+
+      operation 1538601 "flags"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return CCHEM_SUPPLIER_LINE_ORIENTED | CCHEM_SUPPLIER_STRING_OUTPUT;
+}"
+	
+	
+	
+	
+	comment "Indicate the parser/filter subtype:
+* LINE_ORIENTED: process the file line-by-line.
+
+Indicate how this object will return results.
+* XMLSTRING: Return the result as a string containing 
+XML datum elements. The string is then interpreted and
+inserted into the memo object be the manager.
+* or: Can accept a memo object and insert the
+results directly."
+      end
+
+      operation 1538729 "identity"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return get_filter ().href ();
+}
+"
+	
+	
+	
+	
+	comment "Information that identifies the filter/parser. This will
+be placed into log messages from the manager and not in
+the database. A typical message might contain a
+descriptive name, version and author, eg.
+\"Nibble filter for Froggles: version 0.001: 2020/12/25: by P.J. Teeps\""
+      end
+
+      operation 1541161 "make_matcher"
+	private return_type class_ref 401961 // basic_matcher
+	nparams 1
+	  param in name "a_line" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Parse a_line of text and create a matcher. Throw an error if 
+a_line is invalid.
+
+type,mode,match,format
+
+Where
+type = ('byte'|'lines'|'string'|'regex')
+match = (string|integer)
+format = string // Only allowed for string or regex type.
+mode = ('first'|'last'|'accum') // Only allowed when format exists.
+
+Up to three lines may be present which have the following meaning
+
+1 line: The 'main' matcher, this is used to generate results so it must 
+have a format string.
+2 lines: The first line represents a 'start' indicator. When it matches
+it is immediately replaced with a 'main' matcher generated from the 
+following line (they get the matching line/buffer). It can contribute to
+the final result if it has a format string. The second line is then the
+'main' matcher and must have a format string.
+3 lines: As for 2 lines plus the third line is an 'end' indicator. When it
+matches the regex_filter returns 'COMPLETE' and further processing
+is not necessary. Note this 'end' indicator is tested after the 'main'
+matcher.
+
+The format string should not include the closing XML node (\"</datum>\")
+this is automatically added."
+      end
+
+      operation 1309865 "matcher_filter"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filter" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
+: @{base_class} (${p0})
+, m_current (NULL)
+, m_error ()
+, m_main ()
+, m_result ()
+, m_start ()
+, m_start_result ()
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Constructor
+
+\\param a_filter, The filter object from which to derive this matcher.
+
+* Process filter desc.
+* calls reset()
+
+\\post start = nul or start->mode = 0 (first)
+\\post main /= nul"
+      end
+
+      operation 1309993 "~matcher_filter"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+	comment "Destructor, does nothing special."
+      end
+
+      operation 1539881 "output_direct"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "a_memo" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_error = \"Can not operate on file directly.\";
+  return CCHEM_SUPPLIER_BADCONFIG;
+}
+"
+	
+	
+	
+	
+	comment "Output the results directly into the a_memo object."
+      end
+
+      operation 1538985 "output_string"
+	public explicit_return_type "int"
+	nparams 1
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Put the results into a_result string containing XML elements.
+
+\\pre a_result.empty ()"
+      end
+
+      operation 1539753 "process_file"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_error = \"Can not operate on file directly.\";
+  return CCHEM_SUPPLIER_BADCONFIG;
+}
+"
+	
+	
+	
+	
+	comment "This is not usable for this filter subtype so always returns an 
+error."
+      end
+
+      operation 1539241 "process_part"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_buffer" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (NULL != m_current, \"Can not call the filter once it has returned COMPLETE.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process a piece of the file.  This will only be called
+on LINE_ORIENTED and BUFFER_ORIENTED subtypes. The
+return is one of SUCCESS, FAIL_FATAL or FAIL_UNUSABLE.
+
+The result FAIL_UNUSABLE indicates this object is not
+usuable on this file and can be removed from the current
+filter/parser set."
+      end
+
+      operation 1311273 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Reset the matcher to perform another search.  
+
+* clears m_result and sets m_current
+
+\\post not no_match and not have_result"
+      end
+
+      operation 1310889 "matcher_filter"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 407593 // matcher_filter
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1311017 "operator="
+	private return_type class_ref 407593 // matcher_filter
+	nparams 1
+	  param in name "source" type class_ref 407593 // matcher_filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      classrelation 500137 // <dependency>
+	relation 486697 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 500137 // <dependency>
+	  b parent class_ref 484009 // content_visitor
+      end
+    end
+
+    class 349225 "plugin_filter"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A basic_filter class for handling dynamically loaded filter object."
+      classrelation 363561 // <generalisation>
+	relation 354985 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 363561 // <generalisation>
+	  b parent class_ref 400681 // basic_filter
+      end
+
+      classrelation 523561 // <generalisation>
+	relation 507817 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 523561 // <generalisation>
+	  b parent class_ref 490793 // basic_plugin_handler
+      end
+
+      classrelation 513705 // <dependency>
+	relation 497961 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 513705 // <dependency>
+	  b parent class_ref 485289 // datum_traits
+      end
+
+      operation 1511721 "error_message"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return basic_plugin_handler::${name}();
+}
+"
+	
+	
+	
+	
+	comment "An error message created when, for example, a method returns an error
+indicator."
+      end
+
+      operation 1319465 "flags"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return basic_plugin_handler::${name}();
+}
+"
+	
+	
+	
+	
+	comment "What are the flags for this filter. A combination of:
+LINE_ORIENTED or BUFFER_ORIENTED or FILE_ORIENTED
+with
+DIRECT_OUTPUT or STRING_OUTPUT"
+      end
+
+      operation 1090217 "identity"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return basic_plugin_handler::${name}();
+}
+"
+	
+	
+	
+	
+	comment "A descriptive name for this plugin object.  It may not be an 
+empty string."
+      end
+
+      operation 1548969 "initial_test"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_phrase" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return initialise (${p0});
+}"
+	
+	
+	
+	
+	comment "After creation of a filter object this method is called with a_phrase obtained 
+from the 'detect' filter (or the filename for 'detect' filters) to prescreen the filter 
+to see if they are usuable. This calls the m_initialise functor of the 
+basic_filter_traits object."
+      end
+
+      operation 1091113 "operator="
+	private return_type class_ref 349225 // plugin_filter
+	nparams 1
+	  param in name "source" type class_ref 349225 // plugin_filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1316265 "output_string"
+	public explicit_return_type "int"
+	nparams 1
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return output (&${p0});
+}
+
+"
+	
+	
+	
+	
+	comment "Return the current results in a_string. 
+
+\\return indicates if a_result is usable"
+      end
+
+      operation 1511849 "output_direct"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "a_memo" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return output (&${p0});
+}
+
+"
+	
+	
+	
+	
+	comment "Output the results directly into the a_memo object. 
+
+\\return indicates if addition was successful. Filter must guarrantee
+a_memo will remain valid in the event errors."
+      end
+
+      operation 1090729 "plugin_filter"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filter" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} 
+: basic_filter (${p0})
+, basic_plugin_handler (${p0}.href ())
+{
+  @{require} (not ${p0}.label ().empty (), \"Need a filter label to create a filter.\");
+  @{require} (not ${p0}.outcomes ().empty (), \"Need a set of outcomes to create a filter.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Attempt to create a plugin object for the library in a_filename. 
+
+\\post is valid as follows
+nul /= m_dll_handle
+nul /= plugin
+nul /= plugin->identity
+plugin->flags & LINE xor plugin->flags & BUFFER xor plugin->flags & FILE
+plugin->flags & (STRING|DIRECT)
+plugin->flags & (LINE | BUFFER) and nul /= plugin->m_process_part
+plugin->flags & (FILE) and nul /= plugin->m_process_file
+plugin->flags & (STRING) and nul /= plugin->m_output_string
+plugin->flags & (DIRECT) and nul /= plugin->m_output_direct
+nul /= plugin->finalise"
+      end
+
+      operation 1090985 "plugin_filter"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 349225 // plugin_filter
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1090857 "~plugin_filter"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+	comment "Deconstruct the object, automatically unloading the plugin if necessary."
+      end
+
+      operation 1511977 "process_file"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return process(${p0}.c_str (), ${p0}.size ());
+}
+"
+	
+	
+	
+	
+	comment "Process the entire file. This is called for FILE_ORIENTED subtypes 
+only. For mechanism discovery filters, the SUCCESS result indicates
+that the file type was detected.
+
+\\pre flags & FILE_ORIENTED"
+      end
+
+      operation 1512105 "process_part"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_buffer" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return process(${p0}.data (), ${p0}.size ());
+}
+
+"
+	
+	
+	
+	
+	comment "Process a piece of the file.  This will only be called
+on LINE_ORIENTED and BUFFER_ORIENTED subtypes. The
+return is one of SUCCESS, FAIL_FATAL or FAIL_UNUSABLE.
+
+The result FAIL_UNUSABLE indicates this object is not
+usuable on this file and can be removed from the current
+filter/parser set.
+
+\\pre flags & (LINE_ORIENTED | BUFFER_ORIENTED)"
+      end
+
+      operation 1287721 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return basic_plugin_handler::${name}();
+}"
+	
+	
+	
+	
+	comment "Reset any internal result state."
+      end
+
+      operation 1316905 "output_callback_"
+	class_operation private explicit_return_type "void"
+	nparams 3
+	  param in name "a_obj" explicit_type "any"
+	  param in name "a_result" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  reinterpret_cast< std::string* >(${p0})->assign (${p1}, ${p2});
+}
+"
+	
+	
+	
+	
+	comment "Callback to be set on the m_output_cb of base_plugin_traits"
+      end
+    end
+
+    class 483753 "python_filter"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class manages the interaction between the python filters and
+the filter subsystem."
+      classrelation 497577 // <generalisation>
+	relation 484393 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 497577 // <generalisation>
+	  b parent class_ref 400681 // basic_filter
+      end
+    end
+  end
+
+  deploymentview 150057 "basic filter subtypes"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 179113 "basic_filter"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 400681 // basic_filter
+      end
+    end
+
+    artifact 236329 "basic_filter_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 483881 // basic_filter_py
+      end
+    end
+
+    artifact 239785 "basic_plugin_handler"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <dlfcn.h>
+#include <boost/filesystem/operations.hpp>
+// #include <boost/bind.hpp>
+#include <sstream>
+// --
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 490793 // basic_plugin_handler
+      end
+    end
+
+    artifact 181417 "matcher_filter"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/algorithm/string/case_conv.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/tokenizer.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 407593 // matcher_filter
+      end
+    end
+
+    artifact 235177 "matcher_types"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 401961 // basic_matcher
+	class_ref 482089 // matcher_bytes
+	class_ref 482217 // matcher_lines
+	class_ref 482473 // matcher_pair
+	class_ref 401833 // matcher_regex
+	class_ref 481961 // matcher_regex_search
+	class_ref 402217 // matcher_string
+	class_ref 482601 // matcher_string_search
+      end
+    end
+
+    artifact 151465 "plugin_filter"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP
+#define COMPCHEM_SUPPLIER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <vector>
+// #include <sstream>
+// --
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <dlfcn.h>
+#include <boost/filesystem/operations.hpp>
+#include <boost/bind.hpp>
+#include <sstream>
+// --
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 349225 // plugin_filter
+      end
+    end
+  end
+
+  package_ref 128041 // ccfilter
+
+  package_ref 154665 // py
+
+  package_ref 144937 // ~//supplier
+
+  package_ref 129193 // filter
+
+  package_ref 129065 // unused
+
+  package_ref 142377 // test cases
+end

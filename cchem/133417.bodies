@@ -1,0 +1,246 @@
+class compchem_initialisation
+!!!138793.cpp!!!	_initialisation(in  : void) : void
+//   set_option( "data_dir", "" );
+//   set_option( "database", "" );
+//   set_option( "dtd_global", "" );
+//   set_option( "install_dir", "" );
+  
+  std::string _tmp;
+  if ( getenv( "HOME" ) )
+    _tmp = getenv( "HOME" );
+  else if ( getenv( "LOGDIR" ) )
+    _tmp = getenv( "LOGDIR" );
+  else
+    throw "CCInitError: Unable to determine home directory";
+  _tmp += "/.chkcalc";
+  set_option( "base_dir", _tmp );
+
+  if ( getenv( "USER" ) )
+    _tmp = getenv( "USER" );
+  else if ( getenv( "LOGNAME" ) )
+    _tmp = getenv( "LOGNAME" );
+  else
+    throw "CCInitError: Unable to determine worker ID";
+  set_option( "worker", _tmp );
+!!!139433.cpp!!!	operator [](in key : string) : string
+  std::map< std::string, std::string >::const_iterator _i( _m_dict.find( key ) );
+  if ( _i != _m_dict.end() ) {
+    return (*_i).second;
+  } else {
+    throw "Dictionary key not found";
+  };
+!!!139561.cpp!!!	operator [](in key : string) : string
+  std::map< std::string, std::string >::iterator _i( _m_dict.find( key ) );
+  if ( _i != _m_dict.end() ) {
+    return (*_i).second;
+  } else {
+    throw "Dictionary key not found";
+  };
+!!!139817.cpp!!!	add_option(inout ob : T, in f : void (T::*)( const char * ), in opt : char, in type : int, in hlp_phrase : string, in arg_phrase : string = std::string()) : void
+  _m_cmdline_opts.insert( std::make_pair( opt, new cmdln_optTX<T>( ob, f, opt, type, hlp_phrase, arg_phrase ) ) );
+!!!139945.cpp!!!	add_config_option(in opt : char, in type : int, in config_key : string, in hlp_phrase : string, in arg_phrase : string = std::string()) : void
+  // Want a function that allowes us to directly set configuration options
+  _m_cmdline_opts.insert( std::make_pair( opt, new cmdln_optT1( this, config_key, opt, type, hlp_phrase, arg_phrase ) ) );
+!!!140073.cpp!!!	add_boolean_config_option(in opt : char, in config_key : string, in hlp_phrase : string, in arg_phrase : string = std::string()) : void
+  set_option( config_key, "0" );
+  _m_cmdline_opts.insert( std::make_pair( opt, new cmdln_optTb( this, config_key, opt, 0, hlp_phrase, arg_phrase ) ) );
+!!!140201.cpp!!!	commandline_options(in argc : int, inout argv : char) : bool
+  // --public:  main-command line--
+
+  // This processes the command line options. See below for a
+  // brief explanation of these options.
+  DEBUG( "compchem_initialisation::commandline_options -> entered argc = ", argc );
+  std::string getopt_phr("h?");
+
+  std::map< char, commandline_option* >::iterator _i;
+  
+  for ( _i = _m_cmdline_opts.begin();
+	_i != _m_cmdline_opts.end();
+	++_i ) {
+    getopt_phr += (*_i).first;
+    if ( (*_i).second->needs_arg() )
+      getopt_phr += ':';
+  };
+    
+  int _opts = 0;
+  extern char *optarg; // defined in getopt
+  extern int optind; // defined first non-option arg
+   
+  DEBUG( "Defined options = ", getopt_phr.c_str() );
+  while ( 1 ) {
+    _opts = getopt( argc, argv, getopt_phr.c_str() );
+    if ( _opts < 0 ) break;
+
+    switch( _opts ) {
+    case '?':
+      // fall through
+    case 'h':
+      return false;
+      break;
+      // case '-':
+      //     (*_m_cmdline_opts[char(_opts)])("stdin")
+      //     print "Help Message:"
+    default:
+      // All other cases!
+      if ( _m_cmdline_opts.count( char(_opts) ) > 0 ) {
+	_m_cmdline_opts[char(_opts)]->use_option( optarg );
+      } else {
+	// Unknown option
+	return false;
+      }
+      break;
+    };
+  };
+
+  // Check for extra options. If they exist and the option '-' exists
+  // then pass the first argument to this cmdline opt. Any remaining
+  // arguments should be put as a colon separated list into
+  // "unused_options".
+  
+  int index = optind;
+  if ( 0 != _m_cmdline_opts.count('-') && index < argc ) {
+    _m_cmdline_opts['-']->use_option( argv[index] );
+    ++index;
+  };
+
+  std::string _tmp;
+  while ( index < argc ) {
+    _tmp.append( argv[index] );
+    _tmp.append( ":" );
+    ++index;
+  };
+    
+  if ( !_tmp.empty() ) { 
+    set_option( "unused_options", _tmp );
+  };
+
+
+  // Check that all options are OK
+  for ( _i = _m_cmdline_opts.begin();
+	_i != _m_cmdline_opts.end();
+	++_i ) {
+    if ( !(*_i).second->is_ok() ) {
+      std::string msg("CCInitError: Bad command line, option -");
+      msg += (*_i).first;
+      msg += " required.";
+      throw msg.c_str();
+    };
+  };
+  
+  return true;
+!!!140329.cpp!!!	configuration(in  : void) : void
+  //  --private:  initialisation--"
+  _initialisation();
+  // Process configuration files
+
+  // Set install directory to a guess if not defined previously
+  if ( !has_key("install_dir") ) {
+    set_option( "install_dir", "/usr/local/lib/compchem" );
+  };
+
+  try {
+    //  The user's configuration should be the easiest to find. We
+    //  load it first in case we need the defns it contains. However,
+    //  it is not an error for it to be missing. (This should redefine
+    //  _m_dict["install_dir"] if necesary).
+    read_config_file( _m_dict["base_dir"] + "/config" );
+  }
+  catch ( const char *msg ) {
+    std::cerr << "Warning: Bad user configuration attempting to work without it:" << std::endl;
+    std::cerr << msg << std::endl;
+  };
+  
+  try {
+    //  Now we process the global configuration file.  Currently it is
+    //  a fatal error for the global configuration file to be missing.
+    //  This may be relaxed in later versions
+    read_config_file( _m_dict["install_dir"] + "/site-config/config" );
+  }
+  catch ( const char *msg ) {
+    std::cerr << "Bad system configuration, unable to work without it:" << std::endl;
+    throw;
+  };
+            
+  try {
+    // Process the user's configuration again, to override system defaults
+       read_config_file( _m_dict["base_dir"] + "/config" );
+  }
+  catch ( const char *msg ) {
+    // This time we are not concerned with exception, so do nothing
+  };
+
+  // Set the following "derived" data if not already set
+  if ( !has_key("dtd_global") )
+    set_option( "dtd_global", _m_dict["install_dir"] + "/program.dtd" );
+
+  if ( !has_key("data_dir") )
+    set_option( "data_dir","/db" );
+
+  if ( !has_key("database") )
+    set_option( "database", _m_dict["base_dir"] + _m_dict["data_dir"] + "/main-database.xml" );
+
+!!!140457.cpp!!!	has_key(in key : string) : bool
+  return ( 0 != _m_dict.count( key ) );
+!!!140585.cpp!!!	has_option(in op : char) : bool
+  return ( 0 != _m_cmdline_opts.count( op )  );
+!!!140841.cpp!!!	read_config_file(in filename : string) : void
+  //--public:  main-config file--
+  
+  // This routine reads name/value pair from the named configuration
+  // file. The file should be an valid xml file of type
+  // 'chkcalc-config'
+  std::cerr <<  "Reading configuration file:" << filename << std::endl;
+  
+  if ( filename.empty() ) 
+    return;
+  
+  xml_rb_node *cfgnode = xml_rb_node::make("chkcalc-config");
+  cfgnode->open( filename );
+
+#ifdef __DEBUG__
+  std::cout << "Configuration file read as: " << *cfgnode << std::endl;
+  std::cerr << "The configuration node now has tag name: " << cfgnode->tag() << std::endl;
+  std::cerr << "Output content, now setting options" << std::endl;
+#endif
+  if ( cfgnode->has_attribute("version") && cfgnode->attribute("version") == "1.00" ) {
+    xml_rb_node *_node;
+    _node = cfgnode->content();
+    while ( _node ) {
+      DEBUG( "Setting option ", _node->tag().c_str() );
+      if ( _node->is_empty() || !_node->content() ) {
+	DEBUG( "to empty" );
+	set_option( _node->tag(), "" );
+      } else {
+	std::stringstream _l_os;
+	_l_os << *_node->child() << '\0';
+	DEBUG( "to ", _l_os.str().c_str() );
+	set_option( _node->tag(), _node->child()->__str__() );
+      };
+      _node = _node->sibling();
+    }; 
+#ifdef __DEBUG__
+  } else {
+    if ( cfgnode->has_attribute("version") ) {
+      DEBUG("Incorrect version attribute", cfgnode->attribute("version").c_str() );
+    } else {
+      DEBUG("No version attribute");
+    }
+#endif
+  };
+  delete cfgnode;
+  // End of _read_config_file
+
+!!!140969.cpp!!!	set_option(in key : string, in value : string) : void
+  DEBUG( "compchem_initialisation::set_option -> entered with key", key.c_str() );
+  if ( has_key( key ) ) {
+    _m_dict[ key ] = value;
+  } else {
+    _m_dict.insert( std::make_pair( key, value ) );
+  };
+!!!141097.cpp!!!	operator <<(inout os : std::ostream, in cio : compchem_initialisation) : std::ostream
+  for ( std::map< std::string, std::string >::const_iterator _i = cio._m_dict.begin();
+	_i != cio._m_dict.end();
+	++_i ) {
+    os << '[' << (*_i).first << "] = " << (*_i).second << std::endl;
+  };
+  return os;

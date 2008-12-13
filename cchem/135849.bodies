@@ -1,0 +1,19 @@
+class worker
+!!!152361.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+!!!322729.cpp!!!	get_text() : text
+// check
+CHECK(has_element (S_TEXT_NAME, m_rep), "Invalid document");
+// do
+return text(get_element (S_TEXT_NAME, m_rep));
+!!!329001.cpp!!!	worker(in a_program : program)
+// require
+REQUIRE(true == check_name (S_WORKER_NAME, m_rep), "Node, object type mismatch");
+!!!329385.cpp!!!	operator=(in source : worker) : worker
+// do
+m_rep = source.m_rep;
+// end
+return *this;

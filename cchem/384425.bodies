@@ -1,0 +1,7 @@
+class scripter_switch
+!!!1252393.cpp!!!	serialise(out a_os : ostream, inout a_scope : scope, inout a_block : script_block) : void
+// DO if
+a_os << a_block.make_substitutions (switch_phrase, a_scope) << "\n";
+// Loop section
+std::for_each (a_block.begin (), a_block.end(), boost::bind (&script_section::serialise, _1, boost::ref (a_os), boost::ref (a_scope)));
+a_os << a_block.make_substitutions (end_phrase, a_scope) << "\n";

@@ -1,0 +1,8 @@
+class xt_array
+!!!1228073.cpp!!!	destroy() : void
+if (NULL != ptr) {
+  for (unsigned int index (0); index < size; ++index) {
+    if (NULL != ptr[index]) XtFree((char*)ptr[index]); }
+  XtFree ((char*)ptr);
+  ptr = NULL; }
+

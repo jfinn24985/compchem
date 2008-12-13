@@ -1,0 +1,1517 @@
+format 61
+"/compchem/report" // /compchem/report
+  revision 18
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "framework"
+  cpp_h_dir "report"
+  cpp_src_dir "../src/report"
+  cpp_namespace "report"
+  comment "This package contains classes that manage the manipulation of the data base to generate reports for users. These classes may manipulate the data directory or use external operations, such as XSLT stylesheets.
+
+TODO: basic_view class for objects that provide views/interpretation of datum 
+object clusters (eg datum[@outcome=vibration], datum[@outcome=thermo], datum[@outcome=summary])
+
+IDEA 21/08/2008
+The main purpose of this library is to produce an XML file that contains the following structure:
+
+project[target]
+  compound*
+    formula*
+      experiment*
+        memo-src*
+
+This is generated from the main database and is used by the XSLT stylesheet system to produce results. This newly created document has a separate DTD and does not reflect
+the DB structure. It is a selection of the main database based on search criteria.
+The main criteria are to select one project reorganised as compound/formula/expt/memo
+and to choose the highest priority memos. memo-src elements are used in most places.
+
+Additional filtering options could be to select a subset of the outcomes. Also 
+filtering can be imposed on normal the compound and formula subelements to restrict or 
+modify the content of the information tags.
+END IDEA"
+  componentview 128425 "report"
+    //component diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  end
+
+  usecaseview 128425 "report"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    usecase 128425 "edit-project"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      comment "Edit sections of a project by the user.  Access will be dependent on the user's credentials."
+      usecase 129193 "merge-document"
+	//use case diagram settings
+	package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+	//sequence diagram settings
+	show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+	//collaboration diagram settings
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	//object diagram settings
+	 write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+	//state diagram settings
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	//activity diagram settings
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+	comment "Change a project using a merge document."
+      end
+
+      usecase 129065 "online-edit"
+	//use case diagram settings
+	package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+	//sequence diagram settings
+	show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+	//collaboration diagram settings
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	//object diagram settings
+	 write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+	//state diagram settings
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	//activity diagram settings
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+	comment "After editing the document manually in the user interface, commit the changes."
+      end
+
+      simplerelation 128553
+	---|>
+	  on usecase_ref 128937 // view-project
+      end
+
+      simplerelation 129961
+	-_->
+	  stereotype "include"
+	  on usecase_ref 129193 // merge-document
+      end
+
+      simplerelation 130089
+	-_->
+	  stereotype "include"
+	  on usecase_ref 129065 // online-edit
+      end
+    end
+
+    usecase 128937 "view-project"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      comment "Display sections of a project to the user.  Access will be dependent on the user's credentials."
+      usecase 129449 "load_plugin"
+	//use case diagram settings
+	package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+	//sequence diagram settings
+	show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+	//collaboration diagram settings
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	//object diagram settings
+	 write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+	//state diagram settings
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	//activity diagram settings
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+      end
+
+      usecase 129321 "view_core_types"
+	//use case diagram settings
+	package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+	//sequence diagram settings
+	show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+	//collaboration diagram settings
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	//object diagram settings
+	 write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+	//state diagram settings
+	package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+	show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+	//activity diagram settings
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+      end
+
+      simplerelation 129705
+	-_->
+	  stereotype "include"
+	  on usecase_ref 129321 // view_core_types
+      end
+
+      simplerelation 129833
+	-_->
+	  stereotype "include"
+	  on usecase_ref 129449 // load_plugin
+      end
+    end
+  end
+
+  classview 129705 "vibration view/report"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 131497 // vibration view/report
+    comment "Set of classes for making a simulated spectrum.
+
+TODO:
+Make versions that can take a datum[@outcome=vibration] or 
+datum[@outcome=vertical-excitation] tables and produce output."
+    class 352809 "spectrum"
+      visibility package 
+      nformals 1
+      formal name "t_value" type "class" explicit_default_value ""
+        explicit_extends ""
+      nactuals 1
+      actual class class_ref 352297 // xy_spectrum
+        rank 0 explicit_value "t_value"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Generate a spectrum from a peaktable."
+      classrelation 286377 // <generalisation>
+	relation 280361 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 286377 // <generalisation>
+	  b parent class_ref 352297 // xy_spectrum
+      end
+
+      class 440361 "value_type"
+	visibility package stereotype "typedef" explicit_base_type "t_value"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 352937 "functor_t"
+	visibility package stereotype "typedef" base_type class_ref 350121 // spectrum_from_peaktable
+	nactuals 1
+	actual class class_ref 350121 // spectrum_from_peaktable
+	  rank 0 explicit_value "t_value"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 286633 // <realization>
+	  relation 280617 -_-|>
+	    a public
+	      cpp default "${type}"
+	      classrelation_ref 286633 // <realization>
+	    b parent class_ref 350121 // spectrum_from_peaktable
+	end
+      end
+
+      class 353065 "data_vector_t"
+	visibility package stereotype "typedef" explicit_base_type "t_value"
+	cpp_decl "${comment}typedef std::vector< std::pair< ${type}, ${type} > > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 286761 // m_converter (<directional composition>)
+	relation 280745 *-->
+	  a role_name "m_converter" multiplicity "1" private
+	    comment "The peaktable to spectrum functor."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 286761 // m_converter (<directional composition>)
+	  b parent class_ref 352937 // functor_t
+      end
+
+      classrelation 286505 // m_header (<directional composition>)
+	relation 280489 *-->
+	  a role_name "m_header" multiplicity "1" private
+	    comment "The header section of the spectrum"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 286505 // m_header (<directional composition>)
+	  b parent class_ref 349865 // output_header
+      end
+
+      classrelation 287017 // m_peaktable (<directional composition>)
+	relation 281001 *-->
+	  a role_name "m_peaktable" multiplicity "1" private
+	    comment "The peak table as (freq.,intensity) pairs"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 287017 // m_peaktable (<directional composition>)
+	  b parent class_ref 353065 // data_vector_t
+      end
+
+      operation 1110441 "add_peak"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_vib" type class_ref 347689 // vibration
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1110569 "add_peak_table"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param in name "a_begin" explicit_type "InputIterator"
+	  param in name "a_end" explicit_type "InputIterator"
+	cpp_decl "    ${comment}template < typename ${t0} > ${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template < typename ${t0} > ${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Add all peaks to spectrum. ~= std::for_each(a_begin, a_end, add_peak)"
+      end
+
+      operation 1112105 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { m_peaktable.clear (); }
+"
+	
+	
+	
+	
+	comment "Reset the peak table."
+      end
+
+      operation 1111337 "get_convert_options"
+	stereotype "const"
+	const public return_type class_ref 352937 // functor_t
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_converter;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1111465 "get_convert_options"
+	public return_type class_ref 352937 // functor_t
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_converter;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1110825 "get_header"
+	stereotype "const"
+	const public return_type class_ref 349865 // output_header
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw} {
+  return m_header;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1111081 "get_header"
+	public return_type class_ref 349865 // output_header
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}{
+  return m_header;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1381161 "read_peak_table"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_in" explicit_type "istream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Read the peak table from the istream, assuming the data is [ freq intn ] pairs."
+      end
+
+      operation 1111721 "register_options"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_opt_set" type class_ref 350761 // options_description
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1110313 "serialise"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Generate and output the spectrum to a_os"
+      end
+
+      operation 1109801 "spectrum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1109929 "~spectrum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 352297 "xy_spectrum"
+      visibility package 
+      nformals 1
+      formal name "t_value" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 285737 // <dependency>
+	relation 279721 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 285737 // <dependency>
+	  b parent class_ref 351657 // jcampdx_out_decor
+      end
+
+      classrelation 285865 // <dependency>
+	relation 279849 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 285865 // <dependency>
+	  b parent class_ref 352169 // csv_out_decor
+      end
+
+      classrelation 286249 // <dependency>
+	relation 280233 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 286249 // <dependency>
+	  b parent class_ref 352681 // text_out_decor
+      end
+
+      class 440489 "value_type"
+	visibility package stereotype "typedef" explicit_base_type "t_value"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 352425 "output_type"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}
+};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	attribute 257193 "TEXT"
+	  public explicit_type ""
+	  init_value "= 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Output as text,  the header line are preceded by a single '#' and data as two columns of numbers."
+	end
+
+	attribute 257321 "JCAMPDX"
+	  public explicit_type ""
+	  init_value "= 1"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Output as JCAMP/DX"
+	end
+
+	attribute 257449 "CSV"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Output as Comma Separated Value file. Header is separated from data by a blank line."
+	end
+      end
+
+      attribute 257577 "m_output_type"
+	private type class_ref 352425 // output_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The type of output. This should equal one of the output_type enum values.  In practise if it is not JCAMPDX or CSV then TEXT output is used."
+      end
+
+      operation 1105065 "do_serialise"
+	class_operation cpp_inline private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_os" explicit_type "std::ostream"
+	  param in name "a_data_set" explicit_type "t_set_type"
+	  param in name "a_header" type class_ref 351529 // base_out_decor
+	  param in name "a_format" explicit_type "string"
+	cpp_decl "    ${comment}${friend}template< class ${t1} > ${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class ${t1} > ${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Boilerplate method to output the header and data-set."
+      end
+
+      operation 1107753 "operator="
+	private return_type class_ref 352297 // xy_spectrum
+	nparams 1
+	  param in name "source" type class_ref 352297 // xy_spectrum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1108009 "output_csv"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_output_type == CSV; }
+"
+	
+	
+	
+	
+	comment "Should we output text?"
+      end
+
+      operation 1108137 "output_jcampdx"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_output_type == JCAMPDX; }
+"
+	
+	
+	
+	
+	comment "Should we output text?"
+      end
+
+      operation 1107881 "output_text"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_output_type == TEXT; }
+"
+	
+	
+	
+	
+	comment "Should we output text?"
+      end
+
+      operation 1108265 "register_options"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_opt_set" type class_ref 350761 // options_description
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1101481 "serialise"
+	cpp_inline public explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "std::ostream"
+	  param in name "a_header" type class_ref 349865 // output_header
+	  param in name "a_data_set" explicit_type "t_set_type"
+	cpp_decl "    ${comment}${friend}template< class ${t2} > ${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class ${t2} > ${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Output the header and data-set as a per the output type"
+      end
+
+      operation 1108393 "set_csv"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_yes" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract} { if (a_yes) m_output_type = CSV; }
+"
+	
+	
+	
+	
+	comment "Set to output CSV"
+      end
+
+      operation 1108521 "set_text"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_yes" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract} { if (a_yes) m_output_type = TEXT; }
+"
+	
+	
+	
+	
+	comment "Set to output text"
+      end
+
+      operation 1108649 "set_jcampdx"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_yes" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}{ if (a_yes) m_output_type = JCAMPDX; }
+"
+	
+	
+	
+	
+	comment "Set to output text"
+      end
+
+      operation 1107369 "xy_spectrum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}: m_output_type (TEXT) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1107625 "xy_spectrum"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 352297 // xy_spectrum
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1107497 "~xy_spectrum"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 131497 "vibration view/report"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 155817 "spectrum"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <boost/lexical_cast.hpp>
+#include \"report/filetype/output_header_options.hpp\"
+#include <algorithm>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 352809 // spectrum
+      end
+    end
+
+    artifact 155049 "xy_spectrum"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <boost/format.hpp>
+#include <boost/bind.hpp>
+// - 
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 352297 // xy_spectrum
+      end
+    end
+  end
+
+  classview 166313 "project query"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 163369 // project query
+    comment "This set of classes generate a new XML document that has the
+nested structure project->compound->formula->memo-src. This
+document should be faster to process using XSLT than the 
+standard document."
+    classdiagram 165545 "Overview"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 492073 "project_cfm_report"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "The class generates a compound-formula-memo document
+based on a given project.
+
+It generates a report with the following XML psuedo-structure:
+
+project/compound/formula/memo-src
+
+Which includes all memo objects within the project plus any
+memos in the program that match project/compound_ref 
++ project/@outcomes."
+      classrelation 528425 // <dependency>
+	relation 511401 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 528425 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 526633 // <dependency>
+	relation 509609 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 526633 // <dependency>
+	  b parent class_ref 480425 // compound_ref
+      end
+
+      classrelation 526505 // <dependency>
+	relation 509481 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 526505 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 527017 // <dependency>
+	relation 509993 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 527017 // <dependency>
+	  b parent class_ref 356521 // formula
+      end
+
+      classrelation 526889 // <dependency>
+	relation 509865 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 526889 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 526377 // <dependency>
+	relation 509353 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 526377 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 536873 // <dependency>
+	relation 519593 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 536873 // <dependency>
+	  b parent class_ref 505641 // scoped_open
+      end
+
+      classrelation 526761 // <dependency>
+	relation 509737 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 526761 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 527145 // <dependency>
+	relation 510121 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 527145 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 527273 // <dependency>
+	relation 510249 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 527273 // <dependency>
+	  b parent class_ref 494121 // xml_writer
+      end
+
+      class 493993 "formula_map_type"
+	visibility package stereotype "typedef" base_type class_ref 357033 // memo
+	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, std::vector< const ${type}* > > > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 493865 "compound_map_type"
+	visibility package stereotype "typedef" base_type class_ref 493993 // formula_map_type
+	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, ${type} > > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      operation 1575337 "add_memo"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_memo" type class_ref 357033 // memo
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add a memo, if two memos occur with the same outcomes, use the memo
+with the higher priority.
+
+If the compound/formula for this memo do not exist, add them."
+      end
+
+      operation 1575593 "add_reference"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_ref" type class_ref 480425 // compound_ref
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add the referenced compound/formula(e)"
+      end
+
+      operation 1572649 "generate_map"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_parent" type class_ref 354089 // project
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Scans the parent project for compound/formula/memos.
+
+On the first pass it searches through the compound_ref and 
+memo objects for formulae references that are added along 
+with the corresponding compounds. If the source of the formula
+reference was a memo object it is also added.
+
+On the second pass the entire document is searched for memo 
+objects for the referenced compound/formulae. "
+      end
+
+      operation 1578537 "operator()"
+	const public explicit_return_type "void"
+	nparams 2
+	  param in name "a_project" type class_ref 354089 // project
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Generate the proj/comp/form/memo report of a_project on a_os."
+      end
+
+      operation 1578409 "operator="
+	private return_type class_ref 492073 // project_cfm_report
+	nparams 1
+	  param in name "source" type class_ref 492073 // project_cfm_report
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return *this;
+}"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1578025 "project_cfm_report"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+	comment "Create the report."
+      end
+
+      operation 1578153 "~project_cfm_report"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1578281 "project_cfm_report"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 492073 // project_cfm_report
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1575465 "use_formula"
+	const cpp_inline private explicit_return_type "bool"
+	nparams 3
+	  param in name "a_compound" explicit_type "string"
+	  param in name "a_formula" explicit_type "string"
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Does this project need a reference to comp/formula."
+      end
+
+      operation 1575849 "write_map"
+	const private explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_compound_map" type class_ref 493865 // compound_map_type
+	  param in name "a_project_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Write the report."
+      end
+    end
+
+    class 494121 "xml_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This is a helper class for writing well-formed XML. It writes the
+document as it goes which simplifies the class but provides a
+few limitations.
+* You must set all attributes before you use an object as a parent
+* Using an object as a parent automatically closes the start tag 
+  and sets have_children
+
+General usage pattern
+
+xml_proxy l_docelem (a_os, \"nodename1\");
+xml_proxy l_child (l_docelem, \"nodename2\");"
+      attribute 403881 "m_close"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The possible closing tag."
+      end
+
+      attribute 403753 "m_have_children"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Do we have children?"
+      end
+
+      attribute 403497 "m_os"
+	private explicit_type "ostream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The stream to write to"
+      end
+
+      operation 1576617 "attribute"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE (not m_have_children, \"Cannot set an attribute after adding children\");
+  COMPCHEM_REQUIRE (not ${p0}.empty (), \"Cannot set an attribute with an empty label\");
+  m_os << \" \" << ${p0} << \"=\\\"\" << ${p1} << \"\\\"\";
+}
+"
+	
+	
+	
+	
+	comment "Write an attribute to the stream. All attributes must be given before
+this object is used as a parent.
+
+\\pre not have_children
+\\pre not a_label.empty"
+      end
+
+      operation 1576745 "have_children"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_have_children;
+}
+"
+	
+	
+	
+	
+	comment "Do we have children"
+      end
+
+      operation 1576361 "operator="
+	private return_type class_ref 494121 // xml_writer
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1576873 "stream"
+	public explicit_return_type "ostream"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  if (not m_have_children) 
+  {
+    m_have_children = true;
+    m_os << \">\";
+  }
+  return m_os;
+}
+"
+	
+	
+	
+	
+	comment "Access the stream (automatically sets have_children)
+
+\\post have_children"
+      end
+
+      operation 1575977 "xml_writer"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_parent" type class_ref 494121 // xml_writer
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_proxy as a child of a_parent.
+
+\\pre not a_label.empty
+\\post a_parent.have_children"
+      end
+
+      operation 1576489 "xml_writer"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	    defaultvalue "\"\""
+	  param in name "a_sys_id" explicit_type "string"
+	    defaultvalue "\"\""
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}=${t2}(), const ${t3}& ${p3}=${t3}()${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct the document element. If a_pub_id and a_sys_id are not 
+supplied then a DOCTYPE element is not created.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1576105 "~xml_writer"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  if (m_have_children)
+  {
+    m_os << \"</\" << m_close << \">\\n\";
+  }
+  else
+  {
+    m_os << \"/>\";
+  }
+}"
+	
+	
+	
+	
+      end
+
+      operation 1576233 "xml_writer"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+  end
+
+  deploymentview 163369 "project query"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 240937 "project_cfm_report"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+#define NO_LOG
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 492073 // project_cfm_report
+      end
+    end
+
+    artifact 241065 "xml_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 494121 // xml_writer
+      end
+    end
+
+    artifact 255657 "report"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 240937 // project_cfm_report
+	artifact_ref 241065 // xml_writer
+      end
+      ncouples 1
+      key "butter type" value "static"
+    end
+  end
+
+  package_ref 150953 // ccreport
+
+  package_ref 146089 // ccspectrum
+
+  package_ref 135721 // filetype
+
+  package_ref 143657 // report unit tests
+end

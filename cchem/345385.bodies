@@ -1,0 +1,10 @@
+class base_plugin
+!!!1062825.cpp!!!	finalise_method(inout a_filter : base_filter_traits) : void
+// Cast a_filter and call virtual method.
+static_cast< base_plugin* > (a_filter->m_internal_state)->finalise ();
+!!!1062697.cpp!!!	output_method(in a_filter : base_filter_traits, in a_twiglet : any, inout a_errbuf : char, in a_esize : int) : int
+// Cast a_filter and call output method.
+return static_cast< base_plugin* > (a_filter->m_internal_state)->output (a_twiglet, a_errbuf, a_esize);
+!!!1062569.cpp!!!	process_method(in a_filter : base_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
+// Cast a_filter and call process method
+return static_cast< base_plugin* >(a_filter->m_internal_state)->process (a_segment, a_ssize, a_errbuf, a_esize);

@@ -1,0 +1,21 @@
+class test_manager
+!!!1587497.cpp!!!	main_test(in argc : int, in argv : char) : int
+// local
+int result(0);
+// do
+if (0 == size ()) {
+  log << COMM << "No test routines; nothing to do?.\n"; }
+else {
+  for (const_iterator l_iter = m_test_routines.begin ()
+	; 0 == result and l_iter != m_test_routines.end ()
+	; ++l_iter) {
+    log << "------ Start unit test [" << ((*l_iter)->title ()) << "] -----\n";
+    try {
+      result = (*l_iter)->main_test (argc, argv); }
+    catch (const std::exception &err) {
+       log << EXCP << "Unhandled std::exception caught by 'main' [" << err.what () << "]\n"; }
+    catch (...) {
+      log << EXCP << "Unhandled and unknown exception caught by 'main'\n"; }
+    log << "------ Ending unit test [" << (*l_iter)->title () << "] -----\n"
+        << WTCH << "Function returned [" << result << "] -----\n"; }}
+return result;

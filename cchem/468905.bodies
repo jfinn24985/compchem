@@ -1,0 +1,20 @@
+class xml_file_helper_py
+!!!1485097.cpp!!!	pythonise() : void
+/// Pythonise the meta_datum class
+///
+///
+bool (xml_file_helper::*get_auto_fix)() const = &xml_file_helper::auto_fix;
+void (xml_file_helper::*set_auto_fix)(bool) = &xml_file_helper::auto_fix;
+
+boost::python::class_< xml_file_helper, boost::noncopyable >("xml_file_helper",
+        "Manage configuration of the XML read/write classes.",
+        boost::python::no_init
+        )
+ .add_static_property("helper", &xml_file_helper::helper, "Get the configuration management object.")
+ .def("add_directory", &xml_file_helper::add_directory
+       , "Add a directory to search for broken links.")
+ .add_property("auto_fix", get_auto_fix, set_auto_fix
+       , "Should we attempt to automatically fix broken links?")
+ ;
+
+

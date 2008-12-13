@@ -1,0 +1,29 @@
+class db_user
+!!!998953.cpp!!!	is_valid() : bool
+return (get_username ().empty () != true and get_password ().empty () != true);
+!!!999081.cpp!!!	query_user(in a_query_func : query_function) : void
+// LOCAL
+// REQUIRE
+REQUIRE (is_valid () != true, "'query_user' requires that either username or password is an empty string");
+// DO
+if (get_username ().empty () == true)
+{
+	set_username ((*a_query_func)("Username"));
+
+}
+// Always query for a password
+set_password ((*a_query_func)("Password"));
+// ENSURE
+ENSURE (is_valid () == true, "'query_user' failed to set a valid username or password");
+// END
+!!!999337.cpp!!!	query_user() : void
+query_user (&db_user::s_query_function);
+!!!998697.cpp!!!	operator=(in source : db_user) : db_user
+username = source.get_username ();
+password = source.get_password ();
+return *this;
+!!!999209.cpp!!!	s_query_function(in a_query : string) : string
+std::string Result;
+std:: cout << a_query << " = ";
+std::cin >> Result;
+return Result;

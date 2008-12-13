@@ -1,0 +1,245 @@
+class pam_manager
+!!!345257.cpp!!!	conversation_function(in a_num_msg : int, in a_pam_message : pam_message, out a_pam_response : pam_response, in a_object : any) : int
+// local
+// do
+LOG("Conversation function")
+DLOG("Called with ");DLOG(a_num_msg);DLOG(" messages.\n");
+// Ignore calling object (at the moment)..
+
+// Ask all questions
+for (int l_i = 0; l_i < a_num_msg; ++l_i)
+{
+  // Current message is "a_pam_message[l_i]"
+  DLOG("Current message is a_pam_message[l_i]\n");
+  std::cout << a_pam_message[l_i]->msg;
+  switch (a_pam_message[l_i]->msg_style)
+  {
+  case PAM_PROMPT_ECHO_OFF:  // Fall thru
+	DLOG("PAM Prompt echo off\n");
+  case PAM_PROMPT_ECHO_ON:
+	{
+	DLOG("PAM Prompt echo on\n");
+	boost::scoped_array< char > l_result (new char [256]);
+ 	std::cin.getline (l_result.get (), 256);
+	DLOG ("Got result for PAM\n");
+	DLOG ("Input = [");DLOG(l_result.get ());DLOG("]\n");
+	// Ignore over-length lines.
+	if (NULL == a_pam_response[l_i])
+	{
+		a_pam_response[l_i] = (struct pam_response*)malloc (sizeof (struct pam_response));
+	}
+	COMPCHEM_ALWAYS(NULL != a_pam_response[l_i], "C memory allocation failed");
+	a_pam_response[l_i]->resp = strdup(l_result.get ());
+	a_pam_response[l_i]->resp_retcode = 0;
+	DLOG("PAM response message set\n");
+	}
+	break;
+   case PAM_ERROR_MSG: // fall thru
+	DLOG("PAM Error message\n");
+   case PAM_TEXT_INFO: // fall thru
+	DLOG("PAM info\n");
+   default:
+	// do nothing
+	break;
+   }
+}
+
+return PAM_SUCCESS;
+!!!344617.cpp!!!	error_string() : string
+// local
+std::string Result;
+// Check valid handle
+REQUIRE(is_valid () == false, "Must be in error state to get an error message");
+// Use PAM!!
+if (is_valid_connection () == false)
+{
+	Result = "No connection to authentication server.";
+} else {
+	Result = pam_strerror (m_pam_handle, m_error_number);
+}
+return Result;
+!!!345513.cpp!!!	get_rhost() : string
+// local
+const char *l_result;
+std::string result;
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_get_item (m_pam_handle, PAM_RHOST, reinterpret_cast <const void**> (&l_result));
+if (NO_ERROR == m_error_number)
+{
+ result = l_result;
+}
+return result;
+!!!345385.cpp!!!	get_ruser() : string
+// local
+const char *l_result;
+std::string result;
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_get_item (m_pam_handle, PAM_RUSER, reinterpret_cast <const void**> (&l_result));
+if (NO_ERROR == m_error_number)
+{
+ result = l_result;
+}
+return result;
+!!!344873.cpp!!!	get_user_prompt() : string
+// local
+const char *l_result;
+std::string result;
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_get_item (m_pam_handle, PAM_USER_PROMPT, reinterpret_cast <const void**> (&l_result));
+if (NO_ERROR == m_error_number)
+{
+ result = l_result;
+}
+return result;
+!!!346025.cpp!!!	get_user_priv() : void
+// local
+const void *l_item;
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_get_item (m_pam_handle, PAM_USER, &l_item);
+if (NO_ERROR == m_error_number)
+{
+  m_user = static_cast<const char*>(l_item);
+  std::cout << "Current name for user with PAM is [" << m_user << "]" << std::endl;
+}
+!!!344361.cpp!!!	is_authenticated() : bool
+return is_valid ();
+!!!343849.cpp!!!	pam_manager(in a_name : string)
+// local
+typedef int (*pam_conv_fn)(int, const pam_message**, pam_response**, void*);
+// PRECOND
+REQUIRE (a_name.empty () != true, "Cannot authenticate user with no name");
+// Set up m_pam_conversation
+m_pam_conversation.conv =  static_cast<pam_conv_fn> (&pam_manager::conversation_function);
+m_pam_conversation.appdata_ptr = reinterpret_cast< void* > (this);
+// Log
+DLOG("Authenticating user [");DLOG(m_user);DLOG("]\n");
+// Something like
+m_error_number = pam_start (get_service_name().c_str ()
+                           , m_user.c_str ()
+                           , &m_pam_conversation 
+                           , &m_pam_handle);
+// Authenticate user
+if (NO_ERROR != m_error_number) 
+{
+  std::cout << "Authentication service not available" << std::endl;
+}
+else
+{
+  // Get the user (and write name to log)
+  get_user_priv ();
+  LOG(get_user ().c_str ());
+  // Attempt authentication
+  m_error_number = pam_authenticate (m_pam_handle, 0);
+
+  // Account management settings
+  if (NO_ERROR != m_error_number)
+  {
+    // Authentication failed, write string to output
+    std::cout << "Unable to Authenticate user: ";
+    std::cout << error_string () << std::endl;
+  }
+  else
+  {
+    // Get user again (in case authentication changed the user.)
+    get_user_priv ();
+    LOG(get_user ().c_str ());
+    // Try to set the user name we know.
+    set_user_priv (a_name);
+    LOG(get_user ().c_str ());
+    
+    // Call account management function
+    m_error_number = pam_acct_mgmt (m_pam_handle, 0);
+
+    // Set any credentials
+    if (NO_ERROR != m_error_number) 
+    {
+      // Account management failed
+      std::cout << "Authentication account management failed: ";
+      std::cout << error_string () << std::endl;
+    }
+    else
+    {
+      // Check user name again
+      get_user_priv ();
+      LOG(get_user ().c_str ());
+      
+      // Call credential function.
+      m_error_number = pam_setcred (m_pam_handle, PAM_ESTABLISH_CRED);
+
+      // Start a session
+      if (NO_ERROR != m_error_number)
+      {
+	// Setting credentials failed.
+	std::cout << "Setting Authentication credentials failed: ";
+	std::cout << error_string () << std::endl;
+      }
+      else
+      {
+	// Get the user name (which may have changed)
+	get_user_priv ();
+	LOG(get_user ().c_str ());
+	
+	// Start a session
+	m_error_number = pam_open_session (m_pam_handle, 0);
+
+	if (NO_ERROR != m_error_number) 
+	{
+	  std::cout << "Openning Authentication session failed: ";
+	  std::cout << error_string () << std::endl;
+	}
+	else
+	{
+	  // Get the user name (which may have changed)
+	  get_user_priv ();
+	  LOG(get_user ().c_str ());
+	}
+      }
+    }
+  }
+}
+!!!343977.cpp!!!	~pam_manager()
+// Test m_pam_handle
+if (NULL != m_pam_handle)
+{
+// Something like:
+m_error_number = pam_close_session (m_pam_handle, 0);
+//TODO Do something with return value??
+
+m_error_number = pam_end (m_pam_handle
+                          , m_error_number);
+//TODO Do something with return value??
+
+}
+!!!345769.cpp!!!	set_rhost(in a_host : string) : void
+// local
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_set_item (m_pam_handle, PAM_RHOST, reinterpret_cast <const void*> (a_host.c_str ()));
+!!!345641.cpp!!!	set_ruser(in a_user : string) : void
+// local
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_set_item (m_pam_handle, PAM_RUSER, reinterpret_cast <const void*> (a_user.c_str ()));
+!!!965673.cpp!!!	set_user_priv(in a_user : string) : void
+// local
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_set_item (m_pam_handle, PAM_USER, static_cast <const void*> (a_user.c_str ()));
+m_user = a_user;
+!!!344745.cpp!!!	set_user_prompt(in a_prompt : string) : void
+// local
+// PRE
+REQUIRE(is_valid (), "Valid object required.");
+// do
+m_error_number = pam_set_item (m_pam_handle, PAM_USER_PROMPT, reinterpret_cast <const void*> (a_prompt.c_str ()));

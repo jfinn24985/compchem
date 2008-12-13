@@ -1,0 +1,20 @@
+window_sizes 1217 895 428 783 658 152
+diagrams
+  active  classdiagram_ref 129577 // framework classes
+    783 658 100 4 578 0
+end
+show_stereotypes
+selected class_ref 420521 // test_contract_error
+open
+  
+  package_ref 140969 // compile_config
+  
+  package_ref 128297 // chemistry related types
+  classview_ref 129577 // framework
+  class_ref 420521 // test_contract_error
+  
+  package_ref 138665 // std
+  
+  package_ref 133289 // programs
+end
+end

@@ -1,0 +1,25 @@
+format 24
+
+classcanvas 128041 class_ref 335529 // epoch_time
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 17 -52 2000
+classcanvas 128169 class_ref 335785 // filesystem_properties
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 173 13 2000
+classcanvas 128297 class_ref 335913 // posix_test
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 363 206 2000
+classcanvas 128425 class_ref 332585 // unit_test
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 389 26 2000
+relationcanvas 128553 relation_ref 260905 // <generalisation>
+  from ref 128297 z 1999 to ref 128425
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 128681 relation_ref 261033 // <directional aggregation by value>
+  from ref 128297 z 1999 to point 505 205
+  line 128809 z 1999 to point 505 235
+  line 128937 z 1999 to ref 128297
+  role_a_pos 501 217 3000 no_role_b
+  multiplicity_a_pos 501 247 3000 no_multiplicity_b
+end

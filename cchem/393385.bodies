@@ -1,0 +1,12 @@
+class scope_test
+!!!1268137.cpp!!!	main_test(in argc : int, in argv : char) : int
+// LOCAL
+int Result (0);
+// DO
+cchem::newcalc::newcalc::guistate_type l_app (argc, argv);
+scope_working l_top (l_app);
+scope_local l_loc (l_top);
+
+std::cout << l_loc.value ("*.configuration.algorithm.options");
+// END
+return Result;

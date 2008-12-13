@@ -1,0 +1,269 @@
+class ArcStanza
+!!!251945.cpp!!!	_processGeometry(inout experimentRootNode : DOM::Node, in curs : uint) : void
+      //! The pageref value for this [experiment], to be used in the [atom-list]
+      const DOM::Char* _l_pageRef = NULL;
+      //! The attribute name
+      DOM::Char* _l_pageRefAttrName = DOM::transcodeString( "pageref" );
+      DOM::Element* _l_exptNode = dynamic_cast<DOM::Element*>(experimentRootNode);
+      DOM::Node* _l_geomNode = NULL;
+      DOM::Element* _l_atomListNode = NULL;
+      DOM::Element* _l_elem = NULL;
+      DOM::NodeList* _l_workList = NULL;
+
+      if ( !_l_exptNode )
+	{
+	  throw new Filters::IllegalStateException( "Incorrect node passed to Gaussian::ArcStanza::_processGeometry" );
+	}
+
+      // If a [atom-list] is already added for this [experiment] then it
+      // will have the same @pageref ID. So we need to get the @pageref
+      // value from the [experiment].
+      _l_pageRef = _l_exptNode->getAttribute( _l_pageRefAttrName );
+      if ( !_l_pageRef )
+	{
+	  throw new Filters::IllegalStateException( "Gaussian::ArcStanza::processGeometry: badly formed experiment node; no pageref attribute found." );
+	};
+
+      // Move up the tree to the [geometry] element.  
+      _l_geomNode = DOM::lookUp( experimentRootNode, "geometry" );
+
+      if ( !_l_geomNode )
+	{
+	  throw new Filters::IllegalStateException( "Gaussian::ArcStanza::processGeometry: badly formed experiment node; unable to find parent [geometry] node." );
+	};
+  
+      // Search along the [atom-list]s to find one with the same
+      // pageref.  If it doesn't exist then we will have to add it.
+
+      // get array of atom-lists
+      _l_workList = DOM::getElementsByTagName( _l_geomNode, "atom-list" );
+      _l_atomListNode = NULL;
+        
+      // if array of [atom-list] elements is not empty search for one
+      // with a matching pageref
+      for ( unsigned int _l_counter = 0; 
+	    _l_counter < _l_workList->getLength(); 
+	    ++_l_counter )
+	{
+	  _l_elem = dynamic_cast<DOM::Element*>(_l_workList->item(_l_counter));
+	  if ( _l_elem &&
+	       0 == DOM::compareString( _l_pageRef,
+					_l_elem->getAttribute( _l_pageRefAttrName ) ) )
+	    {
+	      _l_atomListNode = _l_elem;
+	      break;
+	    };
+	};
+
+      // If _l_atomListNode is empty then create an [atom-list] element and
+      // add to [geometry] element. Otherwise we can ignore the structure.
+      if ( !_l_atomListNode )
+	{
+	  _l_atomListNode = DOM::createElement( _l_exptNode, "atom-list" );
+
+	  // Now add new element to parent.
+	  if ( _l_workList->getLength() > 0 )
+	    {
+	      // This should be safe for all valid documents
+	      _l_geomNode->insertBefore( _l_atomListNode,
+					 _l_workList->item( _l_workList->getLength() - 1 )->getNextSibling() );
+	    }
+	  else
+	    {
+	      if ( _l_geomNode->hasChildNodes() )
+		{
+		  _l_geomNode->insertBefore( _l_atomListNode,
+					     _l_geomNode->getFirstChild() );
+		}
+	      else
+		{
+		  _l_geomNode->appendChild( _l_atomListNode );
+		};
+	    };
+
+	  // We collected the @pageref earlier
+	  _l_atomListNode->setAttribute( _l_pageRefAttrName, _l_pageRef );
+      
+	  // The charge and multiplicity come from the archiveSegments
+	  DOM::setAttribute( _l_atomListNode, 
+			     "charge",  
+			     results()[curs + 1] );
+	  DOM::setAttribute( _l_atomListNode, 
+			     "multiplicity",
+			     results()[curs + 2] );
+	  
+	  // Now we need to add the format
+	  DOM::setAttribute( _l_atomListNode, "format", results()[curs + 3] );
+ 
+	  //_l_geomCollector << ends;
+	  _l_atomListNode->appendChild( DOM::createTextNode( _l_atomListNode,
+							     results()[curs + 4] ) );
+
+	};
+      // Release any memory
+      DOM::releaseString( &_l_pageRefAttrName );
+      DEBUG( "ArcStanza::_processGeometry -> done" );
+    
+!!!252713.cpp!!!	output(inout experimentRootNode : DOM::Node) : void
+      DOM::Element* _l_exptNode = NULL;
+      DOM::Element* _l_node = NULL;
+      DOM::NodeList* _l_workNode = NULL;
+#ifdef __DEBUG__
+      std::cerr << "Intermediate results at beginning of \"ArcStanza::output\" are:" << std::endl;
+      for ( std::vector< std::string >::iterator _i = _m_intermediateResults.begin();
+	    _i != _m_intermediateResults.end();
+	    ++_i )
+	{
+	  std::cerr << *_i << std::endl;
+	};
+#endif
+            
+      // First lets check we have the three bits of information we
+      // needed. It is an error for there not to be a calc-method and
+      // calc-program node.
+      if ( _m_intermediateResults[CALC_METHOD].empty() )
+	{
+	  throw new Filters::IllegalStateException( "GaussianArcStanzaA: No calculation method data found." );
+	};
+      if ( _m_intermediateResults[MECHANISM_ID].empty() )
+	{
+	  throw new Filters::IllegalStateException( "No \"calc-program\" result node in ArcStanzaA::output" );
+	};
+      // It is not a big problem to not have a information node,
+      // so we do not check it here.
+      _l_exptNode = dynamic_cast<DOM::Element*>(experimentRootNode);
+      if ( !_l_exptNode )
+	{
+	  throw new Filters::IllegalStateException( "Incorrect node passed to Gaussian::ArcStanza::output" );
+	}
+            
+      // ------------ Add "information" result ---------------
+      // Lets check for an existing "information" node and if found one
+      // we will throw an exception.
+      _l_workNode = DOM::getElementsByTagName( _l_exptNode, "information" );
+      if ( _l_workNode->getLength() > 0 ) 
+	{
+	  throw new Filters::IllegalStateException( "Information node already exists in Gaussian::ArcStanza::output" );
+	} 
+      else 
+	{
+	  // Create an element to hold the information.
+	  _l_node = DOM::createElement( _l_exptNode, "information" );
+	  // Create a text node for the contents
+	  if ( !_m_intermediateResults[TITLE].empty() )
+	    {
+	      _l_node->appendChild( DOM::createTextNode( _l_node, _m_intermediateResults[TITLE] ) );
+	    };
+	  // Insert the new node into the experiment node
+	  _l_exptNode->insertBefore( _l_node, _l_exptNode->getFirstChild() );
+	};
+            
+
+      // ------------ Add "calc-program" result ---------------
+      // Lets check for an existing "calc-program" node and if found one
+      // throw an exception
+      _l_workNode = DOM::getElementsByTagName( _l_exptNode, "calc-program" );
+      if ( _l_workNode->getLength() > 0 ) 
+	{
+	  throw new Filters::IllegalStateException( "calc-program node already exists in Gaussian::ArcStanza::output" );
+	} 
+      else 
+	{
+	  // Lets create the new element and add all the necessary data.
+	  _l_node = DOM::createElement( _l_exptNode, "calc-program" );
+	  DOM::setAttribute( _l_node, "name",_m_intermediateResults[MECHANISM_ID] );
+
+	  // -- version
+	  _l_node->appendChild( DOM::createTextNode( _l_node, _m_intermediateResults[VERSION] ) );          
+
+	  // Add the new node to the output node
+	  _l_workNode = DOM::getElementsByTagName( _l_exptNode, "information" );
+	  // NOTE: We don't check for an empty node list as we added an 'information' element earlier
+	  if ( _l_workNode->item(0) == _l_exptNode->getLastChild() ) {
+	    _l_exptNode->appendChild( _l_node );
+	  } else {
+	    _l_exptNode->insertBefore( _l_node, _l_workNode->item(0)->getNextSibling() );
+	  };
+	};
+
+      _l_workNode = DOM::getElementsByTagName( _l_exptNode, "calc-method" );
+      if ( _l_workNode->getLength() > 0 ) 
+	{
+	  throw new Filters::IllegalStateException( "calc-method node already exists in Gaussian::ArcStanza::output" );
+	} 
+      else 
+	{
+	  if ( _m_intermediateResults[MECH_MODE].empty() ) 
+	    {
+	      throw new Filters::IllegalStateException( "No method type result needed for calc-method node in Gaussian::ArcStanza::output" );
+	    } 
+	  else 
+	    {
+	      DOM::setAttribute( _l_node, "type", _m_intermediateResults[MECH_MODE] );
+	    };
+
+	  if ( _m_intermediateResults[CALC_METHOD].empty() ) 
+	    {
+	      throw new Filters::IllegalStateException( "No method result needed for calc-method node in Gaussian::ArcStanza::output" );
+	    } 
+	  else 
+	    {
+	      DOM::setAttribute( _l_node, "method", _m_intermediateResults[CALC_METHOD] );
+	    };
+
+	  // -- basis-set
+	  if ( _m_intermediateResults[BASIS_SET].empty() )
+	    {
+	      throw new Filters::IllegalStateException( "No basis-set result needed for calc-method node in Gaussian::ArcStanza::output" );
+	    } 
+	  else 
+	    {
+	      DOM::setAttribute( _l_node, "basis-set", _m_intermediateResults[BASIS_SET] );
+	    };
+
+	  // -- command
+	  if ( _m_intermediateResults[COMMAND].empty() )
+	    {
+	      throw new Filters::IllegalStateException( "No command result needed for calc-method node in Gaussian::ArcStanza::output" );
+	    } 
+	  else 
+	    {
+	      _l_node->appendChild( DOM::createTextNode( _l_node, _m_intermediateResults[COMMAND] ) );          
+	    };
+    
+      	  // Add the new node to the output node
+	  _l_workNode = DOM::getElementsByTagName( _l_exptNode, "calc-method" );
+	  // NOTE: We don't check for an empty node list as we added an 'calc-method' element earlier
+	  if ( _l_workNode->item(0) == _l_exptNode->getLastChild() ) {
+	    _l_exptNode->appendChild( _l_node );
+	  } else {
+	    _l_exptNode->insertBefore( _l_node, _l_workNode->item(0)->getNextSibling() );
+	  };
+
+	  // Add any other information from the results database.
+	  unsigned int i = 7; // 7 is the size of the enum
+	  while( (i + 1) < _m_intermediateResults.size() )
+	    {
+	      if ( _m_intermediateResults[ i ] == "STRUCTURE" ) 
+		{
+		  // Found structure section.
+		  _processGeometry(  _l_exptNode, i );
+		  i += 5;
+		}
+	      else
+		{
+		  _l_node = DOM::createElement( _l_exptNode, "dan" );
+		  DOM::setAttribute( _l_node, "name", _m_intermediateResults[ i ] );
+		  _l_node->appendChild( DOM::createTextNode( _l_exptNode, _m_intermediateResults[ i + 1 ] ) );
+		  if ( _m_intermediateResults[ i ] == "HF" )
+		    {
+		      DOM::setAttribute( _l_node, "unit", "hartree" );
+		    };
+		  // Always add these nodes at the end
+		  _l_exptNode->appendChild( _l_node );
+		  // increment the cursor
+		  i += 2;
+		};
+	    };
+	};
+    

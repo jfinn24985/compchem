@@ -1,0 +1,16 @@
+class state
+!!!1073577.cpp!!!	state()
+: m_start_re ("educed m")
+, m_ordinal_re ("[[:space:]]+([[:digit:]]+)([[:space:]]+([[:digit:]]+))?([[:space:]]+([[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_mode_re ("[[:space:]]+([^[:space:]]+)([[:space:]]+([^[:space:]]+))?([[:space:]]+([^[:space:]]+))?[[:space:]]*", boost::regex::extended)
+, m_depolar_re ("[[:space:]]+Depolar[[:space:]]+--([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_force_re ("[[:space:]]+Frc consts[[:space:]]+--([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*$", boost::regex::extended)
+, m_frequency_re ("[[:space:]]+Frequencies[[:space:]]+--([[:space:]]+(-?[[:digit:]]+.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+.[[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_intensity_re ("[[:space:]]+IR Inten[[:space:]]+--([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_raman_re ("[[:space:]]+Raman[[:space:]]+Activ[[:space:]]+--([[:space:]]+([[:digit:]]+\\.[[:digit:]]+))([[:space:]]+([[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+([[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_redms_re ("[[:space:]]+Red\\. masses[[:space:]]+--([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*$", boost::regex::extended)
+, m_atoms_re ("[[:space:]]+(Atom[[:space:]]+AN[[:space:]]+)(X[[:space:]]+Y[[:space:]]+Z)([[:space:]]+X[[:space:]]+Y[[:space:]]+Z)?([[:space:]]+X[[:space:]]+Y[[:space:]]+Z)?[[:space:]]*", boost::regex::extended)
+, m_dispvec_re ("[[:space:]]+([[:digit:]]+)[[:space:]]+([[:digit:]]+)([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?([[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+)[[:space:]]+(-?[[:digit:]]+\\.[[:digit:]]+))?[[:space:]]*", boost::regex::extended)
+, m_state (START_SEARCH)
+, m_vibr_base (0) {}
+

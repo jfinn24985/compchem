@@ -1,0 +1,11 @@
+class xy_spectrum
+!!!1101481.cpp!!!	jcampdx_serialise(inout a_os : std::ostream, in a_header : output_header, in a_data_set : t_set_type) : void
+jcampdx_out_decor l_header (a_header);
+serialise < t_set_type > (a_os, a_data_set, l_header, "%d %d\n");
+!!!1105065.cpp!!!	serialise(inout a_os : std::ostream, in a_data_set : t_set_type, in a_header : base_out_decor, in a_format : string) : void
+a_header.serialise_header (a_os);
+for (typename t_set_type::const_iterator l_i (a_data_set.begin ());
+     l_i != a_data_set.end ();
+     ++l_i) {
+  a_os << boost::format (a_format) % (*l_i).first % (*l_i).second; }
+a_header.serialise_tail (a_os);

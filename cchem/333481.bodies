@@ -1,0 +1,15 @@
+class query_user
+!!!1001257.cpp!!!	create_query() : std::auto_ptr<query_user>
+query_user *Result;
+// Test for a fectory
+if (NULL != get_factory())
+{
+  // If a factory, use it.
+  Result = get_factory()->create_query_object ();
+}
+else
+{
+  // If no factory, use default.
+  Result = new query_user_terminal ();
+}
+return std::auto_ptr<query_user>(Result); 

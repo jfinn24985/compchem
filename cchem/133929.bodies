@@ -1,0 +1,60 @@
+class formulation
+!!!319529.cpp!!!	get_bag() : bag
+// require
+CHECK(has_element(S_BAG_NAME, m_rep), "Invalid_document"); 
+// do
+return bag(get_element(S_BAG_NAME, m_rep));
+!!!318761.cpp!!!	get_chem_notations() : std::vector< chem_notation >
+// local
+std::vector< chem_notation > result;
+std::string l_chem_note;
+unsigned int l_start(0), l_end(0);
+// require
+REQUIRE(has_chem_notations (), "Cannot get non-existant notations");
+// do
+l_chem_note = get_attribute (S_CHEM_NOTE_NAME, m_rep);
+do
+{
+  // For each substring, find the cross referenced node.
+  l_end = l_chem_note.find (' ', l_start);
+  purpletree::dom::node l_notation(data_source::connector::find_node (S_CHEM_NOTATION_NAME
+                                       , S_LABEL_NAME
+                                       , purpletree::dom::set_utf8(l_chem_note.substr (l_start, (l_end - l_start)))
+                                       , m_rep));
+  if (false == l_notation.is_null ())
+  {
+    result.push_back (chem_notation (l_notation));
+  }
+  else
+  {
+    LOG(("Invalid cross-reference [" + l_chem_note.substr (l_start, (l_end - l_start)) + "] in formulation/@chem_note, cannot find matching chem_notation").c_str());
+  }
+  l_start = l_end;
+}
+while (l_start < l_chem_note.size ());
+// ensure
+ENSURE(false == result.empty (), "Could not find chem_notations from cross-references");
+//end
+return result;
+!!!319401.cpp!!!	get_text() : text
+// require
+CHECK(has_element(S_TEXT_NAME, m_rep), "Invalid_document"); 
+// do
+return text(get_element(S_TEXT_NAME, m_rep));
+!!!144681.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+!!!318633.cpp!!!	has_chem_notations() : bool
+return has_attribute (S_CHEM_NOTE_NAME, m_rep);
+!!!319273.cpp!!!	is_textual() : bool
+return has_element (S_TEXT_NAME, m_rep);
+!!!330921.cpp!!!	formulation(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_FORMULATION_NAME, m_rep), "Node, object type mismatch");
+!!!331305.cpp!!!	operator=(in source : formulation) : formulation
+// do
+m_rep = source.m_rep;
+// end
+return *this;

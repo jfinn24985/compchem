@@ -1,0 +1,713 @@
+format 61
+"//test" // /compchem/utility:://test
+  revision 38
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_h_dir "utility"
+  cpp_src_dir "../src/utility"
+  cpp_namespace "utility"
+  comment "A series of applications to test application classes.
+
+See 'Testing_overview' for more details."
+  classview 130217 "test classes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 131881 // test class deployment
+    classdiagram 129705 "framework test classes"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 364201 "base_test"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 267817 "COMM"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[--] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for commentary messages"
+      end
+
+      attribute 267945 "EXCP"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[EE] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for exception messages"
+      end
+
+      attribute 268073 "CHCK"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[CC] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for messages with info to check or compare manually"
+      end
+
+      attribute 268201 "WTCH"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[RR] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for messages with info to watch"
+      end
+
+      attribute 268329 "TTLE"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[TT] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for section titles"
+      end
+
+      attribute 268457 "IFYS"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[##] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for messages in program branches when the desired branch is reached"
+      end
+
+      attribute 268585 "IFNO"
+	class_attribute const_attribute public explicit_type "string"
+	init_value "(\"[%%] \")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "prefix for messages in program branches when the undesired branch is reached"
+      end
+
+      operation 1197225 "~base_test"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1345961 "log"
+	class_operation public explicit_return_type "ostream"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return test_manager::get_exemplar ().log ();
+}
+"
+	
+	
+	
+	
+	comment "Get the reference to the logging stream."
+      end
+
+      operation 1345833 "main_test"
+	abstract const cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 996009 "title"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 147497 "test_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class provides the application initialisation and control system for a test suite application"
+      classrelation 469033 // <dependency>
+	relation 458153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 469033 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      class 332841 "iterator"
+	visibility package stereotype "typedef" base_type class_ref 364201 // base_test
+	cpp_decl "${comment}typedef std::vector<${type}* >::iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 332969 "const_iterator"
+	visibility package stereotype "typedef" base_type class_ref 364201 // base_test
+	cpp_decl "${comment}typedef std::vector<${type}* >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 173225 // s_exemplar (<directional aggregation>)
+	relation 171561 o-->
+	  a role_name "s_exemplar" multiplicity "1" init_value "(NULL)" class_relation private
+	    comment "The single test_manager instance."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 173225 // s_exemplar (<directional aggregation>)
+	  b parent class_ref 147497 // test_manager
+      end
+
+      classrelation 311721 // m_test_routines (<directional aggregation>)
+	relation 304425 o-->
+	  stereotype "vector"
+	  a role_name "m_test_routines" multiplicity "*" private
+	    comment "The test routines"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}< ${type} * > ${name}${value};
+"
+	    classrelation_ref 311721 // m_test_routines (<directional aggregation>)
+	  b parent class_ref 364201 // base_test
+      end
+
+      operation 217129 "add_tester"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_fntor" type class_ref 364201 // base_test
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(not has_tester (${p0}), \"Object already present cannot add tester object twice.\");
+  @{ensure_old}(const unsigned int l_oldsize (m_test_routines.size ()));
+  m_test_routines.push_back (${p0});
+  @{ensure}(has_tester (${p0}), \"Object not in list, adding tester object failed.\");
+  @{ensure}(m_test_routines.size () == 1 + l_oldsize, \"List is wrong size, adding tester object failed.\");
+}
+"
+	
+	
+	
+	
+	comment "Add a test function to suite.
+
+\\pre not has_tester (a_fntor)
+\\post has_tester (a_fntor) and new_size = old_size + 1"
+      end
+
+      operation 1617833 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_test_routines.empty ();
+}
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is there any registered unit-tests?"
+      end
+
+      operation 347049 "get_exemplar"
+	class_operation public return_type class_ref 147497 // test_manager
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual} ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  if (NULL == s_exemplar)
+  {
+    s_exemplar = new test_manager ();
+  }
+  return *s_exemplar;
+}
+"
+	
+	
+	
+	
+	comment "Get a pointer to the manager exemplar object
+
+\\post result != NULL"
+      end
+
+      operation 995881 "has_tester"
+	cpp_inline public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_tstr" type class_ref 364201 // base_test
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (m_test_routines.end () != std::find (m_test_routines.begin (), m_test_routines.end (), ${p0}));
+}
+"
+	
+	
+	
+	
+	comment "Is a_tstr in our test set?"
+      end
+
+      operation 1346089 "log"
+	const public explicit_return_type "ostream"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::cout;
+}
+"
+	
+	
+	
+	
+	comment "Logging stream used by all unit tests."
+      end
+
+      operation 217001 "main"
+	const public explicit_return_type "int"
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param in name "argv" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Routine to manage unit tests."
+      end
+
+      operation 995241 "remove_tester"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "a_fntor" type class_ref 364201 // base_test
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  COMPCHEM_REQUIRE(true == has_tester (${p0}), \"Cannot remove tester object that is not in this object.\");
+  m_test_routines.erase (std::find (m_test_routines.begin (), m_test_routines.end (), ${p0}));
+  COMPCHEM_ENSURE(false == has_tester (${p0}), \"Removing tester object failed.\"); }"
+	
+	
+	
+	
+	comment "Remove a test function to suite.
+
+\\post size() == old.size() + 1"
+      end
+
+      operation 346921 "size"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_test_routines.size ();
+}"
+	
+	
+	
+	
+      end
+
+      operation 347177 "test_manager"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_test_routines()
+{}
+"
+	
+	
+	
+	
+	comment "Constuctor is only used by the test_manager exemplar. It does nothing."
+      end
+
+      operation 1197353 "~test_manager"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1197481 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return \"Test manager\";
+}"
+	
+	
+	
+	
+      end
+    end
+
+    class 332585 "unit_test"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class for unit test classes.
+
+It is designed so that derived classes need only create a static object of themselves to register with the test-manager class."
+      class 425129 "funtion_t"
+	visibility package stereotype "typedef" base_type class_ref 182569 // function
+	nactuals 1
+	actual class class_ref 182569 // function
+	  rank 0 explicit_value "void (void)"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 405801 // <realization>
+	  relation 396841 -_-|>
+	    a public
+	      cpp default "${type}"
+	      classrelation_ref 405801 // <realization>
+	    b parent class_ref 182569 // function
+	end
+      end
+
+      classrelation 311593 // <generalisation>
+	relation 304297 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 311593 // <generalisation>
+	  b parent class_ref 364201 // base_test
+      end
+
+      operation 1356585 "bool_test"
+	class_operation cpp_inline public explicit_return_type "void"
+	nparams 3
+	  param in name "a_test" explicit_type "bool"
+	  param in name "a_msg" explicit_type "char"
+	  param in name "a_failmsg" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} * ${p1}, const ${t2} * ${p2} = NULL${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} * ${p1}, const ${t2} * ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "If a_test is true print a_msg. If false print a_failmsg or synthetic message."
+      end
+
+      operation 1353385 "monitor_function"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_lvl" explicit_type "uint"
+	  param in name "a_fn" type class_ref 425129 // funtion_t
+	  param in name "a_msg" explicit_type "string"
+	    defaultvalue "=\"\""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}=${t2}()${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method calls a_fn and expects to catch a contract_error of a_level."
+      end
+
+      operation 994729 "unit_test"
+	protected explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw} {
+  test_manager::get_exemplar ().add_tester (this); }
+"
+	
+	
+	
+	
+      end
+
+      operation 994857 "~unit_test"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {
+  test_manager::get_exemplar ().remove_tester (this); }
+"
+	
+	
+	
+	
+      end
+
+      operation 994985 "unit_test"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 332585 // unit_test
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "Not copyable"
+      end
+
+      operation 995113 "operator="
+	private return_type class_ref 332585 // unit_test
+	nparams 1
+	  param in name "source" type class_ref 332585 // unit_test
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Not copyable"
+      end
+    end
+  end
+
+  deploymentview 131881 "test class deployment"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 160553 "test"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 133161 // test_manager
+	artifact_ref 145833 // unit_test
+	artifact_ref 157993 // utility
+      end
+      comment "The framework test class library"
+    end
+
+    artifact 133161 "test_manager"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+#include <vector>
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+// -
+int main (int argc, char** argv) {
+  return utility::test_manager::get_exemplar ().main (argc, argv); }
+
+${namespace_start}
+${members}
+${namespace_end}
+"
+      associated_classes
+	class_ref 364201 // base_test
+	class_ref 147497 // test_manager
+      end
+    end
+
+    artifact 145833 "unit_test"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 332585 // unit_test
+      end
+    end
+  end
+end

@@ -1,0 +1,21 @@
+class worker_factory
+!!!966953.cpp!!!	get_workers() : std::vector< worker  >
+// local
+std::vector< worker > result;
+// do
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (true == check_name (S_WORKER_NAME, l_child))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// ensure
+ENSURE(false == result.empty (), "Invalid document");
+// end
+return result;

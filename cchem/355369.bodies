@@ -1,0 +1,75 @@
+class datum
+!!!1421481.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+if (data_access::names::datum_name () != a_name)
+{
+  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+}
+return add_datum (a_label);
+!!!1407529.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+bool Result (false);
+if (data_access::names::outcome_name () == a_name)
+{
+  if (not this->m_outcome.empty ())
+  {
+    a_value.assign (this->m_outcome);
+    Result = true;
+  }
+}
+else if (data_access::names::format_name () == a_name)
+{
+  if (not this->m_format.empty ())
+  {
+    a_value.assign (this->m_format);
+    Result = true;
+  }
+}
+else if (data_access::names::scale_name () == a_name)
+{
+  if (not this->m_scale.empty ())
+  {
+    a_value.assign (this->m_scale);
+    Result = true;
+  }
+}
+else if (data_access::names::ordinal_name () == a_name)
+{
+  if (this->m_ordinal != NO_ORDINAL)
+  {
+    a_value.assign (boost::lexical_cast< std::string >(this->m_ordinal));
+    Result = true;
+  }
+}
+return Result;
+!!!1397033.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::outcome_name () == a_name) 
+{
+  m_outcome.swap (a_value);
+}
+else if (data_access::names::dimension_name () == a_name)
+{
+  m_dim.swap (a_value);
+}
+else if (data_access::names::format_name () == a_name)
+{
+  m_format.swap (a_value);
+}
+else if (data_access::names::scale_name () == a_name)
+{
+  m_scale.swap (a_value);
+}
+else if (data_access::names::ordinal_name () == a_name)
+{
+  try
+  {
+    ordinal (boost::lexical_cast< int >(a_value));
+  }
+  catch (const boost::bad_lexical_cast& a_err)
+  {
+    throw std::logic_error (a_err.what ());
+  }
+}
+else
+{
+  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+}
+

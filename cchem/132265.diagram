@@ -1,0 +1,60 @@
+format 24
+
+classinstance 128041 class_ref 135465 // program
+  xyz 37 86 2000 name "prog_xmplr"  xyz 37 86 2000
+classinstance 128425 class_ref 328489 // restricted_object
+  xyz 371 86 2000 name ""  xyz 371 86 2000
+classinstance 132137 class_ref 327849 // site
+  xyz 377 277 2000 name "default_site"  xyz 377 277 2000
+iconcanvas 132777 collaborationdiagram_ref 132905 // Object Deserialisation v5
+  xyz 98 350 2000
+note 133033 "Deserialise the program object once the default site has been contacted and the user authenticated."
+  xyzwh 132 326 2000 269 73
+fragment 133161 "else"
+  xyzwh 191 137 3005 191 55
+linkcanvas 130729
+  from ref 128041 z 1999 to ref 128425
+dirscanvas 130857 z 1000 linkcanvas_ref 130729
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "1 restricted_object()
+6 set_identity_of_user()" xyz 198 45 3000
+linkcanvas 132265
+  from ref 128041 z 1999 to ref 132137
+dirscanvas 132393 z 1000 linkcanvas_ref 132265
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "2 get_site_list()
+3 is_open()
+4 open_session()
+5 is_open()" xyz 247 99 3000
+linkcanvas 132521
+  from ref 128425 z 1999 to ref 132137
+dirscanvas 132649 z 1000 linkcanvas_ref 132521
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "7 authenticate_user(username)" xyz 450 185 3000
+msgs
+  msg operation_ref 970665 // "restricted_object(inout a_parent : restricted_object)"
+    forward ranks 1 "1" dirscanvas_ref 130857
+    no_msg
+  msg operation_ref 991529 // "get_site_list() : list< site >"
+    forward ranks 2 "2" dirscanvas_ref 132393
+    no_msg
+  msg operation_ref 992297 // "is_open() : bool"
+    forward ranks 3 "3" dirscanvas_ref 132393
+    no_msg
+  msg operation_ref 970409 // "open_session() : void"
+    forward ranks 4 "4" dirscanvas_ref 132393
+    no_msg
+  msg operation_ref 992297 // "is_open() : bool"
+    forward ranks 5 "5" dirscanvas_ref 132393
+    no_msg
+  msg operation_ref 989481 // "set_identity_of_user() : void"
+    forward ranks 6 "6" dirscanvas_ref 130857
+    msgs
+      explicitmsg "authenticate_user(username)"
+	forward ranks 7 "6.1" dirscanvas_ref 132649
+	no_msg
+    msgsend
+msgsend
+line 132905 -_-_
+  from ref 128041 z 1999 to ref 132777
+end

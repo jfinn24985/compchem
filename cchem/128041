@@ -1,0 +1,433 @@
+format 61
+"ccfilter" // /compchem/supplier::ccfilter
+  revision 35
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "supplier/ccfilter"
+  cpp_src_dir "../src/supplier/ccfilter"
+  cpp_namespace "ccfilter"
+  comment "This is the core application of the cchem system. It acts as a manager for the various plug-in systems."
+  classview 133417 "ccfilter"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 134697 // ccfilter
+    sequencediagram 135465 "Main operation"
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    classdiagram 145705 "main view"
+      draw_all_relations no hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    collaborationdiagram 135593 "Main operation"
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 361001 "ccfilter_app"
+      visibility package 
+      nactuals 1
+      actual class class_ref 505513 // basic_application
+        rank 0 value class_ref 361001 // ccfilter_app
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This program filters a raw file into a data base.  No \"locking\" of the database file is performed.  It can be used from the command line.  It is also designed to be usable as the back-end for a GUI application.
+
+Program options are:
+
+(data_access_helper)
+    autofix,A = automatically rebuild broken cross-references in database
+    search-dir,D = directory paths to search for broken cross-references
+    ** hidden options **
+    public-id = the public ID to use for new XML documents.
+    system-id = the system ID to use for new XML documents.
+(data_scheme_helper)
+    project,p = The target project for this application run.
+    auto-open-memo,M = read all the memo-src objects automatically.
+    auto-project,P = attempt to create a new project if not present
+(supplier helper)
+    experiment,e = The target experiment for this application run.
+    file,i = The target result file for this application run.
+    memo,m = The target memo for this application run.
+    memo-src,s = The location for memo-src for this application run
+    filter-dir,F = directory paths to search for filters (may be used multiple times).
+    compound,c = The target compound for the target memo (req for new memos)
+    formula,f = The target formula for the target memo (req for new memos)
+
+(ccfilter)
+    ((interactive = Will ask user for missing data instead of failing))
+    database <uri> = The database file, default location is ~/.chkcalc/db/main-database.xml"
+      classrelation 536105 // <realization>
+	relation 518825 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 536105 // <realization>
+	  b parent class_ref 505513 // basic_application
+      end
+
+      classrelation 531625 // <dependency>
+	relation 514345 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 531625 // <dependency>
+	  b parent class_ref 395689 // bad_lexical_cast
+      end
+
+      classrelation 531113 // <dependency>
+	relation 513833 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 531113 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 530345 // <dependency>
+	relation 513065 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530345 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 544681 // <dependency>
+	relation 523561 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 544681 // <dependency>
+	  b parent class_ref 469033 // data_scheme_helper
+      end
+
+      classrelation 530473 // <dependency>
+	relation 513193 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530473 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 530217 // <dependency>
+	relation 512937 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530217 // <dependency>
+	  b parent class_ref 345513 // filter_manager
+      end
+
+      classrelation 530601 // <dependency>
+	relation 513321 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530601 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 531241 // <dependency>
+	relation 513961 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 531241 // <dependency>
+	  b parent class_ref 350761 // options_description
+      end
+
+      classrelation 530729 // <dependency>
+	relation 513449 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530729 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 531497 // <dependency>
+	relation 514217 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 531497 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      classrelation 530857 // <dependency>
+	relation 513577 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530857 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 530985 // <dependency>
+	relation 513705 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 530985 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      classrelation 531369 // <dependency>
+	relation 514089 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 531369 // <dependency>
+	  b parent class_ref 496681 // time_stamp
+      end
+
+      attribute 263977 "m_database"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The database URI."
+      end
+
+      attribute 264233 "m_is_interactive"
+	private explicit_type "bool"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Should we ask the user (or exit) if we have incomplete set up data."
+      end
+
+      operation 1180841 "is_interactive"
+	stereotype "get"
+	const public explicit_return_type "bool"
+	nparams 0
+	
+	
+	
+	
+	
+	comment "Is this session interactive?"
+      end
+
+      operation 1180969 "interactive"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_val" explicit_type "bool"
+	
+	
+	
+	
+	
+	comment "Set this session as interactive or not"
+      end
+
+      operation 1194537 "ccfilter_app"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_database ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1194665 "~ccfilter_app"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1194793 "ccfilter_app"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 361001 // ccfilter_app
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+      end
+
+      operation 1194921 "operator="
+	private return_type class_ref 361001 // ccfilter_app
+	nparams 1
+	  param in name "source" type class_ref 361001 // ccfilter_app
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 1585705 "main"
+	public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process the input file."
+      end
+
+      operation 1604905 "memo_src_location"
+	public explicit_return_type "string"
+	nparams 2
+	  param in name "a_path" type class_ref 361513 // path
+	  param in name "a_memo_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create a \"unique\" filename for the memo-src location."
+      end
+
+      operation 1607337 "register_options"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Register options specific to the ccfilter class."
+      end
+    end
+  end
+
+  deploymentview 134697 "ccfilter"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 157865 "ccfilter"
+      stereotype "executable"
+      associated_artifacts
+	artifact_ref 144169 // data_scheme
+	artifact_ref 157481 // ccfilter_app
+	artifact_ref 252969 // regex
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 254889 // supplier
+	artifact_ref 230313 // filesystem
+      end
+    end
+
+    artifact 157481 "ccfilter_app"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual source includes
+#include <boost/filesystem/operations.hpp>
+#include <sstream>
+// -
+int main (int argc, char ** argv)
+{
+  ccfilter::ccfilter l_app;
+  return l_app.programs::basic_application< ccfilter::ccfilter >::main (argc, argv);
+}
+
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 361001 // ccfilter_app
+      end
+    end
+  end
+end

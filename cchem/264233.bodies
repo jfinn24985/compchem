@@ -1,0 +1,10 @@
+class TreePath
+!!!660137.cpp!!!	TreePath(in pbegin : In, in pend : In)
+  this->append(pbegin, pend);
+!!!660521.cpp!!!	assign(in pbegin : In, in pend : In) : void
+  TreePath temp (pbegin, pend);
+  this->swap(temp);
+!!!660649.cpp!!!	append(in pbegin : In, in pend : In) : void
+  // push_back() can't throw -- if it could, this code wouldn't be strongly exception-safe.
+  for(; pbegin != pend; ++pbegin)
+    this->push_back(*pbegin);

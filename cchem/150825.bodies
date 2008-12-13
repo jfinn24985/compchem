@@ -1,0 +1,347 @@
+class filter_arcstanza_B
+!!!232105.cpp!!!	_process_arc_geometry(inout root_xml_node : xml_rb_node, inout arc_line : std::vector<std::string>, inout curs : uint) : void
+
+  // Preconditions:
+
+  // arc_line[curs] <==> "charge,mult"
+  // root_xml_node <==> "experiment"
+
+  // This presumes that the tag that was passed in is the correct
+  // [experiment] tag.  The [experiment] tag is actually a sibling of
+  // the [atom-list] element(s)
+
+  // Posst condition:
+  // arc_line[curs] <==> empty part before version
+
+  if ( root_xml_node->tag() != "experiment" ) {
+    throw  "CKCLFiltError, ARC STANZA: node with wrong tag passed to _process_arc_geometry";
+  };
+  
+  program::experiment *expt_node = dynamic_cast< program::experiment * >( root_xml_node );
+  // If a [atom-list] is already added for this [experiment] then it
+  // will have the same <pageref> ID. So we need to get the <pageref>
+  // value from the [experiment].
+  std::string mypage = expt_node->pageref();
+
+  // Move up the tree to the [geometry] element.  
+  xml_rb_node *geom_tag = root_xml_node->look_up( "geometry" );
+
+  if ( !geom_tag ) {
+    throw "CKCLFiltError, ARC STANZA: unable to find [geometry] tag";
+  };
+  
+  // Search along the [atom-list]s to find one with the same
+  // pageref.  If it doesn't exist then we will have to add it.
+
+  // get array of atom-lists
+  std::vector< xml_rb_node* > work_tags = geom_tag->find_by_tag_name( "atom-list" );
+  program::atom_list* work_tag = NULL;
+        
+  // if array of [atom-list] elements is not empty search for one
+  // with a matching pageref
+  for ( std::vector< xml_rb_node* >::iterator tag = work_tags.begin();
+	tag != work_tags.end();
+	++tag ) {
+    if ( (*tag)->attribute("pageref") == mypage ) {
+      work_tag = dynamic_cast<program::atom_list*>(*tag);
+      break;
+    };
+  };
+
+  // If work_tag is empty then create an [atom-list] element and
+  // add to [geometry] element.
+  if ( !work_tag ) {
+    work_tag = dynamic_cast<program::atom_list*>( xml_rb_node::make( "atom-list" ) );
+    work_tag->pageref( mypage );
+    // The charge and multiplicity come from the arc_line
+    unsigned int pos = arc_line[curs].find( "," );
+    if ( pos < arc_line[curs].size() ) {
+      work_tag->charge( arc_line[curs].substr( 0, pos ) );
+      work_tag->multiplicity( arc_line[curs].substr( pos + 1 ) );
+    };
+    // Now we need to add the content
+    // Assume is XYZ format
+    work_tag->format( "axyz" );
+    // start collecting geometry info
+    std::stringstream _geom;
+    ++curs;
+    _geom << arc_line[curs];
+    ++curs;
+    while ( curs < arc_line.size() && !arc_line[curs].empty() ) {
+      _geom << "\\";
+      _geom << arc_line[curs];
+      ++curs;
+    };
+    DEBUG( "Check for zmt or version", arc_line[curs + 1].c_str() );
+    if ( !std_regex::search( "Version", arc_line[curs + 1] ) ) {
+      // Have ZMT format;
+      work_tag->format( "alad" );
+      _geom << "\\";
+      ++curs;
+      while ( curs < arc_line.size() && !arc_line[curs].empty() ) {
+	_geom << "\\";
+	_geom << arc_line[curs];
+	++curs;
+      };
+    };
+    //_geom << ends;
+    work_tag->content( _geom.str(), 0 );
+    // Now add tag to parent.
+    geom_tag->append(  work_tag );
+  };
+  // else { do nothing }
+  DEBUG( "filter_arcstanza_B::_process_arc_geometry -> done" );
+!!!232489.cpp!!!	initialise(in header_str : string) : void
+  // By delaying the setting of the regex we can avoid unnecessary
+  // regex compilation.dan
+  _m_arcs_found = 0;
+  _m_arcs_string = "";
+  _m_arcs_start_rgx.regex_string( "1\\\\1\\\\" );
+  _m_arcs_end_rgx.regex_string( "@$" );
+!!!232617.cpp!!!	process_line(in current_line : string) : void
+  if ( _m_arcs_start_rgx.search( current_line ) ) {
+    // ARC start
+    _m_arcs_found = true;
+  };
+  if ( _m_arcs_found ) {
+    _m_arcs_string += current_line.substr( 1, 70 );
+  };
+
+  if ( _m_arcs_end_rgx.search( current_line ) ) {
+    // ARC end
+    _m_arcs_found = false;
+  };
+!!!232745.cpp!!!	output(inout root_xml_node : xml_rb_node) : void
+  unsigned int _cursor;
+  
+  if ( _m_arcs_string.empty() ) {
+    // Hmmm.. do nothing?
+    return;
+  };
+
+  std::vector< std::string > arc_line = std_regex::split_by_delimiter( "\\\\", _m_arcs_string );
+#ifdef __DEBUG__
+  copy(arc_line.begin(), arc_line.end(), std::ostream_iterator<std::string>( std::cerr, ", "));
+  std::cerr << std::endl;
+#endif
+//   const string labels[] = { "start", "mult", "machine", "arctype", "method", "basis", "formula", "user", "date", "charge" };
+//   map< std::string, std::string > start_dict;
+
+//   for ( _cursor = 1; _cursor < 10; ++_cursor ) {
+//     start_dict.insert( make_pair( labels[_cursor], arc_line[_cursor] ) );
+//   };
+
+//   // increment to "blank"
+//   ++_cursor;
+//   if ( arc_line[_cursor].empty() ) {
+//     DEBUG( "filter_arcstanza_B::output: Empty string at [10] -> this is correct!!" );
+//   } else {
+//     DEBUG( "filter_arcstanza_B::output: Non-empty string at [10] -> This is not correct", arc_line[_cursor].c_str() );
+//   };
+  
+  // increment to command_str
+  //++_cursor;
+
+  try {
+    xml_rb_node *_calc_method, *_calc_program, *_information;
+
+    if ( root_xml_node->is_empty() ) {
+      _information = root_xml_node->append(  xml_rb_node::make( "information" ) );
+      _calc_program = root_xml_node->append(  xml_rb_node::make( "calc-program" ) );
+      _calc_method = root_xml_node->append(  xml_rb_node::make( "calc-method" ) );
+    } else {
+      // There really should be content now, modify it.
+     std::vector<xml_rb_node*> work_node = root_xml_node->find_by_tag_name("calc-method");
+     if ( work_node.size() > 0 ) { 
+       _calc_method = work_node[0];
+     } else {
+       throw "CKCLFiltError ARC STANZA: badly formed node, no \"calc-method\" sub-node";
+     };
+     work_node =  root_xml_node->find_by_tag_name("information");
+     if ( work_node.size() > 0 ) {
+       _information = work_node[0];
+     } else {
+      throw "CKCLFiltError ARC STANZA: badly formed node, no \"information\" sub-node";
+     };
+     work_node =  root_xml_node->find_by_tag_name("calc-program");
+     if ( work_node.size() > 0 ) {
+       _calc_program = work_node[0];
+     } else {
+       throw "CKCLFiltError ARC STANZA: badly formed node, no \"calc-program\" sub-node";
+     };
+    };
+
+    // We have the four nodes we need to start working.
+    // Should be calculation "type"
+    if ( !arc_line[3].empty() ) {
+      _calc_method->attribute( "type", arc_line[3] );
+    } else {
+      _calc_method->attribute( "type", "unknown" );
+    };
+    // Should be calculation "type"
+    if ( !arc_line[4].empty() ) {
+      // Check for ONIOM
+      std_regex oniom_check;
+      oniom_check.regex_string( "ONIOM(.*)$" );
+      if ( oniom_check.process( arc_line[4] ) ) {
+	_calc_method->attribute( "method", "ONIOM" );
+	
+	_calc_method->attribute( "basis-set", oniom_check[1] );
+	DEBUG("Basis Set is", oniom_check[1].c_str() );
+      } else {
+	_calc_method->attribute( "method", arc_line[4] );
+	// Should be "normal" basis set.
+	if ( !arc_line[5].empty() ) {
+	  _calc_method->attribute( "basis-set", arc_line[5] );
+	} else {
+	  _calc_method->attribute( "basis-set", "unknown" );
+	};
+      };
+    } else {
+      _calc_method->attribute( "method", "unknown" );
+      _calc_method->attribute( "basis-set", "unknown" );
+    };
+
+    // experiment@worker == lowercase(arc_line[7])
+
+    // Deduce experiment@pageref from date in arc_line[8]
+#ifdef __DEBUG__
+    if ( arc_line[10].empty() ) {
+      DEBUG( "filter_arcstanza_B::output: Empty string at [10] -> this is correct!!" );
+    } else {
+      DEBUG( "filter_arcstanza_B::output: Non-empty string at [10] -> This is not correct", arc_line[_cursor].c_str() );
+    };
+#endif
+
+    // increment to command string (this has been gathered elsewhere)
+    if ( !arc_line[11].empty() ) {
+      _calc_method->append( arc_line[11] );
+    };
+#ifdef __DEBUG__
+    if ( arc_line[12].empty() ) {
+      DEBUG( "filter_arcstanza_B::output: Empty string at [12] -> this is correct!!" );
+    } else {
+      DEBUG( "filter_arcstanza_B::output: Non-empty string at [12] -> This is not correct", arc_line[_cursor].c_str() );
+    };
+#endif
+
+    // Title
+    if ( !arc_line[13].empty() ) {
+      _information->append( arc_line[13] );
+    };
+
+    // "blank" before compounds's structure definition
+#ifdef __DEBUG__
+    if ( arc_line[14].empty() ) {
+      DEBUG( "filter_arcstanza_B::output: Empty string at [14] -> this is correct!!" );
+    } else {
+      DEBUG( "filter_arcstanza_B::output: Non-empty string at [14] -> This is not correct", arc_line[_cursor].c_str() );
+    };
+#endif
+
+    // set to "charge,multiplicity"
+    _cursor = 15;
+
+    _process_arc_geometry( root_xml_node, arc_line, _cursor );
+
+    // the cursor should now point to the "blank" before the version information.
+#ifdef __DEBUG__
+    std::stringstream _s;
+    if ( arc_line[_cursor].empty() ) {
+      _s << "filter_arcstanza_B::output: Empty string at [" << _cursor << "] -> this is correct!!";
+      DEBUG( _s.str().c_str() );
+    } else {
+      _s << "filter_arcstanza_B::output: Non-empty string at [" << _cursor << "] -> this is not correct";
+      DEBUG( _s.str().c_str(), arc_line[_cursor].c_str() );
+    };
+#endif
+
+    ++_cursor;
+    // Iff version
+    unsigned int _nv_pos;
+    _nv_pos = arc_line[_cursor].find( "=" );
+    DEBUG( "@0", arc_line[_cursor].c_str() );
+    if ( arc_line[_cursor].empty() || arc_line[_cursor].size() < _nv_pos  ) {
+	throw "CKCLFiltError ARC STANZA: Expected \"Version\" section of ARC not found";
+    };
+
+    if ( "Version" == arc_line[_cursor].substr( 0, _nv_pos ) ) {
+      // If we found the version string, add it to [calc-program]
+      if ( arc_line[_cursor].size() - _nv_pos > 
+	   arc_line[_cursor].substr( _nv_pos + 1 ).find("G94" ) ) {
+	_calc_program->attribute("name", "g94");
+      } else if ( arc_line[_cursor].size() - _nv_pos > 
+		  arc_line[_cursor].substr( _nv_pos + 1 ).find("G98" ) ) {
+	_calc_program->attribute("name", "g98");
+      } else if ( arc_line[_cursor].size() - _nv_pos > 
+		  arc_line[_cursor].substr( _nv_pos + 1 ).find("G03" ) ) {
+	_calc_program->attribute("name", "g03");
+      } else  {
+	_calc_program->attribute("name", "unknown");
+      };
+      _calc_program->append(  arc_line[_cursor].substr( _nv_pos + 1 ) );
+    } else {
+      throw "CKCLFiltError ARC STANZA: badly formed node, no \"calc-program\" sub-node";
+    }; 
+
+    DEBUG( "Post Version section" );
+    // What we have now is a section of name=value pairs. We can loop over this.
+    ++_cursor;
+    while ( 1 ) {
+      _nv_pos = arc_line[_cursor].find( "=" );
+      if ( arc_line[_cursor].empty() || arc_line[_cursor].size() < _nv_pos  ) {
+	break;
+      };
+
+      if ( "HF"== arc_line[_cursor].substr( 0, _nv_pos ) ) {
+	xml_dan *hfnode = dynamic_cast<xml_dan*>( xml_rb_node::make( "dan" ) );
+	hfnode->attribute( "name", "hf" );
+	hfnode->unit( "hartree" );
+	hfnode->append( arc_line[_cursor].substr( _nv_pos + 1 ) );
+	root_xml_node->append(  hfnode );
+      } else {
+	xml_dan *datanode = dynamic_cast<xml_dan*>( xml_rb_node::make( "dan" ) );
+	datanode->attribute( "name", arc_line[_cursor].substr( 0, _nv_pos ) );
+	datanode->append( arc_line[_cursor].substr( _nv_pos + 1 ) );
+	root_xml_node->append(  datanode );
+      };
+      ++_cursor;
+    };
+
+    DEBUG( "Post Name/Value section" );
+    // the cursor should now point to a blank before an unspecified
+    // section. What I do here simply add stuff to a non-specific data
+    // node until we get a blank, then we add it to the root node. 2
+    // blanks in a row cause us to exit.
+    ++_cursor;
+    xml_dan *datanode = NULL;
+    unsigned int section_number = 1;
+    while ( _cursor < arc_line.size() 
+	    && !arc_line[_cursor].empty()
+	    && arc_line[_cursor] != "@" ) {
+      // Create node
+      datanode = dynamic_cast<xml_dan*>( xml_rb_node::make( "dan" ) );
+      datanode->attribute( "name", "arc_section" );
+      std::stringstream is;
+      is << section_number;
+      datanode->ordinal( is.str() );
+      // Collect content
+      datanode->append(  arc_line[_cursor] );
+      ++_cursor;
+      while ( _cursor < arc_line.size() && !arc_line[_cursor].empty() ) {
+	datanode->append(  "\\" );
+	datanode->append(  arc_line[_cursor] );
+	++_cursor;
+      }
+      // Add node to root
+      root_xml_node->append(  datanode );
+      ++_cursor;
+      ++section_number;
+    };
+    // We are all done now...
+    DEBUG( "Post all sections" );
+  }
+  catch(...) {
+    throw "CKCLFiltError, ARC STANZA: bad data accumulation.";
+  }
+  DEBUG( "filter_arcstanza_B::output -> done" );

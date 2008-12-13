@@ -1,0 +1,40 @@
+format 24
+
+classinstance 128041 class_ref 328617 // user
+  xyz 62 149 2000 name "me"  xyz 62 149 2000
+classinstance 130857 class_ref 327593 // experiment
+  xyz 461 148 2000 name "a_new_expt"  xyz 461 148 2000
+classinstance 131625 class_ref 135593 // project
+  xyz 254 148 2000 name "a_project"  xyz 254 148 2000
+iconcanvas 138537 collaborationdiagram_ref 133033 // Object serialisation - new memo v5
+  xyz 575 213 2000
+iconcanvas 138921 collaborationdiagram_ref 133161 // Create restricted object v5
+  xyz 492 216 2000
+linkcanvas 139177
+  from ref 128041 z 1999 to ref 131625
+dirscanvas 139305 z 1000 linkcanvas_ref 139177
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "1 is_permitted(ADD_CONTENT, EXPERIMENT) : bool
+2 create_experiment()" xyz 17 107 3000
+linkcanvas 139433
+  from ref 131625 z 1999 to ref 130857
+dirscanvas 139561 z 1000 linkcanvas_ref 139433
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "3 experiment(a_parent)" xyz 339 122 3000
+msgs
+  explicitmsg "is_permitted(ADD_CONTENT, EXPERIMENT) : bool"
+    forward ranks 1 "1" dirscanvas_ref 139305
+    no_msg
+  msg operation_ref 977065 // "create_experiment() : experiment"
+    forward ranks 2 "2" dirscanvas_ref 139305
+    msgs
+      explicitmsg "experiment(a_parent)"
+	forward ranks 3 "2.1" dirscanvas_ref 139561
+	no_msg
+    msgsend
+msgsend
+line 138793 -_-_
+  from ref 130857 z 1999 to ref 138537
+line 139049 -_-_
+  from ref 130857 z 1999 to ref 138921
+end

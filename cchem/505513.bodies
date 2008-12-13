@@ -1,0 +1,33 @@
+class basic_application
+!!!1607209.cpp!!!	main(in argc : int, inout argv : char) : int
+int Result (0);
+try
+{
+  ///////////////////////////
+  // Process the configuration
+
+  // Add program specific options
+  static_cast<t_app *>(this)->register_options ();
+
+  // Process configuration
+  Result = utility::program_options::helper ().process_options (argc, argv, std::cerr, utility::program_options::CCHEM_PARSE_ALL);
+
+  // Continue if configuration successful.
+  if (utility::program_options::CCHEM_PARSE_SUCCESS == Result)
+  {
+    Result = static_cast<t_app *>(this)->main ();
+  }
+}
+catch (const std::exception & a_err)
+{
+  std::cerr << "Caught standard exception.\n" << a_err.what () << "\n";
+  Result = 1;
+}
+
+catch (...)
+{
+  std::cerr << "Caught unknown non-standard exception\n";
+  Result = 1;
+}
+
+return Result;

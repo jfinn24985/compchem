@@ -1,0 +1,9 @@
+class base_filestream
+!!!1081513.cpp!!!	rewind() : void
+m_stream.close ();
+m_stream.open (m_filename.c_str ());
+!!!1081001.cpp!!!	base_filestream(in a_filename : string)
+: m_filename (a_filename)
+, m_stream () {
+REQUIRE (boost::filesystem::exists (a_filename), "Cannot open a non-existing file.");
+m_stream.open (a_filename.c_str ()); }

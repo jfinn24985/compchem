@@ -1,0 +1,12 @@
+class application_log
+!!!964265.cpp!!!	log_stream() : std::ostream
+return std::cout;
+!!!964393.cpp!!!	logger() : application_log
+// local
+// do
+if (NULL == s_exemplar)
+{
+	s_exemplar = new application_log();
+	// TODO: other initialisation code.
+}
+return *s_exemplar;

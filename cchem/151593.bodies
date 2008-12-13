@@ -1,0 +1,73 @@
+class gaussian_termination_status
+!!!1067177.cpp!!!	can_process(inout a_filter : base_filter_traits, in a_filetype_info : char, in a_isize : int, in a_subtype_info : char, in a_ssize : int, in a_filetype_flags : int, inout a_errbuf : char, in a_esize : int) : int
+int Result = ON_SUCCESS;
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (NULL == a_filter->m_internal_state, "State should be nul before initialising.");
+  a_filter->m_internal_state = new gaussian_termination_status; }
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+return Result;
+!!!1067561.cpp!!!	process_segment(inout a_filter : base_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result (ON_SUCCESS);
+utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+std::ostream l_err (&l_errbuf);
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (NULL != a_filter->m_internal_state, "A filter with a nul state is invalid here.");
+  gaussian_termination_status * l_state = static_cast< gaussian_termination_status * > (a_filter->m_internal_state);
+  // DO
+  if (boost::regex_search (a_segment, a_segment + a_ssize, l_state->m_search_re)) {
+    l_state->m_result.assign (a_segment, a_ssize);
+    if (l_state->m_result.find ("Normal") == std::string::npos) {
+      // Gaussian did not terminate normally, set error indicators
+      l_err << a_filter->m_name << ": Invalid result with program termination [" << l_state->m_result << "]";
+      Result = ON_ERROR; }}}
+catch (const std::exception &a_err) {
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;
+!!!1067689.cpp!!!	output(inout a_filter : base_filter_traits, inout a_cb_data : any, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result = ON_SUCCESS;
+utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+std::ostream l_err (&l_errbuf);
+
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (NULL != a_filter->m_internal_state, "A filter with nul state is invalid.");
+  gaussian_termination_status * l_state = static_cast< gaussian_termination_status * >(a_filter->m_internal_state);
+  // DO
+  if (l_state->m_result.empty ()) {
+    l_err << a_filter->m_name << ": No termination message in data file.";
+    Result = ON_ERROR; }
+  else {
+    COMPCHEM_CHECK (l_state->m_result.find ("termination") != std::string::npos
+        , "Captured string does not contain match string.");
+    COMPCHEM_CHECK (l_state->m_result.find ("Normal") != std::string::npos
+        , "Abnormal gaussian termination should have stopped processing during file filtering.");
+    datum_writer l_new_node;
+    l_new_node.outcome ("status");
+    // remove leading/trailing white space from string before adding to result twiglet
+    boost::trim (l_state->m_result);
+    l_new_node.content (l_state->m_result);
+    const std::string l_final (l_new_node.to_string ());
+    (*(a_filter->m_output_cb))(a_cb_data, l_final.data (), l_final.size ()); }}
+catch (const std::exception &a_err) {
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;

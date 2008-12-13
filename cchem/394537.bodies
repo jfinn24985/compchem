@@ -1,0 +1,130 @@
+class script_writer
+!!!1269801.cpp!!!	find_variable(in a_str : string, out a_start : uint, out a_end : uint) : string
+// Find occurences of '%var%' and return "var" and set a_start and a_end
+std::string Result;
+a_start = 0;
+do {
+  if (0 != a_start) { ++a_start; } // To actually skip single '%'s
+  a_start = a_str.find ('%', a_start); }
+while (std::string::npos != a_start
+      and '%' != a_str[a_start + 1]); // Skip single '%'s
+if (std::string::npos != a_start) { // Found '%%'
+  a_end = a_str.find ('%', a_start + 2);
+  ++a_end;
+  COMPCHEM_ALWAYS ('%' == a_str[a_end], "Parse error, expected '%%[var]%%' but got '%%[var]%'");
+  ++a_end;
+  COMPCHEM_CHECK(a_start + 2 < a_end - 2, "No variable");
+  Result = a_str.substr (a_start + 2, a_end - a_start - 4); 
+  COMPCHEM_DLOG("Variable = \""); COMPCHEM_DLOG(Result); COMPCHEM_DLOG("\"\n"); }
+return Result;
+!!!1269673.cpp!!!	make_substitutions(in a_str : string, in a_scope : scope) : string
+unsigned l_start (0), l_end (0);
+std::string Result (a_str);
+COMPCHEM_DLOG("Transforming [");COMPCHEM_DLOG(Result);COMPCHEM_DLOG("]\n");
+do {
+  std::string l_var (find_variable (Result, l_start, l_end));
+  if (not l_var.empty ()) {
+    std::string l_subs; // The substitution string
+    unsigned int l_pos (l_var.find ('$'));
+    if (std::string::npos != l_pos) { // Has subpart, %%??$0%%
+      // The subpart reference indicates that the value is a stringlist we want
+      // the indexed position.
+      unsigned int l_ix (boost::lexical_cast< unsigned int >(l_var.substr (l_pos + 1)));
+      l_var.resize (l_pos);
+      cchem::guistate::string_list_t l_parts;
+      cchem::guistate::utility::convert_string_to_list (a_scope.value (l_var), l_parts);
+      COMPCHEM_CHECK (l_ix < l_parts.size (), "Not enough elements substituting vars"); 
+      COMPCHEM_DLOG ("List index is ["); COMPCHEM_DLOG (l_ix);
+      COMPCHEM_DLOG ("] Val ["); COMPCHEM_DLOG (l_parts.at (l_ix)); COMPCHEM_DLOG ("]\n");
+      l_subs = l_parts.at (l_ix); }
+    else {
+      l_subs = a_scope.value (l_var); }
+    // Make substitution
+    Result.replace (l_start, l_end - l_start, l_subs); }}
+while (std::string::npos != l_start);
+COMPCHEM_DLOG("Transform result [");COMPCHEM_DLOG(Result);COMPCHEM_DLOG("]\n");
+return Result;
+!!!1269289.cpp!!!	generate(inout a_scope : scope, in a_dir : path) : void
+// Indicator 
+COMPCHEM_LOG ("Entering function");
+cchem::guistate::string_list_t l_multi_list;
+std::string l_value;
+if (a_scope.has_value (a_scope.base () / "scripts", l_value)) {
+  cchem::guistate::utility::convert_string_to_list (make_substitutions(l_value, a_scope), l_multi_list);
+  for (cchem::guistate::string_list_t::const_iterator l_part_cursor (l_multi_list.begin ());
+       l_part_cursor != l_multi_list.end ();
+       ++l_part_cursor) {
+    COMPCHEM_DLOG("List entry [");COMPCHEM_DLOG(*l_part_cursor);COMPCHEM_DLOG("]\n");
+    scope_local l_local (a_scope);
+    l_local.add_local ("scriptname", *l_part_cursor); 
+    boost::filesystem::path l_filename (a_dir / make_substitutions(a_scope.value ("filename", a_scope.base ()), l_local));
+    std::ofstream l_os (l_filename.native_file_string ().c_str ());
+    if (l_os) {
+      l_os << make_substitutions (a_scope.value ("shell", a_scope.base ()), l_local) << "\n\n";
+      write_body (a_scope.base () / *l_part_cursor, l_local, l_os); }
+    else {
+      std::cerr << "Unable to open/create file [" << l_filename.native_file_string () << "]\n"; }}}
+else {
+  std::cerr << "Unable to find any scripts to output.\n"; }
+!!!1271209.cpp!!!	write_body(in a_base : resource_path, inout a_scope : scope, inout a_os : ostream) : void
+const cchem::guistate::resource_path l_for ("foreach");
+const cchem::guistate::resource_path l_part ("parts");
+const cchem::guistate::resource_path l_val ("value");
+const cchem::guistate::resource_path l_if ("if");
+cchem::guistate::string_list_t l_stages;
+cchem::guistate::string_list_t l_steps;
+std::string l_value;
+bool l_afterok (false), l_is_if (false);
+// Test for value (overrides parts etc)
+if (a_scope.has_value (a_base / l_val, l_value)) {
+  a_os << make_substitutions (l_value, a_scope) << "\n"; }
+else { // process stages and steps.
+  // Test for looping constructs
+  COMPCHEM_LOG ("Checking for 'foreach' clause\n");
+  if (a_scope.has_value (a_base / l_for, l_value)) {
+    cchem::guistate::utility::convert_string_to_list (make_substitutions (l_value, a_scope), l_stages);
+    // Set stage progress type
+    l_afterok = ("afterok" == a_scope.value (a_base / "type")); }
+  // Test for parts
+  COMPCHEM_LOG ("Checking for 'parts' clause\n");
+  if (a_scope.has_value (a_base / l_part, l_value)) {
+    cchem::guistate::utility::convert_string_to_list (make_substitutions (l_value, a_scope), l_steps); }
+  
+  // Test for "if" and add if necessary [## IF ##]
+  if (a_scope.has_value (a_base / l_if, l_value)) {
+    l_is_if = true;
+    scope_local l_local (a_scope);
+    l_local.add_local ("predicate", l_value);
+    a_os << make_substitutions (a_scope.value ("if", a_scope.base ()), l_local); }
+
+  cchem::guistate::string_list_t::const_iterator l_stage_cr (l_stages.begin ());
+  unsigned int l_depth (0);
+  do {
+    cchem::guistate::resource_path l_specific (a_base);
+    if (l_stage_cr != l_stages.end ()) { // Stage loops
+      l_specific /= *l_stage_cr; 
+      // What sort of stage loop?
+      if (l_afterok) {
+        if (l_depth > 0) {
+          scope_local l_local (a_scope);
+          l_local.add_local ("predicate", a_scope.value ("afterok", a_scope.base ()));
+          a_os << make_substitutions (a_scope.value ("if", a_scope.base ()), l_local); }
+        ++l_depth; }}
+    // Process parts
+    for (cchem::guistate::string_list_t::const_iterator l_job_opt_cursor (l_steps.begin ());
+      l_job_opt_cursor != l_steps.end ();
+      ++l_job_opt_cursor) {
+      // recurse
+      write_body (l_specific / *l_job_opt_cursor, a_scope, a_os); }
+    if (l_stage_cr != l_stages.end ()) {
+      ++l_stage_cr; }}
+  while (l_stage_cr != l_stages.end ()); 
+  // Now undo any ifs
+  for (;
+       l_depth > 1;
+       --l_depth) {
+     a_os << make_substitutions (a_scope.value ("endif", a_scope.base ()), a_scope); }}
+// Do we need a closing "endif"? [## IF ##]
+if (l_is_if) {
+  a_os << make_substitutions (a_scope.value ("endif", a_scope.base ()), a_scope); }
+

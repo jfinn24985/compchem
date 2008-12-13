@@ -1,0 +1,165 @@
+class Structure
+!!!259497.cpp!!!	processLine(in current_line : string) : void
+      // This function is sort-of straightforward. The basic premise is
+      // that the various parts gather information from the file as it
+      // passes. All of this is reset when the end of the structure is
+      // passed. If four "YES"s (_m_strc_passed) are matched before this
+      // happens then the filter creates a structure and stores it in the
+      // result node (_m_strc_root).
+
+      // DEBUG( "Structure::process_line -> entered" );
+      if ( 0 < _m_strc_count && _m_strc_count < 6 ) 
+	{
+	  DEBUG( "Stepping over line ", _m_strc_count );
+	  ++_m_strc_count; // step over some lines
+	  return;
+	};
+
+      if ( current_line.size() > 45 && 
+	   current_line.find( "Z-Mat", 25 ) < GAUS_LINE_WIDTH ) 
+	{
+	  DEBUG( "Found \"Z-Matrix orientation\"" );
+	  _m_strc_count = 2; 
+	  _m_strc_string = "";
+	  return;
+	};
+      if ( _m_strc_count == 0 ) return; // take short-cut!
+
+      if ( 6 == _m_strc_count ) 
+	{ 
+	  // Collect structure into a single string until the end divider
+	  // line
+	  if ( current_line.find( "------", 2 ) > GAUS_LINE_WIDTH )
+	    { 
+	      std::vector< std::string > fields = _m_strc_word.split( current_line );
+	      DEBUG( "Divider not found" );
+	      int offset = 0;
+	      if ( fields.size() != 5 )
+		{
+		  offset = 1;
+		};
+      
+	      int _atom_num = atoi( fields[1].c_str() );
+	      _m_strc_string += Chemistry::PeriodicTable::elementSymbol( _atom_num );
+	      _m_strc_string += ",";
+	      _m_strc_string += fields[offset + 2];
+	      _m_strc_string += ",";
+	      _m_strc_string += fields[offset + 3];
+	      _m_strc_string += ",";
+	      _m_strc_string += fields[offset + 4];
+	      _m_strc_string += "\\";  
+	      DEBUG( "Line is now: ", _m_strc_string.c_str() );
+	    } 
+	  else
+	    {
+	      DEBUG( "Divider found" );
+	      ++_m_strc_count;
+	    };
+	  return;
+	};
+      if ( 7 == _m_strc_count ) 
+	{ 
+	  if ( current_line.find( "SCF Done" ) < GAUS_LINE_WIDTH )
+	    {
+	      DEBUG( "Grab SCF energy" );
+	      std::vector< std::string > fields = _m_strc_word.split( current_line );
+	      if ( fields.size() > 4 ) _m_strc_energy = fields[4]; 
+	    }
+	  else if ( _m_strc_threshold )
+	    {
+	      DEBUG( "In YES/NO part" );
+	      if ( current_line.find( "YES", 51 ) < GAUS_LINE_WIDTH ) 
+		{
+		  DEBUG( "Another \"YES\" found.." );
+		  ++_m_strc_passed; // Another "YES" found..
+		  if ( 4 == _m_strc_passed ) 
+		    { 
+		      DEBUG( "All \"YES\" output data." );
+	  
+		      _m_results.push_back( std::make_pair( _m_strc_energy,
+							    _m_strc_string ) );
+
+		      // reset variables
+		      _m_strc_threshold = false;
+		      _m_strc_count = 0;
+		      _m_strc_passed = 0;
+		      _m_strc_string = "";
+		    };
+		}
+	      else
+		{
+		  DEBUG( "No \"YES\" resetting data." );
+		  _m_strc_threshold = false;
+		  _m_strc_count = 0;
+		  _m_strc_passed = 0;
+		  _m_strc_string = "";
+		};
+	    } 
+	  else if ( current_line.find( "Threshold", 38 ) < GAUS_LINE_WIDTH ) 
+	    {
+	      DEBUG( "Threshold settings found" );
+	      _m_strc_threshold = true;
+	    };
+	};
+    
+!!!259753.cpp!!!	output(inout experimentNode : DOM::Node) : void
+      if ( !output().empty() ) 
+	{
+	  DOM::Element *_l_resultNode;
+	  DOM::Element *_l_element;
+	  DOM::String _l_name( "name" );
+	  DOM::String _l_dan( "dan" );
+	  DOM::String _l_step( "step" );
+	  DOM::String _l_ordinal( "ordinal" );
+	  DOM::String _l_energy( "energy" );
+	  DOM::String _l_unit( "unit" );
+	  DOM::String _l_hartree( "hartree" );
+	  DOM::String _l_atom_list( "atom-list" );
+	  DOM::String _l_format( "format" );
+	  DOM::String _l_axyz( "axyz" );
+	  DOM::String _l_value( "structure-path" );
+
+	  _l_resultNode = experimentNode->getOwnerDocument()->createElement( _l_dan.c_str() );
+	  _l_resultNode->setAttribute( _l_name.c_str(), _l_value.c_str() );
+
+	  for( unsigned int __i = 0;
+	       __i < output().size();
+	       ++__i )
+	    {
+	      // Make step's container node and add to structure root
+	      _l_element = experimentNode->getOwnerDocument()->createElement( _l_dan.c_str() );
+	      _l_element->setAttribute( _l_name.c_str(), _l_step.c_str() );
+	      std::stringstream ordinal_num;
+	      ordinal_num << __i; // << ends; 
+	      _l_value = ordinal_num.str();
+	      _l_element->setAttribute( _l_ordinal.c_str(), _l_value.c_str() );
+	      _l_resultNode->appendChild( _l_element );
+	  
+	      // Make step's energy node and add to container
+	      _l_element = experimentNode->getOwnerDocument()->createElement( _l_dan.c_str() );
+	      _l_element->setAttribute( _l_name.c_str(), _l_energy.c_str() );
+	      _l_element->setAttribute( _l_unit.c_str(), _l_hartree.c_str() );
+	      _l_value = output()[__i].first;
+	      _l_element->appendChild( _l_resultNode->getOwnerDocument()->createTextNode( _l_value.c_str() ) );
+	      _l_resultNode->appendChild( _l_element );
+	  
+	      // Make step's structure node and add to container
+	      _l_element = experimentNode->getOwnerDocument()->createElement( _l_dan.c_str() );
+	      _l_element->setAttribute( _l_name.c_str(), _l_atom_list.c_str() );
+	      _l_element->setAttribute( _l_format.c_str(), _l_axyz.c_str() );
+	      _l_value = output()[__i].second;
+	      _l_element->appendChild( _l_resultNode->getOwnerDocument()->createTextNode( _l_value.c_str() ) );
+	      _l_resultNode->appendChild( _l_element );
+	    }
+	  
+	  experimentNode->appendChild( _l_resultNode );
+	  // set _l_resultNode to NULL as we no longer own it
+	  _l_resultNode = NULL;
+#ifdef __DEBUG__
+	}
+      else 
+	{
+	  DEBUG( "No output from Structure." );
+#endif
+	};
+    

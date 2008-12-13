@@ -1,0 +1,17 @@
+class program
+!!!338217.cpp!!!	get_information() : information
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "No information sub-tree for this chem_notation");
+// do
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!338089.cpp!!!	has_information() : bool
+// do
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!338729.cpp!!!	operator=(in source : program) : program
+// do
+m_rep = source.m_rep;
+// end
+return *this;
+!!!338345.cpp!!!	program(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_PROGRAM_NAME, m_rep), "Node, object type mismatch");

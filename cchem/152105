@@ -1,0 +1,1014 @@
+format 61
+"Docs" // Docs
+  revision 7
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_src_dir ".."
+  componentview 128169 "Overview"
+    //component diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    comment "A view of the components that make up the cchem system"
+    componentdiagram 128297 "Top overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations no shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    componentdiagram 164009 "Data source overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    component 128297 "comp_chem"
+      comment "The comp_chem component manages the interaction between the user and the data. It manages the other components to view/navigate the data, define projects and input data."
+    end
+
+    component 132649 "data_source"
+      comment "This component manages the storage and realisation of the cchem data base. It
+provides the interface for the importation and querying of the data."
+      component 128681 "data_scheme"
+	stereotype "subsystem"
+	provided_classes
+	  class_ref 432681 // basic_datum
+	  class_ref 458281 // basic_datum_py
+	  class_ref 458537 // basic_text_py
+	  class_ref 443433 // comment
+	  class_ref 356009 // compound
+	  class_ref 458793 // compound_py
+	  class_ref 355369 // datum
+	  class_ref 458665 // datum_py
+	  class_ref 356905 // experiment
+	  class_ref 458921 // experiment_py
+	  class_ref 354729 // filter
+	  class_ref 459049 // filter_py
+	  class_ref 356521 // formula
+	  class_ref 459177 // formula_py
+	  class_ref 356393 // identity
+	  class_ref 459305 // identity_py
+	  class_ref 354601 // info
+	  class_ref 459433 // info_py
+	  class_ref 353705 // mechanism
+	  class_ref 459561 // mechanism_py
+	  class_ref 357033 // memo
+	  class_ref 459689 // memo_py
+	  class_ref 443561 // processing_instruction
+	  class_ref 353321 // program
+	  class_ref 470185 // program_options
+	  class_ref 354089 // project
+	  class_ref 459945 // project_py
+	  class_ref 371497 // settings
+	  class_ref 460073 // settings_py
+	  class_ref 443305 // text
+	  class_ref 353577 // worker
+	  class_ref 460201 // worker_py
+	end
+	required_classes
+	  class_ref 433961 // meta_datum
+	  class_ref 476713 // names
+	  class_ref 449449 // persistence
+	end
+	comment "This component contains classes that define the database structure. All 
+components that directly manipulate the internal representation of the 
+data will do so through these classes.
+
+The objective of this database is to provide a mechanism to compare 
+and organise sets of objects.  Objects in the database have attributes 
+that can be (a) classifying, (b) lucid data or (c) opaque data.  
+
++ Classifying attributes are object types that are native to the database. 
+These types can be directly used to organise sets of objects.  These 
+types can be further divided into global object types and domain object 
+types.
++ Lucid data attributes are object types provided by a plugin module.  
+Lucid data is reportable to the user, through the visual interface or 
+output reports.  Depending on how the plugin module defines the 
+object, lucid data can also be used to organise objects.
++ Opaque data are attributes that contain information that is only 
+meaningful to external programs.
+
+The general view of this database is that it contains data at levels of 
+\"visibility\".  The top most data is \"meta-data\" that describes the 
+relationship between objects and is database centric.  The next level 
+of meta-data is data that is lucid to the database but represents 
+information from the problem domain.  The third level represents 
+meta-data that is opaque to the database directly but can be 
+visualised by domain plugins/reports.  The fourth level represents 
+opaque data for which the database has no visualisation plugin.
+
+The database uses information at the top two levels to manage data
+relationships
+"
+      end
+
+      component 131113 "data_access"
+	stereotype "subsystem"
+	associated_diagram componentdiagram_ref 164009 // Data source overview
+	provided_classes
+	  class_ref 460585 // data_access_py
+	  class_ref 433961 // meta_datum
+	  class_ref 460457 // meta_datum_py
+	  class_ref 476713 // names
+	  class_ref 449449 // persistence
+	end
+	ncouples 1
+	key "target" value "lib"
+	comment "This component provides methods for serialising/deserialising 
+the data_scheme objects.
+
+Version 2 provides this mechanism to/from XML using the 
+xml_access sub-component"
+	component 132905 "xml_access"
+	  provided_classes
+	    class_ref 360233 // xml_access_helper
+	    class_ref 455593 // xml_write_visitor
+	  end
+	  required_classes
+	    class_ref 350761 // options_description
+	    class_ref 361513 // path
+	    class_ref 453161 // xml_reader_t
+	  end
+	  comment "The classes that manage persistence to an XML database"
+	end
+      end
+    end
+
+    component 128809 "data_supplier"
+      provided_classes
+	class_ref 400681 // basic_filter
+	class_ref 345513 // filter_manager
+      end
+      required_classes
+	class_ref 432681 // basic_datum
+	class_ref 354729 // filter
+	class_ref 353705 // mechanism
+	class_ref 354089 // project
+      end
+      comment "This component provides an interface to manage and use data importing filters.
+While some input may be obtained from the user, most input data is obtained 
+by filtering of data files from external sources. It combines the set of desired 
+outcomes from the project element with filters from a mechanism object 
+appropriate for the external data file.
+
+The task of physically instantiating filters is managed by the filter_manager class.
+At this time there are two working filter subsystems, plugin and regex, with a 
+python filter subsystem proposed.
+
+"
+      component 134057 "plugin_supplier"
+	provided_classes
+	  class_ref 344489 // basic_filter_traits
+	  class_ref 349225 // plugin_filter
+	end
+	required_classes
+	  class_ref 432681 // basic_datum
+	  class_ref 355369 // datum
+	  class_ref 354729 // filter
+	end
+	comment "An external plugin (DLL) is expected to provide an instance of the 
+base_filter_traits \"C\" struct.  A plugin_filter object will load the plugin
+library and attempt to obtain a pointer to the base_filter_traits struct.  
+While filtering the plugin can return several non-error conditions.
+* UNUSABLE: to indicate the filter should be discarded.
+* COMPLETE: to indicate the filter does not need to perform more 
+scanning but it's results should be included.
+* SUCCESS: standard result to indicate all is OK
+
+The plugin_filter uses RAII, so that the plugin is automatically unloaded 
+when its associated plugin_filter object goes out of scope."
+      end
+
+      component 134185 "regex_supplier"
+	required_classes
+	  class_ref 354729 // filter
+	  class_ref 482345 // format
+	  class_ref 346153 // regex
+	end
+	comment "This provides a mechanism for using simple regular expressions as
+filters. It uses the boost regular expression and format system."
+      end
+
+      component 134313 "python_supplier"
+	required_classes
+	  class_ref 458281 // basic_datum_py
+	  class_ref 458665 // datum_py
+	  class_ref 354729 // filter
+	  class_ref 459689 // memo_py
+	end
+	comment "This proposed subsystem wll allow plugins to be written in python. The
+script should have an initialise method that returns an object of a class
+derived from compchem_filter."
+      end
+    end
+
+    component 128937 "report"
+      required_classes
+	class_ref 432681 // basic_datum
+	class_ref 178729 // connector
+	class_ref 180393 // project_cursor
+      end
+      comment "Manage operations that provide reports of the data. One of the 
+major reports scans the database and produces an XML document
+that contains a single project with subelements organised by 
+compound/formula/[outcome].
+
+
+visualise and edit project data sets.  This 
+includes textual and graphical display in a user-interface. The display 
+of domain specific information is handled by report plugins.  The 
+data_source component manages physically storing (and locating) 
+these plugins. This component also includes editing of the data set, 
+including management of data import through the supplier component."
+    end
+  end
+
+  usecaseview 128041 "Overview"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    usecasediagram 128937 "Use-case overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations no class_drawing_mode default shadow default show_stereotype_properties default
+      size A4
+    end
+  end
+
+  deploymentview 146473 "Overview"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 189865 "Mission.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The 'OpenScience' project mission:
+
+To provide work-flow improvements for practising scientists through
+an Open mechanism for organising scientific primary sources and 
+associated meta-information.
+
+Objectives:
+- Flexibility and extensibility.
+- Encourage and enhance collaboration.
+- Enhance productivity
+
+Mechanism:
+- Enhance work-flow with input/output mechanism incorporation via extensions.
+- Foreground (front-end) simplicity via local XML files.
+- Focus on meta-relationships in datasets via document crosslinking.
+- Ease-of-navigation view XSLT/browser.
+
+Possible future directions:
+- Standardisation (ISO etc)
+- Background data management (pullStorage)
+- Controlled external collaboration and visibility (webportal)
+- Legal-compliant activity management (eLabbook)"
+    end
+
+    artifact 189993 "Features.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "Feature Version 1:
+
+* Document definition (DTD)
+
+* Filesystem policy (filenaming and directory structure)
+
+* Base reporting infrastructure that supports DTD
+  * Example report system: Thermochemistry and supporting information reports
+
+* Source document entry filter infrastructure
+  * Example entry system: gaussian(c) output files
+  * Support for \"simple\" regular expression grammars
+  * SUpport for python classes
+
+Future features anticpated in version 1:
+
+* Project assistance
+  * Management reports: project completion
+  * Result reports: generic reports incorporating user-defined relationships
+  * Work-flow tools: work-initiation templates, progress monitors 
+"
+    end
+
+    artifact 190121 "Testing_overview.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The testing overview
+Openscience team
+January 2008
+
+= Introduction =
+== Unit-tests == 
+
+- Each class should have an associated unit-test that ensures compliance with:
+ - the documented contracts and exception reporting
+ - accurately reproduces sample output from sample input
+
+- Class clusters/libraries should have an associated unit-test that ensures:
+ - Cluster intra-compatibility and cooperativity.
+ - compliance with documented contracts, exceptions etc
+ - reproduce complex sample output from input
+
+- Unit-test extension program for testing exceptions and failures as
+they are discovered.
+
+
+== Source style tests ==
+
+The test mechanism for ensuring all code matches a defined style is
+to have GNU indent (with -gnu option) produce an unchanged file.
+
+Other-conventions:
+* Comments, particularly file heading comments should not name individuals, instead 
+the code should be indentified as belonging to the @{project}.
+
+
+
+== Functional tests ==
+
+- Test suite that produces feature coverage reports.
+
+
+= Unit-tests =
+
+== Overview ==
+
+* Each Class should have a corresponding unit-test class.
+* Tests should probe both failure and success conditions.
+* Unit-test classes are combined into a test suite.
+* Test suites can compare current \"output\" to a previous \"output\".
+* Preferrably all tests in a suite are performed and the failed
+tests are reported.
+* Test failure is reported by program exit condition.
+* The boost 'unit-test' target is used to run test suites.
+
+
+== Details ==
+
+: configuration parameters. 
+Commandline options etc. must be passed to the program via a 
+configuration file. These are looked for in a file 
+[root]/canon/[test exe]_args.cpp.  These are created by creating
+a 'source' artifact in a sub-package and putting the arguments in 
+the C++ source window.
+
+
+== Framework ==
+
+The framework currently uses an internal unit-test framework.  To add a 
+new test case you derive a class from utility::unit_test and instantiate
+an object, generally using a static member (by default I name them 
+`exemplar`). This registers the object with the unit test manager.  To
+instantiate the class you need to define a title() method, returns a 
+descriptive title, and the main_test() method, which performs the unit 
+test.  Optionally you can redefine register_options() if you are 
+interested in getting command line/configuration options.
+
+ 
+"
+    end
+
+    artifact 196009 "style.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The coding style follows astyle with config file:
+style=ansi
+indent=spaces=2
+
+The older alternative is gnu indent. The following is similar to the
+astyle above, however indent doesn't handle C++ syntax very
+well.
+ indent -bli0 -l0
+in vim
+ %!indent -bli0 -nut -l0 - -o -
+
+Note that gnu indent uses the GNU coding style by default."
+    end
+
+    artifact 217129 "development_plan.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "This document outlines the outstanding development issues
+
+Data_access library v1
+* test cases
+
+Data_scheme library v1
+* test of save-on-change functionality
+* pythonise objects for access by Supplier library python filters
+* test cases
+
+Supplier library v1
+* generalise filter sub-system for any file type (long lines!)
+* update gaussian filters for current DTD
+* Regex filter system
+* Python filter system
+
+Future:
+Data_access library v1
+* better handling of non-element nodes at the document level
+"
+    end
+
+    artifact 251561 "makefile.sys"
+      stereotype "document"
+      comment "#
+# Makefile.sys
+#
+##################################
+# Settings for current environment
+##################################
+
+OS ?= LINUX
+COMP ?= GNU
+VARIANT ?= DEBUG
+XMLLIB ?=
+
+###########################
+##
+## Generic setup below here
+##
+###########################
+
+####################
+## OS SPECIFIC STUFF
+####################
+ifeq ($(OS),WIN32)
+SUFEXE:=.exe
+SUFLIB:=.dll
+endif
+
+ifeq ($(OS),LINUX)
+SUFEXE:=
+SUFLIB:=.so.0
+endif
+
+###############################################
+##  Definitions for GNU g++ compiler for unices
+###############################################
+
+ifeq ($(COMP),GNU)
+## For linux
+CC:=gcc
+CCC:=g++
+STDCFLAGS:=-Wall -ansi -D_POSIX_SOURCE
+STDCXXFLAGS:=-Wall -ansi -D_POSIX_SOURCE -Weffc++
+STDOPTFLAGS:=-O3
+STDDEBUGFLAGS:=-O1 -D__DEBUG__
+STDLDFLAGS:=-lz
+STDSHRLIBS:=-rdynamic -ldl
+STDSHRFLAG:=-fPIC
+STDSHRXFLAGS:=-shared -Wl,-soname,
+endif
+
+######################################################
+##  Example library setup definition for XML libraries
+######################################################
+
+ifeq ($(XMLLIB),EXPAT)
+DOMFLAGS:=-DEXPAT
+DOMLIBS:=-lexpat
+endif
+
+ifeq ($(XMLLIB),XML2)
+DOMFLAGS:=-DXML2 `xml2-config --cflags`
+DOMLIBS:=`xml2-config --libs`
+endif
+
+######################
+##  Combine flags sets
+######################
+
+ifeq ($(VARIANT),DEBUG)
+VARIANTFLAGS=$(STDDEBUGFLAGS) $(DEBUGFLAGS)
+else
+VARIANTFLAGS=$(STDOPTFLAGS)
+endif
+
+CFLAGS=$(VARIANTFLAGS) $(STDCFLAGS) $(DOMFLAGS) $(USERFLAGS)
+CXXFLAGS=$(VARIANTFLAGS) $(STDCXXFLAGS) $(DOMFLAGS) $(USERFLAGS)
+LDFLAGS=$(VARIANTFLAGS) $(STDLDFLAGS) $(DOMLIBS) $(USERLDFLAGS)
+
+#############################################
+##  Define standard directory descent targets
+#############################################
+
+all:: dopart
+
+doit:
+	for WORKDIR in $(DIRS); do \\
+	echo Working on $$WORKDIR; \\
+	pushd $$WORKDIR;\\
+	OS=$(OS) USERHDRS=\"$(USERHDRS)\" USERFLAGS=\"$(USERFLAGS)\" ROOTDIR=\"$(ROOTDIR)\" COMP=\"$(COMP)\" VARIANT=\"$(VARIANT)\"  make $(WHAT); \\
+	popd;\\
+	done
+
+dopart:
+	WHAT=\"all\" make doit
+
+distclean: clean
+	rm -f core core.* $(TARGETS) *~ *.d
+	WHAT=\"distclean\" make doit
+
+clean: 
+	rm -f $(USEROBJ)
+	WHAT=\"clean\" make doit
+
+##############
+## Build rules
+##############
+
+.cc.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+.cpp.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+%.d: %.cc
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \\
+	| sed 's/\\($*\\)\\.o[ :]*/\\1.o $@ : /g' > $@; \\
+	[ -s $@ ] || rm -f $@
+
+%.d: %.cpp
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \\
+	| sed 's/\\($*\\)\\.o[ :]*/\\1.o $@ : /g' > $@; \\
+	[ -s $@ ] || rm -f $@
+
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+
+"
+    end
+
+    artifact 253225 "Jamrules"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "# Project: carbon_sheet
+# Author: Orig J. Finnerty: $Author: finnerty $
+# Date  : 12 Feb 2006     : $Date: 2008/01/12 12:30:15 $
+# Version                 : $Revision: 1.1 $
+# Log:
+# $Log: Jamrules,v $
+# Revision 1.1  2008/01/12 12:30:15  finnerty
+# Initial compilation system
+#
+# Revision 1.1.1.1  2006/11/21 08:52:36  finnerty
+#
+#
+# Revision 1.1.1.1  2006/05/16 05:29:53  finnerty
+# Pase, data-centric application development.
+#
+# Revision 1.2  2006/02/28 10:17:03  finnerty
+# Upgraded comments and how TOP is defined
+#
+# Revision 1.1  2006/02/15 07:55:43  finnerty
+# Added jam compilation system
+#
+#
+
+if $(UNIX)      { SUFSHR ?= .so ; }
+else if $(NT)   { SUFSHR ?= .dll ; }
+
+COMP ?= INTEL ;
+XMLLIB ?= NONE ;
+PTLIB ?= NONE ;
+GUILIB ?= NONE ;
+
+# UNIX = true
+# OS = LINUX
+# OSTYPE = Linux
+# CPU = i686
+#  MACHTYPE = i686-suse-linux
+APPOPTIM = -DNO_LOG -DNO_DbC ;
+
+###################################################################
+##
+##  Definitions for compiler suites (TOOLSETS)
+## 
+###################################################################
+switch $(COMP)
+{
+case CYGWIN :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -Wall -pedantic -ansi -D_POSIX_SOURCE ;
+     C++STD = -Wall -pedantic -D_POSIX_SOURCE ;
+     CCCPP = ;
+     C++CPP = ;
+     SHRFLAGS = -mconsole ;
+     SHRXFLAGS = -shared -D__WIN32__ ;
+     SHRLINKLIBS = ;
+     ARCH = -m32 -march=i686 -msse2 -mfpmath=sse ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case GNU :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -std=c99 -pedantic -D_POSIX_SOURCE ;
+     C++STD = -std=c++98 -pedantic -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_SNPRINTF -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fpic ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -m32 -march=pentium4 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+    # C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -Weffc++ ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+     CCCOMP = -Wall -fpic $(CCSTD) $(CCCPP) ;
+     C++COMP = -Wall -fpic $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case PORTLAND :
+     CC = pgcc ;
+     C++ = pgCC ;
+     CCSTD = -ansi -D_POSIX_SOURCE ;
+     C++STD = -D_BOOL -ansi -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_BACKTRACE  ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -fast $(ARCH) ;
+     C++OPTIMCOMP = -fast $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) -I/usr/opt/pgi/linux86/include ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case INTEL :
+     CC = icc ;
+     C++ = icc ;
+     LINK = icc ;
+     CCSTD = -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     C++STD = -D_BOOL -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_STRERROR_R -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+case SGI :
+     CC = cc ;
+     C++ = CC ;
+     CCSTD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     C++STD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP =  -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+}
+
+################################################
+##
+##  Definitions for DOM libraries
+## 
+################################################
+
+CCDEBUGDOM = ;
+C++DEBUGDOM = ;
+CCOPTIMDOM = ;
+C++OPTIMDOM = ;
+LINKDOM = ;
+
+switch $(XMLLIB)
+{
+case EXPAT :
+     CCDOM = -D$(XMLLIB) ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -lexpat ;
+
+case XERCES :
+     CCDOM = -D$(XMLLIB) -DXML_USE_PTHREADS -I`findoffice`/Software/XML/xerces-c-src2_2_0/include ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -L`findoffice`/Software/XML/xerces-c-src2_2_0/lib -lxerces-c -lpthread ;
+
+case GNOME :
+     CCDOM = -DXML_$(XMLLIB) `pkg-config libxml-2.0 --cflags` ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = `pkg-config libxml-2.0 --libs` ;
+
+case * :
+     CCDOM = ;
+     C++DOM = ;
+     LINKDOM = ;
+}
+
+################################################
+##
+##  Define the \"standard\" flags
+## 
+################################################
+
+CCDEBUGPT = ;
+C++DEBUGPT = ;
+CCOPTIMPT = ;
+C++OPTIMPT = ;
+
+switch $(PTLIB)
+{
+case DEBUG :
+     PTDIR = $(TOP)/../purpletree ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = $(CCPT) ;
+     LINKPT = -L$(PTDIR)/lib -lpurpletree_debug ;
+
+case STD :
+     PTDIR = $(TOP)/../ptdom ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = -I$(PTDIR)/include ;
+     LINKPT = ;
+#     LINKPT = -L$(PTDIR)/lib -lpurpletree ;
+
+case * :
+     CCPT = ;
+     C++PT = ;
+     LINKPT = ;
+
+}
+
+################################################
+##
+##  Define the \"standard\" GUI flags
+## 
+################################################
+
+CCDEBUGGUI = ;
+C++DEBUGGUI = ;
+CCOPTIMGUI = ;
+C++OPTIMGUI = ;
+
+XMTCCGUI = -I/usr/X11R6/include ;
+XMTC++GUI = -I/usr/X11R6/include ;
+XMTLINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+switch $(GUILIB)
+{
+case GTK :
+     CCGUI = `pkg-config libglade-2.0 --cflags` ;
+     C++GUI = `pkg-config libglade-2.0 --cflags` ;
+     LINKGUI = `pkg-config libglade-2.0 --libs` ;
+
+case GTKMM :
+     CCGUI = `pkg-config gtkmm-2.4 --cflags` ;
+     C++GUI = `pkg-config gtkmm-2.4 --cflags` ;
+     LINKGUI = `pkg-config gtkmm-2.4 --libs` ;
+
+case XMT :
+     CCGUI = -I/usr/X11R6/include ;
+     C++GUI = -I/usr/X11R6/include ;
+     LINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+
+case * :
+     CCGUI = ;
+     C++GUI = ;
+     LINKGUI = ;
+
+}
+
+################################################
+##
+##  Define the \"standard\" flags
+## 
+################################################
+
+CCFLAGS += $(CCCOMP) $(CCDOM) $(CCPT) $(CCGUI) ;
+C++FLAGS += $(C++COMP) $(C++DOM) $(C++PT) $(C++GUI) ;
+CCDEBUG += $(CCDEBUGCOMP) $(CCDEBUGDOM) $(CCDEBUGPT) $(CCDEBUGGUI) ;
+C++DEBUG += $(C++DEBUGCOMP) $(C++DEBUGDOM) $(C++DEBUGPT) $(C++DEBUGGUI) ;
+CCOPTIM += $(APPOPTIM) $(CCOPTIMCOMP) $(CCOPTIMDOM) $(CCOPTIMPT) $(CCOPTIMGUI) ;
+C++OPTIM += $(APPOPTIM) $(C++OPTIMCOMP) $(C++OPTIMDOM) $(C++OPTIMPT) $(C++OPTIMGUI) ;
+LINKLIBS += $(LINKCOMP) $(LINKDOM) $(LINKPT) $(LINKGUI) ;
+
+CCFLAGS += $(CCDEBUG) ;
+C++FLAGS += $(C++DEBUG) ;
+LINKFLAGS = $(C++FLAGS) ;
+LINK = $(C++) ;
+
+rule Mprleak
+{
+	local l_log = $(1:S=.log) ;
+	Depends all : $(l_log) ;
+	RunMprleak $(l_log) ;
+	CMD on $(l_log) = $(1) ;
+	LOG on $(l_log) = $(1:S=.mpr) ;
+}
+
+actions ignore RunMprleak
+{
+	rm -f log.*.gz 
+	mpr ./$(CMD) > $(1) 
+	mprleak log.*.gz | mprmap ./$(CMD) | mprchain > $(LOG) 	
+	rm -f log.*.gz 
+}
+
+rule Browse
+{
+	local l_dummy = $(1:S=.dummy) ;
+	Depends $(1) : $(l_dummy) ;
+	BrowseAction $(l_dummy) ;
+	OUT on $(l_dummy) = $(1) ;
+}
+
+
+actions ignore BrowseAction
+{
+	findjsrc | ebrowse --output-file=$(OUT)
+}
+
+# The unit test rules run an executable, capture any output
+# to stdout and stderr and compare these files with a 
+# previous invocation.
+rule Test
+{
+	local f = $(1:S=.out) ;
+	local canon = $(1:S=.canon) ;
+	local match = $(1:S=.match) ;
+	MakeLocate $(f) : $(LOCATE_TARGET) ;
+	MakeLocate $(canon) : $(LOCATE_TARGET) ;
+	MakeLocate $(match) : $(LOCATE_TARGET) ;
+        on $(1) TESTFLAG on $(f) ?= $(TESTFLAG) ;
+        Clean clean : $(match) $(f) ;
+	RunTest $(f) : $(1) ;
+	Depends all : $(match) $(canon) ;
+	Depends $(match) : $(f) $(canon) ;
+	Depends $(f) : $(1) ;
+	File $(canon) : $(f) ;
+        NOUPDATE $(canon) ;
+	DiffResults $(match) : $(f) $(canon) ;
+
+	if $(CANONICAL)
+	{
+		Clean clean : $(canon) ;
+	}
+}
+
+actions ignore RunTest
+{
+$(2) $(TESTFLAG)  2>&1 | tee $(1[1]) > /dev/null
+}
+
+# The cmp command `fails` when the log file and canon differ
+# which is when we want to keep the match.  So we invert the
+# result to get it to keep the results.
+actions DiffResults
+{
+diff $(2) > $(1) 2>&1
+cmp -s $(2) 
+}
+
+
+
+
+# Local Variables:
+# mode: makefile
+# End: 
+"
+    end
+
+    artifact 260137 "TODO.current"
+      comment "Test system convert to boost unit-test
+- change filter-manager class to handle the following
+ - no-command line parameters
+  -> [X] arguments are in config file in [root]/canon/[$argv[0]_args.cpp. Note this
+is not a real C++ sourcefile.
+  -> [ ] convert unit-test to automatically add args to program_options::helper
+ - capture log output into file internally
+  -> create a real log file in test_manager.
+  -> set utility log to use the test_manager log.
+ - internally compare captured output with a canonical example (with diff -ignore opts!)
+  -> add test_manager option 'ignore'
+  -> use 'diff' to compare current log output to [root]/canon/[$argv[0].canon."
+    end
+
+    artifact 261289 "local.jam"
+      stereotype "document"
+      comment "#
+# local.jam
+#
+# Set constants for installation paths
+path-constant VERSIONDIR : \"cchem-1.0\" ;
+path-constant PREFIX : installdir ;
+path-constant EXEC_PREFIX : $(PREFIX) ;
+path-constant BINDIR : $(EXEC_PREFIX)/bin ;
+path-constant SBINDIR : $(EXEC_PREFIX)/sbin ;
+path-constant LIBEXECDIR : $(EXEC_PREFIX)/libexec ;
+path-constant LIBDIR : $(EXEC_PREFIX)/lib ;
+path-constant DATAROOTDIR : $(PREFIX)/share ;
+path-constant DATADIR : $(PREFIX)/share ;
+path-constant SYSCONFDIR : /etc ;
+path-constant SHAREDSTATEDIR : $(PREFIX)/com ;
+path-constant LOCALSTATEDIR : $(PREFIX)/var ;
+path-constant INCLUDEDIR : $(PREFIX)/include ;
+path-constant LOCALEDIR : $(DATAROOTDIR)/locale ;
+path-constant DOCDIR : $(DATAROOTDIR)/doc/$(VERSIONDIR) ;
+path-constant INFODIR : $(DATAROOTDIR)/info ;
+path-constant MANDIR : $(DATAROOTDIR)/man ;
+path-constant HTMLDIR : $(DOCDIR) ;
+path-constant DVIDIR : $(DOCDIR) ;
+path-constant PDFDIR : $(DOCDIR) ;
+path-constant PSDIR : $(DOCDIR) ;
+path-constant MAN1DIR : $(MANDIR)/man1 ;
+path-constant MAN2DIR : $(MANDIR)/man2 ;
+path-constant MAN3DIR : $(MANDIR)/man3 ;
+path-constant MAN4DIR : $(MANDIR)/man4 ;
+path-constant MAN5DIR : $(MANDIR)/man5 ;
+path-constant MAN6DIR : $(MANDIR)/man6 ;
+path-constant MAN7DIR : $(MANDIR)/man7 ;
+path-constant MAN8DIR : $(MANDIR)/man8 ;
+path-constant MANNDIR : $(MANDIR)/mann ;
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+
+"
+    end
+
+    artifact 261417 "buildfile"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "${butter_boost}
+using gcc : : : <cxxflags>\"-std=c++98 -Weffc++\" <linkflags>\"-rdynamic -lz\" <optimization>speed:<cflags>\"-march=native -mfpmath=sse -msse3\" ;
+# using intel : : :  <cxxflags>\"-D_BOOL -wd383,981,869\" <linkflags>\"-i_dynamic -rdynamic -lz\" <optimization>speed:<cflags>\"-tpp7 -xW -ipo\" ;
+
+import string ;
+# For python-extension
+using python ;
+"
+    end
+  end
+end

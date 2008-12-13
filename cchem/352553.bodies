@@ -1,0 +1,27 @@
+class text_in_decor
+!!!1109033.cpp!!!	deserialise_header(inout a_is : std::istream) : void
+//DO
+const boost::regex l_text_rx ("^#([^=]*)=(.*)$", boost::regex::extended);
+const std::string l_title ("TITLE");
+const std::string l_origin ("ORIGIN");
+const std::string l_owner ("OWNER");
+const std::string l_date ("DATE");
+const std::string l_data_type ("DATA_TYPE");
+m_header.clear ();
+while (a_is) {
+  std::string l_line;
+  std::getline (a_is, l_line);
+  boost::smatch l_match;
+  if (not boost::regex_match (l_line, l_match, l_text_rx)) {
+    // End of header
+    break; }
+  if (l_match.size () < 3) {
+    // Error processing file?
+    throw std::exception (); }
+  const std::string l_key (boost::to_upper_copy (l_match.str (1)));
+  if (l_key == l_title) { m_header.title (l_match.str (2)); }
+  else if (l_key == l_origin) { m_header.origin (l_match.str (2)); }
+  else if (l_key == l_owner) { m_header.owner (l_match.str (2)); }
+  else if (l_key == l_date) { m_header.date_string (l_match.str (2)); }
+  else if (l_key == l_data_type) { m_header.data_type (l_match.str (2)); }
+  else { m_header.key (l_key, l_match.str (2)); }}

@@ -1,0 +1,159 @@
+class info_vw
+!!!1049129.cpp!!!	create_list_control(in a_node : purpletree::dom::element) : std::auto_ptr< control::item_ctl >
+  return std::auto_ptr< control::item_ctl >(new control::information_ctl (a_node));
+!!!1049257.cpp!!!	is_changed() : bool
+  // PRE
+  is_valid ();
+  // DO
+  // If a change is not set, test for changes
+  if (not base_t::is_changed ())
+  {
+    // Test for differences
+    if (is_state_four ())
+      {
+        if (name_view->get_text () != control::information_ctl::get_name (get_cursor ()))
+  	{
+  	  on_change ();
+  	}
+        else if (value_view->get_text () != control::information_ctl::get_value (get_cursor ()))
+  	{
+  	  on_change ();
+  	}
+      }
+    else
+      {
+        CHECK (name_view->get_text ().empty ()
+  	     , "Should have no text in information name field.");
+        CHECK (value_view->get_text ().empty ()
+               , "Should have no text in information value field.");
+      }
+  }
+  return base_t::is_changed ();
+!!!1049513.cpp!!!	info_vw(in a_view : base_view)
+  // PRE
+  is_valid ();
+
+!!!1050025.cpp!!!	set_row(in a_row : row_iterator_t, in a_cursor : control::item_iterator) : void
+  // const row_iterator_t & a_row, const item_iterator & a_cursor
+  is_valid ();
+  REQUIRE (not a_cursor.is_null (), "Invalid item iterator");
+  // Convert from datum
+  // DO
+  columns *l_defn = dynamic_cast< columns* >(m_columns.get ());
+  CHECK (NULL != l_defn, "Incorrect column definition.");
+  // Add to tree viev
+  
+  (*a_row)[l_defn->m_name] = Glib::ustring(control::information_ctl::get_name (a_cursor));
+  (*a_row)[l_defn->m_value] = Glib::ustring(control::information_ctl::get_value (a_cursor));
+  // Set iterator.            
+  (*a_row)[l_defn->m_iterator] = a_cursor;
+!!!1050153.cpp!!!	virt_create_item(inout a_cursor : control::item_iterator) : void
+  // DO
+  REQUIRE (not a_cursor.is_null (), "Cannot set values on a null node.");
+  // LOCAL
+  try
+  {
+    std::string l_name (control::information_ctl::get_name (a_cursor));
+    // DO
+    const ui_traits::ask_info l_name_request ("A name for the current information (may not be empty)");
+    do
+      {
+        ui_traits::ask_query (l_name_request, l_name);
+      }
+    while (l_name.empty ());
+  
+    // Set values.
+    control::information_ctl::set_name (a_cursor, l_name);
+  }
+  catch (const std::exception &a_err)
+  {
+    ALWAYS(false, a_err.what ());
+  }
+!!!1050281.cpp!!!	virt_poll() : void
+  // PRE
+  is_valid ();
+  // We know is_changed
+  try
+  {
+    std::string l_name (name_view->get_text ());
+    if (l_name.empty ())
+      {
+        // DO
+        const ui_traits::ask_info l_name_request ("A name for the current information (may not be empty)"
+  						, "Enter text for name or do you want to delete the entry?"
+  						, "Accept"
+  						, std::string()
+  						, "Cancel Edits");
+        do
+  	{
+  	  unsigned int l_ask (ui_traits::ask_query (l_name_request, l_name));
+  // 	  if (ui_traits::NO == l_ask)
+  // 	    {
+  // 	      // Set for delete
+  // 	      // TODO : NO DELETE MECHANISM!!
+  // 	      // - remove entry from model and control
+  // 	      // ** delete_row ()
+  // 	      l_name.clear ();
+  // 	      break;
+  // 	    }
+  // 	  else
+  	  if (ui_traits::CANCEL == l_ask)
+  	    {
+  	      // Update the objects
+  	      name_view->set_text (control::information_ctl::get_name (get_cursor ()));
+  	      value_view->set_text (control::information_ctl::get_value (get_cursor ()));
+  	      // Clear l_name
+  	      l_name.clear ();
+  	      break;
+  	    }
+  	}
+        while (l_name.empty ());
+      }
+    // If l_name is not empty then we want to save the datum.
+    if (not l_name.empty ())
+      {
+        // Set values.
+        control::information_ctl::set_name (get_cursor (), l_name);
+        control::information_ctl::set_value (get_cursor ()
+  					   , value_view->get_text ());
+        
+        set_row (find_row (get_cursor ()), get_cursor ());
+      }
+  }
+  catch (const std::exception &a_err)
+  {
+    ALWAYS(false, a_err.what ());
+  }
+  
+  // Reset change flag.
+  reset_change_flag ();
+!!!1050409.cpp!!!	virt_update() : void
+  // PRE
+  is_valid ();
+  // update REQUIREs not is_changed ()
+  // DO
+  if (is_state_four ())
+  {
+    // Update the objects
+    name_view->set_text (control::information_ctl::get_name (get_cursor ()));
+    value_view->set_text (control::information_ctl::get_value (get_cursor ()));
+    // Update the sensitivity
+    const bool l_not_is_done (not control::page_ctl::is_done (list_control.get ()));
+    name_view->set_sensitive (l_not_is_done);
+    value_view->set_sensitive (l_not_is_done);
+    m_button->set_sensitive (l_not_is_done);
+  }
+  else
+  {
+    const string_t l_empty;
+    // Reset view content
+    name_view->set_text (l_empty);
+    value_view->set_text (l_empty);
+    // Update the sensitivity
+    name_view->set_sensitive (false);
+    value_view->set_sensitive (false);
+    if (not is_state_one ())
+      {
+        m_button->set_sensitive (not control::page_ctl::is_done (list_control.get ()));
+      }
+  }

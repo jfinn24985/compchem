@@ -1,0 +1,14 @@
+class persistence
+!!!1530281.cpp!!!	create(inout a_top : basic_datum, in a_uri : string, in a_is_new : bool) : persistence
+const std::string l_file_scheme (names::file_scheme ());
+std::auto_ptr< persistence > Result;
+if (a_uri.substr (0, l_file_scheme.size ()) == l_file_scheme)
+{
+  Result.reset (new xml_persistence (a_top, a_uri.substr (l_file_scheme.size () + 1), a_is_new));
+}
+else
+{
+  // Assume is a plain filename
+  Result.reset (new xml_persistence (a_top, a_uri, a_is_new));
+}
+return Result;

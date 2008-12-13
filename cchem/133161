@@ -1,0 +1,1126 @@
+format 61
+"//posix" // /compchem/utility:://posix
+  revision 12
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_h_dir "utility"
+  cpp_src_dir "../src/utility"
+  cpp_namespace "utility"
+  comment "A group of classes for accessing properties defined by the POSIX system.  This provides a few extension to Boost libraries at the expense of portability."
+  classview 131113 "posix"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 132393 // posix
+    classdiagram 133929 "Posix helpers"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 335529 "epoch_time"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A time value as represented by the C time_t value."
+      operation 1005609 "is_earlier"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_day" type class_ref 335529 // epoch_time
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_epoch_time < a_day.m_epoch_time;
+}
+"
+	
+	
+	
+	
+	comment "Is earlier date"
+      end
+
+      operation 1005737 "is_same"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_day" type class_ref 335529 // epoch_time
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_epoch_time == a_day.m_epoch_time;
+}
+"
+	
+	
+	
+	
+	comment "Is same date"
+      end
+
+      operation 1005865 "operator std::string"
+	const cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Conversion to string operator.  This can be used to convert epoch_time to a Boost date_time.
+
+\\throw COMPCHEM_ALWAYS, additionally std::string constructor can throw."
+      end
+
+      operation 1005993 "epoch_time"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_epoch_time (time(NULL))
+{
+  COMPCHEM_ALWAYS (m_epoch_time != -1, \"Unable to get system time\");
+}"
+	
+	
+	
+	
+	comment "Default constructor makes a date time that represents now."
+      end
+
+      operation 1006121 "epoch_time"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_time" explicit_type "time_t"
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
+: m_epoch_time (a_time)
+{}
+"
+	
+	
+	
+	
+	comment "Construct time from a POSIC time_t object."
+      end
+
+      operation 1006377 "epoch_time"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_day" type class_ref 335529 // epoch_time
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_epoch_time (a_day.m_epoch_time)
+{}
+"
+	
+	
+	
+	
+	comment "Copy constructor "
+      end
+
+      operation 1013033 "get_epoch_time"
+	const public explicit_return_type "time_t"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw}
+{
+  return m_epoch_time;
+}
+"
+	final 
+	
+	
+	
+	comment "Get the POSIX time_t value"
+      end
+
+      operation 1006505 "operator ="
+	public return_type class_ref 335529 // epoch_time
+	nparams 1
+	  param in name "a_day" type class_ref 335529 // epoch_time
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_epoch_time = a_day.m_epoch_time;
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Copy operator"
+      end
+
+      operation 1012137 "operator>"
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time > rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1012393 "operator>="
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time >= rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1012265 "operator<"
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time < rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1012521 "operator<="
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time <= rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1012649 "operator=="
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time == rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1012777 "operator!="
+	friend public explicit_return_type "bool"
+	nparams 2
+	  param in name "lhs" type class_ref 335529 // epoch_time
+	  param in name "rhs" type class_ref 335529 // epoch_time
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return lhs.m_epoch_time != rhs.m_epoch_time;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1006633 "~epoch_time"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+	comment "Destructor"
+      end
+
+      attribute 226217 "m_epoch_time"
+	private explicit_type "time_t"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 335785 "filesystem_properties"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Access important POSIX properties relating to files. This provides access to the set of file properties from real POSIX compliant file system object.  It also provides convenience functions for accessing POSIX properties relating to files."
+      operation 1007145 "current_directory"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get working directory name
+
+\\post Result may be an empty string.
+\\return An empty string indicates failure."
+      end
+
+      operation 1612457 "current_user"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const char* const l_tmp = getenv (\"LOGNAME\");
+  return (NULL != l_tmp ? std::string (l_tmp) : std::string ());
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1006761 "effective_user"
+	class_operation cpp_inline public explicit_return_type "uid_t"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return geteuid(); }
+"
+	
+	
+	
+	
+	comment "Get the processes effective user ID"
+      end
+
+      operation 1006889 "effective_group"
+	class_operation cpp_inline public explicit_return_type "gid_t"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return getegid(); }
+"
+	
+	
+	
+	
+	comment "Get the processes effective group ID"
+      end
+
+      operation 1008681 "exists"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return (m_stat != NULL);
+}
+"
+	
+	
+	
+	
+	comment "Is there a corresponding file?
+
+\\post exists() implies m_stat != NULL"
+      end
+
+      operation 1007273 "home_directory"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get effective user's home directory name
+
+\\post Return of empty string indicates an error."
+      end
+
+      operation 1008937 "is_block_device"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISBLK(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a block device?
+
+\\pre exists()"
+      end
+
+      operation 1009065 "is_character_device"
+	const cpp_inline public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  REQUIRE (exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISCHR(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a character device?
+
+\\pre exists()"
+      end
+
+      operation 1009193 "is_directory"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISDIR(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a directory?
+
+\\pre exists()"
+      end
+
+      operation 1009321 "is_executable"
+	const public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_user" explicit_type "uid_t"
+	  param in name "a_group" explicit_type "gid_t"
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (S_IXOTH == (S_IXOTH & m_stat->st_mode))
+	|| (S_IXGRP == (S_IXGRP & m_stat->st_mode) && a_group == m_stat->st_gid)
+	|| (S_IXUSR == (S_IXUSR & m_stat->st_mode) && a_user == m_stat->st_uid);
+}
+"
+	
+	
+	
+	
+	comment "Can the effective user read/execute this file object?
+
+\\pre exists()"
+      end
+
+      operation 1009449 "is_file"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISREG(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object related a regular file?
+
+\\pre exists()"
+      end
+
+      operation 1009577 "is_message_queue"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_TYPEISMQ(m_stat));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a POSIX message queue?
+
+\\pre exists()"
+      end
+
+      operation 1007785 "is_openable"
+	class_operation cpp_inline public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_file_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::pair< ${type}, ${type}> ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return is_openable_p (a_file_name, false);
+}
+"
+	
+	
+	
+	
+	comment "Can the effective user open a file with the given filename for reading.
+
+The filename can be relative or absolute.
+
+\\returns A pair of bools.  The first indicates if the file existed at the time the FS was queried.  If the first is true then the second indicates if the file can be openned."
+      end
+
+      operation 1008169 "is_openable_p"
+	class_operation cpp_inline private explicit_return_type "bool"
+	nparams 2
+	  param in name "a_file_name" explicit_type "string"
+	  param in name "a_to_write" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::pair<${type}, ${type}> ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  filesystem_properties l_prop (a_file_name, true);
+  std::pair<${type}, ${type}> Result (l_prop.exists (), false);
+  if (Result.first)
+  {
+    if (a_to_write)
+    {
+      Result.second = l_prop.is_writable (effective_user (), effective_group ());
+    }
+    else
+    {
+      Result.second = l_prop.is_readable (effective_user (), effective_group ());
+    }
+  }
+  return Result;
+}"
+	
+	
+	
+	
+	comment "Test if file can be openned either for reading or writing.
+
+This tests existing files, where it checks the permissions of the file.
+
+\\param a_to_write If false only check if readable.  If true check if writable.
+
+\\returns A pair of bools.  The first indicates if the file existed at the time the FS was queried.  If the first is true then the second indicates if the file is openable/writable depending on a_to_write"
+      end
+
+      operation 1009705 "is_pipe"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE (exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISFIFO(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a pipe/fifo?
+
+\\pre exists()"
+      end
+
+      operation 1009833 "is_readable"
+	const public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_user" explicit_type "uid_t"
+	  param in name "a_group" explicit_type "gid_t"
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (S_IROTH == (S_IROTH & m_stat->st_mode))
+	|| (S_IRGRP == (S_IRGRP & m_stat->st_mode) && a_group == m_stat->st_gid)
+	|| (S_IRUSR == (S_IRUSR & m_stat->st_mode) && a_user == m_stat->st_uid);
+}
+"
+	
+	
+	
+	
+	comment "Can the effective user read this file object?
+
+\\pre exists()"
+      end
+
+      operation 1009961 "is_semaphore"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_TYPEISSEM(m_stat));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a POSIX semaphore?
+
+\\pre exists()"
+      end
+
+      operation 1010089 "is_shared_memory"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_TYPEISSHM(m_stat));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a POSIX shared mempry?
+
+\\pre exists()"
+      end
+
+      operation 1010217 "is_socket"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISSOCK(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a socket?
+
+\\pre exists()"
+      end
+
+      operation 1010345 "is_symlink"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (0 != S_ISLNK(m_stat->st_mode));
+}
+"
+	
+	
+	
+	
+	comment "Is the file system object a symlink (may be \"dangling\")
+
+\\pre exists()"
+      end
+
+      operation 1010473 "is_writable"
+	const public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_user" explicit_type "uid_t"
+	  param in name "a_group" explicit_type "gid_t"
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return (S_IWOTH == (S_IWOTH & m_stat->st_mode))
+	|| (S_IWGRP == (S_IWGRP & m_stat->st_mode) && a_group == m_stat->st_gid)
+	|| (S_IWUSR == (S_IWUSR & m_stat->st_mode) && a_user == m_stat->st_uid);
+}
+"
+	
+	
+	
+	
+	comment "Can the effective user write to this file object?
+
+\\pre exists()"
+      end
+
+      operation 1008041 "is_writable"
+	class_operation cpp_inline public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_file_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::pair< ${type}, ${type}> ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return is_openable_p (a_file_name, true);
+}
+"
+	
+	
+	
+	
+	comment "Can the effective user open an existing file with the given filename for writing.
+
+The filename can be relative or absolute. 
+
+\\returns A pair of bools.  The first indicates if the file existed at the time the FS was queried.  If the first is true then the second indicates if the file is writable"
+      end
+
+      operation 1008809 "size"
+	const public explicit_return_type "uint"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE (exists (), \"Cannot get size of non-existant file\");
+  return m_stat->st_size;
+}
+"
+	
+	
+	
+	
+	comment "Get the size (in bytes) of a file or symlink.
+
+\\pre exists()"
+      end
+
+      operation 1010601 "time_access"
+	const public return_type class_ref 335529 // epoch_time
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual} ${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return ${type} (m_stat->st_atime);
+}
+"
+	
+	
+	
+	
+	comment "Time of last call by execve(2), mknod(2), pipe(2), utime(2) or read(2).
+
+\\pre exists()"
+      end
+
+      operation 1010729 "time_change"
+	const public return_type class_ref 335529 // epoch_time
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return ${type} (m_stat->st_ctime);
+}
+"
+	
+	
+	
+	
+	comment "Time set by last write or changed inode information (i.e., owner, group, link count, mode, etc.).
+
+\\pre exists()"
+      end
+
+      operation 1010857 "time_modification"
+	const public return_type class_ref 335529 // epoch_time
+	nparams 0
+	nexceptions 1
+	  exception class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  COMPCHEM_REQUIRE(exists (), \"Cannot get property of non-existant file\");
+  return ${type} (m_stat->st_mtime);
+}
+"
+	
+	
+	
+	
+	comment "Time of last file modifications, e.g. by mknod(2), truncate(2), utime(2) and write(2) (of more than zero bytes). For a directory; last creation or deletion of files.
+
+\\pre exists()"
+      end
+
+      operation 1010985 "filesystem_properties"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param in name "a_filename" explicit_type "string"
+	  param in name "a_follow_link" explicit_type "bool"
+	    defaultvalue "false"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, ${t1} ${p1} = false${)}${volatile}${throw}
+: m_stat (new struct stat)
+{
+  COMPCHEM_REQUIRE(!a_filename.empty(), \"Cannot get properties of file without name\");
+  int l_exists;
+#if (defined __USE_BSD || defined __USE_XOPEN_EXTENDED)
+  if (a_follow_link)
+  {
+    l_exists = stat (a_filename.c_str (), m_stat);
+  }
+  else
+  {
+    l_exists = lstat (a_filename.c_str (), m_stat);
+  }
+#else
+  l_exists = stat (a_filename.c_str (), m_stat);
+#endif
+  if (0 != l_exists)
+  {
+    delete m_stat;
+    m_stat = NULL;
+  }
+}"
+	
+	
+	
+	
+	comment "Get properties of named file system object.
+
+\\param a_filename The absolute or relative name of a file system object.
+
+\\param a_follow_link Optional argument to indicate differential behavior with symlinks. The default (false) behavior is to examine properties of a symlilnk.  When true, the properties of the linked-to file are examined. (This only works if compiled with when __USE_BSD or __USE_XOPEN_EXTENDED are defined; otherwise this is silently ignored.)
+
+\\pre !a_filename.empty()
+
+\\throw DBC_EXCEPT and from new operator"
+      end
+
+      operation 1011113 "~filesystem_properties"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  if (exists ())
+  {
+    delete m_stat;
+  }
+}
+"
+	
+	
+	
+	
+	comment "\\brief Destructor"
+      end
+
+      operation 1011241 "filesystem_properties"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_stat (NULL)
+{}
+"
+	
+	
+	
+	
+	comment "Default constructor
+
+\\post exists() = false"
+      end
+
+      operation 1011369 "filesystem_properties"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_prop" type class_ref 335785 // filesystem_properties
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_stat (((a_prop.exists ())?(new struct stat):(NULL)))
+{
+  if (a_prop.exists ())
+  {
+    memcpy(m_stat, a_prop.m_stat, sizeof(struct stat));
+  }
+}
+"
+	
+	
+	
+	
+	comment "Copy constructor
+
+\\throws may throw from new operator"
+      end
+
+      operation 1011497 "operator ="
+	public return_type class_ref 335785 // filesystem_properties
+	nparams 1
+	  param in name "a_prop" type class_ref 335785 // filesystem_properties
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (exists ())
+  {
+    if (!a_prop.exists ())
+    {
+      delete m_stat;
+    }
+  }
+  else
+  {
+    if (a_prop.exists ())
+    {
+      m_stat = new struct stat;
+    }
+  }
+  if (a_prop.exists ())
+  {
+    memcpy(m_stat, a_prop.m_stat, sizeof(struct stat));
+  }
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Copy operator"
+      end
+
+      attribute 226345 "m_stat"
+	private explicit_type "stat"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}struct ${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+  end
+
+  deploymentview 132393 "posix"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 158249 "posix"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 146473 // filesystem_properties
+      end
+      comment "C++ interface to some POSIX utilities.  These are not portable to non-POSIX systems and boost equivalents are preferrable whenever possible."
+    end
+
+    artifact 146729 "epoch_time"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+// C++ standard C library header for time functions.
+#include <ctime>
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 335529 // epoch_time
+      end
+    end
+
+    artifact 146473 "filesystem_properties"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+// Std C++ includes
+#include <cerrno>
+// Selective includes for this type.
+#ifdef HAVE_UNISTD_H
+extern \"C\"
+{
+# include <libgen.h>
+# include <sys/types.h>
+# include <unistd.h>
+# include <pwd.h>
+}
+#else
+#error Need POSIX - define HAVE_UNISTD_H if present
+#endif
+
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#else
+#error Need stat - define HAVE_SYS_STAT_H if present
+#endif
+
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+// --
+#include <boost/scoped_array.hpp>
+// --
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 335785 // filesystem_properties
+      end
+    end
+  end
+end

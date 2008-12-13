@@ -1,0 +1,103 @@
+class gaussian_stable
+!!!1066537.cpp!!!	can_process(inout a_filter : base_filter_traits, in a_filetype_info : char, in a_isize : int, in a_subtype_info : char, in a_ssize : int, in a_filetype_flags : int, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result (ON_FAILURE);
+try {
+  boost::regex l_command_re ("[[:space:]]stable[[:space:](=]"
+      , boost::regex::extended | boost::regex::icase);
+  // DO
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter object is invalid.");
+  COMPCHEM_CHECK (a_filter->m_internal_state == NULL
+                  , "Filter state should be nul when calling can_process.");
+  // Test Gaussian "command" phrase matches our test regular expression
+  if (boost::regex_search (a_subtype_info, a_subtype_info + a_ssize, l_command_re)) {
+    // Create state object
+    a_filter->m_internal_state = new gaussian_stable;
+    Result = ON_SUCCESS; }}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;
+!!!1066665.cpp!!!	process_segment(inout a_filter : base_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
+int Result (ON_SUCCESS);
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter object is invalid");
+  gaussian_stable * l_state = static_cast< gaussian_stable * > (a_filter->m_internal_state);
+  COMPCHEM_CHECK (NULL != l_state, "Invalid filter with a nul state object.");
+  COMPCHEM_CHECK (a_segment[a_ssize] == '\0', "Segment not nul terminated.");
+  // short cut if 0 = l_state->m_count
+  if (0 != l_state->m_count) {
+    if (0 > l_state->m_count) {
+      if (boost::regex_search (a_segment, a_segment + a_ssize, l_state->m_search_re)) {
+        LOG ("Found match to regular expression"); // 63
+        LOG (l_state->m_result); // 64
+        // Match found, grab next 26 lines
+        l_state->m_count = 10;
+        // Add newline to cached preceding line
+        l_state->m_result.append (1, '\n'); }
+      else {
+        // We need to cache the line preceding the match, so we keep a copy of each line
+        l_state->m_result .assign (a_segment, a_ssize); }}
+  
+    if (0 < l_state->m_count) {
+      LOG (a_segment); // 75
+      // We need to grab lines following a match
+      l_state->m_result.append (a_segment, a_ssize);
+      // Add newline
+      l_state->m_result.append (1, '\n');
+      LOG (l_state->m_result); // 79
+      if (1 == l_state->m_count) {
+        const std::string l_temp (a_segment, a_ssize);
+        if (std::string::npos != l_temp.find ("Leave Link")
+  	  || std::string::npos != l_temp.find ("*********")) {
+  	--(l_state->m_count); }}
+      else {
+        // Decrement, when zero we have finised
+        --(l_state->m_count); }}}}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+return Result;
+!!!1066921.cpp!!!	output(inout a_filter : base_filter_traits, inout a_cb_data : any, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result (ON_SUCCESS);
+try {
+  gaussian_stable * l_state = static_cast< gaussian_stable * > (a_filter->m_internal_state);
+  // DO
+  if (not l_state->m_result.empty ()) {
+    // - Get top element (assume is ??)
+    // - Create new element
+    datum_writer l_dipole;
+    l_dipole.outcome ("stability_check");
+    // - Set content
+    l_dipole.content (l_state->m_result);
+    std::stringstream l_final;
+    l_dipole.serialise (l_final);
+    (*(a_filter->m_output_cb))(a_cb_data, l_final.str ().data (), l_final.str ().size ()); }
+  else {
+    // ERROR: Have no result string.
+    utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+    std::ostream l_err (&l_errbuf);
+    l_err << a_filter->m_name << ": Error, no stability result found.";
+    Result = ON_ERROR; }}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;

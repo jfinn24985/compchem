@@ -1,0 +1,49 @@
+class unit_test
+!!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : char, in a_failmsg : char) : void
+if (a_test)
+{
+  log () << IFYS << "   passed   : " << a_msg << "\n";
+}
+else
+{
+  log () << IFNO << " **failed** : ";
+  if (NULL != a_failmsg)
+  {
+    log () << a_failmsg;
+  }
+  else
+  {
+    log () << a_msg;
+  }
+  log () << "\n";
+}
+!!!1353385.cpp!!!	monitor_function(in a_lvl : uint, in a_fn : funtion_t, in a_msg : string = ="") : void
+try
+{
+  if (not a_msg.empty ())
+  {
+    log () << WTCH << a_msg << "\n";
+  }
+  a_fn();
+  log () << IFNO << "Should not get here:\n";
+}
+catch (const utility::contract_error &err)
+{
+  const std::string l_what (err.what (), 256);
+  if (err.level == a_lvl)
+  {
+    log () << IFYS << "Caught contract error of correct level [" << err.level << "]\n" << l_what << "\n";
+  }
+  else
+  {
+    log () << IFNO << "Caught contract error of incorrect level [" << err.level << "]\n" << l_what << "\n";
+  }
+}
+catch (const std::exception &err)
+{
+  log () << IFNO << "Caught std::exception:\n" << err.what () << "\n";
+}
+catch (...)
+{
+  log () << IFNO << "Caught non-standard exception!\n";
+}

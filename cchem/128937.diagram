@@ -1,0 +1,75 @@
+format 55
+
+usecasecanvas 128297 usecase_ref 128297 // user-authentication
+  xyzwh 422 191 3005 64 32 label_xy 393 223
+usecasecanvas 128425 usecase_ref 128425 // edit-project
+  xyzwh 61 295 3005 64 32 label_xy 39 327
+usecasecanvas 128553 usecase_ref 128553 // database-connect
+  xyzwh 451 87 3005 64 32 label_xy 426 119
+usecasecanvas 128681 usecase_ref 128681 // project-select
+  xyzwh 397 317 3005 64 32 label_xy 387 349
+usecasecanvas 129577 usecase_ref 128937 // view-project
+  xyzwh 85 179 3005 64 32 label_xy 79 211
+usecasecanvas 130601 usecase_ref 129065 // online-edit
+  xyzwh 30 399 3005 64 32 label_xy 29 431
+usecasecanvas 130729 usecase_ref 129193 // merge-document
+  xyzwh 141 428 3005 64 32 label_xy 119 460
+usecasecanvas 132137 usecase_ref 129321 // view_core_types
+  xyzwh 37 80 3005 64 32 label_xy 16 112
+usecasecanvas 132265 usecase_ref 129449 // load_plugin
+  xyzwh 146 83 3009 64 32 label_xy 142 115
+classcanvas 138025 class_ref 180393 // project_cursor
+  class_drawing_mode default show_context_mode default
+  xyz 276 291 3005
+classcanvas 139049 class_ref 180265 // source
+  class_drawing_mode default show_context_mode default
+  xyz 634 82 3010
+classcanvas 139305 class_ref 180137 // worker_type
+  class_drawing_mode default show_context_mode default
+  xyz 270 143 3009
+packagecanvas 140073 
+  package_ref 131625 // report
+    xyzwh 6 34 3000 240 449
+packagecanvas 140201 
+  package_ref 131369 // data_source
+    xyzwh 273 32 3009 280 346
+packagecanvas 140329 
+  package_ref 131241 // /compchem/supplier
+    xyzwh 299 399 3010 287 183
+line 129705 --->
+  from ref 128681 z 3004 to point 367 317
+  line 140457 z 3004 to point 367 347
+  line 140585 z 3004 to ref 128681
+simplerelationcanvas 131113 simplerelation_ref 128553
+  from ref 128425 z 3004 to ref 129577
+simplerelationcanvas 133673 simplerelation_ref 129705
+  from ref 129577 z 3004 stereotype "<<include>>" xyz 52 144 3000 to ref 132137
+simplerelationcanvas 133801 simplerelation_ref 129833
+  from ref 129577 z 3004 stereotype "<<include>>" xyz 106 145 3000 to ref 132265
+line 134057 --->
+  from ref 132265 z 3004 label "get plugin" xyz 297 80 3004 to ref 128553
+simplerelationcanvas 135209 simplerelation_ref 129961
+  from ref 128425 z 3004 stereotype "<<include>>" xyz 93 376 3000 to ref 130729
+simplerelationcanvas 135337 simplerelation_ref 130089
+  from ref 128425 z 3004 stereotype "<<include>>" xyz 36 361 3000 to ref 130601
+line 137129 --->
+  from ref 128553 z 3004 label "get credentials" xyz 419 135 3004 to ref 128297
+line 137257 --->
+  from ref 128681 z 3004 label "get credentials" xyz 393 250 3004 to ref 128297
+line 138153 --->
+  from ref 128681 z 3004 label "create" xyz 348 300 3004 to ref 138025
+line 138281 --->
+  from ref 129577 z 3004 label "read dataset" xyz 181 234 3004 to ref 138025
+line 138409 --->
+  from ref 128425 z 3004 label "write dataset" xyz 171 289 3004 to ref 138025
+line 139177 --->
+  from ref 128553 z 3004 label "perform-request" xyz 523 83 3004 to ref 139049
+line 139433 --->
+  from ref 139305 z 3004 label "select database" xyz 339 113 3004 to ref 128553
+line 139561 --->
+  from ref 139305 z 3004 label "view data" xyz 187 156 3004 to ref 129577
+line 139689 --->
+  from ref 139305 z 3004 label "select project" xyz 326 231 3004 to ref 128681
+line 139817 --->
+  from ref 128297 z 3004 label "who are you" xyz 335 163 3004 to ref 139305
+end

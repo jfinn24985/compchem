@@ -1,0 +1,139 @@
+class state_b
+!!!1072425.cpp!!!	process_default(inout a_filter : basic_filter_traits, in a_buffer : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+try
+{
+// DO
+// The b filter is called when there will not be a valid
+// archive at the end of the file. The filter therefore needs to get
+// as much information as possible from beginning section of the
+// file.
+
+// The strings passed to the function contains the header section of
+// the Gaussian file. This is everything from the first line to the
+// line beginning "Leave Link 101...". We search through it
+// gathering bits of information as we go. We use a simple case
+// statement to help order the sequence of events. Note that this
+// really has no error detection, so failure to find one part might
+// cause subsequent sections to fail. Hopefully, this section of the
+// output file is reasonable ordered so this should never be a
+// problem.
+
+// When m_state == 7 then we have finished the header section
+  DLOG ("[");
+  DLOG (m_state);
+  DLOG ("]: ");
+  DLOG (a_buffer);
+  DLOG ("\n");
+  switch (m_state)
+  {
+  case VERSION_SEARCH:
+    // In this state we are searching for the version information indicator which
+    // starts with a series of "******" stars.
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_version_re))
+    {
+      m_state = COMMAND_SEARCH;
+    }
+    break;
+  case COMMAND_SEARCH:		// fall through
+    // We have got the version indicator now we are looking for
+    // the command line(s) indicator, this starts with the next line of
+    // "------------"
+  case COMMAND_FOUND:		// fall through
+    // We are in the gaussian command line(s), now search for the end of the command line
+    // before searching for the title.
+  case TITLE_SEARCH:
+    // We are afte the gaussian command line(s), now search for the indicator line
+    // for the title.
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_title_divider_re))
+    {
+      ++m_state;
+    }
+    break;
+  case TITLE_FOUND:
+    // We are in the gaussian title line. Lets keep it.
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_title_divider_re))
+    {
+      // Found second divider line, end of title line(s)
+      DLOG ("TITLE = " + m_result_set[TITLE].content);
+      m_state = BASIS_SEARCH;
+    }
+    else
+    {
+      // We have the title string now, lets store it in the results
+      m_result_set[TITLE].content.append (a_buffer, a_sz);
+    }
+    break;
+  case BASIS_SEARCH:
+    // Finished parsing the header section.
+    // Find the basis-set by looking for the string "Standard basis"
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_basis_re))
+    {
+      // Now we need to add the basis-set to the results
+      std::vector < std::string > l_split_line;
+      const std::string l_temp (a_buffer, a_sz);
+      boost::split (l_split_line, l_temp, boost::is_space (), boost::token_compress_on);
+      for (unsigned int l_index (3); l_index < l_split_line.size (); ++l_index)
+      {
+	m_result_set[BASIS_SET].content.append (l_split_line[l_index]);
+      }
+      DLOG ("BASIS_SET = " + m_result_set[BASIS_SET].content);
+      // Set to search for the method.
+      m_state = METHOD_SEARCH;
+    }
+    break;
+  case METHOD_SEARCH:
+    // Find the method searching for "SCF Done" line
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_method_re))
+    {
+      // Now we need to add the method-set to the results
+      std::vector < std::string > l_split_line;
+      const std::string l_temp (a_buffer, a_sz);
+      boost::split (l_split_line, l_temp, boost::is_space (), boost::token_compress_on);
+      m_result_set[CALC_METHOD].content.assign (l_split_line[3]);
+      DLOG ("CALC_METHOD = " + m_result_set[CALC_METHOD].content);
+      // Search for dipole
+      m_state = DIPOLE_SEARCH;
+    }
+    break;
+  case TERM_SEARCH:
+    {
+      Result = process_termination (a_filter, a_buffer, a_sz);
+      if (CCHEM_SUPPLIER_COMPLETE == Result)
+      {
+	m_state = COMPLETED_SEARCH;
+      }
+    }
+    break;
+  case COMPLETED_SEARCH:	//Fall through to error
+  default:
+    {
+      // The default case is an error
+      set_error (a_filter, "Unknown or invalid state in gaussian_summary filter");
+      Result = CCHEM_SUPPLIER_FATAL;
+    }
+    break;
+  }
+}
+catch (const std::exception & a_err)
+{
+  set_error (a_filter, a_err.what ());
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+catch (...)
+{
+  set_error (a_filter, "Unknown error.");
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+// END
+return Result;
+!!!1072937.cpp!!!	state_b()
+: gaussian_summary (VERSION_SEARCH)
+, m_basis_re ("standard basis", boost::regex::icase)
+, m_method_re ("SCF Done")
+, m_title_divider_re ("-----+", boost::regex::extended)
+, m_version_re ("\\*{20,}", boost::regex::extended)
+{
+  m_result_set [CALC_TYPE].content.assign ("IRC");
+}

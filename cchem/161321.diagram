@@ -1,0 +1,21 @@
+format 55
+
+classinstancecanvas 128041 classinstance_ref 129321 // a_memo
+  xyz 60 59 2000
+  end
+classinstancecanvas 128169 classinstance_ref 129449 // a_map
+  xyz 271 65 2000
+  end
+classinstancecanvas 128297 classinstance_ref 129577 // a_parser
+  xyz 184 144 2000
+  end
+objectlinkcanvas 128425 norel
+  from ref 128041 z 1999 to ref 128297
+  no_role_a no_role_b
+objectlinkcanvas 128553 norel
+  from ref 128041 z 1999 to ref 128169
+  no_role_a no_role_b
+objectlinkcanvas 128681 norel
+  from ref 128297 z 1999 to ref 128169
+  no_role_a no_role_b
+end

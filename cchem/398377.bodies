@@ -1,0 +1,65 @@
+class generic_filetype
+!!!1279657.cpp!!!	test_stream(out a_is : istream) : bool
+REQUIRE (NULL != a_is.get (), "Cannot use a nul stream");
+REQUIRE (can_test_stream (), "No matching infrastructure has been set up or already have stream");
+bool Result (false);
+static const unsigned int l_sz (32*1024);
+boost::scoped_array< char > l_buf (new char[l_sz]);
+unsigned int l_offset (0);
+// While a_is is valid and the matchers both have no results and
+// they both can still match read a segment of the file and pass
+// it to the matchers.
+while ((*a_is) and not m_mechanism->have_result () and not m_mechanism->no_match ()) {
+  if (m_mechanism->line_oriented ()) {
+    a_is->getline (l_buf.get (), l_sz); }
+  else {
+    a_is->read (l_buf.get (), l_sz); }
+  const unsigned int l_readsz (a_is->gcount ());
+  m_mechanism->match (l_buf.get (), l_readsz, l_offset);
+  l_offset += l_readsz; }
+if (m_mechanism->have_result ()) {
+#ifndef NO_LOG
+  std::cout << "Generic filetype got mechanism [" << m_mechanism->result () << "]\n";
+#endif
+  // Can we reuse the buffer from m_mechanism search?
+  bool l_cache (not m_subtype->line_oriented () and 0 == l_offset);
+  if (not l_cache) {
+    // Move back to the beginning of the file. 
+    a_is->seekg (0);
+    l_offset = 0; }
+  while ((*a_is) and not m_subtype->have_result () and not m_subtype->no_match ()) {
+    if (m_subtype->line_oriented ()) {
+      DLOG("In line oriented mode: ");
+      a_is->getline (l_buf.get (), l_sz); }
+    else {
+      DLOG("In array mode: ");
+      if (not l_cache) {
+        a_is->read (l_buf.get (), l_sz); }
+      else { // Can only reuse first buffer.
+        DLOG("(reuse) ");
+        l_cache = false; }}
+    const unsigned int l_readsz (a_is->gcount ());
+    DLOG("read in "); DLOG(l_readsz); DLOG("\n");
+    m_subtype->match (l_buf.get (), l_readsz, l_offset);
+    l_offset += l_readsz; }
+#ifndef NO_LOG
+  if (m_subtype->have_result ()) {
+    std::cout << "Generic filetype got subtype [" << m_subtype->result () << "]\n"; }
+  else {
+    std::cout << "Generic filetype has no subtype match\n"; }
+#endif
+  if (m_subtype->have_result ()) {
+    // Have our filetype!
+    Result = true; }}
+#ifndef NO_LOG
+else {
+  // to "if (m_mechanism->have_result ())"
+  std::cout << "Generic filetype has no mechanism match\n"; }
+#endif
+// Move stream back to the beginning.
+a_is->seekg (0);
+// Capture result if match
+if (Result) {
+  m_stream = a_is; }
+COMPCHEM_ENSURE (not Result or NULL == a_is.get (), "Have match but did not capture stream.");
+return Result;

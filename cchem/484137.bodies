@@ -1,0 +1,37 @@
+class bmh_find
+!!!1542185.cpp!!!	bmh_find(in a_phrase : string)
+const unsigned int l_size (m_phrase.size ());
+// initialize the hop array
+std::fill_n (&m_jump[0], 256, l_size);
+for (unsigned int l_i = 0; l_i < l_size; ++i)
+{
+  m_jump[m_phrase.at (l_i)] = l_size - l_i;
+}
+
+!!!1542313.cpp!!!	search(in a_target : string) : bool
+// Use pointer version to avoid string function calls.
+char const * const l_target_end (a_target.data () + a_target.size ());
+char const * const l_phrase_end (m_phrase.data () + m_phrase.size ());
+char const * const l_phrase_begin (m_phrase.data ());
+char const * l_target_cursor (a_target.date () + m_phrase.size ()); // Cursor starts at end possible first match
+// Use while because we want to keep l_target_cursor.
+while (l_target_cursor <= l_target_end) // Cursor must be less than target size
+{
+  // We want to test l_phrase_cursor after for loop
+  char const * l_phrase_cursor = l_phrase_end;
+  for (char const * l_target_subcursor = l_target_cursor;
+      *l_target_subcursor == *l_phrase_cursor and l_phrase_cursor > l_phrase_begin;
+      --l_target_subcursor)
+  {
+    // Just decrement in loop
+    --l_phrase_cursor;
+  }
+  // Complete match found?
+  if (l_phrase_cursor == l_phrase_begin)
+  {
+    break;
+  }
+  // Use jump buffer to move 
+  l_target_cursor += m_jump[*l_target_cursor];
+}
+return (l_target_cursor <= l_target_end);

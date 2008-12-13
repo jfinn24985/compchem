@@ -1,0 +1,34 @@
+class script_section
+!!!1245993.cpp!!!	find_variable(in a_str : string, out a_start : uint, out a_end : uint) : string
+// Find occurences of '%var%' and return "var" and set a_start and a_end
+std::string Result;
+a_start = 0;
+do {
+  if (0 != a_start) { ++a_start; } // To actually skip single '%'s
+  a_start = a_str.find ('%', a_start); }
+while (std::string::npos != a_start
+      and '%' != a_str[a_start + 1]); // Skip single '%'s
+if (std::string::npos != a_start) { // Found '%%'
+  a_end = a_str.find ('%', a_start + 2);
+  ++a_end;
+  COMPCHEM_ALWAYS ('%' == a_str[a_end], "Parse error, expected '%%[var]%%' but got '%%[var]%'");
+  Result = a_str.substr (a_start + 2, a_end - a_start - 4); }
+return Result;
+!!!1244073.cpp!!!	make_substitutions(in a_str : string, in a_scope : scope) : string
+unsigned l_start (0), l_end (0);
+std::string Result (a_str);
+do {
+  std::string l_var (find_variable (Result, l_start, l_end));
+  if (not l_var.empty ()) {
+    std::string l_subs; // The substitution string
+    unsigned int l_pos (l_var.find (':'));
+    if (std::string::npos != l_pos) { // Has subpart, %%1:xbasis%% call alt fn
+      std::string l_tmp (l_var.substr (l_pos));
+      l_var.resize (l_pos);
+      l_subs = a_scope.subvalue (l_var, l_tmp, base_resource ()); }
+    else {
+      l_subs = a_scope.value (l_var, base_resource ()); }
+    // Make substitution
+    Result.replace (l_start, l_end - l_start, l_subs); }}
+while (std::string::npos != l_start);
+return Result;

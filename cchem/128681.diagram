@@ -1,0 +1,51 @@
+format 24
+
+classcanvas 133545 class_ref 135465 // program
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 80 596 2010
+classcanvas 134185 class_ref 135593 // project
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  hidden_operations
+    operation_ref 336937 // get_information
+    operation_ref 322473 // get_label
+    operation_ref 337321 // project
+    operation_ref 337449 // ~project
+    operation_ref 337577 // project
+    operation_ref 337705 // operator=
+  xyz 299 591 2015
+classcanvas 143657 class_ref 330665 // datum_base
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 14 5 2000
+classcanvas 143913 class_ref 327593 // experiment
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 516 571 3005
+classcanvas 144553 class_ref 328489 // restricted_object
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 261 17 2005
+relationcanvas 144681 relation_ref 256297 // <generalisation>
+  from ref 143913 z 1999 to ref 144553
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 144809 relation_ref 256425 // <generalisation>
+  from ref 134185 z 1999 to ref 144553
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 144937 relation_ref 256553 // <generalisation>
+  from ref 133545 z 1999 to ref 144553
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 147881 relation_ref 257321 // <generalisation>
+  from ref 144553 z 1999 to ref 143657
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 148521 relation_ref 258601 // <directional aggregation>
+  from ref 143657 z 1999 to point 186 37
+  line 148649 z 1999 to point 186 67
+  line 148777 z 1999 to ref 143657
+  role_a_pos 171 99 3000 no_role_b
+  multiplicity_a_pos 143 99 3000 no_multiplicity_b
+relationcanvas 148905 relation_ref 251945 // <aggregation>
+  from ref 134185 z 2014 stereotype "<<set>>" xyz 453 751 3000 to ref 143913
+  role_a_pos 427 737 3000 role_b_pos 451 721 3000
+  multiplicity_a_pos 500 770 3000 multiplicity_b_pos 451 754 3000
+end

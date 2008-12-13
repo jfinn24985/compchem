@@ -1,0 +1,115 @@
+class xml_search
+!!!189737.cpp!!!	start_element(in tag : char, in attrib_dict : char) : xml_import_manager
+  DEBUG( "xml_search::start_element -> entered");
+  DEBUG( "xml_search::start_element -> arg[1] = ", tag);
+  DEBUG( "xml_search::start_element -> depth = ", _depth);
+  DEBUG( "xml_search::start_element -> cursor = ", _cursor);
+  // define element matching boolean.
+  bool match = false;
+  if ( !_output && _search_criteria[ _cursor ].first == tag ) {
+    // If we are currently not sending output, check for match
+    DEBUG( "xml_search::start_element -> output != true");
+    DEBUG( "xml_search::start_element -> tag matched");
+    // tag match, check attributes
+    if ( attrib_dict ) {
+      DEBUG( "xml_search::start_element -> have attributes");
+      unsigned int counter = 0;
+      for ( int i = 0; 
+	    NULL != attrib_dict[i] || NULL != attrib_dict[i + 1]; 
+	    i += 2 ) {
+	DEBUG( "xml_search::start_element -> checking", i);
+	_std::map< _std::string, _std::string >::iterator _chk;
+	_chk = _search_criteria[ _cursor ].second.find( _std::string(attrib_dict[i]) );
+	if ( _chk != _search_criteria[ _cursor ].second.end() &&
+	     (*_chk ).second == _std::string(attrib_dict[i+1]) ) {
+	  ++counter;
+	};
+	DEBUG( "xml_search::start_element -> matches so far", counter);
+      };
+      // Passed all attribs, if counter == _search_criteria[ _cursor ].second.size() 
+      // then all matched
+      if ( counter >= _search_criteria[ _cursor ].second.size() ) {
+	match = true;
+      };
+      DEBUG( "xml_search::start_element -> attributes done");
+    };
+    
+    if ( match ) {
+      // Increment search depth 
+      ++_cursor;
+      DEBUG( "xml_search::start_element -> have match");
+      // Check to see if all criteria have been met
+      if ( _cursor >= _search_criteria.size() ) {
+	_output = true;
+      };
+    };
+  };
+  if ( _output ) {
+    // If we have output request, then do it!
+    _os << "<" << tag;
+    if ( attrib_dict ) {
+      for ( int i = 0; 
+	    NULL != attrib_dict[i] || NULL != attrib_dict[i + 1]; 
+	    i += 2 ) {
+	_os << " " << attrib_dict[i];
+	if ( attrib_dict[i + 1] ) 
+	  _os << "=\"" << attrib_dict[i + 1] << "\"";
+	else 
+	  _os << "";
+      };
+    };
+    _os << ">";
+  };
+  // Set the boolean for this level
+  if ( _depth < _match_level.size() ) {
+    DEBUG( "xml_search::start_element -> set the boolean using []");
+    _match_level[_depth] = match;
+  } else {
+    DEBUG( "xml_search::start_element -> set the boolean using push");
+    _match_level.push_back( match );
+  };
+  // Increment depth counter.
+  ++_depth;
+  DEBUG( "xml_search::start_element -> done");
+  return this;
+!!!189865.cpp!!!	end_element(in tag : char) : xml_import_manager
+  DEBUG( "xml_search::end_element -> entered");
+  DEBUG( "xml_search::end_element -> arg[1] = ", tag);
+  // Decrement depth counter.
+  --_depth;
+  if ( _output ) {
+    _os << "</" << tag << ">";
+  };
+  // Check the boolean for this level,
+  if ( _match_level[_depth] ) {
+    DEBUG( "xml_search::end_element -> match at this level, decrementing cursor");
+    --_cursor;
+    if ( _cursor < _search_criteria.size() ) {
+      _output = false;
+    };
+    _match_level[_depth] = false;
+  };
+  DEBUG( "xml_search::end_element -> depth = ", _depth);
+  return this;
+!!!189993.cpp!!!	characters(in data : char, in len : int) : xml_import_manager
+  DEBUG( "xml_search::characters -> entered");
+  if ( _output ) {
+    _std::string cdata;
+    cdata.append( data, len );
+    _os << cdata;
+  };
+  return this;
+!!!190121.cpp!!!	add_search_criteria(in tagname : char, in search_dict : char) : void
+  // map< _std::string, _std::pair< _std::string, _std::string > > _search_criteria
+  DEBUG("xml_search::add_search_criteria -> entered");
+  if ( tagname && search_dict ) {
+    _std::map< _std::string, _std::string > _l_map;
+    for ( int i = 0; 
+	  NULL != search_dict[i] || NULL != search_dict[i + 1]; 
+	  i += 2 ) {
+      _l_map.insert( make_pair( _std::string(search_dict[i]),
+				_std::string(search_dict[i+1]) ) );
+    };
+    _search_criteria.push_back( make_pair( _std::string(tagname), _l_map ) );
+    DEBUG("xml_search::add_search_criteria -> added map of size ", _l_map.size() );
+  };

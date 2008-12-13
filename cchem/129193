@@ -1,0 +1,2612 @@
+format 61
+"filter" // /compchem/supplier::filter
+  revision 87
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_h_dir "supplier/filter"
+  cpp_src_dir "../src/supplier/filter"
+  cpp_namespace "supplier::filter"
+  ncouples 1
+  key "PREFIX" value "COMPCHEM_FILTER_"
+  comment "This contains the filter for specific mechanism types."
+  classview 145065 "plugin"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 144041 // plugin
+    comment "The classes to support creating a plugin filter from the external library
+side."
+    classdiagram 149289 "plugin types"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 488489 "datum_proxy"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class holds details of a datum object and can output these
+using the direct methods of basic_datum_traits. Nesting of
+datum objects via this proxy is not supported.
+"
+      classrelation 517929 // <dependency>
+	relation 502185 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 517929 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      classrelation 521001 // <dependency>
+	relation 505257 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521001 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      attribute 397225 "content"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The text content."
+      end
+
+      attribute 397737 "format"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The datum's format"
+      end
+
+      attribute 397609 "ordinal"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The ordinal of the datum (default = -1 (unset))"
+      end
+
+      attribute 397353 "outcome"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The outcome of the object."
+      end
+
+      attribute 397481 "scale"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The scale attribute for the datum"
+      end
+
+      operation 1562665 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return outcome.empty () or content.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Does this have a result to save (outcome and content /= empty)?"
+      end
+
+      operation 1562153 "datum_proxy"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: content ()
+, format ()
+, ordinal (-1)
+, outcome ()
+, scale ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1566761 "datum_proxy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_outcome" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: content ()
+, format ()
+, ordinal (-1)
+, outcome (${p0})
+, scale ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1566889 "datum_proxy"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "a_outcome" explicit_type "string"
+	  param in name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+: content (${p1})
+, format ()
+, ordinal (-1)
+, outcome (${p0})
+, scale ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1562281 "~datum_proxy"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1562409 "datum_proxy"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 488489 // datum_proxy
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: content (${p0}.content)
+, format (${p0}.format)
+, ordinal (${p0}.ordinal)
+, outcome (${p0}.outcome)
+, scale (${p0}.scale)
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1562537 "operator="
+	public return_type class_ref 488489 // datum_proxy
+	nparams 1
+	  param in name "source" type class_ref 488489 // datum_proxy
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  content.assign (${p0}.content);
+  format.assign (${p0}.format);
+  ordinal = ${p0}.ordinal;
+  outcome.assign (${p0}.outcome);
+  scale.assign (${p0}.scale);
+  return *this;
+}
+
+"
+	
+	
+	
+	
+      end
+
+      operation 1562025 "output"
+	cpp_inline public explicit_return_type "any"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_twiglet" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Write the data directly as a child node of a_twiglet.
+
+\\pre not outcome.empty
+\\return /= nul."
+      end
+    end
+
+    class 489641 "basic_plugin"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class for building a plugin filter."
+      classrelation 520745 // <dependency>
+	relation 505001 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 520745 // <dependency>
+	  b parent class_ref 344489 // basic_filter_traits
+      end
+
+      classrelation 519209 // <dependency>
+	relation 503465 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 519209 // <dependency>
+	  b parent class_ref 345129 // result_value
+      end
+
+      classrelation 521129 // <dependency>
+	relation 505385 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521129 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      operation 1565481 "~basic_plugin"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1071913 "finalise"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Reset the plugin.
+
+\\pre nul /= a_plugin
+\\post a_plugin->internal_state = nul and a_plugin->error = nul"
+      end
+
+      operation 1072553 "output"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param inout name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Output the result."
+      end
+
+      operation 1565353 "output_default"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 1553577 "process"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body};
+}
+"
+	
+	
+	
+	
+	comment "Process a piece of the file.
+
+\\pre nul /= a_plugin"
+      end
+
+      operation 1565609 "process_default"
+	abstract cpp_virtual public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "This checks that the file is really a gaussian file and sets 
+the filetype and subtype information.
+
+\\return SUCCESS if a Gaussian output, UNUSABLE if not."
+      end
+
+      operation 1560873 "set_error"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_msg" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the plugin's error message from a_msg."
+      end
+    end
+  end
+
+  deploymentview 144041 "plugin"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 238633 "basic_plugin"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 489641 // basic_plugin
+      end
+    end
+
+    artifact 237481 "datum_proxy"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+#include \"supplier/supplier_constants.hpp\"
+#include <string>
+#include \"supplier/basic_filter_traits.hpp\"
+#include \"supplier/supplier_error.hpp\"
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 488489 // datum_proxy
+      end
+    end
+  end
+
+  classview 128681 "gaussian filters"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 129193 // gaussian filters
+    comment "A set of filters for Gaussian output/log files.
+
+Updated
+gaussian_detect : Tests that a file is a Gaussian output file.
+gaussian_summary : Gather basic information from any log file.
+gaussian_thermo : Gether thermochemistry information from freq. calc.
+gaussian_stable : DEP
+gaussian_step : DEP
+gaussian_structure : 
+gaussian_termination_status (merge with arcstanza?)
+gaussian_vibration"
+    classdiagram 152745 "Gaussian filters"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 335273 "gaussian_detect"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Outcome: detect
+
+The initialise function will be called with the base filename of the file 
+(if it has one).
+
+A detect filter should operate in BUFFER mode.
+
+Returns a datum with the route section to be passed to other filters.
+
+ A FILE mode filter that determines if the file is a Gaussian output file."
+      classrelation 519081 // <generalisation>
+	relation 503337 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 519081 // <generalisation>
+	  b parent class_ref 489641 // basic_plugin
+      end
+
+      classrelation 521257 // <dependency>
+	relation 505513 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521257 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      classrelation 509481 // <dependency>
+	relation 493737 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 509481 // <dependency>
+	  b parent class_ref 346153 // regex
+      end
+
+      attribute 225961 "m_route"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The gaussian route/command section from the top of the log file."
+      end
+
+      attribute 393257 "m_subversion"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The Gaussian subversion, eg g03/g98/g94.."
+      end
+
+      attribute 225705 "m_version"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The gaussian version information from the top of the log file.  This will be empty if the file is not a gaussian log file."
+      end
+
+      attribute 393385 "s_no_result"
+	class_attribute const_attribute private explicit_type "char"
+	init_value "(\"Attempt to get result before a successfully processing a file.\")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* const ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Error message when getting results before processing a file."
+      end
+
+      operation 1004329 "gaussian_detect"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+: m_route ()
+, m_subversion ()
+, m_version ()
+{}
+"
+	
+	
+	
+	
+	comment "Main ctor."
+      end
+
+      operation 1553833 "gaussian_detect"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 335273 // gaussian_detect
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1552297 "initial_test"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_filename" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(NULL != ${p0}, \"Nul plugin object passed as argument to process.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Initialise the plugin object. Creates the internal state object.
+
+\\pre nul /= a_plugin"
+      end
+
+      operation 1553705 "output_default"
+	public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1005097 "process_default"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This checks that the file is really a gaussian file and sets 
+the filetype and subtype information.
+
+\\return SUCCESS if a Gaussian output, UNUSABLE if not."
+      end
+
+      operation 1004585 "~gaussian_detect"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1553961 "operator="
+	private return_type class_ref 335273 // gaussian_detect
+	nparams 1
+	  param in name "source" type class_ref 335273 // gaussian_detect
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+    end
+
+    class 150697 "gaussian_summary"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Datum Outcomes: summary (title method basis-set point-group nimag
+exit-status state calc-type dipole) energy (type..) geometry (inc charge/multi)
+Info objects: title
+
+This is one of the more interesting gaussian filters.  It demonstrates how you 
+can dynamically choose between different \"filters\".  The functions and state 
+object with suffix A are the default filter system when there will be a Gaussian 
+archive.  The functions and state object with suffix B are when there will be a valid
+calculation but no archive (only IRC calculations detected). The initial_test method 
+detects when the default A system will not work and cuts-over the filter 
+methods and internal state to use the B system
+
+The A system of the ArcStanza filter is used when there will be an archive 
+section. It gathers all the information it requires from this section. This 
+makes the processLine() method simply a matter of checking for the 
+archive to start then collecting the information. The interesting part of the 
+filter is the post processing. Most of this is straightforward, simply saving 
+the various parts into the results attribute. The difficult part involves storing 
+the final geometry. This requires adding adding a new DOM element that 
+is the sibling of the experimentRootNode.
+
+The B system of the ArcStanza filters attempts to extract the information 
+when there is not going to be an archive section.  The original (and main) 
+use was to extract data from 'IRC' calculations. It tries to find most of the 
+information from the beginning sections of the Gaussian output file. It 
+searches for the methods and titles by attempting to decode this header 
+section. The approach is fairly simplistic and may not be terribly robust, 
+although it has worked in our hands successfully."
+      classrelation 519337 // <generalisation>
+	relation 503593 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 519337 // <generalisation>
+	  b parent class_ref 489641 // basic_plugin
+      end
+
+      classrelation 521385 // <dependency>
+	relation 505641 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521385 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      class 347433 "constants"
+	visibility protected stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}
+};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "Constants used in this filter "
+	attribute 246825 "VERSION_SEARCH"
+	  public explicit_type ""
+	  init_value " = 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the version indicator"
+	end
+
+	attribute 246953 "VERSION_FOUND"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the version termination indicator"
+	end
+
+	attribute 247081 "COMMAND_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the command indicator"
+	end
+
+	attribute 247209 "COMMAND_FOUND"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the command termination indicator"
+	end
+
+	attribute 247337 "TITLE_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the title indicator"
+	end
+
+	attribute 247465 "TITLE_FOUND"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the title termination indicator (and collecting title)"
+	end
+
+	attribute 247593 "BASIS_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for basis-set information"
+	end
+
+	attribute 247721 "METHOD_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "searching for method information"
+	end
+
+	attribute 397865 "DIPOLE_SEARCH"
+	  public type class_ref 347433 // constants
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the dipole moment"
+	end
+
+	attribute 244777 "ARCHIVE_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Indicate state is searching for beginning of archive."
+	end
+
+	attribute 397993 "TERM_SEARCH"
+	  public type class_ref 347433 // constants
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Searching for the termination status."
+	end
+
+	attribute 244905 "ARCHIVE_END_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Indicate state is searching for end of archive"
+	end
+
+	attribute 245033 "COMPLETED_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Indicate no more searching is required"
+	end
+      end
+
+      class 488361 "indices"
+	visibility protected stereotype "enum"
+	cpp_decl "${comment}enum ${name}
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	comment "The indices of the m_results_set"
+	attribute 245545 "BASIS_SET"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Index of basis set in processed result list used by the output methods"
+	end
+
+	attribute 245417 "CALC_METHOD"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Index of calculation algorithm in processed result list used by the output methods"
+	end
+
+	attribute 396585 "CALC_TYPE"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The calc type, eg Freq, Opt, IRC etc."
+	end
+
+	attribute 395817 "DIPOLE"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Index of dipole moment"
+	end
+
+	attribute 398121 "ENERGY_HF"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The HF energy, usually collected for jobs with archives. This is meaningless
+for ONIOM calculations."
+	end
+
+	attribute 398249 "ENERGY_MP2"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The MP2 energy (not always present)"
+	end
+
+	attribute 395945 "EXIT_STATUS"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 396201 "NIMAG"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The index of the number of imaginary freqs"
+	end
+
+	attribute 396073 "POINT_GROUP"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The index of the point-group."
+	end
+
+	attribute 396329 "STATE"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The molecular state"
+	end
+
+	attribute 245801 "TITLE"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Index of gaussian title string in processed result list used by the output methods"
+	end
+
+	attribute 396713 "GEOM_CHARGE"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The charge of the geometry"
+	end
+
+	attribute 397097 "GEOM_DATA"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The geometry itself."
+	end
+
+	attribute 396841 "GEOM_MULT"
+	  public type class_ref 488361 // indices
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "The multiplicity of the geometry"
+	end
+      end
+
+      attribute 239913 "m_find_dipole"
+	const_attribute private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The regular expression to use to find the dipole section"
+      end
+
+      attribute 240425 "m_find_term"
+	private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "RE to find the termination line."
+      end
+
+      classrelation 516649 // m_result_set (<directional composition>)
+	relation 500905 *-->
+	  stereotype "vector"
+	  a role_name "m_result_set" multiplicity "*" protected
+	    comment "The results of this session."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 516649 // m_result_set (<directional composition>)
+	  b parent class_ref 488489 // datum_proxy
+      end
+
+      attribute 246185 "m_state"
+	protected explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Flags of what has been found so far"
+      end
+
+      operation 233001 "gaussian_summary"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "other" type class_ref 150697 // gaussian_summary
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 233257 "gaussian_summary"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_state" explicit_type "int"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} 
+: m_find_dipole (\"Tot=\")
+, m_find_term (\"termination\")
+, m_result_set (GEOM_MULT + 1) //Preallocate enough space in vector.
+, m_state (${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Default constructor sets the starting state"
+      end
+
+      operation 233385 "~gaussian_summary"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+	comment "Does nothing special here."
+      end
+
+      operation 1071785 "initial_test"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_phrase" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(NULL != ${p0}, \"Can not initialise a nul object.\");
+  @{require}(NULL == ${p0}->m_internal_state, \"Can not initialise a previously initialised object.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This filter is always appropriate.  This method actually selects 
+system B if necessary."
+      end
+
+      operation 233129 "operator ="
+	private return_type class_ref 150697 // gaussian_summary
+	nparams 1
+	  param in name "other" type class_ref 150697 // gaussian_summary
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment " not copy"
+      end
+
+      operation 233641 "process_dipole"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_segment" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Find the dipole and extract into state."
+      end
+
+      operation 1067561 "process_termination"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_segment" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Find the termination status."
+      end
+
+      operation 1073321 "output_default"
+	public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This adds the m_result_set contents to the output twiglet.
+
+Programming notes:
+* This assigns the outcomes to all the result set.
+* For ONIOM calculations, HF/MP2 are not output as they will be incorrect."
+      end
+    end
+
+    class 347177 "state_a"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Subtype for the gaussian_summary type that understands the Gaussian
+archive section."
+      classrelation 516393 // <generalisation>
+	relation 500649 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 516393 // <generalisation>
+	  b parent class_ref 150697 // gaussian_summary
+      end
+
+      attribute 244393 "m_archive"
+	private explicit_type "stringstream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Cached archive section."
+      end
+
+      attribute 244521 "m_start_re"
+	private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find the start of the archive section"
+      end
+
+      attribute 244649 "m_end_re"
+	private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find the end of the archive section"
+      end
+
+      operation 1562793 "process_archive"
+	private explicit_return_type "int"
+	nparams 1
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process the archive string into the result set. This should
+return COMPLETE on successful conversion."
+      end
+
+      operation 1073449 "process_geometry"
+	private explicit_return_type "int"
+	nparams 3
+	  param in name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param inout name "a_begin" explicit_type "t_iter"
+	  param in name "a_end" explicit_type "t_iter"
+	cpp_decl "    ${comment}${friend}template < class t_iter > ${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}template < class t_iter > ${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process the geometry segments of the archive section.
+
+\\\\ POST a_begin is at Version segment
+\\return CCHEM_SUPPLIER_COMPLETE on success."
+      end
+
+      operation 1072169 "process_default"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Find the dipole and extract into state."
+      end
+
+      operation 1072681 "state_a"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1072809 "~state_a"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 347305 "state_b"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Subtype for the gaussian_summary type that is used when there will
+be no Gaussian archive section. Currently this processes results for 
+IRC calculations only."
+      classrelation 516521 // <generalisation>
+	relation 500777 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 516521 // <generalisation>
+	  b parent class_ref 150697 // gaussian_summary
+      end
+
+      attribute 246313 "m_basis_re"
+	const_attribute private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find the basis set"
+      end
+
+      attribute 246441 "m_method_re"
+	const_attribute private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find the method"
+      end
+
+      attribute 246569 "m_title_divider_re"
+	const_attribute private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find the line that defines the start of the title"
+      end
+
+      attribute 246697 "m_version_re"
+	private type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture the version"
+      end
+
+      operation 1072425 "process_default"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} *const ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Find the various pieces as the file progresses."
+      end
+
+      operation 1072937 "state_b"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1073065 "~state_b"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 151081 "gaussian_thermo"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Outcomes: thermochemistry
+
+This filter works by first collecting the relevant segments during the 
+line processing.  It then extracts the results from the cached lines 
+during the output process."
+      classrelation 519465 // <generalisation>
+	relation 503721 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 519465 // <generalisation>
+	  b parent class_ref 489641 // basic_plugin
+      end
+
+      classrelation 519593 // <dependency>
+	relation 503849 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 519593 // <dependency>
+	  b parent class_ref 488489 // datum_proxy
+      end
+
+      classrelation 521513 // <dependency>
+	relation 505769 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521513 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      classrelation 310057 // <dependency>
+	relation 303017 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 310057 // <dependency>
+	  b parent class_ref 346153 // regex
+      end
+
+      attribute 144809 "m_found"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A tristate flag to indicate where in the line collection process we are."
+      end
+
+      attribute 144937 "m_lines"
+	public explicit_type "std::vector< std::string >"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The cached segments"
+      end
+
+      attribute 240041 "m_start"
+	const_attribute public explicit_type "boost::regex"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Matches the start of the energy section."
+      end
+
+      attribute 240169 "m_stop"
+	const_attribute public explicit_type "boost::regex"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Matches the end of the energy section."
+      end
+
+      operation 1066153 "initial_test"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_phrase" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(NULL != ${p0}, \"Can not initialise a nul object.\");
+  @{require}(NULL == ${p0}->m_internal_state, \"Can not initialise a previously initialised object.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Can this filter handle the given file type?"
+      end
+
+      operation 234025 "gaussian_thermo"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "" type class_ref 151081 // gaussian_thermo
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 234153 "operator ="
+	private return_type class_ref 151081 // gaussian_thermo
+	nparams 1
+	  param in name "" type class_ref 151081 // gaussian_thermo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 234793 "output_default"
+	public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 234665 "process_default"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process a_segment of the file."
+      end
+
+      operation 234281 "gaussian_thermo"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_found (0)
+, m_lines ()
+, m_start (\"^ Zero-point\", boost::regex::extended)
+, m_stop (\"[Ll]og10\", boost::regex::extended) {}"
+	
+	
+	
+	
+      end
+
+      operation 234409 "~gaussian_thermo"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 151721 "gaussian_vibration"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Outcome ir-peak-table
+
+Collect the vibration table from a gaussian log file. It collects all the
+information from the vibration section of the output log file but only
+the header lines (freq, intn, raman, mode) are output."
+      classrelation 520873 // <generalisation>
+	relation 505129 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 520873 // <generalisation>
+	  b parent class_ref 489641 // basic_plugin
+      end
+
+      class 349609 "table_t"
+	visibility package stereotype "typedef" base_type class_ref 347689 // vibration
+	cpp_decl "${comment}typedef std::vector< ${type} > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 349481 "iterator"
+	visibility package stereotype "typedef" base_type class_ref 349609 // table_t
+	cpp_decl "${comment}typedef ${type}::iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 349737 "const_iterator"
+	visibility package stereotype "typedef" base_type class_ref 349609 // table_t
+	cpp_decl "${comment}typedef ${type}::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 521769 // <dependency>
+	relation 506025 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521769 // <dependency>
+	  b parent class_ref 488489 // datum_proxy
+      end
+
+      classrelation 397609 // <dependency>
+	relation 388649 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 397609 // <dependency>
+	  b parent class_ref 139945 // periodic_table
+      end
+
+      classrelation 283049 // <dependency>
+	relation 277033 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 283049 // <dependency>
+	  b parent class_ref 347689 // vibration
+      end
+
+      classrelation 521641 // <dependency>
+	relation 505897 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 521641 // <dependency>
+	  b parent class_ref 431529 // supplier_error
+      end
+
+      class 151849 "indexer"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}
+};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "Where are we in the search sequence?"
+	attribute 250665 "START_SEARCH"
+	  public explicit_type ""
+	  init_value "= 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Indicate we are searching for the start of the vibration table."
+	end
+
+	attribute 251177 "TABLE_PROCESS"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 251049 "END_SEARCH"
+	  public explicit_type ""
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+      end
+
+      attribute 249001 "m_atoms_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration atoms"
+      end
+
+      attribute 248233 "m_depolar_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration depolar value"
+      end
+
+      attribute 249129 "m_dispvec_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration displacement vector"
+      end
+
+      attribute 248361 "m_force_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration force constant"
+      end
+
+      attribute 248489 "m_frequency_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration frequency"
+      end
+
+      attribute 248617 "m_intensity_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration intensity"
+      end
+
+      attribute 248105 "m_mode_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration mode"
+      end
+
+      attribute 247977 "m_ordinal_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration ordinals."
+      end
+
+      attribute 248745 "m_raman_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration raman intensity"
+      end
+
+      attribute 248873 "m_redms_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Capture vibration reduced mass"
+      end
+
+      attribute 250537 "m_start_re"
+	public type class_ref 346153 // regex
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Find start of table"
+      end
+
+      attribute 250409 "m_state"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The current point in the filter sequence (one START_SEARCH, TABLE_PROCESS or END_SEARCH)"
+      end
+
+      attribute 250921 "m_vibr_base"
+	public explicit_type "uint"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The base index of the current vibrations.  The current vibs are:
+m_table[m_vibr_base] .. m_table[m_vibr_base + m_vibr_count - 1]"
+      end
+
+      classrelation 281001 // m_table (<directional composition>)
+	relation 274985 *-->
+	  stereotype "vector"
+	  a role_name "m_table" multiplicity "*" private
+	    comment "The table of vibrations."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 281001 // m_table (<directional composition>)
+	  b parent class_ref 347689 // vibration
+      end
+
+      operation 1092777 "begin"
+	public return_type class_ref 349481 // iterator
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.begin (); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1093033 "begin"
+	stereotype "const"
+	const public return_type class_ref 349737 // const_iterator
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.begin (); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1073961 "initial_test"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_phrase" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Can this filter handle the given file type?"
+      end
+
+      operation 1093289 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.empty (); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1092905 "end"
+	public return_type class_ref 349481 // iterator
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.end (); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1112233 "end"
+	stereotype "const"
+	const public return_type class_ref 349737 // const_iterator
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.end (); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1074345 "gaussian_vibration"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 151721 // gaussian_vibration
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 239401 "gaussian_vibration"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 239529 "~gaussian_vibration"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 239273 "operator ="
+	private return_type class_ref 151721 // gaussian_vibration
+	nparams 1
+	  param in name "" type class_ref 151721 // gaussian_vibration
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment " not defined"
+      end
+
+      operation 1074217 "output_default"
+	public explicit_return_type "int"
+	nparams 2
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_cb_data" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Output the result."
+      end
+
+      operation 1074089 "process_default"
+	public explicit_return_type "int"
+	nparams 3
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_buffer" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Find the dipole and extract into state."
+      end
+
+      operation 1093161 "size"
+	const public explicit_return_type "uint"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_table.size (); }
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 129193 "gaussian filters"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 151977 "gaussian_detect"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP
+#define COMPCHEM_SUPPLIER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#define NO_LOG
+${includes}
+// Manual includes
+#include <boost/algorithm/string/trim.hpp>
+#include <sstream>
+// --
+// --
+// The symbol retrieved by the filter manager
+extern \"C\" {
+struct basic_filter_traits plugin_object = {
+      \"Gaussian Inc. Output file type detect filter (C) 2008, V1.1.0\"
+      , NULL // error message
+      , NULL // state object
+      , &supplier::filter::${name}::initial_test
+      , &supplier::filter::${name}::process
+      , &supplier::filter::${name}::output
+      , &supplier::filter::${name}::finalise
+      , CCHEM_SUPPLIER_BUFFER_ORIENTED | CCHEM_SUPPLIER_DIRECT_OUTPUT
+      , NULL // output_cb
+      , NULL // create datum cb
+      , NULL // add contect cb
+      , NULL // set format cb
+      , NULL // set ordinal cb
+      , NULL // set scale cb
+    };
+}
+${namespace_start}
+${members}
+${namespace_end}
+"
+      associated_classes
+	class_ref 335273 // gaussian_detect
+      end
+    end
+
+    artifact 255145 "gaussian_detect_plugin"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 238633 // basic_plugin
+	artifact_ref 151977 // gaussian_detect
+      end
+    end
+
+    artifact 152873 "gaussian_summary"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_FILTER_${NAME}_HPP
+#define COMPCHEM_FILTER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date:
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+//#define NO_LOG
+${includes}
+// Manual includes
+// #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/trim.hpp>
+// #include <iterator>
+// --
+// The symbol retrieved by the filter manager
+extern \"C\" {
+basic_filter_traits plugin_object = {
+      \"Gaussian Inc. Log file/archive decoder (C) 2008 V1.1.0\"
+      , NULL
+      , NULL
+      , &supplier::filter::${name}::initial_test
+      , &supplier::filter::${name}::process
+      , &supplier::filter::${name}::output
+      , &supplier::filter::${name}::finalise
+      , CCHEM_SUPPLIER_LINE_ORIENTED | CCHEM_SUPPLIER_DIRECT_OUTPUT
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+    };
+}
+${namespace_start}
+${members}
+${namespace_end}
+"
+      associated_classes
+	class_ref 150697 // gaussian_summary
+	class_ref 347177 // state_a
+	class_ref 347305 // state_b
+      end
+    end
+
+    artifact 255273 "gaussian_summary_plugin"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 238633 // basic_plugin
+	artifact_ref 152873 // gaussian_summary
+      end
+    end
+
+    artifact 152233 "gaussian_thermo"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+// Stop logging
+#define NO_LOG
+${includes}
+// Manual include
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <sstream>
+// --
+// The symbol retrieved by the filter manager
+extern \"C\" {
+basic_filter_traits plugin_object = {
+      \"Gaussian Inc log thermochemistry filter (C) 2008 V1.1.0\"
+      , NULL
+      , NULL
+      , &supplier::filter::${name}::initial_test
+      , &supplier::filter::${name}::process
+      , &supplier::filter::${name}::output
+      , &supplier::filter::${name}::finalise
+      , CCHEM_SUPPLIER_LINE_ORIENTED | CCHEM_SUPPLIER_DIRECT_OUTPUT
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+    };
+}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 151081 // gaussian_thermo
+      end
+    end
+
+    artifact 255401 "gaussian_thermo_plugin"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 238633 // basic_plugin
+	artifact_ref 152233 // gaussian_thermo
+      end
+    end
+
+    artifact 153001 "gaussian_vibration"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_FILTER_${NAME}_HPP
+#define COMPCHEM_FILTER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <sstream>
+#include <vector>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date:
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+// #define NO_LOG
+${includes}
+// Manual includes
+#include <sstream>
+#include <boost/bind.hpp>
+#include <boost/lexical_cast.hpp>
+#include \"utility/framework.hpp\"
+// --
+// The symbol retrieved by the filter manager
+extern \"C\" {
+basic_filter_traits plugin_object = {
+      \"Gaussian Inc. log file vibration/peak table filter (C) 2008 V1.1.0\"
+      , NULL
+      , NULL
+      , &supplier::filter::${name}::initial_test
+      , &supplier::filter::${name}::process
+      , &supplier::filter::${name}::output
+      , &supplier::filter::${name}::finalise
+      , CCHEM_SUPPLIER_LINE_ORIENTED | CCHEM_SUPPLIER_DIRECT_OUTPUT
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+      , NULL
+    };
+}
+${namespace_start}
+${members}
+${namespace_end}
+"
+      associated_classes
+	class_ref 151721 // gaussian_vibration
+      end
+    end
+
+    artifact 255529 "gaussian_vibration_plugin"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 198697 // chemistry
+	artifact_ref 238633 // basic_plugin
+	artifact_ref 153001 // gaussian_vibration
+      end
+    end
+  end
+end

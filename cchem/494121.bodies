@@ -1,0 +1,31 @@
+class xml_writer
+!!!1575977.cpp!!!	xml_writer(inout a_parent : xml_writer, in a_label : string)
+: m_close (a_label)
+, m_have_children (false)
+, m_os (a_parent.stream ())
+{
+  COMPCHEM_REQUIRE (not a_label.empty (), "Cannot create an XML element with an empty label");
+  m_os << "<" << a_label;
+}
+!!!1576489.cpp!!!	xml_writer(inout a_os : ostream, in a_label : string, in a_pub_id : string = "", in a_sys_id : string = "")
+: m_close (a_label)
+, m_have_children (false)
+, m_os (a_os)
+{
+  COMPCHEM_REQUIRE (not a_label.empty (), "Cannot create an XML element with an empty label");
+  m_os << "<?xml version=\"1.0\" ?>\n";
+  if (not a_sys_id.empty () or not a_pub_id.empty ())
+  {
+    m_os << "<!DOCTYPE " << a_label << " ";
+    if (not a_pub_id.empty ())
+    {
+      m_os << "PUBLIC " << a_pub_id;
+    }
+    if (not a_sys_id.empty ())
+    {
+      m_os << "SYSTEM " << a_sys_id;
+    }
+    m_os << ">\n";
+  }
+  m_os << "<" << a_label;
+}

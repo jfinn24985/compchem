@@ -1,0 +1,55 @@
+class test_contract_error
+!!!1339305.cpp!!!	main_test() : void
+class helper 
+{
+public:
+  static void test_always ()
+  {
+    COMPCHEM_ALWAYS (false, "Test of 'COMPCHEM_ALWAYS' DbC macro");
+    log () << IFNO << "Should not get here:\n";
+  }
+  static void test_require ()
+  {
+    COMPCHEM_REQUIRE (false, "Test of 'COMPCHEM_REQUIRE' DbC macro");
+    log () << IFNO << "Should not get here:\n";
+  }
+  static void test_ensure ()
+  {
+    COMPCHEM_ENSURE (false, "Test of 'COMPCHEM_ENSURE' DbC macro");
+    log () << IFNO << "Should not get here:\n";
+  }
+  static void test_invariant ()
+  {
+    COMPCHEM_INVARIANT (false, "Test of 'COMPCHEM_INVARIANT' DbC macro");
+    log () << IFNO << "Should not get here:\n";
+  }
+  static void test_check ()
+  {
+    COMPCHEM_CHECK (false, "Test of 'COMPCHEM_CHECK' DbC macro");
+    log () << IFNO << "Should not get here:\n";
+  }
+};
+try
+{
+  log () << COMM << "Error codes:\n";
+  log () << WTCH << "Always    [0] = " << contract_error::always << "\n";
+  log () << WTCH << "Require   [1] = " << contract_error::require << "\n";
+  log () << WTCH << "Ensure    [2] = " << contract_error::ensure << "\n";
+  log () << WTCH << "Invariant [3] = " << contract_error::invariant << "\n";
+  log () << WTCH << "Check     [4] = " << contract_error::check << "\n";
+  log () << WTCH << "Max       [4] = " << contract_error::max_level << "\n";
+  log () << WTCH << "Buf size  [?] = " << contract_error::s_size << "\n";
+  monitor_function (contract_error::always, &helper::test_always);
+  monitor_function (contract_error::require, &helper::test_require);
+  monitor_function (contract_error::ensure, &helper::test_ensure);
+  monitor_function (contract_error::invariant, &helper::test_invariant);
+  monitor_function (contract_error::check, &helper::test_check);
+}
+catch (const contract_error &err)
+{
+  log () << IFNO << "Caught contract error level [" << err.level << "]\n" << err.what () << "\n";
+}
+catch (const std::exception &err)
+{
+  log () << IFNO << "Caught std::exception:\n" << err.what () << "\n";
+}

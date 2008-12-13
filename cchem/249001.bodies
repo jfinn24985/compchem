@@ -1,0 +1,35 @@
+class TextIter
+!!!563625.cpp!!!	operator ++() : TextIter
+  forward_char();
+  return *this;
+!!!563753.cpp!!!	operator ++(in  : int) : TextIter
+  const TextIter temp (*this);
+  forward_char();
+  return temp;
+!!!563881.cpp!!!	operator --() : TextIter
+  backward_char();
+  return *this;
+!!!564009.cpp!!!	operator --(in  : int) : TextIter
+  const TextIter temp (*this);
+  backward_char();
+  return temp;
+!!!564137.cpp!!!	operator *() : value_type
+  return get_char();
+!!!564265.cpp!!!	operator bool()
+  return !is_end();
+!!!575657.cpp!!!	forward_find_char(in predicate : Predicate, in limit : TextIter) : bool
+  typedef TextIter::PredicateAdapter<Predicate> PredAdapter;
+  PredAdapter adapter (predicate);
+  return this->forward_find_char_impl(&PredAdapter::gtk_callback, &adapter, limit.gobj());
+!!!575785.cpp!!!	forward_find_char(in predicate : Predicate) : bool
+  typedef TextIter::PredicateAdapter<Predicate> PredAdapter;
+  PredAdapter adapter (predicate);
+  return this->forward_find_char_impl(&PredAdapter::gtk_callback, &adapter, 0);
+!!!575913.cpp!!!	backward_find_char(in predicate : Predicate, in limit : TextIter) : bool
+  typedef TextIter::PredicateAdapter<Predicate> PredAdapter;
+  PredAdapter adapter (predicate);
+  return this->backward_find_char_impl(&PredAdapter::gtk_callback, &adapter, limit.gobj());
+!!!576041.cpp!!!	backward_find_char(in predicate : Predicate) : bool
+  typedef TextIter::PredicateAdapter<Predicate> PredAdapter;
+  PredAdapter adapter (predicate);
+  return this->backward_find_char_impl(&PredAdapter::gtk_callback, &adapter, 0);

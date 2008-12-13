@@ -1,0 +1,107 @@
+class Energy
+!!!256553.cpp!!!	processLine(in currentLine : string) : void
+      // Test to short cut rest of file
+      if ( _m_thermoFound < 7 ) 
+	{
+	  if ( _m_thermoFound == 0 )
+	    {
+	      if ( _m_thermoPartA.search( currentLine ) )
+		{
+		  // start processing lines
+		  _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+		  checkIndexIsValid( 3, "Problem filtering file." );
+		  _m_thermoResults[ZERO_POINT] = _m_thermoWords[3];
+		  ++_m_thermoFound;
+		}
+	    }
+	  else
+	    {
+	      if ( _m_thermoFound == 1 )
+		{
+		  if ( _m_thermoPartA.search( currentLine ) )
+		    {
+		      _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+		      checkIndexIsValid( 2, "Problem filtering file." );
+		      _m_thermoResults[ZERO_POINT_CORR] = _m_thermoWords[2];
+		      ++_m_thermoFound;
+		    }
+		}
+	      else
+		{
+		  if ( _m_thermoFound == 5 )
+		    {
+		      if ( _m_thermoPartB.search( currentLine ) )
+			{
+			  ++_m_thermoFound;
+			}
+		    }
+		  else
+		    {
+		      _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+		      switch( _m_thermoFound )
+			{
+			case 2:
+			  _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+			  checkIndexIsValid( 4, "Problem filtering file." );
+			  _m_thermoResults[ENERGY_CORR] = _m_thermoWords[4];
+			  ++_m_thermoFound;
+			  break;
+			case 3:
+			  _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+			  checkIndexIsValid( 4, "Problem filtering file." );
+			  _m_thermoResults[ENTHALPY_CORR] = _m_thermoWords[4];
+			  ++_m_thermoFound;
+			  break;
+			case 4:
+			  _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+			  checkIndexIsValid( 6, "Problem filtering file." );
+			  _m_thermoResults[FREE_ENERGY_CORR] = _m_thermoWords[6];
+			  ++_m_thermoFound;
+			  break;
+			case 6:
+			  _m_thermoWords = _m_thermoWordsRegex.split( currentLine );
+			  checkIndexIsValid( 3, "Problem filtering file." );
+			  _m_thermoResults[ENTROPY] = _m_thermoWords[3];
+			  ++_m_thermoFound;
+			  break;
+			default:
+			  break;
+			};
+		    };
+		};
+	    };
+	};
+    
+!!!256681.cpp!!!	output(inout experimentRootNode : DOM::Node) : void
+      DOM::Element* _l_thermoNode;
+      DOM::Element* _l_thermoResultNode;
+      static const char* _l_attributes[][2] = {
+	{ "zero-point", "jmol" },
+	{ "zero-point-corr", "jmol" },
+	{ "energy-corr", "hartree" },
+	{ "enthalpy-corr", "hartree" },
+	{ "free-energy-corr", "hartree" },
+	{ "entropy", "cal-molK" } };
+      DOM::Char* _l_nameAttr = DOM::transcodeString( "name" );
+      DOM::Char* _l_unitAttr = DOM::transcodeString( "unit" );
+
+      if ( _m_thermoFound < 7 ) 
+	{
+	    throw new Filters::IllegalStateException( "Filters::Gaussian::Energy: Thermochemistry processing was not completed." );
+	}
+
+      _l_thermoNode = DOM::createElement( experimentRootNode, "dan" );
+      DOM::setAttribute( _l_thermoNode, _l_nameAttr, "thermochemistry" );
+      for( unsigned int i = 0; i < 6; ++i )
+	{
+	  _l_thermoResultNode = DOM::createElement( _l_thermoNode, "dan" );
+	  DOM::setAttribute( _l_thermoResultNode, _l_nameAttr, _l_attributes[i][0] );
+	  DOM::setAttribute( _l_thermoResultNode,_l_unitAttr, _l_attributes[i][1] );
+	  _l_thermoResultNode->appendChild( DOM::createTextNode( _l_thermoResultNode,
+								 _m_thermoResults[i] ) );
+	  _l_thermoNode->appendChild( _l_thermoResultNode );
+	};
+      DOM::releaseString( &_l_nameAttr );
+      DOM::releaseString( &_l_unitAttr );
+      experimentRootNode->appendChild( _l_thermoNode );
+    

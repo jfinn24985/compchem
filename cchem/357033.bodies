@@ -1,0 +1,192 @@
+class memo
+!!!1423913.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::datum_name () == a_name)
+{
+  Result = &(add_datum (a_label));
+}
+else if (data_access::names::info_name () == a_name)
+{
+  Result = &(add_info (a_label));
+}
+else
+{
+  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+}
+return *Result;
+!!!1410601.cpp!!!	add_datum(in a_label : string) : datum
+m_results.push_back (new datum (*this, a_label));
+// Datum before info
+if (not m_info.empty ())
+{
+  insert_child (m_info.front (), m_results.back ());
+}
+else
+{
+  append_child (m_results.back ());
+}
+return m_results.back ();
+!!!1423785.cpp!!!	add_info(in a_label : string) : info
+m_info.push_back (new info (*this, a_label));
+// Always last
+append_child (m_info.back ());
+return m_info.back ();
+!!!1559721.cpp!!!	compound_formula(in a_cmpd : compound, in a_form : formula) : void
+m_compound = a_cmpd.label ();
+m_formula = a_form.label ();
+!!!1551017.cpp!!!	find_datum(in a_outcome : string, in a_iter : datum_iterator) : datum_iterator
+datum_iterator Result (a_iter);
+while (Result != end_datum ())
+{
+  if (Result->outcome ().find (a_outcome) < Result->outcome ().size ())
+  {
+    break;
+  }
+  ++Result;
+}
+return Result;
+!!!1551145.cpp!!!	find_datum(in a_outcome : string, in a_iter : const_datum_iterator) : const_datum_iterator
+const_datum_iterator Result (a_iter);
+while (Result != end_datum ())
+{
+  if (Result->outcome ().find (a_outcome) < Result->outcome ().size ())
+  {
+    break;
+  }
+  ++Result;
+}
+return Result;
+!!!1410985.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+bool Result (false);
+if (data_access::names::label_name () == a_name)
+{
+  a_value.assign (m_label);
+  Result = true;
+}
+else if (data_access::names::mechanism_name () == a_name)
+{
+  if (not m_mechanism.empty ())
+  {
+    a_value.assign (m_mechanism);
+    Result = true;
+  }
+}
+else if (data_access::names::href_name () == a_name)
+{
+  if (not m_href.empty ())
+  {
+    a_value.assign (m_href);
+    Result = true;
+  }
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  if (not m_filters.empty ())
+  {
+    a_value.assign (m_filters);
+    Result = true;
+  }
+}
+else if (data_access::names::formula_name () == a_name)
+{
+  if (not m_formula.empty ())
+  {
+    a_value.assign (m_formula);
+    Result = true;
+  }
+}
+else if (data_access::names::compound_name () == a_name)
+{
+  if (not m_compound.empty ())
+  {
+    a_value.assign (m_compound);
+    Result = true;
+  }
+}
+return Result;
+!!!1498025.cpp!!!	make_src(in a_path : path) : void
+m_document = data_access::manager::server ().connect (*this, a_path.string (), true);
+!!!1421993.cpp!!!	memo(inout a_parent : experiment, in a_label : string, in a_is_src : bool)
+if (a_is_src)
+{
+  m_document = data_access::manager::server().connect (*this, a_label, false);
+  if (data_scheme_helper::helper().auto_open_memo ())
+  {
+    read ();
+  }
+}
+else
+{
+  m_label.assign (a_label);
+}
+!!!1410857.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::mechanism_name () == a_name)
+{
+  m_mechanism.swap (a_value);
+}
+else if (data_access::names::href_name () == a_name)
+{
+  // Do not use the memo-src/@href as the memo/@href 
+  std::string l_uri (uri ());
+  if (is_src () and l_uri.size () > l_uri.find (a_value))
+  {
+    m_href = a_value;
+  }
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  m_filters.swap (a_value);
+}
+else if (data_access::names::formula_name () == a_name)
+{
+  if (m_formula.empty ())
+  {
+    m_formula.swap (a_value);
+  }
+  else
+  {
+    if (a_value != m_formula)
+    {
+      throw std::logic_error(serial_name () + " object formula labels cannot be changed once set.");
+    }
+  }
+}
+else if (data_access::names::compound_name () == a_name)
+{
+  if (m_compound.empty ())
+  {
+    m_compound.swap (a_value);
+  }
+  else
+  {
+    if (a_value != m_compound)
+    {
+      throw std::logic_error(serial_name () + " object compound labels cannot be changed once set.");
+    }
+  }
+
+}
+else if (data_access::names::label_name () == a_name)
+{
+  if (m_label.empty ())
+  {
+    m_label.swap (a_value);
+  }
+  else
+  {
+    if (m_label != a_value)
+    {
+       throw std::logic_error (serial_name () + " object labels cannot be changed once set.");
+    }
+  }
+}
+else
+{
+  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+}
+
+!!!1449129.cpp!!!	write() : void
+if (m_document->is_open ())
+{
+  m_document->write ();
+}

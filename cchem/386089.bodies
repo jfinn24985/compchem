@@ -1,0 +1,6 @@
+class script_value
+!!!1249833.cpp!!!	serialise(out a_os : ostream, inout a_scope : scope) : void
+if (m_value.empty ()) {
+  const bool l_tmp (a_scope.has_value (base_resource ().string (), m_value));
+  COMPCHEM_CHECK (l_tmp, "Unable to find configuration for [" + base_resource ().string () + "]"); }
+a_os << make_substitutions  (m_value, a_scope) << "\n";

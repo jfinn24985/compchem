@@ -1,0 +1,17 @@
+class time_stamp
+!!!1585065.cpp!!!	log(in a_msg : string) : void
+// Print message
+std::streamsize l_prec (m_os.precision (6));
+m_os << "[" << m_label << "]TS: e(" << m_last.elapsed ();
+m_os << ") t(" << m_start.elapsed () << ") " << a_msg << "\n";
+m_last.restart ();
+m_os.precision (l_prec);
+
+!!!1584553.cpp!!!	time_stamp(in a_label : string, in a_start_msg : string, inout a_os : ostream)
+: m_label (a_label)
+, m_last ()
+, m_os (a_os)
+, m_start (m_last)
+{
+  m_os << "[" << m_label << "]TS: " << a_start_msg << "\n";
+} 

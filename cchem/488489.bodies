@@ -1,0 +1,33 @@
+class datum_proxy
+!!!1562025.cpp!!!	output(inout a_filter : basic_filter_traits, in a_twiglet : any) : any
+void *Result (NULL);
+if (outcome.empty ())
+{
+  throw supplier_error ("Cannot create a datum with no outcome.", CCHEM_SUPPLIER_BADDATA);
+}
+else
+{
+  Result = ((*a_filter->m_create_datum_cb) (a_twiglet, outcome.data (), outcome.size ()));
+  if (NULL == Result)
+  {
+    throw supplier_error ("Failed to create a datum object.", CCHEM_SUPPLIER_FATAL);
+  }
+  if (not format.empty ())
+  {
+    (*a_filter->m_set_format_cb) (Result, format.data (), format.size ());
+  }
+  if (0 <= ordinal)
+  {
+    (*a_filter->m_set_ordinal_cb) (Result, ordinal);
+  }
+  if (not scale.empty ())
+  {
+    (*a_filter->m_set_scale_cb) (Result, scale.data (), scale.size ());
+  }
+  if (not content.empty ())
+  {
+    (*a_filter->m_add_content_cb) (Result, content.data (), content.size ());
+  }
+}
+
+return Result;

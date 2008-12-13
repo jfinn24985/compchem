@@ -1,0 +1,72 @@
+class visitor_py
+!!!1463977.cpp!!!	pythonise() : void
+/// Pythonise visitor
+///
+/// This is the python version of the visitor class
+void (visitor::*on_visit_basic_datum)(const basic_datum &) = &visitor::on_visit;
+void (visitor::*on_visit_comment)(const comment &) = &visitor::on_visit;
+void (visitor::*on_visit_compound)(const compound &) = &visitor::on_visit;
+void (visitor::*on_visit_compound_ref)(const compound_ref &) = &visitor::on_visit;
+void (visitor::*on_visit_datum)(const datum &) = &visitor::on_visit;
+void (visitor::*on_visit_experiment)(const experiment &) = &visitor::on_visit;
+void (visitor::*on_visit_filter)(const filter &) = &visitor::on_visit;
+void (visitor::*on_visit_formula)(const formula &) = &visitor::on_visit;
+void (visitor::*on_visit_identity)(const identity &) = &visitor::on_visit;
+void (visitor::*on_visit_info)(const info &) = &visitor::on_visit;
+void (visitor::*on_visit_mechanism)(const mechanism &) = &visitor::on_visit;
+void (visitor::*on_visit_memo)(const memo &) = &visitor::on_visit;
+void (visitor::*on_visit_processing_instruction)(const processing_instruction &) = &visitor::on_visit;
+void (visitor::*on_visit_program)(const program &) = &visitor::on_visit;
+void (visitor::*on_visit_project)(const project &) = &visitor::on_visit;
+void (visitor::*on_visit_settings)(const settings &) = &visitor::on_visit;
+void (visitor::*on_visit_text)(const text &) = &visitor::on_visit;
+void (visitor::*on_visit_worker)(const worker &) = &visitor::on_visit;
+
+boost::python::class_< visitor_py, boost::noncopyable >("visitor",
+        "A visitor object is used to operate on a tree of data_scheme\n"
+        "types.  It passes itself to each object which then calls the\n"
+        "appropriate on_visit_? method.\n"
+        "The default implementation of these methods is to call the \n"
+        "on_visit_basic_datum method.",
+        boost::python::init<>()
+        )
+ .def("on_visit_basic_datum", boost::python::pure_virtual (on_visit_basic_datum),
+      "Operate on the generic basic_datum type. This is also the\n"
+      "default method if the derived class has not specified a\n"
+      "more specific method. This is also pure virtual so must be\n"
+      "defined in derived classes.")
+ .def("on_visit_comment", on_visit_comment, &visitor_py::def_on_visit_comment,
+      "Operate on comment objects.")
+ .def("on_visit_compound", on_visit_compound, &visitor_py::def_on_visit_compound,
+      "Operate on compound objects.")
+ .def("on_visit_compound_ref", on_visit_compound_ref, &visitor_py::def_on_visit_compound_ref,
+      "Operate on compound objects.")
+ .def("on_visit_datum", on_visit_datum, &visitor_py::def_on_visit_datum,
+      "Operate on datum objects.")
+ .def("on_visit_experiment", on_visit_experiment, &visitor_py::def_on_visit_experiment,
+      "Operate on experiment objects.")
+ .def("on_visit_filter", on_visit_filter, &visitor_py::def_on_visit_filter,
+      "Operate on filter objects.")
+ .def("on_visit_formula", on_visit_formula, &visitor_py::def_on_visit_formula,
+      "Operate on formula objects.")
+ .def("on_visit_identity", on_visit_identity, &visitor_py::def_on_visit_identity,
+      "Operate on identity objects.")
+ .def("on_visit_info", on_visit_info, &visitor_py::def_on_visit_info,
+      "Operate on info objects.")
+ .def("on_visit_mechanism", on_visit_mechanism, &visitor_py::def_on_visit_mechanism,
+      "Operate on mechanism objects.")
+ .def("on_visit_memo", on_visit_memo, &visitor_py::def_on_visit_memo,
+      "Operate on memo objects.")
+ .def("on_visit_processing_instruction", on_visit_processing_instruction, &visitor_py::def_on_visit_processing_instruction,
+      "Operate on processing_instruction objects.")
+ .def("on_visit_program", on_visit_program, &visitor_py::def_on_visit_program,
+      "Operate on program objects.")
+ .def("on_visit_project", on_visit_project, &visitor_py::def_on_visit_project,
+      "Operate on project objects.")
+ .def("on_visit_settings", on_visit_settings, &visitor_py::def_on_visit_settings,
+      "Operate on settings objects.")
+ .def("on_visit_text", on_visit_text, &visitor_py::def_on_visit_text,
+      "Operate on text objects.")
+ .def("on_visit_worker", on_visit_worker, &visitor_py::def_on_visit_worker,
+      "Operate on worker objects.")
+;

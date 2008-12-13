@@ -1,0 +1,266 @@
+format 61
+"py" // /compchem/data_access::py
+  revision 2
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "data_access"
+  cpp_src_dir "../src/data_access"
+  cpp_namespace "data_access"
+  classview 161705 "data_access_py"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 158761 // data_access_py
+    classdiagram 160041 "pythonise data_access"
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 460457 "meta_datum_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 464553 // <dependency>
+	relation 453673 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464553 // <dependency>
+	  b parent class_ref 433961 // meta_datum
+      end
+
+      operation 1469097 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definition of the meta_datum data_access C++ class"
+      end
+    end
+
+    class 460585 "data_access_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 466089 // <dependency>
+	relation 455209 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 466089 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      classrelation 464681 // <dependency>
+	relation 453801 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464681 // <dependency>
+	  b parent class_ref 460457 // meta_datum_py
+      end
+
+      extra_member 140073 "BOOST_PYTHON_MODULE(data_access)"
+	
+	cpp "" "// This file defines the python wrappers for the data_scheme namespace
+// into the data_scheme python module.
+//
+// * meta_datum
+// * xml_file
+// * xml_write_visitor
+
+BOOST_PYTHON_MODULE(data_access)
+{
+  bool (xml_access_helper::*get_auto_fix)() const = &xml_access_helper::auto_fix;
+  void (xml_access_helper::*set_auto_fix)(bool) = &xml_access_helper::auto_fix;
+
+  boost::python::class_< xml_access_helper, boost::noncopyable >(\"xml_access_helper\",
+        \"Manage configuration of the XML read/write classes.\",
+        boost::python::no_init
+        )
+   .add_static_property(\"helper\", boost::python::make_function(&xml_access_helper::helper, boost::python::return_internal_reference<>()), \"Get the data_access configuration management object.\")
+   .def(\"add_directory\", &xml_access_helper::add_directory
+       , \"Add a directory to search for broken links.\")
+   .add_property(\"auto_fix\", get_auto_fix, set_auto_fix
+       , \"Should we attempt to automatically fix broken links?\")
+   ;
+
+  meta_datum_py::pythonise ();
+}
+
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+  end
+
+  deploymentview 158761 "data_access_py"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 230185 "data_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 254761 // python
+	artifact_ref 230057 // data_access
+	artifact_ref 218409 // data_access_py
+	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 221609 // meta_datum_py
+	artifact_ref 253097 // date_time
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230313 // filesystem
+      end
+      ncouples 1
+      key "butter other" value "python-extension"
+    end
+
+    artifact 218409 "data_access_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <boost/python.hpp>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+// #include <boost/python/module.hpp>
+// #include <boost/python/def.hpp>
+// #include <boost/python/to_python_converter.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 460585 // data_access_py
+      end
+    end
+
+    artifact 221609 "meta_datum_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 460457 // meta_datum_py
+      end
+    end
+  end
+end

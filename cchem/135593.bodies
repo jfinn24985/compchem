@@ -1,0 +1,97 @@
+class project
+!!!336937.cpp!!!	get_information() : information
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "Cannot get non-existant node");
+// do
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!322473.cpp!!!	get_label() : string
+// check
+CHECK(true == has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+!!!321705.cpp!!!	get_reports() : std::vector< report_form >
+// local
+std::vector< report_form > result;
+purpletree::dom::dom_string l_report_list;
+unsigned int l_start(0), l_end(0);
+// check
+ensure_project ();
+CHECK(true == has_attribute (S_REPORT_FORM_NAME, m_rep), "Invalid document");
+// do
+l_report_list = get_attribute_priv (S_REPORT_FORM_NAME, m_rep);
+do
+{
+  // For each substring, find the cross referenced node.
+  l_end = l_report_list.find (' ', l_start);
+  purpletree::dom::node l_report(data_source::connector::find_node (S_REPORT_FORM_NAME
+                                       , S_LABEL_NAME
+                                       , l_report_list.substr (l_start, (l_end - l_start))
+                                       , m_rep));
+  if (false == l_report.is_null ())
+  {
+    result.push_back (l_report);
+  }
+  else
+  {
+    LOG(("Invalid cross-reference [" + purpletree::dom::get_utf8(l_report_list.substr (l_start, (l_end - l_start))) + "] in experiment/@report, cannot find matching report").c_str());
+  }
+  l_start = l_end;
+}
+while (l_start < l_report_list.size ());
+// ensure
+ENSURE(false == result.empty (), "Could not find reports from cross-references");
+//end
+return result;
+!!!337193.cpp!!!	get_workers() : std::vector< worker >
+// local
+std::vector< worker > result;
+purpletree::dom::dom_string l_worker_list;
+unsigned int l_start(0), l_end(0);
+// check
+ensure_project ();
+CHECK(true == has_attribute (S_WORKER_NAME, m_rep), "Invalid document");
+// do
+l_worker_list = get_attribute_priv (S_WORKER_NAME, m_rep);
+do
+{
+  // For each substring, find the cross referenced node.
+  l_end = l_worker_list.find (' ', l_start);
+  purpletree::dom::node l_worker(data_source::connector::find_node (S_WORKER_NAME
+                                       , S_LABEL_NAME
+                                       , l_worker_list.substr (l_start, (l_end - l_start))
+                                       , m_rep));
+  if (false == l_worker.is_null ())
+  {
+    result.push_back (l_worker);
+  }
+  else
+  {
+    LOG(("Invalid cross-reference [" + purpletree::dom::get_utf8(l_worker_list.substr (l_start, (l_end - l_start))) + "] in experiment/@worker, cannot find matching worker").c_str());
+  }
+  l_start = l_end;
+}
+while (l_start < l_worker_list.size ());
+// ensure
+ENSURE(false == result.empty (), "Could not find workers from cross-references");
+//end
+return result;
+!!!337065.cpp!!!	has_information() : bool
+// do
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!322217.cpp!!!	has_reports() : bool
+// do
+ensure_project ();
+return has_attribute (S_REPORT_FORM_NAME, m_rep);
+!!!322345.cpp!!!	has_workers() : bool
+// do
+ensure_project ();
+return has_attribute (S_WORKER_NAME, m_rep);
+!!!337321.cpp!!!	project(in a_parent : program)
+// require
+REQUIRE(true == check_name (S_PROJECT_NAME, m_rep)
+        or true == check_name (S_PROJECT_SRC_NAME, m_rep), "Node, object type mismatch");
+!!!337705.cpp!!!	operator=(in source : project) : project
+// do
+m_rep = source.m_rep;
+// end
+return *this;

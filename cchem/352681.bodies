@@ -1,0 +1,12 @@
+class text_out_decor
+!!!1109673.cpp!!!	serialise_header(inout a_os : std::ostream) : void
+a_os << "#TITLE=" << m_header.title() << "\n";
+a_os << "#DATA TYPE=" << m_header.data_type () << "\n";
+a_os << "#ORIGIN=" << m_header.origin () << "\n";
+a_os << "#OWNER=" << m_header.owner () << "\n";
+a_os << "#DATE=" << m_header.date_string () << "\n";
+for (output_header::const_iterator l_i = m_header.get_header_map ().begin ();
+     l_i != m_header.get_header_map ().end ();
+     ++l_i) {
+  std::string l_temp (boost::algorithm::to_upper_copy (l_i->first));
+  a_os << "#" << l_temp << "=" << l_i->second << "\n"; }

@@ -1,0 +1,78 @@
+class formula
+!!!334505.cpp!!!	ensure_formula() : void
+// do
+if (true == check_name (S_FORMULA_SRC_NAME, m_rep))
+{
+  CHECK(true == has_attribute (S_HREF_NAME, m_rep), "Invalid document");
+  purpletree::dom::node l_new_node (data_source::connector::provide_node (get_attribute_priv (S_HREF_NAME, m_rep), m_rep));
+  CHECK(false == l_new_node.is_null (), "Could not find sub-document");
+  ALWAYS(true == check_name (S_FORMULA_NAME, l_new_node) 
+         and get_attribute_priv (S_LABEL_NAME, m_rep) == get_attribute_priv (S_LABEL_NAME, l_new_node)
+         , "Incorrect node found")
+  m_rep = l_new_node;
+}
+!!!333609.cpp!!!	get_experiments() : std::vector< experiment >
+// local
+std::vector< experiment > result;
+// do
+ensure_formula ();
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (true == check_name (S_EXPERIMENT_NAME, l_child))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// end
+return result;
+!!!333865.cpp!!!	get_formulations() : std::vector< formulation >
+// local
+std::vector< formulation > result;
+// do
+ensure_formula ();
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (true == check_name (S_FORMULATION_NAME, l_child))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// ensure
+REQUIRE(false == result.empty(), "Invalid document");
+// end
+return result;
+!!!333097.cpp!!!	get_information() : information
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "Cannot get non-existant node");
+// do
+ensure_formula ();
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!333481.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+
+!!!333225.cpp!!!	has_information() : bool
+// do
+ensure_formula ();
+
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!333993.cpp!!!	formula(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_FORMULA_NAME, m_rep) or true == check_name (S_FORMULA_SRC_NAME, m_rep), "Node, object type mismatch");
+!!!334377.cpp!!!	operator=(in source : formula) : formula
+// do
+m_rep = source.m_rep;
+// end
+return *this;

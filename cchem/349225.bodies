@@ -1,0 +1,9 @@
+class plugin_filter
+!!!1090729.cpp!!!	plugin_filter(in a_filter : filter)
+// Plugin is valid or a error would be thrown. set callbacks.
+m_plugin->m_output_cb = &plugin_filter::output_callback_;
+m_plugin->m_create_datum_cb = &datum_traits::create;
+m_plugin->m_add_content_cb = &datum_traits::add_content;
+m_plugin->m_set_format_cb = &datum_traits::set_format;
+m_plugin->m_set_ordinal_cb = &datum_traits::set_ordinal;
+m_plugin->m_set_scale_cb = &datum_traits::set_scale;

@@ -1,0 +1,27 @@
+// "a type" "needed cpp_includes"
+"std::vector" "#include <vector>"
+
+"std::list" "#include <list>"
+
+"std::map" "#include <map>"
+
+"std::string" "#include <string>"
+
+"boost::ptr_vector" "#include <boost/ptr_container/ptr_vector.hpp>"
+
+"std::auto_ptr" "#include <memory>"
+
+"std::set" "#include <set>"
+
+"boost::ptr_list" "#include <boost/ptr_container/ptr_list.hpp>"
+
+"uint64" "#include <boost/cstdint.hpp>"
+
+"int64" "#include <boost/cstdint.hpp>"
+
+"std::stringstream" "#include <sstream>"
+
+"std::istringstream" "#include <sstream>"
+
+"std::ostringstream" "#include <sstream>"
+

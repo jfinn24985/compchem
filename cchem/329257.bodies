@@ -1,0 +1,20 @@
+class view_memo_factory
+!!!321449.cpp!!!	get_view_memento_list(inout a_project : project) : string
+// local
+std::vector< report_form > result;
+// do
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (true == check_name (S_REPORT_FORM_NAME, l_child))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// ensure
+// end
+return result;

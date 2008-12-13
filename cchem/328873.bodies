@@ -1,0 +1,22 @@
+class project_factory
+!!!966825.cpp!!!	get_projects() : std::vector< project >
+// local
+std::vector< project > result;
+// do
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (l_child.ELEMENT_NODE == l_child.node_type () 
+        and (S_PROJECT_NAME == l_child.node_name () or
+             S_PROJECT_SRC_NAME == l_child.node_name ()))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// ensure
+// end
+return result;

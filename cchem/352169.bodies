@@ -1,0 +1,25 @@
+class csv_out_decor
+!!!1096617.cpp!!!	serialise_header(inout a_os : std::ostream) : void
+a_os << "\"TITLE\", \"" << escape_string(m_header.title()) << "\"\n";
+a_os << "\"DATA TYPE\", \"" << escape_string(m_header.data_type ()) << "\"\n";
+a_os << "\"ORIGIN\", \"" << escape_string(m_header.origin ()) << "\"\n";
+a_os << "\"OWNER\", \"" << escape_string(m_header.owner ()) << "\"\n";
+a_os << "\"DATE\", \"" << escape_string(m_header.date_string ()) << "\"\n";
+for (output_header::const_iterator l_i = m_header.get_header_map ().begin ();
+     l_i != m_header.get_header_map ().end ();
+     ++l_i) {
+  std::string l_temp (boost::algorithm::to_upper_copy (l_i->first));
+  a_os << "\"" << escape_string(l_temp) << "\", \"" << escape_string(l_i->second) << "\"\n"; }
+a_os << "\n"; // Output empty line to indicate end of header
+!!!1107113.cpp!!!	escape_string(in a_str : string) : string
+// LOCAL
+std::stringstream Result;
+const std::string l_to_esc ("\", ");
+// DO
+for (std::string::const_iterator l_i = a_str.begin ();
+     l_i != a_str.end ();
+     ++l_i) {
+  // Add '\' if character needs to be escaped
+  if (std::string::npos != l_to_esc.find (*l_i)) { Result << '\\'; }
+  Result << *l_i; }
+return Result.str ();

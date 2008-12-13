@@ -1,0 +1,494 @@
+class compchem_filter
+!!!137129.cpp!!!	~compchem_filter()
+  if ( _m_database_node )
+    delete _m_database_node;
+  if ( _m_root_node )
+    delete _m_root_node;
+  while ( !_m_use_list.empty() ) {
+    delete _m_use_list.back();
+    _m_use_list.pop_back();
+  };
+  for_each( _m_handle_list.begin(), _m_handle_list.end(), dlclose );
+!!!137257.cpp!!!	_check_index(in value : string) : void
+  if ( !_m_config->has_key( "index" ) || (*_m_config)["index"].empty() ) {
+    try {
+      _m_config->read_config_file( (*_m_config)["base_dir"] + "/config.ind" );
+      __time_stamp( "Index file read complete" );
+    }
+    catch( ... ) {
+      std::cerr << "Error reading index file, ignoring";
+    }
+  };
+  std::vector< std::string > list = std_regex::split_by_delimiter( ':', (*_m_config)["index"] );
+  for ( unsigned int _i = 0; _i < list.size(); ++_i ) {
+    DEBUG( "compchem_filter::_check_index -> found ID", list[ _i ].c_str() );
+    if ( list[ _i ] == value ) {
+      std::string message = ChkcalcError;
+      message += "ID [";
+      message += value;
+      message += "] already exists in index [";
+      message +=  (*_m_config)["index"];
+      message += "]. \n\nRemove the index file \"";
+      message += (*_m_config)["base_dir"];
+      message += "/config.ind";
+      message += "\" if you think this ID should be allowed.";
+      __time_stamp( "Index check complete, bad exiting" );
+      throw message.c_str();
+    };
+  };
+  __time_stamp( "Index check complete, index OK exiting" );
+!!!137385.cpp!!!	_save_index(in  : void) : void
+  if ( _m_database_node ) {
+    std::string _retstr;
+    std::set< std::string > &_id_list = dynamic_cast<xml_node*>(_m_database_node)->get_id_list();
+    for ( std::set< std::string >::iterator _i = _id_list.begin();
+	  _i != _id_list.end();
+	  ++_i ) {
+      if ( _retstr.empty() )
+	_retstr = (*_i);
+      else
+	_retstr += ":" + (*_i);
+    };
+    xml_rb_node *snode = xml_rb_node::make( "index" );
+    snode->content( _retstr );
+
+    xml_rb_node *cfgnode = xml_rb_node::make( "chkcalc-config" );
+    cfgnode->append( snode );    
+    cfgnode->attribute("version", "1.00");
+    
+    cfgnode->dump( (*_m_config)["base_dir"] + "/config.ind" );
+    delete snode;
+    delete cfgnode;
+  };
+!!!137513.cpp!!!	_read_database(in  : void) : bool
+  DEBUG( "read_database: ", (*_m_config)["database"].c_str() );
+  return _m_database_node->open( (*_m_config)["database"] );
+!!!137641.cpp!!!	_create_database(in  : void) : void
+  DEBUG( "create_database" );
+  _m_database_node->delete_content();
+
+  if ( !_m_root_node->has_attribute("worker") )
+    _m_root_node->attribute( "worker", (*_m_config)["worker"] );
+  
+  xml_rb_node *_newnode;
+
+  _newnode = xml_rb_node::make( "worker" );
+  _newnode->attribute( "label", (*_m_config)["worker"] );
+  _m_database_node->append(  _newnode );
+
+  _newnode = xml_rb_node::make( "comp-program" );
+  _newnode->attribute( "name", "g94" );
+  _m_database_node->append(  _newnode );
+
+  _newnode = xml_rb_node::make( "comp-program" );
+  _newnode->attribute( "name", "g98" );
+  _m_database_node->append(  _newnode );
+
+  _newnode = xml_rb_node::make( "comp-program" );
+  _newnode->attribute( "name", "g03" );
+  _m_database_node->append(  _newnode );
+!!!137769.cpp!!!	_merge(in  : void) : void
+  DEBUG( "compchem_filter::_merge -> entered" );
+
+  //  One of the things we need to check is whether this data, or at
+  //  least part of it, is in the database already and add only what
+  //  is necessary.
+   
+  //  This function assumes that the following information is avalaible:
+  //  print _m_config["compound_label"]
+  //  print _m_config["geometry_label"]
+  //  (it relies on key exceptions to crash the program)
+  
+  if ( _m_database_node->tag() != "program" ) // Something has gone wrong!!
+    throw "ChkcalcError, primary database node should have <program> tag but doesn't!!";
+
+
+  // We are in a "program" tree and need to search for the compound
+  // (Remember that the "compound_label" option is in the form
+  // "label:compound-name")
+  std::string _label;
+  unsigned int _pos = 0;
+  if ( _m_config->has_key( "compound_label" ) ) {
+    _pos = (*_m_config)["compound_label"].find( ":" );
+    if ( _pos < (*_m_config)["compound_label"].size() ) {
+      _label =(*_m_config)["compound_label"].substr( 0, _pos );
+    };
+  };
+  DEBUG( "compchem_filter::_merge -> Got label, search for matching <compound>",
+	 _label.c_str() );
+
+  xml_rb_node::search_cond _comp("_tag", "compound");
+  _comp.add_search_cond("label", _label);
+  std::vector<xml_rb_node::xml_type> _node_list = _m_database_node->search( _comp );
+
+#ifdef __DEBUG__
+  if ( _node_list.size() > 0 )
+    __time_stamp( "compchem_filter::_merge -> Compound node found:" );
+  else
+    __time_stamp( "compchem_filter::_merge -> Compound node not found" );
+#endif
+
+  // Create variable for compound node..
+  xml_rb_node::xml_type _compound_node = NULL;
+
+  if ( _node_list.empty() ) {
+    // Compound is not already present, create and add to end of program node.
+    _compound_node = xml_rb_node::make( "compound" );
+    _compound_node->attribute( "label", _label );
+    xml_rb_node::xml_type _name = xml_rb_node::make( "iupac-name" );
+    _name->content( (*_m_config)["compound_label"].substr( _pos + 1 ) );
+    _compound_node->content( _name );
+    _m_database_node->append( _compound_node );
+  } else {
+    _compound_node = _node_list.front();
+  };
+
+  //
+  //	Compound exists in database or we have added it
+  //
+  // We now need to see if the geometry is already present.
+  if ( !_m_config->has_key( "geometry_label" ) ) // Something has gone wrong!!
+    throw "ChkcalcError, no \"geometry_label\" in configuration!!";
+
+  _label = (*_m_config)["geometry_label"];
+  if ( !_node_list.empty() ) {
+    // If previous node list is not empty then we may have geometries
+    // matching our experiment.
+    xml_rb_node::search_cond _geom("_tag", "geometry");
+    _geom.add_search_cond("label", _label);
+    _node_list = _compound_node->search( _geom );
+#ifdef __DEBUG__
+    if ( _node_list.empty() )
+      __time_stamp( "compchem_filter::_merge -> geometry node not found" );
+    else
+      __time_stamp( "compchem_filter::_merge -> geometry node found" );
+#endif
+    // This time if node list is empty then we have no geometries..
+    if  ( _node_list.empty() ) {
+      // Did not find geometry, add geometry that is the parent of the
+      // _m_root_node to end of compound.
+      _compound_node->append( _m_root_node->parent() );
+      __time_stamp( "compchem_filter::_merge -> Added geometry node"  );
+    } else {
+      // Found geometry, copy the contents of the geometry that is the
+      // parent of the _m_root_node to end of compound.
+      _node_list.front()->append(  _m_root_node->parent()->child() );
+      __time_stamp( "compchem_filter::_merge -> Added geometry contents node"  );
+    };
+  } else {
+    // We have just created and added the compound object, we can now
+    // just add the geometry from this session.
+    _compound_node->append( _m_root_node->parent() );
+    __time_stamp( "compchem_filter::_merge -> Added geometry node"  );
+  };
+!!!137897.cpp!!!	commandline_option_setup(in  : void) : void
+  // This is called to setup the command line options of the _m_config
+  // object before the comp_chem_config.commandline_options() method
+  // is called. We are overriding the default to set our own options
+  DEBUG( "compchem_filter::commandline_option_setup -> entered" );
+  
+  // Call base first, so that our options override any set earlier
+  compchem_manager::commandline_option_setup();
+
+
+  DEBUG( "compchem_filter::commandline_option_setup -> base done" );
+  
+  // Define the new options
+  _m_config->add_config_option( 'i', 2, "input_file", "Gives the filename of the input file. If not present\n\t\tthen stdin or the last argument assumed.", "<inputfile>" );
+  _m_config->add_config_option( 'o', 2, "database", "Output file. Used when the default database is not wanted.", "<outputfile>" );
+  _m_config->add_config_option( 'c', 2, "compound_label", "Needed to input a new compound into the database, it\n\t\tshould be in the form \"label:iupac_name\". The label\n\t\tneeds to be unique.", "<compound_label>" );
+  _m_config->add_config_option( 'g', 2, "geometry_label", "Needed to input a new geometry into the database, it\n\t\tneeds to be unique within a compound.", "<geom_label>" );
+  _m_config->add_config_option( 'p', 2, "pageref", "A unique key to identify this experiment.", "<pageref>" );
+  _m_config->add_config_option( 'w', 2, "worker", "A unique key to identify the experimenter.", "<worker>" );
+  _m_config->add_config_option( '-', 2, "input_file", "", "" );
+
+  DEBUG( "compchem_filter::commandline_option_setup -> done" );
+!!!138025.cpp!!!	config_system(in  : void) : void
+  // This is called to perform additional setup for the _m_config
+  // object before the comp_chem_config.configuration() method is
+  // called. Again call base version first.
+  DEBUG( "compchem_filter::config_system -> entered" );
+  compchem_manager::config_system();
+  DEBUG( "compchem_filter::config_system -> base done" );
+
+  // Dictionary of data from the configuration. This includes the
+  // following keys not in the base initialisation: "command_str"
+  // "compound_label" "filter_dir" "geometry_label" "header_str"
+  // "pageref" "title"
+  _m_config->set_option( "command_str", "" );
+  _m_config->set_option( "compound_label", "" );
+  _m_config->set_option( "filter_dir", "/library" );
+  _m_config->set_option( "geometry_label", "" );
+  _m_config->set_option( "header_str", "" );
+  _m_config->set_option( "index", "" );
+  _m_config->set_option( "input_file", "" );
+  _m_config->set_option( "pageref", "" );
+  DEBUG( "compchem_filter::config_system -> done" );
+!!!138153.cpp!!!	function_determine(in  : void) : void
+  // --private:  filter-initialisation--
+  __time_stamp( "function_determine entered" );
+
+  // Open the gaussian file and process for the header section.
+  
+  if ( !_m_config->has_key( "input_file" ) ) {
+    throw "compchem_filter::function_determine, no filename given";
+  };
+
+  _m_instream = new gaussian_file( (*_m_config)["input_file"] );
+  DEBUG( _m_instream->header().c_str() );
+  
+  __time_stamp( "Gaussian file opened and header retrieved" );
+
+  // This routine gives each filter the "gaussian" input command and
+  // asks whether the filter can handle it. If it can it gets added to
+  // the "_m_use_list"
+        
+  // Process the plugin filter configuration
+
+  //  Check that entries are in the dictionary.
+  if ( !( _m_config->has_key( "install_dir" ) ||
+	  _m_config->has_key( "filter_dir" ) ) ) {
+    throw "Error reading filter configuration file, unable to find file";
+  };
+  
+  // Check to see if filter list has already been defined, if not then
+  // read configuration file.
+  if ( !( _m_config->has_key( "gaussianfilters" ) ) ) {
+    // Not defined, read the configuration file
+    std::string _filter_config_filename = (*_m_config)["install_dir"];
+    _filter_config_filename += (*_m_config)["filter_dir"];
+    _filter_config_filename += "-cpp/filters/config.filter";
+    DEBUG( "compchem_filter::function_determine -> Reading filter module config file", 
+	   _filter_config_filename.c_str() );
+    _m_config->read_config_file( _filter_config_filename );
+  };
+  
+  // Now we should have entry for filter list.
+  if ( !( _m_config->has_key( "gaussianfilters" ) ) ) {
+    throw "Error reading filter configuration file, filter list not present or not understood";
+  };
+  DEBUG( "compchem_filter::function_determine -> Defined filters are", (*_m_config)["gaussianfilters"].c_str() );
+
+  std::vector< std::string > filternames = std_regex::split_by_delimiter( ':', std_regex::chomp((*_m_config)["gaussianfilters"]) );
+
+#ifdef __DEBUG__
+  std::cerr << "Filter data_access::names." << std::endl;
+  for ( unsigned int _i = 0; _i < filternames.size(); ++_i ) {
+    std::cerr << "[" << _i << "] = \"" << filternames[_i] << "\"" << std::endl;
+  };
+#endif
+
+  // Now we have the filter data_access::names, open each one and test for
+  // suitability one by one..
+
+  // Typedef for the symbol fetched from the filter module
+  // library. This needs to match the ``module_initialise'' defined in
+  // "filter_base\.hpp"
+  typedef filter_base *(*mod_init)( const std::string & ); 
+
+  std::vector< std::string >::iterator cur = filternames.begin();
+  std::string _fullname;
+  while ( cur != filternames.end() ) {
+    // Skip over empty filenames
+    if ( !(*cur).empty() ) {
+      _fullname = (*_m_config)["install_dir"];
+      _fullname += (*_m_config)["filter_dir"];
+      _fullname += "-cpp/filters/";
+      _fullname += *cur;
+      // Try opening the library...
+      void *_lib_handle = dlopen( _fullname.c_str(), RTLD_NOW );
+      // "_lib_handle" should not be null, unless a problem occured
+      if ( NULL != _lib_handle ) {
+	// Try retrieving the "module_initialise" function
+	mod_init fcn = mod_init(dlsym( _lib_handle, "module_initialise" ));
+	// "fcn" should not be null, unless a problem occured
+	if ( NULL != fcn ) {
+	  // Try using function to create filter_base object
+	  filter_base *_filter_obj = (*fcn)( _m_instream->command() );
+	  if ( _filter_obj ) {
+	    // Object created!!
+	    DEBUG( "Filter can handle this file type", (*cur).c_str() );
+	    std::cerr << "Filter [" << (*cur).c_str() << "] can handle this file type" << std::endl;
+	    _m_use_list.push_back( _filter_obj );
+	    _m_handle_list.push_back( _lib_handle );
+	  } else {
+	    // No object, something went wrong or filter cannot handle
+	    // this file type
+	    DEBUG( "Filter can not handle file ", (*cur).c_str() );
+	    dlclose( _lib_handle );
+	  };
+	} else {
+	  // "fcn" was null so a problem occured
+	  DEBUG( "Filter openned but could not retrieve initialisation function.",
+		 (*cur).c_str() );
+	  DEBUG( "Reason given", dlerror() );
+	  dlclose( _lib_handle );
+	};
+      } else {
+	// "_lib_handle" was null so a problem occured
+	DEBUG( "Unable to process filter, ignoring.", (*cur).c_str() );
+	DEBUG( "Reason given", dlerror() );
+      };
+    };
+    ++cur;
+  };
+
+  DEBUG( "At end of filter creation the number of filters is", _m_use_list.size() );
+  
+  if ( _m_use_list.empty() ) {
+    throw "ChkcalcError, No Filters defined for this input file...";
+  };
+    
+  __time_stamp( "Filter loading complete" );
+!!!138281.cpp!!!	initialisation(in argc : int = 0, inout argv : char = NULL) : void
+  // --public:  initialisation--"
+  __time_stamp( "System initiation start" );
+
+  compchem_manager::initialisation( argc, argv );
+  //  This function initialises the main filter object. It reads
+  //  the configuration database, command line options and creates a
+  //  rudimentary data branch from the config and command line
+  __time_stamp( "Base system initiation complete" );
+  
+  // Try creating a rudimentary data branch
+  if ( !_m_config->has_key( "geometry_label" ) || (*_m_config)["geometry_label"].empty() )
+    _m_config->set_option( "geometry_label", "GEOM_TEST" );
+  // ### XXX
+  if ( !_m_config->has_key( "pageref" ) || (*_m_config)["pageref"].empty() )
+    _m_config->set_option( "pageref", "PAGER_TEST" );
+  // ### XXX
+  if ( !_m_config->has_key( "compound_label" ) || (*_m_config)["compound_label"].empty() )
+    _m_config->set_option( "compound_label", "COMPOUND_TEST:FAKE_NAME" );
+  // ### XXX
+  if ( !_m_config->has_key( "worker" ) || (*_m_config)["worker"].empty() )
+    _m_config->set_option( "worker", "FAKE_NAME" );
+
+  // If we are here then things appeared to initialise OK"
+  __time_stamp( "All initiation read in" );
+
+  _check_index( (*_m_config)["pageref"] );
+  
+  __time_stamp( "All initiation checked" );
+
+  //#ifdef __DEBUG__
+  // std::cerr << "After Initialisation" << std::endl << *_m_config << endl;
+  //#endif
+!!!138409.cpp!!!	main(in  : void) : int
+  DEBUG( "compchem_filter::main -> entered" );
+  compchem_manager::main();
+
+  // This routine "drives" the plugin filters over the "gaussian" file
+            
+  // Step through the main part of the file, giving each filter a line
+  // of the "gaussian" file. We could have read in the whole file, but
+  // as this can be large (>100Mb) we only read a line at a time here.
+  // This may mean that the system is s_l_o_w but we can afford for
+  // the filter operation to be slow as we will not be doing it that
+  // often.
+
+  for_each( _m_use_list.begin(), _m_use_list.end(), init_helper( _m_instream->header() ) );
+
+  __time_stamp( "Filtering initiation complete" );
+
+  char current_line[256]; // Gaussian files are generally only 70-80 chars wide
+  
+  while ( *_m_instream ) {
+    current_line[0] = '\0';
+    _m_instream->getline( current_line, 255, '\n' );
+
+    // if not current_line:
+    //     "End-of-file"
+    //     break;
+    DEBUG( "Current line", current_line );
+    for_each( _m_use_list.begin(), _m_use_list.end(), proc_helper( current_line ) );
+    //                 plugin_filter.process_line( current_line )
+  };
+
+  __time_stamp( "File filtering complete" );
+
+  // We have now read the entire "gaussian" file. Now we pass each
+  // filter object the root data node so they can add their data to it
+
+  // Create a rudimentary root node
+  _m_root_node = xml_rb_node::make( "experiment" );
+  
+  _m_root_node->attribute( "type", "calc" );
+  _m_root_node->attribute( "pageref", (*_m_config)["pageref"] );
+  _m_root_node->attribute( "worker", (*_m_config)["worker"] );
+
+  xml_rb_node *parent = xml_rb_node::make( "geometry" );
+  parent->attribute( "label", (*_m_config)["geometry_label"] );
+  parent->content( _m_root_node );
+
+  if ( !_m_root_node ) {
+    throw "Invalid base node before data collection.";
+  };
+
+  __time_stamp( "Result node created" );
+
+  for_each( _m_use_list.begin(), 
+	    _m_use_list.end(), 
+	    outp_helper( _m_root_node ) );
+  
+  __time_stamp( "Data collection complete" );
+
+#ifdef __DEBUG__
+  // At this stage the ID list should be complete. Lets check it out.
+  std::cerr << "ID list before merge is:" << std::endl;
+  xml_node *tmp1 = dynamic_cast< xml_node* >( _m_root_node );
+  copy( tmp1->get_id_list().begin(), 
+	tmp1->get_id_list().end(), 
+	std::ostream_iterator<std::string>( std::cerr, ", "));
+  std::cerr << std::endl;
+#endif 
+
+  // -----------------------------------------------------------------
+  // MERGE section
+  //
+  // Data is now in memory, attempt to merge with existing database.
+  // -----------------------------------------------------------------
+
+  _m_database_node = xml_rb_node::make( "program" );
+  if ( _read_database() ) {
+    __time_stamp( "Database read completed" );
+    if ( _m_database_node && _m_database_node->is_valid() ) {
+      __time_stamp( "Validity check passed after database read" );
+    } else {
+      __time_stamp( "Validity check failed after database read" );
+      return 1;
+    };
+  } else {
+    _create_database();
+  }
+
+  __time_stamp( "Database read complete, about to merge" );
+
+  _merge();
+
+  __time_stamp( "Database merge complete" );
+
+#ifdef __DEBUG__
+  // At this stage the ID lsit should be complete. Lets check it out.
+  std::cerr << "ID list after merge is:" << std::endl;
+  xml_node *tmp2 = dynamic_cast< xml_node* >( _m_database_node );
+  copy( tmp2->get_id_list().begin(), 
+	tmp2->get_id_list().end(), 
+	std::ostream_iterator<std::string>( std::cerr, ", "));
+  std::cerr << std::endl;
+#endif 
+
+  if ( _m_database_node->is_valid() ) {
+    __time_stamp( "Validity check complete" );
+    _m_database_node->dump( (*_m_config)["database"] );
+    _save_index();
+
+    __time_stamp( "Database save complete" );
+    return 0; 
+  } else {
+    __time_stamp( "Validity check failed" );
+    DEBUG( "Could not add new data to database. Attempting to save data to \"filter_out.xml\"." );
+    _m_database_node->dump( "filter_out.xml" );
+    __time_stamp( "Database attempted save complete to file \"filter_out.xml\"" );
+    throw "Could not add new data to database.";
+    return 1;
+  };

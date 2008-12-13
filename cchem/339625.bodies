@@ -1,0 +1,179 @@
+class xml_traits
+!!!1044521.cpp!!!	find_node_by_name(in a_start : purpletree::dom::node, in a_name : purpletree::dom::dom_string) : purpletree::dom::node
+  // LOCAL
+  purpletree::dom::node Result (a_start);
+  // DO
+  while (not Result.is_null ())
+  {
+    if (purpletree::dom::node::ELEMENT_NODE == Result.node_type ()
+        and a_name == Result.node_name ())
+      {
+        break;
+      }
+    Result = Result.next_sibling ();
+  }
+  ENSURE (Result.is_null ()
+  	or (purpletree::dom::node::ELEMENT_NODE == Result.node_type ()
+  	    and a_name == Result.node_name ())
+  	, "Invalid node found?");
+  return Result;
+!!!1044649.cpp!!!	find_last_node_by_name(in a_start : purpletree::dom::node, in a_name : purpletree::dom::dom_string) : purpletree::dom::node
+  // LOCAL
+  purpletree::dom::node Result (a_start);
+  // DO
+  while (not Result.is_null ())
+  {
+    if (purpletree::dom::node::ELEMENT_NODE == Result.node_type ()
+        and a_name == Result.node_name ())
+      {
+        break;
+      }
+    Result = Result.previous_sibling ();
+  }
+  ENSURE (Result.is_null ()
+  	or (purpletree::dom::node::ELEMENT_NODE == Result.node_type ()
+  	    and a_name == Result.node_name ())
+  	, "Invalid node found?");
+  return Result;
+!!!1044777.cpp!!!	get_date_attribute(in a_cursor : purpletree::dom::element, in a_attr_name : purpletree::dom::dom_string) : boost::gregorian::date
+  // PRE
+  REQUIRE (not a_cursor.is_null (), "Cannot get an attribute from a null node.");
+  REQUIRE (not a_attr_name.empty (), "Cannot get an attribute with no name.");
+  purpletree::dom::dom_string l_date (a_cursor.get_attribute (a_attr_name));
+  REQUIRE (not l_date.empty (), "Valid attribute is required to get date.");
+  // DO
+  // Get the date
+  boost::gregorian::date Result (boost::gregorian::from_undelimited_string (purpletree::dom::get_utf8(l_date)));
+  ENSURE (not Result.is_not_a_date (), "Invalid date attribute");
+  return Result;
+!!!1044905.cpp!!!	get_node_content(in a_node : purpletree::dom::element) : string
+  // LOCAL
+  std::stringstream Result;
+  // PRE
+  REQUIRE (not a_node.is_null ()
+  	 , "Cannot get node content from a null node.");
+  // DO
+  for (purpletree::dom::node l_node (a_node.first_child ());
+       not l_node.is_null ();
+       l_node = l_node.next_sibling ())
+  {
+    if (purpletree::dom::node::TEXT_NODE == l_node.node_type ())
+      {
+        Result << purpletree::dom::get_utf8 (l_node.node_value ());
+      }
+  }
+  return Result.str ();
+!!!1045161.cpp!!!	set_attribute(inout a_cursor : purpletree::dom::element, in a_attr_name : purpletree::dom::dom_string, in a_value : purpletree::dom::dom_string) : bool
+  // LOCAL
+  bool Result(false);
+  // PRE
+  REQUIRE (not a_cursor.is_null (), "Cannot change a null node.");
+  if (a_cursor.get_attribute (a_attr_name) != a_value)
+  {
+    if (a_value.empty ())
+      {
+        // Empty value means remove attribute
+        a_cursor.remove_attribute (a_attr_name);
+      }
+    else
+      {
+        a_cursor.set_attribute (a_attr_name, a_value);
+      }
+    Result = true;
+    ENSURE (a_cursor.get_attribute (a_attr_name) == a_value
+  	  , "Real value should equal value given to set_attribute.")
+  }
+  return Result;
+  
+!!!1045289.cpp!!!	set_date_attribute(inout a_cursor : purpletree::dom::element, in a_attr_name : purpletree::dom::dom_string, in a_value : boost::gregorian::date, in a_initial : bool = false) : bool
+  // LOCAL
+  bool Result (false);
+  // PRE
+  REQUIRE (not a_cursor.is_null (), "Cannot change a null node.");
+  REQUIRE (not a_attr_name.empty (), "Cannot have an attribute with no name.");
+  REQUIRE (not a_value.is_not_a_date ()
+  	 , "Cannot set a date with value that is_not_a_date.");
+  // DO
+  REQUIRE (a_initial == a_cursor.get_attribute (a_attr_name).empty ()
+  	 , "Can only set initial attribute when attribute is empty.");
+  
+  // Test if a change occurred
+  if (a_initial or get_date_attribute (a_cursor, a_attr_name) != a_value)
+  {
+    a_cursor.set_attribute (a_attr_name
+  			  , purpletree::dom::set_utf8(boost::gregorian::to_iso_string (a_value)));
+    Result = true;
+    ENSURE (a_value == get_date_attribute (a_cursor, a_attr_name)
+  	  , "Current date does not equal value input to set_date_attribute");
+  }
+  return Result;
+!!!1045417.cpp!!!	set_node_content(inout a_node : purpletree::dom::element, in a_value : string) : bool
+  // LOCAL
+  bool Result (false);
+  // PRE
+  REQUIRE (not a_node.is_null (), "Cannot change the content of an empty node.");
+  REQUIRE (not a_node.owner_document ().is_null ()
+  	 , "Cannot change content of node with no document.");
+  // DO
+  std::string l_old_value;
+  //try
+  //{
+  l_old_value = get_node_content (a_node);
+  //}
+  //catch (const std::exception &a_err)
+  //{
+  //  ALWAYS(false, a_err.what ());
+  //}
+  
+  // Check if content has changed.
+  if (a_value != l_old_value)
+  {
+    purpletree::dom::dom_string l_value (purpletree::dom::set_utf8 (a_value));
+    purpletree::dom::node l_node (a_node.first_child ());
+    // find the first text node.
+    while (not l_node.is_null ()
+  	 and purpletree::dom::node::TEXT_NODE != l_node.node_type ())
+      {
+        l_node = l_node.next_sibling ();
+      }
+    
+    // If there is a new value set the content of this first node
+    // (creating it if necessary)
+    if (not a_value.empty ())
+      {
+        if (l_node.is_null ())
+  	{ 
+  	  // When there is no text node, add one
+  	  l_node = a_node.owner_document ().create_text_node (l_value);
+  	  a_node.append_child (l_node);
+  	}
+        else
+  	{
+  	  // When there is a text node, set value.
+  	  l_node.node_value (l_value);
+  	}
+        // Move to the next node (which may be null)
+        l_node = l_node.next_sibling ();
+      }
+    // Delete any remaining TEXT_NODE nodes. When a_value is not empty
+    // we moved from the first TEXT_NODE to its sibling above.  Below we
+    // delete all TEXT_NODE including the current one.  The corollary of
+    // this is that we delete all TEXT_NODEs when a_value is empty.
+    while (not l_node.is_null ())
+      {
+        if (purpletree::dom::node::TEXT_NODE != l_node.node_type ())
+  	{
+  	  purpletree::dom::node l_temp = l_node.next_sibling ();
+  	  l_node.parent_node ().remove_child (l_node);
+  	  l_node = l_temp;
+  	}
+        else
+  	{
+  	  l_node = l_node.next_sibling ();
+  	}
+      }
+    ENSURE (a_value == get_node_content (a_node)
+  	  , "Set value is different to value given to set_node_content.");
+    Result = true;
+  }
+  return Result;

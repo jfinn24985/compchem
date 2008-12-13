@@ -1,0 +1,31 @@
+class list_control
+!!!1227561.cpp!!!	get_integer(in a_widget : widget_t) : int
+int* l_pos;
+int l_pos_count;
+int Result (-1); // Indicate no selection
+if (XmListGetSelectedPos (a_widget, &l_pos, &l_pos_count)) {
+  guistate::xt_ptr< int > l_tmp (l_pos);
+  if (1 == l_pos_count) {
+	  Result = l_pos[0] - 1; }
+  else if (1 < l_pos_count) {
+    // Have multiple selection, create bitmap
+    for (; l_pos_count > 0; --l_pos_count) {
+      const int l_val (l_pos[l_pos_count - 1] - 1);
+      COMPCHEM_REQUIRE (32 > l_val, "Warning: Selected index greater than 31");
+      if (31 < l_val) {
+        std::clog << "Warning: Selected index greater than 31, ignoring\n"; }
+      else {
+        Result |= 1 << l_val; }}}}
+return Result;
+!!!1227945.cpp!!!	set_string(in a_widg : widget_t, in a_value : string) : void
+std::vector < std::string > l_list;
+// Convert string
+utility::convert_string_to_list (a_value, l_list);
+// Remove existing items
+XmListDeleteAllItems (a_widg);
+if (not l_list.empty ()) {
+  guistate::xt_array< ::__XmStringRec > l_xmstr_list (l_list.size (), (XmString*)XtMalloc(l_list.size () * sizeof(XmString))); //Capture XmString list
+  if (NULL != l_xmstr_list.get()) {
+    for (unsigned index = 0; index < l_list.size (); ++index) {
+      l_xmstr_list.reset (index, XmtCreateXmString (const_cast< char* >(l_list [index].c_str ()))); }
+    XmListAddItems (a_widg, l_xmstr_list.get (), l_xmstr_list.size, 0); }}

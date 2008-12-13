@@ -1,0 +1,17 @@
+class matcher_string
+!!!1295529.cpp!!!	process_part(in a_target : string, out a_result : string) : int
+int Result (CCHEM_SUPPLIER_SUCCESS);
+// DO
+if (a_target.size () < a_target.find (phrase))
+{
+  boost::format l_fmter (format);
+  // Set formatter to ignore excess arguments.
+  l_fmter.exceptions (boost::io::all_error_bits ^ (boost::io::too_many_args_bit));
+  l_fmter % a_target % phrase;
+  a_result.assign (l_fmter.str ()); 
+  if (mode == 0)
+  {
+    Result = CCHEM_SUPPLIER_COMPLETE;
+  }
+}
+return Result;

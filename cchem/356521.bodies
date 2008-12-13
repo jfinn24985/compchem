@@ -1,0 +1,46 @@
+class formula
+!!!1422377.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::info_name () == a_name)
+{
+  Result = &(add_info (a_label));
+}
+else if (data_access::names::identity_name () == a_name)
+{
+  Result = &(add_identity (a_label));
+}
+else
+{
+  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+}
+return *Result;
+!!!1422505.cpp!!!	add_identity(in a_label : string) : identity
+m_identity.push_back (new identity (*this, a_label));
+// Always last
+append_child (m_identity.back ());
+return m_identity.back ();
+!!!1409705.cpp!!!	add_info(in a_label : string) : info
+m_info.reset (new info (*this, a_label));
+// Always first
+if (m_identity.empty ())
+{
+  append_child (*(m_info.get ()));
+}
+else
+{
+  insert_child (m_identity.back (), *(m_info.get ()));
+}
+return *(m_info.get ());
+!!!1526953.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::label_name () == a_name) 
+{
+  if (a_value != label ())
+  {
+    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
+  }
+}
+else
+{
+  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+}
+

@@ -1,0 +1,1790 @@
+format 61
+"/compchem/chemistry" // /compchem/chemistry
+  revision 36
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "framework"
+  cpp_h_dir "chemistry"
+  cpp_src_dir "../src/chemistry"
+  cpp_namespace "chemistry"
+  comment "A set of classes that abstract chemistry related concepts."
+  classview 128169 "Chemistry"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 128297 // Chemistry
+    classdiagram 134313 "chemistry related types."
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 346665 "element"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An object type to represent a chemistry element."
+      attribute 240553 "m_number"
+	private explicit_type "uint"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The periodic number of element"
+      end
+
+      attribute 240681 "m_name"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Long name of element"
+      end
+
+      attribute 240809 "m_symbol"
+	private explicit_type "char"
+	multiplicity "4"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Usual symbol for element"
+      end
+
+      operation 1067817 "element"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "a_number" explicit_type "uint"
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_sym" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${volatile}${throw}
+: m_number (${p0})
+, m_name (${p1})
+, m_symbol ()
+{
+  ${p2}.copy (&m_symbol[0], 2);
+  m_symbol [2] = '\\0';
+  m_symbol [3] = '\\0';
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1070377 "element"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile} throw ()
+: m_number (0)
+, m_name ()
+, m_symbol ()
+{
+  m_symbol [0] = '\\0';
+  m_symbol [1] = '\\0';
+  m_symbol [2] = '\\0';
+  m_symbol [3] = '\\0';
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1068457 "element"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 346665 // element
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_number (${p0}.m_number)
+, m_name (${p0}.m_name)
+, m_symbol ()
+{
+  m_symbol [0] = ${p0}.m_symbol [0];
+  m_symbol [1] = ${p0}.m_symbol [1];
+  m_symbol [2] = ${p0}.m_symbol [2];
+  m_symbol [3] = ${p0}.m_symbol [3];
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1067945 "~element"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw() {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1616681 "name"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "get the atomic number"
+      end
+
+      operation 1616425 "number"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "get the atomic number"
+      end
+
+      operation 1068585 "operator="
+	public return_type class_ref 346665 // element
+	nparams 1
+	  param in name "source" type class_ref 346665 // element
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  swap (${p0});
+  return *this;
+}
+
+"
+	
+	
+	
+	
+      end
+
+      operation 1613609 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 346665 // element
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  std::swap (m_number, a_source.m_number);
+  m_name.swap (a_source.m_name);
+  std::swap (m_symbol[0], a_source.m_symbol[0]);
+  std::swap (m_symbol[1], a_source.m_symbol[1]);
+}
+"
+	
+	
+	
+	
+	comment "Non-throwing swap"
+      end
+
+      operation 1616553 "symbol"
+	const public explicit_return_type "char"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}* const ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return &m_${name}[0];
+}
+"
+	
+	
+	
+	
+	comment "get the atomic number"
+      end
+
+      extra_member 149929 "swap"
+	
+	cpp "" "inline void swap (element &a, element &b) throw ()
+{
+ a.swap (b);
+}
+" inline
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+
+    class 139945 "periodic_table"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A type to access simple information about the chemical periodic table."
+      attribute 240937 "m_last_element"
+	const_attribute private explicit_type "uint"
+	init_value "54"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The index of the highest element in this periodic table (may not be highest element)."
+      end
+
+      classrelation 278953 // m_elements (<directional composition>)
+	relation 272937 *-->
+	  a role_name "m_elements" multiplicity "54" private
+	    comment "The table of elements. Note that this is zero indexed so element 1 is at position 0, etc.."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	    classrelation_ref 278953 // m_elements (<directional composition>)
+	  b parent class_ref 346665 // element
+      end
+
+      operation 1069353 "at"
+	const public return_type class_ref 346665 // element
+	nparams 1
+	  param in name "a_number" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (0 < ${p0} && ${p0} <= m_last_element, \"No element at this position in this table.\");
+  return m_elements [${p0} - 1];
+}
+"
+	
+	
+	
+	
+	comment "Get an element in the table from its atomic number
+
+\\pre a_number > 0 && a_number <= get_last_element ()"
+      end
+
+      operation 1069225 "operator="
+	private return_type class_ref 139945 // periodic_table
+	nparams 1
+	  param in name "source" type class_ref 139945 // periodic_table
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1068841 "periodic_table"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+${body}"
+	
+	
+	
+	
+	comment "Private Singleton ctor"
+      end
+
+      operation 1068969 "~periodic_table"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1069097 "periodic_table"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 139945 // periodic_table
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1613737 "table"
+	class_operation public return_type class_ref 139945 // periodic_table
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type}& ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Get the periodic table."
+      end
+
+      operation 1615145 "size"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_last_element;
+}
+"
+	
+	
+	
+	
+	comment "The last element in this periodic table.  The periodic table may be truncated and not have elements up to atomic number 109."
+      end
+    end
+
+    class 347689 "vibration"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Simple structure to contain the data from a single row of vibration table."
+      class 348585 "flags"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name} {
+${items}
+};
+"
+	java_decl "${comment}${@}${public}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	comment "Set of flags that control the output of the object. Not there is no NO_FREQ flag as it is always assumed that this will be output."
+	attribute 253481 "NO_ORDINAL"
+	  public explicit_type ""
+	  init_value "= 1"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 253609 "NO_DEPOLAR"
+	  public explicit_type ""
+	  init_value "= 2"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 253737 "NO_FORCE"
+	  public explicit_type ""
+	  init_value "= 4"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 253865 "NO_INTENSITY"
+	  public explicit_type ""
+	  init_value "= 8"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 253993 "NO_MODE"
+	  public explicit_type ""
+	  init_value "= 16"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 254121 "NO_RAMAN"
+	  public explicit_type ""
+	  init_value "= 32"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 254249 "NO_REDUCED_MASS"
+	  public explicit_type ""
+	  init_value "= 64"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 254633 "NO_DISPLACEMENT_VEC"
+	  public explicit_type ""
+	  init_value "= 128"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	end
+
+	attribute 254505 "PEAK_TABLE"
+	  public explicit_type ""
+	  init_value "= NO_ORDINAL | NO_DEPOLAR | NO_FORCE | NO_MODE | NO_RAMAN | NO_REDUCED_MASS | NO_DISPLACEMENT_VEC"
+	  cpp_decl "  ${name}${value}, ${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "A mask for just outputting the frequency and intensity values."
+	end
+      end
+
+      attribute 249257 "m_ordinal"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 249385 "m_depolar"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 249513 "m_force"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 249641 "m_frequency"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 249769 "m_intensity"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 249897 "m_mode"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 250025 "m_raman"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 250153 "m_redms"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 250281 "m_dispvec"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 1074473 "vibration"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1074601 "~vibration"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw () {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1074729 "vibration"
+	stereotype "copy"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 347689 // vibration
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1074857 "operator="
+	public return_type class_ref 347689 // vibration
+	nparams 1
+	  param in name "source" type class_ref 347689 // vibration
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  swap (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+      end
+
+      extra_member 131113 "Serialise"
+	
+	cpp "friend std::ostream& operator<< (std::ostream&, const vibration&);
+
+" "std::ostream& operator<< (std::ostream& a_os, const chemistry::vibration& a_vib)
+{
+  a_os << \"Ordinal:    [\" << a_vib.ordinal() << \"]\\n\";
+  a_os << \"Depolar:    [\" << a_vib.depolar() << \"]\\n\";
+  a_os << \"Force:      [\" << a_vib.force() << \"]\\n\";
+  a_os << \"Frequency:  [\" << a_vib.frequency() << \"]\\n\";
+  a_os << \"Intensity:  [\" << a_vib.intensity() << \"]\\n\";
+  a_os << \"Mode:       [\" << a_vib.mode() << \"]\\n\";
+  a_os << \"Raman Act:  [\" << a_vib.raman() << \"]\\n\";
+  a_os << \"Red. Mass:  [\" << a_vib.reduced_mass() << \"]\\n\";
+  a_os << \"Disp. Vec.: [\" << a_vib.displacement_vector () << \"]\\n\";
+  return a_os;
+}
+
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 1083817 "depolar"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_depolar;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1084201 "depolar"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()
+{
+  m_depolar.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1085609 "displacement_vector"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_dispvec;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1085737 "displacement_vector_append"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_dispvec.append (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Add to displacement vector,"
+      end
+
+      operation 1085865 "displacement_vector_reset"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0} =std::string()${)}${const}${volatile}${throw}${abstract}
+{
+  m_dispvec.swap (${p0});
+}
+
+"
+	
+	
+	
+	
+	comment "Reset the displacement vector to an empty string"
+      end
+
+      operation 1086505 "force"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_force;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1086633 "force"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()
+{
+  m_force.swap (${p0});
+}"
+	
+	
+	
+	
+      end
+
+      operation 1084329 "frequency"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_frequency;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1084457 "frequency"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()
+{
+  m_frequency.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1084585 "intensity"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_intensity;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1084713 "intensity"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}
+{
+  m_intensity.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1084841 "mode"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_mode;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1084969 "mode"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}
+{
+  m_mode.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1085097 "raman"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_raman;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1085225 "raman"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw()
+{
+  m_raman.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1083945 "ordinal"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_ordinal;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1084073 "ordinal"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()
+{
+  m_ordinal.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1085353 "reduced_mass"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()
+{
+  return m_redms;
+}
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1085481 "reduced_mass"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()
+{
+  m_redms.swap (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1085993 "serialise"
+	const public explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "std::ostream"
+	  param in name "a_delim" explicit_type "string"
+	    defaultvalue "', '"
+	  param in name "a_flags" explicit_type "uchar"
+	    defaultvalue "NO_DISPLACEMENT_VEC"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, ${t1} ${p1}=std::string(\", \"), ${t2} ${p2}=NO_DISPLACEMENT_VEC${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Output the vibration.  This determines what to output from a_flags and separates the items with a _delim."
+      end
+
+      operation 1086121 "serialise_header"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "std::ostream"
+	  param in name "a_delim" explicit_type "string"
+	    defaultvalue "', '"
+	  param in name "a_flags" explicit_type "uchar"
+	    defaultvalue "NO_DISPLACEMENT_VEC"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, ${t1} ${p1}=std::string(\", \"), ${t2} ${p2}=NO_DISPLACEMENT_VEC${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Output the vibration.  This determines what to output from a_flags and separates the items with a _delim."
+      end
+
+      operation 1613865 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "source" type class_ref 347689 // vibration
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  m_ordinal.swap (source.m_ordinal);
+  m_depolar.swap (source.m_depolar);
+  m_force.swap (source.m_force);
+  m_frequency.swap (source.m_frequency);
+  m_intensity.swap (source.m_intensity);
+  m_mode.swap (source.m_mode);
+  m_raman.swap (source.m_raman);
+  m_redms.swap (source.m_redms);
+  m_dispvec.swap (source.m_dispvec);
+}"
+	
+	
+	
+	
+	comment "Non-throwing swap"
+      end
+
+      extra_member 150057 "swap"
+	
+	cpp "" "inline void swap (vibration &a, vibration &b) throw ()
+{
+ a.swap (b);
+}
+" inline
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+  end
+
+  deploymentview 128297 "Chemistry"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 198697 "chemistry"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 130601 // periodic_table
+	artifact_ref 154153 // vibration
+      end
+      ncouples 1
+      key "butter type" value "static"
+    end
+
+    artifact 130601 "periodic_table"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_CHEMISTRY_${NAME}_HPP
+#define COMPCHEM_CHEMISTRY_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+namespace std
+{
+  template<>
+  inline void swap<chemistry::element> (chemistry::element &a, chemistry::element &b) throw ()
+  {
+    a.swap (b);
+  }
+}
+
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 346665 // element
+	class_ref 139945 // periodic_table
+      end
+    end
+
+    artifact 154153 "vibration"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_CHEMISTRY_${NAME}_HPP
+#define COMPCHEM_CHEMISTRY_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+#include <sstream>
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+namespace std
+{
+  template<>
+  inline void swap<chemistry::vibration> (chemistry::vibration &a, chemistry::vibration &b) throw ()
+  {
+    a.swap (b);
+  }
+}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#define NO_LOG
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 347689 // vibration
+      end
+    end
+  end
+
+  classview 132777 "Chemistry Algorithms"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 134313 // Algos
+    comment "Algorithms that are important to chemical systems"
+    classdiagram 134825 "Algorithms"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 350121 "spectrum_from_peaktable"
+      visibility package 
+      nformals 1
+      formal name "t_value" type "typename" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This type is used to generate a simulated spectrum from a peaktable.  It can
+use either a Gaussian or a Lorentzian function to generate the spectrum."
+      class 350249 "value_type"
+	visibility package stereotype "typedef" explicit_base_type "t_value"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 440233 "generator_enum"
+	visibility public stereotype "enum"
+	cpp_decl "${comment}enum ${name}
+{
+${items}
+};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "The enumeration of generator types"
+	attribute 338089 "LORENTZIAN"
+	  public type class_ref 440233 // generator_enum
+	  init_value "= 0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Use a Lorentzian generator function"
+	end
+
+	attribute 338217 "GAUSSIAN"
+	  public type class_ref 440233 // generator_enum
+	  init_value "= 1"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  comment "Use a gaussian generator function"
+	end
+      end
+
+      attribute 257065 "m_half_width"
+	private type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 256937 "m_increment"
+	private type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 256809 "m_lower_bound"
+	private type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 256681 "m_upper_bound"
+	private type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 337961 "m_generator"
+	private type class_ref 440233 // generator_enum
+	init_value "LORENTZIAN"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Which generator function to use."
+      end
+
+      operation 1375913 "gaussian_generator"
+	const cpp_inline private explicit_return_type "void"
+	nparams 3
+	  param in name "a_begin" explicit_type "ForwardIterator"
+	  param in name "a_end" explicit_type "ForwardIterator"
+	  param in name "a_destination" explicit_type "OutputIterator"
+	cpp_decl "    ${comment}${friend}template <class ${t0}, class ${t2}> ${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template <class ${t0}, class ${t2}> ${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method converts the peaktable in the sequence (a_begin, a_end] into a spectrum saved starting at location a_destination.  All iterators must be convertible to std::pair< value_type, value_type >.  Exactly size () elements will be created and saved at a_destination.
+
+\\pre validate_input  (a_begin, a_end) and upper_bound /= lower_bound
+
+Notes:
+
+(1) This method will internally adjust increment such that (upper_bound - lower_bound)/increment is an integer value. ie increment_used ~= (upper_bound - lower_bound)/int((upper_bound - lower_bound)/increment) + 0.5). The output spectrum will thus have size() elements.  However, due to the limitations of floating point maths the last point may not exactly equal (or be less than!) upper_bound().  If this might be a problem the user can manually set the last point to upper_bound() after using the functor. 
+
+(2) All simulated spectrum algorithms calculate the intensity at a particular point based on the intensity of nearby peaks in the peak table.  This makes the apparent peak intensity at the \"top\" of a peak heavily dependent on how close the location in the peak table is to a point in the spectrum.  To avoid this problem, the algorithm insures that the output value at the point closest to a location in the peak table will have intensity >= the intensity value from the peak table.
+
+"
+      end
+
+      operation 1380777 "generator"
+	stereotype "get"
+	const public return_type class_ref 440233 // generator_enum
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_generator;
+}
+"
+	
+	
+	
+	
+	comment "Get the generator to use. Default is LORENTZIAN"
+      end
+
+      operation 1098793 "half_width"
+	stereotype "get"
+	const public return_type class_ref 350249 // value_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}{  return m_half_width; }
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1098921 "half_width"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}{
+  REQUIRE (${p0} > 0.0, \"Require positive, non-zero half width\");
+  m_half_width = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set the peak half-width
+
+\\pre a_width /= 0.0"
+      end
+
+      operation 1098281 "increment"
+	stereotype "get"
+	const public return_type class_ref 350249 // value_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}{  return m_increment; }
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1098409 "increment"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}{
+  REQUIRE (${p0} > 0.0, \"The increment must be a positive, non-zero value\");
+  m_increment = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set the distance between points of the digital spectrum
+
+\\pre a_inc /= 0.0"
+      end
+
+      operation 1099561 "lorentzian_generator"
+	const cpp_inline private explicit_return_type "void"
+	nparams 3
+	  param in name "a_begin" explicit_type "ForwardIterator"
+	  param in name "a_end" explicit_type "ForwardIterator"
+	  param in name "a_destination" explicit_type "OutputIterator"
+	cpp_decl "    ${comment}${friend}template <class ${t0}, class ${t2}> ${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template <class ${t0}, class ${t2}> ${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method converts the peaktable in the sequence (a_begin, a_end] into a spectrum saved starting at location a_destination.  All iterators must be convertible to std::pair< value_type, value_type >.  Exactly size () elements will be created and saved at a_destination.
+
+\\pre validate_input  (a_begin, a_end) and upper_bound /= lower_bound
+
+Notes:
+
+(1) This method will internally adjust increment such that (upper_bound - lower_bound)/increment is an integer value. ie increment_used ~= (upper_bound - lower_bound)/int((upper_bound - lower_bound)/increment) + 0.5). The output spectrum will thus have size() elements.  However, due to the limitations of floating point maths the last point may not exactly equal (or be less than!) upper_bound().  If this might be a problem the user can manually set the last point to upper_bound() after using the functor. 
+
+(2) All simulated spectrum algorithms calculate the intensity at a particular point based on the intensity of nearby peaks in the peak table.  This makes the apparent peak intensity at the \"top\" of a peak heavily dependent on how close the location in the peak table is to a point in the spectrum.  To avoid this problem, the algorithm insures that the output value at the point closest to a location in the peak table will have intensity >= the intensity value from the peak table.
+
+"
+      end
+
+      operation 1098025 "lower_bound"
+	stereotype "get"
+	const public return_type class_ref 350249 // value_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}{  return m_lower_bound; }
+"
+	final 
+	
+	
+	
+	comment "The inclusive lower bound of a generated spectrum"
+      end
+
+      operation 1098153 "lower_bound"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw} {  m_lower_bound = ${p0}; }
+"
+	
+	
+	
+	
+	comment "The inclusive lower bound of a generated spectrum"
+      end
+
+      operation 1100713 "operator="
+	private return_type class_ref 350121 // spectrum_from_peaktable
+	nparams 1
+	  param in name "source" type class_ref 350121 // spectrum_from_peaktable
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1381289 "operator()"
+	const cpp_inline public explicit_return_type "void"
+	nparams 3
+	  param in name "a_begin" explicit_type "ForwardIterator"
+	  param in name "a_end" explicit_type "ForwardIterator"
+	  param in name "a_destination" explicit_type "OutputIterator"
+	cpp_decl "    ${comment}${friend}template <class ${t0}, class ${t2}> ${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template <class ${t0}, class ${t2}> ${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method converts the peaktable in the sequence (a_begin, a_end] into a spectrum saved starting at location a_destination.  All iterators must be convertible to std::pair< value_type, value_type >.  Exactly size () elements will be created and saved at a_destination.
+
+\\pre validate_input  (a_begin, a_end) and upper_bound /= lower_bound
+
+Notes:
+
+(1) This method will internally adjust increment such that (upper_bound - lower_bound)/increment is an integer value. ie increment_used ~= (upper_bound - lower_bound)/int((upper_bound - lower_bound)/increment) + 0.5). The output spectrum will thus have size() elements.  However, due to the limitations of floating point maths the last point may not exactly equal (or be less than!) upper_bound().  If this might be a problem the user can manually set the last point to upper_bound() after using the functor. 
+
+(2) All simulated spectrum algorithms calculate the intensity at a particular point based on the intensity of nearby peaks in the peak table.  This makes the apparent peak intensity at the \"top\" of a peak heavily dependent on how close the location in the peak table is to a point in the spectrum.  To avoid this problem, the algorithm insures that the output value at the point closest to a location in the peak table will have intensity >= the intensity value from the peak table.
+
+"
+      end
+
+      operation 1100841 "register_options"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_opt_set" type class_ref 350761 // options_description
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This adds all the configuration options for this object to the a_opt_set."
+      end
+
+      operation 1099177 "size"
+	stereotype "get"
+	const public explicit_return_type "size_t"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return abs (static_cast< long int > (nearbyint ((upper_bound () - lower_bound ())/increment ()))) + 1; }
+"
+	
+	
+	
+	
+	comment "The number of data-points in the generated spectrum.  This equals (upper_bound - lower_bound)/increment + 1. For example a spectrum from 0.0 to 4000.0 at an increment of 1.0 has 4001 points."
+      end
+
+      operation 1099305 "size"
+	stereotype "set"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "a_count" explicit_type "size_t"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {
+  REQUIRE (a_count > 0, \"Number of points must be greater than zero\");
+  increment ((upper_bound () - lower_bound ())/value_type (a_count - 1));
+}
+"
+	
+	
+	
+	
+	comment "Set the number of data-points in the generated spectrum.  This sets increment such that (upper_bound - lower_bound)/increment ~= a_count.  Therefore, if you are going to set the increment using size(x) then you must do it after setting the lower and upper bounds.
+
+\\pre a_count > 0 and upper_bound /= lower_bound
+WARNING: Set upper and lower bounds before using this method.  "
+      end
+
+      operation 1100329 "spectrum_from_peaktable"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1100585 "spectrum_from_peaktable"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 350121 // spectrum_from_peaktable
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1100457 "~spectrum_from_peaktable"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1097897 "upper_bound"
+	stereotype "get"
+	const public return_type class_ref 350249 // value_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}{  return m_upper_bound; }
+"
+	
+	
+	
+	
+	comment "The inclusive upper bound of a generated spectrum"
+      end
+
+      operation 1097769 "upper_bound"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_value" type class_ref 350249 // value_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}{  m_upper_bound = ${p0}; }
+"
+	final 
+	
+	
+	
+	comment "The inclusive upper bound of a generated spectrum"
+      end
+
+      operation 1380905 "use_gaussian"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_value" explicit_type "bool"
+	    defaultvalue "true"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=true${)}${const}${volatile}${throw}${abstract}
+{
+  if (${p0}) { m_generator = GAUSSIAN; }
+}
+
+"
+	
+	
+	
+	
+	comment "Set the generator to use a Gaussian function."
+      end
+
+      operation 1381033 "use_lorentzian"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_value" explicit_type "bool"
+	    defaultvalue "true"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=true${)}${const}${volatile}${throw}${abstract}
+{
+  if (${p0}) { m_generator = LORENTZIAN; }
+}
+
+"
+	
+	
+	
+	
+	comment "Set the generator to use a gaussian function."
+      end
+
+      operation 1376169 "validate_input"
+	const cpp_inline public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_begin" explicit_type "ForwardIterator"
+	  param in name "a_end" explicit_type "ForwardIterator"
+	cpp_decl "    ${comment}${friend}template <class ${t0}> ${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template <class ${t0}> ${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Verify that the sequence represented by (a_begin, a_end] is in ascending wavenumber order."
+      end
+    end
+  end
+
+  deploymentview 134313 "Algos"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 154921 "spectrum_from_peaktable"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_CHEMISTRY_${NAME}_HPP
+#define COMPCHEM_CHEMISTRY_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <cmath>
+#include <algorithm>
+#include <boost/bind.hpp>
+#include <boost/mem_fn.hpp>
+#include <boost/tuple/tuple.hpp>
+// -
+${declarations}
+${namespace_start}
+    // Overload local_exp to get a type independent exponential
+    // function.  Note this non-specialised version uses a
+    // static_cast<double> on the value_type.
+    template< class value_type >
+    inline value_type local_exp(value_type a_value)
+    {
+      return exp (static_cast<double>(a_value));
+    }
+    
+    inline double local_exp(double a_value)
+    {
+      return exp (a_value);
+    }
+    
+    inline float local_exp(float a_value)
+    {
+      return exp (a_value);
+    }
+    
+    inline long double local_exp(long double a_value)
+    {
+      return exp (a_value);
+    }
+
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 350121 // spectrum_from_peaktable
+      end
+    end
+  end
+
+  package_ref 143529 // chemistry unit tests
+end

@@ -1,0 +1,372 @@
+class FWInitialisation
+!!!219305.cpp!!!	serialise(inout os : std::ostream) : void
+    os << "<chkcalc-config version=\"1.00\">" << std::endl;
+    for( const_iterator _i = _m_dict.begin();
+	 _i != _m_dict.end();
+	 ++_i ) 
+      {
+	os << "<" << (*_i).first << ">";
+	os << (*_i).second;
+	os << "</" << (*_i).first << ">" << std::endl;
+	os << "</chkcalc-config>\n";
+      }
+  
+!!!219945.cpp!!!	operator [](in key : string) : string
+    const_iterator _i( _m_dict.find( key ) );
+    if ( _i != _m_dict.end() ) {
+      return (*_i).second;
+    } else {
+      throw Exception( "Dictionary key [" + key + "] not found", 
+		       Exception::CONFIG_INVALID_KEY );
+    };
+  
+!!!220329.cpp!!!	setKey(in key : string, in value : string) : void
+    DEBUG( "FWInitialisation::setKey -> entered with key", key.c_str() );
+    if ( hasKey( key ) ) {
+      _m_dict[ key ] = value;
+    } else {
+      _m_dict.insert( std::make_pair( key, value ) );
+    };
+  
+!!!220457.cpp!!!	addKey(in key : string, in opt : char, in type : OptType, in description : string, in summary : string) : void
+    // Want a function that allowes us to directly set configuration options
+    _m_cmdLineOpts.insert( std::make_pair( opt, 
+					   new CommandLineOption( *this,
+								  key,
+								  opt, 
+								  type,
+								  description,
+								  summary ) ) );
+  
+!!!220585.cpp!!!	helpMessage(inout os : std::ostream) : void
+ 
+    int count = 0;
+    // --public:  error--
+    std::map< char, CommandLineOption* >::iterator _i;
+    // This function prints the help message and exits the program.
+    os << "Usage:" << std::endl;
+    os << '\t' << _m_programName;
+    //! Do the option usage summary
+    for ( _i = _m_cmdLineOpts.begin();
+	  _i != _m_cmdLineOpts.end();
+	  ++_i ) {
+      if ( (*_i).first == '-' ) 
+	{
+	  continue;
+	}
+      if ( count == 2 )
+	{
+	  count = 0;
+	  os << std::endl << "\t\t";
+	  (*_i).second->helpSummary( os );
+	} 
+      else 
+	{
+	  count += 1;
+	  os << " ";
+	  (*_i).second->helpSummary( os );
+	};
+    };
+    if ( hasKey('-') ) {
+      if ( count >= 2 )
+	os << "\n\t\t [additional argument(s)]";
+      else
+	os << " [additional argument(s)]";
+    };
+    os << std::endl;
+
+    //! Do the option description section
+    for ( _i = _m_cmdLineOpts.begin();
+	  _i != _m_cmdLineOpts.end();
+	  ++_i ) {
+      os << std::endl;
+      (*_i).second->helpParagraph( os );
+    };
+    os << std::endl;
+
+    //! Do the option framework description
+    os << "\t-h,-?\tStops program and displays this help message." << std::endl;
+    os << "\t--\tStops option processing, options following this will be" << std::endl;
+    os << "\t\ttreated as additional arguments." << std::endl << std::endl;
+    os << " This help text should be used in conjunction with any User's Manual. Some" << std::endl;
+    os << " of these options are only optional if the information can be obtained" << std::endl;
+    os << " from another source." << std::endl;
+  
+!!!220713.cpp!!!	configuration(in  : void) : void
+    //  --private:  initialisation--"
+    processENV();
+    // Process configuration files
+
+    // Set install directory to a guess if not defined previously
+    if ( !hasKey("install_dir") ) {
+      setKey( "install_dir", "/usr/local/lib/compchem" );
+    };
+
+    try {
+      //  The user's configuration should be the easiest to find. We
+      //  load it first in case we need the defns it contains. However,
+      //  it is not an error for it to be missing. (This should redefine
+      //  _m_dict["install_dir"] if necesary).
+      processFile( _m_dict["base_dir"] + "/config" );
+    }
+    catch ( const char *msg ) {
+      std::cerr << "Warning: Bad user configuration attempting to work without it:" << std::endl;
+      std::cerr << msg << std::endl;
+    };
+  
+    try {
+      //  Now we process the global configuration file.  Currently it is
+      //  a fatal error for the global configuration file to be missing.
+      //  This may be relaxed in later versions
+      processFile( _m_dict["install_dir"] + "/site-config/config" );
+    }
+    catch ( const Exception &msg ) {
+      std::cerr << "Bad system configuration, unable to work without it:" << std::endl;
+      throw;
+    };
+            
+    try {
+      // Process the user's configuration again, to override system defaults
+      processFile( _m_dict["base_dir"] + "/config" );
+    }
+    catch ( const Exception &msg ) {
+      // This time we are not concerned with exception, so do nothing
+    };
+
+    // Set the following "derived" data if not already set
+    if ( !hasKey("dtd_global") )
+      setKey( "dtd_global", _m_dict["install_dir"] + "/program.dtd" );
+
+    if ( !hasKey("data_dir") )
+      setKey( "data_dir","/db" );
+
+    if ( !hasKey("database") )
+      setKey( "database", _m_dict["base_dir"] + _m_dict["data_dir"] + "/main-database.xml" );
+
+  
+!!!220841.cpp!!!	processENV(in  : void) : void
+    std::stringstream _l_tmpBuffer;
+    if ( getenv( "HOME" ) )
+      {
+	_l_tmpBuffer << getenv( "HOME" );
+      }
+    else if ( getenv( "LOGDIR" ) )
+      {
+	_l_tmpBuffer << getenv( "LOGDIR" );
+      }
+    else
+      {
+	throw Exception( "FWInitialisation: Unable to determine home directory",
+			 Exception::CONFIG_REQUIRED_KEY );
+      }
+    _l_tmpBuffer << "/.chkcalc";
+    setKey( "base_dir", _l_tmpBuffer.str() );
+
+    _l_tmpBuffer.str("");
+    if ( getenv( "USER" ) )
+      {
+	_l_tmpBuffer << getenv( "USER" );
+      }
+    else if ( getenv( "LOGNAME" ) )
+      {
+	_l_tmpBuffer << getenv( "LOGNAME" );
+      }
+    else
+      {
+	throw Exception( "FWInitialisation: Unable to determine worker ID",
+			 Exception::CONFIG_REQUIRED_KEY );
+      }
+    setKey( "worker", _l_tmpBuffer.str() );
+  
+!!!220969.cpp!!!	processArguments(in argc : int, inout argv : char) : bool
+    // Iterator for the option dictionary
+    std::map< char, CommandLineOption* >::iterator _l_optionIterator;
+    // The phrase we build up for getopt library
+    std::string _l_getoptPhrase("h?");
+    // The currently found option
+    int _l_currentOptLetter = 0;
+    // defined in getopt
+    extern char *optarg;
+    // defined first non-option arg 
+    extern int optind;
+    // Temporary stringstream for concatenation operations
+    std::stringstream _l_tmpBuffer;
+    // cursor
+    int _l_cursor;
+
+    // This processes the command line options. See below for a
+    // brief explanation of these options.
+    DEBUG( "FWInitialisation::processArguments -> entered argc = ", argc );
+ 
+    // Add the option characters together to make the string of
+    // options used by the getopt library.
+    for ( _l_optionIterator = _m_cmdLineOpts.begin();
+	  _l_optionIterator != _m_cmdLineOpts.end();
+	  ++_l_optionIterator )
+      {
+	// Add the option letter
+	_l_getoptPhrase += (*_l_optionIterator).first;
+	// Add a ':' if there is an argument
+	if ( (*_l_optionIterator).second->needsArg() )
+	  {
+	    _l_getoptPhrase += ':';
+	  };
+      }
+    
+    DEBUG( "Defined options = ", _l_getoptPhrase.c_str() );
+    // Repeatedly call the getopt() function, processing an option at a
+    // time, until all options are processed.
+    while ( 1 ) 
+      {
+	// Call the getopt() function
+	_l_currentOptLetter = getopt( argc, argv, _l_getoptPhrase.c_str() );
+	
+	// End processing if the return value is negative
+	if ( _l_currentOptLetter < 0 )
+	  {
+	    break;
+	  }
+	// Convert the return value to a character and process
+	if ( '?' == _l_currentOptLetter ||
+	     'h' == _l_currentOptLetter )
+	  {
+	    // Return false to signal processing of the help message.
+	    return false;
+	  }
+	else
+	  {
+	    // All other cases!
+	    if ( _m_cmdLineOpts.count( char(_l_currentOptLetter) ) > 0 ) 
+	      {
+		_m_cmdLineOpts[char(_l_currentOptLetter)]->useOption( optarg );
+	      }
+	    else
+	      {
+		_l_tmpBuffer << "FWInitialisation: Unknown option \"-"<< char(_l_currentOptLetter) << "\".";
+		throw Exception( _l_tmpBuffer.str(),
+				 Exception::CONFIG_UNKNOWN_OPTION );
+	      }
+	  };
+      };
+
+    // Check for extra options. If they exist and the option '-' exists
+    // then pass the first argument to this cmdline opt. Any remaining
+    // arguments should be put as a colon separated list into
+    // "unused_options".
+  
+    _l_cursor = optind;
+    if ( 0 != _m_cmdLineOpts.count('-') && _l_cursor < argc )
+      {
+	_m_cmdLineOpts['-']->useOption( argv[_l_cursor] );
+	++_l_cursor;
+      };
+
+    _l_tmpBuffer.str( "" );
+    while ( _l_cursor < argc ) 
+      {
+	_l_tmpBuffer << argv[_l_cursor] << ":";
+	++_l_cursor;
+      };
+    
+    if ( !_l_tmpBuffer.str().empty() ) 
+      { 
+	setKey( "unused_options", _l_tmpBuffer.str() );
+      };
+
+    // Check that all options are OK
+    for ( _l_optionIterator = _m_cmdLineOpts.begin();
+	  _l_optionIterator != _m_cmdLineOpts.end();
+	  ++_l_optionIterator )
+      {
+	if ( !(*_l_optionIterator).second->isOk() )
+	  {
+	    _l_tmpBuffer.str( "" );
+	    _l_tmpBuffer << "FWInitialisation: Required option -" << (*_l_optionIterator).first << " not present.";
+	throw Exception( _l_tmpBuffer.str(), 
+			 Exception::CONFIG_REQUIRED_OPTION );
+      };
+    };
+  
+    return true;
+  
+!!!221097.cpp!!!	processFile(in filename : string) : void
+    // The document node of the DOM representation of the XML file
+    DOM::Document* _l_doc;
+    // An element in the document
+    DOM::Element* _l_elem;
+    // The list of configuration elements in the document
+    DOM::NodeList* _l_list;
+    // A cursor into the above list
+    int _l_cursor;
+    // The currently read in key
+    char* _l_key;
+    // The currently read in value
+    const DOM::Char* _l_DOMValue;
+    char* _l_value;
+  
+    // This routine reads name/value pair from the named configuration
+    // file. The file should be an valid xml file of type
+    // 'chkcalc-config'
+    DEBUG(  "Reading configuration file:" , filename.c_str() );
+  
+    if ( filename.empty() )
+      {
+	throw Exception( "FWInitialisation: Called processFile method with an empty filename",
+			 Exception::CONFIG_LOGIC_ERROR );
+      };
+
+    // Try to parser the input file
+    _l_doc = DOM::deserialise( filename.c_str() );
+
+#ifdef __DEBUG__
+    std::cerr << "Configuration file read as: ";
+    DOM::serialise( cfgnode, std::cerr );
+    std::cerr << std::endl;
+    std::cerr << "Output content, now setting options" << std::endl;
+#endif
+    _l_elem = _l_doc->getDocumentElement();
+    if ( ! _l_elem )
+      {
+	// Empty document
+	throw Exception( "FWInitialisation: Empty configuration file [" + filename + "]",
+			 Exception::CONFIG_WARNING );
+      };
+	
+    if ( 0 == DOM::compareString( _l_elem->getNodeName(), "chkcalc-config" ) )
+      {
+	_l_list = DOM::getElementsByTagName( _l_elem, "*" );
+	_l_cursor = 0;
+	while ( _l_cursor << _l_list->getLength() )
+	  {
+	    _l_key = DOM::transcodeString( _l_list->item( _l_cursor )->getNodeName() );
+	    _l_DOMValue = _l_list->item( _l_cursor )->getTextContent();	
+	    DEBUG( "Setting option ", _l_key );
+	    if ( _l_DOMValue )
+	      {
+		_l_value = DOM::transcodeString( _l_DOMValue );
+		DEBUG( "to ", _l_value );
+		setKey( _l_key, _l_value );
+		if ( _l_value )
+		  {
+		    DOM::releaseString( &_l_value );
+		  }
+	      }
+	    else
+	      {
+		setKey( _l_key, "" );
+	      }; 
+	    DOM::releaseString( &_l_key );
+	    ++_l_cursor;
+	  }
+      };
+    DOM::deleteNode( _l_doc );
+    // End of _processFile
+  
+!!!221225.cpp!!!	operator <<(inout os : std::ostream, in cio : FWInitialisation) : std::ostream
+    for ( std::map< std::string, std::string >::const_iterator _i = cio._m_dict.begin();
+	  _i != cio._m_dict.end();
+	  ++_i ) {
+      os << '[' << (*_i).first << "] = " << (*_i).second << std::endl;
+    };
+    return os;
+  

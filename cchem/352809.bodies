@@ -1,0 +1,49 @@
+class spectrum
+!!!1110441.cpp!!!	add_peak(in a_vib : vibration) : void
+m_peaktable.push_back (std::make_pair (boost::lexical_cast< double >(a_vib.frequency ())
+    , boost::lexical_cast< double >(a_vib.intensity ())));
+!!!1110569.cpp!!!	add_peak_table(in a_begin : InputIterator, in a_end : InputIterator) : void
+std::for_each (a_begin, a_end, boost::bind (&spectrum::add_peak, this, _1));
+!!!1381161.cpp!!!	read_peak_table(inout a_in : istream) : void
+// Ensure peaktable is empty 
+if (not m_peaktable.empty ())
+{
+  clear ();
+}
+// Read in data
+while (a_in)
+{
+  std::pair < value_type, value_type > l_pair;
+  a_in >> l_pair.first >> l_pair.second;
+  m_peaktable.push_back (l_pair);
+}
+ 
+!!!1111721.cpp!!!	register_options(inout a_opt_set : options_description) : void
+// Add options to a_opt_set
+xy_spectrum< value_type >::register_options (a_opt_set);
+m_converter.register_options (a_opt_set);
+report::filetype::output_header_options::register_options (a_opt_set, m_header);
+!!!1110313.cpp!!!	serialise(inout a_os : ostream) : void
+std::vector <std::pair < value_type, value_type > > l_spectrum (m_converter.size ());
+// Ensure peaktable is sorted properly
+std::stable_sort (m_peaktable.begin (), m_peaktable.end ());
+// Create the result
+m_converter (m_peaktable.begin (), m_peaktable.end (), l_spectrum.begin ());
+// Update the header with actual data.
+m_header.key ("FIRSTX", boost::lexical_cast< std::string >(m_converter.lower_bound ()));
+m_header.key ("LASTX", boost::lexical_cast< std::string >(m_converter.upper_bound ()));
+m_header.key ("NPOINTS", boost::lexical_cast< std::string >(m_converter.size ()));
+// Serialise output using xy_spectrum
+xy_spectrum< value_type >::serialise (a_os, m_header, l_spectrum);
+!!!1109801.cpp!!!	spectrum()
+: m_converter ()
+, m_header ()
+, m_peaktable () {
+  // Set the header options to useful defaults.
+  m_header.title ("Simulated Spectrum");
+  m_header.owner ("unknown");
+  m_header.data_type ("Infrared Spectrum");
+  m_header.key ("XUNITS", "1/CM");
+  m_header.key ("YUNITS", "ABSORBANCE");
+  m_header.key ("XFACTOR", "1");
+  m_header.key ("YFACTOR", "1"); }

@@ -1,0 +1,67 @@
+class test_names
+!!!1402025.cpp!!!	main_test() : void
+// LOCAL
+class helper__
+{
+public:
+  static void print (const char* l_text_name, const std::string & l_text, const char* l_match)
+  {
+    if (l_match == l_text)
+    {
+      log() << IFYS << " " << l_text_name << " => \'" << l_text << "\' == \"" << l_match << "\"\n";
+    }
+    else
+    {
+      log() << IFNO << " " << l_text_name << " => \'" << l_text << "\' /= \"" << l_match << "\"\n";
+    }
+    log () << WTCH << " Text is " << (data_access::names::is_element_name (l_text) ? "" : "not ") << "an element name.\n";
+    log () << WTCH << " Text is " << (data_access::names::is_attribute_name (l_text) ? "" : "not ") << "an attribute name.\n";
+    log () << WTCH << " Text is " << (data_access::names::is_special_name (l_text) ? "" : "not ") << "a special name.\n";
+  }
+};
+#define P(X,Y) helper__::print (#X, (X), (Y))
+
+P(data_access::names::category_name (), "category");
+P(data_access::names::comment_type (), "#CM");
+P(data_access::names::compound_name (), "compound");
+P(data_access::names::compound_ref_name (), "compound-ref");
+P(data_access::names::date_start_name (), "date-start");
+P(data_access::names::date_end_name (), "date-end");
+P(data_access::names::datum_name (), "datum");
+P(data_access::names::detect_filter_name (), "detect");
+P(data_access::names::dimension_name (), "dim");
+P(data_access::names::experiment_name (), "experiment");
+P(data_access::names::file_scheme (), "file");
+P(data_access::names::filter_name (), "filter");
+P(data_access::names::format_name (), "format");
+P(data_access::names::formula_name (), "formula");
+P(data_access::names::href_name (), "href");
+P(data_access::names::info_name (), "info");
+P(data_access::names::identity_name (), "identity");
+P(data_access::names::label_name (), "label");
+P(data_access::names::mechanism_name (), "mechanism");
+P(data_access::names::memo_name (), "memo");
+P(data_access::names::memo_src_name (), "memo-src");
+P(data_access::names::name_name (), "name");
+P(data_access::names::ordinal_name (), "ordinal");
+P(data_access::names::outcome_name (), "outcome");
+P(data_access::names::plugin_filter_name (), "plugin");
+P(data_access::names::priority_name (), "priority");
+P(data_access::names::processing_instruction_type (), "#PI");
+P(data_access::names::program_name (), "program");
+P(data_access::names::project_name (), "project");
+P(data_access::names::project_src_name (), "proj-src");
+P(data_access::names::reference_name (), "reference");
+P(data_access::names::regex_filter_name (), "regex");
+P(data_access::names::scale_name (), "scale");
+P(data_access::names::settings_name (), "settings");
+P(data_access::names::space (), " ");
+P(data_access::names::text_type (), "#TX");
+P(data_access::names::type_name (), "type");
+P(data_access::names::worker_name (), "worker");
+P(data_access::names::list(data_access::names::text_type (), data_access::names::comment_type ()), "#TX #CM");
+P(data_access::names::list(data_access::names::text_type (), data_access::names::comment_type (), data_access::names::processing_instruction_type ()), "#TX #CM #PI");
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name ()), "memo datum info name");
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name (), data_access::names::project_name ()), "memo datum info name project");
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name (), data_access::names::project_name (), data_access::names::program_name ()), "memo datum info name project program");
+

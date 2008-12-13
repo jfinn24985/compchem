@@ -1,0 +1,19 @@
+format 41
+
+usecasecanvas 128041 usecase_ref 133289 // create script
+  xyzwh 420 130 3005 64 32 label_xy 416 162
+usecasecanvas 128169 usecase_ref 133417 // instantiate_gui
+  xyzwh 41 130 3005 64 32 label_xy 32 162
+usecasecanvas 128297 usecase_ref 133545 // respond_to_user
+  xyzwh 222 130 3005 64 32 label_xy 206 162
+classcanvas 128681 class_ref 381225 // user
+  xyz 142 273 3005 label_xy 149 313
+line 128425 ----
+  from ref 128169 z 3004 label "get choices" xyz 129 127 3000 to ref 128297
+line 128553 ----
+  from ref 128297 z 3004 label "use choices" xyz 316 128 3000 to ref 128041
+line 128809 ----
+  from ref 128681 z 3004 label "set choices" xyz 172 199 3000 to ref 128297
+line 128937 ----
+  from ref 128681 z 3004 label "set choices" xyz 81 199 3000 to ref 128169
+end

@@ -1,0 +1,112 @@
+class test_program
+!!!1205289.cpp!!!	main_test() : void
+// DO
+int Result (0);
+std::auto_ptr < data_scheme::program > l_program;
+try
+{
+  log () << COMM << "Getting test database\n";
+  if (m_doc_filename.empty ())
+  {
+    log () << IFNO << "No data filename set, please provide a database name\n";
+    Result = 1;
+  }
+  if (not boost::filesystem::exists (m_doc_filename))
+  {
+    log () << IFNO << "Data filename: [" << m_doc_filename << "]\n does not exist, please provide a valid database name\n";
+    Result = 1;
+  }
+}
+catch (const std::exception & a_err)
+{
+  log () << EXCP << a_err.what () << "\n";
+  Result = 1;
+}
+
+if (0 == Result)
+{
+  try
+  {
+    // Read in the document..
+    l_program.reset (new data_scheme::program (m_doc_filename));
+  }
+  catch (const std::exception & a_err)
+  {
+    log () << EXCP << a_err.what () << "\n";
+    Result = 1;
+  }
+}
+if (0 == Result)
+{
+  log () << WTCH << "Program has " << (l_program->has_information ()? "an" : "no") << " information object.\n";
+
+  if (l_program->begin_worker () != l_program->end_worker ())
+  {
+    log () << IFYS << "Program has [" << std::distance (l_program->begin_worker (), l_program->end_worker ()) << "] worker objects.\n";
+  }
+  else
+  {
+    log () << IFNO << "Program has no worker objects.\n";
+  }
+
+  if (l_program->begin_mechanism () != l_program->end_mechanism ())
+  {
+  log () << WTCH << "Program has [" << std::distance (l_program->begin_mechanism (), l_program->end_mechanism ()) << "] mechanism objects.\n";
+  }
+  else
+  {
+    log () << IFNO << "Program has no mechanism objects.\n";
+  }
+
+  if (l_program->begin_compound () != l_program->end_compound ())
+  {
+  log () << WTCH << "Program has [" << std::distance (l_program->begin_compound (), l_program->end_compound ()) << "] compound objects.\n";
+  }
+  else
+  {
+    log () << IFNO << "Program has no compound objects.\n";
+  }
+
+  if (l_program->begin_project () != l_program->end_project ())
+  {
+  log () << WTCH << "Program has [" << std::distance (l_program->begin_project (), l_program->end_project ()) << "] compound objects.\n";
+  }
+  else
+  {
+    log () << IFNO << "Program has no project objects.\n";
+  }
+}
+// Move old version
+const boost::filesystem::path l_dir (m_doc_filename);
+const boost::filesystem::path l_base (l_dir.branch_path ());
+const boost::filesystem::path l_old (l_base.branch_path () / (l_base.leaf () + ".old"));
+const boost::filesystem::path l_new (l_base.branch_path () / (l_base.leaf () + ".new"));
+log () << COMM << "Base path is :" << l_base.string () << "\n";
+log () << COMM << "Old path is :" << l_old.string () << "\n";
+log () << COMM << "New path is :" << l_new.string () << "\n";
+boost::filesystem::rename (l_base, l_old);
+if (Result == 0)
+{
+  try
+  {
+    log () << COMM << "Attempting to write Program.\n";
+    l_program->write ();
+  }
+  catch (const std::exception & a_err)
+  {
+    log () << EXCP << a_err.what () << "\n";
+    Result = 1;
+  }
+}
+if (boost::filesystem::exists (l_new))
+{
+  boost::filesystem::remove_all (l_new);
+}
+boost::filesystem::rename (l_base, l_new);
+boost::filesystem::rename (l_old, l_base);
+!!!1351593.cpp!!!	register_options(inout a_optset : options_description) : void
+if (NULL == a_optset.find_nothrow ("database", true))
+{
+  // Add option
+  a_optset.add_options () ("database", boost::program_options::value< std::string >(&m_doc_filename), "Test database file");
+}

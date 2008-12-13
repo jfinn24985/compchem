@@ -1,0 +1,71 @@
+class settings
+!!!1406761.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::datum_name () == a_name)
+{
+  Result = &(add_datum (a_label));
+}
+else if (data_access::names::info_name () == a_name)
+{
+  Result = &(add_info (a_label));
+}
+else
+{
+  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+}
+return *Result;
+!!!1426473.cpp!!!	add_datum(in a_label : string) : datum
+m_datum.reset (new datum (*this, a_label));
+// Always last
+append_child (*(m_datum.get ()));
+return *(m_datum.get ());
+!!!1426345.cpp!!!	add_info(in a_label : string) : info
+m_info.reset (new info (*this, a_label));
+// Always last
+append_child (*(m_info.get ()));
+return *(m_info.get ());
+!!!1407401.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+bool Result (false);
+if (data_access::names::label_name () == a_name)
+{
+  a_value.assign (label ());
+  Result = true;
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  if (not this->m_filters.empty ())
+  {
+    a_value.assign (this->m_filters);
+    Result = true;
+  }
+}
+else if (data_access::names::outcome_name () == a_name)
+{
+  if (not this->m_outcomes.empty ())
+  {
+    a_value.assign (this->m_outcomes);
+    Result = true;
+  }
+}
+return Result;
+!!!1407273.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::outcome_name () == a_name)
+{
+  m_outcomes.swap (a_value);
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  m_filters.swap (a_value);
+}
+else if (data_access::names::label_name () == a_name) 
+{
+  if (a_value != label ())
+  {
+    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
+  }
+}
+else
+{
+  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+}
+

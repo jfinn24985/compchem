@@ -1,0 +1,294 @@
+class journal_vw
+!!!1053993.cpp!!!	close_document() : void
+  // LOCAL
+  bool l_do_delete (true);
+  // PRE
+  REQUIRE(is_open (), "Cannot close a non-existent document");
+  // DO
+  // Skip save if document is not dirty.
+  if (journal->is_dirty ())
+  {
+    unsigned int l_ask (ui_traits::ask_user (ui_traits::ask_info ("Document has unsaved modifications, save before closing?", "Selecting 'Discard' will lose any unsaved changes.", "Save", "Discard", "Cancel")));
+    if (ui_traits::YES == l_ask)
+      {
+        // Start save document use case.
+        save_document ();
+        if (journal->is_dirty ())
+  	{
+  	  // Save failed, aborting close document
+  	  ui_traits::ask_user (ui_traits::ask_info ("Failed to save document so will not close the document"));
+  	  // Stop deletion
+  	  l_do_delete = false;
+  	} 
+      }
+    else if (ui_traits::CANCEL == l_ask)
+      {
+        // Stop deletion
+        l_do_delete = false;
+      }
+  }
+  // Test if we should cancel delete.
+  if (true == l_do_delete)
+  {
+    // Disconnect views
+    page_view.clear_parent_node ();
+  
+    // close journal
+    journal.reset ();
+    // POST
+    CHECK (not is_open (), "Resetting the journal should have closed the open document");
+  
+    // Send signal
+    open_document_signal.emit (false);  
+  }
+!!!1054121.cpp!!!	exit() : void
+  // PRE
+  is_valid ();
+  // DO
+  // Test if we have an open & dirty document.
+  if (is_open ())
+  {
+    if (journal->is_dirty ())
+      {
+        // Attempt to close document nicely.
+        close_document ();
+      }
+    else
+      {
+        // Disconnect views
+        page_view.clear_parent_node ();
+  
+        // close journal
+        journal.reset ();
+  
+        // Send signal
+        open_document_signal.emit (false);
+      }
+  }
+  // Quit the UI event loop		
+  Gtk::Main::quit ();
+!!!1054505.cpp!!!	is_valid() : void
+  INVARIANT (is_open () != page_view.is_state_one (), "Journal and page view must have active state together.");
+!!!1054633.cpp!!!	no_stop_exit() : void
+  // PRE
+  is_valid ();
+  // DO
+  // Test if we have an open & dirty document.
+  if (is_open ())
+  {
+    if (journal->is_dirty ())
+      {
+        if (journal->has_filename ())
+  	{
+  	  journal->set_filename (journal->get_filename () + "." + get_backup_suffix ());
+  	}
+        else
+  	{
+  	  journal->set_filename ("./EXPT.SAVE");
+  	}
+        journal->serialise ();
+      }
+    // Delete journal.
+    page_view.clear_parent_node ();
+  
+    // close journal
+    journal.reset ();
+    // POST
+    CHECK (not is_open (), "Function should have closed the open document");
+  
+    // Send signal
+    open_document_signal.emit (false);
+  }
+  // Quit the UI event loop.			
+  Gtk::Main::quit ();
+!!!1054761.cpp!!!	open_document() : void
+  // LOCAL
+  const ui_traits::ask_info l_message ("Open Journal"
+  				     , "*.xml"
+  				     , "Open"
+  				     , std::string()
+  				     , "Cancel");
+  std::string l_filename (boost::filesystem::initial_path ().string () + "/.");
+  // PRE
+  is_valid ();
+  // DO
+  
+  // Test to see if there is already a journal open.
+  if (is_open ())
+  {
+    // Attempt to close the document. 
+    close_document ();
+  }
+  
+  // If the document is not closed then no new document will be opened.
+  // Otherwise request a filename and open the journal document on YES.
+  if (not is_open ()
+      && ui_traits::YES == ui_traits::ask_url (l_message
+  					     , l_filename
+  					     , true))
+  {
+    if (control::journal_ctl::is_journal_document(l_filename))
+      {
+        journal = control::journal_ctl::open (l_filename);
+        // Successfully opened document
+        // Build connection between view and control object
+        CHECK (page_view.is_state_one ()
+  	     , "Can only open document when sub-views are inactive.");
+        // Set the page view parent node.
+        page_view.set_parent_node (journal->get_document_element ());
+        
+        // Connect journal view dirty_doc signal to journal control signal.
+        journal->get_is_dirty_signal ().connect (sigc::mem_fun (dirty_document_signal
+  							      , &sigc::signal1< void, bool >::emit));
+        
+        // Send signal to indicate a document is now open and clean.
+        open_document_signal.emit (true);
+        dirty_document_signal.emit (false);
+      }
+    else
+      {
+        // Failed to open document
+        const std::string l_help ("Unable to open document [" + l_filename + "].  Either there is no file of this name or the document is not of the right type.");
+        const ui_traits::ask_info l_message ("Failed to open document"
+  					   , l_help);
+        ui_traits::ask_user (l_message);
+      }
+  }
+  // POST
+  is_valid ();
+!!!1054889.cpp!!!	open_new_document() : void
+  // PRE
+  is_valid ();
+  // DO
+  
+  // Test to see if there is already a journal open.
+  if (is_open ())
+  {
+    // Attempt to close the document.
+    close_document ();
+  }
+  
+  // If the document is not closed then no new document will be
+  // opened. Otherwise create the journal document.
+  if (not is_open ())
+  {
+    CHECK (page_view.is_state_one ()
+  	 , "Can only open a document when sub-views are inactive.");
+    journal = control::journal_ctl::create ();   
+    CHECK (is_open (), "Unable to create a new document.");
+  
+    // Set the page view parent node.
+    page_view.set_parent_node (journal->get_document_element ());
+  
+    // Connect journal view dirty_doc signal to journal control signal.
+    journal->get_is_dirty_signal ().connect (sigc::mem_fun (dirty_document_signal
+  							  , &sigc::signal1< void, bool >::emit));
+    
+    // Send signal to indicate a document is now open and clean.
+    open_document_signal.emit (true);
+    dirty_document_signal.emit (true);
+  }
+  // POST
+  is_valid ();
+  ENSURE (is_open (), "Should have old or new document at end of open_new_document");
+!!!1055017.cpp!!!	journal_vw()
+// PRE
+is_valid ();
+// LOCAL
+Gtk::MenuItem* l_item (NULL);
+Gtk::Widget* l_filemenu (NULL);
+
+l_filemenu = ui_traits::find_representation ("file_menu"
+					     , get_rep ());
+CHECK (NULL != l_filemenu, "Could not find 'file' menu");
+// // Bind menu item to methods
+// // Get File/Open ...
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_open", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> open' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::open_document));
+
+// // Get File/New
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_new", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> new' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::open_new_document));
+
+// // Get File/Save
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_save", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> save' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::save_document));
+dirty_document_signal.connect (sigc::bind< 0 > (sigc::mem_fun (this, &journal_vw::save_sensitivity_test), base_view::window_t (l_item)));
+l_item->set_sensitive (false);
+
+// // Get File/Save As
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_save_as", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> save as' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::save_as_document));
+dirty_document_signal.connect (sigc::mem_fun (l_item, &Gtk::Widget::set_sensitive));
+l_item->set_sensitive (false);
+
+// // Get File/Close
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_close", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> close' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::close_document));
+open_document_signal.connect (sigc::mem_fun (l_item, &Gtk::Widget::set_sensitive));
+l_item->set_sensitive (false);
+
+// // Get File/Quit
+l_item = dynamic_cast< Gtk::MenuItem* > (ui_traits::find_representation ("menu_quit", get_rep ()));
+CHECK (NULL != l_item, "Could not find 'file -> quit' menu item");
+l_item->signal_activate ().connect (sigc::mem_fun (this, &journal_vw::exit));
+!!!1055145.cpp!!!	~journal_vw()
+  // if we have an open document try to close it
+  if (is_open ())
+  {
+    no_stop_exit ();
+  }
+!!!1055529.cpp!!!	save_as_document() : void
+  // LOCAL
+  std::string l_filename;
+  // DO
+  // Request to save journal under a new filename
+  if (ui_traits::YES == ui_traits::ask_url (ui_traits::ask_info ("Filename to save journal"), l_filename))
+  {
+    do 
+      {
+        // TEST to see if filename is valid
+        std::cerr << "NEED TEST to see if filename [" << l_filename << "] is valid" << std::endl;
+        journal->set_filename (l_filename);
+      }
+    while (not journal->serialise ()
+  	 and ui_traits::YES == ui_traits::ask_url (ui_traits::ask_info ("Unable to save using filename \"" + l_filename + "\", try a different file name?"), l_filename));
+  }
+!!!1055657.cpp!!!	save_document() : void
+  // LOCAL
+  // DO
+  // Test if journal has a filename assigned.
+  if (not journal->has_filename ())
+  {
+    save_as_document ();
+  }
+  else
+  {
+    if (not journal->serialise ())
+      {
+        if (ui_traits::YES == ui_traits::ask_user (ui_traits::ask_info ("Unable to save document, attempt to save under a different file name?")))
+  	{
+  	   save_as_document ();
+  	}
+      }
+  }
+!!!1055785.cpp!!!	save_sensitivity_test(inout a_item : window_t, in a_is_dirty : bool) : void
+  REQUIRE (is_open (), "Cannot query a closed journal document.");
+  REQUIRE (NULL != a_item, "Cannot set property of a null window object.");
+  is_valid ();
+  //   std::cout << "Called set_doc_sensitivity for "
+  // 	    << std::string (a_item->get_name())
+  // 	    << " with "
+  // 	    << ((is_open ())? "an open":"no")
+  // 	    << " document." << std::endl;
+  a_item->set_sensitive (a_is_dirty
+  		       and journal->has_filename ());
+!!!1055913.cpp!!!	get_backup_suffix() : string
+  return backup_suffix;
+!!!1056041.cpp!!!	set_backup_suffix(in value : string) : void
+  backup_suffix = value;

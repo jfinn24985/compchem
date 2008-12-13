@@ -1,0 +1,99 @@
+format 24
+
+classcanvas 128041 class_ref 330665 // datum_base
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 159 5 3005
+classcanvas 128553 class_ref 327721 // classified_object
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 281 101 2000
+classcanvas 128809 class_ref 327977 // view_memento
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 372 311 2000
+classcanvas 129961 class_ref 328489 // restricted_object
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 143 316 2000
+classcanvas 130217 class_ref 331177 // compound_object
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 142 185 2000
+classcanvas 130345 class_ref 329385 // identity
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 50 90 3005
+classcanvas 131625 class_ref 331305 // classifier
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 480 100 2000
+classcanvas 132393 class_ref 327593 // experiment
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 476 475 2000
+classcanvas 132649 class_ref 135465 // program
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 78 482 2000
+classcanvas 132905 class_ref 135593 // project
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 272 482 3005
+relationcanvas 128681 relation_ref 258985 // <generalisation>
+  from ref 128553 z 1999 to ref 128041
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 130473 relation_ref 258473 // <directional aggregation by value>
+  from ref 128041 z 1999 to ref 130345
+  role_a_pos 116 57 3000 no_role_b
+  multiplicity_a_pos 116 93 3000 no_multiplicity_b
+relationcanvas 130601 relation_ref 258217 // <directional aggregation by value>
+  from ref 129961 z 1999 to point 123 242
+  line 130985 z 1999 to ref 130345
+  role_a_pos 99 140 3000 no_role_b
+  multiplicity_a_pos 71 140 3000 no_multiplicity_b
+relationcanvas 130729 relation_ref 257705 // <directional aggregation>
+  from ref 129961 z 1999 stereotype "<<list>>" xyz 80 280 3000 to point 40 241
+  line 130857 z 1999 to ref 130345
+  role_a_pos 80 140 3000 no_role_b
+  multiplicity_a_pos 54 140 3000 no_multiplicity_b
+relationcanvas 131113 relation_ref 259241 // <generalisation>
+  from ref 130217 z 1999 to ref 128553
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 131241 relation_ref 259369 // <generalisation>
+  from ref 129961 z 1999 to ref 130217
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 131369 relation_ref 259497 // <generalisation>
+  from ref 128809 z 1999 to ref 130217
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 131753 relation_ref 259625 // <directional aggregation>
+  from ref 128553 z 1999 stereotype "<<list>>" xyz 414 120 3000 to ref 131625
+  role_a_pos 409 94 3000 no_role_b
+  multiplicity_a_pos 463 130 3000 no_multiplicity_b
+relationcanvas 132009 relation_ref 259753 // <generalisation>
+  from ref 131625 z 1999 to ref 128041
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 132265 relation_ref 259881 // <aggregation>
+  from ref 130217 z 1999 stereotype "<<list>>" xyz 177 114 3000 to ref 128041
+  role_a_pos 215 55 3000 role_b_pos 218 158 3000
+  multiplicity_a_pos 189 55 3000 multiplicity_b_pos 190 158 3000
+relationcanvas 132521 relation_ref 256297 // <generalisation>
+  from ref 132393 z 1999 to ref 129961
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 132777 relation_ref 256553 // <generalisation>
+  from ref 132649 z 1999 to ref 129961
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 133033 relation_ref 256425 // <generalisation>
+  from ref 132905 z 1999 to ref 129961
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 133161 relation_ref 253097 // <aggregation>
+  from ref 132905 z 1999 stereotype "<<set>>" xyz 333 415 3000 to ref 128809
+  role_a_pos 413 361 3000 role_b_pos 331 455 3000
+  multiplicity_a_pos 387 361 3000 multiplicity_b_pos 303 455 3000
+relationcanvas 133289 relation_ref 251945 // <aggregation>
+  from ref 132905 z 1999 stereotype "<<set>>" xyz 344 503 3000 to ref 132393
+  role_a_pos 384 469 3000 role_b_pos 338 474 3000
+  multiplicity_a_pos 459 505 3000 multiplicity_b_pos 338 510 3000
+relationcanvas 133417 relation_ref 259113 // <aggregation>
+  from ref 132649 z 1999 stereotype "<<list>>" xyz 181 502 3000 to ref 132905
+  role_a_pos 209 476 3000 role_b_pos 156 476 3000
+  multiplicity_a_pos 255 512 3000 multiplicity_b_pos 156 512 3000
+end

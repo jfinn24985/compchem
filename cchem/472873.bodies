@@ -1,0 +1,12 @@
+class supplier_helper
+!!!1507241.cpp!!!	register_options() : void
+// Add options to a_opt_set
+utility::program_options::helper ().public_options ().add_options ()
+  ("experiment,e", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_experiment, this, _1)), "The target experiment for this application run.")
+  ("file,i", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_file, this, _1)), "The target result file for this application run.")
+  ("memo,m", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_memo, this, _1)), "The target memo for this application run.")
+  ("memo-src,s", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_memo_src, this, _1)), "The location for memo-src for this application run.")
+  ("filter-dir,F", boost::program_options::value< std::vector< std::string > > (&m_plugin_dirs)->composing (), "directory paths to search for filters (may be used multiple times)")
+    ("compound,c", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_compound, this, _1)), "The target compound for the target memo (required for new memos)")
+  ("formula,f", boost::program_options::value< std::string > ()->notifier (boost::bind (&supplier_helper::target_formula, this, _1)), "The target formula for the target memo (required for new memos)")
+;

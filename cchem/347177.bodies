@@ -1,0 +1,285 @@
+class state_a
+!!!1562793.cpp!!!	process_archive(inout a_filter : basic_filter_traits) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_COMPLETE);	// Error indicator and return value.
+try
+{
+  // DO
+  const std::string l_archive (m_archive.str ());	// Cache a copy of result
+  DLOG ("Archive is: [" + l_archive + "]\n");
+  COMPCHEM_CHECK (not l_archive.empty (), "No archive section found but call to process_archive");
+
+  // Split archive into segments of the archive using regex.
+  const boost::regex l_barbar ("\\\\");
+  boost::sregex_token_iterator l_segment (boost::make_regex_token_iterator (l_archive, l_barbar, -1));
+  boost::sregex_token_iterator l_end_segment;
+  // Look for calculation "type" ( Operating mode, here eg opt, freq, irc )
+  std::advance (l_segment, 3);	// Go to 4th segment
+  m_result_set[CALC_TYPE].content = (l_segment->str ().empty ()? "unknown" : l_segment->str ());
+  DLOG ("MECH_MODE = " + m_result_set[CALC_TYPE].content + "\n");
+  ++l_segment;			// Go to 5th segment
+  // Look for calculation "method"
+  if (l_segment->str ().empty ())
+  {
+    // unknown method and basis
+    m_result_set[CALC_METHOD].content = "unknown";
+    m_result_set[BASIS_SET].content = "unknown";
+    // Step to 6th segment
+    ++l_segment;
+  }
+  else
+  {
+    // Check for ONIOM
+    const boost::regex l_oniom_check ("ONIOM(.*)$", boost::regex::icase | boost::regex::extended);
+    boost::smatch l_match;
+    if (boost::regex_search (l_segment->str (), l_match, l_oniom_check))
+    {
+      // method is oniom
+      m_result_set[CALC_METHOD].content = "ONIOM";
+      m_result_set[BASIS_SET].content = l_match.str (1);
+    }
+    else
+    {
+      // method, eg b3lyp 
+      m_result_set[CALC_METHOD].content = l_segment->str ();
+      // Should be "normal" basis set in 6th segment
+      ++l_segment;
+      m_result_set[BASIS_SET].content = (l_segment->str ().empty ()? "unknown" : l_segment->str ());
+    }
+  }
+
+  DLOG ("CALC_METHOD = " + m_result_set[CALC_METHOD].content + "\n");
+  DLOG ("BASIS_SET = " + m_result_set[BASIS_SET].content + "\n");
+  // Step from 6th to 13th
+  std::advance (l_segment, 7);
+  if (not l_segment->str ().empty ())
+  {
+    set_error (a_filter, "Non-empty string at split archive [13].");
+    Result = CCHEM_SUPPLIER_BADDATA;
+  }
+  else
+  {
+    // Step to 14th
+    ++l_segment;
+    // Title
+    m_result_set[TITLE].content = (l_segment->str ().empty ()? "unknown" : l_segment->str ());
+    DLOG ("TITLE = " + m_result_set[TITLE].content + "\n");
+    // "blank" before compounds's structure definition
+    ++l_segment;
+  }
+  if (CCHEM_SUPPLIER_COMPLETE == Result and not l_segment->str ().empty ())
+  {
+    set_error (a_filter, "Non-empty string at split archive [15].");
+    Result = CCHEM_SUPPLIER_BADDATA;
+  }
+  else
+  {
+    // Step to 16th
+    ++l_segment;
+    // Call method to process geometry
+    Result = process_geometry (a_filter, l_segment, l_end_segment);
+  }
+  if (CCHEM_SUPPLIER_COMPLETE == Result)
+  {
+    // What we have now is a section of name=value pairs. We can loop over this.
+    for (++l_segment;		// Step off version
+	 l_segment != l_end_segment and not l_segment->str ().empty (); ++l_segment)
+    {
+      // Position of '=' in 'name=value' segments.
+      const unsigned int l_nv_pos = l_segment->str ().find ("=");
+      // If no '=' then in error
+      if (std::string::npos == l_nv_pos)
+      {
+        DLOG ("Name=Value without '=' " + l_segment->str () + "\n");
+	set_error (a_filter, "All text in archive pair section must have '='");
+	Result = CCHEM_SUPPLIER_BADDATA;
+	break;
+      }
+      else
+      {
+	// We only want STATE, PG, NImag, HF and MP2
+	const std::string l_label (l_segment->str ().substr (0, l_nv_pos));
+	const std::string l_state ("State");
+	const std::string l_pg ("PG");
+	const std::string l_nimag ("NImag");
+	const std::string l_hf ("HF");
+	const std::string l_mp2 ("MP2");
+	if (l_state == l_label)
+	{
+	  m_result_set[STATE].content.assign (l_segment->str ().substr (l_nv_pos + 1));
+	}
+	else if (l_pg == l_label)
+	{
+	  m_result_set[POINT_GROUP].content.assign (l_segment->str ().substr (l_nv_pos + 1));
+	}
+	else if (l_nimag == l_label)
+	{
+	  m_result_set[NIMAG].content.assign (l_segment->str ().substr (l_nv_pos + 1));
+	}
+	else if (l_hf == l_label)
+	{
+	  m_result_set[ENERGY_HF].content.assign (l_segment->str ().substr (l_nv_pos + 1));
+	  m_result_set[ENERGY_HF].scale.assign ("hartree");
+	}
+	else if (l_mp2 == l_label)
+	{
+	  m_result_set[ENERGY_MP2].content.assign (l_segment->str ().substr (l_nv_pos + 1));
+	  m_result_set[ENERGY_MP2].scale.assign ("hartree");
+	}
+      }
+    }
+  }
+}
+catch (const std::exception & a_err)
+{
+  set_error (a_filter, a_err.what ());
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+// END
+return Result;
+!!!1073449.cpp!!!	process_geometry(in a_filter : basic_filter_traits, inout a_begin : t_iter, in a_end : t_iter) : int
+// LOCAL
+// Static assertion
+int Result (CCHEM_SUPPLIER_COMPLETE);
+// PRE
+COMPCHEM_REQUIRE (a_begin != a_end, "process_geometry method needs data");
+
+// The charge and multiplicity come from the first arc_line
+{
+  const std::string l_phrase (a_begin->str ());
+  const unsigned int pos = l_phrase.find (",");
+  if (std::string::npos != pos)
+  {
+    m_result_set[GEOM_CHARGE].content.assign (l_phrase.substr (0, pos));
+    m_result_set[GEOM_MULT].content.assign (l_phrase.substr (pos + 1));
+  }
+  else
+  {
+    Result = CCHEM_SUPPLIER_BADDATA;
+    set_error (a_filter, "Unable to determine the charge or multiplicity for this structure");
+  }
+}
+
+if (CCHEM_SUPPLIER_COMPLETE == Result)
+{
+  // Now we need to get the geometry data 
+  ++a_begin;
+
+  // start collecting geometry info
+  std::stringstream l_geom_stream;
+  l_geom_stream << a_begin->str ();
+  for (++a_begin; a_begin != a_end and not a_begin->str ().empty (); ++a_begin)
+  {
+    l_geom_stream << "\\" << a_begin->str ();
+  }
+  // Check for zmt or version
+  ++a_begin;
+  if (not a_begin->str ().empty ()and std::string::npos != a_begin->str ().find ("Version"))
+  {
+    // a_begin is at Version string -> Appears to be XYZ format
+    m_result_set[GEOM_DATA].format.assign ("axyz");
+  }
+  else
+  {
+    // Have more geometry -> ZMT format;
+    m_result_set[GEOM_DATA].format.assign ("alad");
+    // Continue collecting...
+    l_geom_stream << "\\";
+    for (++a_begin; a_begin != a_end && not a_begin->str ().empty (); ++a_begin)
+    {
+      l_geom_stream << "\\" << a_begin->str ();
+    }
+    // Step to Version string: Note there is sometimes extra empty lines at the end
+    // of the geometry, this will loop to the end of the section. 
+    for (; a_begin != a_end and std::string::npos == a_begin->str ().find ("Version"); ++a_begin)
+    {
+    }				// do nothing in loop
+  }
+  // Add content to node
+  m_result_set[GEOM_DATA].content.assign (l_geom_stream.str ());
+}
+DLOG ("At [" + (a_begin->str ()) + "]\n");
+
+// Test we are not at the end-point.
+if (a_begin == a_end)
+{
+  set_error (a_filter, "After processing the geometry we should not be at the end.");
+  Result = CCHEM_SUPPLIER_BADDATA;
+}
+return Result;
+!!!1072169.cpp!!!	process_default(inout a_filter : basic_filter_traits, in a_buffer : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+try
+{
+  // DO
+  switch (m_state)
+  {
+  case DIPOLE_SEARCH:
+    {
+      Result = process_dipole (a_filter, a_buffer, a_sz);
+      if (CCHEM_SUPPLIER_COMPLETE == Result)
+      {
+	Result = CCHEM_SUPPLIER_SUCCESS;
+	m_state = ARCHIVE_SEARCH;
+      }
+    }
+    break;
+  case ARCHIVE_SEARCH:		// Searching for first line of archive
+    if (70 <= a_sz		// We assume archive will be more than one line, so skip short lines
+	&& boost::regex_search (a_buffer, a_buffer + a_sz, m_start_re))
+    {
+      // cache line (stripping whitespace) and indicate search for end of archive
+      m_state = ARCHIVE_END_SEARCH;
+      m_archive.write (a_buffer + 1, 70);
+    }
+    break;
+  case ARCHIVE_END_SEARCH:	// Searching for last line of archive
+    //cache line (stripping whitespace)
+    m_archive.write (a_buffer + 1, std::min (70, a_sz - 1));
+    if (boost::regex_search (a_buffer, a_buffer + a_sz, m_end_re))
+    {
+      m_state = TERM_SEARCH;
+    }
+    break;
+  case TERM_SEARCH:
+    {
+      Result = process_termination (a_filter, a_buffer, a_sz);
+      if (CCHEM_SUPPLIER_COMPLETE == Result)
+      {
+	// Convert the archive section now we know the calculation terminated normally. 
+	Result = process_archive (a_filter);
+	m_state = COMPLETED_SEARCH;
+      }
+    }
+    break;
+  case COMPLETED_SEARCH:	//Fall through to error
+  default:
+    // error
+    {
+      // The default case is an error
+      Result = CCHEM_SUPPLIER_FATAL;
+      set_error (a_filter, "Unknown or invalid state in gaussian_summary filter");
+    }
+    break;
+  }
+}
+catch (const std::exception & a_err)
+{
+  set_error (a_filter, a_err.what ());
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+
+catch (...)
+{
+  set_error (a_filter, "Unknown error");
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+
+// END
+return Result;
+!!!1072681.cpp!!!	state_a()
+: gaussian_summary (DIPOLE_SEARCH)
+, m_archive ()
+, m_start_re ("1\\\\1\\\\")
+, m_end_re ("@$") {}

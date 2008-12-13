@@ -1,0 +1,3200 @@
+format 61
+"py" // /compchem/data_scheme::py
+  revision 2
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "data_scheme"
+  cpp_src_dir "../src/data_scheme"
+  cpp_namespace "data_scheme"
+  classview 161577 "data_scheme_py"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 158633 // data_scheme_py
+    comment "The pythonised version of the data_scheme C++ classes."
+    classdiagram 159913 "pythonised data_scheme"
+      draw_all_relations no hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode class drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 458281 "basic_datum_py"
+      visibility package 
+      nactuals 1
+      actual class class_ref 458153 // python::wrapper
+        rank 0 value class_ref 458281 // basic_datum_py
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Wrap the virtual functions of basic_datum"
+      classrelation 452009 // <generalisation>
+	relation 441129 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452009 // <generalisation>
+	  b parent class_ref 432681 // basic_datum
+      end
+
+      classrelation 452137 // <realization>
+	relation 441257 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452137 // <realization>
+	  b parent class_ref 458153 // python::wrapper
+      end
+
+      operation 1471017 "has_attribute_py"
+	class_operation public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_self" type class_ref 432681 // basic_datum
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  ${t1} l_dummy;
+  return ${p0}.get_attribute (${p1}, l_dummy);
+}
+
+"
+	
+	
+	
+	
+	comment "Convert the C++ function into a more python like function. This
+returns whether there is an attribute value."
+      end
+
+      operation 1470889 "get_attribute_py"
+	class_operation public explicit_return_type "string"
+	nparams 2
+	  param in name "a_self" type class_ref 432681 // basic_datum
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  ${type} Result;
+  ${p0}.get_attribute (${p1}, Result);
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Convert the C++ function into a more python like function. You 
+have to assume that an empty string indicates the attribute is
+not set."
+      end
+
+      operation 1461289 "visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" type class_ref 435241 // visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->get_override(\"visit\")(${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1461673 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Generate the pythonised version of basic_datum"
+      end
+    end
+
+    class 458537 "basic_text_py"
+      visibility package 
+      nactuals 1
+      actual class class_ref 458153 // python::wrapper
+        rank 0 value class_ref 458537 // basic_text_py
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "basic_text"
+      classrelation 452521 // <realization>
+	relation 441641 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452521 // <realization>
+	  b parent class_ref 458153 // python::wrapper
+      end
+
+      classrelation 452649 // <generalisation>
+	relation 441769 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452649 // <generalisation>
+	  b parent class_ref 435369 // basic_text
+      end
+
+      operation 1466793 "definition"
+	const public return_type class_ref 433961 // meta_datum
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type}& ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return this->get_override(\"definition\")();
+}
+"
+	
+	
+	
+	
+	comment "The XML element definition for this datum."
+      end
+
+      operation 1466921 "visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" type class_ref 435241 // visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->get_override(\"${name}\")(${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1467049 "basic_text_py"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+: @{base_class}(${p0}, ${p1})
+{}"
+	
+	
+	
+	
+      end
+
+      operation 1467177 "~basic_text_py"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1467305 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Pythonise the text related element of data_scheme"
+      end
+    end
+
+    class 458793 "compound_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 452905 // <dependency>
+	relation 442025 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 452905 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 453929 // <dependency>
+	relation 443049 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 453929 // <dependency>
+	  b parent class_ref 356393 // identity
+      end
+
+      classrelation 454057 // <dependency>
+	relation 443177 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454057 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 454185 // <dependency>
+	relation 443305 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454185 // <dependency>
+	  b parent class_ref 356521 // formula
+      end
+
+      classrelation 454313 // <dependency>
+	relation 443433 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454313 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 455081 // <dependency>
+	relation 444201 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455081 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1477417 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1467561 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create python definitions of the compound C++ class"
+      end
+    end
+
+    class 480553 "compound_ref_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 490665 // <dependency>
+	relation 479017 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 490665 // <dependency>
+	  b parent class_ref 480425 // compound_ref
+      end
+
+      operation 1533737 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create python definition of the memo data_scheme C++ class"
+      end
+
+      classrelation 542249 // <dependency>
+	relation 521129 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 542249 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+    end
+
+    class 460329 "data_scheme_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 463913 // <dependency>
+	relation 453033 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463913 // <dependency>
+	  b parent class_ref 458281 // basic_datum_py
+      end
+
+      classrelation 464041 // <dependency>
+	relation 453161 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464041 // <dependency>
+	  b parent class_ref 458537 // basic_text_py
+      end
+
+      classrelation 463273 // <dependency>
+	relation 452393 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463273 // <dependency>
+	  b parent class_ref 458793 // compound_py
+      end
+
+      classrelation 490793 // <dependency>
+	relation 479145 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 490793 // <dependency>
+	  b parent class_ref 480553 // compound_ref_py
+      end
+
+      classrelation 464297 // <dependency>
+	relation 453417 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464297 // <dependency>
+	  b parent class_ref 458665 // datum_py
+      end
+
+      classrelation 463401 // <dependency>
+	relation 452521 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463401 // <dependency>
+	  b parent class_ref 458921 // experiment_py
+      end
+
+      classrelation 464425 // <dependency>
+	relation 453545 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464425 // <dependency>
+	  b parent class_ref 459049 // filter_py
+      end
+
+      classrelation 463529 // <dependency>
+	relation 452649 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463529 // <dependency>
+	  b parent class_ref 459177 // formula_py
+      end
+
+      classrelation 463657 // <dependency>
+	relation 452777 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463657 // <dependency>
+	  b parent class_ref 459305 // identity_py
+      end
+
+      classrelation 463785 // <dependency>
+	relation 452905 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463785 // <dependency>
+	  b parent class_ref 459433 // info_py
+      end
+
+      classrelation 462505 // <dependency>
+	relation 451625 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462505 // <dependency>
+	  b parent class_ref 459561 // mechanism_py
+      end
+
+      classrelation 462633 // <dependency>
+	relation 451753 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462633 // <dependency>
+	  b parent class_ref 459689 // memo_py
+      end
+
+      classrelation 462761 // <dependency>
+	relation 451881 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462761 // <dependency>
+	  b parent class_ref 459817 // program_py
+      end
+
+      classrelation 462889 // <dependency>
+	relation 452009 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462889 // <dependency>
+	  b parent class_ref 459945 // project_py
+      end
+
+      classrelation 463017 // <dependency>
+	relation 452137 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463017 // <dependency>
+	  b parent class_ref 460073 // settings_py
+      end
+
+      classrelation 464169 // <dependency>
+	relation 453289 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 464169 // <dependency>
+	  b parent class_ref 458409 // visitor_py
+      end
+
+      classrelation 463145 // <dependency>
+	relation 452265 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 463145 // <dependency>
+	  b parent class_ref 460201 // worker_py
+      end
+
+      classrelation 466217 // <dependency>
+	relation 455337 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 466217 // <dependency>
+	  b parent class_ref 469033 // data_scheme_helper
+      end
+
+      operation 1498793 "get_auto_open_memo"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return data_scheme_helper::helper ().auto_open_memo ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1498921 "set_auto_open_memo"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_proj" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  data_scheme_helper::helper ().auto_open_memo (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1499049 "get_auto_project"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return data_scheme_helper::helper ().auto_project ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1499177 "set_auto_project"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_proj" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  data_scheme_helper::helper ().auto_project (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1487273 "get_target_project"
+	public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  return data_scheme_helper::helper ().target_project ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1487401 "set_target_project"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_proj" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  data_scheme_helper::helper ().target_project (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      extra_member 139945 "BOOST_PYTHON_MODULE(data_scheme)"
+	
+	cpp "" "// This file defines the python wrappers for the data_scheme namespace
+// into the data_scheme python module.
+//
+// * basic_datum (and wrap_basic_datum)
+// * basic_text (and wrap_basic_text)
+// * comment
+// * compound
+// * datum
+// * experiment
+// * filter
+// * formula
+// * identity
+// * info
+// * mechanism
+// * memo
+// * processing_instruction
+// * program
+// * project
+// * settings
+// * text
+// * visitor
+// * worker
+
+BOOST_PYTHON_MODULE(data_scheme)
+{
+
+  basic_datum_py::pythonise ();
+  basic_text_py::pythonise ();
+  compound_py::pythonise ();
+  compound_ref_py::pythonise ();
+  datum_py::pythonise ();
+  experiment_py::pythonise ();
+  filter_py::pythonise ();
+  formula_py::pythonise ();
+  identity_py::pythonise ();
+  info_py::pythonise ();
+  mechanism_py::pythonise ();
+  memo_py::pythonise ();
+  program_py::pythonise ();
+  project_py::pythonise ();
+  settings_py::pythonise ();
+  worker_py::pythonise ();
+  visitor_py::pythonise ();
+
+  boost::python::class_< data_scheme_py, boost::noncopyable >(\"helper\",
+        \"Manage configuration for the data_scheme set of classes. Note that\\n\"
+        \"all instances of this object refer to the same object.\",
+        boost::python::init<>()
+        )
+   .add_property(\"target_project\", boost::python::make_function(&data_scheme_py::get_target_project, boost::python::return_value_policy< boost::python::return_by_value >()), &data_scheme_py::set_target_project,
+        \"The project to use, default is 'default'.\")
+   .add_property(\"auto_open_memo\", boost::python::make_function(&data_scheme_py::get_auto_open_memo, boost::python::return_value_policy< boost::python::return_by_value >()), &data_scheme_py::set_auto_open_memo,
+        \"When true will cause document reads to automatically open memo-src subfiles (default is 'false').\")
+   .add_property(\"auto_project\", boost::python::make_function(&data_scheme_py::get_auto_project, boost::python::return_value_policy< boost::python::return_by_value >()), &data_scheme_py::set_auto_project,
+        \"When true will cause an attempt to automatically create missing projects (default is 'false').\")
+  ;  
+
+}
+
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+
+    class 458665 "datum_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 453033 // <dependency>
+	relation 442153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 453033 // <dependency>
+	  b parent class_ref 355369 // datum
+      end
+
+      classrelation 455209 // <dependency>
+	relation 444329 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455209 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1467433 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python version of the datum C++ class"
+      end
+    end
+
+    class 458921 "experiment_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 453161 // <dependency>
+	relation 442281 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 453161 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 454441 // <dependency>
+	relation 443561 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454441 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 454697 // <dependency>
+	relation 443817 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454697 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 454825 // <dependency>
+	relation 443945 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454825 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 455337 // <dependency>
+	relation 444457 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455337 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1467689 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the experiment data_scheme class."
+      end
+    end
+
+    class 459049 "filter_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 453673 // <dependency>
+	relation 442793 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 453673 // <dependency>
+	  b parent class_ref 354729 // filter
+      end
+
+      classrelation 454953 // <dependency>
+	relation 444073 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 454953 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+
+      classrelation 455465 // <dependency>
+	relation 444585 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455465 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1467817 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the filter data_scheme C++ class"
+      end
+    end
+
+    class 459177 "formula_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 455593 // <dependency>
+	relation 444713 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455593 // <dependency>
+	  b parent class_ref 356521 // formula
+      end
+
+      classrelation 455849 // <dependency>
+	relation 444969 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455849 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 455977 // <dependency>
+	relation 445097 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 455977 // <dependency>
+	  b parent class_ref 356393 // identity
+      end
+
+      classrelation 456105 // <dependency>
+	relation 445225 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 456105 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 456617 // <dependency>
+	relation 445737 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 456617 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1477673 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1467945 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the formula data_scheme C++ class"
+      end
+    end
+
+    class 459305 "identity_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 456361 // <dependency>
+	relation 445481 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 456361 // <dependency>
+	  b parent class_ref 356393 // identity
+      end
+
+      classrelation 456745 // <dependency>
+	relation 445865 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 456745 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1468073 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the identity data_scheme C++ class"
+      end
+    end
+
+    class 459433 "info_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 456873 // <dependency>
+	relation 445993 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 456873 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 457129 // <dependency>
+	relation 446249 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457129 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1468201 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the info data_scheme C++ class"
+      end
+    end
+
+    class 459561 "mechanism_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 457257 // <dependency>
+	relation 446377 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457257 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+
+      classrelation 457513 // <dependency>
+	relation 446633 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457513 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 457641 // <dependency>
+	relation 446761 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457641 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 457769 // <dependency>
+	relation 446889 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457769 // <dependency>
+	  b parent class_ref 354729 // filter
+      end
+
+      classrelation 457897 // <dependency>
+	relation 447017 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 457897 // <dependency>
+	  b parent class_ref 371497 // settings
+      end
+
+      classrelation 458025 // <dependency>
+	relation 447145 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458025 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 458793 // <dependency>
+	relation 447913 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458793 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 458921 // <dependency>
+	relation 448041 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458921 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      operation 1478569 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1468329 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definition of the mechanism data_scheme C++ class"
+      end
+    end
+
+    class 459689 "memo_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 458281 // <dependency>
+	relation 447401 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458281 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 461353 // <dependency>
+	relation 450473 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461353 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 458537 // <dependency>
+	relation 447657 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458537 // <dependency>
+	  b parent class_ref 355369 // datum
+      end
+
+      classrelation 461225 // <dependency>
+	relation 450345 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461225 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 458665 // <dependency>
+	relation 447785 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 458665 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      operation 1500585 "make_src"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_memo" type class_ref 357033 // memo
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.${name}(${p1});
+}
+"
+	
+	
+	
+	
+	comment "Make a src object."
+      end
+
+      operation 1468457 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create python definition of the memo data_scheme C++ class"
+      end
+    end
+
+    class 459817 "program_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 459049 // <dependency>
+	relation 448169 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459049 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 459305 // <dependency>
+	relation 448425 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459305 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 459433 // <dependency>
+	relation 448553 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459433 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 459561 // <dependency>
+	relation 448681 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459561 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 459689 // <dependency>
+	relation 448809 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459689 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+
+      classrelation 459817 // <dependency>
+	relation 448937 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459817 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 459945 // <dependency>
+	relation 449065 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 459945 // <dependency>
+	  b parent class_ref 353577 // worker
+      end
+
+      operation 1482793 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 353321 // program
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1468585 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions of the program data_scheme C++ class"
+      end
+    end
+
+    class 459945 "project_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 490921 // <dependency>
+	relation 479273 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 490921 // <dependency>
+	  b parent class_ref 480425 // compound_ref
+      end
+
+      classrelation 461481 // <dependency>
+	relation 450601 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461481 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 461609 // <dependency>
+	relation 450729 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461609 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 461737 // <dependency>
+	relation 450857 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461737 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 460073 // <dependency>
+	relation 449193 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460073 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 460713 // <dependency>
+	relation 449833 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460713 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1482921 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1500457 "make_src"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_proj" type class_ref 354089 // project
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.${name}(${p1});
+}
+"
+	
+	
+	
+	
+	comment "Make a src object."
+      end
+
+      operation 1468713 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definitions for the project data_scheme C++ class"
+      end
+    end
+
+    class 460073 "settings_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 460201 // <dependency>
+	relation 449321 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460201 // <dependency>
+	  b parent class_ref 371497 // settings
+      end
+
+      classrelation 460585 // <dependency>
+	relation 449705 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460585 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 461865 // <dependency>
+	relation 450985 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461865 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      classrelation 461993 // <dependency>
+	relation 451113 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 461993 // <dependency>
+	  b parent class_ref 355369 // datum
+      end
+
+      classrelation 462377 // <dependency>
+	relation 451497 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462377 // <dependency>
+	  b parent class_ref 353705 // mechanism
+      end
+
+      operation 1483177 "get_data_py"
+	class_operation public return_type class_ref 355369 // datum
+	nparams 1
+	  param inout name "a_self" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_data () ? &(${p0}.data ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1483049 "get_information_py"
+	class_operation public return_type class_ref 354601 // info
+	nparams 1
+	  param inout name "a_self" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  return (${p0}.has_information () ? &(${p0}.information ()) : (${type} *)(0));
+}
+"
+	
+	
+	
+	
+	comment "Make a getter function that is nicer for python."
+      end
+
+      operation 1468841 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definition of the settings data_scheme C++ class"
+      end
+    end
+
+    class 458409 "visitor_py"
+      visibility package 
+      nactuals 1
+      actual class class_ref 458153 // python::wrapper
+        rank 0 value class_ref 458409 // visitor_py
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 452265 // <realization>
+	relation 441385 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452265 // <realization>
+	  b parent class_ref 458153 // python::wrapper
+      end
+
+      classrelation 452393 // <generalisation>
+	relation 441513 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 452393 // <generalisation>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1461929 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443433 // comment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1464489 "def_on_visit_comment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443433 // comment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462057 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1464617 "def_on_visit_compound"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1535145 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1535273 "def_on_visit_compound_ref"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462185 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1464745 "def_on_visit_datum"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462313 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1464873 "def_on_visit_experiment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462441 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465001 "def_on_visit_filter"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462569 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465129 "def_on_visit_formula"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462697 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465257 "def_on_visit_identity"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462825 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465385 "def_on_visit_info"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1462953 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465513 "def_on_visit_mechanism"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463081 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465641 "def_on_visit_memo"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463209 "on_visit"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443561 // processing_instruction
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465769 "def_on_visit_processing_instruction"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443561 // processing_instruction
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463337 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353321 // program
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1465897 "def_on_visit_program"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353321 // program
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463465 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1466025 "def_on_visit_project"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463593 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1466153 "def_on_visit_settings"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463721 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443305 // text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1466665 "def_on_visit_text"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443305 // text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1466537 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  if (func)
+    func (${p0});
+  else
+    this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1466281 "def_on_visit_worker"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->visitor::on_visit (${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463849 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  this->get_override (\"${name}_basic_datum\")(${p0});
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1463977 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Pythonise the visitor class"
+      end
+
+      operation 1593641 "~visitor_py"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 460201 "worker_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 460329 // <dependency>
+	relation 449449 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460329 // <dependency>
+	  b parent class_ref 353577 // worker
+      end
+
+      classrelation 460457 // <dependency>
+	relation 449577 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 460457 // <dependency>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 462121 // <dependency>
+	relation 451241 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462121 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 462249 // <dependency>
+	relation 451369 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 462249 // <dependency>
+	  b parent class_ref 354601 // info
+      end
+
+      operation 1468969 "pythonise"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create the python definition of the worker data_scheme C++ class"
+      end
+    end
+  end
+
+  deploymentview 158633 "data_scheme_py"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    deploymentdiagram 164393 "data_scheme_py"
+      package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    artifact 229929 "data_scheme"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 232745 // compound_ref_py
+	artifact_ref 254761 // python
+	artifact_ref 219817 // text_py
+	artifact_ref 220329 // filter_py
+	artifact_ref 219945 // datum_py
+	artifact_ref 220073 // compound_py
+	artifact_ref 220457 // formula_py
+	artifact_ref 230057 // data_access
+	artifact_ref 220969 // memo_py
+	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 221225 // project_py
+	artifact_ref 252969 // regex
+	artifact_ref 220713 // info_py
+	artifact_ref 221353 // settings_py
+	artifact_ref 220201 // experiment_py
+	artifact_ref 221097 // program_py
+	artifact_ref 253097 // date_time
+	artifact_ref 220585 // identity_py
+	artifact_ref 144169 // data_scheme
+	artifact_ref 219689 // visitor_py
+	artifact_ref 219561 // basic_datum_py
+	artifact_ref 221481 // worker_py
+	artifact_ref 230313 // filesystem
+	artifact_ref 217257 // data_scheme_py
+	artifact_ref 220841 // mechanism_py
+      end
+      ncouples 1
+      key "butter other" value "python-extension"
+      comment "The python library of data_scheme objects."
+    end
+
+    artifact 219561 "basic_datum_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}
+
+"
+      associated_classes
+	class_ref 458281 // basic_datum_py
+      end
+    end
+
+    artifact 220073 "compound_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 458793 // compound_py
+      end
+    end
+
+    artifact 232745 "compound_ref_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 480553 // compound_ref_py
+      end
+    end
+
+    artifact 217257 "data_scheme_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 460329 // data_scheme_py
+      end
+      comment "Call the definitions for the individual data_scheme classes"
+    end
+
+    artifact 219945 "datum_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 458665 // datum_py
+      end
+    end
+
+    artifact 220201 "experiment_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 458921 // experiment_py
+      end
+    end
+
+    artifact 220329 "filter_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459049 // filter_py
+      end
+    end
+
+    artifact 220457 "formula_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459177 // formula_py
+      end
+    end
+
+    artifact 220585 "identity_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459305 // identity_py
+      end
+    end
+
+    artifact 220713 "info_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459433 // info_py
+      end
+    end
+
+    artifact 220841 "mechanism_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459561 // mechanism_py
+      end
+    end
+
+    artifact 220969 "memo_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459689 // memo_py
+      end
+    end
+
+    artifact 221097 "program_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459817 // program_py
+      end
+    end
+
+    artifact 221225 "project_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 459945 // project_py
+      end
+    end
+
+    artifact 221353 "settings_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 460073 // settings_py
+      end
+    end
+
+    artifact 219817 "text_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 458537 // basic_text_py
+      end
+    end
+
+    artifact 219689 "visitor_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 458409 // visitor_py
+      end
+    end
+
+    artifact 221481 "worker_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_scheme/basic_datum_py.hpp\"
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 460201 // worker_py
+      end
+    end
+  end
+end

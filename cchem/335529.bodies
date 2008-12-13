@@ -1,0 +1,11 @@
+class epoch_time
+!!!1005865.cpp!!!	operator std::string()
+char* l_result;
+#ifdef REENTRANT
+char l_buff[64];
+l_result = ctime_r (&m_epoch_time, &l_buff[0]);
+#else
+l_result = ctime (&m_epoch_time);
+#endif
+COMPCHEM_ALWAYS (NULL != l_result, "Unable to convert time value");
+return std::string(l_result);

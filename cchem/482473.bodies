@@ -1,0 +1,9 @@
+class matcher_pair
+!!!1537705.cpp!!!	process_part(in a_target : string, out a_result : string) : int
+int Result (main->process_part (a_target, a_result));
+if (CCHEM_SUPPLIER_SUCCESS == Result)
+{
+  std::string l_result; // We discard results from end.
+  Result = end->process_part (a_target, l_result);
+}
+return Result;

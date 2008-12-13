@@ -1,0 +1,60 @@
+class lorentzian
+!!!1099561.cpp!!!	operator ()(in a_begin : ForwardIterator, in a_end : ForwardIterator, in a_destination : OutputIterator) : void
+// PRE
+REQUIRE (validate_input (a_begin, a_end), "Input must be in ascending wavenumber order");
+// Get working parameters
+// Ensure correct order of bounds and increase upper bound slightly in case of rounding
+const value_type l_upper (std::max (m_options.upper_bound (), m_options.lower_bound ()));
+const value_type l_lower_bound (std::min (m_options.upper_bound (), m_options.lower_bound ()));
+// TEST
+REQUIRE (l_lower_bound != l_upper, "Lower and Upper bounds must not be equal");
+// Peakwidth
+const value_type l_width (m_options.half_width ());
+// Working increment
+const value_type l_increment ((l_upper - l_lower_bound)/value_type (m_options.size () - 1));
+const value_type l_halfinc (l_increment / value_type(2.0));
+// Adjust working upper bound in case (size() - 1) * l_increment + l_lower_bound > l_upper
+// (which is possible for floating point maths.)
+const value_type l_upper_bound (l_upper + l_halfinc);
+#ifdef LOCAL_DEBUG
+std::cout << "##UPPER= " << l_upper_bound << "\n";
+std::cout << "##LOWER= " << l_lower_bound << "\n";
+std::cout << "##INC=   " << m_options.increment () << "\n";
+std::cout << "##L INC= " << l_increment << "\n";
+std::cout << "##WIDTH= " << l_width << "\n";
+std::cout << "##SIZE=  " << m_options.size () << "\n";
+#endif
+// Precompute and store A0, A1
+std::vector <boost::tuple< value_type, value_type, value_type, value_type> > l_factor;
+for (ForwardIterator l_begin = a_begin;
+    l_begin != a_end;
+    ++l_begin) {
+  const value_type l_factor_A1 (l_begin->second * l_width);
+  const value_type l_factor_A0 (l_begin->second * l_factor_A1);
+  l_factor.push_back (boost::make_tuple (l_begin->first, l_begin->second, l_factor_A0, l_factor_A1));  }
+// Compute output (using precomputed values)
+for (value_type l_location (m_options.lower_bound ());
+    l_location < l_upper_bound;
+    l_location += l_increment, ++a_destination) {
+  value_type l_maxpeak (0.0);
+  value_type l_value (0.0);
+  for (typename std::vector <boost::tuple< value_type, value_type, value_type, value_type> >::const_iterator l_begin (l_factor.begin ());
+      l_begin != l_factor.end();
+      ++l_begin) {
+    // Do lorentzian
+    l_value += boost::get<2>(*l_begin)/(boost::get<3>(*l_begin) + (l_location - boost::get<0>(*l_begin))*(l_location - boost::get<0>(*l_begin)));
+
+    // Set max peak
+    if (l_location - l_halfinc <= boost::get<0>(*l_begin) && boost::get<0>(*l_begin) <= l_location + l_halfinc) {
+      l_maxpeak = std::max (l_maxpeak, boost::get<1>(*l_begin)); }}
+  // Set output
+  *a_destination = std::make_pair (l_location, std::max (l_maxpeak, l_value));}
+
+!!!1099689.cpp!!!	validate_input(in a_begin : ForwardIterator, in a_end : ForwardIterator) : bool
+ForwardIterator l_a (a_begin);
+ForwardIterator l_b (a_begin);
+if (l_b != a_end) { // handle a_begin == a_end
+  for (++l_b;
+       l_b != a_end and l_b->first >= l_a->first;
+       ++l_b, ++l_a) {}} // No body
+return (l_b == a_end);

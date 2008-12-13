@@ -1,0 +1,3 @@
+class columns
+!!!1056425.cpp!!!	set_columns(in a_tree_view : list_window_t) : void
+  a_tree_view->append_column("Page Ref.", m_pageref); 

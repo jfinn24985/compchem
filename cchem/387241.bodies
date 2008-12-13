@@ -1,0 +1,14 @@
+class resource_path_test
+!!!1249321.cpp!!!	main_test(in argc : int, in argv : char) : int
+cchem::guistate::resource_path l_t1 ("a.b.c.d");
+std::cout << "path 1 [" << l_t1.string () << "], leaf [" << l_t1.leaf () << "], parent ["
+          << l_t1.branch_path ().string () << "]\n";
+cchem::guistate::resource_path l_t2 (l_t1); 
+std::cout << "path 2 [" << l_t2.string () << "], leaf [" << l_t2.leaf () << "], parent ["
+          << l_t2.branch_path ().string () << "]\n";
+l_t2 = l_t1 / "newleaf";
+std::cout << "path 2 [" << l_t2.string () << "], leaf [" << l_t2.leaf () << "], parent ["
+          << l_t2.branch_path ().string () << "]\n";
+l_t2 = "newpath";
+std::cout << "path 2 [" << l_t2.string () << "], leaf [" << l_t2.leaf () << "], parent ["
+          << l_t2.branch_path ().string () << "]\n";

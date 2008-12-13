@@ -1,0 +1,43 @@
+format 24
+
+classcanvas 128169 class_ref 327337 // data_object_factory
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 486 118 2005
+classcanvas 129193 class_ref 135465 // program
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 35 423 2005
+classcanvas 129449 class_ref 329385 // identity
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 40 25 2000
+classcanvas 130473 class_ref 331049 // relation
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 362 377 2000
+classcanvas 130601 class_ref 330793 // transaction
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 319 605 2000
+classcanvas 130729 class_ref 330921 // translist
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 436 607 2000
+classcanvas 131113 class_ref 330025 // locator
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 553 424 2000
+classcanvas 131369 class_ref 327849 // site
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default
+  xyz 206 31 3005
+relationcanvas 130857 relation_ref 257833 // <generalisation>
+  from ref 130601 z 1999 to ref 130473
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 130985 relation_ref 257961 // <generalisation>
+  from ref 130729 z 1999 to ref 130473
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 131241 relation_ref 258089 // <directional aggregation>
+  from ref 130473 z 1999 to ref 131113
+  role_a_pos 492 427 3000 no_role_b
+  multiplicity_a_pos 534 463 3000 no_multiplicity_b
+relationcanvas 131497 relation_ref 252969 // <aggregation by value>
+  from ref 131369 z 1999 to ref 128169
+  role_a_pos 376 198 3000 role_b_pos 350 203 3000
+  multiplicity_a_pos 469 234 3000 multiplicity_b_pos 350 239 3000
+end

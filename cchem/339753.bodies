@@ -1,0 +1,7 @@
+class base_view
+!!!1045545.cpp!!!	base_view(in a_key : string_t, in a_url : string_t)
+  REQUIRE (NULL != rep, "Cannot create a view without a window.");
+  is_valid ();
+!!!1045673.cpp!!!	base_view(in a_key : string_t, in a_parent : base_view)
+  REQUIRE (NULL != rep, "Cannot create a view without a window.");
+  is_valid ();

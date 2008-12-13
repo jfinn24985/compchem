@@ -1,0 +1,315 @@
+format 61
+"/boost" // External Components::/boost
+  revision 27
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_src_dir ".."
+  cpp_namespace "boost"
+  classview 130345 "Boost classes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 428969 "bind"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 395689 "bad_lexical_cast"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/lexical_cast.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 349993 "date"
+      visibility package 
+      cpp_external cpp_decl "gregorian::${name}
+#include <boost/date_time/gregorian/gregorian.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 182569 "function"
+      visibility package 
+      nformals 1
+      formal name "Type" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/function.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+    end
+
+    class 182825 "function2"
+      visibility package 
+      nformals 3
+      formal name "Ret" type "class" explicit_default_value ""
+        explicit_extends ""
+      formal name "Arg1" type "class" explicit_default_value ""
+        explicit_extends ""
+      formal name "Arg2" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/function.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+    end
+
+    class 350761 "options_description"
+      visibility package 
+      cpp_external cpp_decl "program_options::${name}
+#include <boost/program_options/options_description.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 361513 "path"
+      visibility package 
+      cpp_external cpp_decl "filesystem::${name}
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 346153 "regex"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/regex.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 423977 "variables_map"
+      visibility public 
+      cpp_external cpp_decl "program_options::${name}
+#include <boost/program_options/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 458153 "python::wrapper"
+      visibility package 
+      nformals 1
+      formal name "T" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/python.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 478121 "ptr_map"
+      visibility package 
+      nformals 2
+      formal name "t_key" type "class" explicit_default_value ""
+        explicit_extends ""
+      formal name "t_val" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/ptr_container/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 482345 "format"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 496937 "timer"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+  end
+
+  deploymentview 133801 "dummy view"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 153513 "boost"
+      stereotype "source"
+      associated_classes
+	class_ref 182825 // function2
+	class_ref 182569 // function
+	class_ref 346153 // regex
+	class_ref 349993 // date
+	class_ref 350761 // options_description
+	class_ref 361513 // path
+	class_ref 395689 // bad_lexical_cast
+	class_ref 428969 // bind
+	class_ref 423977 // variables_map
+	class_ref 482345 // format
+	class_ref 478121 // ptr_map
+	class_ref 458153 // python::wrapper
+	class_ref 496937 // timer
+      end
+    end
+
+    artifact 230313 "filesystem"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_filesystem"
+    end
+
+    artifact 252841 "program_options"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_program_options"
+    end
+
+    artifact 252969 "regex"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_regex"
+    end
+
+    artifact 253097 "date_time"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_date_time"
+    end
+
+    artifact 254761 "python"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_python"
+    end
+  end
+end

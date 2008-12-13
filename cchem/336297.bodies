@@ -1,0 +1,306 @@
+class gui_state
+!!!1019561.cpp!!!	bind_control(inout a_attribute : widget_control) : void
+  // LOCAL
+  Widget l_widget(NULL);
+  // PRE
+  REQUIRE(NULL != m_toplevel, "Cannot bind controls before initialising the graphical user interface");
+  // DO
+  // Get widget based on resource name
+  l_widget = XmtNameToWidget(m_toplevel, get_config_name (a_attribute).c_str ());
+  ALWAYS(NULL != l_widget, "No widget found for \"" + a_attribute.get_name () + "\" [" + get_config_name (a_attribute) + "]");
+  // Test if it can be added
+  if (a_attribute.allow_widget (l_widget))
+  {
+    // Add widget to control
+    a_attribute.add_widget (l_widget);
+  }
+  else
+  {
+    // or fail.
+    ALWAYS(false, "Widget found for " + a_attribute.get_name () + " is not valid for control");
+  }
+!!!1019817.cpp!!!	do_initialise_application_priv(inout a_argc : int, inout a_argv : char) : void
+  // LOCAL
+  configuration l_conf(*this);
+  std::vector< std::string > l_name_list;
+  // DO
+  // Register the Editres handler (this allows application to be used
+  // with editres application.
+  XtAddEventHandler((Widget)m_toplevel
+  		  , 0
+  		  , True
+  		  ,(XtEventHandler)_XEditResCheckMessages
+  		  , NULL);
+  // Get the name:widget map
+  l_conf.get_stringlist (l_conf.make_key ("widgetList")
+  		       , l_name_list);
+  for (std::vector< std::string >::iterator l_cursor = l_name_list.begin ();
+  	l_cursor != l_name_list.end ();
+  	++l_cursor)
+  {
+    const unsigned int l_offset (l_cursor->find (';'));
+    if (l_offset < l_cursor->size ())
+      {
+        const std::string l_key (l_cursor->substr (0, l_offset));
+        const std::string l_value (l_cursor->substr (l_offset + 1));
+        m_name_map.insert(std::make_pair (l_key
+  					, l_value));
+        LOG("Name to widget entry ["+ l_key
+  	  + "] = [" + l_value + "]");
+      }
+  }
+  // Bind all the controls
+  for (control_set_type::iterator l_cursor = m_control_set.begin ();
+  	l_cursor != m_control_set.end ();
+  	++l_cursor)
+  {
+    (*l_cursor)->bind_application(*this);
+  };
+!!!1020073.cpp!!!	do_initialise_library_priv() : void
+  // DO_INIT_LIB
+  // register all known Motif and Xmt widgets and procedures
+  XmtRegisterAll();
+   
+  // Register Motif 2.0 widgets not know to Motif/XMT
+  XmtRegisterWidgetClass("XmButtonBox", xmButtonBoxWidgetClass);
+  XmtRegisterWidgetClass("XmColorSelector", xmColorSelectorWidgetClass);
+  XmtRegisterWidgetClass("XmColumn", xmColumnWidgetClass);
+  XmtRegisterWidgetClass("XmDataField", xmDataFieldWidgetClass);
+  XmtRegisterWidgetClass("XmExt18List", xmExt18ListWidgetClass);
+  XmtRegisterWidgetClass("XmFontSelector", xmFontSelectorWidgetClass);
+  XmtRegisterWidgetClass("XmIconBox", xmIconBoxWidgetClass);
+  XmtRegisterWidgetClass("XmIconButton", xmIconButtonWidgetClass);
+  XmtRegisterWidgetClass("XmTabStack", xmTabStackWidgetClass);
+  XmtRegisterWidgetClass("XmTree", xmTreeWidgetClass);
+  XmtRegisterWidgetClass("XmTree", xmTreeWidgetClass);
+  
+  // Register our Notify string-to-callback method.
+  XmtRegisterCallbackProcedure("Notify"
+  			     , static_cast< XtCallbackProc >(&notify_callback)
+  			     , XtRString);
+  
+  s_ui_app_map.insert (std::make_pair (get_app_context (), this));
+  for (control_set_type::iterator l_cursor = m_control_set.begin ();
+  	l_cursor != m_control_set.end ();
+  	++l_cursor)
+  {
+    (*l_cursor)->bind_library (*this);
+  };
+!!!1020457.cpp!!!	get_config_name(in a_control : control) : string
+  name_map_type::const_iterator l_cursor (m_name_map.find (a_control.get_name ()));
+  if (l_cursor == m_name_map.end ())
+  {
+    std::cout << "No entry for \"" << a_control.get_name () << "\" in map." << std::endl;
+    std::cout << "Map has " << m_name_map.size () << " entries" << std::endl;
+  }
+  return (l_cursor == m_name_map.end ())? a_control.get_name (): l_cursor->second;
+!!!1020841.cpp!!!	gui_state(in a_application_name : string, in a_application_class : string = std::string())
+  // CTOR
+  REQUIRE(false == m_application_name.empty(), "Cannot create an application without a name");
+  if (m_application_class.empty()) 
+  {
+    // Derive class name from application name
+    m_application_class = m_application_name;
+    // Make first letter a capital
+    m_application_class[0] = toupper(m_application_class[0]);
+    if (m_application_class[0] == 'X') 
+      {
+        // If first letter is "x", make second letter a capital
+        m_application_class[1] = toupper(m_application_class[1]);
+      };
+  }
+!!!1020969.cpp!!!	~gui_state()
+  if (NULL != get_app_context ())
+  {
+    CHECK(0 != s_ui_app_map.count (get_app_context ()), "Badly formed application/UI map");
+    s_ui_app_map.erase (get_app_context ());
+  }
+!!!1021097.cpp!!!	main(in a_resource_filename : string, inout a_argc : int, inout a_argv : char) : void
+  // LOCAL  
+  String l_fallbacks[4];
+  char l_fallback1[512];
+  char l_fallback2[512];
+  const char xenv[] = "XENVIRONMENT";
+  // PRE
+  REQUIRE(NULL != a_argc, "Require valid argument count");
+  REQUIRE(NULL != a_argv, "Require valid argument list");
+  // DO
+  // If environment is set then this overrides any app default. If not
+  // set then we must set it.
+  if (NULL == getenv(&xenv[0]))
+  {
+    // If l_filename is not set, then use XtFindFile to find resource
+    // file based on the app-name.
+    if (a_resource_filename.empty())
+      {
+        char l_buffer[512];
+        String l_findname(NULL);
+        String l_name = XtNewString (m_application_name.c_str ());
+        String l_class = XtNewString (m_application_class.c_str ());
+        snprintf(l_buffer, 511, "%s:%s.ad:%s:%s.ad:app-defaults/%s:app-defaults/%s"
+  	       , l_name // m_application_name.c_str ()
+  	       , l_name // m_application_name.c_str ()
+  	       , l_class // m_application_class.c_str ()
+  	       , l_class // m_application_class.c_str ()
+  	       , l_class // m_application_class.c_str ()
+  	       , l_name //m_application_name.c_str ()
+  	       );
+        l_findname = XtFindFile(l_buffer, NULL, 0, NULL);
+        XtFree (l_name);
+        XtFree (l_class);
+        // if still no filename, or if the filename doesn't exist or
+        // is not readable, then fail with an error message.      
+        if (NULL == l_findname
+  	  || '\0' == l_findname[0]) 
+  	{
+  	  std::cerr << m_application_name << ": no resource file found for application" << std::endl;
+  	  exit(1);
+  	}
+        if (-1 == access(l_findname, R_OK)) 
+  	{
+  	  // Report access error
+  	  strerror_r(errno, l_buffer, 511);
+  	  std::cerr << m_application_name << ": resource file '";
+  	  std::cerr << l_findname << "' " << l_buffer;
+  	  
+  	  XtFree(l_findname);
+  	  exit(1);
+  	}
+        // set the XENVIRONMENT variable to the resource file
+        setenv (&xenv[0], l_findname, 1);
+        XtFree(l_findname);
+      }
+    else
+      {
+        // set the XENVIRONMENT variable to the resource file
+        setenv (&xenv[0], a_resource_filename.c_str (), 1);
+      }
+    ALWAYS(NULL != getenv (&xenv[0]), "Setting environment variable failed");
+  }
+  
+  // Now set up some fallback resources to notify the user if the
+  // app-defaults file was malformed and didn't have valid xmtChildren
+  // resource.  Using fallback resources is the only way we can let the
+  // user know what happened.
+  snprintf (l_fallback1, 
+  	  511, 
+  	  "%s.xmtChildren: XmPushButton _mockup;", 
+  	  m_application_name.c_str ());
+  snprintf (l_fallback2, 
+  	  511, 
+  	  "*_mockup.labelString: Error: \\n no `%s.xmtChildren' resource \\n in `%s'. ",
+  	  m_application_name.c_str (), 
+  	  getenv (&xenv[0]));
+  
+  l_fallbacks[0] = l_fallback1;
+  l_fallbacks[1] = l_fallback2;
+  l_fallbacks[2] = "*_mockup.activateCallback: exit(0);";
+  l_fallbacks[3] = NULL;
+  
+  // And finally go create the root shell widget.  This call also parses
+  // Xmt command-line options, registers type converters, and reads Xmt
+  // app resources.
+  String l_class = XtNewString (m_application_class.c_str());
+  ALWAYS(NULL != l_class, "Memory allocation error");
+  LOG(std::string("Using XENV = ") + getenv (&xenv[0]));
+  
+  ALWAYS(NULL != &m_application_context, "Null value is invalid");
+  m_toplevel = XmtInitialize (&m_application_context
+  			    , const_cast<String>(m_application_class.c_str ())
+  			    , NULL
+  			    , 0
+  			    , a_argc
+  			    , (String*)a_argv
+  			    , &l_fallbacks[0]
+  			    , NULL
+  			    , 0);
+  
+  XtFree (l_class);
+  // Check top widget was created.
+  ALWAYS(NULL != m_toplevel, "Unable to initialise X11 application");
+  
+  do_initialise_library_priv ();
+  do_initialise_library ();
+  
+  // Create the widget tree
+  XmtCreateChildren (m_toplevel);
+  
+  // Give args to application (derived classes should also bind
+  // application controls to widgets)
+  do_initialise_application_priv (a_argc, a_argv);
+  do_initialise_application (a_argc, a_argv);
+  // Control set is not longer needed
+  m_control_set.clear ();
+  
+  // if any args remain, it is a syntax error; issue a warning.
+  for (int l_index(1);
+       l_index < *a_argc;
+       ++l_index)
+  {
+    XmtWarningMsg (const_cast<String>(m_application_name.c_str ())
+  		 , "badarg"
+  		 , "unknown argument '%s'."
+  		 , a_argv[l_index]);
+  }
+  
+  // Display the GUI and start main loop.
+  XtRealizeWidget (static_cast<Widget>(m_toplevel));
+  XmtDisplayDefaultCursor (static_cast<Widget>(m_toplevel));
+  XtAppMainLoop (static_cast<XtAppContext>(m_application_context));
+  
+!!!1021225.cpp!!!	notify_callback(in a_widget : Widget, inout a_name : void, inout a_call : void) : void
+  // LOCAL
+  std::string l_name;
+  gui_state *l_self;
+  // PRE
+  REQUIRE(NULL != a_name, "Unexpected Null entry in callback for \"Notify\".");
+  REQUIRE(NULL != a_widget, "Unexpected NULL entry for widget int callback for \"Notify\".");
+  REQUIRE(s_ui_app_map.end () != s_ui_app_map.find (XtWidgetToApplicationContext(a_widget))
+  	, "Badly formed application/UI map");
+  // DO
+  l_name = reinterpret_cast< char* > (a_name);
+  LOG("In Notify callback with argument = [" + l_name + "]");
+  // Get the gui_state object.
+  l_self = s_ui_app_map.find (XtWidgetToApplicationContext(a_widget))->second;
+  // Get the methods.
+  std::pair< notify_iterator, notify_iterator > l_range = l_self->m_notify_methods.equal_range (l_name);
+  // If no match is found exit when CHECK DbC is enabled, otherwise log a message.
+  if (l_range.first == l_range.second)
+     {
+  	// CHECK(false, "No method matches \""+l_name+"\" string in Notify.");
+  	LOG("No method matches \"" + l_name + "\" string in Notify." );
+     }
+     else
+     {
+  	for (notify_iterator l_cursor = l_range.first;
+  	     l_cursor != l_range.second;
+  	     ++l_cursor)
+  	{
+  		(l_cursor->second)(a_widget, a_call);
+  	}
+     }
+!!!1021353.cpp!!!	warning_and_ask(in a_message : string, in a_yes_label : string, in a_no_label : string, in a_res_name : string = std::string(), in a_help : string = std::string()) : bool
+  // LOCAL
+  const char *l_res_name(NULL);
+  const char *l_help(NULL);
+  // PRE
+  REQUIRE(false == a_message.empty(), "Empty string not allowed for message in warning dialog box");
+  REQUIRE(false == a_yes_label.empty(), "Empty string not allowed for yes button in warning dialog box");
+  REQUIRE(false == a_no_label.empty(), "Empty string not allowed for no button in warning dialog box");
+  // DO
+  if (false == a_res_name.empty())
+  {
+    l_res_name = a_res_name.c_str();
+  }
+  if (false == a_help.empty())
+  {
+    l_help = a_help.c_str();
+  }
+  return (True == XmtDisplayWarningAndAsk(static_cast<Widget>(m_toplevel)
+  					, l_res_name
+  					, a_message.c_str ()
+  					, a_yes_label.c_str ()
+  					, a_no_label.c_str ()
+  					, XmtYesButton
+  					, l_help));
+  

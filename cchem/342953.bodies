@@ -1,0 +1,232 @@
+class ui_traits
+!!!1058217.cpp!!!	ask_query(in a_message : ask_info, inout a_value : string) : uint
+  // Add an entry widget
+  Gtk::Entry l_text;
+  unsigned int l_mask (0);
+  // Create a mask of possible response values.
+  if (not a_message.yes.empty ()) l_mask |= YES;
+  if (not a_message.no.empty ()) l_mask |= NO;
+  if (not a_message.cancel.empty ()) l_mask |= CANCEL;
+  // Create a dialog, if we have button texts add no buttons here.
+  Gtk::MessageDialog l_diag (a_message.message
+  			   , false
+  			   , Gtk::MESSAGE_QUESTION
+  			   , ((0 == l_mask)?Gtk::BUTTONS_YES_NO:Gtk::BUTTONS_NONE)
+  			   , false);
+  // If the mask is empty, set to accept 'OK' and 'CLOSE'
+  if (0 == l_mask)
+  {
+    l_mask = (YES | NO);
+  }
+  // Add help message if present
+  if (not a_message.help_message.empty ())
+  {
+    l_diag.set_secondary_text (a_message.help_message);
+  }
+  // Add buttons if present
+  if (not a_message.yes.empty ())
+    l_diag.add_button (a_message.yes, Gtk::RESPONSE_YES);
+  if (not a_message.no.empty ())
+    l_diag.add_button (a_message.no, Gtk::RESPONSE_NO);
+  if (not a_message.cancel.empty ())
+    l_diag.add_button (a_message.cancel, Gtk::RESPONSE_CANCEL);
+  
+  // Add the text box
+  l_diag.get_vbox ()->add (l_text);
+  l_text.set_text (a_value);
+  l_text.show_all ();
+  
+  // Run dialog and translate response value
+  unsigned int Result (response_conv (l_diag.run ()));
+  
+  // Get the text if response was YES
+  if (YES == Result)
+  {
+    a_value = l_text.get_text ();
+  }
+  
+  // Test response is valid
+  ENSURE (0 != (l_mask & Result)
+  	, "Unknown or invalid response from dialog.");
+  return Result;
+!!!1058345.cpp!!!	ask_url(in a_message : ask_info, inout a_filename : string, in a_is_read : bool = false) : uint
+  // LOCAL
+  unsigned int l_mask (0);
+  // Create a mask of possible response values.
+  if (not a_message.yes.empty ()) l_mask |= YES;
+  if (not a_message.no.empty ()) l_mask |= NO;
+  if (not a_message.cancel.empty ()) l_mask |= CANCEL;
+  // Create a dialog, if we have button texts add no buttons here.
+  Gtk::FileChooserDialog l_diag (a_message.message
+  			       , (a_is_read)?Gtk::FILE_CHOOSER_ACTION_OPEN:Gtk::FILE_CHOOSER_ACTION_SAVE);
+  
+  // DO
+  // If the mask is empty, set to accept all.
+  if (0 == l_mask)
+  {
+    l_mask = (YES | NO | CANCEL);
+  }
+  
+  // // Add help message if present
+  // if (not a_message.help_message.empty ())
+  // {
+  //   l_diag.set_secondary_text (a_message.help_message);
+  // }
+  
+  // Add buttons if present
+  if (not a_message.yes.empty ())
+  {
+    l_diag.add_button (a_message.yes, Gtk::RESPONSE_YES);
+  }
+  else
+  {
+    // Add stock "yes" button
+    l_diag.add_button ((a_is_read)?GTK_STOCK_OPEN:GTK_STOCK_SAVE
+  		     , Gtk::RESPONSE_YES);
+  }
+  if (not a_message.no.empty ())
+  {
+    l_diag.add_button (a_message.no, Gtk::RESPONSE_NO);
+  }
+  if (not a_message.cancel.empty ())
+  {
+    l_diag.add_button (a_message.cancel, Gtk::RESPONSE_CANCEL);
+  }
+  else
+  {
+    // Add stock "cancel" button
+    l_diag.add_button (GTK_STOCK_CANCEL, Gtk::RESPONSE_CANCEL);
+  }
+  
+  // Do some odd things
+  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER(l_diag.gobj ())
+  				 , true);
+  gtk_file_chooser_set_filename (GTK_FILE_CHOOSER(l_diag.gobj ())
+  			       , a_filename.c_str ());
+  
+  // Run dialog and translate response value
+  unsigned int Result (response_conv (l_diag.run ()));
+  
+  if (YES == Result)
+  {
+    gchar* l_file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(l_diag.gobj ()));
+    ALWAYS (l_file != NULL, "No filename selected!");
+    a_filename = l_file;
+    g_free (l_file);
+  }
+  // Test response is valid
+  ENSURE (0 != (l_mask & Result)
+  	, "Unknown or invalid response from dialog.");
+  return Result;
+!!!1058473.cpp!!!	ask_user(in a_message : ask_info) : uint
+  // LOCAL
+  unsigned int l_mask (0);
+  // Create a mask of possible response values.
+  if (not a_message.yes.empty ()) l_mask |= YES;
+  if (not a_message.no.empty ()) l_mask |= NO;
+  if (not a_message.cancel.empty ()) l_mask |= CANCEL;
+  // Create a dialog, if we have button texts add no buttons here.
+  Gtk::MessageDialog l_diag (a_message.message
+  			   , false
+  			   , Gtk::MESSAGE_INFO
+  			   , ((0 == l_mask)?Gtk::BUTTONS_OK:Gtk::BUTTONS_NONE)
+  			   , false);
+  // If the mask is empty, set to accept 'OK' and 'CLOSE'
+  if (0 == l_mask)
+  {
+    l_mask = (YES | NO);
+  }
+  // Add help message if present
+  if (not a_message.help_message.empty ())
+  {
+    l_diag.set_secondary_text (a_message.help_message);
+  }
+  // Add buttons if present
+  if (not a_message.yes.empty ())
+    l_diag.add_button (a_message.yes, Gtk::RESPONSE_YES);
+  if (not a_message.no.empty ())
+    l_diag.add_button (a_message.no, Gtk::RESPONSE_NO);
+  if (not a_message.cancel.empty ())
+    l_diag.add_button (a_message.cancel, Gtk::RESPONSE_CANCEL);
+  // Run dialog and translate response value
+  unsigned int Result (response_conv (l_diag.run ()));
+  // Test response is valid
+  ENSURE (0 != (l_mask & Result)
+  	, "Unknown or invalid response from dialog.");
+  return Result;
+!!!1058601.cpp!!!	date_to_text(in a_date : boost::gregorian::date) : string_t
+  // LOCAL
+  Glib::ustring Result;
+  
+  // DO
+  // Get start date as a string
+  std::stringstream l_date_ss;
+  l_date_ss << a_date;
+  // Convert to date.
+  l_date_ss >> Result;
+  // DONE
+  return Result;
+!!!1058729.cpp!!!	find_representation(in a_key : string_t, in a_parent : const_window_t) : window_t
+  // a_key
+  // a_parent
+  REQUIRE (a_parent != NULL, "Require a valid parent window.");
+  REQUIRE (not a_key.empty (), "Require a non-empty key.");
+  CHECK (0 != S_xml_map.count (a_parent->get_toplevel ())
+         , "Given window does not have an associated XML document.");
+  // DO
+  static Glib::RefPtr<Gnome::Glade::Xml> l_doc (S_xml_map[a_parent->get_toplevel ()]);
+  CHECK (l_doc, "Need a valid XML document.");
+  Gtk::Widget* Result (l_doc->get_widget (a_key));
+  ENSURE (Result != NULL, ("Cannot find widget using the given key [" + std::string(a_key) + "]").c_str ());
+  return Result;
+!!!1058857.cpp!!!	find_representation(in a_key : string_t, in a_url : string_t) : window_t
+  // a_key
+  // a_url
+  Glib::RefPtr<Gnome::Glade::Xml> l_doc (Gnome::Glade::Xml::create (a_url));
+  ALWAYS (l_doc, "Cannot open UI definition file.");
+  // Get widget.
+  Gtk::Widget* Result (l_doc->get_widget (a_key));
+  S_xml_map[Result->get_toplevel ()] = l_doc;
+  ENSURE (Result != NULL, "Cannot find widget using the given key.");
+  return Result;
+!!!1058985.cpp!!!	response_conv(in a_response : int) : uint
+  // LOCAL
+  unsigned int Result (0);
+  // DO
+  switch (a_response)
+  {
+   case Gtk::RESPONSE_YES:
+   case Gtk::RESPONSE_ACCEPT:
+   case Gtk::RESPONSE_OK:
+   case Gtk::RESPONSE_APPLY:
+     Result = ui_traits::YES;
+     break;
+   case Gtk::RESPONSE_NO:
+   case Gtk::RESPONSE_NONE:
+   case Gtk::RESPONSE_REJECT:
+   case Gtk::RESPONSE_DELETE_EVENT:
+     Result = ui_traits::NO;
+     break;
+   case Gtk::RESPONSE_CANCEL:
+   case Gtk::RESPONSE_CLOSE:
+     Result = ui_traits::CANCEL;
+     break;
+   default:
+     ALWAYS (false and a_response, "Unknown response type");
+     break;
+  }
+  ENSURE (YES == Result or NO == Result or CANCEL == Result
+  	, "Unknown response from dialog.");
+  return Result;
+!!!1059113.cpp!!!	text_to_date(in a_str_date : string_t) : boost::gregorian::date
+  // LOCAL
+  boost::gregorian::date Result (boost::gregorian::not_a_date_time);
+  
+  // DO
+  // Get start date as a string
+  std::stringstream l_date_ss;
+  l_date_ss << a_str_date;
+  // Convert to date.
+  l_date_ss >> Result;
+  // DONE
+  return Result;

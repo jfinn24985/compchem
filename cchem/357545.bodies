@@ -1,0 +1,21 @@
+class report_memo
+!!!1137961.cpp!!!	create_report(in a_report : string) : element
+// DO
+view Result (owner_document ().create_element (view_name ()));
+Result.label (a_report);
+purpletree::dom::dom_string l_names [2];
+l_names[0] = project_name ();
+l_names[1] = project_src_name ();
+insert_element (&l_names[0], &l_names[2], Result, *this);
+return Result;
+!!!1158185.cpp!!!	content(inout a_os : std::ostream) : void
+// LOCAL
+purpletree::dom::node_iterator l_cursor (*this);
+// DO
+if (l_cursor) {
+  for (purpletree::dom::node_iterator l_end (l_cursor.end ());
+      l_cursor != l_end;
+      ++l_cursor) {
+    if ((*l_cursor).node_type () == purpletree::dom::node::TEXT_NODE
+       || (*l_cursor).node_type () == purpletree::dom::node::CDATA_SECTION_NODE) {
+      a_os << purpletree::dom::get_utf8 ((*l_cursor).node_value ()); }}}

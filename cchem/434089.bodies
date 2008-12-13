@@ -1,0 +1,60 @@
+class test_meta_datum
+!!!1369769.cpp!!!	main_test() : void
+// LOCAL
+std::auto_ptr<meta_datum> l_test;
+std::string l_name (names::compound_name ());
+std::string l_names (names::project_name ());
+std::string l_keyattr (names::label_name ());
+std::string l_attrs (names::formula_name ());
+
+// DO
+int Result (0);
+try
+{
+  l_test.reset (new meta_datum (l_name, l_keyattr, l_names, l_attrs));
+}
+catch (const std::exception &a_err)
+{
+  log () << EXCP << a_err.what () << "\n";
+  Result = 1;
+}
+if (0 == Result)
+{
+  // Test if child tag is found by value.
+  if (l_test->has_child_tag ("project"))
+  {
+    log () << IFYS << "Meta datum correctly found child tag from value\n";
+  }
+  else
+  {
+    log () << IFNO << "Meta datum incorrectly did not find child tag from value\n";
+  }
+  // Test if child tag is found by value.
+  if (not l_test->has_child_tag ("formula"))
+  {
+    log () << IFYS << "Meta datum correctly did not find unknown child tag from value\n";
+  }
+  else
+  {
+    log () << IFNO << "Meta datum incorrectly found unknown child tag from value\n";
+  }
+   // Test if attribute name is found by value.
+  if (l_test->has_attr_name ("formula"))
+  {
+    log () << IFYS << "Meta datum correctly found attribute name from value\n";
+  }
+  else
+  {
+    log () << IFNO << "Meta datum incorrectly did not find attribute name from value\n";
+  }
+   // Test if attribute name is found by value.
+  if (not l_test->has_attr_name ("compound"))
+  {
+    log () << IFYS << "Meta datum correctly did not find unknown attribute name from value\n";
+  }
+  else
+  {
+    log () << IFNO << "Meta datum incorrectly found unknown attribute name from value\n";
+  }
+
+}

@@ -1,0 +1,71 @@
+class xml_write_visitor
+!!!1365801.cpp!!!	on_visit(in a_datum : basic_datum) : void
+// Start element
+const meta_datum & l_defn (meta_datum::by_name (a_datum.serial_name ()));
+m_os << "<" << l_defn.name;
+// Process attributes.
+if (l_defn.has_attributes ())
+{
+  for (meta_datum::const_iterator l_i (l_defn.begin_attr ());
+       l_i != l_defn.end_attr ();
+       ++l_i)
+  {
+    std::string l_value;
+    if (a_datum.get_attribute (*l_i, l_value))
+    {
+      m_os << " " << *l_i << "=\"" << l_value << "\"";
+    }
+  }
+}
+// Now process children
+if (not l_defn.empty_children () and not a_datum.empty ())
+{
+  m_os << ">";
+  std::for_each (a_datum.begin (), a_datum.end (), boost::bind (&data_scheme::basic_datum::visit, _1, boost::ref(*this)));
+  m_os << "</" << l_defn.name << ">"; 
+}
+else
+{
+  m_os << "/>";
+}
+!!!1448489.cpp!!!	on_visit(in a_datum : memo) : void
+if (a_datum.is_src ())
+{
+  // Start element
+  m_os << "<" << a_datum.serial_src_name ();
+  // Process attributes.
+  m_os << " " << names::compound_name () << "=\"" << a_datum.compound_label () << "\"";
+  m_os << " " << names::formula_name () << "=\"" << a_datum.formula_label () << "\"";
+  m_os << " " << names::label_name () << "=\"" << a_datum.label () << "\"";
+  m_os << " " << names::href_name () << "=\"" << a_datum.uri () << "\"";
+  m_os << "/>";
+  // Get object to write itself.
+  a_datum.write ();
+}
+else
+{
+  void (data_scheme::visitor::*on_visit_base)(const data_scheme::basic_datum&) = &data_scheme::visitor::on_visit;
+  (this->*on_visit_base)(a_datum);
+}
+!!!1448617.cpp!!!	on_visit(in a_datum : project) : void
+if (a_datum.is_src ())
+{
+  // Start element
+  m_os << "<" << a_datum.serial_src_name ();
+  // Process attributes.
+  m_os << " " << names::label_name () << "=\"" << a_datum.label () << "\"";
+  m_os << " " << names::href_name () << "=\"" << a_datum.uri () << "\"";
+  m_os << "/>";
+  // Get object to write itself.
+  a_datum.write ();
+}
+else
+{
+  void (data_scheme::visitor::*on_visit_base)(const data_scheme::basic_datum&) = &data_scheme::visitor::on_visit;
+  (this->*on_visit_base)(a_datum);
+}
+!!!1437993.cpp!!!	write(in a_datum : basic_datum, in a_header : string) : void
+m_os << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+     << a_header;
+// Use base visit to avoid src version.
+on_visit (a_datum);

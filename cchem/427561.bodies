@@ -1,0 +1,36 @@
+class test_freeptr
+!!!1356329.cpp!!!	main_test() : void
+try
+{
+  utility::free_ptr< void* > l_test (NULL);
+  log () << TTLE << "After nul contructor\n";
+  bool_test (NULL == l_test.get (), "Empty contructor gives nul pointer.");
+  void* l_tmp (malloc(1024));
+  log () << COMM << "reset() from pointer.\n";
+  l_test.reset (l_tmp);
+  bool_test (l_tmp == l_test.get (), "Pointer after reset matches pointer.");
+  log () << COMM << "reset() from without pointer.\n";
+  l_test.reset ();
+  bool_test (NULL == l_test.get (), "Pointer after empty reset matches NULL.");
+  l_tmp = malloc(1024);
+  log () << COMM << "operator= from pointer (implicit ctor).\n";
+  l_test = l_tmp;
+  bool_test (l_tmp == l_test.get (), "Pointer after reset matches pointer.");
+  log () << COMM << "copy ctor.\n";
+  utility::free_ptr< void* > l_test2 (l_test);
+  bool_test (l_tmp == l_test2.get (), "Second smart-pointer after copy matches pointer.");
+  bool_test (NULL == l_test.get (), "First smart-pointer after copy is NULL.");
+  log () << COMM << "operator= from smart-pointer.\n";
+  l_test = l_test2;
+  bool_test (l_tmp == l_test.get (), "First smart-pointer after op= matches pointer.");
+  bool_test (NULL == l_test2.get (), "Second smart-pointer after op= is NULL.");
+  
+}
+catch (const std::exception& a_err)
+{
+  log () << EXCP << "Exception caught:\n" << a_err.what () << "\n";
+}
+catch (...)
+{
+  log () << EXCP << "Unknown exception\n";
+}

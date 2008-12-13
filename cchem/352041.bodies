@@ -1,0 +1,32 @@
+class csv_in_decor
+!!!1096745.cpp!!!	deserialise_header(inout a_is : std::istream) : void
+// The default I/O is csv.  This should use the boost CSV reader.
+const std::string l_title ("TITLE");
+const std::string l_origin ("ORIGIN");
+const std::string l_owner ("OWNER");
+const std::string l_date ("DATE");
+const std::string l_data_type ("DATA_TYPE");
+m_header.clear ();
+while (a_is) {
+  std::string l_line;
+  std::getline (a_is, l_line);
+  if (l_line.empty ()) {
+    break; }
+  else {
+    boost::tokenizer<boost::escaped_list_separator<char> > l_tok (l_line);
+    boost::tokenizer<boost::escaped_list_separator<char> >::iterator l_cur = l_tok.begin();
+    if (l_cur != l_tok.end()) {
+      const std::string l_key (boost::to_upper_copy (*l_cur));
+      ++l_cur;
+      if (l_cur != l_tok.end()) {
+	const std::string l_value (*l_cur);
+	if (l_key == l_title) { m_header.title (l_value); }
+	else if (l_key == l_origin) { m_header.origin (l_value); }
+	else if (l_key == l_owner) { m_header.owner (l_value); }
+	else if (l_key == l_date) { m_header.date_string (l_value); }
+	else if (l_key == l_data_type) { m_header.data_type (l_value); }
+	else { m_header.key (l_key, l_value); }}
+      else { // No second field? Add empty string
+	m_header.key (l_key, ""); }}
+    else { // No tokens? End of header...
+      break; }}}

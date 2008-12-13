@@ -1,0 +1,30 @@
+format 55
+
+componentcanvas 128041 component_ref 129065 // /boost//date_time
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 25 18 2000 169 59
+componentcanvas 128169 component_ref 129961 // pam::authentication
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 325 319 2000 169 59
+componentcanvas 128297 component_ref 129833 // /gtkmm//gui_objects
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 308 18 2005 169 59
+componentcanvas 128425 component_ref 129705 // /boost//regex
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 25 95 2010 169 59
+componentcanvas 128553 component_ref 129321 // /boost//filesystem
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 26 169 2000 169 59
+componentcanvas 128681 component_ref 129449 // /boost//program_options
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 26 245 2000 169 59
+componentcanvas 128809 component_ref 129577 // /boost//no_lib
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 30 330 2000 169 59
+componentcanvas 128937 component_ref 129193 // /ptdom//ptdom
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 318 92 2000 169 59
+componentcanvas 129065 component_ref 128169 // data_system
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 311 231 2005 169 59
+end

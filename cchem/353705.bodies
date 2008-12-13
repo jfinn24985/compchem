@@ -1,0 +1,77 @@
+class mechanism
+!!!1423529.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::info_name () == a_name)
+{
+  Result = &(add_info (a_label));
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  Result = &(add_filter (a_label));
+}
+else if (data_access::names::settings_name () == a_name)
+{
+  Result = &(add_setting (a_label));
+}
+else
+{
+  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+}
+return *Result;
+!!!1423401.cpp!!!	add_info(in a_label : string) : info
+m_info.reset (new info (*this, a_label));
+// Always first
+if (not m_filter_set.empty ())
+{
+  insert_child (m_filter_set.front (), *(m_info.get ()));
+}
+else if (not m_command_set.empty ())
+{
+  insert_child (m_command_set.front (), *(m_info.get ()));
+}
+else 
+{
+  append_child (*(m_info.get ()));
+}
+return *(m_info.get ());
+!!!1409961.cpp!!!	add_filter(in a_label : string) : filter
+m_filter_set.push_back (new filter (*this, a_label));
+if (not m_command_set.empty ())
+{
+  insert_child (m_command_set.front (), m_filter_set.back ());
+}
+else
+{
+  append_child (m_filter_set.back ());
+}
+return m_filter_set.back ();
+!!!1423657.cpp!!!	add_setting(in a_label : string) : settings
+m_command_set.push_back (new settings (*this, a_label));
+// Always last
+append_child (m_command_set.back ());
+return m_command_set.back ();
+!!!1518121.cpp!!!	find_filter(in a_label : string) : filter_iterator
+return std::find_if (m_filter_set.begin (), m_filter_set.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&filter::label, _1), a_label));
+!!!1518249.cpp!!!	find_filter(in a_label : string) : const_filter_iterator
+return std::find_if (m_filter_set.begin (), m_filter_set.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&filter::label, _1), a_label));
+!!!1410345.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+bool Result (false);
+if (data_access::names::label_name () == a_name)
+{
+  a_value.assign (m_label);
+  Result = true;
+}
+return Result;
+!!!1527209.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::label_name () == a_name) 
+{
+  if (a_value != label ())
+  {
+    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
+  }
+}
+else
+{
+  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+}
+

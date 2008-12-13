@@ -1,0 +1,27 @@
+class mechanism_settings
+!!!331689.cpp!!!	get_bag() : bag
+// require
+CHECK(has_element(S_BAG_NAME, m_rep), "Invalid_document"); 
+// do
+return bag(get_element(S_BAG_NAME, m_rep));
+!!!317737.cpp!!!	get_mechanism() : mechanism
+// local
+purpletree::dom::node result;
+// check
+CHECK(true == has_attribute (S_MECHANISM_NAME, m_rep), "Invalid document");
+// do
+result = data_source::connector::find_node (S_MECHANISM_NAME
+                                            , S_LABEL_NAME
+                                            , get_attribute_priv (S_MECHANISM_NAME, m_rep)
+                                            , m_rep);
+// ensure
+ENSURE(false == result.is_null (), "Invalid cross-reference");
+// end
+return mechanism (result);
+!!!331561.cpp!!!	get_text() : text
+// require
+CHECK(has_element(S_TEXT_NAME, m_rep), "Invalid_document"); 
+// do
+return text(get_element(S_TEXT_NAME, m_rep));
+!!!331433.cpp!!!	is_textual() : bool
+return has_element (S_TEXT_NAME, m_rep);

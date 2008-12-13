@@ -1,0 +1,544 @@
+class filter_manager
+!!!1325737.cpp!!!	discover_filters(in a_mechanism : mechanism) : void
+// Get reference to our filter set
+boost::ptr_vector< basic_filter > & l_set (m_filters[a_mechanism.label ()]);
+// Generate filters from a_mechanism 
+for (data_scheme::mechanism::const_filter_iterator l_filter = a_mechanism.begin_filter ();
+      l_filter != a_mechanism.end_filter ();
+      ++l_filter)
+{
+  // Instantiate filters, skipping 'detect' filters.
+  if (l_filter->outcomes ().find (data_access::names::detect_filter_name ()) >= l_filter->outcomes ().size ())
+  {
+    l_set.push_back (make_filter (*l_filter).release ());
+  }
+}
+
+!!!1550633.cpp!!!	discover_filters(in a_begin : const_mechanism_iterator, in a_end : const_mechanism_iterator) : void
+// Get reference to our filter set
+boost::ptr_vector< basic_filter > & l_detect_filters (m_filters[data_access::names::detect_filter_name ()]);
+// Create vector of 'detect' filters.
+for (data_scheme::program::const_mechanism_iterator l_mech = a_begin; l_mech != a_end; ++l_mech)
+{
+  data_scheme::mechanism::const_filter_iterator l_filt (l_mech->find_filter (data_access::names::detect_filter_name ()));
+  if (l_filt != l_mech->end_filter ())
+  {
+    // Try filter.
+    l_detect_filters.push_back (make_filter (*l_filt).release ());
+  }
+}
+
+!!!1511465.cpp!!!	make_filter(in a_filter : filter) : basic_filter
+std::auto_ptr< basic_filter > Result;
+if (a_filter.filter_type () == data_access::names::plugin_filter_name ())
+{
+  Result.reset (new plugin_filter (a_filter));
+}
+else if (a_filter.filter_type () == data_access::names::regex_filter_name ())
+{
+  Result.reset (new matcher_filter (a_filter));
+}
+return Result;
+!!!1508137.cpp!!!	process(inout a_memo : memo, in a_path : path) : void
+// LOCAL
+/////////////////////////
+// Check memo
+// Open and close a_memo if necessary
+data_scheme::scoped_open < data_scheme::memo > l_open_memo (a_memo);
+/////////////////////////
+// Determine mechanism
+
+// Only test for href and target mechanism if no 'detect' filter has been applied
+if (a_memo.filters ().find (data_access::names::detect_filter_name ()) >= a_memo.filters ().size ())
+{
+  // Check for href, set it from a_path if memo is without a href.
+  if (a_memo.href ().empty ())
+  {
+    COMPCHEM_REQUIRE (not a_path.empty () and boost::filesystem::exists (a_path)
+             , "Attempt to add results without a result filename or result file does not exist.");
+    // href path is the path of the input file relative to the memo/project/database file
+    boost::filesystem::path l_here (a_memo.uri_path ());
+    a_memo.href (utility::filesystem::relative_path (l_here, a_path).string ());
+  }
+
+  // Create dummy set of outcomes
+  std::set < std::string > l_outs;
+  l_outs.insert (data_access::names::detect_filter_name ());
+
+  // Create vector of 'detect' filters.
+  if (0 == m_filters.count (data_access::names::detect_filter_name ()))
+  {
+    const data_scheme::program & l_prog (a_memo.page ().section ().site ());
+    discover_filters (l_prog.begin_mechanism (), l_prog.end_mechanism ());
+  }
+  // Call apply_filters with find_first = true to perform the test for finding the mechanism
+  // and test that mechanism has been set.
+  if (CCHEM_SUPPLIER_SUCCESS != apply_filters (a_memo, l_outs.begin (), l_outs.end (), m_filters[data_access::names::detect_filter_name ()].begin (), m_filters[data_access::names::detect_filter_name ()].end (), true) or
+       a_memo.filters ().find (data_access::names::detect_filter_name ()) >= a_memo.filters ().size ())
+  {
+    // Could not find mechanism.
+    throw supplier_error ("Can not detect the mechanism for file " + a_memo.href (), CCHEM_SUPPLIER_BADDATA);
+  }
+}
+ 
+// Create the filter set if not already present.
+if (0 == m_filters.count (a_memo.target_mechanism ()))
+{
+  const data_scheme::program & l_prog (a_memo.page ().section ().site ());
+  COMPCHEM_CHECK (l_prog.find_mechanism (a_memo.target_mechanism ()) != l_prog.end_mechanism ()
+         , "Invalid mechanism label, no matching mechanism object.");
+  discover_filters (*(l_prog.find_mechanism (a_memo.target_mechanism ())));
+  COMPCHEM_CHECK (0 != m_filters.count (a_memo.target_mechanism ()), "Failed to add filter for target mechanism.");
+}
+
+////////////////////////////////////
+// Split real outcomes into a set
+std::set < std::string > l_outs;
+boost::split (l_outs, a_memo.page ().section ().outcomes (), boost::is_any_of (data_access::names::space ()));
+
+// Now perform the main processing.
+apply_filters (a_memo, l_outs.begin (), l_outs.end (), m_filters[a_memo.target_mechanism ()].begin (), m_filters[a_memo.target_mechanism ()].end (), false);
+
+!!!1508265.cpp!!!	process(inout a_project : project) : void
+const data_scheme::program & l_program (a_project.site ());
+// Split real outcomes into a set
+std::set < std::string > l_outs;
+boost::split (l_outs, a_project.outcomes (), boost::is_any_of (data_access::names::space ()));
+
+for (data_scheme::project::experiment_iterator l_expt_iter (a_project.begin_experiment ());
+      l_expt_iter != a_project.end_experiment ();
+      ++l_expt_iter)
+{
+  for (data_scheme::experiment::memo_iterator l_memo_iter (l_expt_iter->begin_memo ());
+       l_memo_iter != l_expt_iter->end_memo ();
+       ++l_memo_iter)
+  {
+    // If memo is a unopenned src type, then open (and close) it.
+    const bool l_open_memo (l_memo_iter->is_src () and not l_memo_iter->is_open ());
+    if (l_open_memo)
+    {
+      l_memo_iter->read ();
+    }
+    // Only consider memo objects that have href set
+    if (not l_memo_iter->href ().empty ())
+    {
+      // Check the mechanism is set.
+      if (l_memo_iter->target_mechanism ().empty ())
+      {
+        // Do a full process on the memo to set the mechanism and filter. 
+        process (*l_memo_iter, boost::filesystem::path ());
+      }
+      else
+      {
+        COMPCHEM_CHECK (l_program.find_mechanism (l_memo_iter->target_mechanism ()) != l_program.end_mechanism ()
+                        , "Invalid mechanism label, no matching mechanism object.");
+        // Ensure we have a filter set for the target_mechanism.
+        if (0 == m_filters.count (l_memo_iter->target_mechanism ()))
+        {
+          discover_filters (*(l_program.find_mechanism (l_memo_iter->target_mechanism ())));
+        }
+        ////////////////////////////////////
+        // Now perform the main processing.
+        apply_filters (*l_memo_iter, l_outs.begin (), l_outs.end (), m_filters[l_memo_iter->target_mechanism ()].begin (), m_filters[l_memo_iter->target_mechanism ()].end (), false);
+      }
+    }
+    if (l_open_memo)
+    {
+      l_memo_iter->close ();
+    }
+  }
+}
+!!!1549097.cpp!!!	apply_filters(inout a_twiglet : memo, in a_out_begin : string, in a_out_end : string, in a_filter_begin : iterator, in a_filter_end : iterator, in a_find_first : bool) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+
+class helper__                  // Used to search for matching outcomes and reading file.
+{
+public:
+  static bool match_outcome (const std::string & a_match, const std::string & a_word)
+  {
+    return a_match.size () > a_match.find (a_word, 0);
+  }
+  static char generate (std::istream & a_os, unsigned int &count)
+  {
+    return (not a_os.eof ()? ++count, a_os.get () : '\0');
+  }
+};
+
+////////////////////////////////////
+// Create the list of usable filters
+std::set < std::string > l_done;
+boost::split (l_done, a_twiglet.filters (), boost::is_any_of (data_access::names::space ()));
+
+// Get the initialise string (may be empty)
+std::string l_init_phrase;
+if (a_find_first)
+{
+  l_init_phrase.assign (a_twiglet.href ());
+}
+else
+{
+  data_scheme::memo::const_datum_iterator l_iter (a_twiglet.find_datum (data_access::names::detect_filter_name ()));
+  if (l_iter != a_twiglet.end_datum ())
+  {
+    std::stringstream l_collect;
+    data_scheme::content_visitor l_vstr (l_collect);
+    l_iter->visit (l_vstr);
+    l_init_phrase.assign (l_collect.str ());
+  }
+}
+
+// Select usuable filters and split into line-, file- and buffer-oriented.
+std::list < basic_filter * >l_byline, l_bybuffer, l_byfile, l_complete;
+// List to ensure that all used filters will be reset however the
+// function is exited.
+std::list < reset_helper__ > l_reset_list;
+typedef std::list < basic_filter * >::iterator iter_t;
+
+for (iterator l_cursor (a_filter_begin); l_cursor != a_filter_end; ++l_cursor)
+{
+  // Ignore already applied filters and filters that can not provide desired outcomes.
+  if (l_done.end () == l_done.find (l_cursor->label ())and a_out_end != std::find_if (a_out_begin, a_out_end, boost::bind (&helper__::match_outcome, l_cursor->outcomes (), _1)))
+  {
+    if (CCHEM_SUPPLIER_FILE_ORIENTED & l_cursor->flags ())
+    {
+      DLOG ("FILE FILTER = ");
+      DLOG (l_cursor->identity ());
+      DLOG ("\n");
+      if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
+      {
+        l_byfile.push_back (&*l_cursor);
+        l_reset_list.push_back (&*l_cursor);
+      }
+    }
+    else if (CCHEM_SUPPLIER_BUFFER_ORIENTED & l_cursor->flags ())
+    {
+      DLOG ("BUFFER FILTER = ");
+      DLOG (l_cursor->identity ());
+      DLOG ("\n");
+      if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
+      {
+        l_bybuffer.push_back (&*l_cursor);
+        l_reset_list.push_back (&*l_cursor);
+      }
+    }
+    else                        // default (CCHEM_SUPPLIER_LINE_ORIENTED & l_cursor->flags ())
+    {
+      DLOG ("LINE FILTER = ");
+      DLOG (l_cursor->identity ());
+      DLOG ("\n");
+      if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
+      {
+        l_byline.push_back (&*l_cursor);
+        l_reset_list.push_back (&*l_cursor);
+      }
+    }
+  }
+}
+
+if (l_byfile.empty ()and l_byline.empty ()and l_bybuffer.empty ())
+{
+  Result = CCHEM_SUPPLIER_UNUSABLE;
+}
+else
+{
+  /////////////////////////////
+  // Begin processing the file
+  boost::filesystem::path l_tmp (a_twiglet.uri_path () / boost::filesystem::path(a_twiglet.href ()));
+  DLOG ("Memo path = \"");DLOG(l_tmp.string ());DLOG("\"\n");
+  l_tmp.normalize ();
+  DLOG ("Memo path (norm) = \"");DLOG(l_tmp.string ());DLOG("\"\n");
+  COMPCHEM_CHECK (boost::filesystem::exists (l_tmp), "Cannot locate target file for memo, failed path is " + l_tmp.string ());
+  // Open the result file for buffer and line oriented filters
+  std::ifstream l_file (l_tmp.native_file_string ().c_str ());
+  COMPCHEM_CHECK (l_file, "Unable to open file for reading :" + l_tmp.string ());
+
+  // Buffer size
+  const static unsigned int l_sz = 63 * 1024; 
+#ifndef NO_LOG
+  unsigned int d_count (0);
+#endif
+  // NEW REPLACE boost::scoped_array< char > l_line (new char[l_sz]);
+  std::string l_line (l_sz, '\0');      // The buffer
+  std::string l_odd;
+  while (l_file)
+  {
+#ifndef NO_LOG
+    ++d_count;
+#endif
+    // Get part of buffer an put into l_part.
+    unsigned int
+    l_readsz (0);
+    // NEw INSERT
+    std::generate_n (l_line.begin (), l_sz, boost::bind (&helper__::generate, boost::ref (l_file), boost::ref (l_readsz)));
+    if (l_readsz < l_line.size ())
+    {
+      --l_readsz;
+      l_line.resize (l_readsz); // Only resize on last read.
+    }
+    // NEW EXCERT
+    // l_file.read (l_line.get (), l_sz);
+    // const unsigned int l_readsz (l_file.gcount ());
+    // NEW END
+    if ((l_file.fail ()and not l_file.eof ())or l_readsz > l_sz)
+    {
+      break;
+    }
+    const bool
+    l_eof (l_file.eof ()or l_readsz < l_sz);
+    // Give to buffer oriented filters
+    if (not l_bybuffer.empty ())
+    {
+      for (iter_t l_i (l_bybuffer.begin ()); l_i != l_bybuffer.end (); ++l_i)
+      {
+        // Perform processing, test result was not an error
+        const int
+        l_result ((*l_i)->process_part (l_line));       // NEW REPLACE .get (), l_readsz));
+        switch (l_result)
+        {
+        case CCHEM_SUPPLIER_SUCCESS:   // Do nothing
+          break;
+        case CCHEM_SUPPLIER_COMPLETE:  // Add to complete and remove (fall through)
+          l_complete.push_back (*l_i);
+        case CCHEM_SUPPLIER_UNUSABLE:  // Remove filter
+          {
+            iter_t
+            l_tmp (l_i);
+            --l_i;
+            l_bybuffer.erase (l_tmp);
+          }
+          break;
+        default:               // eg CCHEM_SUPPLIER_FATAL
+          throw supplier_error ((*l_i)->error_message (), l_result);
+          break;
+        }
+      }
+    }
+    // Break out if we have a completed filter.
+    if (a_find_first and not l_complete.empty ())
+    {
+      break;
+    }
+    // Give to line oriented filters
+    if (not l_byline.empty ())
+    {
+      // NEW REPLACE std::istringstream l_part (std::string (l_line.get (), l_readsz));
+      std::istringstream l_part (l_line);
+#ifndef NO_LOG
+      unsigned int
+      l_pcount (0);
+#endif
+      bool
+      l_not_eob (true);
+      while (l_not_eob and l_part)
+      {
+        std::string l_mline;
+        std::getline (l_part, l_mline);
+        // Handle when end of l_part is not end of line.
+        l_not_eob = (l_readsz > l_part.tellg ());
+        if (not l_not_eob and not l_eof)
+        {
+#ifndef NO_LOG
+          DLOG ("[");
+          DLOG (l_pcount);
+          l_pcount = l_part.tellg ();
+          DLOG ("..");
+          DLOG (l_pcount);
+          DLOG ("] ");
+          DLOG ("PART LINE = ");
+          DLOG (l_mline);
+          DLOG ("\n");
+#endif
+          // Save the last part-line for the next iteration.
+          l_odd.append (l_mline);
+        }
+        else
+        {
+          if (not l_odd.empty ())
+          {
+            // Have saved part-line from last iteration, insert into l_mline
+            l_mline.insert (0, l_odd);
+            l_odd.clear ();
+          }
+          // Pass segment to each plugin
+#ifndef NO_LOG
+          DLOG ("[");
+          DLOG (l_pcount);
+          l_pcount = l_part.tellg ();
+          DLOG ("..");
+          DLOG (l_pcount);
+          DLOG ("] ");
+#endif
+          DLOG ("line = ");
+          DLOG (l_mline);
+          DLOG ("\n");
+          for (iter_t l_i (l_byline.begin ()); l_i != l_byline.end (); ++l_i)
+          {
+            // Perform processing, test result was not an error
+            const int
+            l_result ((*l_i)->process_part (l_mline));
+            switch (l_result)
+            {
+            case CCHEM_SUPPLIER_SUCCESS:       // Do nothing
+              break;
+            case CCHEM_SUPPLIER_COMPLETE:      // Add to complete and remove (fall through)
+              l_complete.push_back (*l_i);
+            case CCHEM_SUPPLIER_UNUSABLE:      // Remove filter
+              {
+                iter_t
+                l_tmp (l_i);
+                --l_i;
+                l_byline.erase (l_tmp);
+              }
+              break;
+            default:           // eg CCHEM_SUPPLIER_FATAL
+              throw supplier_error ((*l_i)->error_message (), l_result);
+              break;
+            }
+          }
+        }
+      }
+    }
+    // Break out if we have a completed filter.
+    if (a_find_first and not l_complete.empty ())
+    {
+      break;
+    }
+  }
+#ifndef NO_LOG
+  DLOG ("Processed file in ");
+  DLOG (d_count);
+  DLOG (" pieces.\n");
+#endif
+}
+
+{
+// Process file oriented filters
+  const
+    std::string
+  l_filename (a_twiglet.href ());
+  for (iter_t l_i (l_byfile.begin ()); l_i != l_byfile.end (); ++l_i)
+  {
+    // Perform processing, test result was not an error
+    const int
+    l_result ((*l_i)->process_part (l_filename));
+    switch (l_result)
+    {
+    case CCHEM_SUPPLIER_SUCCESS:       // Do nothing
+      break;
+    case CCHEM_SUPPLIER_COMPLETE:      // Add to complete and remove (fall through)
+      l_complete.push_back (*l_i);
+    case CCHEM_SUPPLIER_UNUSABLE:      // Remove filter
+      {
+        iter_t
+        l_tmp (l_i);
+        --l_i;
+        l_byfile.erase (l_tmp);
+      }
+      break;
+    default:                   // eg CCHEM_SUPPLIER_FATAL
+      throw supplier_error ((*l_i)->error_message (), l_result);
+      break;
+    }
+    // Break out if we have a completed filter.
+    if (a_find_first and not l_complete.empty ())
+    {
+      break;
+    }
+  }
+}
+
+////////////////////////////////////
+// Gather the results.
+if (not a_find_first)
+{
+  // For non-detect runs merge used filters together.
+  l_complete.insert (l_complete.end (), l_byline.begin (), l_byline.end ());
+  l_complete.insert (l_complete.end (), l_bybuffer.begin (), l_bybuffer.end ());
+  l_complete.insert (l_complete.end (), l_byfile.begin (), l_byfile.end ());
+}
+
+{
+  // Get output
+  DLOG ("Getting results.\n");
+  for (iter_t l_i = l_complete.begin (); l_i != l_complete.end (); ++l_i)
+  {
+    // Add filter labels to memo
+    a_twiglet.add_filter_label ((*l_i)->label ());
+    // LOCAL
+    DLOG ("Getting result from ");
+    DLOG ((*l_i)->identity ());
+    DLOG ("\n");
+    if ((*l_i)->flags () & CCHEM_SUPPLIER_STRING_OUTPUT)
+    {
+      std::string l_outputstr;
+      const int
+      l_result ((*l_i)->output_string (l_outputstr));
+      DLOG ("Result for filter [");
+      DLOG ((*l_i)->identity ());
+      DLOG ("](status = ");
+      DLOG (l_result);
+      DLOG (") = ");
+      DLOG (l_outputstr);
+      DLOG ("\n");
+      // Test result
+      if (CCHEM_SUPPLIER_FATAL <= l_result)
+      {
+        // Ensure nul terminated
+        throw
+        supplier_error ((*l_i)->error_message (), l_result);
+      }
+      else
+      {
+        if (not l_outputstr.empty ())
+        {
+          try
+          {
+            data_access::xml_persistence::read_string (a_twiglet, l_outputstr);
+          }
+          catch (const std::exception & a_err)
+          {
+            throw
+            supplier_error (a_err.what (), CCHEM_SUPPLIER_BADDATA);
+          }
+        }
+      }
+    }
+    else
+    {
+      // CCHEM_SUPPLIER_DIRECT_OUTPUT
+      const int
+      l_result ((*l_i)->output_direct (a_twiglet));
+      DLOG ("Result for filter [");
+      DLOG ((*l_i)->identity ());
+      DLOG ("](status = ");
+      DLOG (l_result);
+      DLOG (") = DIRECT\n");
+      // Test result
+      if (CCHEM_SUPPLIER_FATAL <= l_result)
+      {
+        throw
+        supplier_error ((*l_i)->error_message (), l_result);
+      }
+    }
+    if (a_find_first)
+    {
+      // We also set the mechanism here
+      a_twiglet.target_mechanism ((*l_i)->mechanism_label ());
+    }
+  }
+}
+
+return Result;
+!!!1064489.cpp!!!	filter_manager()
+
+!!!1076009.cpp!!!	serialise(inout a_os : basic_ostream) : void
+for (map_t::const_iterator l_cursor (m_filters.begin ());
+    l_cursor != m_filters.end ();
+    ++l_cursor)
+{
+  for (const_iterator l_i (l_cursor->begin ()); l_i != l_cursor->end (); ++l_i)
+  {
+    a_os << (*l_i);
+  }
+}

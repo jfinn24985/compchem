@@ -1,0 +1,46 @@
+class bag
+!!!314025.cpp!!!	get_hint() : uint
+// local
+unsigned int result (BAG);
+purpletree::dom::node l_hint;
+// require
+// do
+l_hint = m_rep.attributes ().named_item (S_HINT_NAME);
+if (not l_hint.is_null ())
+{
+  if (l_hint.node_value () == S_LIST_NAME)
+  {
+    result = LIST;
+  }
+  else if (l_hint.node_value () == S_SET_NAME)
+  {
+    result = SET;
+  }
+}
+// ensure
+ENSURE(result == BAG or result == LIST or result == SET, "Invalid result");
+return result;
+!!!313897.cpp!!!	get_ordinal() : int
+// local
+int result (0);
+// require
+REQUIRE(true == has_ordinal(), "Cannot get ordinal unless set");
+// do
+result = purpletree::conversion_cast< int >(get_attribute (S_ORDINAL_NAME, m_rep));
+// ensure
+return result;
+!!!313769.cpp!!!	has_ordinal() : bool
+// local
+// require
+// do
+return has_attribute (S_ORDINAL_NAME, m_rep);
+!!!323625.cpp!!!	bag(in a_node : purpletree::dom::node)
+// require
+REQUIRE(check_name (S_BAG_NAME, a_node), "Node name, class mismatch");
+// do
+// ensure
+!!!324137.cpp!!!	bag(in source : base_result)
+// require
+REQUIRE(check_name (S_BAG_NAME, m_rep), "Node name, class mismatch");
+// do
+// ensure

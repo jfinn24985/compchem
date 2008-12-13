@@ -1,0 +1,14 @@
+class PredicateAdapter
+!!!564521.cpp!!!	gtk_callback(in uc : gunichar, inout user_data : void) : gboolean
+  try
+  {
+    // This will either use Predicate::operator(), or call a function pointer.
+    // The explicit conditional expression avoids relying on an implicit
+    // conversion of the return type to int, which might be not available.
+    return (static_cast<TextIter::PredicateAdapter<Predicate>*>(user_data)->predicate_(uc)) ? 1 : 0;
+  }
+  catch(...)
+  {
+    Glib::exception_handlers_invoke();
+    return 0;
+  }

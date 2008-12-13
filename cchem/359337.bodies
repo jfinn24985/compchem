@@ -1,0 +1,45 @@
+class test_cases
+!!!1149609.cpp!!!	main(in argc : int, in argv : char) : int
+// Open a test document
+purpletree::dom::document l_doc (purpletree::dom::implementation::deserialise ("test.xml"));
+// Run test of iterators
+std::cout << "TESTING ITERATORS: Part 1 - whole document.\n\n";
+test_iterator (l_doc.document_element (), std::cout);
+
+std::cout << "TESTING ITERATORS: Part 2 - part document.\n\n";
+node_iterator l_cursor (l_doc.document_element ());
+while ((*l_cursor).node_name () != purpletree::dom::set_utf8 ("template")) {
+  ++l_cursor; }
+test_iterator (*l_cursor, std::cout);
+
+return 0;
+!!!1149737.cpp!!!	test_iterator(in a_node : element, inout a_os : std::ostream) : void
+// Local
+// DO
+node_iterator l_cursor (a_node);
+node_visitor l_visitor (a_node);
+if (l_cursor) {
+  node_iterator l_end (l_cursor.end ());
+  a_os << "== Test node_iterator type. ==\n";
+  while (l_cursor != l_end) {
+    a_os << purpletree::dom::get_utf8 ((*l_cursor).node_name ()) << "\n";
+    ++l_cursor; }}
+if (l_visitor) {
+  node_visitor l_end (l_visitor.end ());
+  int l_depth = 0;
+  a_os << "== Test node_visitor type. ==\n";
+  COMPCHEM_ALWAYS (l_visitor != l_end, "Cannot start with visitor at the end.");
+  while (l_visitor != l_end) {
+    if (not l_visitor.is_first ()) {
+      --l_depth; }
+    for (int l_i = 0; l_i < l_depth; ++l_i) { a_os << "\t"; }
+    if (l_visitor.is_first ()) {
+      a_os << ">>"; }
+    else {
+      a_os << "<<"; }
+    a_os << "[" << (*l_visitor).node_type () << "]";
+    a_os.flush ();
+    a_os << purpletree::dom::get_utf8 ((*l_visitor).node_name ()) << "\n";
+    if (l_visitor.is_first () and (*l_visitor).has_child_nodes ()) {
+      ++l_depth; }
+    ++l_visitor; }}

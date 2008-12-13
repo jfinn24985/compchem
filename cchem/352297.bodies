@@ -1,0 +1,28 @@
+class xy_spectrum
+!!!1105065.cpp!!!	do_serialise(inout a_os : std::ostream, in a_data_set : t_set_type, in a_header : base_out_decor, in a_format : string) : void
+a_header.serialise_header (a_os);
+for (typename t_set_type::const_iterator l_i (a_data_set.begin ());
+     l_i != a_data_set.end ();
+     ++l_i) {
+  a_os << boost::format (a_format) % (*l_i).first % (*l_i).second; }
+a_header.serialise_tail (a_os);
+!!!1108265.cpp!!!	register_options(inout a_opt_set : options_description) : void
+// Add options to a_opt_set
+a_opt_set.add_options ()
+  ("jcampdx,j", boost::program_options::bool_switch ()->notifier (boost::bind (&xy_spectrum::set_jcampdx, this, _1)), "output in JCAMP/DX format")
+  ("csv,c", boost::program_options::bool_switch ()->notifier (boost::bind (&xy_spectrum::set_csv, this, _1)), "output in comma-separated-value format");
+!!!1101481.cpp!!!	serialise(inout a_os : std::ostream, in a_header : output_header, in a_data_set : t_set_type) : void
+std::auto_ptr< report::filetype::base_out_decor > l_header;
+std::string l_format;
+if (output_jcampdx ()) {
+  l_header.reset (new report::filetype::jcampdx_out_decor (a_header));
+  l_format.assign ("%d %d\n"); }
+else if (output_csv ()) {
+  l_header.reset (new report::filetype::csv_out_decor (a_header));
+  l_format.assign ("%d, %d\n"); }
+else {
+  l_header.reset (new report::filetype::text_out_decor (a_header));
+  l_format.assign ("%d %d\n"); }
+
+if (NULL != l_header.get ()) {
+  do_serialise < t_set_type > (a_os, a_data_set, *(l_header.get ()), l_format);}

@@ -1,0 +1,4 @@
+class control
+!!!1017129.cpp!!!	control(in a_name : string, inout a_state : gui_state)
+	REQUIRE(false == a_name.empty (), "A control must have a valid name");
+	a_state.add_control (this);

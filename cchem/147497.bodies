@@ -1,0 +1,59 @@
+class test_manager
+!!!217001.cpp!!!	main(in argc : int, in argv : char) : int
+// local
+int Result (0);
+// do
+if (empty ())
+{
+  log () << "No test routines, nothing to do?.\n";
+  Result = 1;
+}
+else
+{
+  ///////////////////////////
+  // Process the configuration
+  if (not utility::program_options::empty ())
+  {
+    utility::program_options & l_helper (utility::program_options::helper ());
+    std::string l_conffile ("cannon/");
+    l_conffile.append (argv[0]);
+    l_conffile.append ("_args.cpp");
+    if (boost::filesystem::exists (l_conffile))
+    {
+      l_helper.config_filename (l_conffile);
+    }
+    else
+    {
+      log () << "No configuration file [" << l_conffile << "]\n";
+    }
+    // Process configuration
+    Result = l_helper.process_options (argc, argv, log (), utility::program_options::CCHEM_PARSE_ALL);
+    // Free space used for processing program options
+    utility::program_options::reset ();
+  }
+  // Continue if configuration successful.
+  if (utility::program_options::CCHEM_PARSE_SUCCESS == Result)
+  {
+    ////////////////
+    // Perform tests
+    for (const_iterator l_iter = m_test_routines.begin (); l_iter != m_test_routines.end (); ++l_iter)
+    {
+      log () << "**** Start unit test [" << ((*l_iter)->title ()) << "] ****\n";
+      try
+      {
+        (*l_iter)->main_test ();
+      }
+      catch (const std::exception & err)
+      {
+        log () << base_test::EXCP << "Unhandled std::exception caught by 'main' [" << err.what () << "]\n";
+      }
+      catch (...)
+      {
+        log () << base_test::EXCP << "Unhandled and unknown exception caught by 'main'\n";
+      }
+      log () << "**** Ending unit test [" << (*l_iter)->title () << "] ****\n";
+    }
+  }
+}
+
+return Result;

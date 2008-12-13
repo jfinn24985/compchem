@@ -1,0 +1,217 @@
+class dtd_content
+!!!152873.cpp!!!	_parse_dtd_content_list(in dtd_content_list : string) : void
+  DEBUG( "content_desc *_parse_dtd_content_list entered");
+  char *match = "ELEMENT[^[:alnum:]]+[[:alnum:]-]+[^[:alnum:](]+([^>]+)";
+  std_regex conv( 2 );
+  conv.regex_string( match );
+
+  //The real work...
+  if ( conv.process( dtd_content_list ) ) {
+    // At this point matrix(1) should equal either "EMPTY"/"ANY" or
+    // content specification
+    DEBUG( "_parse_dtd_content_list -> Unprocessed content specification:", 
+	   conv.match_string( 1 ).c_str() );
+
+    if ( conv.match_string( 1 ).find("EMPTY") < conv.match_string( 1 ).size() ) {
+      _m_empty = true;
+      DEBUG( "_parse_dtd_content_list -> EMPTY content.list ");
+      return;
+    };
+
+    if ( conv.match_string( 1 ).empty() || // Hmmh, handle as if "ANY"
+	 conv.match_string( 1 ).find("ANY") < conv.match_string( 1 ).size() ) {
+      DEBUG( "_parse_dtd_content_list -> ANY content.list ");
+      return;
+    };
+
+    DEBUG( "_parse_dtd_content_list -> create new regex objects.");
+    _m_content_strict = new std_regex(1);
+    _m_content_strict->regex_string( _reify_string( conv.match_string( 1 ), 
+							false ) );
+    _m_content_unstrict = new std_regex(1);
+    _m_content_unstrict->regex_string( _reify_string( conv.match_string( 1 ), 
+							  true ) );
+  };
+  DEBUG( "_parse_dtd_content_list -> done.");  
+!!!153641.cpp!!!	dtd_content(in dtd_content_list : string)
+  _parse_dtd_content_list( dtd_content_list );
+!!!153769.cpp!!!	~dtd_content()
+  if ( _m_content_strict ) delete _m_content_strict;
+  if ( _m_content_unstrict ) delete _m_content_unstrict;
+!!!154025.cpp!!!	allow_new_tag_at(in _newlist : string, in _newtag : string, in list_index_position : uint = 0) : int
+  DEBUG( "dtd_content::allow_new_tag_at -> entered with newtag -> ", 
+	 _newtag.c_str() );
+  DEBUG( "dtd_content::allow_new_tag_at -> and tag list -> ", 
+	 _newlist.c_str() );
+
+  // Case 2, ANY -> ( _m_content_strict etc will be NULL )
+  if ( ! _m_content_unstrict ) {
+    DEBUG( "dtd_content::allow_new_tag_at -> ANY tag allowed" );
+    // Take short cut for ANY tag
+    return list_index_position;
+  };
+
+  DEBUG( "dtd_content::allow_new_tag_at -> Done short tests, now using regex",
+	 _m_content_unstrict->regex_string().c_str() );
+  // Now the real work begins,
+  _newtag += ':';
+
+  DEBUG( "dtd_content::allow_new_tag_at -> converted tag to add to the list",
+	 _newtag.c_str() );
+  if ( _newlist.empty() || _newlist[0] == '\0' ) {
+    _newlist = _newtag;
+    DEBUG( "dtd_content::allow_new_tag_at -> setting empty list to tag" );
+  } else {
+    unsigned int _listsize = count( _newlist.begin(), _newlist.end(), ':' );
+    if ( list_index_position >= _listsize ) {
+      // append
+      _newlist += _newtag;
+      list_index_position = _listsize;
+      DEBUG( "dtd_content::allow_new_tag_at -> appending tag to list" );
+    } else if ( list_index_position == 0 ){
+      _newlist.insert( 0, _newtag );
+      DEBUG( "dtd_content::allow_new_tag_at -> prepending tag to list" );
+    } else {
+      unsigned int _insert_pos = 0;
+      for ( unsigned int _i = 0;
+	    _i <= list_index_position;
+	    ++_i ) {
+	_insert_pos = _newlist.find( ':', _insert_pos );
+	DEBUG( "dtd_content::allow_new_tag_at -> found ':' at",
+	       _insert_pos );
+	++_insert_pos;
+      };
+      _newlist.insert( _insert_pos, _newtag );
+      DEBUG( "dtd_content::allow_new_tag_at -> inserting tag to list" );
+    };
+  };
+#ifdef __DEBUG__
+  DEBUG( "dtd_content::allow_new_tag_at -> List with new tag =", 
+	 _newlist.c_str() );
+  if ( _m_content_unstrict->process( _newlist ) ) {
+    if ( _newlist.size() == _m_content_unstrict->match_string(0).size() ) {
+      DEBUG( "dtd_content::allow_new_tag_at -> list is valid, allow insert at",
+	     list_index_position );
+      return list_index_position;
+    } else {
+      DEBUG( "dtd_content::allow_new_tag_at -> not valid at insert position",
+	     list_index_position );
+      DEBUG( "dtd_content::allow_new_tag_at -> list is",
+	     _newlist.c_str() );
+      DEBUG( "dtd_content::allow_new_tag_at -> size",
+	     _newlist.size() );
+      DEBUG( "dtd_content::allow_new_tag_at -> matched string is",
+	     _m_content_unstrict->match_string(0).c_str() );
+      DEBUG( "dtd_content::allow_new_tag_at -> size",
+	     _m_content_unstrict->match_string(0).size() );
+
+      return -1;
+    };
+  } else {
+    DEBUG( "dtd_content::allow_new_tag_at -> regex failed",
+	   list_index_position );
+    return -1;
+  };
+#else
+    return ( _m_content_unstrict->process( _newlist ) &&
+	     _newlist.size() == _m_content_unstrict->match_string(0).size() )? int(list_index_position) : -1;
+#endif
+!!!154153.cpp!!!	allow_tag(in newtag : string) : bool
+  // We want to check to see if the tag "newtag" is allowed at all by
+  // the content specification. We do that by trying to find it in the
+  // regular expression of the unstrict content specification. First
+  // we see whether content is allowed, by inspecting the
+  // <varname>_m_empty</varname> variable.
+  if ( !_m_empty ) { 
+    // At this point we know that content is allowed. If the
+    // <varname>m_content_unstrict</varname> exists then content
+    // restrictions apply. If it does not exist then any content is
+    // allowable.
+    if ( _m_content_unstrict ) {
+      // We have a content specification. Now lets try to find the
+      // current tag in the content specification.
+      if ( _m_content_unstrict->regex_string().find( newtag ) <
+	   _m_content_unstrict->regex_string().size() ) {
+	DEBUG( "dtd_content::allow_tag -> Tag content specification is ",
+	       _m_content_unstrict->regex_string().c_str() );
+	DEBUG( "dtd_content::allow_tag -> which contains tag ",
+	       newtag.c_str() );
+	return true;    
+      } else {
+	DEBUG( "dtd_content::allow_tag -> Tag content specification is ",
+	       _m_content_unstrict->regex_string().c_str() );
+	DEBUG( "dtd_content::allow_tag -> which does not contain tag ",
+	       newtag.c_str() );
+	return false;
+      };
+    } else {
+      DEBUG( "dtd_content::allow_tag -> Content specification allows any tag ",
+	     newtag.c_str() );
+      return true;
+    };
+  } else {
+    DEBUG( "dtd_content::allow_tag -> Content specifies not tags, can't add ",
+	   newtag.c_str() );
+    return false;
+  };
+!!!154409.cpp!!!	valid_tag_list(in taglist : string) : bool
+#ifdef __DEBUG__
+  if ( _m_empty ) {
+    // No content allowed! Tag list should be empty.
+    DEBUG( "dtd_content::invalid_tag_at -> No allowed tags" );
+    return taglist.empty();
+  };
+  if ( _m_content_strict ) {
+    DEBUG( "dtd_content::invalid_tag_at -> Checking",
+	   taglist.c_str() );
+    if ( _m_content_strict->search( taglist ) ) {
+      DEBUG( "dtd_content::invalid_tag_at -> ALL valid against",
+	     _m_content_strict->regex_string().c_str() );
+      return true;
+    } else {
+      DEBUG( "dtd_content::invalid_tag_at -> not all valid against",
+	     _m_content_strict->regex_string().c_str() );
+      // This first invalid tag is at the index given by number of
+      // valid tags before it.
+#ifndef __NO_FEEDBACK__
+      std::cerr << "Invalid element sequence : " << taglist << std::endl;
+#endif //__NO_FEEDBACK__
+      return false;
+    };
+  } else {
+    // Take short cut for _m_content_strict == NULL -> implies ANY
+    // spec.
+    DEBUG( "dtd_content::invalid_tag_at -> ALL valid against ANY" );
+    return true; 
+  };
+#else // __DEBUG__
+#ifndef __NO_FEEDBACK__
+  if ( _m_empty ) {
+    // No content allowed! Tag list should be empty.
+    DEBUG( "dtd_content::invalid_tag_at -> No allowed tags" );
+    if ( taglist.empty() )
+      return true;
+    else {
+      std::cerr << "It is invalid to have an element sequence with an EMPTY element :\"" << taglist << "\"" << std::endl;
+      return false;  
+    };
+  } else {
+    // True if _m_content_strict doesn't exist or it matches
+    if ( !_m_content_strict || 
+	 _m_content_strict->search( taglist ) ) {
+      return true; 
+    } else {
+      std::cerr << "The given element sequence does not match the specification :" << taglist << std::endl;
+      return false;
+    };
+  };
+#else // __NO_FEEDBACK__
+  if ( _m_empty )
+    // EMPTY case, so true if taglist is also empty
+    return taglist.empty();
+  else
+    // True if _m_content_strict doesn't exist (the ANY case) or it matches
+    return ( !_m_content_strict ||
+	     _m_content_strict->search( taglist ) );
+#endif //__NO_FEEDBACK__
+#endif // __DEBUG__

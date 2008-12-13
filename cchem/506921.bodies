@@ -1,0 +1,21 @@
+class application_py
+!!!1609641.cpp!!!	initialise(in a_argv : boost::python::list) : int
+///////////////////////////
+// Process the configuration
+std::vector< std::string > l_argv;
+const int l_len = boost::python::extract< int >(a_argv.attr ("__len__")());
+for (int l_i (0); l_i < l_len; ++l_i)
+{
+  const char* l_tmp = boost::python::extract< const char* >(a_argv [l_i]);
+  l_argv.push_back (std::string (l_tmp));
+}
+
+return utility::program_options::helper ().process_options (l_argv, std::cerr, utility::program_options::CCHEM_PARSE_ALL);
+
+!!!1609385.cpp!!!	register_option(in a_opt : string, in a_letter : char, in a_help : string) : void
+std::string l_opts (a_opt);
+l_opts.reserve (l_opts.size () + 2);
+l_opts.push_back (',');
+l_opts.push_back (a_letter);
+utility::program_options::helper ().public_options ().add_options ()(l_opts.c_str (), boost::program_options::value < std::string > ()->notifier (boost::bind (&application_py::set_option, this, a_opt, _1)), a_help.c_str ());
+

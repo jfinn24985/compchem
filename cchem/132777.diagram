@@ -1,0 +1,70 @@
+format 24
+
+classinstance 128041 class_ref 327337 // data_object_factory
+  xyz 5 208 2000 name "project_factory"  xyz 5 208 2000
+classinstance 128169 class_ref 135593 // project
+  xyz 374 36 2000 name "the_object"  xyz 374 36 2000
+classinstance 128297 class_ref 330793 // transaction
+  xyz 377 208 2000 name "a_rec"  xyz 377 208 2000
+classinstance 128425 class_ref 330025 // locator
+  xyz 230 238 2000 name "change_query"  xyz 230 238 2000
+note 129577 "A locator object may contain several SQL queries."
+  xyzwh 134 267 2000 345 41
+classinstance 130089 class_ref 330665 // datum_base
+  xyz 13 37 2000 name "the_object"  xyz 13 37 2000
+linkcanvas 129065
+  from ref 128169 z 1999 to ref 128041
+dirscanvas 129193 z 1000 linkcanvas_ref 129065
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "1 get_change_record()" xyz 214 152 3000
+linkcanvas 129321
+  from ref 128041 z 1999 to ref 128297
+dirscanvas 129449 z 1000 linkcanvas_ref 129321
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "2 transaction()
+3 set_location()" xyz 257 167 3000
+linkcanvas 129833
+  from ref 128169 z 1999 to ref 128297
+dirscanvas 129961 z 1000 linkcanvas_ref 129833
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "5 set_object_id()
+6 set_value(\"column X\", attribute_Y)
+7 set_buffer()
+8 is_ready()
+9 perform_query()" xyz 455 88 3000
+linkcanvas 130473
+  from ref 128169 z 1999 to ref 130089
+dirscanvas 130601 z 1000 linkcanvas_ref 130473
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "4 get_id()" xyz 240 65 3000
+msgs
+  msg operation_ref 984617 // "get_change_record() : transaction"
+    forward ranks 1 "1" dirscanvas_ref 129193
+    msgs
+      msg operation_ref 981161 // "transaction()"
+	forward ranks 2 "1.1" dirscanvas_ref 129449
+	no_msg
+      msg operation_ref 985257 // "set_location(in value : locator) : void"
+	forward ranks 3 "1.2" dirscanvas_ref 129449
+	no_msg
+    msgsend
+  msg operation_ref 986793 // "get_id() : identity"
+    forward ranks 4 "2" dirscanvas_ref 130601
+    no_msg
+  msg operation_ref 983465 // "set_object_id(inout a_id : ulong) : void"
+    forward ranks 5 "3" dirscanvas_ref 129961
+    no_msg
+  explicitmsg "set_value(\"column X\", attribute_Y)"
+    forward ranks 6 "4" dirscanvas_ref 129961
+    no_msg
+  msg operation_ref 983721 // "set_buffer(in a_buffer : byte) : void"
+    forward ranks 7 "5" dirscanvas_ref 129961
+    no_msg
+  msg operation_ref 980649 // "is_ready() : bool"
+    forward ranks 8 "6" dirscanvas_ref 129961
+    no_msg
+  msg operation_ref 980777 // "perform_query() : void"
+    forward ranks 9 "7" dirscanvas_ref 129961
+    no_msg
+msgsend
+end

@@ -1,0 +1,42 @@
+class FWManager
+!!!215465.cpp!!!	~FWManager()
+    if ( _m_config ) delete _m_config;
+  
+!!!215849.cpp!!!	loadFWConfigDictionary() : void
+    // This sets the configuration object of the manager class. It is
+    // expected that the object will act like a dictionary, with
+    // key/value pairs.
+    _m_config = new FWConfigDictionary();
+  
+!!!215977.cpp!!!	initialisation(in argc : int = 0, inout argv : char = NULL) : void
+    // --public: initialisation--
+    try
+      {
+	// Create the dictionary
+	loadFWConfigDictionary();
+
+	// Process standard environment variables.
+	dictionary().processENV( "home", "HOME", "LOGDIR" );
+	dictionary().processENV( "user", "USER", "LOGNAME" );
+	dictionary().processENV( "work_dir", "PWD", "CURDIR" );
+      
+	// Process the comand line
+	if ( !dictionary().processArguments( argc, argv ) )
+	  {
+	    dictionary().helpMessage( FrameWork::logStream );
+	    this->exit( 1 );
+	  };
+      }
+    catch ( const Exception &msg )
+      {
+	FrameWork::logStream << msg.what() << std::endl;
+	dictionary().helpMessage( FrameWork::logStream );
+	this->exit( 1 );
+      }
+    catch (...) 
+      {
+	FrameWork::logStream << "FWManager: Unknown initialisation error." << std::endl;
+	dictionary().helpMessage( FrameWork::logStream );
+	this->exit( 1 );
+      }
+  

@@ -1,0 +1,75 @@
+class chooser_control
+!!!1227305.cpp!!!	get_string(in a_widget : widget_t) : string
+std::string Result;
+COMPCHEM_LOG("Getting Chooser string");
+if (is_mask (a_widget)) {
+  Result.assign (get_string_priv (a_widget)); }
+else {
+  // Single selection
+  void * l_tmp (XmtChooserGetValue (a_widget));
+  COMPCHEM_CHECK(NULL != l_tmp, "Nul value associated with chooser selection.");
+  if (NULL != l_tmp) {
+    char ** l_str (static_cast< char** >(l_tmp));
+    if (NULL != *l_str) { Result.assign (*l_str); }}}
+return Result;
+!!!1237289.cpp!!!	get_string_priv(in a_widget : widget_t) : string
+// Multiselect
+std::string Result;
+COMPCHEM_DLOG("In multi select with value = ");
+const int l_value (XmtChooserGetState (a_widget));
+COMPCHEM_DLOG(l_value); COMPCHEM_DLOG("\n");
+if (l_value != 0) {
+  char* l_xrm_type = XtRString;
+  std::string l_resource_name (XtName (XtParent (a_widget)));
+  l_resource_name.append (".");
+  l_resource_name.append (XtName (a_widget));
+  l_resource_name.append (".valueStrings");
+  XrmValue l_xrm_value; /* { int size, void* addr }*/
+  if (XrmGetResource (XrmGetDatabase (XtDisplay (a_widget)),
+  	                   l_resource_name.c_str (),
+  			   NULL,
+  			   &l_xrm_type,
+  			   &l_xrm_value)) {
+    std::vector< std::string > l_list;
+    COMPCHEM_DLOG ("Got configuration ["); 
+    COMPCHEM_DLOG (l_xrm_type); COMPCHEM_DLOG ("] ["); COMPCHEM_DLOG (l_resource_name);
+    COMPCHEM_DLOG ("]: ["); COMPCHEM_DLOG ((char*)l_xrm_value.addr); COMPCHEM_DLOG ("]\n");
+    COMPCHEM_CHECK (NULL != l_xrm_value.addr, "XrmGetResource returned true with a nul value");
+    guistate::utility::convert_string_to_list ((char*)l_xrm_value.addr, l_list);
+    for (unsigned int ix (0); ix < l_list.size (); ++ix) {
+      if (l_value & (1 << ix)) {
+        COMPCHEM_DLOG("Selection at [");COMPCHEM_DLOG(ix); COMPCHEM_DLOG("]\n");
+        COMPCHEM_REQUIRE (not l_list[ix].empty(), "No value associated with chooser selection.");
+        if (!Result.empty ()) {
+          Result.append (","); }
+        Result.append ("\"");
+        guistate::utility::chomp (l_list[ix]);
+        Result.append (l_list[ix]);
+        Result.append ("\""); }}}}
+return Result;
+!!!1240745.cpp!!!	is_mask(in a_widget : widget_t) : bool
+bool l_is_mask (false);
+Arg l_args[1];
+int l_type (0);
+XtSetArg(l_args[0], XmtNchooserType, &l_type);
+XtGetValues (a_widget, l_args, 1);
+switch (l_type) {
+  case XmtChooserRadioBox:       /* one-of-many toggle buttons */
+  case XmtChooserRadioPalette:   /* toggle buttons w/o indicators */
+  case XmtChooserRadioList:      /* XmList widget in single select mode */
+  case XmtChooserOption: {       /* option menu */
+    // Single selection
+    l_is_mask = false;
+    break;
+  case XmtChooserCheckBox:       /* n-of-many toggle buttons */
+  case XmtChooserCheckPalette:   /* toggle buttons w/o indicators */
+  case XmtChooserCheckList:      /* XmList widget in multi-select mode */
+    // Multi-selection
+    l_is_mask = true;
+    break;
+  case XmtChooserButtonBox:      /* Push buttons in a box */
+  default:
+    // error
+    COMPCHEM_ALWAYS(false, "Reached illegal point in code.");
+    break; }}
+return l_is_mask;

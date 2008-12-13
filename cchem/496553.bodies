@@ -1,0 +1,33 @@
+class index
+!!!1583401.cpp!!!	index(in a_uri : string)
+: m_coumpund_index ()
+, m_experiment_index ()
+, m_index_fname (a_uri + index_suffix ())
+, m_project_index ()
+, m_worker_index ()
+{
+  if (boost::filesystem::exists (m_index_fname))
+  {
+    // read index
+    std::ifstream l_ifs(m_index_fname.c_str ());
+    if (l_ifs)
+    {
+      boost::archive::xml_iarchive l_ia (l_ifs);
+      l_ia >> *this;
+    }
+  }
+}
+!!!1584297.cpp!!!	save() : void
+std::ofstream l_ofs (m_index_fname.c_str ())
+if (not l_ofs)
+{
+  throw std::logic_error ("Unable to open file: " + m_index_fname);
+}
+else
+{
+  // save data to archive
+  boost::archive::xml_oarchive l_oa(l_ofs);
+  // write class instance to archive
+  oa << *this;
+  // archive and stream closed when destructors are called
+}
