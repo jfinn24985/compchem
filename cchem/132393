@@ -1,6 +1,6 @@
 format 61
 "/boost" // External Components::/boost
-  revision 27
+  revision 28
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -306,10 +306,9 @@ LINK=-lboost_date_time"
       stereotype "library"
       associated_artifacts
       end
-      ncouples 1
-      key "butter project" value "boost"
-      comment "${butter_generic}
-LINK=-lboost_python"
+      ncouples 2
+      key "butter project" value "boost-python"
+      key "butter buildfile" value "python"
     end
   end
 end

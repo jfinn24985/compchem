@@ -104,9 +104,9 @@ if (boost::filesystem::exists (l_new))
 }
 boost::filesystem::rename (l_base, l_new);
 boost::filesystem::rename (l_old, l_base);
-!!!1351593.cpp!!!	register_options(inout a_optset : options_description) : void
-if (NULL == a_optset.find_nothrow ("database", true))
+!!!1351593.cpp!!!	register_options() : void
+if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("database", true))
 {
   // Add option
-  a_optset.add_options () ("database", boost::program_options::value< std::string >(&m_doc_filename), "Test database file");
+  utility::program_options::helper ().public_options ().add_options () ("database", boost::program_options::value< std::string >(&m_doc_filename), "Test database file");
 }

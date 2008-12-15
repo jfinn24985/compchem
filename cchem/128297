@@ -1,6 +1,6 @@
 format 61
 "/compchem/chemistry" // /compchem/chemistry
-  revision 36
+  revision 37
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1785,6 +1785,8 @@ ${namespace_end}
       end
     end
   end
+
+  package_ref 146089 // ccspectrum
 
   package_ref 143529 // chemistry unit tests
 end

@@ -1,6 +1,6 @@
 format 61
 "py" // /compchem/supplier::py
-  revision 2
+  revision 3
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -195,19 +195,18 @@ BOOST_PYTHON_MODULE(supplier)
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    artifact 255017 "supplier"
+    artifact 255017 "supplier_py"
       stereotype "library"
       associated_artifacts
-	artifact_ref 254761 // python
-	artifact_ref 230057 // data_access
-	artifact_ref 254889 // supplier
 	artifact_ref 252841 // program_options
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
-	artifact_ref 144169 // data_scheme
-	artifact_ref 247721 // filter_manager_py
-	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
 	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 254889 // supplier
+	artifact_ref 253097 // date_time
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 247721 // filter_manager_py
       end
       ncouples 1
       key "butter other" value "python-extension"

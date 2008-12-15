@@ -1,18 +1,13 @@
-window_sizes 960 660 340 614 382 199
+window_sizes 960 672 340 614 473 120
 diagrams
-  classdiagram_ref 134057 // Suppliers
-    614 457 81 4 0 0
-  active  classdiagram_ref 133545 // test classes
-    614 382 75 4 0 0
+  active  classdiagram_ref 134057 // Suppliers
+    614 473 81 4 0 0
 end
 show_stereotypes
 selected 
-package_ref 131497 // External Components
+  package_ref 131625 // /compchem/report
 open
-  deploymentview_ref 146473 // Overview
   
-package_ref 131241 // /compchem/supplier
-  deploymentview_ref 133801 // dummy view
-  deploymentview_ref 170537 // xml2
+  package_ref 152105 // Docs
 end
 end

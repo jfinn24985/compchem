@@ -15,8 +15,8 @@ else
   if (not utility::program_options::empty ())
   {
     utility::program_options & l_helper (utility::program_options::helper ());
-    std::string l_conffile ("cannon/");
-    l_conffile.append (argv[0]);
+    std::string l_conffile ("test/canon/");
+    l_conffile.append (boost::filesystem::path (argv[0]).leaf ());
     l_conffile.append ("_args.cpp");
     if (boost::filesystem::exists (l_conffile))
     {

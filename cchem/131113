@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 203
+  revision 204
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -37,7 +37,7 @@ format 61
 This package contains classes that define the main structure of the data. All components that directly manipulate the internal representation of the data will do so through these classes.
 
 ** NON-PARALLEL: Assumes only one database will be openned at a time. **"
-  usecaseview 128553 "Data Scheme use-cases"
+  usecaseview 130985 "data_scheme"
     //use case diagram settings
     package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
     //sequence diagram settings
@@ -52,7 +52,7 @@ This package contains classes that define the main structure of the data. All co
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
-    usecase 131369 "add_to_experiment"
+    usecase 131369 "create_memo"
       //use case diagram settings
       package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
       //sequence diagram settings
@@ -74,7 +74,7 @@ This package contains classes that define the main structure of the data. All co
       end
     end
 
-    usecase 130217 "add_to_program"
+    usecase 130217 "create_project"
       //use case diagram settings
       package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
       //sequence diagram settings
@@ -116,7 +116,7 @@ Note: The user is shown testing for adequate permission, this avoids a permissio
       end
     end
 
-    usecase 131113 "add_to_project"
+    usecase 131113 "create_experiment"
       //use case diagram settings
       package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
       //sequence diagram settings
@@ -247,7 +247,7 @@ Note: The user is shown checking the credential object for adequate permission, 
       end
     end
 
-    usecase 131881 "open_program"
+    usecase 135465 "edit_object"
       //use case diagram settings
       package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
       //sequence diagram settings
@@ -262,69 +262,6 @@ Note: The user is shown checking the credential object for adequate permission, 
       //activity diagram settings
       package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
       show_infonote default drawing_language default show_stereotype_properties default
-      collaborationdiagram 132265 "Open Program v5"
-	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
-	size A4
-      end
-    end
-
-    usecase 130729 "open_project"
-      //use case diagram settings
-      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
-      //sequence diagram settings
-      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
-      //collaboration diagram settings
-      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
-      //object diagram settings
-       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
-      //state diagram settings
-      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
-      //activity diagram settings
-      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-      show_infonote default drawing_language default show_stereotype_properties default
-      comment "If the worker_credential object allows it, an existing project object can be openned. Once openned, the worker will have access to adding and viewing (editing) experiments and reports."
-      collaborationdiagram 131241 "Open Project v5"
-	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
-	comment "What is shown is the sequence of operations to load the basic information of a project.  Viewing the sub-objects of the project (expts and views) have their own use-cases.  Note that users are only presented with a list of projects that they have view permission for. "
-	size A4
-      end
-    end
-
-    usecase 132009 "object_store"
-      //use case diagram settings
-      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
-      //sequence diagram settings
-      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
-      //collaboration diagram settings
-      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
-      //object diagram settings
-       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
-      //state diagram settings
-      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
-      //activity diagram settings
-      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-      show_infonote default drawing_language default show_stereotype_properties default
-      collaborationdiagram 132777 "Object serialisation - change memo v5"
-	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
-	comment "Perform serialisation for an existing non-compound object. Compound objects also call store() on each child."
-	size A4
-      end
-
-      collaborationdiagram 132905 "Object Deserialisation v5"
-	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
-	comment "This use case gives an example of how a parent object deserialises one of its child types (You can imagine a similar process for a other compound objects and for a program object deserialising itself).
-
-How the object deserialises the result of get_buffer() is not shown."
-	size A4
-      end
-
-      collaborationdiagram 133033 "Object serialisation - new memo v5"
-	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
-	comment "Use case to perform serialisation for a new non-compound object. Compound objects also call store() on each child."
-	size A4
-      end
     end
   end
 
@@ -11186,27 +11123,27 @@ definition() object."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 232617 // compound_ref
 	artifact_ref 142505 // filter
-	artifact_ref 143913 // project
-	artifact_ref 141737 // datum
-	artifact_ref 207785 // text
-	artifact_ref 202793 // basic_datum
-	artifact_ref 143529 // formula
-	artifact_ref 214569 // visitor
-	artifact_ref 253353 // xml
-	artifact_ref 142633 // worker
-	artifact_ref 143145 // memo
-	artifact_ref 143657 // compound
-	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 157993 // utility
-	artifact_ref 141993 // info
-	artifact_ref 233897 // content_visitor
-	artifact_ref 166569 // settings
-	artifact_ref 142889 // mechanism
-	artifact_ref 143273 // experiment
-	artifact_ref 144041 // program
+	artifact_ref 232617 // compound_ref
 	artifact_ref 142249 // identity
+	artifact_ref 144041 // program
+	artifact_ref 143273 // experiment
+	artifact_ref 142889 // mechanism
+	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 214569 // visitor
+	artifact_ref 166569 // settings
+	artifact_ref 143657 // compound
+	artifact_ref 143529 // formula
+	artifact_ref 233897 // content_visitor
+	artifact_ref 157993 // utility
+	artifact_ref 143145 // memo
+	artifact_ref 253353 // xml
+	artifact_ref 202793 // basic_datum
+	artifact_ref 141993 // info
+	artifact_ref 142633 // worker
+	artifact_ref 207785 // text
+	artifact_ref 141737 // datum
+	artifact_ref 143913 // project
       end
       comment "The library for the data_scheme objects"
     end

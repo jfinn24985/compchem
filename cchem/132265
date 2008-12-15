@@ -1,6 +1,6 @@
 format 61
 "//test" // /compchem/utility:://test
-  revision 38
+  revision 40
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -306,11 +306,6 @@ ${inlines}
   return m_test_routines.empty ();
 }
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
 	
 	
 	
@@ -607,9 +602,9 @@ It is designed so that derived classes need only create a static object of thems
     artifact 160553 "test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 133161 // test_manager
 	artifact_ref 145833 // unit_test
 	artifact_ref 157993 // utility
+	artifact_ref 133161 // test_manager
       end
       comment "The framework test class library"
     end
@@ -652,6 +647,7 @@ ${namespace_end}
 ${comment}
 ${includes}
 // Manual includes
+#include <boost/filesystem/operations.hpp>
 // -
 int main (int argc, char** argv) {
   return utility::test_manager::get_exemplar ().main (argc, argv); }

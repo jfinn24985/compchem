@@ -15,6 +15,6 @@ catch (const std::exception &a_err)
 {
   log () << EXCP << "Caught exception:\n" << a_err.what () << "\n";
 }
-!!!1579945.cpp!!!	register_options(inout a_optset : options_description) : void
-a_optset.add_options ()("database", boost::program_options::value< std::string >(&m_database), "XML database file");
+!!!1579945.cpp!!!	register_options() : void
+utility::program_options::helper ().public_options ().add_options ()("database", boost::program_options::value< std::string >(&m_database), "XML database file");
 

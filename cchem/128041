@@ -1,6 +1,6 @@
 format 61
 "ccfilter" // /compchem/supplier::ccfilter
-  revision 35
+  revision 36
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -372,15 +372,15 @@ Program options are:
     artifact 157865 "ccfilter"
       stereotype "executable"
       associated_artifacts
+	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 230313 // filesystem
 	artifact_ref 144169 // data_scheme
 	artifact_ref 157481 // ccfilter_app
-	artifact_ref 252969 // regex
-	artifact_ref 157993 // utility
 	artifact_ref 160553 // test
-	artifact_ref 253097 // date_time
-	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
+	artifact_ref 252969 // regex
 	artifact_ref 254889 // supplier
-	artifact_ref 230313 // filesystem
       end
     end
 
@@ -418,8 +418,8 @@ ${includes}
 // -
 int main (int argc, char ** argv)
 {
-  ccfilter::ccfilter l_app;
-  return l_app.programs::basic_application< ccfilter::ccfilter >::main (argc, argv);
+  ccfilter::ccfilter_app l_app;
+  return l_app.programs::basic_application< ccfilter::ccfilter_app >::main (argc, argv);
 }
 
 ${namespace_start}

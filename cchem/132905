@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 20
+  revision 22
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1340,17 +1340,17 @@ ${namespace_end}"
     artifact 251305 "test_data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 230057 // data_access
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 252841 // program_options
-	artifact_ref 208937 // test_names
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
-	artifact_ref 252969 // regex
-	artifact_ref 160553 // test
 	artifact_ref 144169 // data_scheme
+	artifact_ref 160553 // test
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 252969 // regex
+	artifact_ref 253353 // xml
+	artifact_ref 208937 // test_names
+	artifact_ref 157993 // utility
 	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
 	artifact_ref 215977 // test_file_helper
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
       end
       ncouples 1
@@ -1358,7 +1358,6 @@ ${namespace_end}"
       comment "
 "
     end
-
   end
 
   package_ref 155817 // test args

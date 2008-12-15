@@ -1,6 +1,6 @@
 format 61
 "report unit tests" // /compchem/report::report unit tests
-  revision 5
+  revision 6
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -135,12 +135,11 @@ ${inlines}
       end
 
       operation 1579945 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -159,7 +158,9 @@ nothing."
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : m_database ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -248,6 +249,9 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+// Manual include
+#include \"utility/program_options.hpp\"
+// --
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -259,25 +263,21 @@ ${namespace_end}"
     artifact 257705 "test_report"
       stereotype "library"
       associated_artifacts
-	artifact_ref 230057 // data_access
-	artifact_ref 255657 // report
-	artifact_ref 252841 // program_options
+	artifact_ref 144169 // data_scheme
 	artifact_ref 242217 // test_cfm_report
+	artifact_ref 160553 // test
+	artifact_ref 255657 // report
 	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
-	artifact_ref 160553 // test
-	artifact_ref 144169 // data_scheme
 	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "unit-test"
     end
-
-    artifact 257961 "axtest.args"
-      stereotype "document"
-      comment "--database /home/finnerty/Office/Projects/compchem/split/main-database.xml"
-    end
-
   end
+
+  package_ref 158377 // test_args
 end

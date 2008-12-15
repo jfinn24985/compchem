@@ -1,6 +1,6 @@
 format 61
 "filter" // /compchem/supplier::filter
-  revision 87
+  revision 88
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2359,9 +2359,11 @@ ${namespace_end}
     artifact 255145 "gaussian_detect_plugin"
       stereotype "library"
       associated_artifacts
-	artifact_ref 238633 // basic_plugin
 	artifact_ref 151977 // gaussian_detect
+	artifact_ref 238633 // basic_plugin
       end
+      ncouples 1
+      key "butter type" value "shared"
     end
 
     artifact 152873 "gaussian_summary"
@@ -2441,8 +2443,8 @@ ${namespace_end}
     artifact 255273 "gaussian_summary_plugin"
       stereotype "library"
       associated_artifacts
-	artifact_ref 238633 // basic_plugin
 	artifact_ref 152873 // gaussian_summary
+	artifact_ref 238633 // basic_plugin
       end
     end
 
@@ -2603,10 +2605,12 @@ ${namespace_end}
     artifact 255529 "gaussian_vibration_plugin"
       stereotype "library"
       associated_artifacts
+	artifact_ref 153001 // gaussian_vibration
 	artifact_ref 198697 // chemistry
 	artifact_ref 238633 // basic_plugin
-	artifact_ref 153001 // gaussian_vibration
       end
+      ncouples 1
+      key "butter type" value "shared"
     end
   end
 end

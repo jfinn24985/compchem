@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/data_scheme::test cases
-  revision 25
+  revision 27
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -63,7 +63,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "Unit test for data_scheme::utility"
+      comment "Unit test for data_scheme::utility (UNUSED)"
       classrelation 312873 // <generalisation>
 	relation 305577 ---|>
 	  a public
@@ -263,13 +263,14 @@ ${inlines}
       end
 
       operation 1351593 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	const private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
@@ -285,7 +286,9 @@ nothing."
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : utility::unit_test ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -364,6 +367,7 @@ ${comment}
 ${includes}
 // Manual includes
 #include <boost/filesystem/operations.hpp>
+#include \"utility/program_options.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -420,27 +424,20 @@ ${namespace_end}"
     artifact 257321 "test_data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 230057 // data_access
+	artifact_ref 144169 // data_scheme
 	artifact_ref 168873 // test_program
-	artifact_ref 161705 // test_utility
-	artifact_ref 252841 // program_options
+	artifact_ref 160553 // test
 	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
-	artifact_ref 160553 // test
-	artifact_ref 144169 // data_scheme
 	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "unit-test"
     end
-
-    artifact 257449 "axtest.args"
-      stereotype "document"
-      associated_artifacts
-      end
-      comment "--database /home/finnerty/Office/Projects/compchem/split/main-database.xml"
-    end
-
   end
+
+  package_ref 158121 // test_args
 end

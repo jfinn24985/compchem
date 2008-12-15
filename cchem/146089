@@ -1,6 +1,6 @@
 format 61
-"ccspectrum" // /compchem/report::ccspectrum
-  revision 7
+"ccspectrum" // /compchem/chemistry::ccspectrum
+  revision 8
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -26,9 +26,10 @@ format 61
   package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
   show_infonote default drawing_language default show_stereotype_properties default
   
-  cpp_h_dir "report/ccspectrum"
-  cpp_src_dir "../src/report/ccspectrum"
+  cpp_h_dir "chemistry/ccspectrum"
+  cpp_src_dir "../src/chemistry/ccspectrum"
   cpp_namespace "spectrum"
+  comment "Compute a simulated spectrum from a peak table."
   classview 158121 "spectrum"
     //class diagram settings
     draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
@@ -174,10 +175,10 @@ main (int argc, char **argv)
     artifact 256169 "ccspectrum"
       stereotype "executable"
       associated_artifacts
-	artifact_ref 230313 // filesystem
-	artifact_ref 252841 // program_options
 	artifact_ref 205481 // spectrum_maker
+	artifact_ref 230313 // filesystem
 	artifact_ref 255785 // filetypes
+	artifact_ref 252841 // program_options
       end
     end
   end

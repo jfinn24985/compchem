@@ -56,15 +56,15 @@ relationcanvas 131497 relation_ref 439977 // <directional composition>
   from ref 130089 z 1999 to point 154 276
   line 131753 z 1999 to point 102 256
   line 131625 z 1999 to ref 130089
-  role_a_pos 110 268 3000 no_role_b
+  role_a_pos 106 274 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 132009 relation_ref 456489 // <directional composition>
   from ref 131881 z 1999 stereotype "<<auto_ptr>>" xyz 13 29 3000 to point 32 25
   line 132137 z 1999 to point 32 65
   line 132265 z 1999 to ref 131881
-  role_a_pos 5 32 3000 no_role_b
-  multiplicity_a_pos 51 62 3000 no_multiplicity_b
+  role_a_pos 14 33 3000 no_role_b
+  multiplicity_a_pos 58 63 3000 no_multiplicity_b
 end
 relationcanvas 132393 relation_ref 458153 // <dependency>
   from ref 128169 z 1999 to ref 131881

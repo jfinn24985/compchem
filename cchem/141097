@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/utility::test cases
-  revision 22
+  revision 23
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -64,6 +64,32 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 266921 // <generalisation>
 	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 413609 // <dependency>
+	relation 404649 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 413609 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 549801 // <dependency>
+	relation 528681 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 549801 // <dependency>
+	  b parent class_ref 335529 // epoch_time
+      end
+
+      classrelation 549673 // <dependency>
+	relation 528553 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 549673 // <dependency>
+	  b parent class_ref 335785 // filesystem_properties
       end
 
       attribute 373033 "m_filelist"
@@ -175,14 +201,6 @@ nothing."
 	
 	
 	
-      end
-
-      classrelation 413609 // <dependency>
-	relation 404649 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 413609 // <dependency>
-	  b parent class_ref 428969 // bind
       end
     end
   end
@@ -1382,18 +1400,19 @@ ${inlines}
     artifact 199209 "test_test"
       stereotype "library"
       associated_artifacts
+	artifact_ref 158249 // posix
 	artifact_ref 193705 // test_contract_error
-	artifact_ref 147241 // test_posix
-	artifact_ref 191401 // test_streambuf
-	artifact_ref 196137 // test_cstreambuf
-	artifact_ref 252841 // program_options
-	artifact_ref 197417 // test_freeptr
-	artifact_ref 157993 // utility
 	artifact_ref 199081 // test_testmanager
 	artifact_ref 160553 // test
+	artifact_ref 196137 // test_cstreambuf
 	artifact_ref 197545 // test_filesystem_util
+	artifact_ref 157993 // utility
+	artifact_ref 147241 // test_posix
+	artifact_ref 197417 // test_freeptr
 	artifact_ref 196265 // test_const_cstreambuf
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
+	artifact_ref 191401 // test_streambuf
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -1438,11 +1457,7 @@ ${namespace_end}"
 	class_ref 428841 // test_testmanager
       end
     end
-
-    artifact 258601 "axtest.args"
-      stereotype "document"
-      comment "--file src/test/utility/test-file.0 --file bobs-your-uncle --file src/test/utility/test.dir --file src/test/utility/test.dir/test-file.1"
-    end
-
   end
+
+  package_ref 158249 // test_args
 end
