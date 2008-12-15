@@ -1,7 +1,0 @@
-class identity
-!!!987433.cpp!!!	assign(in source : identity) : void
-// Preconditions
-REQUIRE(is_set () == false, "Cannot change identity object once set");
-// Do
-m_id = source.m_id;
-return *this;
