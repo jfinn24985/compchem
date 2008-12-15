@@ -1,0 +1,87 @@
+format 61
+
+classcanvas 128041 class_ref 381225 // user
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 152 399 2000
+end
+packagecanvas 128169 
+  package_ref 131241 // /compchem/supplier
+    xyzwh 470 238 2000 145 121
+end
+packagecanvas 128297 
+  package_ref 132777 // /compchem/data_access
+    xyzwh 188 16 2000 237 158
+end
+classcanvas 128425 class_ref 508201 // administrator
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 33 52 2000
+end
+classcanvas 128553 class_ref 508329 // project_manager
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 245 447 2000
+end
+packagecanvas 128681 
+  package_ref 131625 // /compchem/report
+    xyzwh 14 217 2000 159 135
+end
+usecasecanvas 129833 usecase_ref 134825 // manage_database
+  xyzwh 210 67 3005 75 35 label_xy 191 103
+end
+usecasecanvas 130217 usecase_ref 132009 // add_object
+  xyzwh 325 114 3005 75 37 label_xy 331 152
+end
+usecasecanvas 130473 usecase_ref 131881 // view_object
+  xyzwh 217 121 3005 75 32 label_xy 215 153
+end
+usecasecanvas 130985 usecase_ref 135209 // filter_result_file
+  xyzwh 499 310 3005 74 33 label_xy 487 342
+end
+usecasecanvas 131625 usecase_ref 135337 // query_database
+  xyzwh 57 283 3005 64 32 label_xy 43 315
+end
+packagecanvas 131753 
+  package_ref 131113 // /compchem/data_scheme
+    xyzwh 195 190 2000 256 171
+end
+usecasecanvas 131881 usecase_ref 131113 // create_experiment
+  xyzwh 223 238 3005 72 34 label_xy 202 270
+end
+usecasecanvas 132009 usecase_ref 130217 // create_project
+  xyzwh 242 308 3005 64 32 label_xy 233 340
+end
+usecasecanvas 132137 usecase_ref 131369 // create_memo
+  xyzwh 330 312 3005 64 32 label_xy 323 344
+end
+usecasecanvas 132265 usecase_ref 135465 // edit_object
+  xyzwh 363 253 3005 64 32 label_xy 363 285
+end
+line 129961 ----
+  from ref 128425 z 1999 to ref 129833
+line 132393 ----
+  from ref 128553 z 1999 to ref 132009
+line 132521 ----
+  from ref 128041 z 1999 to ref 131881
+line 132649 ----
+  from ref 128041 z 1999 to ref 132137
+line 132777 ----
+  from ref 132137 z 3004 to ref 130985
+line 132905 ----
+  from ref 132009 z 3004 to ref 130217
+line 133033 ----
+  from ref 131881 z 3004 to ref 130217
+line 133161 ----
+  from ref 132137 z 3004 to ref 130217
+line 133289 ----
+  from ref 130473 z 3004 to ref 132265
+line 133417 ----
+  from ref 132265 z 3004 to ref 130217
+line 133545 ----
+  from ref 131625 z 3004 to ref 130473
+line 133673 ----
+  from ref 128041 z 1999 to ref 131625
+relationcanvas 133929 relation_ref 527401 // <generalisation>
+  from ref 128553 z 1999 to ref 128041
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end
