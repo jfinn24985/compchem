@@ -1,59 +1,63 @@
-class crawler
-!!!1176489.cpp!!!	initialise(in argc : int, in argv : char) : int
-int Result (ON_SUCCESS); // The return value of this function
-// The Option Processing system
-boost::program_options::options_description l_dat_opt ("Data scheme specific options");
-boost::program_options::options_description l_all_opt ("All options");
-// Add program specific options
-l_all_opt.add_options () ("help,h", "produce help")
-    ("usage,?", "also produce help")
-    ("file,f", boost::program_options::value< std::vector< std::string > > (), "data files to process.");
-// Get Spectrum options
-data_scheme::proxy_helper::helper ().register_options (l_dat_opt);
-// Combine all options
-l_all_opt.add (l_dat_opt);
-// Set arguments without preceding options to act as if predeced by -file
-boost::program_options::positional_options_description l_pos_args;
-l_pos_args.add("file", -1);
-boost::program_options::variables_map l_vm;
-// Process arguments
-try {
-  boost::program_options::store (boost::program_options::command_line_parser (argc, argv).options (l_all_opt).positional (l_pos_args).run (), l_vm); }
-catch (const std::exception& a_err) { // Assume option parsing error.
-  std::cout << "Error: " << a_err.what () << "\n";
-  Result = ON_HELP; }
-boost::program_options::notify(l_vm);
-// Output help if require
-if (ON_HELP == Result or l_vm.count("help") or l_vm.count("usage") or not l_vm.count("file")) {
-  std::cout << l_all_opt << "\n";
-  Result = ON_HELP; }
-else { // Copy files.
-  m_fileset = l_vm["file"].as < std::vector < std::string > > (); }
-return Result;
+class verify_app
 !!!1177129.cpp!!!	main(in argc : int, in argv : char) : int
-int Result (ON_SUCCESS); // The return value of this function
+int Result (utility::program_options::CCHEM_PARSE_SUCCESS); // The return value of this function
 boost::filesystem::initial_path (); // Set initial path
 boost::filesystem::path::default_name_check (&boost::filesystem::native); // Set path name checker
+////////////////////////////////
 // Processing args etc.
-Result = initialise (argc, argv);
-if (ON_SUCCESS == Result) {
-  if (empty ()) { // Test we have data to work on
-    std::cerr << "No files to process\n";
-    Result = ON_ERROR; }
-  else { // Perform actions
-    purpletree::dom::implementation::autosave (true); // Set autosave or fixing links will wasted.
-    for (const_iterator l_i = begin (); l_i != end (); ++l_i) {
-      if (not boost::filesystem::exists (*l_i)) {
-	std::cerr << "Cannot find document [" << *l_i <<"], skipping.\n"; }
-      else {
-	std::pair < purpletree::dom::document, bool > l_doc (data_scheme::document_type::test_deserialise (*l_i));
-	if (not l_doc.second and l_doc.first.is_null ()) {
-	  std::cerr << "Document appears to be wrong type [" << *l_i <<"], skipping.\n"; }
-	else {
-	  if (data_scheme::proxy_helper::helper ().verify_links (l_doc.first.document_element (), std::cerr)) {
-	    std::cerr << "Document [" << *l_i <<"] has no broken links.\n"; }
-	  else {
-	    std::cerr << "Document [" << *l_i <<"] had broken links that were repaired.\n"; }}}}}}
-if (ON_HELP == Result) {
-  Result = ON_SUCCESS; }
+{
+  utility::program_options &l_conf_helper (utility::program_options::helper ());
+  l_conf_helper.public_options ().add_options () ("file,f", boost::program_options::value< std::vector< std::string > > (&m_fileset), "data files to process.");
+  l_conf_helper.positional_option ("file");
+  // Process arguments
+  Result = l_conf_helper.process_options (argc, argv, std::cerr, utility::program_options::CCHEM_PARSE_ALL);
+}
+// Free any memory used for option processing.
+utility::program_options::reset ();
+
+//////////////////////////////////
+// Main operation
+if (utility::program_options::CCHEM_PARSE_SUCCESS == Result)
+{
+  if (empty ())   // Test we have data to work on
+  {
+    std::cerr << "No databases to process\n";
+    Result = utility::program_options::CCHEM_PARSE_ERROR;
+  }
+  else   // Perform actions
+  {
+    // Set to auto-fix any broken links.
+    if (not xml_access_helper::helper ().auto_fix ())
+    {
+      xml_access_helper::helper ().auto_fix (true);
+    }
+
+    /////////////////////////////////
+    // Fix database
+    for (const_iterator l_i = begin (); l_i != end (); ++l_i)
+    {
+      if (not boost::filesystem::exists (*l_i))
+      {
+        std::cerr << "Cannot find document [" << *l_i <<"], skipping.\n";
+      }
+      else
+      {
+        // Create the top-level database object.
+        data_scheme::program l_prog (*l_i);
+        // Create the visitor.
+        verify_visitor l_visitor;
+        // Perform the update
+        l_prog.visit (l_visitor);
+        // Report state of cross-references.
+        l_visitor.report_cross_references (std::cout);
+        // Recursively write any changes.
+        l_prog.write ();
+      }
+    }
+  }
+}
+if (utility::program_options::CCHEM_PARSE_HELP == Result)
+{
+  Result = utility::program_options::CCHEM_PARSE_SUCCESS;
+}
 return Result;

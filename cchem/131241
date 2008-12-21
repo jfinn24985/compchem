@@ -1,6 +1,6 @@
 format 61
 "/compchem/supplier" // /compchem/supplier
-  revision 116
+  revision 120
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1174,20 +1174,22 @@ Registered options
     artifact 254889 "supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 230057 // data_access
+	artifact_ref 179113 // basic_filter
 	artifact_ref 225193 // supplier_helper
-	artifact_ref 181417 // matcher_filter
+	artifact_ref 157993 // utility
+	artifact_ref 144169 // data_scheme
 	artifact_ref 230313 // filesystem
 	artifact_ref 235177 // matcher_types
-	artifact_ref 151465 // plugin_filter
-	artifact_ref 239785 // basic_plugin_handler
-	artifact_ref 144169 // data_scheme
-	artifact_ref 179113 // basic_filter
-	artifact_ref 157993 // utility
-	artifact_ref 226345 // datum_traits
 	artifact_ref 151721 // filter_manager
 	artifact_ref 252969 // regex
+	artifact_ref 239785 // basic_plugin_handler
+	artifact_ref 151465 // plugin_filter
+	artifact_ref 230057 // data_access
+	artifact_ref 181417 // matcher_filter
+	artifact_ref 226345 // datum_traits
       end
+      comment "${butter_generic}
+LINK=-ldl"
     end
 
     artifact 151721 "filter_manager"

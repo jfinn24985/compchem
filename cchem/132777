@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 55
+  revision 61
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -140,8 +140,9 @@ How the object deserialises the result of get_buffer() is not shown."
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 157097 // data_access
-    comment "The data_scheme classes specifically related to 
-reading and writing XML files."
+    comment "These classes provide the management infrastructure for data
+persistence.  They provide an abstract interface that should
+allow the implementation of various data-persistence back-ends."
     classdiagram 158761 "data_access types"
       draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
@@ -174,14 +175,6 @@ ${inlines}
 "
 	explicit_switch_type ""
 	
-      end
-
-      classrelation 440489 // <dependency>
-	relation 430121 -_->
-	  a package
-	    cpp default "#include in header"
-	    classrelation_ref 440489 // <dependency>
-	  b parent class_ref 431401 // stringstream
       end
 
       operation 1167529 "category_name"
@@ -760,11 +753,10 @@ local file."
 	nparams 2
 	  param in name "i1" type class_ref 476585 // string_type
 	  param in name "i2" type class_ref 476585 // string_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
 {
-  std::basic_ostringstream< typename ${type}::value_type > Result;
-  Result << ${p0} << ${class}::space () << ${p1};
-  return Result.str ();
+  list_add (${p0}, ${p1});
+  return ${p0};
 }
 "
 	
@@ -780,11 +772,11 @@ local file."
 	  param in name "i1" type class_ref 476585 // string_type
 	  param in name "i2" type class_ref 476585 // string_type
 	  param in name "i3" type class_ref 476585 // string_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
 {
-  std::basic_ostringstream< typename ${type}::value_type > Result;
-  Result << ${p0} << ${class}::space () << ${p1} << ${class}::space () << ${p2};
-  return Result.str ();
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  return ${p0};
 }
 "
 	
@@ -801,11 +793,12 @@ local file."
 	  param in name "i2" type class_ref 476585 // string_type
 	  param in name "i3" type class_ref 476585 // string_type
 	  param in name "i4" type class_ref 476585 // string_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract}
 {
-  std::basic_ostringstream< typename ${type}::value_type > Result;
-  Result << ${p0} << ${class}::space () << ${p1} << ${class}::space () << ${p2} << ${class}::space () << ${p3};
-  return Result.str ();
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  return ${p0};
 }
 "
 	
@@ -823,11 +816,13 @@ local file."
 	  param in name "i3" type class_ref 476585 // string_type
 	  param in name "i4" type class_ref 476585 // string_type
 	  param in name "i5" type class_ref 476585 // string_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}${)}${const}${volatile}${throw}${abstract}
 {
-  std::basic_ostringstream< typename ${type}::value_type > Result;
-  Result << ${p0} << ${class}::space () << ${p1} << ${class}::space () << ${p2} << ${class}::space () << ${p3} << ${class}::space () << ${p4};
-  return Result.str ();
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  return ${p0};
 }
 "
 	
@@ -846,11 +841,14 @@ local file."
 	  param in name "i4" type class_ref 476585 // string_type
 	  param in name "i5" type class_ref 476585 // string_type
 	  param in name "i6" type class_ref 476585 // string_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}, const ${t5} & ${p5}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}, const ${t5} & ${p5}${)}${const}${volatile}${throw}${abstract}
 {
-  std::basic_ostringstream< typename ${type}::value_type > Result;
-  Result << ${p0} << ${class}::space () << ${p1} << ${class}::space () << ${p2} << ${class}::space () << ${p3} << ${class}::space () << ${p4} << ${class}::space () << ${p5};
-  return Result.str ();
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  list_add (${p0}, ${p5});
+  return ${p0};
 }
 
 "
@@ -868,23 +866,26 @@ local file."
 	  param in name "i2" type class_ref 476585 // string_type
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
 {
-  if (${p0}.empty ())
+  if (not ${p1}.empty ())
   {
-    ${p0}.assign (${p1});
-  }
-  else
-  {
-    ${p0}.append (${class}::space ());
-    ${p0}.append (${p1});
+    if (${p0}.empty ())
+    {
+      ${p0}.assign (${p1});
+    }
+    else
+    {
+      ${p0}.append (${class}::space ());
+      ${p0}.append (${p1});
+    }
   }
 }
-
 "
 	
 	
 	
 	
-	comment "convenience function to append a single item to an existing list."
+	comment "convenience function to append a single item to an existing list. Handles 
+the case of empty arguments."
       end
 
       operation 1525801 "is_element_name"
@@ -949,7 +950,7 @@ local file."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   return (a_name == ${class}::comment_type()
-    || a_name == ${class}::process_instruction_type ()
+    || a_name == ${class}::processing_instruction_type ()
     || a_name == ${class}::text_type ());
 }
 "
@@ -1098,6 +1099,36 @@ It can be empty indicating no key attribute."
 	comment "Get an iterator to the first attribute name."
       end
 
+      operation 1434921 "by_name"
+	class_operation public return_type class_ref 433961 // meta_datum
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  if (NULL == s_map.get ())
+  {
+    initialise_map ();
+  }
+  const name_map_t * l_map (s_map.get ());
+  name_map_t::const_iterator l_defn (l_map->find (a_name));
+  @{always}(l_map->end () != l_defn, \"No definition object for \" + a_name);
+  return *(l_defn->second);
+}
+"
+	
+	
+	
+	
+	comment "Get the key attribute for the tag a_name.
+
+I this returned the key_attribute then the reader would have to 
+find the attribute and meta_datum would be independent of the
+reader type.
+
+\\pre names::is_element_name (a_name) "
+      end
+
       operation 1451689 "end_attr"
 	const public return_type class_ref 455465 // const_iterator
 	nparams 0
@@ -1111,6 +1142,21 @@ It can be empty indicating no key attribute."
 	
 	
 	comment "Get an iterator to the first attribute name."
+      end
+
+      operation 1440169 "empty_children"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_children.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Does this element have children tags?"
       end
 
       operation 1373097 "has_attr_name"
@@ -1161,21 +1207,6 @@ It can be empty indicating no key attribute."
 	comment "Does this element allow children with the given tag?"
       end
 
-      operation 1440169 "empty_children"
-	const public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_children.empty ();
-}
-"
-	
-	
-	
-	
-	comment "Does this element have children tags?"
-      end
-
       operation 1446057 "initialise"
 	private explicit_return_type "void"
 	nparams 2
@@ -1204,31 +1235,24 @@ PROGRAM NOTE, List parsing is:
 m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_iterator<...>())"
       end
 
-      operation 1434921 "by_name"
-	class_operation public return_type class_ref 433961 // meta_datum
-	nparams 1
-	  param in name "a_name" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+      operation 1629097 "initialise_map"
+	class_operation private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  @{require}(NULL != s_map.get (), \"Can not get meta_datum object before any objects have been added.\");
-  const name_map_t * l_map (s_map.get ());
-  name_map_t::const_iterator l_defn (l_map->find (a_name));
-  @{always}(l_map->end () != l_defn, \"No definition object for \" + a_name);
-  return *(l_defn->second);
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+  @{ensure}(NULL != s_map.get (), \"Meta-datum map still undefined after creating data-scheme objects.\");
 }
 "
 	
 	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
 	
-	
-	comment "Get the key attribute for the tag a_name.
-
-I this returned the key_attribute then the reader would have to 
-find the attribute and meta_datum would be independent of the
-reader type.
-
-\\pre names::is_element_name (a_name) "
+	comment "Initialise map with data_scheme types."
       end
 
       operation 1368233 "meta_datum"
@@ -1343,6 +1367,7 @@ content.
 "
       explicit_switch_type ""
       
+      comment "This is the std::string implemenation of basic_names"
     end
 
     class 449449 "persistence"
@@ -1548,7 +1573,44 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "This classes provides management functions for the data access."
+      comment "This classes provides management functions for the data access.
+Back-ends register handlers for the URI schemes they support. 
+Front-ends get the appropriate based on the data-base URI."
+      classrelation 556073 // <dependency>
+	relation 534953 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 556073 // <dependency>
+	  b parent class_ref 182569 // function
+      end
+
+      class 511785 "create_persistence_function"
+	visibility package stereotype "typedef" base_type class_ref 449449 // persistence
+	cpp_decl "${comment}typedef boost::function3< std::auto_ptr< ${type} >, data_scheme::basic_datum&, const std::string&, bool > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      attribute 431273 "m_creator"
+	private type class_ref 511785 // create_persistence_function
+	multiplicity "1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The function(s) for creating new persistence objects"
+      end
+
       attribute 406825 "m_indices"
 	private type class_ref 496553 // index
 	multiplicity "*"
@@ -1604,6 +1666,7 @@ ${inlines}
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile} throw ();
 "
 	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+: m_creator ()
 {}
 "
 	
@@ -1652,6 +1715,25 @@ ${inlines}
 	
 	
 	comment "no assign"
+      end
+
+      operation 1626793 "register_creator"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_uri_type" explicit_type "string"
+	  param in name "a_creation_function" type class_ref 511785 // create_persistence_function
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_creator = ${p1};
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Register a_creation_function for a_uri_type with the manager"
       end
 
       operation 1582633 "server"
@@ -1956,14 +2038,9 @@ this optimisation is currently considered unnecessary."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 231465 // xml_persistence
-	artifact_ref 214697 // xml_write_visitor
-	artifact_ref 157993 // utility
-	artifact_ref 253353 // xml
+	artifact_ref 203945 // meta_datum
 	artifact_ref 214313 // persistence
 	artifact_ref 244905 // manager
-	artifact_ref 157097 // xml_access_helper
-	artifact_ref 203945 // meta_datum
       end
     end
 
@@ -1995,9 +2072,6 @@ ${namespace_end}
 
 ${comment}
 ${includes}
-// Manual source includes
-#include \"data_access/xml_persistence.hpp\"
-// -
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -2113,30 +2187,6 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 449449 // persistence
-      end
-    end
-
-    artifact 215849 "exception"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      associated_classes
       end
     end
   end
@@ -2817,7 +2867,7 @@ ${inlines}
       
       ncouples 1
       key "base_class" value "persistence"
-      comment "The base class for the object persistence system."
+      comment "The base class for the XML-based object persistence system."
       classrelation 486313 // <generalisation>
 	relation 474921 ---|>
 	  a public
@@ -2832,6 +2882,15 @@ ${inlines}
 	    cpp default "#include in source"
 	    classrelation_ref 488873 // <dependency>
 	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 556201 // <dependency>
+	relation 535081 -_->
+	  a package
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 556201 // <dependency>
+	  b parent class_ref 496425 // manager
       end
 
       classrelation 486569 // <dependency>
@@ -3380,6 +3439,147 @@ until read or write are called."
 	
 	comment "no copy"
       end
+
+      extra_member 151209 "create_xml_persistence"
+	
+	cpp "" "static std::auto_ptr < persistence > create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_uri, bool a_is_new)
+{
+  const std::string l_file_scheme (names::file_scheme ());
+  std::auto_ptr< persistence > Result;
+  if (a_uri.substr (0, l_file_scheme.size ()) == l_file_scheme)
+  {
+    Result.reset (new xml_persistence (a_dat, a_uri.substr (l_file_scheme.size () + 1), a_is_new));
+  }
+  else
+  {
+    // Assume is a plain filename
+    Result.reset (new xml_persistence (a_dat, a_uri, a_is_new));
+  }
+  return Result;
+}"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      class 511913 "initialise"
+	visibility package 
+	cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "Class to initialise the xml_persistence lib."
+	attribute 431401 "m_count"
+	  class_attribute private explicit_type "int"
+	  init_value "(0)"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	  comment "Initialisation counter."
+	end
+
+	operation 1626921 "initialise"
+	  public explicit_return_type ""
+	  nparams 0
+	  cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+{
+  if (m_count == 0)
+  {
+    initialise_xml_persistence ();
+  }
+  ++m_count;
+}"
+	  
+	  
+	  python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	  
+	end
+
+	operation 1627049 "~initialise"
+	  public explicit_return_type ""
+	  nparams 0
+	  cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  --m_count;
+}
+"
+	  
+	  
+	  python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	  
+	end
+
+	operation 1627177 "initialise"
+	  stereotype "copy"
+	  private explicit_return_type ""
+	  nparams 1
+	    param in name "source" type class_ref 511913 // initialise
+	  cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	  
+	  
+	  python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	  
+	  comment "no copy"
+	end
+
+	operation 1627305 "operator="
+	  private return_type class_ref 511913 // initialise
+	  nparams 1
+	    param in name "source" type class_ref 511913 // initialise
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	  
+	  
+	  python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	  
+	  comment "no assign"
+	end
+
+	operation 1627433 "initialise_xml_persistence"
+	  public explicit_return_type "void"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	  
+	  
+	  python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	  
+	  comment "Initial the xml_persistence class (register
+xml_persistence with data_access::manager)"
+	end
+      end
+
     end
   end
 
@@ -3388,6 +3588,18 @@ until read or write are called."
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     comment "Sources for xml_access (part of xml_access)"
+    artifact 266281 "data_xml_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 157993 // utility
+	artifact_ref 157097 // xml_access_helper
+	artifact_ref 231465 // xml_persistence
+	artifact_ref 253353 // xml
+	artifact_ref 230057 // data_access
+      end
+    end
+
     artifact 157097 "xml_access_helper"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -3484,6 +3696,9 @@ ${includes}
 ${declarations}
 ${namespace_start}
 ${definition}
+
+// Create dummy object to initialise xml_persistence lib.
+static xml_persistence::initialise s_xml_persistence_initialise_dummy;
 ${namespace_end}
 #endif
 "

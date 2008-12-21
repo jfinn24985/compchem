@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 204
+  revision 207
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1022,7 +1022,7 @@ This is an abstract base class of XML textual elements"
 	
 	
 	
-	comment "Return a pointer to the parent object, may be NULL."
+	comment "Return a pointer to the parent object. Text objects always have parents."
       end
 
       operation 1526825 "set_attribute"
@@ -1043,7 +1043,7 @@ This is an abstract base class of XML textual elements"
 	
 	
 	
-	comment "Throw an error as program has no attributes."
+	comment "Throw an error as text objects have no attributes."
       end
     end
 
@@ -1300,24 +1300,6 @@ ${inlines}
 
       classrelation 427817 // <composition>
 	relation_ref 311977 // <composition>
-      end
-
-      extra_member 141353 "s_definition"
-	
-	cpp "" "/**
- * The definition object for the compound type
- */
-static const data_access::meta_datum s_definition(data_access::names::compound_name ()
-      , data_access::names::label_name ()
-      , data_access::names::list (data_access::names::identity_name (), data_access::names::info_name (), data_access::names::formula_name ())
-      , data_access::names::category_name ())
-;
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The meta_datum object for the compound class."
       end
 
       operation 1383721 "add_child"
@@ -1801,7 +1783,7 @@ No default implementation."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -1927,24 +1909,6 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
 	comment "The label of the compound to import."
-      end
-
-      extra_member 144041 "s_definition"
-	
-	cpp "" "/**
- * The definition object for the compound-ref type
- */
-const static data_access::meta_datum s_definition_src(data_access::names::compound_ref_name ()
-    , data_access::names::label_name ()
-    , std::string ()
-    , data_access::names::formula_name ())
-;
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type."
       end
 
       operation 1532713 "add_formula_label"
@@ -2103,7 +2067,7 @@ No default implementation."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return data_access::names::compound_ref_name ();
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -2610,23 +2574,6 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 "
       end
 
-      extra_member 141481 "s_definition"
-	
-	cpp "" "/**
- * The definition object for the datum type.
- */
-const static data_access::meta_datum s_definition(data_access::names::datum_name (), data_access::names::outcome_name (), data_access::names::datum_name ()
-   , data_access::names::list (data_access::names::dimension_name (), data_access::names::format_name (), data_access::names::scale_name (), data_access::names::ordinal_name ()))
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The meta_datum definition object for the datum type."
-      end
-
       operation 1421481 "add_child"
 	public explicit_return_type "basic_datum"
 	nparams 2
@@ -3095,7 +3042,7 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -3353,24 +3300,6 @@ notebook."
 	python_decl ""
 	idl_decl ""
 	comment "Space separated list of worker IDs"
-      end
-
-      extra_member 141609 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type.
- */
-const static data_access::meta_datum s_definition(data_access::names::experiment_name (), data_access::names::reference_name ()
-     , data_access::names::list (data_access::names::info_name (), data_access::names::memo_name (), data_access::names::memo_src_name ())
-     , data_access::names::list (data_access::names::date_start_name (), data_access::names::date_end_name (), data_access::names::priority_name (), data_access::names::worker_name ()))
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type."
       end
 
       operation 1422249 "add_child"
@@ -3932,7 +3861,7 @@ notebook."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -4103,23 +4032,6 @@ mechanism to import outcomes into the DB."
 	idl_decl ""
 	comment "The type of the filter. Currently supported are 'plugin' 
 and 'regex'. Coming soon are 'shell' and 'python'."
-      end
-
-      extra_member 141737 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::filter_name (), data_access::names::label_name (), std::string ()
-   , data_access::names::list (data_access::names::href_name (), data_access::names::outcome_name (), data_access::names::type_name ()))
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
       end
 
       operation 1427369 "add_outcome_label"
@@ -4336,7 +4248,7 @@ const static data_access::meta_datum s_definition(data_access::names::filter_nam
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -4476,25 +4388,6 @@ formula can only have one parent compound."
 
       classrelation 300201 // m_moiety (<composition>)
 	relation_ref 293289 // <composition>
-      end
-
-      extra_member 141865 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::formula_name ()
-    , data_access::names::label_name ()
-    , data_access::names::list (data_access::names::info_name (), data_access::names::identity_name ())
-    , std::string ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
       end
 
       operation 1422377 "add_child"
@@ -4821,7 +4714,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -4931,23 +4824,6 @@ for use in matching compounds across databases."
 	python_decl ""
 	idl_decl ""
 	comment "The type of identity information.  This is from a standard catalog of identity types"
-      end
-
-      extra_member 141993 "s_definition"
-	
-	cpp "" "
-/**
- * The definition object for this type.
- */
-const static data_access::meta_datum s_definition(data_access::names::identity_name (), data_access::names::type_name (), std::string (), std::string ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type."
       end
 
       operation 1407785 "get_attribute"
@@ -5065,7 +4941,7 @@ const static data_access::meta_datum s_definition(data_access::names::identity_n
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -5192,23 +5068,6 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
 	comment "The parent of this object"
-      end
-
-      extra_member 142121 "s_definition"
-	
-	cpp "" "
-/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::info_name (), data_access::names::name_name (), std::string (), std::string ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
       end
 
       operation 1422889 "add_child"
@@ -5459,7 +5318,7 @@ meta_datum object. Only then is the virt_add_child method called.
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -5671,24 +5530,6 @@ NOTE The contents of this element can also refer to a set of published results.
 
       classrelation 417833 // <composition>
 	relation_ref 281641 // <composition>
-      end
-
-      extra_member 142249 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::mechanism_name ()
-     , data_access::names::label_name ()
-     , data_access::names::list (data_access::names::info_name (), data_access::names::filter_name (), data_access::names::settings_name ())
-     , std::string ())
-;
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
       end
 
       operation 1423529 "add_child"
@@ -6133,7 +5974,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -6426,33 +6267,6 @@ relates to how a standard method was altered (if any) in this experiment."
 "
 	    classrelation_ref 323113 // m_results (<directional composition>)
 	  b multiplicity "1" parent class_ref 355369 // datum
-      end
-
-      extra_member 142377 "s_definitions"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::memo_name (), data_access::names::label_name ()
-    , data_access::names::list (data_access::names::datum_name (), data_access::names::info_name ())
-    , data_access::names::list (data_access::names::mechanism_name (), data_access::names::href_name (), data_access::names::filter_name ()
-         , data_access::names::formula_name (), data_access::names::compound_name ()))
-;
-
-/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition_src(data_access::names::memo_src_name (), data_access::names::href_name ()
-    , std::string ()
-    , data_access::names::list (data_access::names::label_name (), data_access::names::formula_name (), data_access::names::compound_name ()))
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition objects for this type"
       end
 
       operation 1423913 "add_child"
@@ -7131,7 +6945,7 @@ of a memo object."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }"
 	
 	
@@ -7147,7 +6961,7 @@ of a memo object."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition_src.name;
+  return data_access::names::${class}_src_name ();
 }
 "
 	
@@ -7681,25 +7495,6 @@ papers may be contained in a program. "
 	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
 "
 	    classrelation_ref 417705 // m_site (<composition>)
-      end
-
-      extra_member 142505 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::program_name (), std::string ()
-    , data_access::names::list (data_access::names::info_name (), data_access::names::worker_name ()
-          , data_access::names::mechanism_name (), data_access::names::compound_name ()
-          , data_access::names::project_name (), data_access::names::project_src_name ())
-    , std::string ())
-;
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
       end
 
       operation 1425193 "add_child"
@@ -8413,7 +8208,7 @@ without warnings."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -8704,33 +8499,6 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
 	comment "The workers on this project"
-      end
-
-      extra_member 142633 "s_definitions"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::project_name ()
-    , data_access::names::label_name ()
-    , data_access::names::list (data_access::names::info_name (), data_access::names::experiment_name ())
-    , data_access::names::list (data_access::names::outcome_name (), data_access::names::worker_name ()
-          , data_access::names::href_name ()))
-;
-
-/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition_src(data_access::names::project_src_name ()
-     , data_access::names::href_name (), std::string (), data_access::names::label_name ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition objects for this type"
       end
 
       operation 1425833 "add_child"
@@ -9387,7 +9155,7 @@ attributes and children by creating them if necessary."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -9404,7 +9172,7 @@ attributes and children by creating them if necessary."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition_src.name;
+  return data_access::names::${class}_src_name ();
 }
 "
 	
@@ -9791,25 +9559,6 @@ ${inlines}
 	relation_ref 313769 // <composition>
       end
 
-      extra_member 142761 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::settings_name ()
-   , data_access::names::label_name ()
-   , data_access::names::datum_name () + data_access::names::space () + data_access::names::info_name ()
-   , data_access::names::outcome_name () + data_access::names::space () + data_access::names::filter_name ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
-      end
-
       operation 1406761 "add_child"
 	cpp_virtual public explicit_return_type "basic_datum"
 	nparams 2
@@ -10158,7 +9907,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -10772,23 +10521,6 @@ This allows you to assign people to programs and projects. "
 	    classrelation_ref 322985 // <aggregation>
       end
 
-      extra_member 142889 "s_definition"
-	
-	cpp "" "/**
- * The definition object for this type
- */
-const static data_access::meta_datum s_definition(data_access::names::worker_name ()
-    , data_access::names::label_name (), data_access::names::info_name (), std::string ())
-;
-
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "The definition object for this type"
-      end
-
       operation 1426857 "add_child"
 	public explicit_return_type "basic_datum"
 	nparams 2
@@ -10997,7 +10729,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return s_definition.name;
+  return data_access::names::${class}_name ();
 }
 "
 	
@@ -11123,27 +10855,27 @@ definition() object."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 142505 // filter
-	artifact_ref 232617 // compound_ref
-	artifact_ref 142249 // identity
-	artifact_ref 144041 // program
-	artifact_ref 143273 // experiment
-	artifact_ref 142889 // mechanism
 	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 214569 // visitor
-	artifact_ref 166569 // settings
 	artifact_ref 143657 // compound
-	artifact_ref 143529 // formula
-	artifact_ref 233897 // content_visitor
+	artifact_ref 202793 // basic_datum
+	artifact_ref 207785 // text
+	artifact_ref 142889 // mechanism
 	artifact_ref 157993 // utility
 	artifact_ref 143145 // memo
+	artifact_ref 166569 // settings
 	artifact_ref 253353 // xml
-	artifact_ref 202793 // basic_datum
-	artifact_ref 141993 // info
+	artifact_ref 142505 // filter
 	artifact_ref 142633 // worker
-	artifact_ref 207785 // text
-	artifact_ref 141737 // datum
 	artifact_ref 143913 // project
+	artifact_ref 143273 // experiment
+	artifact_ref 214569 // visitor
+	artifact_ref 144041 // program
+	artifact_ref 143529 // formula
+	artifact_ref 142249 // identity
+	artifact_ref 141993 // info
+	artifact_ref 233897 // content_visitor
+	artifact_ref 141737 // datum
+	artifact_ref 232617 // compound_ref
       end
       comment "The library for the data_scheme objects"
     end
@@ -11226,7 +10958,6 @@ ${namespace_end}
 ${comment}
 ${includes}
 // Manual includes
-#include \"data_access/meta_datum.hpp\"
 #include \"data_access/names.hpp\"
 #include <boost/bind.hpp>
 // -
@@ -11267,7 +10998,6 @@ ${namespace_end}
 ${comment}
 ${includes}
 // Manual includes
-#include \"data_access/meta_datum.hpp\"
 #include \"data_access/names.hpp\"
 // -
 ${namespace_start}
@@ -11356,7 +11086,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 #include <boost/lexical_cast.hpp>
 // -
 ${namespace_start}
@@ -11401,7 +11130,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 // -
@@ -11451,7 +11179,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11499,7 +11226,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11547,7 +11273,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11595,7 +11320,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11643,7 +11367,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11691,7 +11414,6 @@ ${comment}
 ${includes}
 // Manual source includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 #include \"data_access/manager.hpp\"
 // -
 ${namespace_start}
@@ -11740,7 +11462,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 #include \"data_access/manager.hpp\"
 #include <boost/bind.hpp>
 // -
@@ -11790,7 +11511,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 #include \"data_access/manager.hpp\"
 #include <boost/bind.hpp>
 // -
@@ -11865,7 +11585,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}
@@ -11992,7 +11711,6 @@ ${comment}
 ${includes}
 // -
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}

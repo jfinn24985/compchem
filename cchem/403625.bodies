@@ -1,142 +1,134 @@
 class test_supplier_helper
 !!!1301161.cpp!!!	main_test() : void
-try
+supplier::supplier_helper & l_help (supplier::supplier_helper::helper ());
+unsigned int l_dir_count (0);
+if (l_help.begin_directory () != l_help.end_directory ())
 {
-  supplier::supplier_helper & l_help (supplier::supplier_helper::helper ());
-  unsigned int l_dir_count (0);
-  if (l_help.begin_directory () != l_help.end_directory ())
+  log () << COMM << "The following plugin library locations defined.\n";
+  for (supplier::supplier_helper::dir_iterator l_i (l_help.begin_directory ()); l_i != l_help.end_directory (); ++l_i)
   {
-    log () << COMM << "The following plugin library locations defined.\n";
-    for (supplier::supplier_helper::dir_iterator l_i (l_help.begin_directory ()); l_i != l_help.end_directory (); ++l_i)
+    log () << WTCH << "  " << *l_i << "\n";
+    ++l_dir_count;
+  }
+}
+else
+{
+  log () << COMM << "No plugin library locations defined.\n";
+}
+if (l_help.target_experiment ().empty ())
+{
+  log () << COMM << "No target experiment reference.\n";
+}
+else
+{
+  log () << COMM << "Target experiment reference: " << l_help.target_experiment () << ".\n";
+}
+if (l_help.target_memo ().empty ())
+{
+  log () << COMM << "No target memo label.\n";
+}
+else
+{
+  log () << COMM << "Target memo label: " << l_help.target_experiment () << ".\n";
+}
+if (l_help.target_file ().empty ())
+{
+  log () << COMM << "No data file given.\n";
+}
+else
+{
+  log () << COMM << "Data file name is :" << l_help.target_file ().string () << ".\n";
+}
+log () << COMM << "Setting options.\n";
+const std::string l_dir ("/home/finnerty/test.d/");
+const std::string l_expt ("OL08-2-87");
+const std::string l_memo ("OL08-2-87-FREQ");
+const std::string l_file ("test_me.gout");
+l_help.add_directory (l_dir);
+if (l_help.begin_directory () != l_help.end_directory ())
+{
+  unsigned int l_count (0);
+  unsigned int l_new_count (0);
+  log () << COMM << "The following plugin library locations defined.\n";
+  for (supplier::supplier_helper::dir_iterator l_i (l_help.begin_directory ()); l_i != l_help.end_directory (); ++l_i)
+  {
+    log () << WTCH << "  " << *l_i << "\n";
+    if (l_dir == *l_i)
     {
-      log () << WTCH << "  " << *l_i << "\n";
-      ++l_dir_count;
+      ++l_count;
     }
+    ++l_new_count;
+  }
+  if (1 == l_count)
+  {
+    log () << COMM << "Found added directory \"" << l_dir << "\"\n"; 
   }
   else
   {
-    log () << COMM << "No plugin library locations defined.\n";
-  }
-  if (l_help.target_experiment ().empty ())
+    log () << EXCP << "Found " << l_count << " copies of added directory \"" << l_dir << "\"\n"; 
+  } 
+  if (l_dir_count + 1 == l_new_count)
   {
-    log () << COMM << "No target experiment reference.\n";
+    log () << COMM << "One directory entry added\n"; 
   }
   else
   {
-    log () << COMM << "Target experiment reference: " << l_help.target_experiment () << ".\n";
-  }
-  if (l_help.target_memo ().empty ())
-  {
-    log () << COMM << "No target memo label.\n";
-  }
-  else
-  {
-    log () << COMM << "Target memo label: " << l_help.target_experiment () << ".\n";
-  }
-  if (l_help.target_file ().empty ())
-  {
-    log () << COMM << "No data file given.\n";
-  }
-  else
-  {
-    log () << COMM << "Data file name is :" << l_help.target_file ().string () << ".\n";
-  }
-  log () << COMM << "Setting options.\n";
-  const std::string l_dir ("/home/finnerty/test.d/");
-  const std::string l_expt ("OL08-2-87");
-  const std::string l_memo ("OL08-2-87-FREQ");
-  const std::string l_file ("test_me.gout");
-  l_help.add_directory (l_dir);
-  if (l_help.begin_directory () != l_help.end_directory ())
-  {
-    unsigned int l_count (0);
-    unsigned int l_new_count (0);
-    log () << COMM << "The following plugin library locations defined.\n";
-    for (supplier::supplier_helper::dir_iterator l_i (l_help.begin_directory ()); l_i != l_help.end_directory (); ++l_i)
-    {
-      log () << WTCH << "  " << *l_i << "\n";
-      if (l_dir == *l_i)
-      {
-        ++l_count;
-      }
-      ++l_new_count;
-    }
-    if (1 == l_count)
-    {
-      log () << COMM << "Found added directory \"" << l_dir << "\"\n"; 
-    }
-    else
-    {
-      log () << EXCP << "Found " << l_count << " copies of added directory \"" << l_dir << "\"\n"; 
-    } 
-    if (l_dir_count + 1 == l_new_count)
-    {
-      log () << COMM << "One directory entry added\n"; 
-    }
-    else
-    {
-      log () << EXCP << "Added " << l_new_count - l_dir_count << " entries instead of 1\n"; 
-    } 
-
-  }
-  else
-  {
-    log () << EXCP << "No plugin library locations defined after adding a location!\n";
-  }
-  l_help.target_experiment (l_expt);
-  if (l_help.target_experiment ().empty ())
-  {
-    log () << EXCP << "Target experiment empty after setting!\n";
-  }
-  else
-  {
-    log () << COMM << "Target experiment reference: " << l_help.target_experiment () << ".\n";
-    if (l_expt == l_help.target_experiment ())
-    {
-      log () << COMM << "Target experiment matches set value \"" << l_expt << "\"\n";
-    }
-    else
-    {
-      log () << EXCP << "Target experiment does not match set value \"" << l_expt << "\"\n";
-    }
-  }
-  l_help.target_memo (l_memo);
-  if (l_help.target_memo ().empty ())
-  {
-    log () << EXCP << "Target memo empty after setting!\n";
-  }
-  else
-  {
-    log () << COMM << "Target memo reference: " << l_help.target_memo () << ".\n";
-    if (l_memo == l_help.target_memo ())
-    {
-      log () << COMM << "Target memo matches set value \"" << l_memo << "\"\n";
-    }
-    else
-    {
-      log () << EXCP << "Target memo does not match set value \"" << l_memo << "\"\n";
-    }
-  }
-  l_help.target_file (l_file);
-  if (l_help.target_file ().empty ())
-  {
-    log () << EXCP << "Target file empty after setting!\n";
-  }
-  else
-  {
-    log () << COMM << "Target file reference: " << l_help.target_file ().string () << ".\n";
-    if (boost::filesystem::path (l_file) == l_help.target_file ())
-    {
-      log () << COMM << "Target file matches set value \"" << l_file << "\"\n";
-    }
-    else
-    {
-      log () << EXCP << "Target file does not match set value \"" << l_file << "\"\n";
-    }
-  }
+    log () << EXCP << "Added " << l_new_count - l_dir_count << " entries instead of 1\n"; 
+  } 
 
 }
-catch (const std::exception & a_err)
+else
 {
-  log () << EXCP << "Caught exception: " << a_err.what () << "\n";
+  log () << EXCP << "No plugin library locations defined after adding a location!\n";
+}
+l_help.target_experiment (l_expt);
+if (l_help.target_experiment ().empty ())
+{
+  log () << EXCP << "Target experiment empty after setting!\n";
+}
+else
+{
+  log () << COMM << "Target experiment reference: " << l_help.target_experiment () << ".\n";
+  if (l_expt == l_help.target_experiment ())
+  {
+    log () << COMM << "Target experiment matches set value \"" << l_expt << "\"\n";
+  }
+  else
+  {
+    log () << EXCP << "Target experiment does not match set value \"" << l_expt << "\"\n";
+  }
+}
+l_help.target_memo (l_memo);
+if (l_help.target_memo ().empty ())
+{
+  log () << EXCP << "Target memo empty after setting!\n";
+}
+else
+{
+  log () << COMM << "Target memo reference: " << l_help.target_memo () << ".\n";
+  if (l_memo == l_help.target_memo ())
+  {
+    log () << COMM << "Target memo matches set value \"" << l_memo << "\"\n";
+  }
+  else
+  {
+    log () << EXCP << "Target memo does not match set value \"" << l_memo << "\"\n";
+  }
+}
+l_help.target_file (l_file);
+if (l_help.target_file ().empty ())
+{
+  log () << EXCP << "Target file empty after setting!\n";
+}
+else
+{
+  log () << COMM << "Target file reference: " << l_help.target_file ().string () << ".\n";
+  if (boost::filesystem::path (l_file) == l_help.target_file ())
+  {
+    log () << COMM << "Target file matches set value \"" << l_file << "\"\n";
+  }
+  else
+  {
+    log () << EXCP << "Target file does not match set value \"" << l_file << "\"\n";
+  }
 }

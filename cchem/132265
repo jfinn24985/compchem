@@ -1,6 +1,6 @@
 format 61
 "//test" // /compchem/utility:://test
-  revision 40
+  revision 44
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -190,7 +190,9 @@ ${inlines}
 	
 	
 	
-	comment "Override in derived classes to perform unit test."
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
       end
 
       operation 996009 "title"
@@ -385,7 +387,10 @@ ${inlines}
 	
 	
 	
-	comment "Routine to manage unit tests."
+	comment "Routine to manage unit tests.
+
+Note: base_test derived classes indicate failure by an uncaught
+exception."
       end
 
       operation 995241 "remove_tester"
@@ -507,20 +512,24 @@ It is designed so that derived classes need only create a static object of thems
 
       operation 1356585 "bool_test"
 	class_operation cpp_inline public explicit_return_type "void"
-	nparams 3
+	nparams 2
 	  param in name "a_test" explicit_type "bool"
-	  param in name "a_msg" explicit_type "char"
-	  param in name "a_failmsg" explicit_type "char"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} * ${p1}, const ${t2} * ${p2} = NULL${)}${const}${volatile}${throw}${abstract};
+	  param in name "a_msg" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} * ${p1}, const ${t2} * ${p2}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not ${p1}.empty (), \"${name} requires a non-empty message\");
+  ${body}
+}
 "
 	
 	
 	
 	
-	comment "If a_test is true print a_msg. If false print a_failmsg or synthetic message."
+	comment "If a_test is true print a_msg. If false throws logic_error with a_failmsg.
+
+\\pre a_msg /= nul and a_failmsg /= nul"
       end
 
       operation 1353385 "monitor_function"
@@ -529,7 +538,7 @@ It is designed so that derived classes need only create a static object of thems
 	  param in name "a_lvl" explicit_type "uint"
 	  param in name "a_fn" type class_ref 425129 // funtion_t
 	  param in name "a_msg" explicit_type "string"
-	    defaultvalue "=\"\""
+	    defaultvalue "\"\""
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}=${t2}()${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
@@ -539,7 +548,10 @@ It is designed so that derived classes need only create a static object of thems
 	
 	
 	
-	comment "This method calls a_fn and expects to catch a contract_error of a_level."
+	comment "This method calls a_fn and expects to catch a contract_error of a_level.
+
+Throws logic_errors if function fails to throw an exception and rethrows
+the contract_error if of the wrong type."
       end
 
       operation 994729 "unit_test"
@@ -602,9 +614,9 @@ It is designed so that derived classes need only create a static object of thems
     artifact 160553 "test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 145833 // unit_test
 	artifact_ref 157993 // utility
 	artifact_ref 133161 // test_manager
+	artifact_ref 145833 // unit_test
       end
       comment "The framework test class library"
     end
@@ -648,6 +660,7 @@ ${comment}
 ${includes}
 // Manual includes
 #include <boost/filesystem/operations.hpp>
+// #include <boost/program_options/positional_options.hpp>
 // -
 int main (int argc, char** argv) {
   return utility::test_manager::get_exemplar ().main (argc, argv); }

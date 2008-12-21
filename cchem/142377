@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 25
+  revision 29
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -161,6 +161,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "UNUSED"
       classrelation 375209 // <generalisation>
 	relation 366633 ---|>
 	  a public
@@ -283,6 +284,15 @@ ${inlines}
 	  b parent class_ref 353321 // program
       end
 
+      classrelation 558633 // <dependency>
+	relation 537513 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 558633 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
       classrelation 513321 // <dependency>
 	relation 497577 -_->
 	  a default
@@ -372,7 +382,9 @@ ${inlines}
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : unit_test ()
 , m_database ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -393,12 +405,11 @@ ${inlines}
       end
 
       operation 1550505 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -433,6 +444,14 @@ ${inlines}
 	  b parent class_ref 332585 // unit_test
       end
 
+      classrelation 400041 // <dependency>
+	relation 391081 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 400041 // <dependency>
+	  b parent class_ref 422825 // const_c_streambuf
+      end
+
       classrelation 367529 // <dependency>
 	relation 358953 -_->
 	  a package
@@ -449,12 +468,13 @@ ${inlines}
 	  b parent class_ref 401833 // matcher_regex
       end
 
-      classrelation 400041 // <dependency>
-	relation 391081 -_->
-	  a package
+      classrelation 558505 // <dependency>
+	relation 537385 -_->
+	  a default
 	    cpp default "#include in source"
-	    classrelation_ref 400041 // <dependency>
-	  b parent class_ref 422825 // const_c_streambuf
+	    python "${type}"
+	    classrelation_ref 558505 // <dependency>
+	  b parent class_ref 470185 // program_options
       end
 
       attribute 300969 "s_exmplr"
@@ -484,12 +504,11 @@ ${inlines}
       end
 
       operation 1347625 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -524,11 +543,11 @@ nothing."
       operation 1347241 "test_matcher"
 	public explicit_return_type ""
 	nparams 0
-	nexceptions 1
-	  explicit_exception ""
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : unit_test ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -875,25 +894,23 @@ ${namespace_end}"
       stereotype "library"
       associated_artifacts
 	artifact_ref 254889 // supplier
-	artifact_ref 201641 // test_filtermanager
-	artifact_ref 252841 // program_options
 	artifact_ref 157993 // utility
-	artifact_ref 252969 // regex
-	artifact_ref 183977 // test_supplier_helper
-	artifact_ref 160553 // test
+	artifact_ref 201641 // test_filtermanager
+	artifact_ref 266281 // data_xml_access
 	artifact_ref 144169 // data_scheme
-	artifact_ref 253097 // date_time
+	artifact_ref 183977 // test_supplier_helper
+	artifact_ref 252841 // program_options
+	artifact_ref 160553 // test
 	artifact_ref 230313 // filesystem
+	artifact_ref 253097 // date_time
+	artifact_ref 252969 // regex
+	artifact_ref 230057 // data_access
       end
       ncouples 1
       key "butter other" value "unit-test"
+      comment "${butter_generic}
+LINK=-ldl"
     end
-
-    artifact 258345 "axtest.args"
-      stereotype "document"
-      comment "-i src/test/supplier/test.gout --database split/main-database.xml -p rncccs -c sPh4DAcs-t -f G -e OL07-1-56-sPh4DAcs-t -m test-me -F /home/finnerty/Office/Projects/compchem/build/src/supplier/filter/gcc-4.2.1/debug"
-    end
-
   end
 
   classview 152233 "External plugin test"
@@ -1283,4 +1300,6 @@ ${namespace_end}"
       end
     end
   end
+
+  package_ref 159529 // test_args
 end

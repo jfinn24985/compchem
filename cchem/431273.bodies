@@ -1,125 +1,110 @@
 class test_filtermanager
 !!!1363881.cpp!!!	main_test() : void
-try
+if (m_database.empty ()or not boost::filesystem::exists (m_database))
 {
-  if (m_database.empty ()or not boost::filesystem::exists (m_database))
+  log () << "No database set for filter manager test.\n";
+}
+else
+{
+  supplier::filter_manager l_manager;
+  log () << WTCH << "Loading database \"" << m_database << "\"\n";
+  data_scheme::program l_program (m_database);
+  if (l_program.begin_mechanism () == l_program.end_mechanism ())
   {
-    log () << "No database set for filter manager test.";
+    log () << EXCP << "No mechanisms in database.\n";
   }
   else
   {
-    supplier::filter_manager l_manager;
-    log () << WTCH << "Loading database \"" << m_database << "\"\n";
-    data_scheme::program l_program (m_database);
-    if (l_program.begin_mechanism () == l_program.end_mechanism ())
+    log () << WTCH << "Loading detect filters.\n";
+    l_manager.discover_filters (l_program.begin_mechanism (), l_program.end_mechanism ());
+    log () << WTCH << "Have " << l_manager.count_filters (data_access::names::detect_filter_name ());
+    log () << " mechanism type detect filter(s)\n";
+  }
+  const std::string l_expt_ref (supplier_helper::helper ().target_experiment ());
+  const std::string l_memo_label (supplier_helper::helper ().target_memo ());
+  if (l_expt_ref.empty () or l_memo_label.empty ())
+  {
+    log () << IFNO << "No target experiment and/or memo defined.\n";
+  }
+  else 
+  {
+    data_scheme::program::project_iterator l_project (l_program.target_project ());
+    if (l_project != l_program.end_project ())
     {
-      log () << EXCP << "No mechanisms in database.\n";
-    }
-    else
-    {
-      log () << WTCH << "Loading detect filters.\n";
-      l_manager.discover_filters (l_program.begin_mechanism (), l_program.end_mechanism ());
-      log () << WTCH << "Have " << l_manager.count_filters (data_access::names::detect_filter_name ());
-      log () << " mechanism type detect filter(s)\n";
-    }
-    const std::string l_expt_ref (supplier_helper::helper ().target_experiment ());
-    const std::string l_memo_label (supplier_helper::helper ().target_memo ());
-    if (l_expt_ref.empty () or l_memo_label.empty ())
-    {
-      log () << IFNO << "No target experiment and/or memo defined.\n";
-    }
-    else 
-    {
-      data_scheme::program::project_iterator l_project (l_program.target_project ());
-      if (l_project != l_program.end_project ())
+      data_scheme::project::experiment_iterator l_expt (l_project->find_experiment (l_expt_ref));
+      if (l_expt != l_project->end_experiment ())
       {
-        data_scheme::project::experiment_iterator l_expt (l_project->find_experiment (l_expt_ref));
-        if (l_expt != l_project->end_experiment ())
+        data_scheme::experiment::memo_iterator l_memo (l_expt->find_memo (l_memo_label));
+        if (l_memo != l_expt->end_memo ())
         {
-          data_scheme::experiment::memo_iterator l_memo (l_expt->find_memo (l_memo_label));
-          if (l_memo != l_expt->end_memo ())
+          log () << WTCH << "Found existing memo!\n";
+          // data_scheme::experiment & l_expt (l_project.add_experiment ("TEST-REF"));
+          // data_scheme::experiment & l_memo (l_expt.add_memo_src ("test.gout"));
+          // l_manager.main_single (l_memo);
+        }
+        else
+        {
+          l_expt->add_memo (l_memo_label);
+          l_memo = l_expt->find_memo (l_memo_label);
+          COMPCHEM_ALWAYS (l_memo != l_expt->end_memo (), "Could not find memo immediately after adding it!");
+          const std::string l_cmpd_label (supplier_helper::helper ().target_compound ());
+          const std::string l_form_label (supplier_helper::helper ().target_formula ());
+          if (l_cmpd_label.empty ())  
           {
-            log () << WTCH << "Found existing memo!\n";
-            // data_scheme::experiment & l_expt (l_project.add_experiment ("TEST-REF"));
-            // data_scheme::experiment & l_memo (l_expt.add_memo_src ("test.gout"));
-            // l_manager.main_single (l_memo);
+            log () << IFNO << "No compound label given for the new memo. Memo object will\n";
+            log () << "        not be valid.\n";
           }
           else
           {
-            l_expt->add_memo (l_memo_label);
-            l_memo = l_expt->find_memo (l_memo_label);
-            COMPCHEM_ALWAYS (l_memo != l_expt->end_memo (), "Could not find memo immediately after adding it!");
-            const std::string l_cmpd_label (supplier_helper::helper ().target_compound ());
-            const std::string l_form_label (supplier_helper::helper ().target_formula ());
-            if (l_cmpd_label.empty ())  
+            data_scheme::program::compound_iterator l_cmpd (l_program.find_compound (l_cmpd_label));
+            if (l_cmpd == l_program.end_compound ())
             {
-              log () << IFNO << "No compound label given for the new memo. Memo object will\n";
+              l_program.add_compound (l_cmpd_label);
+              l_cmpd = l_program.find_compound (l_cmpd_label);
+              COMPCHEM_ALWAYS (l_cmpd != l_program.end_compound (), "Could not find compound immediately after adding it!");
+              log () << WTCH << "Added new compound with label: \"" << l_cmpd_label << "\"\n";
+            }
+            if (l_form_label.empty ())
+            {
+              log () << IFNO << "No formula label given for the new memo. Memo object will\n";
               log () << "        not be valid.\n";
             }
             else
             {
-              data_scheme::program::compound_iterator l_cmpd (l_program.find_compound (l_cmpd_label));
-              if (l_cmpd == l_program.end_compound ())
+              data_scheme::compound::formula_iterator l_form (l_cmpd->find_formula (l_form_label));
+              if (l_form == l_cmpd->end_formula ())
               {
-                l_program.add_compound (l_cmpd_label);
-                l_cmpd = l_program.find_compound (l_cmpd_label);
-                COMPCHEM_ALWAYS (l_cmpd != l_program.end_compound (), "Could not find compound immediately after adding it!");
-                log () << WTCH << "Added new compound with label: \"" << l_cmpd_label << "\"\n";
+                l_cmpd->add_formula (l_form_label);
+                l_form = l_cmpd->find_formula (l_form_label);
+                COMPCHEM_ALWAYS (l_form != l_cmpd->end_formula (), "Could not find formula immediately after adding it!");
+                log () << WTCH << "Added new formula with label: \"" << l_form_label << "\"\n";
               }
-              if (l_form_label.empty ())
-              {
-                log () << IFNO << "No formula label given for the new memo. Memo object will\n";
-                log () << "        not be valid.\n";
-              }
-              else
-              {
-                data_scheme::compound::formula_iterator l_form (l_cmpd->find_formula (l_form_label));
-                if (l_form == l_cmpd->end_formula ())
-                {
-                  l_cmpd->add_formula (l_form_label);
-                  l_form = l_cmpd->find_formula (l_form_label);
-                  COMPCHEM_ALWAYS (l_form != l_cmpd->end_formula (), "Could not find formula immediately after adding it!");
-                  log () << WTCH << "Added new formula with label: \"" << l_form_label << "\"\n";
-                }
-                l_memo->compound_formula (*l_cmpd, *l_form);
-              }
+              l_memo->compound_formula (*l_cmpd, *l_form);
             }
-            // l_memo_ob.make_src (l_memo_label + ".xml");
-            const boost::filesystem::path l_file (supplier_helper::helper ().target_file ());
-            if (not l_file.empty ())
+          }
+          // l_memo_ob.make_src (l_memo_label + ".xml");
+          const boost::filesystem::path l_file (supplier_helper::helper ().target_file ());
+          if (not l_file.empty ())
+          {
+            if (not boost::filesystem::exists (l_file))
             {
-              if (not boost::filesystem::exists (l_file))
-              {
-                log () << IFNO << "File \"" << l_file.string () << "\" does not exist.\n";
-              }
-              else
-              {
-                l_manager.process (*l_memo, l_file.string ());
-                log () << IFYS << "Filtered \"" << l_file.string () << "\".\n";
-                data_access::xml_write_visitor l_writer (log ());
-                l_writer.on_visit (*l_memo);
-                log () << "\n";
-              }
+              log () << IFNO << "File \"" << l_file.string () << "\" does not exist.\n";
+            }
+            else
+            {
+              l_manager.process (*l_memo, l_file.string ());
+              log () << IFYS << "Filtered \"" << l_file.string () << "\".\n";
+              data_access::xml_write_visitor l_writer (log ());
+              l_writer.on_visit (*l_memo);
+              log () << "\n";
             }
           }
         }
       }
     }
-    log () << "Current filter state:\n" << l_manager << "\n";
   }
+  log () << "Current filter state:\n" << l_manager << "\n";
 }
-catch (const std::exception & a_err)
-{
-  log () << "Caught standard exception.\n" << a_err.what () << "\n";
-}
-
-catch (...)
-{
-  log () << "Caught unknown non-standard exception\n";
-}
-!!!1550505.cpp!!!	register_options(inout a_optset : options_description) : void
-if (NULL == a_optset.find_nothrow ("database", true))
-{
-  // Add option
-  a_optset.add_options () ("database", boost::program_options::value< std::string >(&m_database), "Test database file");
-}
+!!!1550505.cpp!!!	register_options() : void
+// Add option
+utility::program_options::helper ().public_options ().add_options () ("database", boost::program_options::value< std::string >(&m_database), "Test database file");

@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 30
+  revision 32
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1263,6 +1263,18 @@ program should terminate with an error condition."
 	  b parent class_ref 350761 // options_description
       end
 
+      attribute 425641 "m_position"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The option name for the positional arguments."
+      end
+
       classrelation 467497 // m_public (<directional composition>)
 	relation 456617 *-->
 	  a role_name "m_public" multiplicity "1" private
@@ -1308,6 +1320,7 @@ program should terminate with an error condition."
 	
 	
 	
+	comment "Get the name of the configuration file to process."
       end
 
       operation 1494569 "config_filename"
@@ -1324,6 +1337,7 @@ program should terminate with an error condition."
 	
 	
 	
+	comment "Set the name of the configuration file to process."
       end
 
       operation 1612329 "current_worker"
@@ -1372,6 +1386,7 @@ configuration file or is identical to the current users login name."
 	
 	
 	
+	comment "Get the environment variable prefix."
       end
 
       operation 1494697 "environment_prefix"
@@ -1388,6 +1403,47 @@ configuration file or is identical to the current users login name."
 	
 	
 	
+	comment "Set the environment variable prefix."
+      end
+
+      operation 1619113 "have_positional_option"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return not m_position.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Do we have a positional option set?"
+      end
+
+      operation 1619241 "help_message"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_help" explicit_type "bool"
+	  param inout name "a_log" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Print the help/usage message.  If a_help is true then
+print the more complete help message, otherwise the
+shorter usage message"
       end
 
       operation 1489577 "helper"
@@ -1413,34 +1469,6 @@ processing the options.  Once all options are processed you can call
 reset."
       end
 
-      operation 1488553 "program_options"
-	private explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};"
-	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
-${body}
-"
-	
-	
-	
-	
-	comment "Ctor only for Singleton"
-      end
-
-      operation 1488681 "~program_options"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
-{}
-"
-	
-	
-	
-	
-      end
-
       operation 1489705 "hidden_options"
 	public return_type class_ref 350761 // options_description
 	nparams 0
@@ -1453,21 +1481,9 @@ ${body}
 	
 	
 	
-	comment "The set of hidden option descriptions."
-      end
-
-      operation 1488809 "program_options"
-	stereotype "copy"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 470185 // program_options
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
-"
-	
-	
-	
-	
-	comment "no copy"
+	comment "The set of hidden option descriptions. Hidden options are
+shown in the help but not the usage message and can not be set
+via the command-line."
       end
 
       operation 1488937 "operator="
@@ -1481,6 +1497,36 @@ ${body}
 	
 	
 	comment "no copy"
+      end
+
+      operation 1618985 "positional_option"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_opt_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} &${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require}(not have_positional_option (), \"You can only set one positional argument\");
+  @{require}(not ${p0}.empty (), \"The positional argument must not be an empty string\");
+  @{require}(NULL != public_options ().find_nothrow (${p0}, true), \"Positional option must already be a public option.\")
+  m_position = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set a_opt_name to be used for all 'positional' arguments
+(arguments without preceding options).  It can only be set
+once and must be an existing public option.
+
+Note this system is limited to the common case of one 
+positional argument that may be used an unlimited number 
+of times.
+
+\\pre not have_positional_option
+\\pre not a_opt_name.empty 
+\\pre public_options ().has (a_opt_name)
+\\post have_positional_option"
       end
 
       operation 1490473 "process_options"
@@ -1568,6 +1614,48 @@ functions parses the config file and the environment
 \\param a_log  The stream to write help/error messages to.
 \\param a_flags Set of flags saying which parsers to use. 
 \\return 0 = success, 1 = help requested, 2 = error."
+      end
+
+      operation 1488553 "program_options"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Ctor only for Singleton"
+      end
+
+      operation 1488681 "~program_options"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1488809 "program_options"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 470185 // program_options
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
       end
 
       operation 1489449 "public_options"
@@ -2013,11 +2101,11 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 245033 // time_stamp
-	artifact_ref 224041 // program_options
 	artifact_ref 157609 // filesystem
 	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
+	artifact_ref 245033 // time_stamp
+	artifact_ref 224041 // program_options
       end
     end
 

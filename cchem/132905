@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 22
+  revision 32
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -105,6 +105,15 @@ ${inlines}
 	  b parent class_ref 332585 // unit_test
       end
 
+      classrelation 552489 // <dependency>
+	relation 531369 -_->
+	  a package
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 552489 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
       classrelation 420265 // <dependency>
 	relation 410153 -_->
 	  a default
@@ -129,14 +138,15 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
 	
 	
-	comment "Override in derived classes to perform unit test."
       end
 
       operation 1370025 "test_meta_datum"
@@ -169,7 +179,7 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return std::string (\"data_scheme meta_datum class test\");
+  return std::string (\"data_access::meta_datum class test\");
 }
 "
 	
@@ -179,6 +189,219 @@ ${inlines}
       end
     end
 
+    class 444969 "test_names"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Unit test for data_access::names."
+      classrelation 434601 // <generalisation>
+	relation 424233 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 434601 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 434857 // <dependency>
+	relation 424489 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 434857 // <dependency>
+	  b parent class_ref 178601 // basic_names
+      end
+
+      attribute 348457 "exemplar"
+	class_attribute private type class_ref 444969 // test_names
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Class exemplar"
+      end
+
+      operation 1402025 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "(1) Test that the data_access::names have the expected values and 
+that they are categorised correctly.
+(2) Test the list methods (which internally use list_add)"
+      end
+
+      operation 1402153 "test_names"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: utility::unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1402281 "~test_names"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1402409 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::names class test\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132137 "data access test deployment"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 204073 "test_meta_datum"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 434089 // test_meta_datum
+      end
+    end
+
+    artifact 208937 "test_names"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 444969 // test_names
+      end
+    end
+
+    artifact 251305 "test_data_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 252841 // program_options
+	artifact_ref 208937 // test_names
+	artifact_ref 160553 // test
+	artifact_ref 253353 // xml
+	artifact_ref 230313 // filesystem
+	artifact_ref 253097 // date_time
+	artifact_ref 252969 // regex
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+      comment "
+"
+    end
+  end
+
+  classview 173353 "xml_data_access tests"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
     class 457001 "test_file_helper"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
@@ -195,7 +418,9 @@ ${inlines}
       
       ncouples 1
       key "base_class" value "utility::unit_test"
-      comment "--search-path	Start path
+      comment "TODO: more rigorous testing.
+
+--search-path	Start path
 --search-base	Start base
 --search-key	Search key
 --autofix -A	(helper) Whether to automatically attempt to fix broken links
@@ -402,102 +627,84 @@ nothing."
 	
       end
     end
+  end
 
-    class 444969 "test_names"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for data_scheme::program"
-      classrelation 434601 // <generalisation>
-	relation 424233 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 434601 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
+  deploymentview 176553 "xml_data_access test deploy"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 215977 "test_file_helper"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
 
-      classrelation 434857 // <dependency>
-	relation 424489 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 434857 // <dependency>
-	  b parent class_ref 178601 // basic_names
-      end
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
 
-      attribute 348457 "exemplar"
-	class_attribute private type class_ref 444969 // test_names
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
 "
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Class exemplar"
-      end
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
 
-      operation 1402025 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1402153 "test_names"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: utility::unit_test ()
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1402281 "~test_names"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1402409 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"data_scheme::names class test\");
-}
-"
-	
-	
-	
-	
+${comment}
+${includes}
+// Manual includes in source
+#include <boost/bind.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 457001 // test_file_helper
       end
     end
 
+    artifact 266409 "test_data_xml_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 144169 // data_scheme
+	artifact_ref 160553 // test
+	artifact_ref 253353 // xml
+	artifact_ref 215977 // test_file_helper
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+  end
+
+  classview 174505 "test sql access"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
     class 332457 "test_sql_connect"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -1177,121 +1384,10 @@ ${inlines}
     end
   end
 
-  deploymentview 132137 "data access test deployment"
+  deploymentview 177705 "test sql_access"
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    artifact 204073 "test_meta_datum"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 434089 // test_meta_datum
-      end
-    end
-
-    artifact 215977 "test_file_helper"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-// Manual includes in source
-#include <boost/bind.hpp>
-// -
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 457001 // test_file_helper
-      end
-    end
-
-    artifact 208937 "test_names"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 444969 // test_names
-      end
-    end
-
     artifact 145705 "test_sql_connect"
       stereotype "source"
       cpp_h "#ifndef ${NAME}_HPP
@@ -1335,28 +1431,6 @@ ${namespace_end}"
       associated_classes
 	class_ref 332457 // test_sql_connect
       end
-    end
-
-    artifact 251305 "test_data_access"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 144169 // data_scheme
-	artifact_ref 160553 // test
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 252969 // regex
-	artifact_ref 253353 // xml
-	artifact_ref 208937 // test_names
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
-	artifact_ref 230057 // data_access
-	artifact_ref 215977 // test_file_helper
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
-      comment "
-"
     end
   end
 

@@ -1,26 +1,16 @@
 class test_streambuf
 !!!1335337.cpp!!!	main_test() : void
-class helper
-{
-public:
-  static void contract_test (bool a_test, const char* a_msg)
-  {
-    log () << WTCH << (a_test ? "   passed   : " : " **failed** : ") << a_msg << "\n";
-  }
-};
 utility::streambuf < char, 1024 > l_testbuf;
 log () << TTLE << "Contract tests after ctor.\n";
-helper::contract_test (l_testbuf.begin () != NULL, "begin /= nul");
-helper::contract_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
-helper::contract_test (l_testbuf.end () != NULL, "end /= nul");
-helper::contract_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
-helper::contract_test (l_testbuf.str ().empty (), "Before input str gives an empty string"); 
-helper::contract_test (l_testbuf.begin () == l_testbuf.end (), "Before input begin = end"); 
-try
+bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+bool_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
+bool_test (l_testbuf.end () != NULL, "end /= nul");
+bool_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
+bool_test (l_testbuf.str ().empty (), "Before input str gives an empty string"); 
+bool_test (l_testbuf.begin () == l_testbuf.end (), "Before input begin = end"); 
 {
   std::ostream l_test (&l_testbuf);
-  unsigned int
-    i = 0;
+  unsigned int i (0);
   for (i = 0; i < 2000 and l_test; ++i)
   {
     if (i % 128 == 0)
@@ -30,44 +20,40 @@ try
     l_test << i % 10;
   }
   log () << WTCH << "Inserted " << i << " characters, one-by-one until stream failed.\n";
-
+  
   log () << WTCH << "Final buffer converted to string\n" << l_testbuf.str () << "\n";
   log () << WTCH << "Final buffer as C buffer\n" << l_testbuf.data () << "\n";
-
-  log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-  log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-  log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-  log () << WTCH << "Good bit = " << l_test.good () << "\n";
+  
+  bool_test (true == l_test.fail (), "Fail bit = true");
+  bool_test (false == l_test.eof (), "EOF  bit = false");
+  bool_test (true == l_test.bad (), "Bad  bit = true");
+  bool_test (false == l_test.good (), "Good bit = false");
   log () << TTLE << "Contract tests after writing to buffer.\n";
-  helper::contract_test (l_testbuf.begin () != NULL, "begin /= nul");
-  helper::contract_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
-  helper::contract_test (l_testbuf.end () != NULL, "end /= nul");
-  helper::contract_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
-  helper::contract_test (!l_testbuf.str ().empty (), "After input str does not give an empty string"); 
-  helper::contract_test (l_testbuf.begin () != l_testbuf.end (), "After input begin /= end"); 
-}
-catch (const std::exception & a_err)
-{
-  log () << EXCP << a_err.what () << "\n";
+  bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+  bool_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
+  bool_test (l_testbuf.end () != NULL, "end /= nul");
+  bool_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
+  bool_test (!l_testbuf.str ().empty (), "After input str does not give an empty string"); 
+  bool_test (l_testbuf.begin () != l_testbuf.end (), "After input begin /= end"); 
+  
+  // Reset buffer.
+  l_testbuf.clear ();
+  log () << TTLE << "Contract tests after 'clear' should be same as after ctor.\n";
+  bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+  bool_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
+  bool_test (l_testbuf.end () != NULL, "end /= nul");
+  bool_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
+  bool_test (l_testbuf.str ().empty (), "Before input str gives an empty string"); 
+  bool_test (l_testbuf.begin () == l_testbuf.end (), "Before input begin = end"); 
 }
 
-// Reset buffer.
-l_testbuf.clear ();
-log () << TTLE << "Contract tests after 'clear' should be same as after ctor.\n";
-helper::contract_test (l_testbuf.begin () != NULL, "begin /= nul");
-helper::contract_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
-helper::contract_test (l_testbuf.end () != NULL, "end /= nul");
-helper::contract_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
-helper::contract_test (l_testbuf.str ().empty (), "Before input str gives an empty string"); 
-helper::contract_test (l_testbuf.begin () == l_testbuf.end (), "Before input begin = end"); 
-try
 {
   std::ostream l_test (&l_testbuf);
   unsigned int
     i = 0;
   char
     l_val[] = "987654321 ";
-
+  
   for (i = 0; i < 200 and l_test; ++i)
   {
     if (i % 8 == 0)
@@ -77,57 +63,49 @@ try
     l_test << l_val;
   }
   log () << WTCH << "Inserted " << (sizeof (l_val) - 1) * i << " characters, " << (sizeof (l_val) - 1) << " at-a-time until stream failed.\n";
-
+  
   log () << WTCH << "Final buffer is\n" << l_testbuf.str () << "\n";
-
-  log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-  log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-  log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-  log () << WTCH << "Good bit = " << l_test.good () << "\n";
-}
-catch (const std::exception & a_err)
-{
-  log () << EXCP << a_err.what () << "\n";
+  
+  bool_test (true == l_test.fail (), "Fail bit = true");
+  bool_test (false == l_test.eof (), "EOF  bit = false");
+  bool_test (true == l_test.bad (), "Bad  bit = true");
+  bool_test (false == l_test.good (), "Good bit = false");
+  
+  log () << COMM << "Using utility::streambuf as an output buffer\n";
 }
 
-log () << COMM << "Using utility::streambuf as an output buffer\n";
-try
 {
   std::istream l_test (&l_testbuf);
   unsigned int
     i = 0, l_val = 0;
-
+  
   for (i = 0; i < 200 and l_test; ++i)
   {
     l_test >> l_val;
     log () << COMM << "Attempted to extract " << i << "th integer\n";
   }
   log () << WTCH << "Extracted " << i << " integers, last was " << l_val << ".\n";
-
+  
   log () << WTCH << "Buffer is\n" << l_testbuf.str () << "\n";
-
-  log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-  log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-  log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-  log () << WTCH << "Good bit = " << l_test.good () << "\n";
+  
+  bool_test (true == l_test.fail (), "Fail bit = true");
+  bool_test (true == l_test.eof (), "EOF  bit = true");
+  bool_test (false == l_test.bad (), "Bad  bit = false");
+  bool_test (false == l_test.good (), "Good bit = false");
+  
   log () << TTLE << "Contract tests after reading from buffer.\n";
-  helper::contract_test (l_testbuf.begin () != NULL, "begin /= nul");
-  helper::contract_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
-  helper::contract_test (l_testbuf.end () != NULL, "end /= nul");
-  helper::contract_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
-  helper::contract_test (!l_testbuf.str ().empty (), "After input/output str does not give an empty string"); 
-  helper::contract_test (l_testbuf.begin () != l_testbuf.end (), "After input/output begin /= end"); 
-}
-catch (const std::exception & a_err)
-{
-  log () << EXCP << a_err.what () << "\n";
-}
-
-
-log () << COMM << "Using utility::streambuf as an input/output buffer\n";
-try
-{
+  bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+  bool_test (l_testbuf.data () == l_testbuf.begin (), "begin = data");
+  bool_test (l_testbuf.end () != NULL, "end /= nul");
+  bool_test (l_testbuf.max_size () == 1024, "Max size = template arg.");
+  bool_test (!l_testbuf.str ().empty (), "After input/output str does not give an empty string"); 
+  bool_test (l_testbuf.begin () != l_testbuf.end (), "After input/output begin /= end"); 
+  
+  log () << COMM << "Using utility::streambuf as an input/output buffer\n";
   l_testbuf.clear ();
+}
+
+{
   std::iostream l_test (&l_testbuf);
   unsigned int
     i = 0, l_val = 0;
@@ -140,13 +118,20 @@ try
       log () << COMM << "Attempted to input " << i << "th integer " << l_val << "\n";
     }
     log () << WTCH << "Inputed " << i << " integers, last was " << l_val << ".\n";
-
-    log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-    log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-    log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-    log () << WTCH << "Good bit = " << l_test.good () << "\n";
-    if (l_test.bad ())
+  
+    if (not l_test.bad ())
     {
+      bool_test (false == l_test.fail (), "Fail bit = false");
+      bool_test (false == l_test.eof (), "EOF  bit = false");
+      bool_test (false == l_test.bad (), "Bad  bit = false");
+      bool_test (true == l_test.good (), "Good bit = true");
+    }
+    else
+    {
+      bool_test (true == l_test.fail (), "Fail bit = true");
+      bool_test (false == l_test.eof (), "EOF  bit = false");
+      bool_test (true == l_test.bad (), "Bad  bit = true");
+      bool_test (false == l_test.good (), "Good bit = false");
       log () << WTCH << "Buffer full, clearing to allow read.\n";
       l_test.clear ();
     }
@@ -156,27 +141,27 @@ try
       log () << COMM << "Attempted to extract " << i << "th integer " << l_val << "\n";
     }
     log () << WTCH << "Extracted " << i << " integers, last was " << l_val << ".\n";
-
+  
     log () << WTCH << "Buffer is\n" << l_testbuf.str () << "\n";
-
-    log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-    log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-    log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-    log () << WTCH << "Good bit = " << l_test.good () << "\n";
+  
     if (l_test.bad ())
     {
       log () << WTCH << "Buffer full\n";
+      bool_test (true == l_test.fail (), "Fail bit = true");
+      bool_test (false == l_test.eof (), "EOF  bit = false");
+      bool_test (true == l_test.bad (), "Bad  bit = true");
+      bool_test (false == l_test.good (), "Good bit = false");
       break;
     }
+    bool_test (true == l_test.fail (), "Fail bit = true");
+    bool_test (true == l_test.eof (), "EOF  bit = true");
+    bool_test (false == l_test.bad (), "Bad  bit = false");
+    bool_test (false == l_test.good (), "Good bit = false");
     log () << COMM << "Clearing state.\n";
     l_test.clear ();
-    log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
-    log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
-    log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
-    log () << WTCH << "Good bit = " << l_test.good () << "\n";
+    bool_test (false == l_test.fail (), "Fail bit = false");
+    bool_test (false == l_test.eof (), "EOF  bit = false");
+    bool_test (false == l_test.bad (), "Bad  bit = false");
+    bool_test (true == l_test.good (), "Good bit = true");
   }
-}
-catch (const std::exception & a_err)
-{
-  log () << EXCP << a_err.what () << "\n";
 }

@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/data_scheme::test cases
-  revision 27
+  revision 31
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -45,6 +45,7 @@ format 61
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 137129 // data_scheme test
     comment "Unit-test classes for data_scheme types"
     classdiagram 138025 "Dependencies"
       draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
@@ -216,12 +217,30 @@ ${inlines}
 	  b parent class_ref 178601 // basic_names
       end
 
+      classrelation 554921 // <dependency>
+	relation 533801 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 554921 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
       classrelation 329641 // <dependency>
 	relation 321193 -_->
 	  a default
 	    cpp default "#include in header"
 	    classrelation_ref 329641 // <dependency>
 	  b parent class_ref 353321 // program
+      end
+
+      classrelation 553769 // <dependency>
+	relation 532649 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 553769 // <dependency>
+	  b parent class_ref 510633 // test_object_visitor
       end
 
       attribute 327593 "exemplar"
@@ -321,6 +340,783 @@ nothing."
 	
 	
       end
+
+      operation 1621161 "test_basic_datum"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_obj" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Perform unit-tests on a basic_datum object, comment ,p.i., text"
+      end
+
+      operation 1621289 "test_basic_text"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 435369 // basic_text
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a basic_text object"
+      end
+
+      operation 1621417 "test_comment"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443433 // comment
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a basic_text object"
+      end
+
+      operation 1621545 "test_pi"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443561 // processing_instruction
+	  param in name "a_str1" explicit_type "string"
+	  param in name "a_str2" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}, const ${t3}& ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a p.i. object"
+      end
+
+      operation 1625641 "test_text"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443305 // text
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a basic_text object"
+      end
+    end
+
+    class 510633 "test_object_visitor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class is a test for 'visit' method of basic_datum objects."
+      classrelation 553641 // <generalisation>
+	relation 532521 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 553641 // <generalisation>
+	  b parent class_ref 435241 // visitor
+      end
+
+      attribute 426793 "match_comment"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(1)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for comment objects. (== 1)"
+      end
+
+      attribute 428329 "match_compound"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(2)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for compound objects. (== 2)"
+      end
+
+      attribute 428457 "match_compound_ref"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(3)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for compound-ref objects. (== 3)"
+      end
+
+      attribute 428585 "match_datum"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(4)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for datum objects. (== 4)"
+      end
+
+      attribute 428713 "match_experiment"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(5)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for experiment objects. (== 5)"
+      end
+
+      attribute 428841 "match_filter"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(6)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for filter objects. (== 6)"
+      end
+
+      attribute 428969 "match_formula"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(7)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for formula objects. (== 7)"
+      end
+
+      attribute 429097 "match_identity"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(8)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for identity objects. (== 8)"
+      end
+
+      attribute 429225 "match_info"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(9)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for info objects. (== 9)"
+      end
+
+      attribute 429353 "match_mechanism"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(10)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for mechanism objects. (== 10)"
+      end
+
+      attribute 429481 "match_memo"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(11)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for memo objects. (== 11)"
+      end
+
+      attribute 427049 "match_pi"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(12)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for p.i. objects. (== 12)"
+      end
+
+      attribute 429609 "match_program"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(13)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for program objects. (== 13)"
+      end
+
+      attribute 429737 "match_project"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(14)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for project objects. (== 14)"
+      end
+
+      attribute 429865 "match_settings"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(15)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for settings objects. (== 15)"
+      end
+
+      attribute 429993 "match_text"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(16)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for text objects. (== 16)"
+      end
+
+      attribute 430121 "match_worker"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(17)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for worker objects. (== 17)"
+      end
+
+      attribute 427177 "match_max"
+	class_attribute const_attribute public explicit_type "uchar"
+	init_value "(18)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Value one higher than any object type. (== 18)"
+      end
+
+      attribute 426921 "m_type"
+	const_attribute private explicit_type "uchar"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The object-type to match"
+      end
+
+      operation 1622185 "is_type_number"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_type" explicit_type "uchar"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return 0 < ${p0} and ${p0} < match_max;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Is this one of the type numbers?
+
+\\return 0 < a_type < match_max"
+      end
+
+      operation 1621673 "test_object_visitor"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_type" explicit_type "uchar"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} 
+: m_type (${p0})
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Default ctor sets the type
+
+\\pre is_type_number (a_type)"
+      end
+
+      operation 1621801 "~test_object_visitor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1621929 "test_object_visitor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 510633 // test_object_visitor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1622057 "operator="
+	private return_type class_ref 510633 // test_object_visitor
+	nparams 1
+	  param in name "source" type class_ref 510633 // test_object_visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
+
+      operation 1623337 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(false, \"test_type_visitor object should never visit a base-class basic_datum object.\");
+}
+
+"
+	
+	
+	
+	
+	comment "Pure virtual method to operate on objects as basic_datum."
+      end
+
+      operation 1623465 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443433 // comment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_comment, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operator on comment objects."
+      end
+
+      operation 1623593 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_compound, \"actual type was not desired match type.\");
+}"
+	
+	
+	
+	
+	comment "Operate on compound objects."
+      end
+
+      operation 1623721 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_compound_ref, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on compound objects."
+      end
+
+      operation 1623849 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_datum, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on datum objects."
+      end
+
+      operation 1623977 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_experiment, \"actual type was not desired match type.\");
+}"
+	
+	
+	
+	
+	comment "Operate on experiment objects."
+      end
+
+      operation 1624105 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_filter, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on filter objects."
+      end
+
+      operation 1624233 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_formula, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on formula objects."
+      end
+
+      operation 1624361 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_identity, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on identity objects."
+      end
+
+      operation 1624489 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_info, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on info objects."
+      end
+
+      operation 1624617 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}"
+	
+	
+	
+	
+	comment "Operate on mechanism objects."
+      end
+
+      operation 1624745 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on memo objects."
+      end
+
+      operation 1624873 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443561 // processing_instruction
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_pi, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on processing_instruction objects."
+      end
+
+      operation 1625001 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353321 // program
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on program objects."
+      end
+
+      operation 1625129 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on project objects."
+      end
+
+      operation 1625257 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on settings objects."
+      end
+
+      operation 1625385 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443305 // text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on text objects."
+      end
+
+      operation 1625513 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+}
+"
+	
+	
+	
+	
+	comment "Operate on worker objects."
+      end
     end
   end
 
@@ -377,6 +1173,45 @@ ${namespace_end}"
       end
     end
 
+    artifact 265129 "test_object_visitor"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 510633 // test_object_visitor
+      end
+    end
+
     artifact 161705 "test_utility"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -424,15 +1259,17 @@ ${namespace_end}"
     artifact 257321 "test_data_scheme"
       stereotype "library"
       associated_artifacts
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 253353 // xml
+	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
 	artifact_ref 144169 // data_scheme
+	artifact_ref 230313 // filesystem
 	artifact_ref 168873 // test_program
 	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
 	artifact_ref 230057 // data_access
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
+	artifact_ref 265129 // test_object_visitor
+	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "unit-test"

@@ -1,6 +1,6 @@
 format 61
 "/compchem/chemistry" // /compchem/chemistry
-  revision 37
+  revision 38
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1092,8 +1092,6 @@ ${body}
 	artifact_ref 130601 // periodic_table
 	artifact_ref 154153 // vibration
       end
-      ncouples 1
-      key "butter type" value "static"
     end
 
     artifact 130601 "periodic_table"

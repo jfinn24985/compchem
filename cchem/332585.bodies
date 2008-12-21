@@ -1,23 +1,14 @@
 class unit_test
-!!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : char, in a_failmsg : char) : void
+!!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : string) : void
 if (a_test)
 {
   log () << IFYS << "   passed   : " << a_msg << "\n";
 }
 else
 {
-  log () << IFNO << " **failed** : ";
-  if (NULL != a_failmsg)
-  {
-    log () << a_failmsg;
-  }
-  else
-  {
-    log () << a_msg;
-  }
-  log () << "\n";
+  throw std::logic_error (IFNO + " **failed** : " + a_msg);
 }
-!!!1353385.cpp!!!	monitor_function(in a_lvl : uint, in a_fn : funtion_t, in a_msg : string = ="") : void
+!!!1353385.cpp!!!	monitor_function(in a_lvl : uint, in a_fn : funtion_t, in a_msg : string = "") : void
 try
 {
   if (not a_msg.empty ())
@@ -25,7 +16,7 @@ try
     log () << WTCH << a_msg << "\n";
   }
   a_fn();
-  log () << IFNO << "Should not get here:\n";
+  throw std::logic_error ("Test function failed to throw expected error.");
 }
 catch (const utility::contract_error &err)
 {
@@ -36,14 +27,7 @@ catch (const utility::contract_error &err)
   }
   else
   {
-    log () << IFNO << "Caught contract error of incorrect level [" << err.level << "]\n" << l_what << "\n";
+    // Exception is incorrect, rethrow.
+    throw;
   }
-}
-catch (const std::exception &err)
-{
-  log () << IFNO << "Caught std::exception:\n" << err.what () << "\n";
-}
-catch (...)
-{
-  log () << IFNO << "Caught non-standard exception!\n";
 }

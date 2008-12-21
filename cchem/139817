@@ -1,6 +1,6 @@
 format 61
 "ccverify" // /compchem/data_access::ccverify
-  revision 7
+  revision 10
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -28,7 +28,7 @@ format 61
   
   cpp_h_dir "data_access/ccverify"
   cpp_src_dir "../src/data_access/ccverify"
-  cpp_namespace "ccverify"
+  cpp_namespace "data_access"
   comment "This program verifies and (optionally) repairs a database."
   classview 133289 "ccverify"
     //class diagram settings
@@ -59,11 +59,11 @@ issues it checks for are:
  * settings -> (parent)/filter
 "
     classdiagram 135209 "crawler overview"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
-    class 360617 "verify"
+    class 360617 "verify_app"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
 ${members}};
@@ -85,6 +85,8 @@ as well as extending the verifcation/repair process.
  <= provided by XML reader (extended functionality)
 * Broken project-src and memo-src links.
  <= provided by data_access library
+
+
 * Verify that all reference attributes have a target object:
  <= internal
  * compound-ref -> compound/formula
@@ -93,52 +95,6 @@ as well as extending the verifcation/repair process.
  * project -> worker
  * settings -> (parent)/filter
 "
-      class 360745 "anonymous4"
-	visibility package stereotype "enum"
-	cpp_decl "${comment}enum {
-${items}
-};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	
-	attribute 262697 "ON_SUCCESS"
-	  public explicit_type ""
-	  init_value "= 0"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  comment "Indicate processing was successful (and can continue)"
-	end
-
-	attribute 262825 "ON_ERROR"
-	  public explicit_type ""
-	  init_value "= 1"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  comment "Indicate the an error has occured an program excution should stop."
-	end
-
-	attribute 262953 "ON_HELP"
-	  public explicit_type ""
-	  init_value "= 2"
-	  cpp_decl "  ${name}${value},${comment}"
-	  java_decl ""
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  comment "Indicate that the help message was called and that program execution should stop."
-	end
-      end
-
       class 360873 "const_iterator"
 	visibility package stereotype "typedef" explicit_base_type "string"
 	cpp_decl "${comment}typedef std::vector< ${type} >::const_iterator ${name};
@@ -152,21 +108,74 @@ ${items}
 	
       end
 
+      classrelation 550953 // <dependency>
+	relation 529833 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 550953 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      classrelation 551337 // <dependency>
+	relation 530217 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 551337 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 551209 // <dependency>
+	relation 530089 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 551209 // <dependency>
+	  b parent class_ref 509481 // verify_visitor
+      end
+
+      classrelation 557353 // <dependency>
+	relation 536233 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 557353 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      attribute 263081 "m_fileset"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}std::vector< ${type} > ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of filenames to process"
+      end
+
       operation 1177513 "begin"
 	public return_type class_ref 360873 // const_iterator
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_fileset.${name} (); }
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_fileset.${name} ();
+}
 "
 	
 	
 	
 	
+	comment "Get a 'begin' iterator to the list of files to process."
       end
 
-      operation 1176617 "verify"
+      operation 1176617 "verify_app"
 	public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw} {}
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_fileset ()
+{}
 "
 	
 	
@@ -174,7 +183,7 @@ ${items}
 	
       end
 
-      operation 1176745 "~verify"
+      operation 1176745 "~verify_app"
 	public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
@@ -185,11 +194,11 @@ ${items}
 	
       end
 
-      operation 1176873 "verify"
+      operation 1176873 "verify_app"
 	stereotype "copy"
 	private explicit_return_type ""
 	nparams 1
-	  param in name "source" type class_ref 360617 // verify
+	  param in name "source" type class_ref 360617 // verify_app
 	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
 "
 	
@@ -208,6 +217,7 @@ ${items}
 	
 	
 	
+	comment "Are there any files to process."
       end
 
       operation 1177641 "end"
@@ -219,23 +229,7 @@ ${items}
 	
 	
 	
-      end
-
-      operation 1176489 "initialise"
-	private explicit_return_type "int"
-	nparams 2
-	  param in name "argc" explicit_type "int"
-	  param in name "argv" explicit_type "char"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Perform program initialisation.  This will register then process program options etc."
+	comment "Get an 'end' iterator to the list of files to process."
       end
 
       operation 1177129 "main"
@@ -245,8 +239,10 @@ ${items}
 	  param in name "argv" explicit_type "char"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
@@ -256,9 +252,9 @@ ${items}
       end
 
       operation 1177001 "operator="
-	private return_type class_ref 360617 // verify
+	private return_type class_ref 360617 // verify_app
 	nparams 1
-	  param in name "source" type class_ref 360617 // verify
+	  param in name "source" type class_ref 360617 // verify_app
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	
@@ -268,15 +264,155 @@ ${items}
 	comment "no copy "
       end
 
-      attribute 263081 "m_fileset"
-	private explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}std::vector< ${type} > ${name}${value};
+      classrelation 559017 // <dependency>
+	relation 537897 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 559017 // <dependency>
+	  b parent class_ref 469033 // data_scheme_helper
+      end
+    end
+
+    class 509481 "verify_visitor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
 "
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The set of filenames to process"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Perform the verification actions on a database.
+
+for each project
+   open project // will auto-fix link
+
+for each memo
+   open memo // will auto-fix link
+
+Use ID/IDREF tables to verify that the following reference attributes have a target object:
+ * compound-ref -> compound/formula
+ * experiment -> worker
+ * memo -> mechanism/filter, compound/formula
+ * project -> worker
+ * settings -> (parent)/filter"
+      classrelation 551081 // <generalisation>
+	relation 529961 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 551081 // <generalisation>
+	  b parent class_ref 435241 // visitor
+      end
+
+      operation 1619881 "operator="
+	private return_type class_ref 509481 // verify_visitor
+	nparams 1
+	  param in name "source" type class_ref 509481 // verify_visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
+
+      operation 1619369 "report_cross_references"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_log" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Print a report on the status of cross-references."
+      end
+
+      operation 1619497 "verify_visitor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1619625 "~verify_visitor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1619753 "verify_visitor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 509481 // verify_visitor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1620009 "on_visit"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{}
+"
+	
+	
+	
+	
+	comment "Method to operate on objects as basic_datum. (does nothing)"
       end
     end
   end
@@ -285,7 +421,23 @@ ${items}
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    artifact 157353 "verify"
+    artifact 255913 "ccverify"
+      stereotype "executable"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157353 // verify_app
+	artifact_ref 144169 // data_scheme
+	artifact_ref 263977 // verify_visitor
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+      end
+    end
+
+    artifact 157353 "verify_app"
       stereotype "source"
       cpp_h "#ifndef ${NAME}_HPP
 #define ${NAME}_HPP
@@ -321,8 +473,6 @@ ${namespace_end}
 
 ${comment}
 // Manual includes
-#include \"data_scheme/document_type.hpp\"
-#include \"data_scheme/proxy_helper.hpp\"
 #include <boost/filesystem/operations.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -331,23 +481,54 @@ ${namespace_start}
 ${members}
 ${namespace_end}
 
-int main (int argc, char** argv) {
-  programs::crawler l_app;
-  return l_app.main (argc, argv); }
+int main (int argc, char** argv)
+{
+  data_access::verify_app l_app;
+  return l_app.main (argc, argv);
+}
 
 "
       associated_classes
-	class_ref 360617 // verify
+	class_ref 360617 // verify_app
       end
     end
 
-    artifact 255913 "ccverify"
-      stereotype "executable"
-      associated_artifacts
-	artifact_ref 157353 // verify
-	artifact_ref 252841 // program_options
-	artifact_ref 253353 // xml
-	artifact_ref 230057 // data_access
+    artifact 263977 "verify_visitor"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 509481 // verify_visitor
       end
     end
   end

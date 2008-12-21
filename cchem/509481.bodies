@@ -1,0 +1,3 @@
+class verify_visitor
+!!!1619369.cpp!!!	report_cross_references(inout a_log : ostream) : void
+std::cout << "**Warning** Currently no test of cross references.\n";

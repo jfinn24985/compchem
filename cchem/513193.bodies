@@ -1,37 +1,5 @@
-class meta_datum
-!!!1446057.cpp!!!	initialise(in a_child_list : string, in a_attribute_list : string) : void
-if (not a_child_list.empty ())
-{
-  boost::algorithm::split (m_children, a_child_list, boost::algorithm::is_any_of (" "), boost::algorithm::token_compress_on);
-}
-if (not a_attribute_list.empty ())
-{
-  boost::algorithm::split (m_attributes, a_attribute_list, boost::algorithm::is_any_of (" "), boost::algorithm::token_compress_on);
-}
-if (not key_attribute.empty () and not has_attr_name (key_attribute))
-{
-//  DLOG("Inserting key attribute "); DLOG (key_attribute); DLOG(" for "); DLOG(name); DLOG ("\n"); 
-  m_attributes.insert (key_attribute);
-}
-// Check requirements.
-//  #ifdef DEBUG
-//  if (not empty_children ())
-//  {
-//    DLOG("In meta_datum for \""); DLOG(name); DLOG("\"\n");
-//    for (const_iterator l_i (m_children.begin ()); l_i != m_children.end (); ++l_i)
-//    {
-//      DLOG("Child \""); DLOG(*l_i); DLOG("\" is "); DLOG((names::is_element_name (*l_i) ? "" : "**not** ")); DLOG("an element name\n");
-//    }
-//    for (const_iterator l_i (m_attributes.begin ()); l_i != m_attributes.end (); ++l_i)
-//    {
-//      DLOG("Attribute label \""); DLOG(*l_i); DLOG("\" is "); DLOG((names::is_attribute_name (*l_i) ? "" : "**not** ")); DLOG("an attribute name\n");
-//    }
-//  
-//  }
-//  #endif
-COMPCHEM_REQUIRE(empty_children () or static_cast<std::set< std::string >::size_type>(std::count_if (m_children.begin (), m_children.end (), &names::is_element_name)) == m_children.size (), ("For " + name + " at least one child element name was invalid in \"" + a_child_list + "\""));
-COMPCHEM_REQUIRE(static_cast<std::set< std::string >::size_type>(std::count_if (m_attributes.begin (), m_attributes.end (), &names::is_attribute_name)) == m_attributes.size (), ("For " + name + " at least one attribute name was invalid in \"" + a_attribute_list + " " + key_attribute + "\""));
-!!!1629097.cpp!!!	initialise_map() : void
+class data_scheme_initialise
+!!!1629097.cpp!!!	initialise() : void
 /**
  * The definition object for the compound type
  */
@@ -130,11 +98,3 @@ const static data_access::meta_datum s_settings (data_access::names::settings_na
  */
 const static data_access::meta_datum s_worker (data_access::names::worker_name ()
     , data_access::names::label_name (), data_access::names::info_name (), std::string ());
-!!!1368233.cpp!!!	meta_datum(in a_name : string, in a_key : string, in a_child_list : string, in a_attribute_list : string)
-initialise (a_child_list, a_attribute_list);
-// Add self to name map
-if (NULL == s_map.get ())
-{
-  s_map.reset (new name_map_t ());
-}
-s_map->insert(std::make_pair (name, this));
