@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 29
+  revision 30
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -48,7 +48,7 @@ format 61
     associated_deployment_view deploymentview_ref 142889 // Supplier Unit test
     comment "Test for supplier classes"
     classdiagram 148137 "Supplier test cases"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -82,7 +82,7 @@ ${inlines}
       end
 
       attribute 304681 "s_exmplr"
-	class_attribute private type class_ref 403625 // test_supplier_helper
+	class_attribute private explicit_type "test_supplier_helper"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -893,18 +893,18 @@ ${namespace_end}"
     artifact 258089 "test_supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 254889 // supplier
-	artifact_ref 157993 // utility
-	artifact_ref 201641 // test_filtermanager
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 144169 // data_scheme
-	artifact_ref 183977 // test_supplier_helper
 	artifact_ref 252841 // program_options
-	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
-	artifact_ref 253097 // date_time
+	artifact_ref 144169 // data_scheme
+	artifact_ref 254889 // supplier
 	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
 	artifact_ref 230057 // data_access
+	artifact_ref 201641 // test_filtermanager
+	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 183977 // test_supplier_helper
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 160553 // test
       end
       ncouples 1
       key "butter other" value "unit-test"

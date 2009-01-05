@@ -1,0 +1,787 @@
+format 61
+"URL" // /xmlreader::URL
+  revision 5
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "xmlreader"
+  cpp_namespace "xmlreader"
+  classview 175657 "URL"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 178857 // URL
+    classdiagram 170409 "URL overview"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 519593 "basic_uri"
+      visibility package 
+      nformals 1
+      formal name "T_traits" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class for URLs
+
+[scheme]://[user]:[authority]@[server]:[port]/[path][#[fragment]|?[query]]"
+      class 519721 "traits_type"
+	visibility package stereotype "typedef" explicit_base_type "T_traits"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "Traits type for this instantiation"
+      end
+
+      class 519849 "rep_type"
+	visibility package stereotype "typedef" explicit_base_type "T_traits::rep_type"
+	cpp_decl "${comment}typedef typename ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "Pointer type of rep object."
+      end
+
+      attribute 433961 "m_rep"
+	private type class_ref 519849 // rep_type
+	multiplicity "0..1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 1645993 "authority"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1643689 "basic_uri"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_rep (0)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Create empty URI
+
+\\post empty"
+      end
+
+      operation 1644457 "basic_uri"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_url" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${v0}${)}${volatile}${throw}
+: m_rep (traits_type::parse (${p0}))
+{
+  @{always}(rep_type (0) != m_rep, \"Failed to parse URI object or out-of-memory\");
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Attempt to create a URI for a_uri string.  Will be empty on failure
+
+\\pre valid_uri (a_uri)
+\\post empty -> bad URI"
+      end
+
+      operation 1643817 "~basic_uri"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  reset ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1643945 "basic_uri"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 519593 // basic_uri
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_rep (rep_type (0) == ${p0}.m_rep ? 0 : traits_type::copy (${p0}.m_rep))
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1650345 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_rep == rep_type (0);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Does this contain a valid URL?"
+      end
+
+      operation 1645865 "fragment"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1644073 "operator="
+	public return_type class_ref 519593 // basic_uri
+	nparams 1
+	  param in name "source" type class_ref 519593 // basic_uri
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  swap (${p0});
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1645225 "path"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1645097 "port"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Return the port number, a value of 0 indicates no port."
+      end
+
+      operation 1645353 "query"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1644201 "reset"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  if (m_rep)
+  {
+    traits_type::reset (m_rep);
+    @{ensure}(m_rep == rep_type (0), \"Traits reset method failed to set pointer to nul\");
+  }
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Delete the rep object if non-nul"
+      end
+
+      operation 1644585 "scheme"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1644841 "server"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1644329 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 519593 // basic_uri
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  rep_type l_tmp (m_rep);
+  m_rep = ${p0}.m_rep;
+  ${p0}.m_rep = l_tmp;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1644969 "user"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return traits_type::${name} (m_rep);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1651625 "valid_uri"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return not ${p0}.empty () and traits_type::is_valid (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test if a_uri is a vlaid (parsable) URI."
+      end
+
+      operation 1652905 "make_uri"
+	stereotype "auto_ptr"
+	class_operation public return_type class_ref 519593 // basic_uri
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  rep_type l_trial (traits_type::parse (${p0}));
+  std::auto_ptr< ${type} > Result;
+  if (NULL != l_trial)
+  {
+    Result.reset (new ${type});
+    Result.get ()->m_rep = l_trial;
+  }
+  return Result;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Attempt to make a URI object from a_uri string. Returns
+nul object on failure."
+      end
+    end
+
+    class 519977 "xml2_uri_traits"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      class 520105 "rep_type"
+	visibility package stereotype "typedef" explicit_base_type "xmlURIPtr"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      operation 1646121 "authority"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1650473 "copy"
+	class_operation cpp_inline public return_type class_ref 520105 // rep_type
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1646249 "fragment"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1651753 "is_valid"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  rep_type l_trial (parse (${p0}));
+  const bool Result (NULL != l_trial);
+  if (Result) 
+  {
+    reset (l_trial);
+  }
+  return Result;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1645481 "parse"
+	class_operation public return_type class_ref 520105 // rep_type
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return (${p0}.empty ()? NULL : xmlParseURI (${p0}.c_str ()));
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1645737 "path"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1646377 "port"
+	class_operation public explicit_return_type "int"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? a_rep->${name} : 0;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1647273 "query"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}_raw) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1645609 "reset"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  xmlFreeURI (${p0});
+  ${p0} = NULL;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1647401 "scheme"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1647529 "server"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1647657 "user"
+	class_operation public explicit_return_type "string"
+	nparams 1
+	  param in name "a_rep" type class_ref 520105 // rep_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  return NULL != a_rep ? as_string (a_rep->${name}) : ${type} ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1649193 "as_string"
+	class_operation private explicit_return_type "string"
+	nparams 1
+	  param inout name "a_str" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return a_str != NULL ? ${type} (a_str) : ${type} ();
+}
+"
+	
+	
+	
+	
+	comment "Helper to convert char* to string on returns. *Does not* free a_str."
+      end
+    end
+
+    class 520489 "uri"
+      visibility package stereotype "typedef" base_type class_ref 519593 // basic_uri
+      nactuals 1
+      actual class class_ref 519593 // basic_uri
+        rank 0 value class_ref 519977 // xml2_uri_traits
+      cpp_decl "${comment}typedef ${type} ${name};
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "libxml2 URL type"
+      classrelation 569129 // <realization>
+	relation 548009 -_-|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 569129 // <realization>
+	  b parent class_ref 519593 // basic_uri
+      end
+    end
+  end
+
+  deploymentview 178857 "URL"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 269993 "basic_uri"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 519593 // basic_uri
+      end
+    end
+
+    artifact 270121 "xml2_uri"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+extern \"C\"
+{
+// Use GNOME libxml2
+#include <libxml/uri.h>
+}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 519977 // xml2_uri_traits
+	class_ref 520489 // uri
+      end
+    end
+  end
+
+  package_ref 160809 // Unit tests
+end

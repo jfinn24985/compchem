@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 32
+  revision 38
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -50,6 +50,299 @@ format 61
     classdiagram 129577 "framework classes"
       draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
+    end
+
+    class 450217 "auto_free"
+      visibility package 
+      nformals 2
+      formal name "T_ptr" type "class" explicit_default_value ""
+        explicit_extends ""
+      formal name "T_del_type" type "class" explicit_default_value "T_ptr"
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Free ptr using an arbitrary delete function."
+      classrelation 562729 // <dependency>
+	relation 541609 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 562729 // <dependency>
+	  b parent class_ref 182569 // function
+      end
+
+      class 450345 "delete_function"
+	visibility package stereotype "typedef" explicit_base_type "T_del_type"
+	cpp_decl "${comment}typedef boost::function1 < void, ${type} > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "The type signature of the delete function"
+      end
+
+      attribute 356777 "m_delete"
+	private type class_ref 450345 // delete_function
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The function to delete object with."
+      end
+
+      attribute 356649 "m_ptr"
+	private explicit_type "T_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The to-be-free pointer"
+      end
+
+      operation 1430185 "auto_free"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_ptr" explicit_type "T_ptr"
+	  param in name "a_fn" type class_ref 450345 // delete_function
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${volatile} throw()
+: m_delete (${p1})
+, m_ptr(${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Capture a pointer to allocated memory that you want freed using a_fn"
+      end
+
+      operation 1431081 "auto_free"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_fn" type class_ref 450345 // delete_function
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile} throw()
+: m_delete (${p0})
+, m_ptr(T_ptr (0))
+{}
+"
+	
+	
+	
+	
+	comment "Set up an object to delete memory using a_fn"
+      end
+
+      operation 1430313 "auto_free"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "source" type class_ref 450217 // auto_free
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: m_ptr (${p0}.m_ptr)
+, m_delete (${p0}.m_delete)
+{
+  ${p0}.m_ptr = T_ptr(0);
+}
+"
+	
+	
+	
+	
+	comment "Transfer ownership."
+      end
+
+      operation 1430441 "~auto_free"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  reset();
+}
+"
+	
+	
+	
+	
+	comment "Free the held pointer"
+      end
+
+      operation 1430569 "get"
+	public explicit_return_type "T_ptr"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_ptr;
+}
+"
+	
+	
+	
+	
+	comment "Get the pointer"
+      end
+
+      operation 1430697 "operator="
+	public return_type class_ref 450217 // auto_free
+	nparams 1
+	  param in name "source" explicit_type "T_ptr"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  reset (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Capture raw pointer, freeing any held resource"
+      end
+
+      operation 1430825 "operator="
+	public return_type class_ref 450217 // auto_free
+	nparams 1
+	  param in name "source" type class_ref 450217 // auto_free
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  swap (${p0});
+  ${p0}.reset ();
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Transfer ownership."
+      end
+
+      operation 1430953 "reset"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "source" explicit_type "T_ptr"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=T_ptr(0)${)}${const}${volatile}${throw}${abstract}
+{
+  if (${p0} != m_ptr)
+  {
+    if (m_ptr != T_ptr(0) and not m_delete.empty ())
+    {
+      m_delete (m_ptr);
+    }
+    m_ptr = ${p0};
+  }
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1616297 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "source" type class_ref 450217 // auto_free
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile} throw()${abstract}
+{
+  T_ptr l_tmp1 (m_ptr);
+  m_ptr = ${p0}.m_ptr;
+  ${p0}.m_ptr = l_tmp1;
+  delete_function l_tmp2 (m_delete);
+  m_delete = ${p0}.m_delete;
+  ${p0}.m_delete = l_tmp2;
+}"
+	
+	
+	
+	
+	comment "No-throw swap"
+      end
+    end
+
+    class 518313 "call_once"
+      visibility package 
+      nformals 1
+      formal name "void (*T_functor)()" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Class to ensure that some functor is called exactly once.
+
+usage
+Use only:
+class my_class { ...
+friend class call_once_init< my_class >;
+}
+static once_init< my_class > my_class_dummy__(fnctor);
+"
+      operation 1641001 "counter"
+	private explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  static int Result (0);
+  return Result;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1641257 "call_once"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+  {
+    if (0 == counter ())
+    {
+      ++counter ();
+      T_functor ();
+    }
+    ++counter ();
+  }
+
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "This uses the empty ctor once to create the T_once Singleton."
+      end
+
     end
 
     class 419113 "contract_error"
@@ -338,8 +631,14 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "Use a preallocated char* stream buffer for reading and writing.  This is to facilitate
-writing into a preexisting char* or char[].
+      comment "Use a preallocated char* stream buffer for reading and writing.  This is to 
+facilitate writing into a preexisting char* or char[].  
+
+It supports clearing the buffer. On construction the buffer is assumed to be 
+empty.  Will only write up to the last-but-one location ensure that the buffer 
+is always nul-terminated.
+
+To read from a filled buffer use const_c_streambuf.
 
 Derived from newsgroup post by Dietmar Kuehl. <http://www.dietmar-kuehl.de/>"
       attribute 325033 "m_buf"
@@ -375,6 +674,90 @@ available to read NOR the entire buffer.
 
 \\post result /= nul or result = end
 \\post result = &buffer used to make streambuf"
+      end
+
+      operation 1340969 "c_streambuf"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_buf" explicit_type "charT"
+	  param in name "a_sz" explicit_type "uint"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${volatile}${throw}
+: m_buf(${p0})
+{
+  this->setg(this->m_buf, this->m_buf, this->m_buf);
+  this->setp(this->m_buf, this->m_buf + ${p1} - 1); // Leave last char as nul
+  traits::assign (this->m_buf, ${p1}, 0);
+}
+"
+	
+	
+	
+	
+	comment "Construct a stream buffer object that uses the given char*.  This
+assumes that the buffer is empty.
+
+\\pre a_buf /= nul and a_sz /= 0 (NOT TESTED!)
+\\post begin = a_buf"
+      end
+
+      operation 1341097 "c_streambuf"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 421673 // c_streambuf
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};"
+	
+	
+	
+	
+	comment "Internal buffer is read/write so this makes no sense
+
+no-copy"
+      end
+
+      operation 1341225 "~c_streambuf"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1335465 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  this->setg(this->m_buf, this->m_buf, this->m_buf);
+  this->setp(this->m_buf, this->epptr ());
+  traits::assign (this->m_buf, this->epptr () - this->m_buf, 0);
+}"
+	
+	
+	
+	
+	comment "Resets the buffer pointers. Zeros buffer."
+      end
+
+      operation 1632553 "data"
+	const public explicit_return_type "char"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} * ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_buf;
+}
+"
+	
+	
+	
+	
+	comment "Get pointer to buffer"
       end
 
       operation 1342633 "end"
@@ -414,91 +797,19 @@ available to read NOR the entire buffer.
 	comment "No Copy"
       end
 
-      operation 1340969 "c_streambuf"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_buf" explicit_type "charT"
-	  param in name "a_sz" explicit_type "uint"
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${volatile}${throw}
-: m_buf(${p0})
-{
-  this->reset (${p0}, ${p1});
-}
-"
-	
-	
-	
-	
-	comment "Construct a stream buffer object that uses the given char*.  This
-assumes that the buffer is empty.
-
-\\post begin = a_buf"
-      end
-
-      operation 1341097 "c_streambuf"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 421673 // c_streambuf
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: m_buf (${p0}.m_buf)
-{
-  this->reset (${p0}.m_buf, ${p0}.epptr () - ${p0}.m_buf);
-}
-"
-	
-	
-	
-	
-	comment "Share the internal buffer instances.
-
-\\post begin = source.begin and end = source.end"
-      end
-
-      operation 1341225 "~c_streambuf"
-	public explicit_return_type ""
+      operation 1632937 "str"
+	const public explicit_return_type "std::basic_string< charT, traits >"
 	nparams 0
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1340457 "reset"
-	public explicit_return_type "void"
-	nparams 2
-	  param inout name "a_buf" explicit_type "charT"
-	  param in name "a_sz" explicit_type "uint"
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  if (${p0} != this->m_buf)
-  {
-    this->m_buf = ${p0};
-  }
-  this->setg(this->m_buf, this->m_buf, this->m_buf);
-  this->setp(this->m_buf, this->m_buf + ${p1} - 1); // Leave last char as nul
-  traits::assign (this->m_buf, ${p1}, 0);
+  return std::string(this->pbase(), this->pptr());
 }
 "
 	
 	
 	
 	
-	comment "Resets the buffer pointers to adjust internal pointer to a
-new buffer.
-
-\\post begin = a_buf"
+	comment "Convert to string"
       end
 
       operation 1341609 "underflow"
@@ -597,6 +908,90 @@ everything that has been written to the buffer, not just what is
 available to read NOR the entire buffer."
       end
 
+      operation 1632681 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  charT * l_tmp = const_cast< charT * >(this->m_buf);
+  this->setg(l_tmp, l_tmp, this->egptr ());
+}"
+	
+	
+	
+	
+	comment "Resets the buffer pointers. Does not zero buffer!"
+      end
+
+      operation 1344169 "const_c_streambuf"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_buf" explicit_type "charT"
+	  param in name "a_sz" explicit_type "uint"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} * ${p0}, ${t1} ${p1}${)}${volatile}${throw}
+: m_buf(${p0})
+{
+  charT * l_tmp = const_cast< charT * >(this->m_buf);
+  this->setg(l_tmp, l_tmp, l_tmp + ${p1});
+}"
+	
+	
+	
+	
+	comment "Construct a stream buffer object that uses the given char*.  This
+assumes that the buffer contains a_sz x charT of data.
+
+\\pre a_buf /= nul and a_sz /= 0 (NOT TESTED!)"
+      end
+
+      operation 1344297 "const_c_streambuf"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 422825 // const_c_streambuf
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_buf (${p0}.m_buf)
+{
+  charT * l_tmp = const_cast< charT * >(this->m_buf);
+  this->setg(l_tmp, l_tmp, ${p0}.egptr ());
+}"
+	
+	
+	
+	
+	comment "Share the internal buffer instances. Both will point to the same
+read position."
+      end
+
+      operation 1344425 "~const_c_streambuf"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1632809 "data"
+	const public explicit_return_type "char"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} * ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_buf;
+}
+"
+	
+	
+	
+	
+	comment "Get pointer to buffer"
+      end
+
       operation 1343913 "end"
 	stereotype "const"
 	const public explicit_return_type "charT"
@@ -630,58 +1025,19 @@ available to read NOR the entire buffer."
 	comment "No Copy"
       end
 
-      operation 1344169 "const_c_streambuf"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_buf" explicit_type "charT"
-	  param in name "a_sz" explicit_type "uint"
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} * ${p0}, ${t1} ${p1}${)}${volatile}${throw}
-: m_buf(${p0})
-{
-  charT * l_tmp = const_cast< charT * >(this->m_buf);
-  this->setg(l_tmp, l_tmp, l_tmp + ${p1});
-}"
-	
-	
-	
-	
-	comment "Construct a stream buffer object that uses the given char*.  This
-assumes that the buffer contains a_sz x charT of data."
-      end
-
-      operation 1344297 "const_c_streambuf"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 422825 // const_c_streambuf
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: m_buf (${p0}.m_buf)
-{
-  this->setg (${p0}.m_buf, ${p0}.gptr (), ${p0}.egptr ());
-}"
-	
-	
-	
-	
-	comment "Share the internal buffer instances."
-      end
-
-      operation 1344425 "~const_c_streambuf"
-	public explicit_return_type ""
+      operation 1632425 "str"
+	const public explicit_return_type "std::basic_string< charT, traits >"
 	nparams 0
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string(this->gptr(), this->egptr());
+}
 "
 	
 	
 	
 	
+	comment "Convert the remaining output to a string"
       end
     end
 
@@ -832,27 +1188,30 @@ ${inlines}
       end
     end
 
-    class 450217 "auto_free"
-      visibility package 
-      nformals 2
-      formal name "T_ptr" type "class" explicit_default_value ""
+    class 516905 "friend_maker"
+      visibility package stereotype "struct"
+      nformals 1
+      formal name "T_friend" type "class" explicit_default_value ""
         explicit_extends ""
-      formal name "T_del_type" type "class" explicit_default_value ""
-        explicit_extends ""
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
+      cpp_decl "${comment}${template}struct ${name}${inherit}
+{
+${members}
+};
 ${inlines}
 "
       java_decl ""
       php_decl ""
-      python_2_2 python_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
       idl_decl ""
       explicit_switch_type ""
       
-      comment "Free ptr using an arbitrary delete function."
-      class 450345 "delete_function"
-	visibility package stereotype "typedef" explicit_base_type "T_del_type"
-	cpp_decl "${comment}typedef void (*${name})(${type});
+      comment "Class to enable a template class to make a friend of one of its parameter
+classes."
+      class 517033 "friend_type"
+	visibility public stereotype "typedef" explicit_base_type "T_friend"
+	cpp_decl "${comment}typedef ${type} ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -861,188 +1220,6 @@ ${inlines}
 "
 	explicit_switch_type ""
 	
-	comment "The type signature of the delete function"
-      end
-
-      attribute 356777 "m_delete"
-	private type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The function to delete object with."
-      end
-
-      attribute 356649 "m_ptr"
-	private explicit_type "T_ptr"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The to-be-free pointer"
-      end
-
-      operation 1430185 "auto_free"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_ptr" explicit_type "T_ptr"
-	  param in name "a_fn" type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${volatile} throw()
-: m_ptr(${p0})
-, m_delete (${p1})
-{}
-"
-	
-	
-	
-	
-	comment "Capture a pointer to allocated memory that you want freed using a_fn"
-      end
-
-      operation 1431081 "auto_free"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "a_fn" type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile} throw()
-: m_ptr(T_ptr (0))
-, m_delete (${p0})
-{}
-"
-	
-	
-	
-	
-	comment "Set up an object to delete memory using a_fn"
-      end
-
-      operation 1430313 "auto_free"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
-: m_ptr (${p0}.m_ptr)
-, m_delete (${p0}.m_delete)
-{
-  ${p0}.m_ptr = T_ptr(0);
-}
-"
-	
-	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1430441 "~auto_free"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{
-  reset();
-}
-"
-	
-	
-	
-	
-	comment "Free the held pointer"
-      end
-
-      operation 1430569 "get"
-	public explicit_return_type "T_ptr"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_ptr;
-}
-"
-	
-	
-	
-	
-	comment "Get the pointer"
-      end
-
-      operation 1430697 "operator="
-	public return_type class_ref 450217 // auto_free
-	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  reset (${p0});
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Capture raw pointer, freeing any held resource"
-      end
-
-      operation 1430825 "operator="
-	public return_type class_ref 450217 // auto_free
-	nparams 1
-	  param in name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  swap (${p0});
-  ${p0}.reset ();
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1430953 "reset"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=T_ptr(0)${)}${const}${volatile}${throw}${abstract}
-{
-  if (${p0} != m_ptr)
-  {
-    if (m_ptr != T_ptr(0) and m_delete != delete_function (0))
-    {
-      (*m_delete) (m_ptr);
-    }
-    m_ptr = ${p0};
-  }
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1616297 "swap"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile} throw()${abstract}
-{
-  T_ptr l_tmp1 (m_ptr);
-  m_ptr = ${p0}.m_ptr;
-  ${p0}.m_ptr = l_tmp1;
-  delete_function l_tmp2 (m_delete);
-  m_delete = ${p0}.m_delete;
-  ${p0}.m_delete = l_tmp2;
-}"
-	
-	
-	
-	
-	comment "No-throw swap"
       end
     end
 
@@ -1093,6 +1270,169 @@ is not possible a_leafer is returned unaltered.  The relative path is
 constructed relative to the whole of a_base.  If either paths are
 not complete, then they are made \"complete\" by prepending initial_path ()
 and normalizing."
+      end
+    end
+
+    class 517161 "once_init"
+      visibility package 
+      nformals 1
+      formal name "T_once" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Class to ensure that some exemplar is constructed
+before it is first accessed AND that there is only one instance.
+
+One pattern makes the exemplar and/or c'tor private and this 
+class a friend of T_target.
+
+If you just want to ensure an exemplar exists, use a template??. 
+One time initialisation could then be done in the (private?) c'tor,
+or the c'tor could do test ( this == exemplar )??.
+
+usage
+Use only:
+class my_class { ...
+friend class once_init< my_class >;
+}
+static once_init< my_class > my_class_dummy__;
+"
+      classrelation 566313 // <dependency>
+	relation 545193 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 566313 // <dependency>
+	  b parent class_ref 516905 // friend_maker
+      end
+
+      extra_member 152361 "friend"
+	
+	cpp "  friend class friend_maker< T_once >::friend_type;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 1639209 "counter"
+	private explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type}& ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1639849 "init"
+	class_operation private explicit_return_type "T_once"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}*& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  static T_once* Result (0);
+  return Result;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Use this method to access the Singleton in your T_once class."
+      end
+
+      operation 1639337 "once_init"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+  {
+    if (0 == counter ())
+    {
+      ++counter ();
+      init () = new T_once;
+    }
+    ++counter ();
+  }
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "This uses the empty ctor once to create the T_once Singleton."
+      end
+
+      operation 1639465 "~once_init"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} throw ()
+  {
+    --counter ();
+    if (0 == counter ())
+    {
+      delete init ();
+    }
+  }
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1639593 "once_init"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" explicit_type "once_init"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1639721 "operator="
+	private explicit_return_type "once_init"
+	nparams 1
+	  param in name "source" explicit_type "once_init"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
       end
     end
 
@@ -1714,7 +2054,8 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "A fixed-length stream buffer
+      comment "A fixed-length stream buffer. This allows full read/write into the buffer. Will only
+write up to the last-but-one location ensure that the buffer is always nul-terminated.
 
 Derived from newsgroup post by Dietmar Kuehl. <http://www.dietmar-kuehl.de/>"
       attribute 320553 "m_buf"
@@ -1749,7 +2090,7 @@ available to read NOR the entire buffer.
 \\post result /= nul"
       end
 
-      operation 1335465 "clear"
+      operation 1632297 "clear"
 	public explicit_return_type "void"
 	nparams 0
 	nexceptions 1
@@ -1764,7 +2105,7 @@ available to read NOR the entire buffer.
 	
 	
 	
-	comment "Resets the buffer pointers. May not zero buffer."
+	comment "Resets the buffer pointers. Zeros buffer."
       end
 
       operation 1335593 "data"
@@ -2101,11 +2442,11 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157609 // filesystem
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
 	artifact_ref 245033 // time_stamp
 	artifact_ref 224041 // program_options
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
+	artifact_ref 157609 // filesystem
       end
     end
 
@@ -2302,20 +2643,37 @@ ${definition}
 ${namespace_end}
 #endif
 "
-      cpp_src "// ------------------------------------------------------------
+      associated_classes
+	class_ref 416425 // free_ptr
+	class_ref 450217 // auto_free
+      end
+    end
+
+    artifact 268713 "friend_maker"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
 // class: ${name}
 // $revision:$
 // $log:$
 // ------------------------------------------------------------
 
 ${comment}
+#include \"config.hpp\"
 ${includes}
+${declarations}
 ${namespace_start}
-${members}
-${namespace_end}"
+${definition}
+${namespace_end}
+#endif
+"
+      python_src "${comment}
+${import}
+${definition}"
       associated_classes
-	class_ref 416425 // free_ptr
-	class_ref 450217 // auto_free
+	class_ref 516905 // friend_maker
       end
     end
 
@@ -2366,6 +2724,35 @@ ${namespace_end}
       associated_classes
       end
       comment "This file contains helpful free functions in the framework namespace."
+    end
+
+    artifact 268841 "once_init"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 518313 // call_once
+	class_ref 517161 // once_init
+      end
     end
 
     artifact 224041 "program_options"

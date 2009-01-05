@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 14
+  revision 21
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2050,13 +2050,14 @@ is not a real C++ sourcefile.
   -> [ ] Make test system report failed tests.
 
 Todo
-- tests for data_access: manager, persistence, xml_*
+- tests for data_access: xml_*
 - tests for data_scheme
 - chemistry tests
 - tests for python!
 
 Specifics
-- test utility review
+- test_supplier
+  - relative path incorrect! = \"dir/file/../\" ??
 - test_offsetter - convert to use monitor_fn
 - verify_visitor"
     end

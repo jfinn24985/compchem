@@ -1,6 +1,6 @@
 format 61
-"/xmlreader" // /xmlreader
-  revision 4
+"Unit tests" // /xmlreader::URL::Unit tests
+  revision 1
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -26,20 +26,5 @@ format 61
   package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
   show_infonote default drawing_language default show_stereotype_properties default
   
-  stereotype "facade"
-  cpp_h_dir "xmlreader"
-  cpp_src_dir "../src/xmlreader"
-  cpp_namespace "purpletree"
-  ncouples 2
-  key "version" value "$revision$"
-  key "PREFIX" value "PURPLETREE_"
-  comment "A facade interface for accessing the libxml2 xmlReaderText set of operations. The
-facade is designed to allow replacement of the libxml2 with alternatives if necessary."
-  package_ref 128169 // xmlreader
-
-  package_ref 148649 // libxml2
-
-  package_ref 149801 // SAX
-
-  package_ref 160681 // URL
+  comment "See xmlreader Unit Tests package"
 end

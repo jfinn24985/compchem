@@ -1,17 +1,14 @@
-window_sizes 986 735 339 641 489 161
+window_sizes 960 672 341 613 342 251
 diagrams
-  classdiagram_ref 134057 // Suppliers
-    643 383 81 4 0 0
-  classdiagram_ref 138025 // Dependencies
-    643 375 75 4 0 0
-  active  classdiagram_ref 158761 // data_access types
-    641 489 100 4 374 0
+  active  classdiagram_ref 133545 // test classes
+    613 342 100 4 0 0
 end
 show_stereotypes
 selected 
-  package_ref 128297 // /compchem/chemistry
+  package_ref 132777 // /compchem/data_access
 open
+  deploymentview_ref 146473 // Overview
   
-  package_ref 152105 // Docs
+  package_ref 131497 // External Components
 end
 end

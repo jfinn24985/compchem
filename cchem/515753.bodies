@@ -1,0 +1,16 @@
+class test_data_manager
+!!!1637801.cpp!!!	main_test() : void
+data_access::manager &l_man (data_access::manager::server ());
+
+// Get Manager attributes
+log () << "Number of creator's: " << l_man.size () << "\n";
+
+// Test is_supported
+const std::string l_u1;
+const std::string l_u2 ("http://localhost/cchem/base.xml");
+const std::string l_u3 ("file:///usr/local/lib/cchem/base.xml");
+const std::string l_u4 ("/usr/local/lib/cchem/base.xml");
+log () << "URI [" << l_u1 << "] support: " << (l_man.is_supported (l_u1)?"yes":"no") << "\n";
+log () << "URI [" << l_u2 << "] support: " << (l_man.is_supported (l_u2)?"yes":"no") << "\n";
+log () << "URI [" << l_u3 << "] support: " << (l_man.is_supported (l_u3)?"yes":"no") << "\n";
+log () << "URI [" << l_u4 << "] support: " << (l_man.is_supported (l_u4)?"yes":"no") << "\n";

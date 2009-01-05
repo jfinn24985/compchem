@@ -1,0 +1,4 @@
+class once_init
+!!!1639209.cpp!!!	counter() : int
+static int Result (0);
+return Result;

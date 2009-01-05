@@ -1,6 +1,6 @@
 format 61
 "Unit Tests" // /xmlreader::libxml2::Unit Tests
-  revision 103
+  revision 106
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -208,6 +208,105 @@ nothing."
 	
       end
     end
+
+    class 520617 "test_xml2_uri"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 569257 // <generalisation>
+	relation 548137 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 569257 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 569513 // <dependency>
+	relation 548393 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 569513 // <dependency>
+	  b parent class_ref 520489 // uri
+      end
+
+      classrelation 569385 // s_exemplar (<directional composition>)
+	relation 548265 *-->
+	  a role_name "s_exemplar" multiplicity "1" class_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    python "${comment}${self}${name} = ${type}()
+"
+	    classrelation_ref 569385 // s_exemplar (<directional composition>)
+	  b parent class_ref 520617 // test_xml2_uri
+      end
+
+      operation 1647785 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1647913 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"libxml2 URI/basic_uri test\");
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1648041 "print_uri"
+	const public explicit_return_type "void"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Parse and print parts of a_uri"
+      end
+    end
   end
 
   deploymentview 165673 "unit test"
@@ -254,12 +353,13 @@ ${namespace_end}"
     artifact 258729 "test_xml2reader"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 253353 // xml
+	artifact_ref 270249 // test_xml2_uri
 	artifact_ref 157993 // utility
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
 	artifact_ref 160553 // test
 	artifact_ref 130729 // test_xml2_reader
-	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -268,6 +368,45 @@ ${namespace_end}"
     artifact 258857 "axtest.args"
       stereotype "document"
       comment "--xmlfile split/sPh/OL07-1-05-sPh-GE-FREQ-b6.xml --xmlfile split/main-database.xml"
+    end
+
+    artifact 270249 "test_xml2_uri"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 520617 // test_xml2_uri
+      end
     end
   end
 end

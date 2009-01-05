@@ -1,6 +1,6 @@
 format 61
 "test_args" // /compchem/supplier::test cases::test_args
-  revision 2
+  revision 3
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -33,7 +33,7 @@ format 61
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     artifact 258345 "test_supplier_args"
       stereotype "source"
-      cpp_src "file=src/test/supplier/test.gout
+      cpp_src "file=test/gaussian_test/g03/H2M6.MP2.6311g.freq
 database=test/split/main-database.xml
 project=rncccs
 compound=sPh4DAcs-t

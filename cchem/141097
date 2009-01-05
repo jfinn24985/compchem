@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/utility::test cases
-  revision 25
+  revision 32
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -272,7 +272,7 @@ ${namespace_end}"
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 147625 // utility Tests
     classdiagram 151593 "test cases"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -289,6 +289,24 @@ ${inlines}
       explicit_switch_type ""
       
       comment "Unit test for the streambuf class."
+      classrelation 560169 // <dependency>
+	relation 539049 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 560169 // <dependency>
+	  b parent class_ref 421673 // c_streambuf
+      end
+
+      classrelation 561321 // <dependency>
+	relation 540201 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 561321 // <dependency>
+	  b parent class_ref 422825 // const_c_streambuf
+      end
+
       classrelation 389673 // <dependency>
 	relation 380969 -_->
 	  a package
@@ -305,6 +323,40 @@ ${inlines}
 	  b parent class_ref 332585 // unit_test
       end
 
+      class 513065 "test_streambuf_enum"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	attribute 432553 "s_size"
+	  public type class_ref 513065 // test_streambuf_enum
+	  init_value "= 1024"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+      end
+
       attribute 320681 "exemplar"
 	class_attribute private type class_ref 417961 // test_streambuf
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -316,11 +368,52 @@ ${inlines}
 	comment "Test case exemplar"
       end
 
+      operation 1630249 "main_test"
+	const cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform the same tests on different streambufs
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1630761 "post_ctor_test"
+	const cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_buf" explicit_type "T_streambuf"
+	  param in name "a_readonly" explicit_type "bool"
+	cpp_decl "    ${comment}template< class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class ${t0} > ${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a standard set of tests on one of my streambuf types just
+after construction or after clearing.
+
+\\param a_empty <=> constructed object has no content"
+      end
+
       operation 1335209 "title"
 	const cpp_virtual public explicit_return_type "string"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
-  return \"Fixed-buffer streambuf test\"; }
+  return \"Various streambuf type tests\"; }
 "
 	
 	
@@ -329,19 +422,98 @@ ${inlines}
 	comment "Name of test set."
       end
 
-      operation 1335337 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+      operation 1335337 "test_one_write"
+	const cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_buf" explicit_type "T_streambuf"
+	cpp_decl "    ${comment}template< class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}template< class ${t0} > ${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
 	
 	
-	comment "Override in derived classes to perform unit test."
+	comment "Perform a standard set of read tests on one of my streambuf types."
+      end
+
+      operation 1630889 "test_two_write"
+	const cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_buf" explicit_type "T_streambuf"
+	cpp_decl "    ${comment}template< class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class ${t0} > ${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a standard set of read tests on one of my streambuf types."
+      end
+
+      operation 1631145 "test_three_read"
+	const cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_buf" explicit_type "T_streambuf"
+	  param in name "a_readonly" explicit_type "bool"
+	    defaultvalue "false"
+	cpp_decl "    ${comment}template < class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template < class ${t0} > ${type} ${class}::${name}${(}${t0} &${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a standard set of tests on one of my c_streambuf types."
+      end
+
+      operation 1630633 "test_four_read_write"
+	const cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_buf" explicit_type "T_streambuf"
+	cpp_decl "    ${comment}template< class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class ${t0} > ${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform a standard set of write tests on one of my streambuf types."
+      end
+
+      operation 1634089 "test_five_copy"
+	const cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param in name "a_copy" explicit_type "T_streambuf"
+	  param inout name "a_orig" explicit_type "T_streambuf"
+	cpp_decl "    ${comment}template < class ${t0} > ${friend}${static}${virtual}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template < class ${t0} > ${type} ${class}::${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
 
       operation 1359913 "test_streambuf"
@@ -461,194 +633,6 @@ macros."
 	python_decl ""
 	idl_decl ""
 	comment "The class exemplar"
-      end
-    end
-
-    class 426281 "test_cstreambuf"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for the streambuf class."
-      classrelation 407209 // <dependency>
-	relation 398249 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 407209 // <dependency>
-	  b parent class_ref 421673 // c_streambuf
-      end
-
-      classrelation 407081 // <generalisation>
-	relation 398121 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 407081 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      attribute 330153 "exemplar"
-	class_attribute private type class_ref 426281 // test_cstreambuf
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Test case exemplar"
-      end
-
-      operation 1354665 "title"
-	const cpp_virtual public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
-  return \"C-buffer streambuf test\"; }
-"
-	
-	
-	
-	
-	comment "Name of test set."
-      end
-
-      operation 1354793 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1359401 "test_cstreambuf"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: unit_test ()
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1359273 "~test_cstreambuf"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-    end
-
-    class 426409 "test_const_cstreambuf"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for the streambuf class."
-      classrelation 407593 // <dependency>
-	relation 398633 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 407593 // <dependency>
-	  b parent class_ref 422825 // const_c_streambuf
-      end
-
-      classrelation 407465 // <generalisation>
-	relation 398505 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 407465 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      attribute 330281 "exemplar"
-	class_attribute private type class_ref 426409 // test_const_cstreambuf
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Test case exemplar"
-      end
-
-      operation 1355049 "title"
-	const cpp_virtual public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
-  return \"Const C-buffer streambuf test\"; }
-"
-	
-	
-	
-	
-	comment "Name of test set."
-      end
-
-      operation 1355177 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1359145 "test_const_cstreambuf"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: unit_test ()
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1359017 "~test_const_cstreambuf"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
       end
     end
 
@@ -884,78 +868,6 @@ ${namespace_end}"
       end
     end
 
-    artifact 196137 "test_cstreambuf"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 426281 // test_cstreambuf
-      end
-    end
-
-    artifact 196265 "test_const_cstreambuf"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 426409 // test_const_cstreambuf
-      end
-    end
-
     artifact 197545 "test_filesystem_util"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -1057,6 +969,7 @@ ${namespace_end}
 ${comment}
 ${includes}
 #include <iostream>
+#include <boost/scoped_array.hpp>
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -1400,19 +1313,17 @@ ${inlines}
     artifact 199209 "test_test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 197545 // test_filesystem_util
 	artifact_ref 252841 // program_options
-	artifact_ref 197417 // test_freeptr
 	artifact_ref 230313 // filesystem
-	artifact_ref 147241 // test_posix
-	artifact_ref 196265 // test_const_cstreambuf
-	artifact_ref 160553 // test
-	artifact_ref 199081 // test_testmanager
+	artifact_ref 197417 // test_freeptr
 	artifact_ref 158249 // posix
-	artifact_ref 191401 // test_streambuf
-	artifact_ref 193705 // test_contract_error
+	artifact_ref 197545 // test_filesystem_util
+	artifact_ref 147241 // test_posix
 	artifact_ref 157993 // utility
-	artifact_ref 196137 // test_cstreambuf
+	artifact_ref 191401 // test_streambuf
+	artifact_ref 199081 // test_testmanager
+	artifact_ref 193705 // test_contract_error
+	artifact_ref 160553 // test
       end
       ncouples 1
       key "butter other" value "unit-test"

@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 32
+  revision 41
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -29,39 +29,6 @@ format 61
   cpp_h_dir "test/data_access_test"
   cpp_src_dir "../src/test/data_access_test"
   cpp_namespace "data_access"
-  componentview 130089 "data_access test components"
-    //component diagram settings
-    package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
-    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    component 131369 "test_meta_datum"
-      stereotype "build"
-      provided_classes
-	class_ref 434089 // test_meta_datum
-      end
-      required_classes
-	class_ref 433961 // meta_datum
-      end
-      ncouples 1
-      key "target" value "axtest"
-    end
-
-    component 131497 "test_helper"
-      stereotype "build"
-      provided_classes
-	class_ref 457001 // test_file_helper
-      end
-      required_classes
-	class_ref 178601 // basic_names
-	class_ref 360233 // xml_access_helper
-	class_ref 433961 // meta_datum
-	class_ref 449449 // persistence
-      end
-      ncouples 2
-      key "target" value "axtest"
-      key "argument" value "--search-path OL07-1-05-sPh-GE-FREQ-b6.xml --search-key OL07-1-05-sPh-GE-FREQ-b6 --search-base DA -D split -D split.new"
-    end
-  end
-
   classview 130729 "data access test classes"
     //class diagram settings
     draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
@@ -80,7 +47,7 @@ format 61
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 132137 // data access test deployment
     classdiagram 133545 "test classes"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -287,12 +254,253 @@ that they are categorised correctly.
 	
       end
     end
+
+    class 514601 "test_persistence"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Base class for tests of persistence derived-objects"
+      classrelation 562857 // <generalisation>
+	relation 541737 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 562857 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 570793 // <dependency>
+	relation 549673 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 570793 // <dependency>
+	  b parent class_ref 432681 // basic_datum
+      end
+
+      classrelation 570665 // <dependency>
+	relation 549545 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 570665 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      operation 1636393 "test_persistence"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_pers" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${v0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Perform standard tests on a persistence object."
+      end
+
+      operation 1636521 "test_write"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_pers" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test that the storage object created by \"write\" is the same 
+storage object from which it was read. This must be implemented 
+in derived classes but is called from 'test_persistence'"
+      end
+    end
+
+    class 515753 "test_data_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test the data_access::manager class"
+      classrelation 564009 // <generalisation>
+	relation 542889 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 564009 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 564137 // <dependency>
+	relation 543017 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 564137 // <dependency>
+	  b parent class_ref 496425 // manager
+      end
+
+      attribute 435113 "s_exemplar"
+	class_attribute private type class_ref 515753 // test_data_manager
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 1637801 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1637673 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"Test of data_access::manager class.\");
+}
+"
+	
+	
+	
+	
+      end
+    end
   end
 
   deploymentview 132137 "data access test deployment"
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 251305 "test_data_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 208937 // test_names
+	artifact_ref 230057 // data_access
+	artifact_ref 160553 // test
+	artifact_ref 252969 // regex
+	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 267561 // test_persistence
+	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+      comment "
+"
+    end
+
+    artifact 272553 "test_data_access2"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 253097 // date_time
+	artifact_ref 230313 // filesystem
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
+	artifact_ref 271401 // test_data_manager
+	artifact_ref 253353 // xml
+	artifact_ref 144169 // data_scheme
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
+    artifact 271401 "test_data_manager"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 515753 // test_data_manager
+      end
+    end
+
     artifact 204073 "test_meta_datum"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -365,24 +573,43 @@ ${namespace_end}"
       end
     end
 
-    artifact 251305 "test_data_access"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 252841 // program_options
-	artifact_ref 208937 // test_names
-	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
-	artifact_ref 230313 // filesystem
-	artifact_ref 253097 // date_time
-	artifact_ref 252969 // regex
-	artifact_ref 230057 // data_access
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
-      comment "
+    artifact 267561 "test_persistence"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
 "
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 514601 // test_persistence
+      end
     end
   end
 
@@ -633,6 +860,22 @@ nothing."
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 266409 "test_data_xml_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 230057 // data_access
+	artifact_ref 215977 // test_file_helper
+	artifact_ref 160553 // test
+	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 253353 // xml
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 144169 // data_scheme
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
     artifact 215977 "test_file_helper"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -670,22 +913,6 @@ ${namespace_end}"
       associated_classes
 	class_ref 457001 // test_file_helper
       end
-    end
-
-    artifact 266409 "test_data_xml_access"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 144169 // data_scheme
-	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
-	artifact_ref 215977 // test_file_helper
-	artifact_ref 253097 // date_time
-	artifact_ref 230057 // data_access
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
     end
   end
 

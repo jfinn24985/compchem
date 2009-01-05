@@ -1,0 +1,24 @@
+class test_persistence
+!!!1636393.cpp!!!	test_persistence(inout a_pers : persistence) : void
+// is_open
+if (not a_pers.is_open ())
+{
+  // read
+  a_pers.read ();
+  bool_test (a_pers.is_open (), "persistence object is_open true after read.");
+}
+// top
+data_scheme::basic_datum &l_top (a_pers.top ()); /* UNUSED */
+// top (const)
+const data_scheme::basic_datum &l_ctop (const_cast< const persistence & >(a_pers).top ()); /* UNUSED */
+const std::string l_sname (a_pers.top ().serial_name ());
+bool_test (l_sname == names::program_name ()
+ or l_sname == names::project_name ()
+ or l_sname == names::memo_name ()
+ , "top datum has one of the allowed top-level serial names.");
+// uri_path
+// uri_scheme
+// uri
+const std::string l_u1 (a_pers.uri_scheme () + ":" + a_pers.uri_path ());
+const std::string l_u2 (a_pers.uri_scheme () + "://" + a_pers.uri_path ());
+bool_test (l_u1 == a_pers.uri () or  l_u2 == a_pers.uri (), "uri_scheme + uri_path = uri.");

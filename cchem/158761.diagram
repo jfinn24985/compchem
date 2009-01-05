@@ -30,7 +30,15 @@ classcanvas 132137 class_ref 182569 // function
 end
 classcanvas 132521 class_ref 479273 // xml_persistence
   draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
-  xyz 219 523 2004
+  xyz 290 518 2004
+end
+classcanvas 136361 class_ref 518313 // call_once
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 64 563 2005
+end
+classcanvas 136617 class_ref 511785 // create_persistence_function
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 245 297 2004
 end
 relationcanvas 130473 relation_ref 473769 // <dependency>
   from ref 128809 z 1999 to ref 130089
@@ -81,5 +89,18 @@ relationcanvas 133289 relation_ref 475049 // <dependency>
   from ref 132521 z 1999 to ref 128809
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 136489 relation_ref 546729 // <dependency>
+  from ref 132521 z 2003 to ref 136361
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+line 136745 ---+
+  from ref 136617 z 1999 to ref 132009
+relationcanvas 136873 relation_ref 547881 // <directional composition>
+  from ref 132009 z 1999 stereotype "<<map>>" xyz 155 379 3000 to point 210 397
+  line 137001 z 1999 to ref 136617
+  role_a_pos 209 331 3000 no_role_b
+  multiplicity_a_pos 262 361 3000 no_multiplicity_b
 end
 end

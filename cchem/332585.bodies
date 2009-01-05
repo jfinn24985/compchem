@@ -2,7 +2,7 @@ class unit_test
 !!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : string) : void
 if (a_test)
 {
-  log () << IFYS << "   passed   : " << a_msg << "\n";
+  log () << IFYS << "   passed   : " << a_msg << std::endl;
 }
 else
 {
@@ -13,7 +13,7 @@ try
 {
   if (not a_msg.empty ())
   {
-    log () << WTCH << a_msg << "\n";
+    log () << WTCH << a_msg << std::endl;
   }
   a_fn();
   throw std::logic_error ("Test function failed to throw expected error.");

@@ -1,6 +1,6 @@
 format 61
 "//test" // /compchem/utility:://test
-  revision 44
+  revision 45
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -614,9 +614,9 @@ the contract_error if of the wrong type."
     artifact 160553 "test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 133161 // test_manager
 	artifact_ref 145833 // unit_test
+	artifact_ref 133161 // test_manager
+	artifact_ref 157993 // utility
       end
       comment "The framework test class library"
     end
