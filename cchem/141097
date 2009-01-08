@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/utility::test cases
-  revision 32
+  revision 34
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -83,6 +83,15 @@ ${inlines}
 	  b parent class_ref 335529 // epoch_time
       end
 
+      classrelation 577449 // <dependency>
+	relation 556329 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 577449 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
       classrelation 549673 // <dependency>
 	relation 528553 -_->
 	  a default
@@ -136,7 +145,9 @@ ${inlines}
 	cpp_decl "    ${comment}explicit ${inline}${name}${(}${)}${volatile}${throw}
 : unit_test ()
 , m_filelist ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -175,13 +186,14 @@ ${inlines}
       end
 
       operation 1350313 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
@@ -749,12 +761,33 @@ ${inlines}
 	  b parent class_ref 361385 // filesystem
       end
 
+      classrelation 577321 // <dependency>
+	relation 556201 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 577321 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
       classrelation 409257 // <generalisation>
 	relation 400297 ---|>
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 409257 // <generalisation>
 	  b parent class_ref 332585 // unit_test
+      end
+
+      attribute 437417 "m_compare_fname"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The name of a file to test the 'compare' method"
       end
 
       classrelation 409385 // exemplar (<directional composition>)
@@ -786,7 +819,7 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return std::string (\"Test my filesystem utilities.\");
+  return std::string (\"Test filesystem utilities.\");
 }
 "
 	
@@ -795,12 +828,34 @@ ${inlines}
 	
       end
 
+      operation 1657129 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+
       operation 1358633 "test_filesystem_util"
 	public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : unit_test ()
-{}
+, m_compare_fname ()
+{
+  register_options ();
+}
 "
 	
 	
@@ -896,6 +951,8 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+#include <fstream>
+#include <iostream>
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -1037,7 +1094,11 @@ ${inlines}
       operation 964137 "authentication_test"
 	private explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}: framework::test::unit_test () {}
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: unit_test ()
+{
+  register_options ();
+}
 "
 	
 	
@@ -1104,13 +1165,14 @@ ${inlines}
       end
 
       operation 1350441 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	
@@ -1313,17 +1375,17 @@ ${inlines}
     artifact 199209 "test_test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 197417 // test_freeptr
-	artifact_ref 158249 // posix
-	artifact_ref 197545 // test_filesystem_util
-	artifact_ref 147241 // test_posix
-	artifact_ref 157993 // utility
 	artifact_ref 191401 // test_streambuf
-	artifact_ref 199081 // test_testmanager
+	artifact_ref 147241 // test_posix
+	artifact_ref 252841 // program_options
 	artifact_ref 193705 // test_contract_error
+	artifact_ref 157993 // utility
+	artifact_ref 199081 // test_testmanager
 	artifact_ref 160553 // test
+	artifact_ref 158249 // posix
+	artifact_ref 197417 // test_freeptr
+	artifact_ref 230313 // filesystem
+	artifact_ref 197545 // test_filesystem_util
       end
       ncouples 1
       key "butter other" value "unit-test"

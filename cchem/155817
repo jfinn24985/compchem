@@ -1,6 +1,6 @@
 format 61
 "test args" // /compchem/data_access::test::test args
-  revision 3
+  revision 5
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -31,11 +31,11 @@ format 61
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    artifact 253481 "test_data_access_args"
+    artifact 253481 "test_data_xml_access_args"
       stereotype "source"
-      cpp_src "search-path=OL07-1-05-sPh-GE-FREQ-b6.xml
+      cpp_src "search-path=test/split/sPh/OL07-1-05-sPh-GE-FREQ-b6.xml
 search-key=OL07-1-05-sPh-GE-FREQ-b6 
-search-base=DA 
+search-base=test/split/main-database.xml 
 search-dir=test/split 
 search-dir=test/split.new"
       associated_classes

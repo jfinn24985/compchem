@@ -1,6 +1,6 @@
 format 61
 "Unit Tests" // /xmlreader::libxml2::Unit Tests
-  revision 106
+  revision 107
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -83,6 +83,15 @@ ${inlines}
 	  b parent class_ref 361513 // path
       end
 
+      classrelation 571945 // <dependency>
+	relation 550825 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 571945 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
       classrelation 136361 // <dependency>
 	relation 136361 -_->
 	  a default
@@ -119,9 +128,9 @@ ${inlines}
 	const public explicit_return_type "void"
 	nparams 1
 	  param inout name "a_reader" type class_ref 151209 // xml_reader
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -150,12 +159,11 @@ ${inlines}
       end
 
       operation 1591849 "register_options"
-	cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_virtual private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -188,7 +196,9 @@ nothing."
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : m_files ()
-{}
+{
+  register_options ();
+}
 "
 	
 	
@@ -314,6 +324,21 @@ ${docstring}${body}
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     comment "Unit-test classes for data_scheme types"
+    artifact 258729 "test_xml2reader"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 160553 // test
+	artifact_ref 270249 // test_xml2_uri
+	artifact_ref 130729 // test_xml2_reader
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
     artifact 130729 "test_xml2_reader"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -350,26 +375,6 @@ ${namespace_end}"
       end
     end
 
-    artifact 258729 "test_xml2reader"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 270249 // test_xml2_uri
-	artifact_ref 157993 // utility
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 253353 // xml
-	artifact_ref 160553 // test
-	artifact_ref 130729 // test_xml2_reader
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
-    end
-
-    artifact 258857 "axtest.args"
-      stereotype "document"
-      comment "--xmlfile split/sPh/OL07-1-05-sPh-GE-FREQ-b6.xml --xmlfile split/main-database.xml"
-    end
-
     artifact 270249 "test_xml2_uri"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -398,6 +403,9 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+// Manual includes
+#include <sstream>
+// -
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -409,4 +417,6 @@ ${definition}"
       end
     end
   end
+
+  package_ref 161961 // test args
 end

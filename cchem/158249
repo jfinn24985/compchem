@@ -1,6 +1,6 @@
 format 61
 "test_args" // /compchem/utility::test cases::test_args
-  revision 1
+  revision 2
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -33,10 +33,11 @@ format 61
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     artifact 258601 "test_test_args"
       stereotype "source"
-      cpp_src "file=src/test/utility/test-file.0
+      cpp_src "file=test/canon/test_test_args.cpp
 file=bobs-your-uncle
-file=src/test/utility/test.dir
-file=src/test/utility/test.dir/test-file.1"
+file=test/canon
+file=test/gaussian_test
+compare-file=Jamroot"
       associated_classes
       end
     end

@@ -1,6 +1,6 @@
 format 61
-"/compchem/utility" // /compchem/utility
-  revision 7
+"test args" // /xmlreader::libxml2::Unit Tests::test args
+  revision 1
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -26,21 +26,17 @@ format 61
   package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
   show_infonote default drawing_language default show_stereotype_properties default
   
-  stereotype "framework"
-  cpp_h_dir "utility"
-  cpp_src_dir "../src/utility"
-  cpp_namespace "utility"
-  comment "Some utility classes and classes to wrap external components."
-  package_ref 137385 // //auth
-
-  package_ref 140969 // //configuration
-
-  package_ref 133161 // //posix
-
-  package_ref 132265 // //test
-
-  package_ref 137513 // //utility
-
-  package_ref 141097 // test cases
-
+  cpp_src_dir "../test/canon"
+  deploymentview 180009 "test args"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 258857 "test_xml2reader_args"
+      stereotype "source"
+      cpp_src "xmlfile=test/split/sPh/OL07-1-05-sPh-GE-FREQ-b6.xml
+xmlfile=test/split/main-database.xml"
+      associated_classes
+      end
+    end
+  end
 end

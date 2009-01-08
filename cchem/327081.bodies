@@ -31,10 +31,14 @@ try {
     log () << EXCP << "Need to set 'auth' and 'user' program options.\n"; }}
 catch (const std::exception & a_err) {
   log () << EXCP << "Caught exception: " << a_err.what (); }
-!!!1350441.cpp!!!	register_options(inout a_optset : options_description) : void
-if (NULL == a_optset.find_nothrow ("user", true)) {
+!!!1350441.cpp!!!	register_options() : void
+if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("user", true))
+{
   // Add option
-  a_optset.add_options () ("user", boost::program_options::value< std::string >(), "User to authenticate."); }
-if (NULL == a_optset.find_nothrow ("auth", true)) {
+  utility::program_options::helper ().public_options ().add_options () ("user", boost::program_options::value< std::string >(), "User to authenticate.");
+}
+if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("auth", true))
+{
   // Add option
-  a_optset.add_options () ("auth", boost::program_options::value< std::string >()->default_value ("cchem"), "Authentication class for validation."); }
+  utility::program_options::helper ().public_options ().add_options () ("auth", boost::program_options::value< std::string >()->default_value ("cchem"), "Authentication class for validation.");
+}

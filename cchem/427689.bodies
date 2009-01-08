@@ -24,6 +24,14 @@ bool_test (l_result != l_path1, "Standardized Relative path should not be Path 1
 l_result = l_path1 / utility::filesystem::relative_path (l_path1, l_path3);
 log () << COMM << "Path 1 / (Relative (Path 1, Path 3)) = " << l_result.string () << "\n";
 bool_test (utility::filesystem::standardize (l_result) == l_path3, "Standardized (Path 1 / Relative path) should be Path 3.");
+
+bool_test (boost::filesystem::exists (m_compare_fname), "Test file [" + m_compare_fname + "] exists.");
+std::ifstream l_ifs (m_compare_fname.c_str ());
+std::string l_buf;
+std::getline (l_ifs, l_buf, (char)std::char_traits<char>::eof ());
+bool_test (not l_buf.empty (), "Read in test file.");
+bool_test (utility::filesystem::compare (m_compare_fname, l_buf.data (), l_buf.size ()), "Read buffer and disk file are identical");
+
 //  boost::filesystem::path l_dos1 ("a:/dir1", &boost::filesystem::windows_name);
 //  boost::filesystem::path l_dos2 ("b:/dir1", &boost::filesystem::windows_name);
 //  boost::filesystem::path l_dos3 ("//share/dir1", &boost::filesystem::windows_name);
@@ -52,3 +60,6 @@ bool_test (utility::filesystem::standardize (l_result) == l_path3, "Standardized
 //  log () << COMM << "Standardize (Relative (DOS Path 3 and 4)) = " << l_result.string () << "\n";
 //  bool_test (l_result == l_dos3, "Standardized Relative path should be Path 3.");
 //  bool_test (l_result == l_dos4, "Standardized Relative path should be Path 4.");
+!!!1657129.cpp!!!	register_options() : void
+// Add option
+utility::program_options::helper ().public_options ().add_options () ("compare-file", boost::program_options::value< std::string >(&this->m_compare_fname), "Test file for 'compare' function");

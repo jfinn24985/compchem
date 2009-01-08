@@ -1,14 +1,22 @@
-window_sizes 960 672 341 613 342 251
+window_sizes 985 737 339 640 467 191
 diagrams
-  active  classdiagram_ref 133545 // test classes
-    613 342 100 4 0 0
+  classdiagram_ref 133545 // test classes
+    640 467 100 4 0 0
+  active  classdiagram_ref 151593 // test cases
+    640 467 100 4 0 220
 end
 show_stereotypes
-selected 
-  package_ref 132777 // /compchem/data_access
+selected artifact_ref 260137 // TODO.current
 open
   deploymentview_ref 146473 // Overview
+  classview_ref 133161 // data_scheme
+  deploymentview_ref 131113 // data_scheme
+  classview_ref 161577 // data_scheme_py
   
-  package_ref 131497 // External Components
+  package_ref 137257 // /compchem/utility
+  
+  package_ref 148393 // /xmlreader
+  
+  package_ref 132393 // /boost
 end
 end

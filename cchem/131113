@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 209
+  revision 211
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -895,7 +895,7 @@ The default action is to do nothing."
       operation 1374377 "visit"
 	abstract const cpp_virtual public explicit_return_type "void"
 	nparams 1
-	  param inout name "a_visitor" explicit_type "visitor"
+	  param inout name "a_visitor" type class_ref 435241 // visitor
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	
@@ -10855,27 +10855,27 @@ definition() object."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 253353 // xml
-	artifact_ref 233897 // content_visitor
-	artifact_ref 141737 // datum
-	artifact_ref 232617 // compound_ref
-	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 143657 // compound
-	artifact_ref 142505 // filter
-	artifact_ref 157993 // utility
 	artifact_ref 142633 // worker
-	artifact_ref 143145 // memo
 	artifact_ref 143913 // project
+	artifact_ref 142249 // identity
+	artifact_ref 141993 // info
+	artifact_ref 233897 // content_visitor
+	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 142505 // filter
+	artifact_ref 141737 // datum
 	artifact_ref 202793 // basic_datum
 	artifact_ref 214569 // visitor
 	artifact_ref 166569 // settings
 	artifact_ref 142889 // mechanism
+	artifact_ref 157993 // utility
 	artifact_ref 143273 // experiment
 	artifact_ref 144041 // program
 	artifact_ref 207785 // text
 	artifact_ref 143529 // formula
-	artifact_ref 142249 // identity
-	artifact_ref 141993 // info
+	artifact_ref 143145 // memo
+	artifact_ref 253353 // xml
+	artifact_ref 232617 // compound_ref
+	artifact_ref 143657 // compound
       end
       comment "The library for the data_scheme objects"
     end
@@ -11624,7 +11624,6 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
-#include \"data_access/meta_datum.hpp\"
 // -
 ${namespace_start}
 ${members}

@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 69
+  revision 71
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1009,8 +1009,13 @@ Check for valid child order "
       end
 
       class 452009 "name_map_t"
-	visibility package stereotype "typedef" explicit_base_type "string"
-	cpp_decl "${comment}typedef std::map< ${type}, const meta_datum *const > ${name};
+	visibility package stereotype "typedef" base_type class_ref 478121 // ptr_map
+	nactuals 2
+	actual class class_ref 478121 // ptr_map
+	  rank 0 explicit_value "string"
+	actual class class_ref 478121 // ptr_map
+	  rank 1 value class_ref 433961 // meta_datum
+	cpp_decl "${comment}typedef ${type} ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -1019,6 +1024,14 @@ Check for valid child order "
 "
 	explicit_switch_type ""
 	
+	classrelation 574633 // <realization>
+	  relation 553513 -_-|>
+	    a public
+	      cpp default "${type}"
+	      python "${type}"
+	      classrelation_ref 574633 // <realization>
+	    b parent class_ref 478121 // ptr_map
+	end
       end
 
       attribute 348329 "key_attribute"
@@ -1105,15 +1118,9 @@ It can be empty indicating no key attribute."
 	  param in name "a_name" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  if (NULL == s_map.get ())
-  {
-    initialise_map ();
-  }
-  const name_map_t * l_map (s_map.get ());
-  name_map_t::const_iterator l_defn (l_map->find (a_name));
-  @{always}(l_map->end () != l_defn, \"No definition object for \" + a_name);
-  return *(l_defn->second);
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
 }
 "
 	
@@ -1207,34 +1214,6 @@ reader type.
 	comment "Does this element allow children with the given tag?"
       end
 
-      operation 1446057 "initialise"
-	private explicit_return_type "void"
-	nparams 2
-	  param in name "a_child_list" explicit_type "string"
-	  param in name "a_attribute_list" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Main part of constructor. The tag name for this object is a_name, the list of 
-child tag names is a_child_list and the list of attribute names is 
-a_attribute_list. The attribute name a_key is a key attribute (#REQUIRED)
-for the element, it will automatically be added to a_attribute_list.
-Lists are space separated list of words.
-
-\\pre valid_element_name (a_name) and valid_element_name (ALL in a_child_list) and valid_attribute_name (ALL in a_attribute_list)
-
-PROGRAM NOTE, List parsing is:
-m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_iterator<...>())"
-      end
-
       operation 1629097 "initialise_map"
 	class_operation private explicit_return_type "void"
 	nparams 0
@@ -1256,7 +1235,7 @@ ${docstring}${body}
       end
 
       operation 1368233 "meta_datum"
-	public explicit_return_type ""
+	private explicit_return_type ""
 	nparams 4
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_key" explicit_type "string"
@@ -1309,9 +1288,7 @@ m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_ite
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
 "
 	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw() 
-{
-  if (NULL != s_map.get ()) s_map->erase (name);
-}
+{}
 "
 	
 	
@@ -1353,6 +1330,16 @@ content.
 
 \\return has_attr_name (a_name)
 \\todo validate attribute value (a_value)"
+      end
+
+      classrelation 575017 // <dependency>
+	relation 553897 -_->
+	  stereotype "friend"
+	  a package
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 575017 // <dependency>
+	  b parent class_ref 434089 // test_meta_datum
       end
     end
 
@@ -2090,224 +2077,6 @@ this optimisation is currently considered unnecessary."
       end
     end
 
-    class 519465 "uri"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit}
-{
-${members}
-};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl "class ${name}${inherit}:
-${docstring}${members}
-"
-      idl_decl ""
-      explicit_switch_type ""
-      
-      attribute 433833 "m_path"
-	private explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl "${comment}${self}${name} = ${value}
-"
-	idl_decl ""
-      end
-
-      attribute 433705 "m_scheme"
-	private explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl "${comment}${self}${name} = ${value}
-"
-	idl_decl ""
-      end
-
-      operation 1643177 "path"
-	stereotype "get"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_path;
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1643305 "scheme"
-	stereotype "get"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_scheme;
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1643049 "split_uri"
-	private explicit_return_type "void"
-	nparams 1
-	  param in name "a_uri" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Split a_uri into scheme and path"
-      end
-
-      operation 1642409 "uri"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: m_path ()
-, m_scheme ()
-{}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1642921 "uri"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "a_uri" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${v0}${)}${volatile}${throw}
-: m_path ()
-, m_scheme ()
-{
-  split_uri (${p0});
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1643433 "uri"
-	public explicit_return_type ""
-	nparams 2
-	  param in name "a_scheme" explicit_type "string"
-	  param in name "a_path" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${volatile}${throw}
-: m_path (${p1})
-, m_scheme (${p0})
-{}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1642537 "~uri"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1642665 "uri"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 519465 // uri
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1642793 "operator="
-	public return_type class_ref 519465 // uri
-	nparams 1
-	  param in name "source" type class_ref 519465 // uri
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-
-      operation 1643561 "str"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_scheme + \"://\" + m_path;
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-      end
-    end
   end
 
   deploymentview 157097 "data_access"
@@ -2317,9 +2086,9 @@ ${docstring}${body}
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
+	artifact_ref 214313 // persistence
 	artifact_ref 244905 // manager
 	artifact_ref 203945 // meta_datum
-	artifact_ref 214313 // persistence
       end
     end
 
@@ -3758,12 +3527,12 @@ until read or write are called."
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214697 // xml_write_visitor
-	artifact_ref 231465 // xml_persistence
-	artifact_ref 230057 // data_access
-	artifact_ref 157097 // xml_access_helper
-	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
+	artifact_ref 231465 // xml_persistence
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 157097 // xml_access_helper
+	artifact_ref 230057 // data_access
+	artifact_ref 253353 // xml
       end
     end
 

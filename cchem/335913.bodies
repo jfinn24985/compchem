@@ -1,4 +1,4 @@
-class posix_test
+class test_posix
 !!!1011625.cpp!!!	main_test() : void
 // LOCAL
 class print
@@ -143,9 +143,9 @@ if (a_props.exists ())
   a_os << WTCH << "can execute     :" << print::as (a_props.is_executable (l_user, l_group));
 }
 a_os << COMM << "--------------------------\n";
-!!!1350313.cpp!!!	register_options(inout a_optset : options_description) : void
-if (NULL == a_optset.find_nothrow ("file", true))
+!!!1350313.cpp!!!	register_options() : void
+if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("file", true))
 {
   // Add option
-  a_optset.add_options ()("file", boost::program_options::value < std::vector < std::string > >(&(this->m_filelist))->composing (), "Files to test");
+  utility::program_options::helper ().public_options ().add_options ()("file", boost::program_options::value < std::vector < std::string > >(&(this->m_filelist))->composing (), "Files to test");
 }

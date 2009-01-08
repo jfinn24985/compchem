@@ -1,4 +1,26 @@
 class filesystem
+!!!1655977.cpp!!!	compare(in a_path : string, in a_start : any, in a_sz : size_t) : bool
+bool Result (false);
+// The file buffer is.
+int l_fd = open (a_path.c_str (), O_RDONLY);
+if (l_fd != -1)
+{
+  struct stat l_sb; // To obtain file size
+  if (fstat (l_fd, &l_sb) != -1)
+  {
+    if (a_sz == (size_t)l_sb.st_size)
+    {
+      void * l_start;
+      l_start = mmap (NULL, l_sb.st_size, PROT_READ, MAP_PRIVATE | MAP_POPULATE, l_fd, 0);
+      if (l_start != MAP_FAILED)
+      {
+        Result = (0 == memcmp (l_start, a_start, l_sb.st_size));
+      }
+    }
+  }
+  close (l_fd);
+}
+return Result;
 !!!1182761.cpp!!!	standardize(in a_path : path) : path
 boost::filesystem::path Result (a_path);
 if (not Result.is_complete ())

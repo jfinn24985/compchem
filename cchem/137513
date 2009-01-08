@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 38
+  revision 41
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -52,229 +52,6 @@ format 61
       size A4
     end
 
-    class 450217 "auto_free"
-      visibility package 
-      nformals 2
-      formal name "T_ptr" type "class" explicit_default_value ""
-        explicit_extends ""
-      formal name "T_del_type" type "class" explicit_default_value "T_ptr"
-        explicit_extends ""
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Free ptr using an arbitrary delete function."
-      classrelation 562729 // <dependency>
-	relation 541609 -_->
-	  a package
-	    cpp default "#include in header"
-	    python "${type}"
-	    classrelation_ref 562729 // <dependency>
-	  b parent class_ref 182569 // function
-      end
-
-      class 450345 "delete_function"
-	visibility package stereotype "typedef" explicit_base_type "T_del_type"
-	cpp_decl "${comment}typedef boost::function1 < void, ${type} > ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl "${comment}typedef ${type} ${name};
-"
-	explicit_switch_type ""
-	
-	comment "The type signature of the delete function"
-      end
-
-      attribute 356777 "m_delete"
-	private type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The function to delete object with."
-      end
-
-      attribute 356649 "m_ptr"
-	private explicit_type "T_ptr"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The to-be-free pointer"
-      end
-
-      operation 1430185 "auto_free"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_ptr" explicit_type "T_ptr"
-	  param in name "a_fn" type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${volatile} throw()
-: m_delete (${p1})
-, m_ptr(${p0})
-{}
-"
-	
-	
-	
-	
-	comment "Capture a pointer to allocated memory that you want freed using a_fn"
-      end
-
-      operation 1431081 "auto_free"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "a_fn" type class_ref 450345 // delete_function
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile} throw()
-: m_delete (${p0})
-, m_ptr(T_ptr (0))
-{}
-"
-	
-	
-	
-	
-	comment "Set up an object to delete memory using a_fn"
-      end
-
-      operation 1430313 "auto_free"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
-: m_ptr (${p0}.m_ptr)
-, m_delete (${p0}.m_delete)
-{
-  ${p0}.m_ptr = T_ptr(0);
-}
-"
-	
-	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1430441 "~auto_free"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{
-  reset();
-}
-"
-	
-	
-	
-	
-	comment "Free the held pointer"
-      end
-
-      operation 1430569 "get"
-	public explicit_return_type "T_ptr"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_ptr;
-}
-"
-	
-	
-	
-	
-	comment "Get the pointer"
-      end
-
-      operation 1430697 "operator="
-	public return_type class_ref 450217 // auto_free
-	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  reset (${p0});
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Capture raw pointer, freeing any held resource"
-      end
-
-      operation 1430825 "operator="
-	public return_type class_ref 450217 // auto_free
-	nparams 1
-	  param in name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  swap (${p0});
-  ${p0}.reset ();
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1430953 "reset"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=T_ptr(0)${)}${const}${volatile}${throw}${abstract}
-{
-  if (${p0} != m_ptr)
-  {
-    if (m_ptr != T_ptr(0) and not m_delete.empty ())
-    {
-      m_delete (m_ptr);
-    }
-    m_ptr = ${p0};
-  }
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1616297 "swap"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "source" type class_ref 450217 // auto_free
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile} throw()${abstract}
-{
-  T_ptr l_tmp1 (m_ptr);
-  m_ptr = ${p0}.m_ptr;
-  ${p0}.m_ptr = l_tmp1;
-  delete_function l_tmp2 (m_delete);
-  m_delete = ${p0}.m_delete;
-  ${p0}.m_delete = l_tmp2;
-}"
-	
-	
-	
-	
-	comment "No-throw swap"
-      end
-    end
-
     class 518313 "call_once"
       visibility package 
       nformals 1
@@ -296,12 +73,9 @@ ${docstring}${members}
       
       comment "Class to ensure that some functor is called exactly once.
 
-usage
-Use only:
-class my_class { ...
-friend class call_once_init< my_class >;
-}
-static once_init< my_class > my_class_dummy__(fnctor);
+Use the following in a header to ensure (*function_addr)()
+is called only once.
+static once_init< &function_addr > a_dummy_name__;
 "
       operation 1641001 "counter"
 	private explicit_return_type "int"
@@ -342,7 +116,6 @@ ${docstring}${body}
 	
 	comment "This uses the empty ctor once to create the T_once Singleton."
       end
-
     end
 
     class 419113 "contract_error"
@@ -1056,6 +829,13 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "This is a work-a-like for auto_ptr (actually more boost::scoped_ptr)
+that uses the \"C\" 'free' function to release memory instead of 'delete'.
+Its purpose is to capture the result of C library functions that return 
+malloc allocated objects that the caller is expect to free.
+
+For a smart pointer with arbitrary delete functions use the 
+std::tr1::shared_ptr (boost::shared_ptr)"
       attribute 317609 "m_ptr"
 	private explicit_type "T_ptr"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1207,7 +987,7 @@ ${docstring}${members}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "Class to enable a template class to make a friend of one of its parameter
+      comment "Class to enable another template class to make a friend of one of its parameter
 classes."
       class 517033 "friend_type"
 	visibility public stereotype "typedef" explicit_base_type "T_friend"
@@ -1235,6 +1015,30 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "A set of utility functions for operating on filesystem objects."
+      operation 1655977 "compare"
+	class_operation public explicit_return_type "bool"
+	nparams 3
+	  param in name "a_path" explicit_type "string"
+	  param in name "a_start" explicit_type "any"
+	  param in name "a_sz" explicit_type "size_t"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}const ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}const ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Compare the contents of the file pointed to by a_path with
+the contents buffer at a_start and length a_sz."
+      end
+
       operation 1182761 "standardize"
 	class_operation public return_type class_ref 361513 // path
 	nparams 1
@@ -2443,10 +2247,10 @@ ${body}
       stereotype "library"
       associated_artifacts
 	artifact_ref 245033 // time_stamp
-	artifact_ref 224041 // program_options
 	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
 	artifact_ref 157609 // filesystem
+	artifact_ref 224041 // program_options
+	artifact_ref 230313 // filesystem
       end
     end
 
@@ -2614,6 +2418,14 @@ ${comment}
 ${includes}
 // Manual includes
 #include <boost/filesystem/operations.hpp>
+// For compare
+#include <cstring>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <cstdio>
+#include <cstdlib>
+#include <unistd.h>
 //-
 ${namespace_start}
 ${members}
@@ -2645,7 +2457,6 @@ ${namespace_end}
 "
       associated_classes
 	class_ref 416425 // free_ptr
-	class_ref 450217 // auto_free
       end
     end
 

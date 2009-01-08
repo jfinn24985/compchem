@@ -6,7 +6,7 @@ class meta_datum_py
 
 boost::python::class_< meta_datum, boost::noncopyable >("meta_datum",
         "Information about how a data_scheme class represents itself in an XML stream.",
-        boost::python::init< std::string, std::string, std::string, std::string >("__init__")
+        boost::python::no_init
         )
  .def("has_attr_name", &meta_datum::has_attr_name, "Is the arg one of our attribute labels?")
  .def("has_attributes", &meta_datum::has_attributes, "Do we have any attributes labels?")

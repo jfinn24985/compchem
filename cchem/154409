@@ -1,6 +1,6 @@
 format 61
 "py" // /compchem/data_access::py
-  revision 3
+  revision 4
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -165,15 +165,15 @@ BOOST_PYTHON_MODULE(data_access)
     artifact 230185 "data_access_py"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 230057 // data_access
-	artifact_ref 218409 // data_access_py_main
-	artifact_ref 230313 // filesystem
-	artifact_ref 144169 // data_scheme
-	artifact_ref 253097 // date_time
 	artifact_ref 221609 // meta_datum_py
-	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 218409 // data_access_py_main
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
+	artifact_ref 253353 // xml
+	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "python-extension"

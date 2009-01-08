@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 41
+  revision 45
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -255,88 +255,6 @@ that they are categorised correctly.
       end
     end
 
-    class 514601 "test_persistence"
-      abstract visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit}
-{
-${members}
-};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl "class ${name}${inherit}:
-${docstring}${members}
-"
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Base class for tests of persistence derived-objects"
-      classrelation 562857 // <generalisation>
-	relation 541737 ---|>
-	  a public
-	    cpp default "${type}"
-	    python "${type}"
-	    classrelation_ref 562857 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 570793 // <dependency>
-	relation 549673 -_->
-	  a default
-	    cpp default "#include in source"
-	    python "${type}"
-	    classrelation_ref 570793 // <dependency>
-	  b parent class_ref 432681 // basic_datum
-      end
-
-      classrelation 570665 // <dependency>
-	relation 549545 -_->
-	  a default
-	    cpp default "#include in source"
-	    python "${type}"
-	    classrelation_ref 570665 // <dependency>
-	  b parent class_ref 476713 // names
-      end
-
-      operation 1636393 "test_persistence"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_pers" type class_ref 449449 // persistence
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${v0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${throw} 
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Perform standard tests on a persistence object."
-      end
-
-      operation 1636521 "test_write"
-	abstract cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param in name "a_pers" type class_ref 449449 // persistence
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Test that the storage object created by \"write\" is the same 
-storage object from which it was read. This must be implemented 
-in derived classes but is called from 'test_persistence'"
-      end
-    end
-
     class 515753 "test_data_manager"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
@@ -425,17 +343,16 @@ Failed tests are indicated by an uncaught exception."
     artifact 251305 "test_data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 208937 // test_names
-	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
 	artifact_ref 252969 // regex
-	artifact_ref 252841 // program_options
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
-	artifact_ref 267561 // test_persistence
-	artifact_ref 230313 // filesystem
 	artifact_ref 253353 // xml
+	artifact_ref 252841 // program_options
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 230057 // data_access
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 208937 // test_names
+	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -446,17 +363,17 @@ Failed tests are indicated by an uncaught exception."
     artifact 272553 "test_data_access2"
       stereotype "library"
       associated_artifacts
-	artifact_ref 253097 // date_time
-	artifact_ref 230313 // filesystem
-	artifact_ref 252841 // program_options
-	artifact_ref 252969 // regex
-	artifact_ref 271401 // test_data_manager
-	artifact_ref 253353 // xml
 	artifact_ref 144169 // data_scheme
+	artifact_ref 252969 // regex
+	artifact_ref 253353 // xml
+	artifact_ref 252841 // program_options
+	artifact_ref 271401 // test_data_manager
 	artifact_ref 266281 // data_xml_access
+	artifact_ref 230057 // data_access
 	artifact_ref 157993 // utility
 	artifact_ref 160553 // test
-	artifact_ref 230057 // data_access
+	artifact_ref 253097 // date_time
+	artifact_ref 230313 // filesystem
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -572,45 +489,6 @@ ${namespace_end}"
 	class_ref 444969 // test_names
       end
     end
-
-    artifact 267561 "test_persistence"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      python_src "${comment}
-${import}
-${definition}"
-      associated_classes
-	class_ref 514601 // test_persistence
-      end
-    end
   end
 
   classview 173353 "xml_data_access tests"
@@ -629,6 +507,7 @@ ${definition}"
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 176553 // xml_data_access test deploy
     class 457001 "test_file_helper"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
@@ -645,7 +524,9 @@ ${inlines}
       
       ncouples 1
       key "base_class" value "utility::unit_test"
-      comment "TODO: more rigorous testing.
+      comment "Test of xml_access_helper
+
+TODO: more rigorous testing.
 
 --search-path	Start path
 --search-base	Start base
@@ -668,28 +549,12 @@ ${inlines}
 	  b parent class_ref 178601 // basic_names
       end
 
-      classrelation 450601 // <dependency>
-	relation 439721 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 450601 // <dependency>
-	  b parent class_ref 433961 // meta_datum
-      end
-
       classrelation 450729 // <dependency>
 	relation 439849 -_->
 	  a default
 	    cpp default "#include in source"
 	    classrelation_ref 450729 // <dependency>
 	  b parent class_ref 449449 // persistence
-      end
-
-      classrelation 547241 // <dependency>
-	relation 526121 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 547241 // <dependency>
-	  b parent class_ref 470185 // program_options
       end
 
       classrelation 450345 // <dependency>
@@ -708,6 +573,155 @@ ${inlines}
 "
 	    classrelation_ref 450857 // exemplar (<directional composition>)
 	  b parent class_ref 457001 // test_file_helper
+      end
+
+      operation 1456425 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1456553 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::data_access_helper class test\");
+}"
+	
+	
+	
+	
+      end
+
+      operation 1457193 "test_file_helper"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: @{base_class} ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1457321 "~test_file_helper"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 521769 "test_xml_persistence"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "utility::unit_test"
+      comment "Test the xml_persistence and xml_write_visitor classes"
+      classrelation 573353 // <generalisation>
+	relation 552233 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 573353 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 574249 // <dependency>
+	relation 553129 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574249 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 574377 // <dependency>
+	relation 553257 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574377 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 573993 // <dependency>
+	relation 552873 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573993 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 573737 // <dependency>
+	relation 552617 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573737 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      classrelation 574121 // <dependency>
+	relation 553001 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574121 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 573481 // <dependency>
+	relation 552361 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573481 // <dependency>
+	  b parent class_ref 479273 // xml_persistence
+      end
+
+      classrelation 576169 // <dependency>
+	relation 555049 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 576169 // <dependency>
+	  b parent class_ref 455593 // xml_write_visitor
       end
 
       attribute 366761 "m_base"
@@ -743,7 +757,19 @@ ${inlines}
 	comment "The search filename"
       end
 
-      operation 1456425 "main_test"
+      attribute 436265 "s_exemplar"
+	class_attribute private type class_ref 521769 // test_xml_persistence
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Singleton instance."
+      end
+
+      operation 1654569 "main_test"
 	const public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -757,20 +783,9 @@ ${inlines}
 	
 	
 	
-	comment "Override in derived classes to perform unit test."
-      end
+	comment "Override in derived classes to perform unit test.
 
-      operation 1456553 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"data_access::data_access_helper class test\");
-}"
-	
-	
-	
-	
+Failed tests are indicated by an uncaught exception."
       end
 
       operation 1456681 "register_options"
@@ -822,7 +837,21 @@ nothing."
 	
       end
 
-      operation 1457193 "test_file_helper"
+      operation 1654441 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"Test xml_persistence class\");
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1654697 "test_xml_persistence"
 	private explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
@@ -832,16 +861,17 @@ nothing."
 , m_path ()
 {
   register_options ();
-}
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
 "
-	
-	
-	
 	
       end
 
-      operation 1457321 "~test_file_helper"
-	cpp_virtual public explicit_return_type ""
+      operation 1654825 "~test_xml_persistence"
+	public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
@@ -850,7 +880,9 @@ nothing."
 "
 	
 	
-	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
 	
       end
     end
@@ -863,14 +895,15 @@ nothing."
     artifact 266409 "test_data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 230057 // data_access
-	artifact_ref 215977 // test_file_helper
-	artifact_ref 160553 // test
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
-	artifact_ref 253353 // xml
-	artifact_ref 266281 // data_xml_access
 	artifact_ref 144169 // data_scheme
+	artifact_ref 253353 // xml
+	artifact_ref 215977 // test_file_helper
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 230057 // data_access
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 273705 // test_xml_persistence
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -904,14 +937,54 @@ ${namespace_end}
 
 ${comment}
 ${includes}
-// Manual includes in source
-#include <boost/bind.hpp>
-// -
 ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 457001 // test_file_helper
+      end
+    end
+
+    artifact 273705 "test_xml_persistence"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes in source
+#include <boost/bind.hpp>
+#include \"utility/filesystem.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 521769 // test_xml_persistence
       end
     end
   end
