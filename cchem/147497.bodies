@@ -14,7 +14,9 @@ else
   // Process the configuration
   if (not utility::program_options::empty ())
   {
+    std::string l_log_fname;
     utility::program_options & l_helper (utility::program_options::helper ());
+    l_helper.public_options ().add_options () ("log-file", boost::program_options::value< std::string >(&l_log_fname), "Log file for test output");
     std::string l_conffile ("test/canon/");
     l_conffile.append (boost::filesystem::path (argv[0]).leaf ());
     l_conffile.append ("_args.cpp");
@@ -30,6 +32,11 @@ else
     Result = l_helper.process_options (argc, argv, log (), utility::program_options::CCHEM_PARSE_ALL);
     // Free space used for processing program options
     utility::program_options::reset ();
+    // Switch to using log file.
+    if (not l_log_fname.empty ())
+    {
+      use_log_file (l_log_fname);
+    }
   }
   // Continue if configuration successful.
   if (utility::program_options::CCHEM_PARSE_SUCCESS == Result)
@@ -45,15 +52,21 @@ else
       }
       catch (const std::exception & err)
       {
-        log () << base_test::EXCP << "Unhandled std::exception caught by 'main' [" << err.what () << "]\n";
+        log () << base_test::EXCP << "Unhandled std::exception caught by 'main':\n" << err.what () << "\n\n";
+        log ().flush ();
       }
       catch (...)
       {
         log () << base_test::EXCP << "Unhandled and unknown exception caught by 'main'\n";
+        log ().flush ();
       }
       log () << "**** Ending unit test [" << (*l_iter)->title () << "] ****\n";
+      log ().flush ();
     }
   }
 }
 
 return Result;
+!!!1667241.cpp!!!	use_log_file(in a_fname : string) : void
+m_log_stream.reset (new std::ofstream (a_fname.c_str ()));
+m_log = m_log_stream.get ();

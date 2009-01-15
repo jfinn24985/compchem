@@ -20,43 +20,9 @@ if (0 == Result)
 {
   // Read in the document..
   l_program.reset (new data_scheme::program (m_doc_filename));
-  log () << WTCH << "Program has " << (l_program->has_information ()? "an" : "no") << " information object.\n";
-
-  if (l_program->begin_worker () != l_program->end_worker ())
-  {
-    log () << IFYS << "Program has [" << std::distance (l_program->begin_worker (), l_program->end_worker ()) << "] worker objects.\n";
-  }
-  else
-  {
-    log () << IFNO << "Program has no worker objects.\n";
-  }
-
-  if (l_program->begin_mechanism () != l_program->end_mechanism ())
-  {
-  log () << WTCH << "Program has [" << std::distance (l_program->begin_mechanism (), l_program->end_mechanism ()) << "] mechanism objects.\n";
-  }
-  else
-  {
-    log () << IFNO << "Program has no mechanism objects.\n";
-  }
-
-  if (l_program->begin_compound () != l_program->end_compound ())
-  {
-  log () << WTCH << "Program has [" << std::distance (l_program->begin_compound (), l_program->end_compound ()) << "] compound objects.\n";
-  }
-  else
-  {
-    log () << IFNO << "Program has no compound objects.\n";
-  }
-
-  if (l_program->begin_project () != l_program->end_project ())
-  {
-  log () << WTCH << "Program has [" << std::distance (l_program->begin_project (), l_program->end_project ()) << "] compound objects.\n";
-  }
-  else
-  {
-    log () << IFNO << "Program has no project objects.\n";
-  }
+  // Perform tests on data_scheme objects.
+  test_object_visitor l_tester;
+  l_program->visit (l_tester);
   // Move old version
   const boost::filesystem::path l_dir (m_doc_filename);
   const boost::filesystem::path l_base (l_dir.branch_path ());
@@ -82,89 +48,3 @@ if (NULL == utility::program_options::helper ().public_options ().find_nothrow (
   // Add option
   utility::program_options::helper ().public_options ().add_options () ("database", boost::program_options::value< std::string >(&m_doc_filename), "Test database file");
 }
-!!!1621161.cpp!!!	test_basic_datum(inout a_obj : basic_datum) : void
-////////////////
-// Query methods
-// get-attribute
-// serial_name
-
-// visit
-
-/////////////////////
-// Modifying methods
-const unsigned int l_orig_size (a_obj.size ());
-// add_child
-// add_comment
-basic_datum & l_comm (a_obj.add_comment ("A stitch in time"));
-test_comment (a_obj, dynamic_cast< data_scheme::comment & > (l_comm), "A stitch in time");
-// add_pi
-basic_datum & l_pi (a_obj.add_pi ("stylesheet", "way-to-go"));
-test_pi (a_obj, dynamic_cast< data_scheme::processing_instruction & > (l_pi), "stylesheet", "way-to-go");
-// add_text
-basic_datum & l_text (a_obj.add_text ("some text here"));
-test_text (a_obj, dynamic_cast< data_scheme::text & > (l_text), "some text here");
-
-bool_test (l_orig_size + 3 == a_obj.size (), "3 additional child objects increase size by 3");
-
-basic_datum::iterator l_i;
-// find (const)
-l_i = a_obj.find (&l_comm);
-bool_test (l_i != a_obj.end (), "found added comment");
-// remove
-a_obj.remove (l_i);
-l_i = a_obj.find (&l_comm);
-bool_test (l_i == a_obj.end (), "did not find removed comment");
-
-// find (const)
-l_i = a_obj.find (&l_pi);
-bool_test (l_i != a_obj.end (), "found added p.i.");
-// remove
-a_obj.remove (l_i);
-l_i = a_obj.find (&l_pi);
-bool_test (l_i == a_obj.end (), "did not find removed p.i.");
-
-// find (const)
-l_i = a_obj.find (&l_text);
-bool_test (l_i != a_obj.end (), "found added text");
-// remove
-a_obj.remove (l_i);
-l_i = a_obj.find (&l_text);
-bool_test (l_i == a_obj.end (), "did not find removed text");
-
-bool_test (l_orig_size == a_obj.size (), "have original number of child objects");
-
-// set_attribute
-// set_text
-!!!1621289.cpp!!!	test_basic_text(in a_parent : basic_datum, in a_text : basic_text, in a_str : string) : void
-// the_content
-bool_test (a_text.the_content == a_str, "text content and string match");
-// parent
-bool_test (&a_parent == &(a_text.parent ()), "parent object matches");
-// set_attribute
-monitor_function (utility::contract_error::always, boost::bind (&basic_text::set_attribute, const_cast< basic_text* > (&a_text), a_str, a_str), "can not set attribute of text objects.");
-!!!1621417.cpp!!!	test_comment(in a_parent : basic_datum, in a_text : comment, in a_str : string) : void
-// Perform base tests
-test_basic_text (a_parent, a_text, a_str);
-// serial_name
-bool_test (a_text.serial_name () == data_access::names::comment_type (), "type name matches");
-// visit
-test_object_visitor l_vis (test_object_visitor::match_comment);
-a_text.visit (l_vis);
-!!!1621545.cpp!!!	test_pi(in a_parent : basic_datum, in a_text : processing_instruction, in a_str1 : string, in a_str2 : string) : void
-// Perform base tests
-test_basic_text (a_parent, a_text, a_str2);
-// name
-bool_test (a_text.name == a_str1, "p.i. name matches");
-// serial_name
-bool_test (a_text.serial_name () == data_access::names::processing_instruction_type (), "type name matches");
-// visit
-test_object_visitor l_vis (test_object_visitor::match_pi);
-a_text.visit (l_vis);
-!!!1625641.cpp!!!	test_text(in a_parent : basic_datum, in a_text : text, in a_str : string) : void
-// Perform base tests
-test_basic_text (a_parent, a_text, a_str);
-// serial_name
-bool_test (a_text.serial_name () == data_access::names::text_type (), "type name matches");
-// visit
-test_object_visitor l_vis (test_object_visitor::match_text);
-a_text.visit (l_vis);

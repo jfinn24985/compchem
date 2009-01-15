@@ -11,7 +11,8 @@ else if (data_access::names::info_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1426473.cpp!!!	add_datum(in a_label : string) : datum
@@ -59,13 +60,24 @@ else if (data_access::names::filter_name () == a_name)
 }
 else if (data_access::names::label_name () == a_name) 
 {
-  if (a_value != label ())
-  {
-    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
+!!!1663529.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// formula*, identity* or info?
+COMPCHEM_ALWAYS (has_data () or has_information (), "attempt to remove non-child object");
+// a_datum should be an info object!
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  COMPCHEM_ALWAYS (m_datum.get () == a_datum, "attempt to remove non-child object");
+  m_datum.reset ();
+}

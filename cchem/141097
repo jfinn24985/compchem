@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/utility::test cases
-  revision 34
+  revision 35
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1375,17 +1375,17 @@ ${inlines}
     artifact 199209 "test_test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 191401 // test_streambuf
-	artifact_ref 147241 // test_posix
-	artifact_ref 252841 // program_options
-	artifact_ref 193705 // test_contract_error
-	artifact_ref 157993 // utility
-	artifact_ref 199081 // test_testmanager
-	artifact_ref 160553 // test
-	artifact_ref 158249 // posix
 	artifact_ref 197417 // test_freeptr
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
+	artifact_ref 158249 // posix
+	artifact_ref 147241 // test_posix
+	artifact_ref 191401 // test_streambuf
+	artifact_ref 160553 // test
 	artifact_ref 197545 // test_filesystem_util
+	artifact_ref 199081 // test_testmanager
+	artifact_ref 157993 // utility
+	artifact_ref 193705 // test_contract_error
       end
       ncouples 1
       key "butter other" value "unit-test"

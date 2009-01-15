@@ -2,7 +2,8 @@ class datum
 !!!1421481.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
 if (data_access::names::datum_name () != a_name)
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return add_datum (a_label);
 !!!1407529.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
@@ -65,11 +66,27 @@ else if (data_access::names::ordinal_name () == a_name)
   }
   catch (const boost::bad_lexical_cast& a_err)
   {
-    throw std::logic_error (a_err.what ());
+    const bool ordinal_value_is_not_an_integer (false);
+    COMPCHEM_ALWAYS (ordinal_value_is_not_an_integer, a_err.what ());
   }
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
+!!!1662633.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// datum*
+COMPCHEM_ALWAYS (not empty_datum (), "attempt to remove non-child object");
+// a_datum should be a datum object!
+struct helper__
+{
+  static bool compare_ptr (datum &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+datum_iterator l_f (std::find_if (begin_datum (), end_datum (), boost::bind(helper__::compare_ptr, _1, a_datum)));
+COMPCHEM_ALWAYS (l_f != end_datum (), "attempt to remove non-child object");
+m_data.erase (l_f);

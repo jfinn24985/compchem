@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/data_scheme::test cases
-  revision 31
+  revision 40
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -48,144 +48,8 @@ format 61
     associated_deployment_view deploymentview_ref 137129 // data_scheme test
     comment "Unit-test classes for data_scheme types"
     classdiagram 138025 "Dependencies"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations no hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
-    end
-
-    class 365353 "test_utility"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for data_scheme::utility (UNUSED)"
-      classrelation 312873 // <generalisation>
-	relation 305577 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 312873 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 314025 // <dependency>
-	relation 306729 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 314025 // <dependency>
-	  b parent class_ref 178601 // basic_names
-      end
-
-      classrelation 327849 // <dependency>
-	relation 319401 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 327849 // <dependency>
-	  b parent class_ref 354601 // info
-      end
-
-      classrelation 314153 // <dependency>
-	relation 306857 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 314153 // <dependency>
-	  b parent class_ref 361641 // utility_
-      end
-
-      attribute 327465 "exemplar"
-	class_attribute private explicit_type "test_utility"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Class exemplar"
-      end
-
-      operation 1198761 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1351721 "register_options"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_optset" type class_ref 350761 // options_description
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "This method is called by the manager to allow test types to 
-register program options.  The default implementation does
-nothing."
-      end
-
-      operation 1351849 "test_utility"
-	private explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: utility::unit_test()
-{}"
-	
-	
-	
-	
-      end
-
-      operation 1351977 "~test_utility"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1198633 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"data_scheme utility_ class test\");
-}
-"
-	
-	
-	
-	
-      end
-
-      classrelation 402345 // <dependency>
-	relation 393385 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 402345 // <dependency>
-	  b parent class_ref 369065 // test_program
-      end
     end
 
     class 369065 "test_program"
@@ -200,7 +64,8 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "Unit test for data_scheme::program"
+      comment "Unit test for data_scheme. This reads in a document and then uses 
+test_object_visitor to test the various types."
       classrelation 317865 // <generalisation>
 	relation 310569 ---|>
 	  a public
@@ -254,52 +119,6 @@ ${inlines}
 	comment "Class exemplar"
       end
 
-      attribute 327337 "m_doc_filename"
-	class_attribute private explicit_type "string"
-	multiplicity "1"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The filename of a database file."
-      end
-
-      operation 1205289 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1351593 "register_options"
-	const private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "This method is called by the manager to allow test types to 
-register program options.  The default implementation does
-nothing."
-      end
-
       operation 1352105 "test_program"
 	public explicit_return_type ""
 	nparams 0
@@ -326,129 +145,6 @@ nothing."
 	
 	
       end
-
-      operation 1205417 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"data_scheme program class test\");
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1621161 "test_basic_datum"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_obj" type class_ref 432681 // basic_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Perform unit-tests on a basic_datum object, comment ,p.i., text"
-      end
-
-      operation 1621289 "test_basic_text"
-	public explicit_return_type "void"
-	nparams 3
-	  param in name "a_parent" type class_ref 432681 // basic_datum
-	  param in name "a_text" type class_ref 435369 // basic_text
-	  param in name "a_str" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Test a basic_text object"
-      end
-
-      operation 1621417 "test_comment"
-	public explicit_return_type "void"
-	nparams 3
-	  param in name "a_parent" type class_ref 432681 // basic_datum
-	  param in name "a_text" type class_ref 443433 // comment
-	  param in name "a_str" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Test a basic_text object"
-      end
-
-      operation 1621545 "test_pi"
-	public explicit_return_type "void"
-	nparams 4
-	  param in name "a_parent" type class_ref 432681 // basic_datum
-	  param in name "a_text" type class_ref 443561 // processing_instruction
-	  param in name "a_str1" explicit_type "string"
-	  param in name "a_str2" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}, const ${t3}& ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Test a p.i. object"
-      end
-
-      operation 1625641 "test_text"
-	public explicit_return_type "void"
-	nparams 3
-	  param in name "a_parent" type class_ref 432681 // basic_datum
-	  param in name "a_text" type class_ref 443305 // text
-	  param in name "a_str" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Test a basic_text object"
-      end
     end
 
     class 510633 "test_object_visitor"
@@ -467,7 +163,10 @@ ${docstring}${members}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "This class is a test for 'visit' method of basic_datum objects."
+      comment "This version of data_scheme::visitor performs type specific tests on every
+object it encounters. It is the main test vehicle for the data_scheme classes.
+
+This class is a test for 'visit' method of basic_datum objects."
       classrelation 553641 // <generalisation>
 	relation 532521 ---|>
 	  a public
@@ -477,8 +176,78 @@ ${docstring}${members}
 	  b parent class_ref 435241 // visitor
       end
 
-      attribute 426793 "match_comment"
-	class_attribute const_attribute public explicit_type "uchar"
+      classrelation 581929 // <generalisation>
+	relation 560809 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 581929 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 578601 // <dependency>
+	relation 557481 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 578601 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 579881 // <dependency>
+	relation 558761 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 579881 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 582057 // <dependency>
+	relation 560937 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 582057 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      class 522921 "anonymous_tov"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	attribute 439721 "s_size"
+	  public type class_ref 522921 // anonymous_tov
+	  init_value "18"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+      end
+
+      attribute 426793 "s_comment"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(1)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -491,8 +260,8 @@ ${docstring}${members}
 for comment objects. (== 1)"
       end
 
-      attribute 428329 "match_compound"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428329 "s_compound"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(2)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -505,8 +274,8 @@ for comment objects. (== 1)"
 for compound objects. (== 2)"
       end
 
-      attribute 428457 "match_compound_ref"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428457 "s_compound_ref"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(3)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -519,8 +288,8 @@ for compound objects. (== 2)"
 for compound-ref objects. (== 3)"
       end
 
-      attribute 428585 "match_datum"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428585 "s_datum"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(4)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -533,8 +302,8 @@ for compound-ref objects. (== 3)"
 for datum objects. (== 4)"
       end
 
-      attribute 428713 "match_experiment"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428713 "s_experiment"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(5)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -547,8 +316,8 @@ for datum objects. (== 4)"
 for experiment objects. (== 5)"
       end
 
-      attribute 428841 "match_filter"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428841 "s_filter"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(6)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -561,8 +330,8 @@ for experiment objects. (== 5)"
 for filter objects. (== 6)"
       end
 
-      attribute 428969 "match_formula"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 428969 "s_formula"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(7)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -575,8 +344,8 @@ for filter objects. (== 6)"
 for formula objects. (== 7)"
       end
 
-      attribute 429097 "match_identity"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429097 "s_identity"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(8)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -589,8 +358,8 @@ for formula objects. (== 7)"
 for identity objects. (== 8)"
       end
 
-      attribute 429225 "match_info"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429225 "s_info"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(9)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -603,8 +372,8 @@ for identity objects. (== 8)"
 for info objects. (== 9)"
       end
 
-      attribute 429353 "match_mechanism"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429353 "s_mechanism"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(10)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -617,8 +386,8 @@ for info objects. (== 9)"
 for mechanism objects. (== 10)"
       end
 
-      attribute 429481 "match_memo"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429481 "s_memo"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(11)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -631,8 +400,8 @@ for mechanism objects. (== 10)"
 for memo objects. (== 11)"
       end
 
-      attribute 427049 "match_pi"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 427049 "s_pi"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(12)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -645,8 +414,8 @@ for memo objects. (== 11)"
 for p.i. objects. (== 12)"
       end
 
-      attribute 429609 "match_program"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429609 "s_program"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(13)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -659,8 +428,8 @@ for p.i. objects. (== 12)"
 for program objects. (== 13)"
       end
 
-      attribute 429737 "match_project"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429737 "s_project"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(14)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -673,8 +442,8 @@ for program objects. (== 13)"
 for project objects. (== 14)"
       end
 
-      attribute 429865 "match_settings"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429865 "s_settings"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(15)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -687,8 +456,8 @@ for project objects. (== 14)"
 for settings objects. (== 15)"
       end
 
-      attribute 429993 "match_text"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 429993 "s_text"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(16)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -701,8 +470,8 @@ for settings objects. (== 15)"
 for text objects. (== 16)"
       end
 
-      attribute 430121 "match_worker"
-	class_attribute const_attribute public explicit_type "uchar"
+      attribute 430121 "s_worker"
+	class_attribute const_attribute private explicit_type "uchar"
 	init_value "(17)"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -715,9 +484,8 @@ for text objects. (== 16)"
 for worker objects. (== 17)"
       end
 
-      attribute 427177 "match_max"
-	class_attribute const_attribute public explicit_type "uchar"
-	init_value "(18)"
+      attribute 440873 "s_exemplar"
+	class_attribute private type class_ref 510633 // test_object_visitor
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -725,51 +493,46 @@ for worker objects. (== 17)"
 	python_decl "${comment}${self}${name} = ${value}
 "
 	idl_decl ""
-	comment "Value one higher than any object type. (== 18)"
+	comment "The class exemplar"
       end
 
       attribute 426921 "m_type"
-	const_attribute private explicit_type "uchar"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+	private explicit_type "uint"
+	multiplicity "s_size"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
 "
 	java_decl ""
 	php_decl ""
 	python_decl "${comment}${self}${name} = ${value}
 "
 	idl_decl ""
-	comment "The object-type to match"
+	comment "The object-type counts"
       end
 
-      operation 1622185 "is_type_number"
-	class_operation public explicit_return_type "bool"
-	nparams 1
-	  param in name "a_type" explicit_type "uchar"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
-{
-  return 0 < ${p0} and ${p0} < match_max;
-}
+      attribute 327337 "m_doc_filename"
+	private explicit_type "string"
+	multiplicity "1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Is this one of the type numbers?
-
-\\return 0 < a_type < match_max"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The filename of a database file."
       end
 
       operation 1621673 "test_object_visitor"
 	public explicit_return_type ""
-	nparams 1
-	  param in name "a_type" explicit_type "uchar"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw};
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} 
-: m_type (${p0})
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+: visitor ()
+, unit_test ()
+, m_type ()
+, m_doc_filename ()
 {
-  ${body}
+  register_options ();
 }
 "
 	
@@ -778,9 +541,7 @@ ${docstring}${body}
 ${docstring}${body}
 "
 	
-	comment "Default ctor sets the type
-
-\\pre is_type_number (a_type)"
+	comment "Default ctor"
       end
 
       operation 1621801 "~test_object_visitor"
@@ -836,43 +597,49 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(false, \"test_type_visitor object should never visit a base-class basic_datum object.\");
+  ${body}
 }
-
 "
 	
 	
 	
 	
-	comment "Pure virtual method to operate on objects as basic_datum."
+	comment "Test basic_datum methods."
       end
 
       operation 1623465 "on_visit"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443433 // comment
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_comment, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
 	
 	
 	
-	comment "Operator on comment objects."
+	comment "Operate on comment objects."
       end
 
       operation 1623593 "on_visit"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356009 // compound
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_compound, \"actual type was not desired match type.\");
-}"
+  ${body}
+}
+"
 	
 	
 	
@@ -884,25 +651,29 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 480425 // compound_ref
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_compound_ref, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
 	
 	
 	
-	comment "Operate on compound objects."
+	comment "Operate on compound ref objects."
       end
 
       operation 1623849 "on_visit"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 355369 // datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_datum, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -916,10 +687,13 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356905 // experiment
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_experiment, \"actual type was not desired match type.\");
-}"
+  ${body}
+}
+"
 	
 	
 	
@@ -931,9 +705,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354729 // filter
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_filter, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -947,9 +723,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356521 // formula
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_formula, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -963,9 +741,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356393 // identity
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_identity, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -979,9 +759,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354601 // info
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_info, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -995,10 +777,13 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353705 // mechanism
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
-}"
+  ${body}
+}
+"
 	
 	
 	
@@ -1010,9 +795,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1026,9 +813,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443561 // processing_instruction
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_pi, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1042,9 +831,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353321 // program
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1058,9 +849,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1074,9 +867,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 371497 // settings
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1090,9 +885,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1106,9 +903,11 @@ ${docstring}${body}
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353577 // worker
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{always}(m_type == match_${t0}, \"actual type was not desired match type.\");
+  ${body}
 }
 "
 	
@@ -1116,6 +915,195 @@ ${docstring}${body}
 	
 	
 	comment "Operate on worker objects."
+      end
+
+      operation 1205289 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1351593 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+
+      operation 1658281 "test_basic_text"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 435369 // basic_text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a basic_text object"
+      end
+
+      operation 1621289 "test_basic_text"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 435369 // basic_text
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test an internally created basic_text object"
+      end
+
+      operation 1621417 "test_comment"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443433 // comment
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test an internally created comment object"
+      end
+
+      operation 1621545 "test_pi"
+	private explicit_return_type "void"
+	nparams 4
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443561 // processing_instruction
+	  param in name "a_str1" explicit_type "string"
+	  param in name "a_str2" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}, const ${t3}& ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test an internally created p.i. object"
+      end
+
+      operation 1661737 "test_src_types"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" explicit_type "src_T"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1625641 "test_text"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_text" type class_ref 443305 // text
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test an internally created text object"
+      end
+
+      operation 1205417 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_scheme schema class tests\");
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1667113 "show_coverage"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Print the number of types analysed."
       end
     end
   end
@@ -1125,6 +1113,24 @@ ${docstring}${body}
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     comment "Unit-test classes for data_scheme types"
+    artifact 257321 "test_data_scheme"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 230313 // filesystem
+	artifact_ref 160553 // test
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 253353 // xml
+	artifact_ref 265129 // test_object_visitor
+	artifact_ref 157993 // utility
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
     artifact 168873 "test_program"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -1201,6 +1207,9 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+// Manual includes
+#include <boost/lexical_cast.hpp>
+// - 
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -1210,69 +1219,6 @@ ${definition}"
       associated_classes
 	class_ref 510633 // test_object_visitor
       end
-    end
-
-    artifact 161705 "test_utility"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 365353 // test_utility
-      end
-    end
-
-    artifact 257321 "test_data_scheme"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 253353 // xml
-	artifact_ref 252841 // program_options
-	artifact_ref 157993 // utility
-	artifact_ref 144169 // data_scheme
-	artifact_ref 230313 // filesystem
-	artifact_ref 168873 // test_program
-	artifact_ref 160553 // test
-	artifact_ref 230057 // data_access
-	artifact_ref 265129 // test_object_visitor
-	artifact_ref 253097 // date_time
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
     end
   end
 

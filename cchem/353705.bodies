@@ -15,7 +15,8 @@ else if (data_access::names::settings_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1423401.cpp!!!	add_info(in a_label : string) : info
@@ -65,13 +66,45 @@ return Result;
 !!!1527209.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::label_name () == a_name) 
 {
-  if (a_value != label ())
-  {
-    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
+!!!1663017.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// info,filter*,setting*
+COMPCHEM_ALWAYS (not empty_filter () or not empty_settings () or has_information ()
+                 , "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr1 (filter &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr2 (settings &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  filter_iterator l_f (std::find_if (begin_filter (), end_filter (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
+  if (l_f != end_filter ())
+  {
+    m_filter_set.erase (l_f);
+  }
+  else
+  {
+    settings_iterator l_i (std::find_if (begin_settings (), end_settings (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
+    COMPCHEM_ALWAYS (l_i != end_settings (), "attempt to remove non-child object");
+    m_command_set.erase (l_i);
+  }
+}

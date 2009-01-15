@@ -66,8 +66,8 @@ packagecanvas 192809
 end
 relationcanvas 183977 relation_ref 311977 // <composition>
   from ref 183337 z 1999 stereotype "<<ptr_vector>>" xyz 413 97 3000 to ref 183721
-  role_a_pos 442 114 3000 role_b_pos 418 47 3000
-  multiplicity_a_pos 495 144 3000 multiplicity_b_pos 417 79 3000
+  role_a_pos 448 114 3000 role_b_pos 412 46 3000
+  multiplicity_a_pos 503 144 3000 multiplicity_b_pos 412 76 3000
 end
 relationcanvas 184233 relation_ref 281641 // <composition>
   from ref 183337 z 1999 stereotype "<<ptr_vector>>" xyz 276 99 3000 to ref 184105
@@ -76,34 +76,34 @@ relationcanvas 184233 relation_ref 281641 // <composition>
 end
 relationcanvas 184617 relation_ref 311849 // <composition>
   from ref 183337 z 1999 stereotype "<<ptr_vector>>" xyz 219 99 3000 to ref 184361
-  role_a_pos 212 109 3000 role_b_pos 281 30 3000
-  multiplicity_a_pos 211 140 3000 multiplicity_b_pos 314 62 3000
+  role_a_pos 205 115 3000 role_b_pos 288 34 3000
+  multiplicity_a_pos 205 145 3000 multiplicity_b_pos 320 64 3000
 end
 relationcanvas 186153 relation_ref 288297 // <composition>
   from ref 185897 z 1999 stereotype "<<ptr_vector>>" xyz 49 344 3000 to ref 182825
-  role_a_pos 96 346 3000 role_b_pos 122 330 3000
-  multiplicity_a_pos 61 346 3000 multiplicity_b_pos 86 330 3000
+  role_a_pos 89 348 3000 role_b_pos 116 330 3000
+  multiplicity_a_pos 64 348 3000 multiplicity_b_pos 89 330 3000
 end
 relationcanvas 186281 relation_ref 312105 // <composition>
   from ref 184361 z 1999 stereotype "<<ptr_vector>>" xyz 100 229 3000 to ref 185897
-  role_a_pos 149 257 3000 role_b_pos 175 187 3000
-  multiplicity_a_pos 114 257 3000 multiplicity_b_pos 138 187 3000
+  role_a_pos 146 259 3000 role_b_pos 169 188 3000
+  multiplicity_a_pos 121 259 3000 multiplicity_b_pos 142 188 3000
 end
 relationcanvas 186665 relation_ref 314665 // <aggregation>
   from ref 186409 z 1999 stereotype "<<vector>>" xyz 330 156 3000 to ref 184105
-  role_a_pos 336 132 3000 role_b_pos 319 136 3000
-  multiplicity_a_pos 335 163 3000 multiplicity_b_pos 387 167 3000
+  role_a_pos 332 134 3000 role_b_pos 325 137 3000
+  multiplicity_a_pos 332 164 3000 multiplicity_b_pos 392 167 3000
 end
 relationcanvas 186793 relation_ref 281513 // <composition>
   from ref 183337 z 1999 stereotype "<<ptr_vector>>" xyz 355 102 3000 to ref 186409
-  role_a_pos 433 116 3000 role_b_pos 398 72 3000
-  multiplicity_a_pos 398 116 3000 multiplicity_b_pos 363 72 3000
+  role_a_pos 428 118 3000 role_b_pos 395 73 3000
+  multiplicity_a_pos 403 118 3000 multiplicity_b_pos 368 73 3000
 end
 relationcanvas 187177 relation_ref 293289 // <composition>
   decenter_end 458
   from ref 183721 z 1999 stereotype "<<ptr_vector>>" xyz 499 216 3000 to ref 186921
-  role_a_pos 557 234 3000 role_b_pos 563 179 3000
-  multiplicity_a_pos 527 239 3000 multiplicity_b_pos 531 180 3000
+  role_a_pos 551 238 3000 role_b_pos 559 180 3000
+  multiplicity_a_pos 526 238 3000 multiplicity_b_pos 532 180 3000
 end
 relationcanvas 187433 relation_ref 283177 // <composition>
   from ref 184105 z 1999 stereotype "<<ptr_vector>>" xyz 223 217 3000 to ref 187305
@@ -119,23 +119,23 @@ relationcanvas 187945 relation_ref 290857 // <directional composition>
   from ref 187817 z 1999 stereotype "<<ptr_vector>>" xyz 165 380 3000 to point 170 369
   line 188073 z 1999 to point 170 418
   line 188201 z 1999 to ref 187817
-  role_a_pos 198 379 3000 no_role_b
-  multiplicity_a_pos 235 409 3000 no_multiplicity_b
+  role_a_pos 198 378 3000 no_role_b
+  multiplicity_a_pos 236 408 3000 no_multiplicity_b
 end
 relationcanvas 188329 relation_ref 314793 // <directional composition>
   from ref 182825 z 1999 stereotype "<<ptr_vector>>" xyz 120 393 3000 to ref 187817
-  role_a_pos 178 372 3000 no_role_b
-  multiplicity_a_pos 215 403 3000 multiplicity_b_pos 100 399 3000
+  role_a_pos 184 374 3000 no_role_b
+  multiplicity_a_pos 221 404 3000 multiplicity_b_pos 96 399 3000
 end
 relationcanvas 188457 relation_ref 426793 // <directional composition>
   from ref 187561 z 1999 stereotype "<<auto_ptr>>" xyz 310 349 3000 to point 346 376
   line 189609 z 1999 to ref 187817
-  role_a_pos 318 362 3000 no_role_b
-  multiplicity_a_pos 317 393 3000 no_multiplicity_b
+  role_a_pos 312 366 3000 no_role_b
+  multiplicity_a_pos 312 396 3000 no_multiplicity_b
 end
 relationcanvas 188713 relation_ref 315433 // <directional composition>
   from ref 186921 z 1999 stereotype "<<ptr_vector>>" xyz 452 332 3000 to ref 188585
-  role_a_pos 488 342 3000 no_role_b
+  role_a_pos 487 342 3000 no_role_b
   multiplicity_a_pos 462 342 3000 no_multiplicity_b
 end
 relationcanvas 188841 relation_ref 315305 // <directional composition>
@@ -158,22 +158,22 @@ relationcanvas 189097 relation_ref 476841 // <dependency>
 end
 relationcanvas 192041 relation_ref 478889 // <composition>
   from ref 184361 z 3004 stereotype "<<ptr_vector>>" xyz 66 200 3000 to ref 191657
-  role_a_pos 103 184 3000 role_b_pos 58 144 3000
-  multiplicity_a_pos 102 216 3000 multiplicity_b_pos 117 176 3000
+  role_a_pos 99 191 3000 role_b_pos 65 151 3000
+  multiplicity_a_pos 99 221 3000 multiplicity_b_pos 123 181 3000
 end
 relationcanvas 192425 relation_ref 436649 // <directional composition>
   from ref 182825 z 1999 stereotype "<<auto_ptr>>" xyz 31 230 3000 to ref 192297
-  role_a_pos 96 102 3000 no_role_b
-  multiplicity_a_pos 61 102 3000 no_multiplicity_b
+  role_a_pos 91 102 3000 no_role_b
+  multiplicity_a_pos 66 102 3000 no_multiplicity_b
 end
 relationcanvas 192553 relation_ref 436521 // <directional composition>
   from ref 184361 z 1999 stereotype "<<auto_ptr>>" xyz 112 147 3000 to ref 192297
-  role_a_pos 126 102 3000 no_role_b
-  multiplicity_a_pos 91 102 3000 no_multiplicity_b
+  role_a_pos 122 102 3000 no_role_b
+  multiplicity_a_pos 97 102 3000 no_multiplicity_b
 end
 relationcanvas 192681 relation_ref 436393 // <directional composition>
   from ref 183337 z 1999 stereotype "<<auto_ptr>>" xyz 191 56 3000 to ref 192297
-  role_a_pos 142 43 3000 no_role_b
-  multiplicity_a_pos 141 74 3000 no_multiplicity_b
+  role_a_pos 135 46 3000 no_role_b
+  multiplicity_a_pos 135 76 3000 no_multiplicity_b
 end
 end

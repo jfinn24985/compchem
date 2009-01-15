@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 71
+  revision 75
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -180,9 +180,10 @@ ${inlines}
       operation 1167529 "category_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"category\");
+  const static ${type} Result (\"category\");
+  return Result;
 }
 "
 	
@@ -195,9 +196,10 @@ ${inlines}
       operation 1526313 "comment_type"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"#CM\");
+  const static ${type} Result (\"#CM\");
+  return Result;
 }
 "
 	
@@ -210,9 +212,10 @@ ${inlines}
       operation 1117993 "compound_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"compound\");
+  const static ${type} Result (\"compound\");
+  return Result;
 }
 "
 	
@@ -225,9 +228,10 @@ ${inlines}
       operation 1535017 "compound_ref_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"compound-ref\");
+  const static ${type} Result (\"compound-ref\");
+  return Result;
 }
 "
 	
@@ -240,9 +244,10 @@ ${inlines}
       operation 1118249 "date_start_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"date-start\");
+  const static ${type} Result (\"date-start\");
+  return Result;
 }
 "
 	
@@ -255,9 +260,10 @@ ${inlines}
       operation 1118377 "date_end_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"date-end\");
+  const static ${type} Result (\"date-end\");
+  return Result;
 }
 "
 	
@@ -270,9 +276,10 @@ ${inlines}
       operation 1118505 "datum_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"datum\");
+  const static ${type} Result (\"datum\");
+  return Result;
 }
 "
 	
@@ -285,9 +292,10 @@ ${inlines}
       operation 1511593 "detect_filter_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"detect\");
+  const static ${type} Result (\"detect\");
+  return Result;
 }
 "
 	
@@ -300,9 +308,10 @@ ${inlines}
       operation 1118633 "dimension_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"dim\");
+  const static ${type} Result (\"dim\");
+  return Result;
 }
 "
 	
@@ -315,9 +324,10 @@ ${inlines}
       operation 1118761 "experiment_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"experiment\");
+  const static ${type} Result (\"experiment\");
+  return Result;
 }
 "
 	
@@ -330,9 +340,10 @@ ${inlines}
       operation 1120169 "filter_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"filter\");
+  const static ${type} Result (\"filter\");
+  return Result;
 }
 "
 	
@@ -345,9 +356,10 @@ ${inlines}
       operation 1530409 "file_scheme"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"file\");
+  const static ${type} Result (\"file\");
+  return Result;
 }
 "
 	
@@ -361,9 +373,10 @@ local file."
       operation 1118889 "format_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"format\");
+  const static ${type} Result (\"format\");
+  return Result;
 }
 "
 	
@@ -376,9 +389,10 @@ local file."
       operation 1119017 "formula_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"formula\");
+  const static ${type} Result (\"formula\");
+  return Result;
 }
 "
 	
@@ -391,9 +405,10 @@ local file."
       operation 1119401 "href_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"href\");
+  const static ${type} Result (\"href\");
+  return Result;
 }
 "
 	
@@ -406,9 +421,10 @@ local file."
       operation 1119529 "info_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"info\");
+  const static ${type} Result (\"info\");
+  return Result;
 }
 "
 	
@@ -421,9 +437,10 @@ local file."
       operation 1119657 "identity_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"identity\");
+  const static ${type} Result (\"identity\");
+  return Result;
 }
 "
 	
@@ -436,9 +453,10 @@ local file."
       operation 1119785 "label_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"label\");
+  const static ${type} Result (\"label\");
+  return Result;
 }
 "
 	
@@ -451,9 +469,10 @@ local file."
       operation 1120041 "mechanism_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"mechanism\");
+  const static ${type} Result (\"mechanism\");
+  return Result;
 }
 "
 	
@@ -466,9 +485,10 @@ local file."
       operation 1120297 "memo_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"memo\");
+  const static ${type} Result (\"memo\");
+  return Result;
 }
 "
 	
@@ -481,9 +501,10 @@ local file."
       operation 1118121 "memo_src_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"memo-src\");
+  const static ${type} Result (\"memo-src\");
+  return Result;
 }
 "
 	
@@ -496,9 +517,10 @@ local file."
       operation 1120425 "name_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"name\");
+  const static ${type} Result (\"name\");
+  return Result;
 }
 "
 	
@@ -511,9 +533,10 @@ local file."
       operation 1120553 "ordinal_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"ordinal\");
+  const static ${type} Result (\"ordinal\");
+  return Result;
 }
 "
 	
@@ -526,9 +549,10 @@ local file."
       operation 1209897 "outcome_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"outcome\");
+  const static ${type} Result (\"outcome\");
+  return Result;
 }
 "
 	
@@ -541,9 +565,10 @@ local file."
       operation 1519657 "plugin_filter_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"plugin\");
+  const static ${type} Result (\"plugin\");
+  return Result;
 }
 "
 	
@@ -556,9 +581,10 @@ local file."
       operation 1169193 "priority_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"priority\");
+  const static ${type} Result (\"priority\");
+  return Result;
 }
 "
 	
@@ -571,9 +597,10 @@ local file."
       operation 1526569 "processing_instruction_type"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"#PI\");
+  const static ${type} Result (\"#PI\");
+  return Result;
 }
 "
 	
@@ -586,9 +613,10 @@ local file."
       operation 1120681 "program_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"program\");
+  const static ${type} Result (\"program\");
+  return Result;
 }
 "
 	
@@ -601,9 +629,10 @@ local file."
       operation 1120809 "project_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"project\");
+  const static ${type} Result (\"project\");
+  return Result;
 }
 "
 	
@@ -616,9 +645,10 @@ local file."
       operation 1120937 "project_src_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"proj-src\");
+  const static ${type} Result (\"proj-src\");
+  return Result;
 }
 "
 	
@@ -631,9 +661,10 @@ local file."
       operation 1121065 "reference_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"reference\");
+  const static ${type} Result (\"reference\");
+  return Result;
 }
 "
 	
@@ -646,9 +677,10 @@ local file."
       operation 1519785 "regex_filter_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"regex\");
+  const static ${type} Result (\"regex\");
+  return Result;
 }
 "
 	
@@ -661,9 +693,10 @@ local file."
       operation 1121193 "scale_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"scale\");
+  const static ${type} Result (\"scale\");
+  return Result;
 }
 "
 	
@@ -676,9 +709,10 @@ local file."
       operation 1211689 "settings_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"settings\");
+  const static ${type} Result (\"settings\");
+  return Result;
 }
 "
 	
@@ -691,9 +725,10 @@ local file."
       operation 1401897 "space"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\" \");
+  const static ${type} Result (\" \");
+  return Result;
 }
 "
 	
@@ -706,9 +741,10 @@ local file."
       operation 1526441 "text_type"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"#TX\");
+  const static ${type} Result (\"#TX\");
+  return Result;
 }
 "
 	
@@ -721,9 +757,10 @@ local file."
       operation 1121449 "type_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"type\");
+  const static ${type} Result (\"type\");
+  return Result;
 }
 "
 	
@@ -736,9 +773,10 @@ local file."
       operation 1121577 "worker_name"
 	class_operation public return_type class_ref 476585 // string_type
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return ${type} (\"worker\");
+  const static ${type} Result (\"worker\");
+  return Result;
 }
 "
 	
@@ -959,387 +997,6 @@ the case of empty arguments."
 	
 	
 	comment "Test if a_name is a type name."
-      end
-    end
-
-    class 433961 "meta_datum"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit}
-{
-${members}
-};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Objects of this type contain an abstract definition of a datum object. It can be used to
-check the correct construction of a datum, object etc.
-
-It can:
-Check for valid tag name.
-Check for valid attribute name
-Check for valid child name
-
-It can _not_
-Check for valid attribute content
-Check for valid child order "
-      classrelation 483881 // <dependency>
-	relation 472489 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 483881 // <dependency>
-	  b parent class_ref 476713 // names
-      end
-
-      class 455465 "const_iterator"
-	visibility package stereotype "typedef" explicit_base_type "string"
-	cpp_decl "${comment}typedef std::set< ${type} >::const_iterator ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl "${comment}typedef ${type} ${name};
-"
-	explicit_switch_type ""
-	
-      end
-
-      class 452009 "name_map_t"
-	visibility package stereotype "typedef" base_type class_ref 478121 // ptr_map
-	nactuals 2
-	actual class class_ref 478121 // ptr_map
-	  rank 0 explicit_value "string"
-	actual class class_ref 478121 // ptr_map
-	  rank 1 value class_ref 433961 // meta_datum
-	cpp_decl "${comment}typedef ${type} ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl "${comment}typedef ${type} ${name};
-"
-	explicit_switch_type ""
-	
-	classrelation 574633 // <realization>
-	  relation 553513 -_-|>
-	    a public
-	      cpp default "${type}"
-	      python "${type}"
-	      classrelation_ref 574633 // <realization>
-	    b parent class_ref 478121 // ptr_map
-	end
-      end
-
-      attribute 348329 "key_attribute"
-	const_attribute public explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "An attribute name that is REQUIRED and key for this datum type. This
-is used by the reader to select the second argument of the add_child
-constructor.
-
-It can be empty indicating no key attribute."
-      end
-
-      attribute 385577 "m_attributes"
-	private explicit_type "string"
-	multiplicity "*"
-	stereotype "set"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The set of allowed attributes"
-      end
-
-      attribute 385705 "m_children"
-	private explicit_type "string"
-	multiplicity "*"
-	stereotype "set"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The names of allowed child elements"
-      end
-
-      attribute 333865 "name"
-	const_attribute public explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The XML tag for this datum."
-      end
-
-      classrelation 444329 // s_map (<directional composition>)
-	relation 433961 *-->
-	  stereotype "auto_ptr"
-	  a role_name "s_map" multiplicity "0..1" class_relation private
-	    comment "The map of names to meta_datum objects."
-	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
-"
-	    classrelation_ref 444329 // s_map (<directional composition>)
-	  b parent class_ref 452009 // name_map_t
-      end
-
-      operation 1451561 "begin_attr"
-	const public return_type class_ref 455465 // const_iterator
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_attributes.begin ();
-}
-"
-	
-	
-	
-	
-	comment "Get an iterator to the first attribute name."
-      end
-
-      operation 1434921 "by_name"
-	class_operation public return_type class_ref 433961 // meta_datum
-	nparams 1
-	  param in name "a_name" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Get the key attribute for the tag a_name.
-
-I this returned the key_attribute then the reader would have to 
-find the attribute and meta_datum would be independent of the
-reader type.
-
-\\pre names::is_element_name (a_name) "
-      end
-
-      operation 1451689 "end_attr"
-	const public return_type class_ref 455465 // const_iterator
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_attributes.end ();
-}
-"
-	
-	
-	
-	
-	comment "Get an iterator to the first attribute name."
-      end
-
-      operation 1440169 "empty_children"
-	const public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_children.empty ();
-}
-"
-	
-	
-	
-	
-	comment "Does this element have children tags?"
-      end
-
-      operation 1373097 "has_attr_name"
-	const public explicit_return_type "bool"
-	nparams 1
-	  param in name "a_name" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_attributes.count (${p0}) != 0;
-}
-"
-	
-	
-	
-	
-	comment "Does this object allow the given attribute name."
-      end
-
-      operation 1451433 "has_attributes"
-	const public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return not m_attributes.empty ();
-}
-"
-	
-	
-	
-	
-	comment "Can this element have attributes"
-      end
-
-      operation 1369129 "has_child_tag"
-	const public explicit_return_type "bool"
-	nparams 1
-	  param in name "a_name" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
-{
-  return (0 != m_children.count (${p0}));
-}
-
-"
-	
-	
-	
-	
-	comment "Does this element allow children with the given tag?"
-      end
-
-      operation 1629097 "initialise_map"
-	class_operation private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-  @{ensure}(NULL != s_map.get (), \"Meta-datum map still undefined after creating data-scheme objects.\");
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Initialise map with data_scheme types."
-      end
-
-      operation 1368233 "meta_datum"
-	private explicit_return_type ""
-	nparams 4
-	  param in name "a_name" explicit_type "string"
-	  param in name "a_key" explicit_type "string"
-	  param in name "a_child_list" explicit_type "string"
-	  param in name "a_attribute_list" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw}
-: key_attribute (${p1})
-, m_attributes ()
-, m_children ()
-, name (${p0})
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Main constructor. The tag name for this object is a_name, the list of 
-child tag names is a_child_list and the list of attribute names is 
-a_attribute_list. The attribute name a_key is a key attribute (#REQUIRED)
-for the element, it will automatically be added to a_attribute_list.
-Lists are space separated list of words.
-
-\\pre names::is_element_name (a_name) and names::is_element_name (ALL in a_child_list) and names::is_attribute_name (ALL in a_attribute_list)
-
-PROGRAM NOTE, List parsing is:
-m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_iterator<...>())"
-      end
-
-      operation 1368489 "meta_datum"
-	stereotype "copy"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 433961 // meta_datum
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
-"
-	
-	
-	
-	
-	comment "no copy"
-      end
-
-      operation 1368361 "~meta_datum"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw() 
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1368617 "operator="
-	private return_type class_ref 433961 // meta_datum
-	nparams 1
-	  param in name "source" type class_ref 433961 // meta_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	
-	
-	
-	
-	comment "no assign"
-      end
-
-      operation 1385641 "valid_attribute"
-	const public explicit_return_type "bool"
-	nparams 2
-	  param in name "a_name" explicit_type "string"
-	  param in name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile} throw ()${abstract}
-{
-  return has_attr_name (${p0});
-}
-"
-	
-	
-	
-	
-	comment "Return if this is a valid attribute name, value pair. This checks that a_name
-is a valid attribute label and that a_value is a valid attribute content. Note this
-can also check that a coded form of a_value is an acceptable attribtue 
-content.
-
-\\return has_attr_name (a_name)
-\\todo validate attribute value (a_value)"
-      end
-
-      classrelation 575017 // <dependency>
-	relation 553897 -_->
-	  stereotype "friend"
-	  a package
-	    cpp default "${type}"
-	    python "${type}"
-	    classrelation_ref 575017 // <dependency>
-	  b parent class_ref 434089 // test_meta_datum
       end
     end
 
@@ -2077,6 +1734,819 @@ this optimisation is currently considered unnecessary."
       end
     end
 
+    class 524073 "basic_names_2"
+      visibility package 
+      nformals 1
+      formal name "T_xml_string" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This type is a container for names in the XML document schema and some DOM node helper functions additional to those provided in DOM."
+      class 524201 "string_type"
+	visibility package stereotype "typedef" explicit_base_type "T_xml_string"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      operation 1669801 "category_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"category\");
+}
+"
+	
+	
+	
+	
+	comment "Name of compound attribute in XML appl that allows compound grouping "
+      end
+
+      operation 1669929 "comment_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#CM\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments in application"
+      end
+
+      operation 1670057 "compound_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"compound\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1670185 "compound_ref_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"compound-ref\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1670313 "date_start_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"date-start\");
+}
+"
+	
+	
+	
+	
+	comment "Name of starting date attribute in XML appl"
+      end
+
+      operation 1670441 "date_end_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"date-end\");
+}
+"
+	
+	
+	
+	
+	comment "Name of ending date attribute in XML appl"
+      end
+
+      operation 1670569 "datum_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"datum\");
+}
+"
+	
+	
+	
+	
+	comment "The name of datum elements in the XML appl."
+      end
+
+      operation 1670697 "detect_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"detect\");
+}
+"
+	
+	
+	
+	
+	comment "The special name of filters that detect the mechanism of files."
+      end
+
+      operation 1670825 "dimension_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"dim\");
+}
+"
+	
+	
+	
+	
+	comment "The datum object's dimension attribute name in the XML appl."
+      end
+
+      operation 1670953 "experiment_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"experiment\");
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment container element in XML appl"
+      end
+
+      operation 1671081 "filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"filter\");
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of filter that can be applied to output of enclosing mechanism"
+      end
+
+      operation 1671209 "file_scheme"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"file\");
+}
+"
+	
+	
+	
+	
+	comment "The URI \"scheme\" of a href attribute that indicates the target is a
+local file."
+      end
+
+      operation 1671337 "format_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"format\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the datum format attribute in the XML appl."
+      end
+
+      operation 1671465 "formula_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"formula\");
+}
+"
+	
+	
+	
+	
+	comment "Name of formula container element in XML appl"
+      end
+
+      operation 1671593 "href_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"href\");
+}
+"
+	
+	
+	
+	
+	comment "Name of URL link or filename attribute in XML appl"
+      end
+
+      operation 1671721 "info_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"info\");
+}
+"
+	
+	
+	
+	
+	comment "Value of [text/@name] for textual information relating to the containing element"
+      end
+
+      operation 1671849 "identity_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"identity\");
+}
+"
+	
+	
+	
+	
+	comment "Name of identity element in XML appl"
+      end
+
+      operation 1671977 "label_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"label\");
+}
+"
+	
+	
+	
+	
+	comment "Name of label attribute in XML appl"
+      end
+
+      operation 1672105 "mechanism_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"mechanism\");
+}
+"
+	
+	
+	
+	
+	comment "Name of a mechanism container element in XML appl"
+      end
+
+      operation 1672233 "memo_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"memo\");
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of mechanism used in an experiment in XML appl"
+      end
+
+      operation 1672361 "memo_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"memo-src\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound reference element in XML appl"
+      end
+
+      operation 1672489 "name_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"name\");
+}
+"
+	
+	
+	
+	
+	comment "The string for the name attribute of datum element in the XML appl."
+      end
+
+      operation 1672617 "ordinal_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"ordinal\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the bag element ordinal attribute in XML appl."
+      end
+
+      operation 1672745 "outcome_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"outcome\");
+}
+"
+	
+	
+	
+	
+	comment "The name of attribute in XML appl."
+      end
+
+      operation 1672873 "plugin_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"plugin\");
+}
+"
+	
+	
+	
+	
+	comment "The type name of filters that are dynamically loaded external code."
+      end
+
+      operation 1673001 "priority_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"priority\");
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1673129 "processing_instruction_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#PI\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments."
+      end
+
+      operation 1673257 "program_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"program\");
+}
+"
+	
+	
+	
+	
+	comment "Name of research program container element in XML appl"
+      end
+
+      operation 1673385 "project_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"project\");
+}
+"
+	
+	
+	
+	
+	comment "Name of project container element in XML appl"
+      end
+
+      operation 1673513 "project_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"proj-src\");
+}
+"
+	
+	
+	
+	
+	comment "Name of project link element in XML appl"
+      end
+
+      operation 1673641 "reference_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"reference\");
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment (page) reference attribute in XML appl"
+      end
+
+      operation 1673769 "regex_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"regex\");
+}
+"
+	
+	
+	
+	
+	comment "The type name of internal filter that uses regular expressions."
+      end
+
+      operation 1673897 "scale_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"scale\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the scale attribute in the XML appl."
+      end
+
+      operation 1674025 "settings_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"settings\");
+}
+"
+	
+	
+	
+	
+	comment "Name of settings container element in XML appl"
+      end
+
+      operation 1674153 "space"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\" \");
+}
+"
+	
+	
+	
+	
+	comment "A white space."
+      end
+
+      operation 1674281 "text_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#TX\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML text."
+      end
+
+      operation 1674409 "type_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"type\");
+}
+"
+	
+	
+	
+	
+	comment "Name of the \"type\" attribute."
+      end
+
+      operation 1674537 "worker_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"worker\");
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1674665 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 2
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1674793 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 3
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1674921 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 4
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675049 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 5
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675177 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 6
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	  param in name "i6" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}, const ${t5} & ${p5}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  list_add (${p0}, ${p5});
+  return ${p0};
+}
+
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675305 "list_add"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  if (not ${p1}.empty ())
+  {
+    if (${p0}.empty ())
+    {
+      ${p0}.assign (${p1});
+    }
+    else
+    {
+      ${p0}.append (${class}::space ());
+      ${p0}.append (${p1});
+    }
+  }
+}
+"
+	
+	
+	
+	
+	comment "convenience function to append a single item to an existing list. Handles 
+the case of empty arguments."
+      end
+
+      operation 1675433 "is_element_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered object names?"
+      end
+
+      operation 1675561 "is_attribute_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_attr" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered attribute names?"
+      end
+
+      operation 1675689 "is_special_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered special value names?"
+      end
+
+      operation 1675817 "is_type_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  return (a_name == ${class}::comment_type()
+    || a_name == ${class}::processing_instruction_type ()
+    || a_name == ${class}::text_type ());
+}
+"
+	
+	
+	
+	
+	comment "Test if a_name is a type name."
+      end
+    end
   end
 
   deploymentview 157097 "data_access"
@@ -2086,9 +2556,8 @@ this optimisation is currently considered unnecessary."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214313 // persistence
 	artifact_ref 244905 // manager
-	artifact_ref 203945 // meta_datum
+	artifact_ref 214313 // persistence
       end
     end
 
@@ -2128,47 +2597,6 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 496425 // manager
-      end
-    end
-
-    artifact 203945 "meta_datum"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-// Manual includes
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <algorithm>
-// -- 
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 433961 // meta_datum
       end
     end
 
@@ -2259,6 +2687,387 @@ ${namespace_end}"
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
     comment "The classes responsible for providing XML access."
+    class 433961 "meta_datum"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Objects of this type contain an abstract definition of data_scheme type, which
+are used by xml_persistence to deserialise XML objects.
+
+It can:
+Check for valid tag name.
+Check for valid attribute name
+Check for valid child name
+
+It can _not_
+Check for valid attribute content
+Check for valid child order "
+      classrelation 483881 // <dependency>
+	relation 472489 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 483881 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      class 455465 "const_iterator"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef std::set< ${type} >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 452009 "name_map_t"
+	visibility package stereotype "typedef" base_type class_ref 478121 // ptr_map
+	nactuals 2
+	actual class class_ref 478121 // ptr_map
+	  rank 0 explicit_value "string"
+	actual class class_ref 478121 // ptr_map
+	  rank 1 value class_ref 433961 // meta_datum
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 574633 // <realization>
+	  relation 553513 -_-|>
+	    a public
+	      cpp default "${type}"
+	      python "${type}"
+	      classrelation_ref 574633 // <realization>
+	    b parent class_ref 478121 // ptr_map
+	end
+      end
+
+      attribute 348329 "key_attribute"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "An attribute name that is REQUIRED and key for this datum type. This
+is used by the reader to select the second argument of the add_child
+constructor.
+
+It can be empty indicating no key attribute."
+      end
+
+      attribute 385577 "m_attributes"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of allowed attributes"
+      end
+
+      attribute 385705 "m_children"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The names of allowed child elements"
+      end
+
+      attribute 333865 "name"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The XML tag for this datum."
+      end
+
+      classrelation 444329 // s_map (<directional composition>)
+	relation 433961 *-->
+	  stereotype "auto_ptr"
+	  a role_name "s_map" multiplicity "0..1" class_relation private
+	    comment "The map of names to meta_datum objects."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 444329 // s_map (<directional composition>)
+	  b parent class_ref 452009 // name_map_t
+      end
+
+      operation 1451561 "begin_attr"
+	const public return_type class_ref 455465 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_attributes.begin ();
+}
+"
+	
+	
+	
+	
+	comment "Get an iterator to the first attribute name."
+      end
+
+      operation 1434921 "by_name"
+	class_operation public return_type class_ref 433961 // meta_datum
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Get the key attribute for the tag a_name.
+
+I this returned the key_attribute then the reader would have to 
+find the attribute and meta_datum would be independent of the
+reader type.
+
+\\pre names::is_element_name (a_name) "
+      end
+
+      operation 1451689 "end_attr"
+	const public return_type class_ref 455465 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_attributes.end ();
+}
+"
+	
+	
+	
+	
+	comment "Get an iterator to the first attribute name."
+      end
+
+      operation 1440169 "empty_children"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_children.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Does this element have children tags?"
+      end
+
+      operation 1373097 "has_attr_name"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_attributes.count (${p0}) != 0;
+}
+"
+	
+	
+	
+	
+	comment "Does this object allow the given attribute name."
+      end
+
+      operation 1451433 "has_attributes"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return not m_attributes.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Can this element have attributes"
+      end
+
+      operation 1369129 "has_child_tag"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  return (0 != m_children.count (${p0}));
+}
+
+"
+	
+	
+	
+	
+	comment "Does this element allow children with the given tag?"
+      end
+
+      operation 1629097 "initialise_map"
+	class_operation private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+  @{ensure}(NULL != s_map.get (), \"Meta-datum map still undefined after creating data-scheme objects.\");
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Initialise map with data_scheme types."
+      end
+
+      operation 1368233 "meta_datum"
+	private explicit_return_type ""
+	nparams 4
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_key" explicit_type "string"
+	  param in name "a_child_list" explicit_type "string"
+	  param in name "a_attribute_list" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw}
+: key_attribute (${p1})
+, m_attributes ()
+, m_children ()
+, name (${p0})
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Main constructor. The tag name for this object is a_name, the list of 
+child tag names is a_child_list and the list of attribute names is 
+a_attribute_list. The attribute name a_key is a key attribute (#REQUIRED)
+for the element, it will automatically be added to a_attribute_list.
+Lists are space separated list of words.
+
+\\pre names::is_element_name (a_name) and names::is_element_name (ALL in a_child_list) and names::is_attribute_name (ALL in a_attribute_list)
+
+PROGRAM NOTE, List parsing is:
+m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_iterator<...>())"
+      end
+
+      operation 1368489 "meta_datum"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 433961 // meta_datum
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1368361 "~meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw() 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1368617 "operator="
+	private return_type class_ref 433961 // meta_datum
+	nparams 1
+	  param in name "source" type class_ref 433961 // meta_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1385641 "valid_attribute"
+	const public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile} throw ()${abstract}
+{
+  return has_attr_name (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Return if this is a valid attribute name, value pair. This checks that a_name
+is a valid attribute label and that a_value is a valid attribute content. Note this
+can also check that a coded form of a_value is an acceptable attribtue 
+content.
+
+\\return has_attr_name (a_name)
+\\todo validate attribute value (a_value)"
+      end
+
+      classrelation 575017 // <dependency>
+	relation 553897 -_->
+	  stereotype "friend"
+	  a package
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 575017 // <dependency>
+	  b parent class_ref 434089 // test_meta_datum
+      end
+    end
+
     class 360233 "xml_access_helper"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -3402,7 +4211,19 @@ being new."
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return uri_scheme () + \":\" + m_url.string ();
+  std::string Result;
+  if (m_url.is_complete ())
+  {
+    Result.reserve (m_url.string ().size () + 8);
+    Result.assign (uri_scheme ());
+    Result.append (\"://\");
+    Result.append (m_url.string ());
+  }
+  else
+  {
+    Result.assign (m_url.string ());
+  }
+  return Result;
 }
 "
 	
@@ -3527,12 +4348,54 @@ until read or write are called."
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
 	artifact_ref 231465 // xml_persistence
-	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 203945 // meta_datum
 	artifact_ref 157097 // xml_access_helper
 	artifact_ref 230057 // data_access
-	artifact_ref 253353 // xml
+      end
+    end
+
+    artifact 203945 "meta_datum"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <algorithm>
+// -- 
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 433961 // meta_datum
       end
     end
 

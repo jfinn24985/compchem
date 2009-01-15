@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 45
+  revision 46
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -49,111 +49,6 @@ format 61
     classdiagram 133545 "test classes"
       draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
-    end
-
-    class 434089 "test_meta_datum"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for data_scheme::program"
-      classrelation 419625 // <generalisation>
-	relation 409513 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 419625 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 552489 // <dependency>
-	relation 531369 -_->
-	  a package
-	    cpp default "#include in source"
-	    python "${type}"
-	    classrelation_ref 552489 // <dependency>
-	  b parent class_ref 428969 // bind
-      end
-
-      classrelation 420265 // <dependency>
-	relation 410153 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 420265 // <dependency>
-	  b parent class_ref 433961 // meta_datum
-      end
-
-      attribute 334249 "exemplar"
-	class_attribute private type class_ref 434089 // test_meta_datum
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Class exemplar"
-      end
-
-      operation 1369769 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1370025 "test_meta_datum"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: utility::unit_test ()
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1370153 "~test_meta_datum"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1370281 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"data_access::meta_datum class test\");
-}
-"
-	
-	
-	
-	
-      end
     end
 
     class 444969 "test_names"
@@ -343,16 +238,15 @@ Failed tests are indicated by an uncaught exception."
     artifact 251305 "test_data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252969 // regex
-	artifact_ref 253353 // xml
 	artifact_ref 252841 // program_options
-	artifact_ref 204073 // test_meta_datum
+	artifact_ref 230313 // filesystem
+	artifact_ref 208937 // test_names
 	artifact_ref 230057 // data_access
-	artifact_ref 157993 // utility
 	artifact_ref 160553 // test
 	artifact_ref 253097 // date_time
-	artifact_ref 208937 // test_names
-	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
+	artifact_ref 252969 // regex
+	artifact_ref 157993 // utility
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -364,16 +258,16 @@ Failed tests are indicated by an uncaught exception."
       stereotype "library"
       associated_artifacts
 	artifact_ref 144169 // data_scheme
-	artifact_ref 252969 // regex
-	artifact_ref 253353 // xml
 	artifact_ref 252841 // program_options
-	artifact_ref 271401 // test_data_manager
-	artifact_ref 266281 // data_xml_access
+	artifact_ref 230313 // filesystem
 	artifact_ref 230057 // data_access
-	artifact_ref 157993 // utility
 	artifact_ref 160553 // test
 	artifact_ref 253097 // date_time
-	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
+	artifact_ref 252969 // regex
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 271401 // test_data_manager
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -415,42 +309,6 @@ ${import}
 ${definition}"
       associated_classes
 	class_ref 515753 // test_data_manager
-      end
-    end
-
-    artifact 204073 "test_meta_datum"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 434089 // test_meta_datum
       end
     end
 
@@ -633,6 +491,112 @@ TODO: more rigorous testing.
       end
     end
 
+    class 434089 "test_meta_datum"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Unit test for meta_datum class.
+"
+      classrelation 419625 // <generalisation>
+	relation 409513 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 419625 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 552489 // <dependency>
+	relation 531369 -_->
+	  a package
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 552489 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 420265 // <dependency>
+	relation 410153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 420265 // <dependency>
+	  b parent class_ref 433961 // meta_datum
+      end
+
+      attribute 334249 "exemplar"
+	class_attribute private type class_ref 434089 // test_meta_datum
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Class exemplar"
+      end
+
+      operation 1369769 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370025 "test_meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: utility::unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370153 "~test_meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370281 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::meta_datum class test\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+
     class 521769 "test_xml_persistence"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
@@ -757,6 +721,18 @@ ${docstring}${members}
 	comment "The search filename"
       end
 
+      attribute 438569 "m_test_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The file name of the file to compare our result to."
+      end
+
       attribute 436265 "s_exemplar"
 	class_attribute private type class_ref 521769 // test_xml_persistence
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -859,6 +835,7 @@ nothing."
 , m_base ()
 , m_key ()
 , m_path ()
+, m_test_file ()
 {
   register_options ();
 }"
@@ -896,14 +873,15 @@ ${docstring}${body}
       stereotype "library"
       associated_artifacts
 	artifact_ref 144169 // data_scheme
+	artifact_ref 273705 // test_xml_persistence
+	artifact_ref 230057 // data_access
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
 	artifact_ref 253353 // xml
 	artifact_ref 215977 // test_file_helper
 	artifact_ref 266281 // data_xml_access
-	artifact_ref 230057 // data_access
 	artifact_ref 157993 // utility
-	artifact_ref 160553 // test
-	artifact_ref 253097 // date_time
-	artifact_ref 273705 // test_xml_persistence
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -943,6 +921,43 @@ ${namespace_end}"
       associated_classes
 	class_ref 457001 // test_file_helper
       end
+    end
+
+    artifact 204073 "test_meta_datum"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 434089 // test_meta_datum
+      end
+      comment "Test meta_datum"
     end
 
     artifact 273705 "test_xml_persistence"

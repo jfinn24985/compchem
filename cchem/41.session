@@ -1,22 +1,26 @@
-window_sizes 985 737 339 640 467 191
+window_sizes 960 672 313 641 402 191
 diagrams
-  classdiagram_ref 133545 // test classes
+  classdiagram_ref 138025 // Dependencies
     640 467 100 4 0 0
-  active  classdiagram_ref 151593 // test cases
-    640 467 100 4 0 220
+  active  classdiagram_ref 171561 // Inheritance
+    641 402 100 4 0 0
 end
 show_stereotypes
-selected artifact_ref 260137 // TODO.current
+selected classview_ref 156969 // data_access
 open
-  deploymentview_ref 146473 // Overview
+  
+  package_ref 152105 // Docs
+  
+  package_ref 132777 // /compchem/data_access
   classview_ref 133161 // data_scheme
   deploymentview_ref 131113 // data_scheme
-  classview_ref 161577 // data_scheme_py
+  class_ref 510633 // test_object_visitor
+  
+  package_ref 131241 // /compchem/supplier
   
   package_ref 137257 // /compchem/utility
+  deploymentview_ref 128937 // libxml2 dom types
   
-  package_ref 148393 // /xmlreader
-  
-  package_ref 132393 // /boost
+  package_ref 131497 // External Components
 end
 end

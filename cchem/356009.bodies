@@ -15,7 +15,8 @@ else if (data_access::names::info_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1182889.cpp!!!	add_formula(in a_label : string) : formula
@@ -58,6 +59,9 @@ return *(m_info.get ());
 !!!1501737.cpp!!!	find_formula(in a_label : string) : formula_iterator
 return std::find_if (begin_formula (), end_formula ()
     , boost::bind (std::equal_to< std::string >(), boost::bind (&formula::label, _1), a_label));
+!!!1659689.cpp!!!	find_formula(in a_label : string) : const_formula_iterator
+return std::find_if (begin_formula (), end_formula ()
+    , boost::bind (std::equal_to< std::string >(), boost::bind (&formula::label, _1), a_label));
 !!!1384233.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
 REQUIRE (not label ().empty (), "Attempting to write an invalid compound object.");
 bool Result (false);
@@ -83,13 +87,45 @@ if (data_access::names::category_name () == a_name)
 }
 else if (data_access::names::label_name () == a_name) 
 {
-  if (a_value != label ())
-  {
-    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
+!!!1662505.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// formula*, identity* or info?
+COMPCHEM_ALWAYS (not empty_formula () or not empty_identity () or has_information ()
+                 , "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr1 (formula &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr2 (identity &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  formula_iterator l_f (std::find_if (begin_formula (), end_formula (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
+  if (l_f != end_formula ())
+  {
+    m_instances.erase (l_f);
+  }
+  else
+  {
+    identity_iterator l_i (std::find_if (begin_identity (), end_identity (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
+    COMPCHEM_ALWAYS (l_i != end_identity (), "attempt to remove non-child object");
+    m_identity.erase (l_i);
+  }
+}

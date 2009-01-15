@@ -1,6 +1,6 @@
 format 61
 "//test" // /compchem/utility:://test
-  revision 45
+  revision 49
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -67,6 +67,32 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "Base class for types that want to utilise the unit-test framework.  Most test classes
+should inherit this class indirectly through the unit_test class.
+"
+      class 425129 "funtion_t"
+	visibility package stereotype "typedef" base_type class_ref 182569 // function
+	nactuals 1
+	actual class class_ref 182569 // function
+	  rank 0 explicit_value "void (void)"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 405801 // <realization>
+	  relation 396841 -_-|>
+	    a public
+	      cpp default "${type}"
+	      classrelation_ref 405801 // <realization>
+	    b parent class_ref 182569 // function
+	end
+      end
+
       attribute 267817 "COMM"
 	class_attribute const_attribute public explicit_type "string"
 	init_value "(\"[--] \")"
@@ -181,6 +207,101 @@ ${inlines}
 	comment "Get the reference to the logging stream."
       end
 
+      operation 1356585 "bool_test"
+	class_operation cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param in name "a_test" explicit_type "bool"
+	  param in name "a_msg" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not ${p1}.empty (), \"${name} requires a non-empty message\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "If a_test is true print a_msg. If false throws logic_error with a_failmsg.
+
+\\pre a_msg /= nul and a_failmsg /= nul"
+      end
+
+      operation 1669545 "bool_test"
+	class_operation cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param in name "a_test" explicit_type "bool"
+	  param in name "a_msg" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} *const ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} *const ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "If a_test is true print a_msg. If false throws logic_error with a_failmsg.
+
+\\pre a_msg /= nul and a_failmsg /= nul"
+      end
+
+      operation 1353385 "monitor_function"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_lvl" explicit_type "uint"
+	  param in name "a_fn" type class_ref 425129 // funtion_t
+	  param in name "a_msg" explicit_type "string"
+	    defaultvalue "\"\""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}=${t2}()${)}${const}${volatile}${throw}${abstract}
+{
+  if (${p2}.empty ())
+  {
+    const char* l_tmp (NULL);
+    ${name} (${p0}, ${p1}, l_tmp);
+  }
+  else
+  {
+    ${name} (${p0}, ${p1}, ${p2}.c_str ());
+  }
+}
+"
+	
+	
+	
+	
+	comment "This method calls a_fn and expects to catch a contract_error of a_level.
+
+Throws logic_errors if function fails to throw an exception and rethrows
+the contract_error if of the wrong type."
+      end
+
+      operation 1669673 "monitor_function"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_lvl" explicit_type "uint"
+	  param in name "a_fn" type class_ref 425129 // funtion_t
+	  param in name "a_msg" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2} *const ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2} *const ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method calls a_fn and expects to catch a contract_error of a_level.
+
+Throws logic_errors if function fails to throw an exception and rethrows
+the contract_error if of the wrong type."
+      end
+
       operation 1345833 "main_test"
 	abstract const cpp_virtual public explicit_return_type "void"
 	nparams 0
@@ -262,6 +383,32 @@ ${inlines}
 "
 	    classrelation_ref 173225 // s_exemplar (<directional aggregation>)
 	  b parent class_ref 147497 // test_manager
+      end
+
+      attribute 442153 "m_log"
+	private explicit_type "ostream"
+	cpp_mutable cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Pointer to the stream to use for the log."
+      end
+
+      attribute 442025 "m_log_stream"
+	private explicit_type "ostream"
+	multiplicity "*"
+	stereotype "auto_ptr"
+	cpp_mutable cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "An optional stream for the log messages."
       end
 
       classrelation 311721 // m_test_routines (<directional aggregation>)
@@ -359,11 +506,9 @@ ${inlines}
       operation 1346089 "log"
 	const public explicit_return_type "ostream"
 	nparams 0
-	nexceptions 1
-	  explicit_exception ""
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return std::cout;
+  return *m_log;
 }
 "
 	
@@ -429,7 +574,9 @@ exception."
 	private explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: m_test_routines()
+: m_log (&std::cout)
+, m_log_stream ()
+, m_test_routines()
 {}
 "
 	
@@ -462,6 +609,57 @@ exception."
 	
 	
       end
+
+      operation 1667241 "use_log_file"
+	const public explicit_return_type "void"
+	nparams 1
+	  param in name "a_fname" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Switch to using this a_fname as file for log messages."
+      end
+
+      operation 1667369 "test_manager"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 147497 // test_manager
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1667497 "operator="
+	private return_type class_ref 147497 // test_manager
+	nparams 1
+	  param in name "source" type class_ref 147497 // test_manager
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
     end
 
     class 332585 "unit_test"
@@ -478,30 +676,8 @@ ${inlines}
       
       comment "Base class for unit test classes.
 
-It is designed so that derived classes need only create a static object of themselves to register with the test-manager class."
-      class 425129 "funtion_t"
-	visibility package stereotype "typedef" base_type class_ref 182569 // function
-	nactuals 1
-	actual class class_ref 182569 // function
-	  rank 0 explicit_value "void (void)"
-	cpp_decl "${comment}typedef ${type} ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl "${comment}typedef ${type} ${name};
-"
-	explicit_switch_type ""
-	
-	classrelation 405801 // <realization>
-	  relation 396841 -_-|>
-	    a public
-	      cpp default "${type}"
-	      classrelation_ref 405801 // <realization>
-	    b parent class_ref 182569 // function
-	end
-      end
-
+It is designed so that derived classes need only create a static object of 
+themselves to register with the test-manager class."
       classrelation 311593 // <generalisation>
 	relation 304297 ---|>
 	  a public
@@ -510,55 +686,13 @@ It is designed so that derived classes need only create a static object of thems
 	  b parent class_ref 364201 // base_test
       end
 
-      operation 1356585 "bool_test"
-	class_operation cpp_inline public explicit_return_type "void"
-	nparams 2
-	  param in name "a_test" explicit_type "bool"
-	  param in name "a_msg" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
-{
-  @{require} (not ${p1}.empty (), \"${name} requires a non-empty message\");
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "If a_test is true print a_msg. If false throws logic_error with a_failmsg.
-
-\\pre a_msg /= nul and a_failmsg /= nul"
-      end
-
-      operation 1353385 "monitor_function"
-	class_operation public explicit_return_type "void"
-	nparams 3
-	  param in name "a_lvl" explicit_type "uint"
-	  param in name "a_fn" type class_ref 425129 // funtion_t
-	  param in name "a_msg" explicit_type "string"
-	    defaultvalue "\"\""
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}=${t2}()${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "This method calls a_fn and expects to catch a contract_error of a_level.
-
-Throws logic_errors if function fails to throw an exception and rethrows
-the contract_error if of the wrong type."
-      end
-
       operation 994729 "unit_test"
 	protected explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw} {
-  test_manager::get_exemplar ().add_tester (this); }
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+{
+  test_manager::get_exemplar ().add_tester (this);
+}
 "
 	
 	
@@ -569,8 +703,10 @@ the contract_error if of the wrong type."
       operation 994857 "~unit_test"
 	cpp_virtual public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {
-  test_manager::get_exemplar ().remove_tester (this); }
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  test_manager::get_exemplar ().remove_tester (this);
+}
 "
 	
 	
@@ -614,7 +750,6 @@ the contract_error if of the wrong type."
     artifact 160553 "test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 145833 // unit_test
 	artifact_ref 133161 // test_manager
 	artifact_ref 157993 // utility
       end
@@ -659,8 +794,8 @@ ${namespace_end}
 ${comment}
 ${includes}
 // Manual includes
+#include <fstream>
 #include <boost/filesystem/operations.hpp>
-// #include <boost/program_options/positional_options.hpp>
 // -
 int main (int argc, char** argv) {
   return utility::test_manager::get_exemplar ().main (argc, argv); }
@@ -699,21 +834,6 @@ ${definition}
 ${namespace_end}
 #endif
 "
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
       associated_classes
 	class_ref 332585 // unit_test
       end

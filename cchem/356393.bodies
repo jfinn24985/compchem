@@ -10,13 +10,11 @@ return Result;
 !!!1527081.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::type_name () == a_name) 
 {
-  if (a_value != m_type)
-  {
-    throw std::logic_error (serial_name () + " object types cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == m_type, serial_name () + " object types cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 

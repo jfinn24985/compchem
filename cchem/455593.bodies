@@ -18,7 +18,7 @@ if (l_defn.has_attributes ())
   }
 }
 // Now process children
-if (not l_defn.empty_children () and not a_datum.empty ())
+if (not a_datum.empty ())
 {
   m_os << ">";
   std::for_each (a_datum.begin (), a_datum.end (), boost::bind (&data_scheme::basic_datum::visit, _1, boost::ref(*this)));

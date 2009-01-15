@@ -139,12 +139,19 @@ const std::string l_nul;
 /**
  * The definition object for memo type
  */
+// {
+//   std::string l_key (l_memo_name);
+//   s_map->insert(l_key,
+//                 new data_access::meta_datum (l_memo_name, l_label_name
+//                                              , data_access::names::list (l_datum_name, l_info_name)
+//                                              , data_access::names::list (l_mech_name, l_href_name, l_filter_name, l_formula_name, l_compound_name)));
+// }
 {
   std::string l_key (l_memo_name);
   s_map->insert(l_key,
                 new data_access::meta_datum (l_memo_name, l_label_name
                                              , data_access::names::list (l_datum_name, l_info_name)
-                                             , data_access::names::list (l_mech_name, l_href_name, l_filter_name, l_formula_name, l_compound_name)));
+                                             , data_access::names::list (l_mech_name, l_filter_name, l_formula_name, l_compound_name)));
 }
 
 /**

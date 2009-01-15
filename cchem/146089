@@ -1,6 +1,6 @@
 format 61
 "ccspectrum" // /compchem/chemistry::ccspectrum
-  revision 8
+  revision 9
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -175,10 +175,11 @@ main (int argc, char **argv)
     artifact 256169 "ccspectrum"
       stereotype "executable"
       associated_artifacts
-	artifact_ref 205481 // spectrum_maker
-	artifact_ref 230313 // filesystem
-	artifact_ref 255785 // filetypes
 	artifact_ref 252841 // program_options
+	artifact_ref 255785 // filetypes
+	artifact_ref 230313 // filesystem
+	artifact_ref 205481 // spectrum_maker
+	artifact_ref 157993 // utility
       end
     end
   end

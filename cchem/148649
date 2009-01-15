@@ -1,6 +1,6 @@
 format 61
 "libxml2" // /xmlreader::libxml2
-  revision 40
+  revision 41
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -354,12 +354,15 @@ loading the DTD)"
       end
 
       operation 185897 "attribute"
-	class_operation public explicit_return_type "string"
-	nparams 2
+	class_operation public explicit_return_type "void"
+	nparams 3
 	  param in name "a_reader" type class_ref 499369 // reader_t
 	  param in name "a_key" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract} {
-  return to_string(xmlTextReaderGetAttribute (a_reader, reinterpret_cast< const xmlChar* > (a_key.c_str()))); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} & ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
+{
+  to_string(xmlTextReaderGetAttribute (${p0}, reinterpret_cast< const xmlChar* > (${p1}.c_str())), ${p2});
+}
 "
 	
 	
@@ -374,8 +377,10 @@ loading the DTD)"
 	class_operation cpp_inline public explicit_return_type "int"
 	nparams 1
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return xmlTextReaderAttributeCount (a_reader); }
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return xmlTextReaderAttributeCount (a_reader);
+}
 "
 	
 	
@@ -387,11 +392,13 @@ loading the DTD)"
       end
 
       operation 186025 "base_uri"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderBaseUri (a_reader)); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderBaseUri (${p0}), ${p1}); }
 "
 	
 	
@@ -592,11 +599,14 @@ loading the DTD)"
       end
 
       operation 186153 "local_name"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstLocalName (a_reader)); }
+	  param inout name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstLocalName (${p0}), ${p1});
+}
 "
 	
 	
@@ -606,11 +616,14 @@ loading the DTD)"
       end
 
       operation 186281 "name"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstName (a_reader)); }
+	  param inout name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstName (${p0}), ${p1});
+}
 "
 	
 	
@@ -620,17 +633,20 @@ loading the DTD)"
       end
 
       operation 186409 "namespace_uri"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstNamespaceUri (a_reader)); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstNamespaceUri (${p0}), ${p1});
+}
 "
 	
 	
 	
 	
-	comment "/ URI of namespace of node"
+	comment "URI of namespace of node"
       end
 
       operation 187561 "new_reader"
@@ -735,17 +751,20 @@ loading the DTD)"
       end
 
       operation 186665 "prefix"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstPrefix (a_reader)); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstPrefix (${p0}), ${p1});
+}
 "
 	
 	
 	
 	
-	comment "/ Prefix part of name"
+	comment "Prefix part of name"
       end
 
       operation 187433 "read"
@@ -837,16 +856,20 @@ loading the DTD)"
 / \\pre is_attribute"
       end
 
-      operation 188201 "to_string"
-	class_operation private explicit_return_type "string"
-	nparams 1
+      operation 1669289 "to_string"
+	class_operation private explicit_return_type "void"
+	nparams 2
 	  param inout name "a_str" explicit_type "xmlChar"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract} {
-  std::string Result;
-  if (a_str != NULL) {
-    Result.assign (reinterpret_cast< const char* > (a_str));
-    xmlFree (a_str); }
-  return Result; }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  std::tr1::shared_ptr< ${t0} > l_tmp (${p0}, xmlFree);
+  if (a_str != NULL)
+  {
+    a_value.assign (reinterpret_cast< const char* > (a_str));
+  }
+}
+
 "
 	
 	
@@ -856,14 +879,17 @@ loading the DTD)"
       end
 
       operation 1212841 "as_string"
-	class_operation private explicit_return_type "string"
-	nparams 1
+	class_operation private explicit_return_type "void"
+	nparams 2
 	  param inout name "a_str" explicit_type "xmlChar"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} * ${p0}${)}${const}${volatile}${throw}${abstract} {
-  std::string Result;
-  if (a_str != NULL) {
-    Result.assign (reinterpret_cast< const char* > (a_str)); }
-  return Result; }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} * ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  if (${p0} != NULL)
+  {
+    ${p1}.assign (reinterpret_cast< const char* > (${p0}));
+  }
+}
 "
 	
 	
@@ -873,11 +899,14 @@ loading the DTD)"
       end
 
       operation 186793 "value"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstValue (a_reader)); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstValue (${p0}), ${p1});
+}
 "
 	
 	
@@ -887,11 +916,14 @@ loading the DTD)"
       end
 
       operation 186921 "xml_lang"
-	class_operation public explicit_return_type "string"
-	nparams 1
+	class_operation public explicit_return_type "void"
+	nparams 2
 	  param in name "a_reader" type class_ref 499369 // reader_t
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract} {
-  return as_string (xmlTextReaderConstXmlLang (a_reader)); }
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  as_string (xmlTextReaderConstXmlLang (${p0}), ${p1});
+}
 "
 	
 	
@@ -923,6 +955,7 @@ ${includes}
 // Manual Includes
 #include <iostream>
 #include <stdexcept>
+#include <tr1/memory>
 extern \"C\"
 {
 // Use GNOME libxml2
@@ -941,7 +974,6 @@ ${namespace_end}
 	class_ref 151209 // xml_reader
       end
     end
-
   end
 
   package_ref 148521 // Unit Tests

@@ -15,13 +15,21 @@ else if (data_access::names::compound_ref_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1533609.cpp!!!	add_compound_ref(in a_label : string) : compound_ref
 m_imports.push_back (new compound_ref (*this, a_label));
-// Always last
-insert_child (m_imports.back (), m_activities.front ());
+// add before any experiment
+if (empty_experiment ())
+{
+  append_child (m_imports.back ());
+}
+else
+{
+  insert_child (m_activities.front (), m_imports.back ());
+}
 return m_imports.back ();
 !!!1425705.cpp!!!	add_info(in a_label : string) : info
 m_info.reset (new info (*this, a_label));
@@ -100,26 +108,56 @@ else if (data_access::names::label_name () == a_name)
   }
   else
   {
-    if (m_label != a_value)
-    {
-      throw std::logic_error (serial_name () + " object labels cannot be changed once set.");
-    }
+    COMPCHEM_ALWAYS (m_label == a_value, serial_name () + " object labels cannot be changed once set.");
   }
 }
 else if (data_access::names::href_name () == a_name) 
 {
-  if (a_value != m_document->uri () or a_value != m_document->uri_path ())
-  {
-    throw std::logic_error (serial_name () + " object URI attribute cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == m_document->uri () or a_value == m_document->uri_path (),
+                    serial_name () + " object URI attribute cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
 !!!1449257.cpp!!!	write() : void
 if (m_document->is_open ())
 {
   m_document->write ();
+}
+!!!1663401.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// info?,compound-ref*,experiment*
+COMPCHEM_ALWAYS (not empty_compound_ref () or not empty_experiment () or has_information ()
+                 , "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr1 (compound_ref &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr2 (experiment &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  compound_ref_iterator l_f (std::find_if (begin_compound_ref (), end_compound_ref (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
+  if (l_f != end_compound_ref ())
+  {
+    m_imports.erase (l_f);
+  }
+  else
+  {
+    experiment_iterator l_i (std::find_if (begin_experiment (), end_experiment (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
+    COMPCHEM_ALWAYS (l_i != end_experiment (), "attempt to remove non-child object");
+    m_activities.erase (l_i);
+  }
 }

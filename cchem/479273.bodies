@@ -232,7 +232,13 @@ if (a_is_part)
 // Parse document
 while (a_reader.read ()and a_reader.is_doc_valid ())
 {
-  DLOG ("Processing node name ["); DLOG (a_reader.name ()); DLOG ("] D = "); DLOG (a_reader.depth ()); DLOG (" NT = "); DLOG (a_reader.node_type ()); DLOG ("\n");
+  DLOG ("Processing node name [");
+  DLOG (a_reader.name ());
+  DLOG ("] D = ");
+  DLOG (a_reader.depth ());
+  DLOG (" NT = ");
+  DLOG (a_reader.node_type ());
+  DLOG ("\n");
   switch (a_reader.node_type ())
   {
   case xml_reader_t::TEXT:
@@ -240,17 +246,18 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
   case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
   case XML_READER_TYPE_WHITESPACE:
 #endif
-    if (l_object_stack.empty ()) 
+    if (l_object_stack.empty ())
     {
       l_header << a_reader.value ();
     }
     else
     {
-      l_object_stack.top ()->add_text (a_reader.value ());
+      std::string l_temp (a_reader.value ());
+      l_object_stack.top ()->add_text_swallow (l_temp);
     }
     break;
   case xml_reader_t::PI:
-    if (l_object_stack.empty ()) 
+    if (l_object_stack.empty ())
     {
       l_header << "<? ";
       l_header << a_reader.name ();
@@ -260,11 +267,12 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
     }
     else
     {
-      l_object_stack.top ()->add_pi (a_reader.name (), a_reader.value ());
+      std::string l_temp (a_reader.value ());
+      l_object_stack.top ()->add_pi_swallow (a_reader.name (), l_temp);
     }
     break;
   case xml_reader_t::COMMENT:
-    if (l_object_stack.empty ()) 
+    if (l_object_stack.empty ())
     {
       l_header << "<!-- ";
       l_header << a_reader.value ();
@@ -272,11 +280,12 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
     }
     else
     {
-      l_object_stack.top ()->add_comment (a_reader.value ());
+      std::string l_temp (a_reader.value ());
+      l_object_stack.top ()->add_comment_swallow (l_temp);
     }
     break;
   case xml_reader_t::END_ELEMENT:
-    COMPCHEM_CHECK (a_reader.name () == l_object_stack.top ()->serial_name (), "Node close name was not what was expected."); 
+    COMPCHEM_CHECK (a_reader.name () == l_object_stack.top ()->serial_name (), "Node close name was not what was expected.");
     l_object_stack.pop ();
     DLOG ("Popped stack");
     if (l_object_stack.empty ())
@@ -285,71 +294,76 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
     }
     else
     {
-      DLOG (", current top object is ["); DLOG (l_object_stack.top ()->serial_name ()); DLOG ("]\n");
+      DLOG (", current top object is [");
+      DLOG (l_object_stack.top ()->serial_name ());
+      DLOG ("]\n");
     }
     break;
   case xml_reader_t::DOCTYPE:
+  {
+    // At document.
+    bool l_ok;
+    const std::string l_name (a_reader.name ());
+    COMPCHEM_CHECK (l_object_stack.empty (), "At document element, but have objects on stack.");
+    COMPCHEM_ALWAYS (allowed_document_element (l_name), "Invalid XML document [" + l_name + "] document is not allowed.");
+    COMPCHEM_ALWAYS (l_name == a_parent.serial_name (), "Incorrect XML document [" + l_name + "], expected [" + a_parent.serial_name () + "]");
+    l_header << "<!DOCTYPE ";
+    l_header << l_name;
+    xml_access_helper & l_help (xml_access_helper::helper ());
+    if (not l_help.public_id ().empty ())
     {
-      // At document.
-      bool l_ok;
-      COMPCHEM_CHECK (l_object_stack.empty (), "At document element, but have objects on stack.");
-      COMPCHEM_ALWAYS (allowed_document_element (a_reader.name ()), "Invalid XML document [" + a_reader.name () + "] document is not allowed.");
-      COMPCHEM_ALWAYS (a_reader.name () == a_parent.serial_name (), "Incorrect XML document [" + a_reader.name () + "], expected [" + a_parent.serial_name () + "]");
-      l_header << "<!DOCTYPE ";
-      l_header << a_reader.name ();
-      xml_access_helper & l_help (xml_access_helper::helper ());
-      if (not l_help.public_id ().empty ())
-      {
-        l_header << " PUBLIC \"";
-        l_header << l_help.public_id ();
-        l_header << "\"";
-        l_ok = true;
-      }
-      if (not l_help.system_id ().empty ())
-      {
-        if (not l_ok)
-        {
-          l_header << " SYSTEM";
-        }
-        l_header << " \"";
-        l_header << l_help.system_id ();
-        l_header << "\"";
-        l_ok = true;
-      }
-      l_header << ">";
-      COMPCHEM_CHECK (l_ok, "Incomplete document header without a public or system ID.");
+      l_header << " PUBLIC \"";
+      l_header << l_help.public_id ();
+      l_header << "\"";
+      l_ok = true;
     }
-    break;
+    if (not l_help.system_id ().empty ())
+    {
+      if (not l_ok)
+      {
+        l_header << " SYSTEM";
+      }
+      l_header << " \"";
+      l_header << l_help.system_id ();
+      l_header << "\"";
+      l_ok = true;
+    }
+    l_header << ">";
+    COMPCHEM_CHECK (l_ok, "Incomplete document header without a public or system ID.");
+  }
+  break;
   case xml_reader_t::START_ELEMENT:
+  {
+    if (l_object_stack.empty ())
     {
-      if (l_object_stack.empty ())
-      {
-	// At document element.
-	COMPCHEM_ALWAYS (allowed_document_element (a_reader.name ()), "Invalid XML document element [" + a_reader.name () + "] document elment is incorrect.");
-	COMPCHEM_ALWAYS (a_reader.name () == a_parent.serial_name (), "Incorrect XML document element [" + a_reader.name () + "], expected [" + a_parent.serial_name () + "]");
-	l_object_stack.push (&a_parent);
-      }
-      else
-      {
-        l_object_stack.push (&(l_object_stack.top ()->add_child (a_reader.name (), a_reader.attribute (meta_datum::by_name (a_reader.name ()).key_attribute))));
-      }
-      if (a_reader.has_attributes ())	// Process attrs
-      {
-	a_reader.first_attribute ();
-	do
-	{
-	  l_object_stack.top ()->set_attribute (a_reader.name (), a_reader.value ());
-	}
-	while (a_reader.next_attribute ());
-	a_reader.to_element ();
-      }
-      // Undo push for empty nodes as we get no END_ELEMENT.
-      if (a_reader.empty ())
-      {
-        l_object_stack.pop ();
-      }
+// At document element.
+      const std::string l_name (a_reader.name ());
+      COMPCHEM_ALWAYS (allowed_document_element (l_name), "Invalid XML document element [" + l_name + "] document elment is incorrect.");
+      COMPCHEM_ALWAYS (l_name == a_parent.serial_name (), "Incorrect XML document element [" + l_name + "], expected [" + a_parent.serial_name () + "]");
+      l_object_stack.push (&a_parent);
     }
-    break;
+    else
+    {
+      const std::string l_name (a_reader.name ());
+      l_object_stack.push (&(l_object_stack.top ()->add_child (l_name, a_reader.attribute (meta_datum::by_name (l_name).key_attribute))));
+    }
+    if (a_reader.has_attributes ())	// Process attrs
+    {
+      a_reader.first_attribute ();
+      do
+      {
+        l_object_stack.top ()->set_attribute (a_reader.name (), a_reader.value ());
+      }
+      while (a_reader.next_attribute ());
+      a_reader.to_element ();
+    }
+    // Undo push for empty nodes as we get no END_ELEMENT.
+    if (a_reader.empty ())
+    {
+      l_object_stack.pop ();
+    }
+  }
+  break;
   default:			// Everything else is ignored
     utility::implementation::log () << "Ignoring node with name [" << a_reader.name () << "] and type: " << a_reader.node_type () << "\n";
     break;

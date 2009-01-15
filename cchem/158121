@@ -1,6 +1,6 @@
 format 61
 "test_args" // /compchem/data_scheme::test cases::test_args
-  revision 1
+  revision 2
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -33,7 +33,8 @@ format 61
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     artifact 257449 "test_data_scheme_args"
       stereotype "source"
-      cpp_src "database=/scratch/finnerty/compchem/test/split/main-database.xml"
+      cpp_src "database=/scratch/finnerty/compchem/test/split/main-database.xml
+log-file=test_data_scheme.log"
       associated_classes
       end
     end

@@ -24,13 +24,11 @@ if (data_access::names::formula_name () == a_name)
 }
 else if (data_access::names::label_name () == a_name) 
 {
-  if (a_value != m_label)
-  {
-    throw std::logic_error (serial_name () + " object labels cannot be changed after construction");
-  }
+  COMPCHEM_ALWAYS (a_value == m_label, serial_name () + " object labels cannot be changed after construction");
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 

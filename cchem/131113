@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 211
+  revision 217
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -313,6 +313,11 @@ proxy-helper	-
 worker		****
 settings		****
 text		****"
+    classdiagram 171561 "Inheritance"
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
     classdiagram 134953 "data_scheme Associations"
       draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
@@ -409,8 +414,6 @@ objects and XML elements such as comments, whitespace etc."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -436,11 +439,9 @@ default action is to throw an error!
 	public explicit_return_type "basic_datum"
 	nparams 1
 	  param in name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
 {
-  ${body}
+  return ${name}_swallow (${p0});
 }
 "
 	
@@ -455,14 +456,13 @@ children are allowed.  Returns a reference to the new child object.
 \\final"
       end
 
-      operation 1427241 "add_pi"
-	public explicit_return_type "basic_datum"
-	nparams 2
-	  param in name "a_name" explicit_type "string"
-	  param in name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+      operation 1669033 "add_comment_swallow"
+	cpp_virtual public explicit_return_type "basic_datum"
+	nparams 1
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -475,19 +475,67 @@ children are allowed.  Returns a reference to the new child object.
 Throw an error  if the a_name is not correct. Throw an error if no 
 children are allowed.  Returns a reference to the new child object.
 
+Swallows text!
+\\post a_value.empty
+
+\\return /= NULL"
+      end
+
+      operation 1669161 "add_pi"
+	public explicit_return_type "basic_datum"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${name}_swallow (${p0}, ${p1});
+}
+"
+	
+	
+	
+	
+	comment "Create a basic_datum child of this node with the type tagname a_name.
+Throw an error  if the a_name is not correct. Throw an error if no 
+children are allowed.  Returns a reference to the new child object.
+
 \\return /= NULL
 \\final"
+      end
+
+      operation 1427241 "add_pi_swallow"
+	cpp_virtual public explicit_return_type "basic_datum"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create a basic_datum child of this node with the type tagname a_name.
+Throw an error  if the a_name is not correct. Throw an error if no 
+children are allowed.  Returns a reference to the new child object.
+
+Swallows text!
+\\post a_value.empty
+
+\\return /= NULL"
       end
 
       operation 1426985 "add_text"
 	public explicit_return_type "basic_datum"
 	nparams 1
 	  param in name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
 {
-  ${body}
+  return ${name}_swallow (${p0});
 }
 "
 	
@@ -500,6 +548,31 @@ children are allowed.  Returns a reference to the new child object.
 
 \\return /= NULL
 \\final"
+      end
+
+      operation 1668905 "add_text_swallow"
+	cpp_virtual public explicit_return_type "basic_datum"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create a basic_datum child of this node with the type tagname a_name.
+Throw an error  if the a_name is not correct. Throw an error if no 
+children are allowed.  Returns a reference to the new child object.
+
+Swallows text!
+\\post a_value.empty
+
+\\return /= NULL"
       end
 
       operation 1454377 "append_child"
@@ -638,6 +711,25 @@ children.  "
 	
 	
 	comment "The first child element of this datum"
+      end
+
+      operation 1662121 "erase"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_item" type class_ref 443817 // iterator
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_children.erase (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_item from child list.  This is called automatically in 
+basic_datum::remove."
       end
 
       operation 1453993 "find"
@@ -796,8 +888,6 @@ then virt_remove_text will be called.
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	
@@ -817,7 +907,7 @@ test that \"B\" is equal to current value or throw.)"
 
       operation 1133481 "set_text"
 	stereotype "set"
-	public explicit_return_type "void"
+	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_str" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -839,7 +929,7 @@ removes all other text objects.
       end
 
       operation 1475625 "size"
-	public explicit_return_type "uint"
+	const public explicit_return_type "uint"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
 {
@@ -892,6 +982,29 @@ are officially owned by the base object.
 The default action is to do nothing."
       end
 
+      operation 1661993 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  const bool have_no_children (false);
+  @{always}(have_no_children, \"This type can have no children.\");
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
+      end
+
       operation 1374377 "visit"
 	abstract const cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -906,7 +1019,7 @@ The default action is to do nothing."
     end
 
     class 435369 "basic_text"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
 ${members}
@@ -952,24 +1065,115 @@ This is an abstract base class of XML textual elements"
 	comment "Our parent."
       end
 
-      operation 1387561 "basic_text"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_content" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${volatile}${throw}
-: basic_datum ()
-, the_content ()
-, m_parent (${p0})
+      operation 1660201 "add_comment_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 1
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  the_content.swap (${p1});
+  @{always}(false, \"Can not add comments to a basic_text objects\");
+  // Dummy return value.
+  return *this;
 }
 "
 	
 	
 	
 	
-	comment "Create a text element."
+	comment "add_comment is an error for basic_text. 
+
+default action is to throw an error!
+
+\\return /= NULL"
+      end
+
+      operation 1660329 "add_pi_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{always}(false, \"Can not add processing instructions to a basic_text objects\");
+  // Dummy return value.
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "add_comment is an error for basic_text. 
+
+default action is to throw an error!
+
+\\return /= NULL"
+      end
+
+      operation 1660457 "add_text_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{always}(false, \"Can not add text object to a basic_text objects\");
+  // Dummy return value.
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "add_comment is an error for basic_text. 
+
+default action is to throw an error!
+
+\\return /= NULL"
+      end
+
+      operation 1387561 "basic_text"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_content" explicit_type "string"
+	  param inout name "a_parent" explicit_type "basic_datum"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1}& ${p1}${)}${volatile}${throw}
+: basic_datum ()
+, the_content ()
+, m_parent (${p1})
+{
+  the_content.swap (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Create a text element (swap version, swallows text)"
+      end
+
+      operation 1668649 "basic_text"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_parent" explicit_type "basic_datum"
+	  param in name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw}
+: basic_datum ()
+, the_content (${p1})
+, m_parent (${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Create a text element (copy version, copies text)"
       end
 
       operation 1387689 "~basic_text"
@@ -1030,8 +1234,6 @@ This is an abstract base class of XML textual elements"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -1044,6 +1246,29 @@ This is an abstract base class of XML textual elements"
 	
 	
 	comment "Throw an error as text objects have no attributes."
+      end
+
+      operation 1660585 "set_text"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  the_content.assign (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Replace all the current text with the given text.
+
+This replaces the content on the first found text object and
+removes all other text objects.
+"
       end
     end
 
@@ -1075,8 +1300,8 @@ with other elements."
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_content" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${volatile}${throw}
+	  param inout name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_text (${p0}, ${p1})
 {}
 "
@@ -1084,7 +1309,10 @@ with other elements."
 	
 	
 	
-	comment "Create a text element."
+	comment "Create a text element.
+
+Swallows content!
+\\post a_content.empty"
       end
 
       operation 1392937 "comment"
@@ -1307,8 +1535,6 @@ ${inlines}
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -1329,9 +1555,9 @@ child object."
 	public explicit_return_type "formula"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -1658,6 +1884,25 @@ generate a table of reaction v. substituent."
 	comment "Search for a formula with the given label"
       end
 
+      operation 1659689 "find_formula"
+	stereotype "const"
+	const public return_type class_ref 441769 // const_formula_iterator
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Search for a formula with the given label"
+      end
+
       operation 1384233 "get_attribute"
 	const public explicit_return_type "bool"
 	nparams 2
@@ -1798,8 +2043,6 @@ No default implementation."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -1843,6 +2086,28 @@ attributes are allowed."
 	
 	
 	comment "How many identity children are there?"
+      end
+
+      operation 1662505 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
 
       operation 1450025 "visit"
@@ -1911,6 +2176,25 @@ ${inlines}
 	comment "The label of the compound to import."
       end
 
+      operation 1664681 "add_comment_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 1
+	  param inout name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  const bool empty_element (false);
+  @{always}(empty_element, \"Can not add a comment to an EMPTY element\");
+}
+"
+	
+	
+	
+	
+	comment "Throws an error as no children are allowed. "
+      end
+
       operation 1532713 "add_formula_label"
 	public explicit_return_type "void"
 	nparams 1
@@ -1927,6 +2211,45 @@ ${inlines}
 	
 	
 	
+      end
+
+      operation 1664809 "add_pi_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  const bool empty_element (false);
+  @{always}(empty_element, \"Can not add a processing-instruction to an EMPTY element\");
+}
+"
+	
+	
+	
+	
+	comment "Throws an error as no children are allowed. "
+      end
+
+      operation 1664937 "add_text_swallow"
+	public explicit_return_type "basic_datum"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  const bool empty_element (false);
+  @{always}(empty_element, \"Can not add text to an EMPTY element\");
+}
+"
+	
+	
+	
+	
+	comment "Throws an error as no children are allowed. "
       end
 
       operation 1532457 "compound_label"
@@ -2082,8 +2405,6 @@ No default implementation."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -2579,8 +2900,6 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -3057,8 +3376,6 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -3120,6 +3437,28 @@ attributes are allowed."
 	
 	
 	
+      end
+
+      operation 1662633 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -3307,8 +3646,6 @@ notebook."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -3331,8 +3668,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -3377,8 +3712,6 @@ default action is to throw an error!
 	public explicit_return_type "memo"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -3716,6 +4049,25 @@ in a valid memo object.
 	comment "memo [data_scheme]"
       end
 
+      operation 1659817 "find_memo"
+	stereotype "const"
+	const public return_type class_ref 461993 // const_memo_iterator
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "memo [data_scheme]"
+      end
+
       operation 1413289 "get_attribute"
 	const public explicit_return_type "bool"
 	nparams 2
@@ -3876,8 +4228,6 @@ notebook."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -3952,6 +4302,28 @@ definition() object."
 	
 	
 	
+      end
+
+      operation 1662761 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -4263,8 +4635,6 @@ and 'regex'. Coming soon are 'shell' and 'python'."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -4376,7 +4746,7 @@ formula can only have one parent compound."
       end
 
       attribute 352937 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -4395,8 +4765,6 @@ formula can only have one parent compound."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -4439,8 +4807,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -4539,22 +4905,27 @@ default action is to throw an error!
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "compound"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : @{base_class} ()
 , m_identity ()
 , m_info ()
-, m_label (${p1})
+, m_label ()
 , m_moiety (${p0})
-{}
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
-	comment "Base contructor."
+	comment "Base contructor. 
+
+swallows a_label
+\\post a_label.empty"
       end
 
       operation 1160233 "formula"
@@ -4729,8 +5100,6 @@ default action is to throw an error!
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -4775,6 +5144,28 @@ default action is to throw an error!
 	
 	
 	
+      end
+
+      operation 1662889 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -4956,8 +5347,6 @@ for use in matching compounds across databases."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -5075,8 +5464,6 @@ ${inlines}
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -5333,8 +5720,6 @@ meta_datum object. Only then is the virt_add_child method called.
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -5361,6 +5746,28 @@ meta_datum object. Only then is the virt_add_child method called.
 	
 	
 	
+      end
+
+      operation 1662377 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
 
       operation 1450793 "visit"
@@ -5537,8 +5944,6 @@ NOTE The contents of this element can also refer to a set of published results.
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -5561,8 +5966,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -5989,8 +6392,6 @@ default action is to throw an error!
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -6048,6 +6449,28 @@ default action is to throw an error!
 	
 	
 	
+      end
+
+      operation 1663017 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -6274,8 +6697,6 @@ relates to how a standard method was altered (if any) in this experiment."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -6298,8 +6719,6 @@ default action is to throw an error!
 	cpp_virtual public explicit_return_type "datum"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -6337,8 +6756,6 @@ default action is to throw an error!
 	cpp_virtual public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
@@ -6976,8 +7393,6 @@ of a memo object."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -7149,6 +7564,28 @@ the current element. (also see basic_datum::uri_scheme)"
 
 \\pre is_src"
       end
+
+      operation 1663145 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
+      end
     end
 
     class 443561 "processing_instruction"
@@ -7208,8 +7645,8 @@ with other elements."
 	nparams 3
 	  param inout name "a_parent" explicit_type "basic_datum"
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_content" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${volatile}${throw}
+	  param inout name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} & ${p2}${)}${volatile}${throw}
 : basic_text (${p0}, ${p2})
 , name (${p1})
 {}
@@ -7218,7 +7655,10 @@ with other elements."
 	
 	
 	
-	comment "Create a text element."
+	comment "Create a text element.
+
+Swallows content!
+\\post a_content.empty"
       end
 
       operation 1394089 "processing_instruction"
@@ -7502,8 +7942,6 @@ papers may be contained in a program. "
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -7546,8 +7984,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -7767,6 +8203,70 @@ default action is to throw an error!
 	
 	
 	comment "worker   [data_scheme]"
+      end
+
+      operation 1666089 "empty_compound"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_catalog.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666217 "empty_mechanism"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_equipment.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666345 "empty_project"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_projects.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666473 "empty_worker"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_staff.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
 
       operation 1418153 "end_compound"
@@ -8112,7 +8612,8 @@ default action is to throw an error!
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  throw std::logic_error (serial_name () + \" objects do not parents\");
+  const bool program_has_no_parent (false);
+  COMPCHEM_ALWAYS (program_has_no_parent, serial_name () + \" objects do not parents\");
   return *this;
 }
 "
@@ -8223,8 +8724,6 @@ without warnings."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -8237,6 +8736,70 @@ without warnings."
 	
 	
 	comment "Throw an error as program has no attributes."
+      end
+
+      operation 1666601 "size_compound"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_catalog.size ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666729 "size_mechanism"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_equipment.size ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666857 "size_project"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_projects.size ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1666985 "size_worker"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_staff.size ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
 
       operation 1557545 "target_project"
@@ -8291,6 +8854,28 @@ Return end_project when project is not found (also auto_project)"
 	
 	comment "Get the scheme used to connect to the document/source that contains 
 the current element. (also see basic_datum::uri_scheme)"
+      end
+
+      operation 1663273 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
 
       operation 1450281 "visit"
@@ -8506,8 +9091,6 @@ ${inlines}
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -8530,8 +9113,6 @@ default action is to throw an error!
 	public return_type class_ref 480425 // compound_ref
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
@@ -8555,8 +9136,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -8578,8 +9157,6 @@ default action is to throw an error!
 	public explicit_return_type "experiment"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
@@ -9187,8 +9764,6 @@ attributes and children by creating them if necessary."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -9356,6 +9931,28 @@ the current element."
 	comment "Trigger document to write itself.
 
 \\pre is_src"
+      end
+
+      operation 1663401 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -9564,8 +10161,6 @@ ${inlines}
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -9588,8 +10183,6 @@ default action is to throw an error!
 	public explicit_return_type "datum"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -9611,8 +10204,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -9820,6 +10411,24 @@ default action is to throw an error!
 	
       end
 
+      operation 1661865 "outcomes"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_outcomes;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Get the list of outcomes"
+      end
+
       operation 1407145 "parent"
 	const public explicit_return_type "basic_datum"
 	nparams 0
@@ -9922,8 +10531,6 @@ default action is to throw an error!
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -9954,6 +10561,28 @@ per the definition() object."
 	
 	
 	
+      end
+
+      operation 1663529 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -10015,8 +10644,8 @@ with other elements."
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_content" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	  param inout name "a_content" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_text (${p0}, ${p1})
 {}
 "
@@ -10024,7 +10653,10 @@ with other elements."
 	
 	
 	
-	comment "Create a text element."
+	comment "Create a text element.
+
+Swallows content!
+\\post a_content.empty"
       end
 
       operation 1391657 "~text"
@@ -10526,8 +11158,6 @@ This allows you to assign people to programs and projects. "
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -10550,8 +11180,6 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -10744,8 +11372,6 @@ default action is to throw an error!
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
-	nexceptions 1
-	  exception class_ref 396073 // logic_error
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
@@ -10773,6 +11399,28 @@ definition() object."
 	
 	
 	
+      end
+
+      operation 1662249 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
       end
 
       operation 1449769 "visit"
@@ -10855,27 +11503,27 @@ definition() object."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 142633 // worker
-	artifact_ref 143913 // project
-	artifact_ref 142249 // identity
-	artifact_ref 141993 // info
-	artifact_ref 233897 // content_visitor
-	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 142505 // filter
-	artifact_ref 141737 // datum
-	artifact_ref 202793 // basic_datum
-	artifact_ref 214569 // visitor
-	artifact_ref 166569 // settings
-	artifact_ref 142889 // mechanism
-	artifact_ref 157993 // utility
-	artifact_ref 143273 // experiment
-	artifact_ref 144041 // program
-	artifact_ref 207785 // text
-	artifact_ref 143529 // formula
 	artifact_ref 143145 // memo
-	artifact_ref 253353 // xml
+	artifact_ref 233897 // content_visitor
+	artifact_ref 141993 // info
+	artifact_ref 142249 // identity
+	artifact_ref 202793 // basic_datum
 	artifact_ref 232617 // compound_ref
 	artifact_ref 143657 // compound
+	artifact_ref 142633 // worker
+	artifact_ref 141737 // datum
+	artifact_ref 253353 // xml
+	artifact_ref 157993 // utility
+	artifact_ref 166569 // settings
+	artifact_ref 143913 // project
+	artifact_ref 142889 // mechanism
+	artifact_ref 214569 // visitor
+	artifact_ref 143529 // formula
+	artifact_ref 142505 // filter
+	artifact_ref 143273 // experiment
+	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 144041 // program
+	artifact_ref 207785 // text
       end
       comment "The library for the data_scheme objects"
     end
@@ -11087,6 +11735,7 @@ ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -11226,6 +11875,7 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -11320,6 +11970,7 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -11367,6 +12018,7 @@ ${comment}
 ${includes}
 // Manual includes
 #include \"data_access/names.hpp\"
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -11415,6 +12067,7 @@ ${includes}
 // Manual source includes
 #include \"data_access/names.hpp\"
 #include \"data_access/manager.hpp\"
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -11710,6 +12363,7 @@ ${comment}
 ${includes}
 // -
 #include \"data_access/names.hpp\"
+#include <boost/bind.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -12062,18 +12716,6 @@ ${inlines}
 "
 	    classrelation_ref 295721 // m_view (<directional aggregation>)
 	  b parent class_ref 353961 // view
-      end
-
-      attribute 336425 "s_definition"
-	class_attribute const_attribute private type class_ref 433961 // meta_datum
-	init_value "(\"TODO\")"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The definition object for this type"
       end
 
       operation 1139753 "owner_report"
@@ -13119,18 +13761,6 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 "
       end
 
-      attribute 336553 "s_definition"
-	class_attribute const_attribute private type class_ref 433961 // meta_datum
-	init_value "(\"TODO\")"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The definition object for this type"
-      end
-
       operation 1142697 "amount"
 	stereotype "get"
 	const public explicit_return_type "string"
@@ -13374,18 +14004,6 @@ invocation. "
 	python_decl ""
 	idl_decl ""
 	comment "The label used to refer to this report "
-      end
-
-      attribute 336297 "s_definition"
-	class_attribute const_attribute private type class_ref 433961 // meta_datum
-	init_value "(\"TODO\")"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The definition object for this type"
       end
 
       operation 1153193 "href"

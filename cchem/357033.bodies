@@ -11,7 +11,8 @@ else if (data_access::names::info_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1410601.cpp!!!	add_datum(in a_label : string) : datum
@@ -145,10 +146,7 @@ else if (data_access::names::formula_name () == a_name)
   }
   else
   {
-    if (a_value != m_formula)
-    {
-      throw std::logic_error(serial_name () + " object formula labels cannot be changed once set.");
-    }
+    COMPCHEM_ALWAYS (a_value == m_formula, serial_name () + " object formula labels cannot be changed once set.");
   }
 }
 else if (data_access::names::compound_name () == a_name)
@@ -159,10 +157,7 @@ else if (data_access::names::compound_name () == a_name)
   }
   else
   {
-    if (a_value != m_compound)
-    {
-      throw std::logic_error(serial_name () + " object compound labels cannot be changed once set.");
-    }
+    COMPCHEM_ALWAYS (a_value == m_compound, serial_name () + " object compound labels cannot be changed once set.");
   }
 
 }
@@ -174,19 +169,44 @@ else if (data_access::names::label_name () == a_name)
   }
   else
   {
-    if (m_label != a_value)
-    {
-       throw std::logic_error (serial_name () + " object labels cannot be changed once set.");
-    }
+    COMPCHEM_ALWAYS (m_label == a_value, serial_name () + " object labels cannot be changed once set.");
   }
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
 !!!1449129.cpp!!!	write() : void
 if (m_document->is_open ())
 {
   m_document->write ();
+}
+!!!1663145.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// datum*,info*
+COMPCHEM_ALWAYS (not empty_datum () or not empty_info ()
+                 , "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr1 (datum &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr2 (info &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+datum_iterator l_f (std::find_if (begin_datum (), end_datum (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
+if (l_f != end_datum ())
+{
+  m_results.erase (l_f);
+}
+else
+{
+  info_iterator l_i (std::find_if (begin_info (), end_info (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
+  COMPCHEM_ALWAYS (l_i != end_info (), "attempt to remove non-child object");
+  m_info.erase (l_i);
 }

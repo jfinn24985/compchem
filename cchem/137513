@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 41
+  revision 45
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -135,22 +135,6 @@ supported are: always, require, ensure, invariant and check.
 The violation severity follows the order listed above. One of 
 the template parameters specifies what the maximum test
 level will be."
-      classrelation 128298 // <dependency>
-	relation 128298 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 128298 // <dependency>
-	  b parent class_ref 416553 // basic_ostream
-      end
-
-      classrelation 128426 // <dependency>
-	relation 128426 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 128426 // <dependency>
-	  b parent class_ref 421673 // c_streambuf
-      end
-
       classrelation 128042 // <generalisation>
 	relation 128042 ---|>
 	  a public
@@ -159,11 +143,27 @@ level will be."
 	  b parent class_ref 128042 // exception
       end
 
+      classrelation 128298 // <dependency>
+	relation 128298 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 128298 // <dependency>
+	  b parent class_ref 416553 // basic_ostream
+      end
+
+      classrelation 128426 // <dependency>
+	relation 128426 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 128426 // <dependency>
+	  b parent class_ref 421673 // c_streambuf
+      end
+
       classrelation 403497 // <dependency>
 	relation 394537 -_->
 	  a package
 	    comment "Used for ensuring clean-up of backtrace data."
-	    cpp default "#include in header"
+	    cpp default "#include in source"
 	    classrelation_ref 403497 // <dependency>
 	  b parent class_ref 416425 // free_ptr
       end
@@ -275,33 +275,6 @@ are reported."
 	end
       end
 
-      class 420393 "buffer_type_t"
-	visibility public stereotype "typedef" base_type class_ref 417705 // streambuf
-	nactuals 3
-	actual class class_ref 417705 // streambuf
-	  rank 0 explicit_value "char"
-	actual class class_ref 417705 // streambuf
-	  rank 1 explicit_value "s_size"
-	actual class class_ref 417705 // streambuf
-	  rank 2 explicit_value "std::char_traits< char >"
-	cpp_decl "${comment}typedef streambuf < char, s_size, std::char_traits < char > > ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl "${comment}typedef ${type} ${name};
-"
-	explicit_switch_type ""
-	
-	classrelation 392489 // <realization>
-	  relation 383529 -_-|>
-	    a public
-	      cpp default "${type}"
-	      classrelation_ref 392489 // <realization>
-	    b parent class_ref 417705 // streambuf
-	end
-      end
-
       attribute 128170 "level"
 	const_attribute public explicit_type "uint"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -326,7 +299,7 @@ are reported."
       end
 
       operation 1338921 "contract_error"
-	cpp_inline public explicit_return_type ""
+	public explicit_return_type ""
 	nparams 8
 	  param in name "a_msg1" explicit_type "string"
 	  param in name "a_msg2" explicit_type "char"
@@ -338,11 +311,9 @@ are reported."
 	    defaultvalue "NULL"
 	  param in name "a_backsz" explicit_type "int"
 	    defaultvalue "0"
-	nexceptions 1
-	  explicit_exception ""
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, const ${t5} * ${p5}, ${t6} const * ${p6}=NULL, ${t7} ${p7}=0${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, const ${t5} * ${p5}, ${t6} const * ${p6}=NULL, ${t7} ${p7}=0${)}${const}${volatile} throw() ${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, const ${t5} * ${p5}, ${t6} const * ${p6}, ${t7} ${p7}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, const ${t5} * ${p5}, ${t6} const * ${p6}, ${t7} ${p7}${)}${const}${volatile} throw ()${staticnl}
 : std::exception ()
 , level (${p2})
 , m_what ()
@@ -955,7 +926,7 @@ std::tr1::shared_ptr (boost::shared_ptr)"
   {
     if (m_ptr != T_ptr(0))
     {
-      free (${p0});
+      free (m_ptr);
     }
     m_ptr = ${p0};
   }
@@ -2246,11 +2217,12 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 245033 // time_stamp
-	artifact_ref 252841 // program_options
 	artifact_ref 157609 // filesystem
-	artifact_ref 224041 // program_options
+	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
+	artifact_ref 224041 // program_options
+	artifact_ref 245033 // time_stamp
+	artifact_ref 192553 // contract_error
       end
     end
 
@@ -2266,6 +2238,7 @@ ${body}
 // ------------------------------------------------------------
 
 ${comment}
+#include \"requirements.hpp\"
 ${includes}
 #ifdef HAVE_BACKTRACE
 #include <execinfo.h>
@@ -2375,6 +2348,17 @@ ${namespace_end}
 
 #endif
 "
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
       associated_classes
 	class_ref 419113 // contract_error
       end

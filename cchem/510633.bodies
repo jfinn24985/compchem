@@ -1,0 +1,1093 @@
+class test_object_visitor
+!!!1623337.cpp!!!	on_visit(in a_datum : basic_datum) : void
+log () << COMM << "entering on_visit (basic_datum)\n";
+// Count basic_datum objects
+++m_type[0];
+////////////////
+// Query methods
+// get-attribute
+// serial_name
+
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+// Test object
+{
+  basic_datum & l_temp (const_cast< basic_datum & >(a_datum));
+  const static std::string l_s1 ("A stitch in time");
+  const static std::string l_s2 ("stylesheet");
+  const static std::string l_s3 ("way-to-go");
+  const static std::string l_s4 ("some text here");
+// add_comment
+  basic_datum & l_comm (l_temp.add_comment (l_s1));
+  test_comment (l_temp, dynamic_cast< data_scheme::comment & > (l_comm), l_s1);
+// add_pi
+  basic_datum & l_pi (l_temp.add_pi (l_s2, l_s3));
+  test_pi (l_temp, dynamic_cast< data_scheme::processing_instruction & > (l_pi), l_s2, l_s3);
+// add_text
+  basic_datum & l_text (l_temp.add_text (l_s4));
+  test_text (l_temp, dynamic_cast< data_scheme::text & > (l_text), l_s4);
+
+  bool_test (l_orig_size + 3 == l_temp.size (), "3 additional child objects increase size by 3");
+
+  basic_datum::const_iterator l_i;
+// find (const)
+  l_i = a_datum.find (&l_comm);
+  bool_test (l_i != a_datum.end (), "found added comment");
+// remove
+  l_temp.remove (l_temp.find (&l_comm));
+  l_i = a_datum.find (&l_comm);
+  bool_test (l_i == a_datum.end (), "did not find removed comment");
+
+// find (const)
+  l_i = a_datum.find (&l_pi);
+  bool_test (l_i != a_datum.end (), "found added p.i.");
+// remove
+  l_temp.remove (l_temp.find (&l_pi));
+  l_i = a_datum.find (&l_pi);
+  bool_test (l_i == a_datum.end (), "did not find removed p.i.");
+
+// find (const)
+  l_i = a_datum.find (&l_text);
+  bool_test (l_i != a_datum.end (), "found added text");
+// remove
+  l_temp.remove (l_temp.find (&l_text));
+  l_i = a_datum.find (&l_text);
+  bool_test (l_i == a_datum.end (), "did not find removed text");
+
+// set_attribute
+  monitor_function (utility::contract_error::always, boost::bind (&basic_datum::set_attribute, const_cast< basic_datum* > (&a_datum), l_s2, l_s4), "can not set attribute with bad name.");
+// set_text (untestable in no-change environment.)
+}
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+
+// Visit all children
+if (not a_datum.empty ())
+{
+  for (basic_datum::const_iterator l_i (a_datum.begin ()); l_i != a_datum.end (); ++l_i)
+  {
+    (*l_i)->visit (*this);
+  }
+}
+!!!1623465.cpp!!!	on_visit(in a_datum : comment) : void
+log () << COMM << "entering on_visit (comment)\n";
+// Increment counter
+++m_type[s_comment];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::comment_type (), "type name matches");
+// Do basic_text tests
+test_basic_text (a_datum);
+// Count basic_datum objects
+++m_type[0];
+// Basic_text objects are always empty so no need to call base method
+bool_test (a_datum.empty (), "comment objects are always empty");
+!!!1623593.cpp!!!	on_visit(in a_datum : compound) : void
+log () << COMM << "entering on_visit (compound) [" << a_datum.label () << "]\n";
+// Count compound objs.
+++m_type[s_compound];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::compound_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+{
+  std::string l_value;
+  bool_test (not a_datum.get_attribute ("category", l_value) or a_datum.categories () == l_value
+             , "no categories or get_attribute('category') matches categories()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_form_size (a_datum.size_formula ());
+const unsigned int l_iden_size (a_datum.size_identity ());
+const bool l_have_info (a_datum.has_information ());
+// Test add_formula
+{
+  compound & l_temp (const_cast< compound & >(a_datum));
+  const static std::string l_str ("N6fy6syV");
+  basic_datum & l_form (l_temp.add_formula (l_str));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added formula");
+  bool_test (&l_form == &(*(a_datum.find_formula (l_str))), "find by label found added formula");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed formula");
+}
+
+// Test add_identity
+{
+  compound & l_temp (const_cast< compound & >(a_datum));
+  const static std::string l_str ("IisP9em1");
+  basic_datum & l_ident (l_temp.add_identity (l_str));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added identity");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed identity");
+}
+// Test add_info
+{
+  const static std::string l_str ("x5Kvop3X");
+  if (a_datum.has_information ())
+  {
+// You cannot add second info
+    compound & l_temp (const_cast< compound & >(a_datum));
+    monitor_function (utility::contract_error::require, boost::bind (&compound::add_info, &l_temp, l_str), "can not add second info to a compound.");
+  }
+  else
+  {
+    compound & l_temp (const_cast< compound & >(a_datum));
+    basic_datum & l_info (l_temp.add_info (l_str));
+    bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+    bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+    l_temp.remove (l_temp.find (&l_info));
+    bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+  }
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_form_size == a_datum.size_formula (), "have original number of formula objects");
+bool_test (l_iden_size == a_datum.size_identity (), "have original number of identity objects");
+bool_test (l_have_info == a_datum.has_information (), "have original number of info objects");
+bool_test (l_orig_size >= (a_datum.size_formula () + a_datum.size_identity () + (a_datum.has_information ()?1:0))
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1623721.cpp!!!	on_visit(in a_datum : compound_ref) : void
+log () << COMM << "entering on_visit (compound_ref) [" << a_datum.compound_label () << "]\n";
+// Count compound objs.
+++m_type[s_compound_ref];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::compound_ref_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.compound_label () == l_value
+             , "get_attribute('label') matches compound_label().");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("formula", l_value) and a_datum.formulae () == l_value
+             , "get_attribute('formula') matches formulae().");
+}
+/////////////////////
+// Modifying methods
+{
+  compound_ref & l_temp (const_cast< compound_ref & >(a_datum));
+  const std::string l_orig (a_datum.formulae ());
+  l_temp.add_formula_label ("qa1QH2gi");
+  bool_test (a_datum.formulae () == data_access::names::list (l_orig, "qa1QH2gi")
+             , "successfully added formula label.");
+  l_temp.set_attribute ("formula", l_orig);
+  bool_test (a_datum.formulae () == l_orig, "successfully reset formulae.");
+}
+// Empty elements can not contain anything!
+bool_test (a_datum.empty (), "compound-ref objects always empty.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1623849.cpp!!!	on_visit(in a_datum : datum) : void
+log () << COMM << "entering on_visit (datum) [" << a_datum.outcome () << "]\n";
+// Count compound objs.
+++m_type[s_datum];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::datum_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  const static std::string l_name ("outcome");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.outcome () == l_value
+             , "get_attribute('outcome') matches outcome()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("dim");
+  bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.dim () == l_value
+             , "no dimension or get_attribute('dim') matches dim()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("format");
+  bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.format () == l_value
+             , "no format or get_attribute('format') matches format()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("scale");
+  bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.scale () == l_value
+             , "no scale or get_attribute('scale') matches scale()");
+}
+if (a_datum.has_ordinal ())
+{
+  std::string l_value;
+  const static std::string l_name ("ordinal");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.ordinal () == boost::lexical_cast< int >(l_value)
+             , "get_attribute('ordinal') matches ordinal()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_data_size (a_datum.size_datum ());
+// Test add_formula
+{
+  datum & l_temp (const_cast< datum & > (a_datum));
+  const static std::string l_str ("N6fy6syV");
+  basic_datum & l_datum (l_temp.add_datum (l_str));
+// find (const)
+  bool_test (a_datum.find (&l_datum) != a_datum.end (), "found added datum");
+// remove
+  l_temp.remove (l_temp.find (&l_datum));
+  bool_test (a_datum.find (&l_datum) == a_datum.end (), "did not find removed formula");
+}
+
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_data_size == a_datum.size_datum (), "have original number of datum objects");
+bool_test (l_orig_size >= a_datum.size_datum (), "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1623977.cpp!!!	on_visit(in a_datum : experiment) : void
+log () << COMM << "entering on_visit (experiment) [" << a_datum.reference () << "]\n";
+// Count experiment objs.
+++m_type[s_experiment];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::experiment_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  const static std::string l_name ("reference");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.reference () == l_value
+             , "get_attribute('reference') matches reference()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("worker");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.worker_list () == l_value
+             , "get_attribute('worker') matches worker()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("priority");
+  bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.priority () == boost::lexical_cast< unsigned int > (l_value)
+             , "no priority or get_attribute('priority') matches priority()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_info_size (a_datum.size_info ());
+const unsigned int l_memo_size (a_datum.size_memo ());
+// Test add_memo
+{
+  experiment & l_temp (const_cast< experiment & >(a_datum));
+  const static std::string l_name ("7y-3jUXip");
+  basic_datum & l_memo (l_temp.add_memo (l_name));
+// find (const)
+  bool_test (a_datum.find (&l_memo) != a_datum.end (), "found added memo");
+  bool_test (&l_memo == &(*(a_datum.find_memo (l_name))), "find by label found added memo");
+// remove
+  l_temp.remove (l_temp.find (&l_memo));
+  bool_test (a_datum.find (&l_memo) == a_datum.end (), "did not find removed memo");
+}
+
+// Test add_info
+{
+  experiment & l_temp (const_cast< experiment & >(a_datum));
+  const static std::string l_name ("WTgl3qk3");
+  basic_datum & l_info (l_temp.add_info (l_name));
+// find (const)
+  bool_test (a_datum.find (&l_info) != a_datum.end (), "found added info");
+// remove
+  l_temp.remove (l_temp.find (&l_info));
+  bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_info_size == a_datum.size_info (), "have original number of info objects");
+bool_test (l_memo_size == a_datum.size_memo (), "have original number of memo objects");
+bool_test (l_orig_size >= (a_datum.size_info () + a_datum.size_memo ())
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624105.cpp!!!	on_visit(in a_datum : filter) : void
+log () << COMM << "entering on_visit (filter) [" << a_datum.label () << "]\n";
+// Count filter objs.
+++m_type[s_filter];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::filter_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("href", l_value) and a_datum.href () == l_value
+             , "get_attribute('href') matches href()");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("outcome", l_value) and a_datum.outcomes () == l_value
+             , "get_attribute('outcome') matches outcomes()");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("type", l_value) and a_datum.filter_type () == l_value
+             , "get_attribute('type') matches filter_type()");
+  bool_test (l_value == "plugin" or l_value == "regex", "filter_type is one of allowed names.");
+}
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624233.cpp!!!	on_visit(in a_datum : formula) : void
+log () << COMM << "entering on_visit (formula) [" << a_datum.label () << "]\n";
+// Count formula objs.
+++m_type[s_formula];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::formula_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_iden_size (a_datum.size_identity ());
+const bool l_has_info (a_datum.has_information ());
+// Test add_identity
+{
+  formula & l_temp (const_cast< formula & >(a_datum));
+  basic_datum & l_ident (l_temp.add_identity ("fogRdvS73"));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added identity");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed identity");
+}
+// Test add_info
+if (a_datum.has_information ())
+{
+// You cannot add second info
+  const std::string l_str ("0Xki6Xgj");
+  monitor_function (utility::contract_error::require, boost::bind (&formula::add_info, const_cast< formula* > (&a_datum), l_str), "can not add second info to a compound.");
+}
+else
+{
+  formula & l_temp (const_cast< formula & >(a_datum));
+  basic_datum & l_info (l_temp.add_info ("0Xki6Xgj"));
+  bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+  bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+  l_temp.remove (l_temp.find (&l_info));
+  bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_iden_size == a_datum.size_identity (), "have original number of identity objects");
+bool_test (l_has_info == a_datum.has_information (), "have original number of info objects");
+bool_test (l_orig_size >= (a_datum.size_identity () + (a_datum.has_information ()?1:0))
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624361.cpp!!!	on_visit(in a_datum : identity) : void
+log () << COMM << "entering on_visit (identity) [" << a_datum.identity_type () << "]\n";
+// Count identity objs.
+++m_type[s_identity];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::identity_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  const static std::string l_name ("type");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.identity_type () == l_value
+             , "get_attribute('type') matches identity_type()");
+}
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624489.cpp!!!	on_visit(in a_datum : info) : void
+log () << COMM << "entering on_visit (info) [" << a_datum.name () << "]\n";
+// Count info objs.
+++m_type[s_info];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::info_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("name", l_value) and a_datum.name () == l_value
+             , "get_attribute('name') matches name()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_info_size (a_datum.size_info ());
+// Test add_info
+{
+  info & l_temp (const_cast< info & >(a_datum));
+  basic_datum & l_form (l_temp.add_info ("W9aTlm2u"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added info");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed info");
+}
+
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_info_size == a_datum.size_info (), "have original number of info objects");
+bool_test (l_orig_size >= a_datum.size_info (), "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624617.cpp!!!	on_visit(in a_datum : mechanism) : void
+log () << COMM << "entering on_visit (mechanism) [" << a_datum.label () << "]\n";
+// Count mechanism objs.
+++m_type[s_mechanism];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::mechanism_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_filt_size (a_datum.size_filter ());
+const unsigned int l_sett_size (a_datum.size_settings ());
+const bool l_has_info (a_datum.has_information ());
+// Test add_filter
+{
+  mechanism & l_temp (const_cast< mechanism & >(a_datum));
+  basic_datum & l_form (l_temp.add_filter ("xvk92kT"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added filter");
+  bool_test (&l_form == &(*(a_datum.find_filter ("xvk92kT"))), "find by label found added filter");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed filter");
+}
+
+// Test add_setting
+{
+  mechanism & l_temp (const_cast< mechanism & >(a_datum));
+  basic_datum & l_ident (l_temp.add_setting ("4bc7msUL"));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added setting");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed setting");
+}
+// Test add_info
+{
+  if (a_datum.has_information ())
+  {
+// You cannot add second info
+    mechanism & l_temp (const_cast< mechanism & >(a_datum));
+    const std::string l_str ("mk4zGDr");
+    monitor_function (utility::contract_error::require, boost::bind (&mechanism::add_info, &l_temp, l_str), "can not add second info to a mechanism.");
+  }
+  else
+  {
+    mechanism & l_temp (const_cast< mechanism & >(a_datum));
+    basic_datum & l_info (l_temp.add_info ("mk4zGDr"));
+    bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+    bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+    l_temp.remove (l_temp.find (&l_info));
+    bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+  }
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_filt_size == a_datum.size_filter (), "have original number of filter objects");
+bool_test (l_sett_size == a_datum.size_settings (), "have original number of settings objects");
+bool_test (l_has_info == a_datum.has_information (), "have original number of information objects");
+bool_test (l_orig_size >= (a_datum.size_filter () + a_datum.size_settings () + (a_datum.has_information ()?1:0))
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624745.cpp!!!	on_visit(in a_datum : memo) : void
+log () << COMM << "entering on_visit (memo)[" << a_datum.label () << "]\n";
+// Count memo objs.
+++m_type[s_memo];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::memo_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  const static std::string l_name ("label");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("formula");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.formula_label () == l_value
+             , "get_attribute('formula') matches formula_label()");
+}
+{
+  std::string l_value;
+  const static std::string l_name ("compound");
+  bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.compound_label () == l_value
+             , "get_attribute('compound') matches compound_label()");
+}
+if (not a_datum.is_src () or a_datum.is_open ())
+{
+  { // Only test if memo or opened memo-src
+    std::string l_value;
+    const static std::string l_name ("mechanism");
+    bool_test (a_datum.get_attribute (l_name, l_value) and a_datum.target_mechanism () == l_value
+               , "get_attribute('mechanism') matches target_mechanism()");
+  }
+  {
+    std::string l_value;
+    const static std::string l_name ("filter");
+    bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.filters () == l_value
+               , "no categories or get_attribute('filter') matches filters()");
+  }
+}
+{
+  std::string l_value;
+  const static std::string l_name ("href");
+  bool_test (not a_datum.get_attribute (l_name, l_value) or a_datum.href () == l_value
+             , "no categories or get_attribute('href') matches href()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_data_size (a_datum.size_datum ());
+const unsigned int l_info_size (a_datum.size_info ());
+// Test add_datum
+{
+  memo & l_temp (const_cast< memo & >(a_datum));
+  const static std::string l_name ("vNUv32qt");
+  basic_datum & l_form (l_temp.add_datum (l_name));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added datum");
+  bool_test (&l_form == &(*(a_datum.find_datum (l_name))), "find by label found added datum");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed datum");
+}
+
+// Test add_info
+{
+  memo & l_temp (const_cast< memo & >(a_datum));
+  const static std::string l_name ("wNmj17aB");
+  basic_datum & l_ident (l_temp.add_info (l_name));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added info");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed info");
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_data_size == a_datum.size_datum (), "have original number of datum objects");
+bool_test (l_info_size == a_datum.size_info (), "have original number of info objects");
+bool_test (l_orig_size >= (a_datum.size_datum () + a_datum.size_info ())
+           , "number of children >= to number of special children.");
+// if (a_datum.is_src () and not a_datum.is_open ())
+// {
+//   memo & l_temp (const_cast< memo & >(a_datum));
+//   l_temp.read ();
+//   { // Only test if memo or opened memo-src
+//     std::string l_value;
+//     bool_test (a_datum.get_attribute ("mechanism", l_value) and a_datum.target_mechanism () == l_value
+//                , "get_attribute('mechanism') matches target_mechanism()");
+//   }
+//   {
+//     std::string l_value;
+//     bool_test (not a_datum.get_attribute ("filter", l_value) or a_datum.filters () == l_value
+//                , "no categories or get_attribute('filter') matches filters()");
+//   }
+// }
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1624873.cpp!!!	on_visit(in a_datum : processing_instruction) : void
+log () << COMM << "entering on_visit (pi)\n";
+// Increment counter
+++m_type[s_pi];
+// Test name attribute
+bool_test (not a_datum.name.empty (), "P.I. may not have empty name.");
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::processing_instruction_type (), "type name matches");
+// Do basic_text tests
+test_basic_text (a_datum);
+// Count basic_datum objects
+++m_type[0];
+// Basic_text objects are always empty so no need to call base method
+bool_test (a_datum.empty (), "p.i. objects are always empty");
+!!!1625001.cpp!!!	on_visit(in a_datum : program) : void
+log () << COMM << "entering on_visit (program)\n";
+// Count program objs.
+++m_type[s_program];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::program_name (), "type name matches");
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_work_size (a_datum.size_worker ());
+const unsigned int l_mech_size (a_datum.size_mechanism ());
+const unsigned int l_cmpd_size (a_datum.size_compound ());
+const unsigned int l_proj_size (a_datum.size_project ());
+const bool l_has_info (a_datum.has_information ());
+// Test add_worker
+{
+  program & l_temp (const_cast< program & >(a_datum));
+  basic_datum & l_form (l_temp.add_worker ("bfrlFO99"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added worker");
+  bool_test (&l_form == &(*(a_datum.find_worker ("bfrlFO99"))), "find by label found added worker");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed worker");
+}
+// Test add_mechanism
+{
+  program & l_temp (const_cast< program & >(a_datum));
+  basic_datum & l_form (l_temp.add_mechanism ("plr6PX5lm"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added mechanism");
+  bool_test (&l_form == &(*(a_datum.find_mechanism ("plr6PX5lm"))), "find by label found added mechanism");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed mechanism");
+}
+// Test add_compound
+{
+  program & l_temp (const_cast< program & >(a_datum));
+  basic_datum & l_form (l_temp.add_compound ("56enfbMA"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added compound");
+  bool_test (&l_form == &(*(a_datum.find_compound ("56enfbMA"))), "find by label found added compound");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed compound");
+}
+// Test add_project
+{
+  program & l_temp (const_cast< program & >(a_datum));
+  basic_datum & l_form (l_temp.add_project ("J8eM4rhw"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added project");
+  bool_test (&l_form == &(*(a_datum.find_project ("J8eM4rhw"))), "find by label found added project");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed project");
+}
+// Test add_project_src
+{
+  program & l_temp (const_cast< program & >(a_datum));
+  project & l_form (l_temp.add_project_src ("somefile.xml"));
+// find (const)
+  l_form.label ("df33iAiA");
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added project_src");
+  bool_test (&l_form == &(*(a_datum.find_project ("df33iAiA"))), "find by label found added project_src");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed project_src");
+}
+// Test add_info
+{
+  if (a_datum.has_information ())
+  {
+// You cannot add second info
+    program & l_temp (const_cast< program & >(a_datum));
+    const std::string l_str ("x5Kvop3X");
+    monitor_function (utility::contract_error::require, boost::bind (&program::add_info, &l_temp, l_str), "can not add second info to a program.");
+  }
+  else
+  {
+    program & l_temp (const_cast< program & >(a_datum));
+    basic_datum & l_info (l_temp.add_info ("x5Kvop3X"));
+    bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+    bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+    l_temp.remove (l_temp.find (&l_info));
+    bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+  }
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_work_size == a_datum.size_worker (), "have original number of worker objects");
+bool_test (l_mech_size == a_datum.size_mechanism (), "have original number of mechanism objects");
+bool_test (l_cmpd_size == a_datum.size_compound (), "have original number of compound objects");
+bool_test (l_proj_size == a_datum.size_project (), "have original number of project objects");
+bool_test (l_has_info == a_datum.has_information (), "have original number of info objects");
+//bool_test (l_orig_size >= (a_datum.size_formula () + a_datum.size_identity () + (a_datum.has_information ()?1:0))
+//           , "number of children >= to number of special children.");
+// log () << WTCH << "Program has " << (a_datum.has_information ()? "an" : "no") << " information object.\n";
+// 
+// if (a_datum.begin_worker () != a_datum.end_worker ())
+// {
+//   log () << IFYS << "Program has [" << std::distance (a_datum.begin_worker (), a_datum.end_worker ()) << "] worker objects.\n";
+// }
+// else
+// {
+//   log () << IFNO << "Program has no worker objects.\n";
+// }
+// 
+// if (a_datum.begin_mechanism () != a_datum.end_mechanism ())
+// {
+//   log () << WTCH << "Program has [" << std::distance (a_datum.begin_mechanism (), a_datum.end_mechanism ()) << "] mechanism objects.\n";
+// }
+// else
+// {
+//   log () << IFNO << "Program has no mechanism objects.\n";
+// }
+// 
+// if (a_datum.begin_compound () != a_datum.end_compound ())
+// {
+//   log () << WTCH << "Program has [" << std::distance (a_datum.begin_compound (), a_datum.end_compound ()) << "] compound objects.\n";
+// }
+// else
+// {
+//   log () << IFNO << "Program has no compound objects.\n";
+// }
+// 
+// if (a_datum.begin_project () != a_datum.end_project ())
+// {
+//   log () << WTCH << "Program has [" << std::distance (a_datum.begin_project (), a_datum.end_project ()) << "] project objects.\n";
+// }
+// else
+// {
+//   log () << IFNO << "Program has no project objects.\n";
+// }
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1625129.cpp!!!	on_visit(in a_datum : project) : void
+log () << COMM << "entering on_visit (project) [" << a_datum.label () << "]\n";
+// Count project objs.
+++m_type[s_project];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::project_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+{
+  std::string l_value;
+  bool_test (not a_datum.get_attribute ("worker", l_value) or a_datum.workers () == l_value
+             , "no categories or get_attribute('worker') matches workers()");
+}
+{
+  std::string l_value;
+  bool_test (not a_datum.get_attribute ("outcome", l_value) or a_datum.outcomes () == l_value
+             , "no categories or get_attribute('outcome') matches outcomes()");
+}
+{
+  std::string l_value;
+  bool_test (not a_datum.get_attribute ("href", l_value) or a_datum.uri_path () == l_value
+             , "no categories or get_attribute('href') matches uri_path()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_expt_size (a_datum.size_experiment ());
+const unsigned int l_cmpd_size (a_datum.size_compound_ref ());
+const bool l_has_info (a_datum.has_information ());
+// Test add_experiment
+{
+  project & l_temp (const_cast< project & >(a_datum));
+  basic_datum & l_form (l_temp.add_experiment ("f5ekcPLl7"));
+// find (const)
+  bool_test (a_datum.find (&l_form) != a_datum.end (), "found added experiment");
+  bool_test (&l_form == &(*(a_datum.find_experiment ("f5ekcPLl7"))), "find by label found added experiment");
+// remove
+  l_temp.remove (l_temp.find (&l_form));
+  bool_test (a_datum.find (&l_form) == a_datum.end (), "did not find removed experiment");
+}
+
+// Test add_compound_ref
+{
+  project & l_temp (const_cast< project & >(a_datum));
+  basic_datum & l_ident (l_temp.add_compound_ref ("ZXhn78rda"));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added compound_ref");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed compound_ref");
+}
+// Test add_info
+{
+  if (a_datum.has_information ())
+  {
+// You cannot add second info
+    project & l_temp (const_cast< project & >(a_datum));
+    const std::string l_str ("aaQchIo96");
+    monitor_function (utility::contract_error::require, boost::bind (&project::add_info, &l_temp, l_str), "can not add second info to a project.");
+  }
+  else
+  {
+    project & l_temp (const_cast< project & >(a_datum));
+    basic_datum & l_info (l_temp.add_info ("aaQchIo96"));
+    bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+    bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+    l_temp.remove (l_temp.find (&l_info));
+    bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+  }
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_expt_size == a_datum.size_experiment (), "have original number of experiment objects");
+bool_test (l_cmpd_size == a_datum.size_compound_ref (), "have original number of compound-ref objects");
+bool_test (l_has_info == a_datum.has_information (), "have original number of info objects");
+bool_test (l_orig_size >= (a_datum.size_experiment () + a_datum.size_compound_ref () + (a_datum.has_information ()?1:0))
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1625257.cpp!!!	on_visit(in a_datum : settings) : void
+log () << COMM << "entering on_visit (settings) [" << a_datum.label () << "]\n";
+// Count settings objs.
+++m_type[s_settings];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::settings_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("outcome", l_value) and a_datum.outcomes () == l_value
+             , "get_attribute('outcome') matches outcomes()");
+}
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("filter", l_value) and a_datum.filter_list () == l_value
+             , "get_attribute('filter') matches filter_list()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const bool l_has_data (a_datum.has_data ());
+const bool l_has_info (a_datum.has_information ());
+// Test add_data
+{
+  if (a_datum.has_data ())
+  {
+// You cannot add second data
+    settings & l_temp (const_cast< settings & >(a_datum));
+    const std::string l_str ("p1ug6gzCD");
+    monitor_function (utility::contract_error::require, boost::bind (&settings::add_datum, &l_temp, l_str), "can not add second data to a settings.");
+  }
+  else
+  {
+    settings & l_temp (const_cast< settings & >(a_datum));
+    basic_datum & l_data (l_temp.add_datum ("p1ug6gzCD"));
+    bool_test (a_datum.has_data (), "has data object after adding.");
+// find (const)
+    bool_test (&l_data == &(a_datum.data ()), "found added data");
+// remove
+    l_temp.remove (l_temp.find (&l_data));
+    bool_test (a_datum.find (&l_data) == a_datum.end (), "did not find removed data");
+  }
+}
+// Test add_info
+{
+  if (a_datum.has_information ())
+  {
+// You cannot add second info
+    settings & l_temp (const_cast< settings & >(a_datum));
+    const std::string l_str ("l9xAuh5wJ");
+    monitor_function (utility::contract_error::require, boost::bind (&settings::add_info, &l_temp, l_str), "can not add second info to a settings.");
+  }
+  else
+  {
+    settings & l_temp (const_cast< settings & >(a_datum));
+    basic_datum & l_info (l_temp.add_info ("l9xAuh5wJ"));
+    bool_test (a_datum.has_information (), "has info object after adding.");
+// find (const)
+    bool_test (&l_info == &(a_datum.information ()), "found added info");
+// remove
+    l_temp.remove (l_temp.find (&l_info));
+    bool_test (a_datum.find (&l_info) == a_datum.end (), "did not find removed info");
+  }
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_has_data == a_datum.has_data (), "have original number of datum objects");
+bool_test (l_has_info == a_datum.has_information (), "have original number of info objects");
+bool_test (l_orig_size >= (unsigned int)((a_datum.has_data ()?1:0) + (a_datum.has_information ()?1:0))
+           , "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1625385.cpp!!!	on_visit(in a_datum : text) : void
+log () << COMM << "entering on_visit (text)\n";
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::text_type (), "type name matches");
+// Do basic_text tests
+test_basic_text (a_datum);
+// Count basic_datum objects
+++m_type[0];
+++m_type[s_text];
+// Basic_text objects are always empty so no need to call base method
+bool_test (a_datum.empty (), "text objects are always empty");
+!!!1625513.cpp!!!	on_visit(in a_datum : worker) : void
+log () << COMM << "entering on_visit (worker) [" << a_datum.label () << "]\n";
+// Count worker objs.
+++m_type[s_worker];
+// Check serial_name
+bool_test (a_datum.serial_name () == data_access::names::worker_name (), "type name matches");
+// Check attributes
+{
+  std::string l_value;
+  bool_test (a_datum.get_attribute ("label", l_value) and a_datum.label () == l_value
+             , "get_attribute('label') matches label()");
+}
+/////////////////////
+// Modifying methods
+const unsigned int l_orig_size (a_datum.size ());
+const unsigned int l_info_size (a_datum.size_info ());
+// Test add_info
+{
+  worker & l_temp (const_cast< worker & >(a_datum));
+  basic_datum & l_ident (l_temp.add_info ("gO19juzbM"));
+// find (const)
+  bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added info");
+// remove
+  l_temp.remove (l_temp.find (&l_ident));
+  bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed info");
+}
+// Test number of children is unchanged.
+bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
+bool_test (l_info_size == a_datum.size_info (), "have original number of info objects");
+bool_test (l_orig_size >= a_datum.size_info (), "number of children >= to number of special children.");
+// Call parent method
+visitor::on_visit (a_datum);
+!!!1205289.cpp!!!	main_test() : void
+// DO
+int Result (0);
+std::auto_ptr < data_scheme::program > l_program;
+
+log () << COMM << "Getting test database\n";
+if (m_doc_filename.empty ())
+{
+  log () << IFNO << "No data filename set, please provide a database name\n";
+  Result = 1;
+}
+if (not boost::filesystem::exists (m_doc_filename))
+{
+  log () << IFNO << "Data filename: [" << m_doc_filename << "]\n does not exist, please provide a valid database name\n";
+  Result = 1;
+}
+
+if (0 == Result)
+{
+  // Read in the document..
+  l_program.reset (new data_scheme::program (m_doc_filename));
+  // Perform tests on data_scheme objects.
+  l_program->visit (const_cast< test_object_visitor & >(*this));
+  log () << WTCH << "visit finished" << std::endl;
+  // Move old version
+  const boost::filesystem::path l_dir (m_doc_filename);
+  const boost::filesystem::path l_base (l_dir.branch_path ());
+  const boost::filesystem::path l_old (l_base.branch_path () / (l_base.leaf () + ".old"));
+  const boost::filesystem::path l_new (l_base.branch_path () / (l_base.leaf () + ".new"));
+  log () << COMM << "Base path is :" << l_base.string () << "\n";
+  log () << COMM << "Old path is :" << l_old.string () << "\n";
+  log () << COMM << "New path is :" << l_new.string () << "\n";
+  boost::filesystem::rename (l_base, l_old);
+  // Attempt to save 'new' version
+  log () << COMM << "Attempting to write Program.\n";
+  l_program->write ();
+  if (boost::filesystem::exists (l_new))
+  {
+    boost::filesystem::remove_all (l_new);
+  }
+  boost::filesystem::rename (l_base, l_new);
+  boost::filesystem::rename (l_old, l_base);
+}
+
+show_coverage ();
+!!!1351593.cpp!!!	register_options() : void
+if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("database", true))
+{
+  // Add option
+  utility::program_options::helper ().public_options ().add_options () ("database", boost::program_options::value< std::string >(&(this->m_doc_filename)), "Test database file");
+}
+!!!1658281.cpp!!!	test_basic_text(in a_datum : basic_text) : void
+const static std::string l_str ("some-text");
+// set_attribute
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::set_attribute, const_cast< basic_text* > (&a_datum), l_str, l_str), "can not set attribute of text objects.");
+// basic_text is always empty
+bool_test (a_datum.empty () and 0 == a_datum.size () and a_datum.begin () == a_datum.end ()
+           , "basic_text object is always empty.");
+// basic_text has no attributes (no-testable)
+// You cannot add children to a basic_text
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_child, const_cast< basic_text* > (&a_datum), l_str, l_str), "can not add children to text objects.");
+// Cannot add PIs, Comments or Text
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_comment, const_cast< basic_text* > (&a_datum), l_str), "can not add comment to text objects.");
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_pi, const_cast< basic_text* > (&a_datum), l_str, l_str), "can not add P.I. to text objects.");
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_text, const_cast< basic_text* > (&a_datum), l_str), "can not add text to text objects.");
+// Set then reset text.
+const std::string l_oldtext (a_datum.the_content);
+const_cast< basic_text & > (a_datum).set_text (l_str);
+bool_test (l_str == a_datum.the_content, "set text matches new value");
+const_cast< basic_text & > (a_datum).set_text (l_oldtext);
+bool_test (l_oldtext == a_datum.the_content, "reset text matches old value");
+!!!1621289.cpp!!!	test_basic_text(in a_parent : basic_datum, in a_text : basic_text, in a_str : string) : void
+// the_content
+bool_test (a_text.the_content == a_str, "text content and string match");
+// parent
+bool_test (&a_parent == &(a_text.parent ()), "parent object matches");
+// set_attribute
+monitor_function (utility::contract_error::always, boost::bind (&basic_text::set_attribute, const_cast< basic_text* > (&a_text), a_str, a_str), "can not set attribute of text objects.");
+!!!1621417.cpp!!!	test_comment(in a_parent : basic_datum, in a_text : comment, in a_str : string) : void
+// Perform base tests
+test_basic_text (a_parent, a_text, a_str);
+// serial_name
+bool_test (a_text.serial_name () == data_access::names::comment_type (), "type name matches");
+!!!1621545.cpp!!!	test_pi(in a_parent : basic_datum, in a_text : processing_instruction, in a_str1 : string, in a_str2 : string) : void
+// Perform base tests
+test_basic_text (a_parent, a_text, a_str2);
+// name
+bool_test (a_text.name == a_str1, "p.i. name matches");
+// serial_name
+bool_test (a_text.serial_name () == data_access::names::processing_instruction_type (), "type name matches");
+!!!1625641.cpp!!!	test_text(in a_parent : basic_datum, in a_text : text, in a_str : string) : void
+// Perform base tests
+test_basic_text (a_parent, a_text, a_str);
+// serial_name
+bool_test (a_text.serial_name () == data_access::names::text_type (), "type name matches");
+!!!1667113.cpp!!!	show_coverage() : void
+log () << TTLE << "Type coverage\n"
+       << WTCH << "comments      : " << m_type[s_comment] << "\n"
+       << WTCH << "compounds     : " << m_type[s_compound] << "\n"
+       << WTCH << "compound_refs : " << m_type[s_compound_ref] << "\n"
+       << WTCH << "datums        : " << m_type[s_datum] << "\n"
+       << WTCH << "experiments   : " << m_type[s_experiment] << "\n"
+       << WTCH << "filters       : " << m_type[s_filter] << "\n"
+       << WTCH << "formulae      : " << m_type[s_formula] << "\n"
+       << WTCH << "identitys     : " << m_type[s_identity] << "\n"
+       << WTCH << "infos         : " << m_type[s_info] << "\n"
+       << WTCH << "mechanisms    : " << m_type[s_mechanism] << "\n"
+       << WTCH << "memos         : " << m_type[s_memo] << "\n"
+       << WTCH << "P.I.s         : " << m_type[s_pi] << "\n"
+       << WTCH << "programs      : " << m_type[s_program] << "\n"
+       << WTCH << "projects      : " << m_type[s_project] << "\n"
+       << WTCH << "settings      : " << m_type[s_settings] << "\n"
+       << WTCH << "texts         : " << m_type[s_text] << "\n"
+       << WTCH << "workers       : " << m_type[s_worker] << "\n"
+       << WTCH << "basic_datums  : " << m_type[0] << "\n";
+int l_total (0);
+for (unsigned int i (1); i < s_size; ++i)
+{
+  l_total += m_type [i];
+}
+log () << WTCH << "total         : " << l_total << "\n";
+

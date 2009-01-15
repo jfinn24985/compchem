@@ -4,7 +4,7 @@ utility::c_streambuf< char > l_what (&m_what[0], s_size);
 std::ostream l_errlog (&l_what);
 l_errlog << "================== CONTRACT FAILURE ==================\n"
          << "REASON: \"" << a_msg1 << "\"\n"
-         << "FAILED TEST: (" << a_msg2 << ")\n"
+         << "LEVEL[" << a_level << "] FAILED TEST: (" << a_msg2 << ")\n"
          << "FILE: " << a_filename << ", LINE: " << a_line << ".\n";
 if (NULL != a_fn_name)
 {
@@ -18,7 +18,7 @@ if (NULL != a_backtrace)
   // Put into a free_ptr to auto free
   for (int l_i = 0; l_i < a_backsz; ++l_i)
   {
-    l_errlog << *(l_trace.get() + l_i) << "\n";
+    l_errlog << *(l_trace.get () + l_i) << "\n";
   }
 }
 #endif

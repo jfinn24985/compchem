@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 22
+  revision 23
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -88,7 +88,6 @@ provides the interface for the importation and querying of the data."
 	  class_ref 460201 // worker_py
 	end
 	required_classes
-	  class_ref 433961 // meta_datum
 	  class_ref 476713 // names
 	  class_ref 449449 // persistence
 	end

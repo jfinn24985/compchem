@@ -2,7 +2,8 @@ class info
 !!!1422889.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
 if (data_access::names::info_name () != a_name);
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return add_info (a_label);
 !!!1407657.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
@@ -20,6 +21,20 @@ if (data_access::names::name_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name () + " objects do not have an attribute named " + a_name);
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
+!!!1662377.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+COMPCHEM_ALWAYS (not empty_info (), "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr (info &a_info, basic_datum* a_item)
+  {
+    return &(a_info) == a_item;
+  }
+};
+info_iterator l_i (std::find_if (begin_info (), end_info (), boost::bind(helper__::compare_ptr, _1, a_datum)));
+COMPCHEM_ALWAYS (l_i != end_info (), "attempt to remove non-child object");
+m_content.erase (l_i);

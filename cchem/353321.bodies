@@ -27,7 +27,8 @@ else if (data_access::names::info_name () == a_name)
 }
 else
 {
-  throw std::logic_error (serial_name() + " class has no child with name " + a_name);
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
 return *Result;
 !!!1424809.cpp!!!	add_compound(in a_label : string) : compound
@@ -136,3 +137,61 @@ return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::e
 !!!1449385.cpp!!!	write() : void
 COMPCHEM_CHECK (m_document->is_open (), "Program objects should always be open.");
 m_document->write ();
+!!!1663273.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// info?,worker+,mechanism*,compound*,(project|proj-src)*
+COMPCHEM_ALWAYS (not empty_worker () or not empty_mechanism () or not empty_project () or not empty_compound () or has_information ()
+                 , "attempt to remove non-child object");
+// a_datum should be an info object!
+struct helper__
+{
+  static bool compare_ptr1 (worker &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr2 (mechanism &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr3 (compound &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+  static bool compare_ptr4 (project &a_iter, basic_datum* a_item)
+  {
+    return &(a_iter) == a_item;
+  }
+};
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  compound_iterator l_f (std::find_if (begin_compound (), end_compound (), boost::bind(helper__::compare_ptr3, _1, a_datum)));
+  if (l_f != end_compound ())
+  {
+    m_catalog.erase (l_f);
+  }
+  else
+  {
+    mechanism_iterator l_f (std::find_if (begin_mechanism (), end_mechanism (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
+    if (l_f != end_mechanism ())
+    {
+      m_equipment.erase (l_f);
+    }
+    else
+    {
+      worker_iterator l_f (std::find_if (begin_worker (), end_worker (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
+      if (l_f != end_worker ())
+      {
+        m_staff.erase (l_f);
+      }
+      else
+      {
+        project_iterator l_i (std::find_if (begin_project (), end_project (), boost::bind(helper__::compare_ptr4, _1, a_datum)));
+        COMPCHEM_ALWAYS (l_i != end_project (), "attempt to remove non-child object");
+        m_projects.erase (l_i);
+      }
+    }
+  }
+}

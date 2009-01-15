@@ -1,6 +1,6 @@
 format 61
 "xmlreader" // /xmlreader::xmlreader
-  revision 35
+  revision 36
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -329,9 +329,13 @@ loading the DTD)"
 	const public explicit_return_type "string"
 	nparams 1
 	  param in name "a_key" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->has_attribute (a_key), \"No attribute with given name: \" + a_key);
-  return t_reader_traits::attribute (this->m_reader, a_key); }
+  std::string Result;
+  t_reader_traits::attribute (this->m_reader, a_key, Result);
+  return Result;
+}
 "
 	
 	
@@ -361,9 +365,13 @@ loading the DTD)"
       operation 172841 "base_uri"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::base_uri (this->m_reader); }
+  std::string Result;
+  t_reader_traits::base_uri (this->m_reader, Result);
+  return Result;
+}
 "
 	
 	
@@ -525,9 +533,13 @@ This is implicit \\pre condition to all methods"
       operation 172969 "local_name"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::local_name (this->m_reader); }
+  std::string Result;
+  t_reader_traits::local_name (this->m_reader, Result);
+  return Result;
+}
 "
 	
 	
@@ -539,9 +551,13 @@ This is implicit \\pre condition to all methods"
       operation 173097 "name"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::name (this->m_reader); }
+  std::string Result;
+  t_reader_traits::name (this->m_reader, Result);
+  return Result;
+}
 "
 	
 	
@@ -553,9 +569,13 @@ This is implicit \\pre condition to all methods"
       operation 173225 "namespace_uri"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::namespace_uri (this->m_reader); }
+  std::string Result;
+  t_reader_traits::namespace_uri (this->m_reader, Result);
+  return Result;
+}
 "
 	
 	
@@ -652,9 +672,13 @@ Throws an error if setting a valid option failed in CHECK mode"
       operation 173481 "prefix"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::prefix (this->m_reader); }"
+  std::string Result;
+  t_reader_traits::prefix (this->m_reader, Result);
+  return Result;
+}"
 	
 	
 	
@@ -699,9 +723,13 @@ Throws an error if setting a valid option failed in CHECK mode"
       operation 173609 "value"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::value (this->m_reader); }
+  std::string Result;
+  t_reader_traits::value (this->m_reader, Result);
+  return Result;
+}
 "
 	
 	
@@ -713,9 +741,12 @@ Throws an error if setting a valid option failed in CHECK mode"
       operation 173737 "xml_lang"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
   COMPCHEM_REQUIRE(this->is_doc_valid (), \"Cannot continue with invalid document\");
-  return t_reader_traits::xml_lang (this->m_reader); }
+  std::string Result;
+  t_reader_traits::xml_lang (this->m_reader, Result);
+}
 "
 	
 	
