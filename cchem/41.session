@@ -1,18 +1,18 @@
-window_sizes 960 672 313 641 402 191
+window_sizes 960 672 307 647 402 191
 diagrams
   classdiagram_ref 138025 // Dependencies
     640 467 100 4 0 0
   active  classdiagram_ref 171561 // Inheritance
-    641 402 100 4 0 0
+    647 402 100 4 0 0
 end
 show_stereotypes
-selected classview_ref 156969 // data_access
+selected operation_ref 1386921 // add_child
 open
   
   package_ref 152105 // Docs
   
   package_ref 132777 // /compchem/data_access
-  classview_ref 133161 // data_scheme
+  class_ref 432681 // basic_datum
   deploymentview_ref 131113 // data_scheme
   class_ref 510633 // test_object_visitor
   

@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 217
+  revision 218
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1019,7 +1019,7 @@ throw exception if a_datum is not a child of derived class."
     end
 
     class 435369 "basic_text"
-      abstract visibility package 
+      visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
 ${members}
@@ -11503,27 +11503,27 @@ throw exception if a_datum is not a child of derived class."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 143145 // memo
-	artifact_ref 233897 // content_visitor
-	artifact_ref 141993 // info
-	artifact_ref 142249 // identity
-	artifact_ref 202793 // basic_datum
-	artifact_ref 232617 // compound_ref
-	artifact_ref 143657 // compound
-	artifact_ref 142633 // worker
-	artifact_ref 141737 // datum
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
-	artifact_ref 166569 // settings
-	artifact_ref 143913 // project
-	artifact_ref 142889 // mechanism
-	artifact_ref 214569 // visitor
-	artifact_ref 143529 // formula
-	artifact_ref 142505 // filter
-	artifact_ref 143273 // experiment
 	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 144041 // program
+	artifact_ref 141737 // datum
+	artifact_ref 143273 // experiment
+	artifact_ref 142633 // worker
+	artifact_ref 142505 // filter
+	artifact_ref 143657 // compound
+	artifact_ref 143145 // memo
+	artifact_ref 143529 // formula
+	artifact_ref 157993 // utility
+	artifact_ref 232617 // compound_ref
+	artifact_ref 214569 // visitor
+	artifact_ref 202793 // basic_datum
+	artifact_ref 142889 // mechanism
+	artifact_ref 142249 // identity
+	artifact_ref 143913 // project
+	artifact_ref 141993 // info
+	artifact_ref 166569 // settings
+	artifact_ref 253353 // xml
+	artifact_ref 233897 // content_visitor
 	artifact_ref 207785 // text
+	artifact_ref 144041 // program
       end
       comment "The library for the data_scheme objects"
     end
