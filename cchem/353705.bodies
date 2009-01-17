@@ -1,25 +1,31 @@
 class mechanism
-!!!1423529.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1423529.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 basic_datum * Result (NULL);
 if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  COMPCHEM_ALWAYS (not has_information (), "You can only add one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
 }
 else if (data_access::names::filter_name () == a_name)
 {
-  Result = &(add_filter (a_label));
+  m_filter_set.push_back (new filter (*this, a_label));
+  Result= &(m_filter_set.back ());
 }
 else if (data_access::names::settings_name () == a_name)
 {
-  Result = &(add_setting (a_label));
+  m_command_set.push_back (new settings (*this, a_label));
+  Result = &(m_command_set.back ());
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1423401.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "You can only add one info object here");
 m_info.reset (new info (*this, a_label));
 // Always first
 if (not m_filter_set.empty ())

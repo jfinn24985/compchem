@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 218
+  revision 219
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -323,6 +323,11 @@ text		****"
       size A4
     end
 
+    sequencediagram 172713 "add_child"
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      overlapping_bars size A4
+    end
+
     class 432681 "basic_datum"
       abstract visibility public 
       cpp_decl "${comment}${template}class ${name}${inherit}
@@ -413,10 +418,10 @@ objects and XML elements such as comments, whitespace etc."
 	cpp_virtual public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   @{always}(false, \"Can not add children to a this object\");
   // Dummy return value.
@@ -427,10 +432,16 @@ objects and XML elements such as comments, whitespace etc."
 	
 	
 	
-	comment "add_child tests if this object can accept the tagname using the
-meta_datum object. Only then is the virt_add_child method called. 
+	comment "add_child creates a new object corresponding to a_name and appends it
+to the list of children.
 
-default action is to throw an error!
+Note: add_child always appends objects to list. It should therefore only be 
+used by deserialisation classes.
+
+throw is a_name is not a valid child.
+base-class action is to throw an error!
+
+\\post a_label.empty
 
 \\return /= NULL"
       end
@@ -448,8 +459,7 @@ default action is to throw an error!
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
+	comment "Create a comment child of this node and append to child list. Throw an error if no 
 children are allowed.  Returns a reference to the new child object.
 
 \\return /= NULL
@@ -460,7 +470,7 @@ children are allowed.  Returns a reference to the new child object.
 	cpp_virtual public explicit_return_type "basic_datum"
 	nparams 1
 	  param inout name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -471,9 +481,9 @@ children are allowed.  Returns a reference to the new child object.
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
-children are allowed.  Returns a reference to the new child object.
+	comment "Create a comment object and append to child list.  Swallow 
+a_value. Throw an error if no children are allowed.  Returns a 
+reference to the new child object.
 
 Swallows text!
 \\post a_value.empty
@@ -495,9 +505,9 @@ Swallows text!
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
-children are allowed.  Returns a reference to the new child object.
+	comment "Create a processing_instruction and append it to list of children. Throw 
+an error if no children are allowed.  Returns a reference to the new child 
+object.
 
 \\return /= NULL
 \\final"
@@ -519,11 +529,10 @@ children are allowed.  Returns a reference to the new child object.
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
-children are allowed.  Returns a reference to the new child object.
+	comment "Create a processing_instruction and append it to list of children. Throw 
+an error if no children are allowed.  Returns a reference to the new child 
+object. Swallows a_value text!
 
-Swallows text!
 \\post a_value.empty
 
 \\return /= NULL"
@@ -542,9 +551,9 @@ Swallows text!
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
-children are allowed.  Returns a reference to the new child object.
+	comment "Create a text object and append it to list of children. Throw 
+an error if no children are allowed.  Returns a reference to the new child 
+object.
 
 \\return /= NULL
 \\final"
@@ -565,11 +574,10 @@ children are allowed.  Returns a reference to the new child object.
 	
 	
 	
-	comment "Create a basic_datum child of this node with the type tagname a_name.
-Throw an error  if the a_name is not correct. Throw an error if no 
-children are allowed.  Returns a reference to the new child object.
+	comment "Create a text object and append it to list of children. Throw 
+an error if no children are allowed.  Returns a reference to the new child 
+object. Swallows a_value text!
 
-Swallows text!
 \\post a_value.empty
 
 \\return /= NULL"
@@ -588,8 +596,7 @@ Swallows text!
 	
 	
 	
-	comment "This method is used to append a_new ptr to the list of 
-children.  "
+	comment "This method is used to append a_new ptr to the list of children.  "
       end
 
       operation 1395113 "basic_datum"
@@ -942,46 +949,6 @@ removes all other text objects.
 	
       end
 
-      operation 1389481 "virt_add_text"
-	cpp_virtual protected explicit_return_type "void"
-	nparams 1
-	  param inout name "a_text_obj" explicit_type "basic_text"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{}
-"
-	
-	
-	
-	
-	comment "Inform descendent that the given text object has been added.  This
-allows descendents to keep track of text elements even though they
-are officially owned by the base object.
-
-The default action is to do nothing."
-      end
-
-      operation 1400617 "virt_remove_text"
-	cpp_virtual protected explicit_return_type "void"
-	nparams 1
-	  param inout name "a_text_obj" explicit_type "basic_text"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{}
-"
-	
-	
-	
-	
-	comment "Inform descendent that the given text object has been removed.  This
-allows descendents to keep track of text elements even though they
-are officially owned by the base object.
-
-The default action is to do nothing."
-      end
-
       operation 1661993 "virt_remove_child"
 	cpp_virtual protected explicit_return_type "void"
 	nparams 1
@@ -1138,36 +1105,18 @@ default action is to throw an error!
 \\return /= NULL"
       end
 
-      operation 1387561 "basic_text"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_content" explicit_type "string"
-	  param inout name "a_parent" explicit_type "basic_datum"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1}& ${p1}${)}${volatile}${throw}
-: basic_datum ()
-, the_content ()
-, m_parent (${p1})
-{
-  the_content.swap (${p0});
-}
-"
-	
-	
-	
-	
-	comment "Create a text element (swap version, swallows text)"
-      end
-
       operation 1668649 "basic_text"
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
 	  param in name "a_content" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw}
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_datum ()
-, the_content (${p1})
+, the_content ()
 , m_parent (${p0})
-{}
+{
+  the_content.swap (${p1});
+}
 "
 	
 	
@@ -1516,7 +1465,7 @@ ${inlines}
       end
 
       attribute 339497 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -1534,10 +1483,10 @@ ${inlines}
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -1576,9 +1525,9 @@ child object."
 	public explicit_return_type "identity"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -1597,9 +1546,9 @@ child object."
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -1727,23 +1676,28 @@ generate a table of reaction v. substituent."
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "program"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${volatile}${throw} 
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw} 
 : @{base_class} ()
 , m_categories ()
 , m_identity ()
 , m_info ()
 , m_instances ()
-, m_label (${p1})
+, m_label ()
 , m_parent (${p0})
-{}
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new compound object, swallow a_label
+
+\\post a_label.empty"
       end
 
       operation 1167913 "compound"
@@ -2166,7 +2120,7 @@ ${inlines}
       end
 
       attribute 386857 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -2272,21 +2226,25 @@ ${inlines}
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" type class_ref 354089 // project
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw} 
 : basic_datum ()
 , m_formulae ()
 , m_importer (${p0})
-, m_label (${p1})
-{}
+, m_label ()
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
-	comment "Main ctor"
+	comment "Construct a new compound-ref object, swallow a_label
+
+\\post a_label.empty"
       end
 
       operation 1531945 "~compound_ref"
@@ -2899,9 +2857,9 @@ ratio of two integers, here the divisor can be specified as the scale using \"1/
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -2922,9 +2880,9 @@ default action is to throw an error!
 	public explicit_return_type "datum"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   m_data.push_back (new datum (*this, ${p0}));
   append_child (m_data.back ());
@@ -2975,23 +2933,27 @@ children are allowed.  Returns a reference to the new child object.
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_outcome" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	  param inout name "a_outcome" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_datum ()
 , m_parent (${p0})
-, m_outcome (${p1})
+, m_outcome ()
 , m_data ()
 , m_dim ()
 , m_format ()
 , m_ordinal (NO_ORDINAL)
 , m_scale ()
-{}
+{
+  m_outcome.swap (${p1});
+}
 "
 	
 	
 	
 	
-	comment "Default constructor. This creates a NULL object and has few operations that are meaningful (apart from is_null() test) until assigned."
+	comment "Construct a new datum object, swallow a_outcome
+
+\\post a_outcome.empty"
       end
 
       operation 1157417 "datum"
@@ -3600,7 +3562,7 @@ what was done."
       end
 
       attribute 260905 "m_reference"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -3646,8 +3608,8 @@ notebook."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3668,8 +3630,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3689,8 +3651,8 @@ default action is to throw an error!
 	public explicit_return_type "memo"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3712,8 +3674,8 @@ default action is to throw an error!
 	public explicit_return_type "memo"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3813,7 +3775,7 @@ in a valid memo object.
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};"
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  return (m_date_start.empty ()) ? ${type}() : boost::gregorian::from_undelimited_string (m_date_start);
+  return (m_date_start.empty ()) ? ${type} () : boost::gregorian::from_undelimited_string (m_date_start);
 }
 
 "
@@ -3979,28 +3941,31 @@ in a valid memo object.
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "project"
-	  param in name "a_reference" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+	  param inout name "a_reference" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw} 
 : @{base_class} ()
 , m_date_start ()
 , m_date_end ()
 , m_info ()
 , m_priority (0)
-, m_reference (${p1})
+, m_reference ()
 , m_results ()
 , m_section (${p0})
 , m_workers ()
 {
-  // Set default start date to now.
-  date_start (boost::gregorian::day_clock::universal_day ());
+  m_reference.swap (${p1});
 }
 "
 	
 	
 	
 	
+	comment "Construct a new experiment object as a child of a_parent. Swallow
+a_reference
+
+\\post a_reference.empty"
       end
 
       operation 1168681 "experiment"
@@ -4358,7 +4323,7 @@ mechanism to import outcomes into the DB."
       end
 
       attribute 350761 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -4428,22 +4393,28 @@ and 'regex'. Coming soon are 'shell' and 'python'."
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "mechanism"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_datum ()
-, m_label (${p1})
+, m_label ()
 , m_href ()
 , m_outcomes ()
 , m_target (${p0})
-, m_type (data_access::names::plugin_filter_name ())
-{}
+, m_type ()
+{
+  m_label.swap (${p1});  
+}
 "
 	
 	
 	
 	
+	comment "Construct a new filter object with a_parent and a_label. Swallows
+a_label.
+
+\\post a_label"
       end
 
       operation 1161769 "filter"
@@ -4478,9 +4449,11 @@ and 'regex'. Coming soon are 'shell' and 'python'."
 	stereotype "get"
 	const public explicit_return_type "string"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}${)}${const}${volatile} throw ()${staticnl}
 {
-  return m_type;
+  return (m_type.empty () ? data_access::names::plugin_filter_name () : m_type);
 }
 "
 	
@@ -4765,8 +4738,8 @@ formula can only have one parent compound."
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -4787,8 +4760,8 @@ default action is to throw an error!
 	public explicit_return_type "identity"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -4807,8 +4780,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -4922,7 +4895,7 @@ default action is to throw an error!
 	
 	
 	
-	comment "Base contructor. 
+	comment "Construct a new formula object with a_parent and a_label. 
 
 swallows a_label
 \\post a_label.empty"
@@ -5207,7 +5180,7 @@ for use in matching compounds across databases."
       end
 
       attribute 346025 "m_type"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -5240,17 +5213,23 @@ for use in matching compounds across databases."
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_type" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	  param inout name "a_type" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_datum ()
 , m_parent (${p0})
-, m_type (${p1})
-{}
+, m_type ()
+{
+  m_type.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new identity object with a_parent and a_type. Swallows 
+content of a_type
+
+\\post a_type.empty"
       end
 
       operation 1154601 "identity"
@@ -5463,9 +5442,9 @@ ${inlines}
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -5486,8 +5465,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   m_content.push_back (new info (*this, ${p0}));
   // Always last
@@ -5600,18 +5579,24 @@ meta_datum object. Only then is the virt_add_child method called.
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "basic_datum"
-	  param in name "a_name" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	  param inout name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : basic_datum()
 , m_content ()
-, m_name (${p1})
+, m_name ()
 , m_parent(${p0})
-{}
+{
+  m_name.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new info object with a_parent and a_name. Swallow
+content of a_name
+
+\\post a_name.empty"
       end
 
       operation 1144233 "info"
@@ -5899,7 +5884,7 @@ NOTE The contents of this element can also refer to a set of published results.
       end
 
       attribute 258345 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -5943,9 +5928,9 @@ NOTE The contents of this element can also refer to a set of published results.
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -5966,8 +5951,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -5987,8 +5972,8 @@ default action is to throw an error!
 	public explicit_return_type "filter"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -6007,8 +5992,8 @@ default action is to throw an error!
 	public explicit_return_type "settings"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -6296,20 +6281,26 @@ default action is to throw an error!
 	nparams 2
 	  param inout name "a_parent" explicit_type "program"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw} 
 : @{base_class} ()
 , m_command_set ()
-, m_label (${p1})
+, m_label ()
 , m_info ()
 , m_filter_set ()
 , m_site (${p0})
-{}
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new mechanism object with a_parent and a_label. Swallow
+content of a_label
+
+\\post a_label.empty"
       end
 
       operation 1405353 "mechanism"
@@ -6696,9 +6687,9 @@ relates to how a standard method was altered (if any) in this experiment."
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -6719,8 +6710,8 @@ default action is to throw an error!
 	cpp_virtual public explicit_return_type "datum"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -6756,9 +6747,9 @@ default action is to throw an error!
 	cpp_virtual public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -6886,6 +6877,27 @@ TODO: currently does nothing!"
 	
 	
 	comment "Set the compound and formula attributes."
+      end
+
+      operation 1676969 "connect"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Second part of constructor for memo-src objects. This sets the document
+from a_uri. swallows content of a_uri
+
+\\post a_uri.empty"
       end
 
       operation 1480617 "empty_datum"
@@ -7232,13 +7244,12 @@ optional a_iter (defaults to begin_datum)"
 
       operation 1421993 "memo"
 	public explicit_return_type ""
-	nparams 3
+	nparams 2
 	  param inout name "a_parent" explicit_type "experiment"
-	  param in name "a_label" explicit_type "string"
-	  param in name "a_is_src" explicit_type "bool"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : @{base_class} ()
 , m_compound ()
 , m_document ()
@@ -7251,16 +7262,46 @@ optional a_iter (defaults to begin_datum)"
 , m_page (${p0})
 , m_results ()
 {
-  ${body}
+  m_label.swap (a_label);
 }
 "
 	
 	
 	
 	
-	comment "Constructor for memo objects. When a_is_src is true then a_label is the
-the URI of the target file of a memo-src object, otherwise it is the label
-of a memo object."
+	comment "Constructor for memo objects (from memo elements) using a_parent and
+a_label. Swallows a_label content.
+
+\\post a_label.empty"
+      end
+
+      operation 1677097 "memo"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_parent" explicit_type "experiment"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: @{base_class} ()
+, m_compound ()
+, m_document ()
+, m_filters ()
+, m_formula ()
+, m_href ()
+, m_info ()
+, m_label ()
+, m_mechanism ()
+, m_page (${p0})
+, m_results ()
+{}
+"
+	
+	
+	
+	
+	comment "Constructor for memo objects (from memo-src elements) using a_parent. You 
+must use connect to complete construction of the memo-src object.
+"
       end
 
       operation 1162793 "memo"
@@ -7655,7 +7696,7 @@ with other elements."
 	
 	
 	
-	comment "Create a text element.
+	comment "Create a processing_instruction object with a_parent, a_name and a_content.
 
 Swallows content!
 \\post a_content.empty"
@@ -7941,9 +7982,9 @@ papers may be contained in a program. "
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -7964,9 +8005,9 @@ default action is to throw an error!
 	public explicit_return_type "compound"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -7984,8 +8025,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -8005,9 +8046,9 @@ default action is to throw an error!
 	public explicit_return_type "mechanism"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -8025,9 +8066,9 @@ default action is to throw an error!
 	public explicit_return_type "project"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -8065,9 +8106,9 @@ default action is to throw an error!
 	public explicit_return_type "worker"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -8203,6 +8244,25 @@ default action is to throw an error!
 	
 	
 	comment "worker   [data_scheme]"
+      end
+
+      operation 1677481 "connect"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+{
+  m_document = data_access::manager::server().connect (*this, ${p0}, false);
+  m_document->read ();
+}
+"
+	
+	
+	
+	
+	comment "Second part of constructor connects the program object to the serialisation source."
       end
 
       operation 1666089 "empty_compound"
@@ -8628,7 +8688,7 @@ without warnings."
       end
 
       operation 1158825 "program"
-	private explicit_return_type ""
+	public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}explicit ${name}${(}${)}${volatile}${throw};
 "
@@ -8647,31 +8707,6 @@ without warnings."
 	
 	
 	comment "Default program constructor has no arguments?"
-      end
-
-      operation 1439529 "program"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "a_uri" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: @{base_class} ()
-, m_catalog ()
-, m_document (data_access::manager::server().connect (*this, ${p0}, false))
-, m_equipment ()
-, m_info ()
-, m_projects ()
-, m_staff ()
-{
-  m_document->read ();
-}
-"
-	
-	
-	
-	
-	comment "Main constructor requires a URI"
       end
 
       operation 1159081 "program"
@@ -9090,9 +9125,9 @@ ${inlines}
 	public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -9113,9 +9148,9 @@ default action is to throw an error!
 	public return_type class_ref 480425 // compound_ref
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -9136,8 +9171,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -9157,9 +9192,9 @@ default action is to throw an error!
 	public explicit_return_type "experiment"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -9293,6 +9328,25 @@ any allocated resources.
 (\\post not is_open)
 
 TODO: currently does nothing!"
+      end
+
+      operation 1677225 "connect"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Second part of constructor for proj-src derived objects. This
+must be called after the contructor to create the document."
       end
 
       operation 1502889 "empty_experiment"
@@ -9650,13 +9704,12 @@ attributes and children by creating them if necessary."
 
       operation 1422121 "project"
 	public explicit_return_type ""
-	nparams 3
+	nparams 2
 	  param inout name "a_program" explicit_type "program"
-	  param in name "a_label" explicit_type "string"
-	  param in name "a_is_src" explicit_type "bool"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : @{base_class} ()
 , m_activities ()
 , m_document ()
@@ -9667,14 +9720,43 @@ attributes and children by creating them if necessary."
 , m_site (${p0})
 , m_workers ()
 {
-  ${body}
+  m_label.swap (${p1});
 }
 "
 	
 	
 	
 	
-	comment "Constructor for proj-src derived objects."
+	comment "Constructor for project object (from project elements) with a_program
+parent and a_label. Swallows content of a_label.
+
+\\post a_label.empty"
+      end
+
+      operation 1677353 "project"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_program" explicit_type "program"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: @{base_class} ()
+, m_activities ()
+, m_document ()
+, m_imports ()
+, m_info ()
+, m_label ()
+, m_outcomes ()
+, m_site (${p0})
+, m_workers ()
+{}
+"
+	
+	
+	
+	
+	comment "First part of constructor for project objects(from proj-src elements) with a_program
+parent. Call connect to complete construction."
       end
 
       operation 1170089 "project"
@@ -10131,7 +10213,7 @@ ${inlines}
       end
 
       attribute 352425 "m_label"
-	const_attribute private explicit_type "string"
+	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -10160,9 +10242,9 @@ ${inlines}
 	cpp_virtual public explicit_return_type "basic_datum"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -10183,8 +10265,8 @@ default action is to throw an error!
 	public explicit_return_type "datum"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_data (), \"Attempt to add a second datum object.\");
   ${body}
@@ -10204,8 +10286,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(not has_information (), \"Attempt to add a second info object.\");
   ${body}
@@ -10449,23 +10531,29 @@ ${docstring}${body}
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_parent" explicit_type "mechanism"
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : @{base_class} ()
 , m_datum ()
 , m_filters ()
 , m_info ()
-, m_label (${p1})
+, m_label ()
 , m_outcomes ()
 , m_target (${p0})
-{}
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new setting object with a_parent and a_label.
+Swallows the content of a_label
+
+\\post a_label.empty"
       end
 
       operation 1211049 "settings"
@@ -11158,8 +11246,8 @@ This allows you to assign people to programs and projects. "
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -11180,8 +11268,8 @@ default action is to throw an error!
 	public explicit_return_type "info"
 	nparams 1
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -11445,19 +11533,25 @@ throw exception if a_datum is not a child of derived class."
 	nparams 2
 	  param inout name "a_parent" explicit_type "program"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
 : @{base_class}()
 , m_information ()
-, m_label (${p1})
+, m_label ()
 , m_site (${p0})
-{}
+{
+  m_label.swap (${p1});
+}
 "
 	
 	
 	
 	
+	comment "Construct a new worker object with a_parent and a_label.
+Swallow the content of a_label.
+
+\\post a_label.empty"
       end
 
       operation 1151017 "worker"
@@ -11488,6 +11582,30 @@ throw exception if a_datum is not a child of derived class."
 	
       end
     end
+
+    classinstance 129321 "reader"
+      type class_ref 479273 // xml_persistence
+      attributes
+        end
+      relations
+        end
+    end
+
+    classinstance 129449 "top"
+      type class_ref 432681 // basic_datum
+      attributes
+        end
+      relations
+        end
+    end
+
+    classinstance 129577 "top_derived"
+      type class_ref 356009 // compound
+      attributes
+        end
+      relations
+        end
+    end
   end
 
   deploymentview 131113 "data_scheme"
@@ -11503,27 +11621,27 @@ throw exception if a_datum is not a child of derived class."
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 222889 // data_scheme_helper
-	artifact_ref 141737 // datum
-	artifact_ref 143273 // experiment
-	artifact_ref 142633 // worker
-	artifact_ref 142505 // filter
-	artifact_ref 143657 // compound
-	artifact_ref 143145 // memo
-	artifact_ref 143529 // formula
-	artifact_ref 157993 // utility
-	artifact_ref 232617 // compound_ref
 	artifact_ref 214569 // visitor
-	artifact_ref 202793 // basic_datum
-	artifact_ref 142889 // mechanism
-	artifact_ref 142249 // identity
-	artifact_ref 143913 // project
-	artifact_ref 141993 // info
+	artifact_ref 143657 // compound
+	artifact_ref 232617 // compound_ref
+	artifact_ref 157993 // utility
+	artifact_ref 142505 // filter
+	artifact_ref 142633 // worker
+	artifact_ref 143273 // experiment
 	artifact_ref 166569 // settings
-	artifact_ref 253353 // xml
-	artifact_ref 233897 // content_visitor
-	artifact_ref 207785 // text
+	artifact_ref 141737 // datum
 	artifact_ref 144041 // program
+	artifact_ref 141993 // info
+	artifact_ref 207785 // text
+	artifact_ref 143913 // project
+	artifact_ref 233897 // content_visitor
+	artifact_ref 253353 // xml
+	artifact_ref 142249 // identity
+	artifact_ref 142889 // mechanism
+	artifact_ref 143529 // formula
+	artifact_ref 202793 // basic_datum
+	artifact_ref 143145 // memo
+	artifact_ref 222889 // data_scheme_helper
       end
       comment "The library for the data_scheme objects"
     end

@@ -345,7 +345,8 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
     else
     {
       const std::string l_name (a_reader.name ());
-      l_object_stack.push (&(l_object_stack.top ()->add_child (l_name, a_reader.attribute (meta_datum::by_name (l_name).key_attribute))));
+      std::string l_value (a_reader.attribute (meta_datum::by_name (l_name).key_attribute));
+      l_object_stack.push (&(l_object_stack.top ()->add_child (l_name, l_value)));
     }
     if (a_reader.has_attributes ())	// Process attrs
     {
@@ -364,7 +365,7 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
     }
   }
   break;
-  default:			// Everything else is ignored
+  default: // Everything else is ignored
     utility::implementation::log () << "Ignoring node with name [" << a_reader.name () << "] and type: " << a_reader.node_type () << "\n";
     break;
   }

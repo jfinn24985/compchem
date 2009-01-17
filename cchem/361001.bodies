@@ -1,4 +1,4 @@
-class ccfilter
+class ccfilter_app
 !!!1585705.cpp!!!	main() : int
 const std::string l_expt_ref (supplier::supplier_helper::helper ().target_experiment ());
 const std::string l_memo_label (supplier::supplier_helper::helper ().target_memo ());
@@ -29,7 +29,8 @@ else
 {
   supplier::filter_manager l_manager;
   l_time.log ("Initialised application");
-  data_scheme::program l_program (m_database);
+  data_scheme::program l_program;
+  l_program.connect (m_database);
   if (l_program.begin_mechanism () == l_program.end_mechanism ())
   {
     std::cerr << "Invalid database with no mechanisms.\n";

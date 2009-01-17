@@ -8,7 +8,8 @@ else
 {
   supplier::filter_manager l_manager;
   log () << WTCH << "Loading database \"" << m_database << "\"\n";
-  data_scheme::program l_program (m_database);
+  data_scheme::program l_program;
+  l_program.connect (m_database);
   if (l_program.begin_mechanism () == l_program.end_mechanism ())
   {
     log () << EXCP << "No mechanisms in database.\n";

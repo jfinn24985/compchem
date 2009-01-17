@@ -2,20 +2,14 @@ class basic_datum
 !!!1669033.cpp!!!	add_comment_swallow(inout a_value : string) : basic_datum
 m_base_elements.push_back (new comment (*this, a_value));
 m_children.push_back (&m_base_elements.back ());
-// Inform descendents.
-this->virt_add_text (m_base_elements.back ());
 return m_base_elements.back ();
 !!!1427241.cpp!!!	add_pi_swallow(in a_name : string, inout a_value : string) : basic_datum
 m_base_elements.push_back (new processing_instruction (*this, a_name, a_value));
 m_children.push_back (&m_base_elements.back ());
-// Inform descendents.
-this->virt_add_text (m_base_elements.back ());
 return m_base_elements.back ();
 !!!1668905.cpp!!!	add_text_swallow(in a_value : string) : basic_datum
 m_base_elements.push_back (new text (*this, a_value));
 m_children.push_back (&m_base_elements.back ());
-// Inform descendents.
-this->virt_add_text (m_base_elements.back ());
 return m_base_elements.back ();
 !!!1397929.cpp!!!	remove(inout a_item : iterator) : void
 bool l_isfound (false);
@@ -23,8 +17,6 @@ for (boost::ptr_list< basic_text >::iterator a_item2 (m_base_elements.begin ());
 {
   if (&(*a_item2) == *a_item)
   {
-    this->virt_remove_text (*a_item2);
-    // Inform descendent that object is being deleted.
     m_base_elements.erase (a_item2);
     l_isfound = true;
     break;
@@ -60,8 +52,6 @@ if (m_base_elements.end () != l_i)
     {
       // Remove from m_children
       m_children.remove (&(*l_i));
-      // Inform interested descendents.
-      this->virt_remove_text (*l_i);
       // Erase from m_base_elements.
       m_base_elements.erase (l_i);
       // Move l_i back to one-before-deleted object

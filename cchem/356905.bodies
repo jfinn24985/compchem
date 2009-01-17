@@ -3,21 +3,26 @@ class experiment
 basic_datum * Result (NULL);
 if (data_access::names::memo_name () == a_name)
 {
-  Result = &(add_memo (a_label));
+  m_results.push_back (new memo (*this, a_label));
+  Result = &(m_results.back ());
 }
 else if (data_access::names::memo_src_name () == a_name)
 {
-  Result = &(add_memo_src (a_label));
+  m_results.push_back (new memo (*this));
+  m_results.back ().connect (a_label);
+  Result = &(m_results.back ());
 }
 else if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  m_info.push_back (new info (*this, a_label));
+  Result = &(m_info.back ());
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1421737.cpp!!!	add_info(in a_label : string) : info
 m_info.push_back (new info (*this, a_label));
@@ -32,12 +37,13 @@ else
 } 
 return m_info.back ();
 !!!1412905.cpp!!!	add_memo(in a_label : string) : memo
-m_results.push_back (new memo (*this, a_label, false));
+m_results.push_back (new memo (*this, a_label));
 // Memos are last
 append_child (m_results.back ());
 return m_results.back ();
 !!!1421609.cpp!!!	add_memo_src(in a_label : string) : memo
-m_results.push_back (new memo (*this, a_label, true));
+m_results.push_back (new memo (*this));
+m_results.back ().connect (a_label);
 // Memos are last
 append_child (m_results.back ());
 return m_results.back ();

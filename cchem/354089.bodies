@@ -1,23 +1,28 @@
 class project
-!!!1425833.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1425833.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 basic_datum * Result (NULL);
 if (data_access::names::experiment_name () == a_name)
 {
-  Result = &(add_experiment (a_label));
+  m_activities.push_back (new experiment (*this, a_label));
+  Result = &(m_activities.back ());
 }
 else if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  COMPCHEM_ALWAYS (not has_information (), "Can not more than one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
 }
 else if (data_access::names::compound_ref_name () == a_name)
 {
-  Result = &(add_compound_ref (a_label));
+  m_imports.push_back (new compound_ref (*this, a_label));
+  Result = &(m_imports.back ());
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1533609.cpp!!!	add_compound_ref(in a_label : string) : compound_ref
 m_imports.push_back (new compound_ref (*this, a_label));
@@ -32,6 +37,7 @@ else
 }
 return m_imports.back ();
 !!!1425705.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "Can not more than one info object here");
 m_info.reset (new info (*this, a_label));
 // First
 if (not m_activities.empty ())
@@ -48,6 +54,8 @@ m_activities.push_back (new experiment (*this, a_label));
 // Always last
 append_child (m_activities.back ());
 return m_activities.back ();
+!!!1677225.cpp!!!	connect(in a_uri : string) : void
+m_document = data_access::manager::server().connect (*this, a_uri, false);
 !!!1557673.cpp!!!	find_experiment(in a_label : string) : experiment_iterator
 return std::find_if (m_activities.begin (), m_activities.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&experiment::reference, _1), a_label));
 !!!1557801.cpp!!!	find_experiment(in a_label : string) : const_experiment_iterator
@@ -78,15 +86,6 @@ else if (data_access::names::worker_name () == a_name)
 return Result;
 !!!1498153.cpp!!!	make_src(in a_path : path) : void
 m_document = data_access::manager::server().connect (*this, a_path.string (), true);
-!!!1422121.cpp!!!	project(inout a_program : program, in a_label : string, in a_is_src : bool)
-if (a_is_src)
-{
-  m_document = data_access::manager::server().connect (*this, a_label, false);
-}
-else
-{
-  m_label.assign (a_label);
-}
 !!!1415977.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::worker_name () == a_name)
 {

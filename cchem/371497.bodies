@@ -1,26 +1,33 @@
 class settings
-!!!1406761.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1406761.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 basic_datum * Result (NULL);
 if (data_access::names::datum_name () == a_name)
 {
-  Result = &(add_datum (a_label));
+  COMPCHEM_ALWAYS (not has_data (), "Can not add more than one datum object here");
+  m_datum.reset (new datum (*this, a_label));
+  Result = m_datum.get ();
 }
 else if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  COMPCHEM_ALWAYS (not has_information (), "Can not add more than one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1426473.cpp!!!	add_datum(in a_label : string) : datum
+COMPCHEM_REQUIRE (not has_data (), "Can not add more than one datum object here");
 m_datum.reset (new datum (*this, a_label));
 // Always last
 append_child (*(m_datum.get ()));
 return *(m_datum.get ());
 !!!1426345.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "Can not add more than one info object here");
 m_info.reset (new info (*this, a_label));
 // Always last
 append_child (*(m_info.get ()));

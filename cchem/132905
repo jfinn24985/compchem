@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 46
+  revision 47
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -238,15 +238,15 @@ Failed tests are indicated by an uncaught exception."
     artifact 251305 "test_data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 208937 // test_names
-	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
-	artifact_ref 253097 // date_time
-	artifact_ref 253353 // xml
-	artifact_ref 252969 // regex
 	artifact_ref 157993 // utility
+	artifact_ref 208937 // test_names
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
+	artifact_ref 160553 // test
+	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
+	artifact_ref 253353 // xml
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -257,17 +257,17 @@ Failed tests are indicated by an uncaught exception."
     artifact 272553 "test_data_access2"
       stereotype "library"
       associated_artifacts
-	artifact_ref 144169 // data_scheme
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
-	artifact_ref 253097 // date_time
-	artifact_ref 253353 // xml
-	artifact_ref 252969 // regex
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 157993 // utility
 	artifact_ref 271401 // test_data_manager
+	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
+	artifact_ref 160553 // test
+	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 253353 // xml
+	artifact_ref 144169 // data_scheme
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -872,16 +872,16 @@ ${docstring}${body}
     artifact 266409 "test_data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 144169 // data_scheme
-	artifact_ref 273705 // test_xml_persistence
-	artifact_ref 230057 // data_access
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 160553 // test
-	artifact_ref 253097 // date_time
-	artifact_ref 253353 // xml
 	artifact_ref 215977 // test_file_helper
-	artifact_ref 266281 // data_xml_access
 	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 160553 // test
+	artifact_ref 273705 // test_xml_persistence
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 253353 // xml
+	artifact_ref 144169 // data_scheme
       end
       ncouples 1
       key "butter other" value "unit-test"

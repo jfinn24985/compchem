@@ -5,7 +5,8 @@ log () << "Main document path: " << m_base.string () << "\n";
 bool_test (boost::filesystem::exists (m_base), "main document exists.");
 log () << "Sub-document path: " << m_path.string () << "\n";
 bool_test (boost::filesystem::exists (m_path), "sub-document exists.");
-data_scheme::program l_program (m_base.string ());
+data_scheme::program l_program;
+l_program.connect (m_base.string ());
 // Find memo (in haystack)
 data_scheme::experiment::memo_iterator l_memo;
 bool l_not_found (true);

@@ -3,17 +3,21 @@ class formula
 basic_datum * Result (NULL);
 if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  COMPCHEM_ALWAYS (not has_information (), "You can not add more than one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
 }
 else if (data_access::names::identity_name () == a_name)
 {
-  Result = &(add_identity (a_label));
+  m_identity.push_back (new identity (*this, a_label));
+  Result = &(m_identity.back ());
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1422505.cpp!!!	add_identity(in a_label : string) : identity
 m_identity.push_back (new identity (*this, a_label));
@@ -21,6 +25,7 @@ m_identity.push_back (new identity (*this, a_label));
 append_child (m_identity.back ());
 return m_identity.back ();
 !!!1409705.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "You can not add more than one info object here");
 m_info.reset (new info (*this, a_label));
 // Always first
 if (m_identity.empty ())

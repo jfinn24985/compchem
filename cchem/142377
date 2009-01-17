@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 30
+  revision 31
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -893,18 +893,18 @@ ${namespace_end}"
     artifact 258089 "test_supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 144169 // data_scheme
-	artifact_ref 254889 // supplier
-	artifact_ref 252969 // regex
-	artifact_ref 230313 // filesystem
-	artifact_ref 230057 // data_access
-	artifact_ref 201641 // test_filtermanager
 	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
+	artifact_ref 201641 // test_filtermanager
 	artifact_ref 183977 // test_supplier_helper
-	artifact_ref 266281 // data_xml_access
+	artifact_ref 253097 // date_time
+	artifact_ref 254889 // supplier
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
 	artifact_ref 160553 // test
+	artifact_ref 230313 // filesystem
+	artifact_ref 252969 // regex
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 144169 // data_scheme
       end
       ncouples 1
       key "butter other" value "unit-test"

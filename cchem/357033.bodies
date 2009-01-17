@@ -1,19 +1,22 @@
 class memo
-!!!1423913.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1423913.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 basic_datum * Result (NULL);
 if (data_access::names::datum_name () == a_name)
 {
-  Result = &(add_datum (a_label));
+  m_results.push_back (new datum (*this, a_label));
+  Result = &(m_results.back ());
 }
 else if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  m_info.push_back (new info (*this, a_label));
+  Result = &(m_info.back ());
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1410601.cpp!!!	add_datum(in a_label : string) : datum
 m_results.push_back (new datum (*this, a_label));
@@ -35,6 +38,12 @@ return m_info.back ();
 !!!1559721.cpp!!!	compound_formula(in a_cmpd : compound, in a_form : formula) : void
 m_compound = a_cmpd.label ();
 m_formula = a_form.label ();
+!!!1676969.cpp!!!	connect(inout a_uri : string) : void
+m_document = data_access::manager::server().connect (*this, a_uri, false);
+if (data_scheme_helper::helper().auto_open_memo ())
+{
+  read ();
+}
 !!!1551017.cpp!!!	find_datum(in a_outcome : string, in a_iter : datum_iterator) : datum_iterator
 datum_iterator Result (a_iter);
 while (Result != end_datum ())
@@ -107,19 +116,6 @@ else if (data_access::names::compound_name () == a_name)
 return Result;
 !!!1498025.cpp!!!	make_src(in a_path : path) : void
 m_document = data_access::manager::server ().connect (*this, a_path.string (), true);
-!!!1421993.cpp!!!	memo(inout a_parent : experiment, in a_label : string, in a_is_src : bool)
-if (a_is_src)
-{
-  m_document = data_access::manager::server().connect (*this, a_label, false);
-  if (data_scheme_helper::helper().auto_open_memo ())
-  {
-    read ();
-  }
-}
-else
-{
-  m_label.assign (a_label);
-}
 !!!1410857.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::mechanism_name () == a_name)
 {
@@ -146,7 +142,7 @@ else if (data_access::names::formula_name () == a_name)
   }
   else
   {
-    COMPCHEM_ALWAYS (a_value == m_formula, serial_name () + " object formula labels cannot be changed once set.");
+    COMPCHEM_ALWAYS (a_value == m_formula, "memo object formula labels cannot be changed once set.");
   }
 }
 else if (data_access::names::compound_name () == a_name)
@@ -157,7 +153,7 @@ else if (data_access::names::compound_name () == a_name)
   }
   else
   {
-    COMPCHEM_ALWAYS (a_value == m_compound, serial_name () + " object compound labels cannot be changed once set.");
+    COMPCHEM_ALWAYS (a_value == m_compound, "memo object compound labels cannot be changed once set.");
   }
 
 }
@@ -169,13 +165,13 @@ else if (data_access::names::label_name () == a_name)
   }
   else
   {
-    COMPCHEM_ALWAYS (m_label == a_value, serial_name () + " object labels cannot be changed once set.");
+    COMPCHEM_ALWAYS (m_label == a_value, "memo object labels cannot be changed once set.");
   }
 }
 else
 {
   const bool bad_attribute_name (false);
-  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+  COMPCHEM_ALWAYS (bad_attribute_name, "memo objects do not have an attribute named " + a_name);
 }
 
 !!!1449129.cpp!!!	write() : void

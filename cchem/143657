@@ -1,6 +1,6 @@
 format 61
 "report unit tests" // /compchem/report::report unit tests
-  revision 8
+  revision 9
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -263,17 +263,17 @@ ${namespace_end}"
     artifact 257705 "test_report"
       stereotype "library"
       associated_artifacts
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 242217 // test_cfm_report
-	artifact_ref 253353 // xml
-	artifact_ref 144169 // data_scheme
-	artifact_ref 252841 // program_options
 	artifact_ref 157993 // utility
-	artifact_ref 230313 // filesystem
-	artifact_ref 255657 // report
-	artifact_ref 160553 // test
-	artifact_ref 230057 // data_access
 	artifact_ref 253097 // date_time
+	artifact_ref 242217 // test_cfm_report
+	artifact_ref 230057 // data_access
+	artifact_ref 252841 // program_options
+	artifact_ref 160553 // test
+	artifact_ref 230313 // filesystem
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 255657 // report
+	artifact_ref 144169 // data_scheme
+	artifact_ref 253353 // xml
       end
       ncouples 1
       key "butter other" value "unit-test"

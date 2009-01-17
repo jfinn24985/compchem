@@ -5,7 +5,7 @@ if (NULL != a_node)
 {
   try
   {
-    const std::string l_outcome (a_outcome, a_sz);
+    std::string l_outcome (a_outcome, a_sz);
     data_scheme::basic_datum * l_node (reinterpret_cast < data_scheme::basic_datum * >(a_node));
     Result = &(l_node->add_child (data_access::names::datum_name (), l_outcome));
   }

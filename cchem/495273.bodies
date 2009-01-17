@@ -1,7 +1,8 @@
 class test_cfm_report
 !!!1579817.cpp!!!	main_test() : void
 // Read database
-data_scheme::program l_program (m_database);
+data_scheme::program l_program;
+l_program.connect (m_database);
 if (l_program.begin_project () != l_program.end_project ())
 {
   // Generate report on first project

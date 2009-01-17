@@ -972,8 +972,6 @@ visitor::on_visit (a_datum);
 !!!1205289.cpp!!!	main_test() : void
 // DO
 int Result (0);
-std::auto_ptr < data_scheme::program > l_program;
-
 log () << COMM << "Getting test database\n";
 if (m_doc_filename.empty ())
 {
@@ -988,10 +986,11 @@ if (not boost::filesystem::exists (m_doc_filename))
 
 if (0 == Result)
 {
+  data_scheme::program l_program;
   // Read in the document..
-  l_program.reset (new data_scheme::program (m_doc_filename));
+  l_program.connect (m_doc_filename);
   // Perform tests on data_scheme objects.
-  l_program->visit (const_cast< test_object_visitor & >(*this));
+  l_program.visit (const_cast< test_object_visitor & >(*this));
   log () << WTCH << "visit finished" << std::endl;
   // Move old version
   const boost::filesystem::path l_dir (m_doc_filename);
@@ -1004,7 +1003,7 @@ if (0 == Result)
   boost::filesystem::rename (l_base, l_old);
   // Attempt to save 'new' version
   log () << COMM << "Attempting to write Program.\n";
-  l_program->write ();
+  l_program.write ();
   if (boost::filesystem::exists (l_new))
   {
     boost::filesystem::remove_all (l_new);

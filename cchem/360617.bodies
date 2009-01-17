@@ -43,7 +43,8 @@ if (utility::program_options::CCHEM_PARSE_SUCCESS == Result)
       else
       {
         // Create the top-level database object.
-        data_scheme::program l_prog (*l_i);
+        data_scheme::program l_prog;
+        l_prog.connect (*l_i);
         // Create the visitor.
         verify_visitor l_visitor;
         // Perform the update

@@ -11,15 +11,14 @@ program::project_iterator (program::*program_begin_project)() = &program::begin_
 program::project_iterator (program::*program_end_project)() = &program::end_project;
 program::worker_iterator (program::*program_begin_worker)() = &program::begin_worker;
 program::worker_iterator (program::*program_end_worker)() = &program::end_worker;
-    
+
 boost::python::class_< program, boost::python::bases< basic_datum_py >, boost::noncopyable >("program",
         "A program of research is a broad category of interest. It is intended \n"
         "that the contents of a possible paper do not cross program boundaries, \n"
-        "although several papers may be contained in a program.",
-        boost::python::init< const std::string& >(
+        "although several papers may be contained in a program.")
+ .def("__init__", boost::python::make_constructor (&program_py::init_program),
         "Create a program using the database filename given. This\n"
         "is the only public constructor in the data_scheme library.")
-        )
  .def("add_compound", &program::add_compound, boost::python::return_internal_reference<>(),
         "Create and add a new compound child, using the passed argument as\n"
         "the compound's label.")

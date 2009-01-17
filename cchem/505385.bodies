@@ -12,7 +12,8 @@ else if (data_scheme::data_scheme_helper::helper ().target_project ().empty ())
 else
 {
 // Read database
-  data_scheme::program l_program (m_database);
+  data_scheme::program l_program;
+  l_program.connect (m_database);
   data_scheme::program::project_iterator l_proj (l_program.find_project (data_scheme::data_scheme_helper::helper ().target_project ()));
   if (l_proj != l_program.end_project ())
   {

@@ -1,6 +1,6 @@
 format 61
 "ccreport" // /compchem/report::ccreport
-  revision 4
+  revision 5
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -269,16 +269,16 @@ int main (int argc, char ** argv)
 
     artifact 256041 "ccreport"
       associated_artifacts
-	artifact_ref 255657 // report
-	artifact_ref 254889 // supplier
 	artifact_ref 157993 // utility
-	artifact_ref 144169 // data_scheme
+	artifact_ref 253097 // date_time
+	artifact_ref 246313 // cfm_report
+	artifact_ref 254889 // supplier
 	artifact_ref 252841 // program_options
 	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
-	artifact_ref 253097 // date_time
 	artifact_ref 252969 // regex
-	artifact_ref 246313 // cfm_report
+	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 255657 // report
       end
     end
   end

@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 75
+  revision 76
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1288,9 +1288,9 @@ Front-ends get the appropriate based on the data-base URI."
 	  param inout name "a_top" type class_ref 432681 // basic_datum
 	  param in name "a_uri" explicit_type "string"
 	  param in name "a_is_new" explicit_type "bool"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(is_supported (${p1}), \"Unsupported URI scheme, can not create persistence object.\");
   ${body}
@@ -2556,8 +2556,8 @@ the case of empty arguments."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 244905 // manager
 	artifact_ref 214313 // persistence
+	artifact_ref 244905 // manager
       end
     end
 
@@ -4324,7 +4324,8 @@ until read or write are called."
 
       extra_member 151209 "create_xml_persistence"
 	
-	cpp "" "static std::auto_ptr < persistence > create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_uri, bool a_is_new)
+	cpp "" "static std::auto_ptr < persistence > 
+create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_uri, bool a_is_new)
 {
   const xmlreader::uri l_uri (a_uri);
   COMPCHEM_REQUIRE (l_uri.scheme ().empty () or l_uri.scheme () == names::file_scheme ()
@@ -4348,13 +4349,13 @@ until read or write are called."
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214697 // xml_write_visitor
-	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
 	artifact_ref 231465 // xml_persistence
-	artifact_ref 203945 // meta_datum
-	artifact_ref 157097 // xml_access_helper
+	artifact_ref 214697 // xml_write_visitor
 	artifact_ref 230057 // data_access
+	artifact_ref 157097 // xml_access_helper
+	artifact_ref 203945 // meta_datum
+	artifact_ref 253353 // xml
       end
     end
 

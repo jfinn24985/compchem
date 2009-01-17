@@ -1,23 +1,28 @@
 class compound
-!!!1383721.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1383721.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 basic_datum * Result (NULL);
 if (data_access::names::formula_name () == a_name)
 {
-  Result = &(add_formula (a_label));
+  m_instances.push_back (new formula (*this, a_label));
+  Result = &m_instances.back ();
 }
 else if (data_access::names::identity_name () == a_name)
 {
-  Result = &(add_identity (a_label));
+  m_identity.push_back (new identity (*this, a_label));
+  Result = &m_identity.back ();
 }
 else if (data_access::names::info_name () == a_name)
 {
-  Result = &(add_info (a_label));
+  COMPCHEM_ALWAYS (NULL == m_info.get (), "Can not add more than one info object");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
 }
 else
 {
   const bool bad_child_name (false);
   COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
 }
+append_child (*Result);
 return *Result;
 !!!1182889.cpp!!!	add_formula(in a_label : string) : formula
 // LOCAL
@@ -44,6 +49,7 @@ else
 }
 return m_identity.back ();
 !!!1113129.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "You can not add more than one info object");
 // To set a node we check if node exists, and replace if not equal OR we insert in the right place.
 m_info.reset (new info (*this, a_label));
 // Insert: Info is before formula elements.

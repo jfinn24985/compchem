@@ -73,7 +73,8 @@ else
 {
   supplier::filter_manager l_manager;
   l_time.log ("Initialised application");
-  data_scheme::program l_program (a_database);
+  data_scheme::program l_program;
+  l_program.connect (a_database);
   if (l_program.begin_mechanism () == l_program.end_mechanism ())
   {
     std::cerr << "Invalid database with no mechanisms.\n";
