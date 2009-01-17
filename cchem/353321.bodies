@@ -143,65 +143,108 @@ return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::e
 return std::find_if (m_staff.begin (), m_staff.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&worker::label, _1), a_label));
 !!!1419689.cpp!!!	find_worker(in a_label : string) : const_worker_iterator
 return std::find_if (m_staff.begin (), m_staff.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&worker::label, _1), a_label));
+!!!1684521.cpp!!!	remove_priv(inout a_datum : compound) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (compound_iterator l_f = begin_compound (); l_f != end_compound (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_catalog.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1684265.cpp!!!	remove_priv(inout a_datum : mechanism) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (mechanism_iterator l_f = begin_mechanism (); l_f != end_mechanism (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_equipment.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1684009.cpp!!!	remove_priv(inout a_datum : project) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (project_iterator l_f = begin_project (); l_f != end_project (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_projects.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1683753.cpp!!!	remove_priv(inout a_datum : worker) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (worker_iterator l_f = begin_worker (); l_f != end_worker (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_staff.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1557545.cpp!!!	target_project() : project_iterator
 return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&project::label, _1), data_scheme_helper::helper ().target_project ()));
 !!!1663273.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // info?,worker+,mechanism*,compound*,(project|proj-src)*
 COMPCHEM_ALWAYS (not empty_worker () or not empty_mechanism () or not empty_project () or not empty_compound () or has_information ()
-                 , "attempt to remove non-child object");
-// a_datum should be an info object!
-struct helper__
-{
-  static bool compare_ptr1 (worker &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr2 (mechanism &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr3 (compound &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr4 (project &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
-if (m_info.get () == a_datum)
+                 , "attempt to remove child from empty object");
+if (has_information () and m_info.get () == a_datum)
 {
   m_info.reset ();
 }
 else
 {
-  compound_iterator l_f (std::find_if (begin_compound (), end_compound (), boost::bind(helper__::compare_ptr3, _1, a_datum)));
-  if (l_f != end_compound ())
+  bool object_is_my_child (false);
+  if (not empty_compound ())
   {
-    m_catalog.erase (l_f);
-  }
-  else
-  {
-    mechanism_iterator l_f (std::find_if (begin_mechanism (), end_mechanism (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
-    if (l_f != end_mechanism ())
+    compound * l_tmp (dynamic_cast< compound * >(a_datum));
+    if (NULL != l_tmp)
     {
-      m_equipment.erase (l_f);
-    }
-    else
-    {
-      worker_iterator l_f (std::find_if (begin_worker (), end_worker (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
-      if (l_f != end_worker ())
-      {
-        m_staff.erase (l_f);
-      }
-      else
-      {
-        project_iterator l_i (std::find_if (begin_project (), end_project (), boost::bind(helper__::compare_ptr4, _1, a_datum)));
-        COMPCHEM_ALWAYS (l_i != end_project (), "attempt to remove non-child object");
-        m_projects.erase (l_i);
-      }
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
     }
   }
+  if (not object_is_my_child and not empty_project ())
+  {
+    project * l_tmp (dynamic_cast< project * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_mechanism ())
+  {
+    mechanism * l_tmp (dynamic_cast< mechanism * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_worker ())
+  {
+    worker * l_tmp (dynamic_cast< worker * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
 }
 !!!1449385.cpp!!!	write() : void
 COMPCHEM_CHECK (m_document->is_open (), "Program objects should always be open.");

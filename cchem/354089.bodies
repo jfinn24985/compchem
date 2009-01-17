@@ -86,6 +86,32 @@ else if (data_access::names::worker_name () == a_name)
 return Result;
 !!!1498153.cpp!!!	make_src(in a_path : path) : void
 m_document = data_access::manager::server().connect (*this, a_path.string (), true);
+!!!1683497.cpp!!!	remove_priv(inout a_datum : experiment) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (experiment_iterator l_f = begin_experiment (); l_f != end_experiment (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_activities.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1683241.cpp!!!	remove_priv(inout a_datum : compound_ref) : void
+COMPCHEM_REQUIRE (&(a_datum.section ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (compound_ref_iterator l_f = begin_compound_ref (); l_f != end_compound_ref (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_imports.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1415977.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::worker_name () == a_name)
 {
@@ -121,42 +147,39 @@ else
   COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
 }
 
-!!!1449257.cpp!!!	write() : void
-if (m_document->is_open ())
-{
-  m_document->write ();
-}
 !!!1663401.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // info?,compound-ref*,experiment*
 COMPCHEM_ALWAYS (not empty_compound_ref () or not empty_experiment () or has_information ()
-                 , "attempt to remove non-child object");
-// a_datum should be an info object!
-struct helper__
-{
-  static bool compare_ptr1 (compound_ref &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr2 (experiment &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
-if (m_info.get () == a_datum)
+                 , "attempt to remove child from empty object");
+if (has_information () and m_info.get () == a_datum)
 {
   m_info.reset ();
 }
 else
 {
-  compound_ref_iterator l_f (std::find_if (begin_compound_ref (), end_compound_ref (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
-  if (l_f != end_compound_ref ())
+  bool object_is_my_child (false);
+  if (not empty_experiment ())
   {
-    m_imports.erase (l_f);
+    experiment * l_tmp (dynamic_cast< experiment * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
   }
-  else
+  if (not object_is_my_child and not empty_compound_ref ())
   {
-    experiment_iterator l_i (std::find_if (begin_experiment (), end_experiment (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
-    COMPCHEM_ALWAYS (l_i != end_experiment (), "attempt to remove non-child object");
-    m_activities.erase (l_i);
+    compound_ref * l_tmp (dynamic_cast< compound_ref * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
   }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
+}
+!!!1449257.cpp!!!	write() : void
+if (m_document->is_open ())
+{
+  m_document->write ();
 }

@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/data_scheme::test cases
-  revision 41
+  revision 42
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -50,101 +50,6 @@ format 61
     classdiagram 138025 "Dependencies"
       draw_all_relations no hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
-    end
-
-    class 369065 "test_program"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Unit test for data_scheme. This reads in a document and then uses 
-test_object_visitor to test the various types."
-      classrelation 317865 // <generalisation>
-	relation 310569 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 317865 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 317993 // <dependency>
-	relation 310697 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 317993 // <dependency>
-	  b parent class_ref 178601 // basic_names
-      end
-
-      classrelation 554921 // <dependency>
-	relation 533801 -_->
-	  a default
-	    cpp default "#include in source"
-	    python "${type}"
-	    classrelation_ref 554921 // <dependency>
-	  b parent class_ref 428969 // bind
-      end
-
-      classrelation 329641 // <dependency>
-	relation 321193 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 329641 // <dependency>
-	  b parent class_ref 353321 // program
-      end
-
-      classrelation 553769 // <dependency>
-	relation 532649 -_->
-	  a default
-	    cpp default "#include in source"
-	    python "${type}"
-	    classrelation_ref 553769 // <dependency>
-	  b parent class_ref 510633 // test_object_visitor
-      end
-
-      attribute 327593 "exemplar"
-	class_attribute private explicit_type "test_program"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Class exemplar"
-      end
-
-      operation 1352105 "test_program"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: utility::unit_test ()
-{
-  register_options ();
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1352233 "~test_program"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
     end
 
     class 510633 "test_object_visitor"
@@ -1116,67 +1021,19 @@ ${docstring}${body}
     artifact 257321 "test_data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
-	artifact_ref 230057 // data_access
-	artifact_ref 265129 // test_object_visitor
 	artifact_ref 252841 // program_options
-	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
-	artifact_ref 266281 // data_xml_access
 	artifact_ref 144169 // data_scheme
+	artifact_ref 160553 // test
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 230313 // filesystem
+	artifact_ref 230057 // data_access
+	artifact_ref 157993 // utility
 	artifact_ref 253353 // xml
+	artifact_ref 265129 // test_object_visitor
+	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "unit-test"
-    end
-
-    artifact 168873 "test_program"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-// Manual includes
-#include <boost/filesystem/operations.hpp>
-#include \"utility/program_options.hpp\"
-// -
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 369065 // test_program
-      end
     end
 
     artifact 265129 "test_object_visitor"

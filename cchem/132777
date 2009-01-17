@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 76
+  revision 77
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2556,8 +2556,8 @@ the case of empty arguments."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214313 // persistence
 	artifact_ref 244905 // manager
+	artifact_ref 214313 // persistence
       end
     end
 
@@ -4349,13 +4349,13 @@ create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_ur
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 231465 // xml_persistence
 	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 231465 // xml_persistence
 	artifact_ref 230057 // data_access
-	artifact_ref 157097 // xml_access_helper
-	artifact_ref 203945 // meta_datum
+	artifact_ref 157993 // utility
 	artifact_ref 253353 // xml
+	artifact_ref 203945 // meta_datum
+	artifact_ref 157097 // xml_access_helper
       end
     end
 
@@ -4504,7 +4504,7 @@ ${definition}
 void initialise_xml_persistence_library_private ();
 
 // Create dummy object to initialise xml_persistence lib.
-static utility::call_once< &initialise_xml_persistence_library_private > s_xml_persistence_initialise_dummy;
+static utility::call_once s_xml_persistence_initialise_dummy (&initialise_xml_persistence_library_private);
 
 ${namespace_end}
 #endif

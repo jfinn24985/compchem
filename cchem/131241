@@ -1,6 +1,6 @@
 format 61
 "/compchem/supplier" // /compchem/supplier
-  revision 122
+  revision 123
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -460,36 +460,6 @@ Internally for each memo in a_project
     to memo or do not supply outcomes in the project.
   3: calls apply_filters
 "
-      end
-
-      extra_member 146345 "class reset_helper"
-	
-	cpp "" "class reset_helper__		// Ensure basic_filter object has reset called.
-{
-public:
-  mutable basic_filter * m_filter;
-  // Capture filter.
-  reset_helper__ (basic_filter * a_f):m_filter (a_f)
-  {}
-  // Swap filters when \"copying\".
-  reset_helper__ (const reset_helper__ & a_f):m_filter (a_f.m_filter)
-  {
-    a_f.m_filter = NULL;
-  }
-  ~reset_helper__ ()
-  {
-    if (NULL != m_filter) m_filter->reset ();
-  }
-private:
-  // no copy
-  reset_helper__ & operator= (const reset_helper__&);
-};
-"
-	java ""
-	php ""
-	python ""
-	idl ""
-	comment "Class to ensure reset is called on basic_filter objects in apply_filters"
       end
 
       operation 1549097 "apply_filters"
@@ -1175,18 +1145,18 @@ Registered options
       stereotype "library"
       associated_artifacts
 	artifact_ref 144169 // data_scheme
-	artifact_ref 252969 // regex
 	artifact_ref 230313 // filesystem
-	artifact_ref 230057 // data_access
-	artifact_ref 226345 // datum_traits
-	artifact_ref 157993 // utility
 	artifact_ref 181417 // matcher_filter
-	artifact_ref 225193 // supplier_helper
-	artifact_ref 239785 // basic_plugin_handler
-	artifact_ref 179113 // basic_filter
-	artifact_ref 151465 // plugin_filter
-	artifact_ref 235177 // matcher_types
 	artifact_ref 151721 // filter_manager
+	artifact_ref 157993 // utility
+	artifact_ref 230057 // data_access
+	artifact_ref 235177 // matcher_types
+	artifact_ref 151465 // plugin_filter
+	artifact_ref 226345 // datum_traits
+	artifact_ref 179113 // basic_filter
+	artifact_ref 252969 // regex
+	artifact_ref 239785 // basic_plugin_handler
+	artifact_ref 225193 // supplier_helper
       end
       comment "${butter_generic}
 LINK=-ldl"
@@ -1237,6 +1207,7 @@ ${includes}
 // Manual includes
 #include \"data_access/xml_persistence.hpp\"
 #include <memory>
+#include <tr1/memory>
 #include <sstream>
 #include <iterator>
 #include <boost/bind.hpp>

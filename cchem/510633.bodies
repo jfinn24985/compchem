@@ -57,7 +57,6 @@ const unsigned int l_orig_size (a_datum.size ());
 
 // set_attribute
   monitor_function (utility::contract_error::always, boost::bind (&basic_datum::set_attribute, const_cast< basic_datum* > (&a_datum), l_s2, l_s4), "can not set attribute with bad name.");
-// set_text (untestable in no-change environment.)
 }
 bool_test (l_orig_size == a_datum.size (), "have original number of child objects");
 
@@ -125,6 +124,9 @@ const bool l_have_info (a_datum.has_information ());
 // find (const)
   bool_test (a_datum.find (&l_ident) != a_datum.end (), "found added identity");
 // remove
+  identity * l_id (dynamic_cast< identity * >(&l_ident));
+  bool_test (NULL != l_id, "created identity object has correct type.");
+  bool_test (&(l_id->parent ()) == &a_datum, "object is parent of child");
   l_temp.remove (l_temp.find (&l_ident));
   bool_test (a_datum.find (&l_ident) == a_datum.end (), "did not find removed identity");
 }
@@ -1033,12 +1035,6 @@ monitor_function (utility::contract_error::always, boost::bind (&basic_text::add
 monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_comment, const_cast< basic_text* > (&a_datum), l_str), "can not add comment to text objects.");
 monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_pi, const_cast< basic_text* > (&a_datum), l_str, l_str), "can not add P.I. to text objects.");
 monitor_function (utility::contract_error::always, boost::bind (&basic_text::add_text, const_cast< basic_text* > (&a_datum), l_str), "can not add text to text objects.");
-// Set then reset text.
-const std::string l_oldtext (a_datum.the_content);
-const_cast< basic_text & > (a_datum).set_text (l_str);
-bool_test (l_str == a_datum.the_content, "set text matches new value");
-const_cast< basic_text & > (a_datum).set_text (l_oldtext);
-bool_test (l_oldtext == a_datum.the_content, "reset text matches old value");
 !!!1621289.cpp!!!	test_basic_text(in a_parent : basic_datum, in a_text : basic_text, in a_str : string) : void
 // the_content
 bool_test (a_text.the_content == a_str, "text content and string match");

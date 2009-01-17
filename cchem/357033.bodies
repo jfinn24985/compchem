@@ -116,6 +116,32 @@ else if (data_access::names::compound_name () == a_name)
 return Result;
 !!!1498025.cpp!!!	make_src(in a_path : path) : void
 m_document = data_access::manager::server ().connect (*this, a_path.string (), true);
+!!!1682857.cpp!!!	remove_priv(inout a_datum : datum) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (datum_iterator l_f = begin_datum (); l_f != end_datum (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_results.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1682473.cpp!!!	remove_priv(inout a_datum : info) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (info_iterator l_f = begin_info (); l_f != end_info (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_info.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1410857.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::mechanism_name () == a_name)
 {
@@ -174,35 +200,33 @@ else
   COMPCHEM_ALWAYS (bad_attribute_name, "memo objects do not have an attribute named " + a_name);
 }
 
+!!!1663145.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// datum*,info*
+COMPCHEM_ALWAYS (not empty_datum () or not empty_info ()
+                 , "attempt to remove child from empty object");
+// a_datum should be an info object!
+bool object_is_my_child (false);
+if (not empty_datum ())
+{
+  datum * l_tmp (dynamic_cast< datum * >(a_datum));
+  if (NULL != l_tmp)
+  {
+    object_is_my_child = true;
+    remove_priv (*l_tmp);
+  }
+}
+if (not object_is_my_child and not empty_info ())
+{
+  info * l_tmp (dynamic_cast< info * >(a_datum));
+  if (NULL != l_tmp)
+  {
+    object_is_my_child = true;
+    remove_priv (*l_tmp);
+  }
+}
+COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
 !!!1449129.cpp!!!	write() : void
 if (m_document->is_open ())
 {
   m_document->write ();
-}
-!!!1663145.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
-// datum*,info*
-COMPCHEM_ALWAYS (not empty_datum () or not empty_info ()
-                 , "attempt to remove non-child object");
-// a_datum should be an info object!
-struct helper__
-{
-  static bool compare_ptr1 (datum &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr2 (info &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
-datum_iterator l_f (std::find_if (begin_datum (), end_datum (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
-if (l_f != end_datum ())
-{
-  m_results.erase (l_f);
-}
-else
-{
-  info_iterator l_i (std::find_if (begin_info (), end_info (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
-  COMPCHEM_ALWAYS (l_i != end_info (), "attempt to remove non-child object");
-  m_info.erase (l_i);
 }

@@ -149,7 +149,7 @@ for (data_scheme::project::experiment_iterator l_expt_iter (a_project.begin_expe
   }
 }
 !!!1549097.cpp!!!	apply_filters(inout a_twiglet : memo, in a_out_begin : string, in a_out_end : string, in a_filter_begin : iterator, in a_filter_end : iterator, in a_find_first : bool) : int
-// LOCAL
+#line 500
 int Result (CCHEM_SUPPLIER_SUCCESS);
 
 class helper__                  // Used to search for matching outcomes and reading file.
@@ -189,11 +189,11 @@ else
 }
 
 // Select usuable filters and split into line-, file- and buffer-oriented.
-std::list < basic_filter * >l_byline, l_bybuffer, l_byfile, l_complete;
-// List to ensure that all used filters will be reset however the
-// function is exited.
-std::list < reset_helper__ > l_reset_list;
-typedef std::list < basic_filter * >::iterator iter_t;
+std::vector < std::tr1::shared_ptr < basic_filter > >l_byline, l_bybuffer, l_byfile, l_complete;
+// functor to use with shared_ptr to ensure that all used filters 
+// will be reset however the function is exited.
+boost::function< void (basic_filter*) > l_reseter (boost::bind (&basic_filter::reset, _1));
+typedef std::vector < std::tr1::shared_ptr < basic_filter > >::iterator iter_t;
 
 for (iterator l_cursor (a_filter_begin); l_cursor != a_filter_end; ++l_cursor)
 {
@@ -207,8 +207,8 @@ for (iterator l_cursor (a_filter_begin); l_cursor != a_filter_end; ++l_cursor)
       DLOG ("\n");
       if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
       {
-        l_byfile.push_back (&*l_cursor);
-        l_reset_list.push_back (&*l_cursor);
+        std::tr1::shared_ptr< basic_filter > l_tmp (&*l_cursor, l_reseter);
+        l_byfile.push_back (l_tmp);
       }
     }
     else if (CCHEM_SUPPLIER_BUFFER_ORIENTED & l_cursor->flags ())
@@ -218,8 +218,8 @@ for (iterator l_cursor (a_filter_begin); l_cursor != a_filter_end; ++l_cursor)
       DLOG ("\n");
       if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
       {
-        l_bybuffer.push_back (&*l_cursor);
-        l_reset_list.push_back (&*l_cursor);
+        std::tr1::shared_ptr< basic_filter > l_tmp (&*l_cursor, l_reseter);
+        l_bybuffer.push_back (l_tmp);
       }
     }
     else                        // default (CCHEM_SUPPLIER_LINE_ORIENTED & l_cursor->flags ())
@@ -229,8 +229,8 @@ for (iterator l_cursor (a_filter_begin); l_cursor != a_filter_end; ++l_cursor)
       DLOG ("\n");
       if (CCHEM_SUPPLIER_SUCCESS == l_cursor->initial_test (l_init_phrase))
       {
-        l_byline.push_back (&*l_cursor);
-        l_reset_list.push_back (&*l_cursor);
+        std::tr1::shared_ptr< basic_filter > l_tmp (&*l_cursor, l_reseter);
+        l_byline.push_back (l_tmp);
       }
     }
   }
@@ -245,16 +245,20 @@ else
   /////////////////////////////
   // Begin processing the file
   boost::filesystem::path l_tmp (a_twiglet.uri_path () / boost::filesystem::path(a_twiglet.href ()));
-  DLOG ("Memo path = \"");DLOG(l_tmp.string ());DLOG("\"\n");
+  DLOG ("Memo path = \"");
+  DLOG(l_tmp.string ());
+  DLOG("\"\n");
   l_tmp.normalize ();
-  DLOG ("Memo path (norm) = \"");DLOG(l_tmp.string ());DLOG("\"\n");
+  DLOG ("Memo path (norm) = \"");
+  DLOG(l_tmp.string ());
+  DLOG("\"\n");
   COMPCHEM_CHECK (boost::filesystem::exists (l_tmp), "Cannot locate target file for memo, failed path is " + l_tmp.string ());
   // Open the result file for buffer and line oriented filters
   std::ifstream l_file (l_tmp.native_file_string ().c_str ());
   COMPCHEM_CHECK (l_file, "Unable to open file for reading :" + l_tmp.string ());
 
   // Buffer size
-  const static unsigned int l_sz = 63 * 1024; 
+  const static unsigned int l_sz = 63 * 1024;
 #ifndef NO_LOG
   unsigned int d_count (0);
 #endif
@@ -267,8 +271,7 @@ else
     ++d_count;
 #endif
     // Get part of buffer an put into l_part.
-    unsigned int
-    l_readsz (0);
+    unsigned int l_readsz (0);
     // NEw INSERT
     std::generate_n (l_line.begin (), l_sz, boost::bind (&helper__::generate, boost::ref (l_file), boost::ref (l_readsz)));
     if (l_readsz < l_line.size ())
@@ -284,16 +287,14 @@ else
     {
       break;
     }
-    const bool
-    l_eof (l_file.eof ()or l_readsz < l_sz);
+    const bool l_eof (l_file.eof ()or l_readsz < l_sz);
     // Give to buffer oriented filters
     if (not l_bybuffer.empty ())
     {
       for (iter_t l_i (l_bybuffer.begin ()); l_i != l_bybuffer.end (); ++l_i)
       {
         // Perform processing, test result was not an error
-        const int
-        l_result ((*l_i)->process_part (l_line));       // NEW REPLACE .get (), l_readsz));
+        const int l_result ((l_i->get ())->process_part (l_line));       // NEW REPLACE .get (), l_readsz));
         switch (l_result)
         {
         case CCHEM_SUPPLIER_SUCCESS:   // Do nothing
@@ -301,15 +302,14 @@ else
         case CCHEM_SUPPLIER_COMPLETE:  // Add to complete and remove (fall through)
           l_complete.push_back (*l_i);
         case CCHEM_SUPPLIER_UNUSABLE:  // Remove filter
-          {
-            iter_t
-            l_tmp (l_i);
-            --l_i;
-            l_bybuffer.erase (l_tmp);
-          }
-          break;
+        {
+          iter_t l_tmp (l_i);
+          --l_i;
+          l_bybuffer.erase (l_tmp);
+        }
+        break;
         default:               // eg CCHEM_SUPPLIER_FATAL
-          throw supplier_error ((*l_i)->error_message (), l_result);
+          throw supplier_error ((l_i->get ())->error_message (), l_result);
           break;
         }
       }
@@ -325,11 +325,9 @@ else
       // NEW REPLACE std::istringstream l_part (std::string (l_line.get (), l_readsz));
       std::istringstream l_part (l_line);
 #ifndef NO_LOG
-      unsigned int
-      l_pcount (0);
+      unsigned int l_pcount (0);
 #endif
-      bool
-      l_not_eob (true);
+      bool l_not_eob (true);
       while (l_not_eob and l_part)
       {
         std::string l_mline;
@@ -376,7 +374,7 @@ else
           {
             // Perform processing, test result was not an error
             const int
-            l_result ((*l_i)->process_part (l_mline));
+            l_result (l_i->get ()->process_part (l_mline));
             switch (l_result)
             {
             case CCHEM_SUPPLIER_SUCCESS:       // Do nothing
@@ -384,15 +382,14 @@ else
             case CCHEM_SUPPLIER_COMPLETE:      // Add to complete and remove (fall through)
               l_complete.push_back (*l_i);
             case CCHEM_SUPPLIER_UNUSABLE:      // Remove filter
-              {
-                iter_t
-                l_tmp (l_i);
-                --l_i;
-                l_byline.erase (l_tmp);
-              }
-              break;
+            {
+              iter_t l_tmp (l_i);
+              --l_i;
+              l_byline.erase (l_tmp);
+            }
+            break;
             default:           // eg CCHEM_SUPPLIER_FATAL
-              throw supplier_error ((*l_i)->error_message (), l_result);
+              throw supplier_error (l_i->get ()->error_message (), l_result);
               break;
             }
           }
@@ -414,14 +411,11 @@ else
 
 {
 // Process file oriented filters
-  const
-    std::string
-  l_filename (a_twiglet.href ());
+  const std::string l_filename (a_twiglet.href ());
   for (iter_t l_i (l_byfile.begin ()); l_i != l_byfile.end (); ++l_i)
   {
     // Perform processing, test result was not an error
-    const int
-    l_result ((*l_i)->process_part (l_filename));
+    const int l_result (l_i->get ()->process_part (l_filename));
     switch (l_result)
     {
     case CCHEM_SUPPLIER_SUCCESS:       // Do nothing
@@ -429,15 +423,14 @@ else
     case CCHEM_SUPPLIER_COMPLETE:      // Add to complete and remove (fall through)
       l_complete.push_back (*l_i);
     case CCHEM_SUPPLIER_UNUSABLE:      // Remove filter
-      {
-        iter_t
-        l_tmp (l_i);
-        --l_i;
-        l_byfile.erase (l_tmp);
-      }
-      break;
+    {
+      iter_t l_tmp (l_i);
+      --l_i;
+      l_byfile.erase (l_tmp);
+    }
+    break;
     default:                   // eg CCHEM_SUPPLIER_FATAL
-      throw supplier_error ((*l_i)->error_message (), l_result);
+      throw supplier_error (l_i->get ()->error_message (), l_result);
       break;
     }
     // Break out if we have a completed filter.
@@ -464,18 +457,18 @@ if (not a_find_first)
   for (iter_t l_i = l_complete.begin (); l_i != l_complete.end (); ++l_i)
   {
     // Add filter labels to memo
-    a_twiglet.add_filter_label ((*l_i)->label ());
+    a_twiglet.add_filter_label (l_i->get ()->label ());
     // LOCAL
     DLOG ("Getting result from ");
-    DLOG ((*l_i)->identity ());
+    DLOG (l_i->get ()->identity ());
     DLOG ("\n");
-    if ((*l_i)->flags () & CCHEM_SUPPLIER_STRING_OUTPUT)
+    if (l_i->get ()->flags () & CCHEM_SUPPLIER_STRING_OUTPUT)
     {
       std::string l_outputstr;
       const int
-      l_result ((*l_i)->output_string (l_outputstr));
+      l_result (l_i->get ()->output_string (l_outputstr));
       DLOG ("Result for filter [");
-      DLOG ((*l_i)->identity ());
+      DLOG (l_i->get ()->identity ());
       DLOG ("](status = ");
       DLOG (l_result);
       DLOG (") = ");
@@ -486,7 +479,7 @@ if (not a_find_first)
       {
         // Ensure nul terminated
         throw
-        supplier_error ((*l_i)->error_message (), l_result);
+        supplier_error (l_i->get ()->error_message (), l_result);
       }
       else
       {
@@ -508,9 +501,9 @@ if (not a_find_first)
     {
       // CCHEM_SUPPLIER_DIRECT_OUTPUT
       const int
-      l_result ((*l_i)->output_direct (a_twiglet));
+      l_result (l_i->get ()->output_direct (a_twiglet));
       DLOG ("Result for filter [");
-      DLOG ((*l_i)->identity ());
+      DLOG (l_i->get ()->identity ());
       DLOG ("](status = ");
       DLOG (l_result);
       DLOG (") = DIRECT\n");
@@ -518,13 +511,13 @@ if (not a_find_first)
       if (CCHEM_SUPPLIER_FATAL <= l_result)
       {
         throw
-        supplier_error ((*l_i)->error_message (), l_result);
+        supplier_error (l_i->get ()->error_message (), l_result);
       }
     }
     if (a_find_first)
     {
       // We also set the mechanism here
-      a_twiglet.target_mechanism ((*l_i)->mechanism_label ());
+      a_twiglet.target_mechanism (l_i->get ()->mechanism_label ());
     }
   }
 }

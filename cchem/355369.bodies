@@ -1,5 +1,5 @@
 class datum
-!!!1421481.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+!!!1421481.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
 if (data_access::names::datum_name () != a_name)
 {
   const bool bad_child_name (false);
@@ -41,6 +41,19 @@ else if (data_access::names::ordinal_name () == a_name)
   }
 }
 return Result;
+!!!1681449.cpp!!!	remove_priv(inout a_datum : datum) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (datum_iterator l_f = begin_datum (); l_f != end_datum (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_data.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1397033.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::outcome_name () == a_name) 
 {
@@ -78,15 +91,13 @@ else
 
 !!!1662633.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // datum*
-COMPCHEM_ALWAYS (not empty_datum (), "attempt to remove non-child object");
+COMPCHEM_ALWAYS (not empty_datum (), "attempt to remove child from empty object");
 // a_datum should be a datum object!
-struct helper__
+bool object_is_my_child (false);
+datum * l_tmp (dynamic_cast< datum * >(a_datum));
+if (NULL != l_tmp)
 {
-  static bool compare_ptr (datum &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
-datum_iterator l_f (std::find_if (begin_datum (), end_datum (), boost::bind(helper__::compare_ptr, _1, a_datum)));
-COMPCHEM_ALWAYS (l_f != end_datum (), "attempt to remove non-child object");
-m_data.erase (l_f);
+  object_is_my_child = true;
+  remove_priv (*l_tmp);
+}
+COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");

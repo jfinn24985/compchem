@@ -1,23 +1,17 @@
-window_sizes 960 672 305 649 402 191
+window_sizes 960 672 309 645 402 191
 diagrams
   classdiagram_ref 138025 // Dependencies
     640 467 100 4 0 0
   active  classdiagram_ref 171561 // Inheritance
-    649 402 100 4 0 0
+    645 402 100 4 15 0
 end
 show_stereotypes
-selected 
-  package_ref 154665 // py
+selected deploymentview_ref 137129 // data_scheme test
 open
   
   package_ref 152105 // Docs
-  
-  package_ref 132777 // /compchem/data_access
-  
-  package_ref 131113 // /compchem/data_scheme
-  
-  package_ref 131241 // /compchem/supplier
-  
-  package_ref 132393 // /boost
+  classview_ref 133161 // data_scheme
+  deploymentview_ref 131113 // data_scheme
+  classview_ref 135849 // data_scheme test
 end
 end

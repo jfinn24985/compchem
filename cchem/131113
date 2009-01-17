@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 219
+  revision 220
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -358,7 +358,7 @@ removed. For simply replace all XML Text elements you can use
 set_text, for finer control you need to play with iterators."
       class 443689 "const_iterator"
 	visibility package stereotype "typedef" explicit_base_type "basic_datum"
-	cpp_decl "${comment}typedef std::list< ${type} * >::${name} ${name};
+	cpp_decl "${comment}typedef std::vector< ${type} * >::${name} ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -372,7 +372,7 @@ set_text, for finer control you need to play with iterators."
 
       class 443817 "iterator"
 	visibility package stereotype "typedef" explicit_base_type "basic_datum"
-	cpp_decl "${comment}typedef std::list< ${type} * >::${name} ${name};
+	cpp_decl "${comment}typedef std::vector< ${type} * >::${name} ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -387,7 +387,7 @@ set_text, for finer control you need to play with iterators."
       attribute 342569 "m_base_elements"
 	private explicit_type "basic_text"
 	multiplicity "*"
-	stereotype "ptr_list"
+	stereotype "ptr_vector"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
 "
 	java_decl ""
@@ -403,7 +403,7 @@ whitespace, comments and PIs)"
       attribute 342441 "m_children"
 	private explicit_type "basic_datum"
 	multiplicity "*"
-	stereotype "list"
+	stereotype "vector"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type} *> ${name}${value};
 "
 	java_decl ""
@@ -724,7 +724,7 @@ object. Swallows a_value text!
 	protected explicit_return_type "void"
 	nparams 1
 	  param inout name "a_item" type class_ref 443817 // iterator
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
 {
   m_children.erase (${p0});
 }
@@ -857,7 +857,7 @@ a new object internally.
       operation 1397929 "remove"
 	public explicit_return_type "void"
 	nparams 1
-	  param inout name "a_item" type class_ref 443817 // iterator
+	  param in name "a_item" type class_ref 443817 // iterator
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
@@ -910,29 +910,6 @@ in the case where \"A\" is a key_attribute and is read-only.
 Currently in this case the attempt to set the attribute may
 be silently ignored. (TODO: should not be silent, should 
 test that \"B\" is equal to current value or throw.)"
-      end
-
-      operation 1133481 "set_text"
-	stereotype "set"
-	cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param in name "a_str" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Replace all the current text with the given text.
-
-This replaces the content on the first found text object and
-removes all other text objects.
-"
       end
 
       operation 1475625 "size"
@@ -1197,28 +1174,6 @@ default action is to throw an error!
 	comment "Throw an error as text objects have no attributes."
       end
 
-      operation 1660585 "set_text"
-	stereotype "set"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "a_str" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  the_content.assign (${p0});
-}
-"
-	
-	
-	
-	
-	comment "Replace all the current text with the given text.
-
-This replaces the content on the first found text object and
-removes all other text objects.
-"
-      end
     end
 
     class 443433 "comment"
@@ -1973,6 +1928,93 @@ No default implementation."
 	
 	
 	comment "Return a pointer to the parent object, may be NULL."
+      end
+
+      operation 1679017 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1679145 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1678761 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a formula object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1678889 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a identity object.
+
+\\pre a_datum.parent = this"
       end
 
       operation 1383849 "serial_name"
@@ -3274,6 +3316,49 @@ type is SET or LIST.
 \\pre a_val >= 0"
       end
 
+      operation 1681577 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1681449 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a memo object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1166249 "scale"
 	stereotype "get"
 	const public explicit_return_type "string"
@@ -3384,23 +3469,6 @@ attributes are allowed."
 	comment "Set ordinal to non-value"
       end
 
-      operation 1449641 "visit"
-	const public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_visitor" explicit_type "visitor"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${p0}.on_visit (*this);
-}
-"
-	
-	
-	
-	
-      end
-
       operation 1662633 "virt_remove_child"
 	cpp_virtual protected explicit_return_type "void"
 	nparams 1
@@ -3421,6 +3489,23 @@ ${docstring}${body}
 	comment "Called when an object of a derived class will be removed.
 
 throw exception if a_datum is not a child of derived class."
+      end
+
+      operation 1449641 "visit"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" explicit_type "visitor"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.on_visit (*this);
+}
+"
+	
+	
+	
+	
       end
     end
 
@@ -4154,6 +4239,92 @@ data set to use."
 	
 	comment "A unique identifier. The equivalent of the page number/experiment number in a lab
 notebook."
+      end
+
+      operation 1680809 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1680937 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1680681 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a memo object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1681065 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
       end
 
       operation 1511209 "section"
@@ -5051,6 +5222,50 @@ swallows a_label
 	comment "Return a pointer to the parent object."
       end
 
+      operation 1681321 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1681193 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a identity object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1409321 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -5681,6 +5896,49 @@ content of a_name
 	
 	
 	comment "Return a pointer to the parent object, may be NULL."
+      end
+
+      operation 1681833 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1681705 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
       end
 
       operation 1403561 "serial_name"
@@ -6361,6 +6619,92 @@ content of a_label
 	comment "Return a pointer to the parent object, may be NULL."
       end
 
+      operation 1682089 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682345 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682217 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a filter object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1681961 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1409833 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -6425,23 +6769,6 @@ content of a_label
 	
       end
 
-      operation 1450665 "visit"
-	const public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_visitor" explicit_type "visitor"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${p0}.on_visit (*this);
-}
-"
-	
-	
-	
-	
-      end
-
       operation 1663017 "virt_remove_child"
 	cpp_virtual protected explicit_return_type "void"
 	nparams 1
@@ -6462,6 +6789,23 @@ ${docstring}${body}
 	comment "Called when an object of a derived class will be removed.
 
 throw exception if a_datum is not a child of derived class."
+      end
+
+      operation 1450665 "visit"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" explicit_type "visitor"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.on_visit (*this);
+}
+"
+	
+	
+	
+	
       end
     end
 
@@ -7396,6 +7740,92 @@ must use connect to complete construction of the memo-src object.
 \\pre is_src"
       end
 
+      operation 1682729 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682601 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682857 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682473 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1410473 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -7569,6 +7999,28 @@ the current element. (also see basic_datum::uri_scheme)"
 \\pre is_src"
       end
 
+      operation 1663145 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
+      end
+
       operation 1450537 "visit"
 	const public explicit_return_type "void"
 	nparams 1
@@ -7604,28 +8056,6 @@ the current element. (also see basic_datum::uri_scheme)"
 	comment "Trigger document to write itself.
 
 \\pre is_src"
-      end
-
-      operation 1663145 "virt_remove_child"
-	cpp_virtual protected explicit_return_type "void"
-	nparams 1
-	  param inout name "a_datum" type class_ref 432681 // basic_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Called when an object of a derived class will be removed.
-
-throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -8737,6 +9167,178 @@ without warnings."
 	
       end
 
+      operation 1683881 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684137 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684393 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684649 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684521 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a formula object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684265 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a formula object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1684009 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a formula object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1683753 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a formula object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1419945 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -9807,6 +10409,92 @@ parent. Call connect to complete construction."
 \\pre is_src"
       end
 
+      operation 1683369 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1683625 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1683497 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1683241 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1415593 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -9962,6 +10650,28 @@ the current element."
 \\pre is_src"
       end
 
+      operation 1663401 "virt_remove_child"
+	cpp_virtual protected explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Called when an object of a derived class will be removed.
+
+throw exception if a_datum is not a child of derived class."
+      end
+
       operation 1450153 "visit"
 	const public explicit_return_type "void"
 	nparams 1
@@ -10013,28 +10723,6 @@ the current element."
 	comment "Trigger document to write itself.
 
 \\pre is_src"
-      end
-
-      operation 1663401 "virt_remove_child"
-	cpp_virtual protected explicit_return_type "void"
-	nparams 1
-	  param inout name "a_datum" type class_ref 432681 // basic_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	python_def "${@}${static}${abstract}def ${name}${(}${)}:
-${docstring}${body}
-"
-	
-	comment "Called when an object of a derived class will be removed.
-
-throw exception if a_datum is not a child of derived class."
       end
     end
 
@@ -10634,23 +11322,6 @@ Swallows the content of a_label
 per the definition() object."
       end
 
-      operation 1446569 "visit"
-	const public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_visitor" explicit_type "visitor"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${p0}.on_visit (*this);
-}
-"
-	
-	
-	
-	
-      end
-
       operation 1663529 "virt_remove_child"
 	cpp_virtual protected explicit_return_type "void"
 	nparams 1
@@ -10671,6 +11342,23 @@ ${docstring}${body}
 	comment "Called when an object of a derived class will be removed.
 
 throw exception if a_datum is not a child of derived class."
+      end
+
+      operation 1446569 "visit"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" explicit_type "visitor"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.on_visit (*this);
+}
+"
+	
+	
+	
+	
       end
     end
 
@@ -11438,6 +12126,49 @@ default action is to throw an error!
 	comment "no assign"
       end
 
+      operation 1683113 "remove_child"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  remove_priv (${p0}); // performs validity checking.
+  erase (find (&${p0})); // Remove from base.
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a_datum from our list of children.
+
+\\pre a_datum.parent = this"
+      end
+
+      operation 1682985 "remove_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove a info object.
+
+\\pre a_datum.parent = this"
+      end
+
       operation 1408553 "serial_name"
 	const public explicit_return_type "string"
 	nparams 0
@@ -11621,27 +12352,27 @@ Swallow the content of a_label.
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214569 // visitor
-	artifact_ref 143657 // compound
-	artifact_ref 232617 // compound_ref
-	artifact_ref 157993 // utility
-	artifact_ref 142505 // filter
-	artifact_ref 142633 // worker
-	artifact_ref 143273 // experiment
 	artifact_ref 166569 // settings
-	artifact_ref 141737 // datum
-	artifact_ref 144041 // program
-	artifact_ref 141993 // info
-	artifact_ref 207785 // text
-	artifact_ref 143913 // project
-	artifact_ref 233897 // content_visitor
-	artifact_ref 253353 // xml
-	artifact_ref 142249 // identity
-	artifact_ref 142889 // mechanism
-	artifact_ref 143529 // formula
-	artifact_ref 202793 // basic_datum
-	artifact_ref 143145 // memo
+	artifact_ref 232617 // compound_ref
+	artifact_ref 143273 // experiment
+	artifact_ref 142633 // worker
+	artifact_ref 142505 // filter
+	artifact_ref 143657 // compound
 	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 143145 // memo
+	artifact_ref 157993 // utility
+	artifact_ref 202793 // basic_datum
+	artifact_ref 253353 // xml
+	artifact_ref 233897 // content_visitor
+	artifact_ref 143529 // formula
+	artifact_ref 143913 // project
+	artifact_ref 142889 // mechanism
+	artifact_ref 207785 // text
+	artifact_ref 214569 // visitor
+	artifact_ref 142249 // identity
+	artifact_ref 141993 // info
+	artifact_ref 144041 // program
+	artifact_ref 141737 // datum
       end
       comment "The library for the data_scheme objects"
     end

@@ -77,7 +77,7 @@ else
 
 !!!1663529.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // formula*, identity* or info?
-COMPCHEM_ALWAYS (has_data () or has_information (), "attempt to remove non-child object");
+COMPCHEM_ALWAYS (has_data () or has_information (), "attempt to remove child from empty object");
 // a_datum should be an info object!
 if (m_info.get () == a_datum)
 {

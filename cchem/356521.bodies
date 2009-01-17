@@ -37,6 +37,19 @@ else
   insert_child (m_identity.back (), *(m_info.get ()));
 }
 return *(m_info.get ());
+!!!1681193.cpp!!!	remove_priv(inout a_datum : identity) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (identity_iterator l_f = begin_identity (); l_f != end_identity (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_identity.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1526953.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::label_name () == a_name) 
 {
@@ -51,22 +64,22 @@ else
 !!!1662889.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // identity* or info?
 COMPCHEM_ALWAYS (not empty_identity () or has_information ()
-                 , "attempt to remove non-child object");
-// a_datum should be an info object!
-struct helper__
-{
-  static bool compare_ptr (identity &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
+                 , "attempt to remove child from empty object");
 if (m_info.get () == a_datum)
 {
   m_info.reset ();
 }
 else
 {
-  identity_iterator l_i (std::find_if (begin_identity (), end_identity (), boost::bind(helper__::compare_ptr, _1, a_datum)));
-  COMPCHEM_ALWAYS (l_i != end_identity (), "attempt to remove non-child object");
-  m_identity.erase (l_i);
+  bool object_is_my_child (false);
+  if (not empty_identity ())
+  {
+    identity * l_tmp (dynamic_cast< identity * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
 }

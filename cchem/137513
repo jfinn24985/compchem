@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 45
+  revision 46
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -54,9 +54,6 @@ format 61
 
     class 518313 "call_once"
       visibility package 
-      nformals 1
-      formal name "void (*T_functor)()" type "" explicit_default_value ""
-        explicit_extends ""
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
 ${members}
@@ -77,13 +74,46 @@ Use the following in a header to ensure (*function_addr)()
 is called only once.
 static once_init< &function_addr > a_dummy_name__;
 "
-      operation 1641001 "counter"
-	private explicit_return_type "int"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+      classrelation 583337 // <dependency>
+	relation 562217 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 583337 // <dependency>
+	  b parent class_ref 182569 // function
+      end
+
+      operation 1641257 "call_once"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_functor" explicit_type "boost::function< void (void) >"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} 
 {
-  static int Result (0);
-  return Result;
+  if (0 == count++)
+  {
+    a_functor ();
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "This uses the empty ctor once to create the T_once Singleton."
+      end
+
+      operation 1680297 "~call_once"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  --count;
 }
 "
 	
@@ -94,19 +124,12 @@ ${docstring}${body}
 	
       end
 
-      operation 1641257 "call_once"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-  {
-    if (0 == counter ())
-    {
-      ++counter ();
-      T_functor ();
-    }
-    ++counter ();
-  }
-
+      operation 1680425 "call_once"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 518313 // call_once
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
 "
 	
 	
@@ -114,7 +137,34 @@ ${docstring}${body}
 ${docstring}${body}
 "
 	
-	comment "This uses the empty ctor once to create the T_once Singleton."
+	comment "no copy"
+      end
+
+      attribute 443433 "count"
+	class_attribute private explicit_type "int"
+	init_value "(0)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 1680553 "operator="
+	private return_type class_ref 518313 // call_once
+	nparams 1
+	  param in name "source" type class_ref 518313 // call_once
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
       end
     end
 
@@ -2217,12 +2267,52 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157609 // filesystem
+	artifact_ref 245033 // time_stamp
+	artifact_ref 224041 // program_options
 	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
-	artifact_ref 224041 // program_options
-	artifact_ref 245033 // time_stamp
+	artifact_ref 157609 // filesystem
+	artifact_ref 277161 // call_once
 	artifact_ref 192553 // contract_error
+      end
+    end
+
+    artifact 277161 "call_once"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 518313 // call_once
       end
     end
 
@@ -2545,7 +2635,6 @@ ${namespace_end}
 ${import}
 ${definition}"
       associated_classes
-	class_ref 518313 // call_once
 	class_ref 517161 // once_init
       end
     end

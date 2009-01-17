@@ -69,6 +69,32 @@ if (data_access::names::label_name () == a_name)
   Result = true;
 }
 return Result;
+!!!1682217.cpp!!!	remove_priv(inout a_datum : filter) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (filter_iterator l_f = begin_filter (); l_f != end_filter (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_filter_set.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1681961.cpp!!!	remove_priv(inout a_datum : settings) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (settings_iterator l_f = begin_settings (); l_f != end_settings (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_command_set.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
 !!!1527209.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
 if (data_access::names::label_name () == a_name) 
 {
@@ -83,34 +109,31 @@ else
 !!!1663017.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
 // info,filter*,setting*
 COMPCHEM_ALWAYS (not empty_filter () or not empty_settings () or has_information ()
-                 , "attempt to remove non-child object");
-// a_datum should be an info object!
-struct helper__
-{
-  static bool compare_ptr1 (filter &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-  static bool compare_ptr2 (settings &a_iter, basic_datum* a_item)
-  {
-    return &(a_iter) == a_item;
-  }
-};
-if (m_info.get () == a_datum)
+                 , "attempt to remove child of empty object");
+if (has_information () and m_info.get () == a_datum)
 {
   m_info.reset ();
 }
 else
 {
-  filter_iterator l_f (std::find_if (begin_filter (), end_filter (), boost::bind(helper__::compare_ptr1, _1, a_datum)));
-  if (l_f != end_filter ())
+  bool object_is_my_child (false);
+  if (not empty_filter ())
   {
-    m_filter_set.erase (l_f);
+    filter * l_tmp (dynamic_cast< filter * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
   }
-  else
+  if (not object_is_my_child and not empty_settings ())
   {
-    settings_iterator l_i (std::find_if (begin_settings (), end_settings (), boost::bind(helper__::compare_ptr2, _1, a_datum)));
-    COMPCHEM_ALWAYS (l_i != end_settings (), "attempt to remove non-child object");
-    m_command_set.erase (l_i);
+    settings * l_tmp (dynamic_cast< settings * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
   }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
 }
