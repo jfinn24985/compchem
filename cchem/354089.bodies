@@ -1,5 +1,6 @@
 class project
 !!!1425833.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
+COMPCHEM_ALWAYS (not is_src () or is_open (), "can not add children to closed proj-src objects");
 basic_datum * Result (NULL);
 if (data_access::names::experiment_name () == a_name)
 {
@@ -8,7 +9,7 @@ if (data_access::names::experiment_name () == a_name)
 }
 else if (data_access::names::info_name () == a_name)
 {
-  COMPCHEM_ALWAYS (not has_information (), "Can not more than one info object here");
+  COMPCHEM_ALWAYS (not has_information (), "Can not add more than one info object here");
   m_info.reset (new info (*this, a_label));
   Result = m_info.get ();
 }
@@ -25,6 +26,7 @@ else
 append_child (*Result);
 return *Result;
 !!!1533609.cpp!!!	add_compound_ref(in a_label : string) : compound_ref
+COMPCHEM_REQUIRE (not is_src () or is_open (), "can not add children to closed proj-src objects");
 m_imports.push_back (new compound_ref (*this, a_label));
 // add before any experiment
 if (empty_experiment ())
@@ -37,6 +39,7 @@ else
 }
 return m_imports.back ();
 !!!1425705.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not is_src () or is_open (), "can not add children to closed proj-src objects");
 COMPCHEM_REQUIRE (not has_information (), "Can not more than one info object here");
 m_info.reset (new info (*this, a_label));
 // First
@@ -50,17 +53,20 @@ else
 }
 return *(m_info.get ());
 !!!1415721.cpp!!!	add_experiment(in a_label : string) : experiment
+COMPCHEM_REQUIRE (not is_src () or is_open (), "can not add children to closed proj-src objects");
 m_activities.push_back (new experiment (*this, a_label));
 // Always last
 append_child (m_activities.back ());
 return m_activities.back ();
 !!!1677225.cpp!!!	connect(in a_uri : string) : void
-m_document = data_access::manager::server().connect (*this, a_uri, false);
+m_is_open = false;
+m_document = data_access::manager::server ().connect (*this, a_uri);
 !!!1557673.cpp!!!	find_experiment(in a_label : string) : experiment_iterator
 return std::find_if (m_activities.begin (), m_activities.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&experiment::reference, _1), a_label));
 !!!1557801.cpp!!!	find_experiment(in a_label : string) : const_experiment_iterator
 return std::find_if (m_activities.begin (), m_activities.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&experiment::reference, _1), a_label));
 !!!1416105.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_label.empty (), "Attempting to get_attribute of an invalid project object.");
 bool Result (false);
 if (data_access::names::label_name () == a_name)
 {
@@ -85,7 +91,8 @@ else if (data_access::names::worker_name () == a_name)
 }
 return Result;
 !!!1498153.cpp!!!	make_src(in a_path : path) : void
-m_document = data_access::manager::server().connect (*this, a_path.string (), true);
+m_is_open = true;
+m_document = data_access::manager::server ().connect (*this, a_path.string ());
 !!!1683497.cpp!!!	remove_priv(inout a_datum : experiment) : void
 COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
 bool object_is_child (false);
@@ -128,7 +135,7 @@ else if (data_access::names::label_name () == a_name)
     m_label.swap (a_value);
     if (is_src () and data_scheme_helper::helper ().target_project () == a_value)
     {
-      m_document->read ();
+      read ();
     }
   }
   else
@@ -138,8 +145,7 @@ else if (data_access::names::label_name () == a_name)
 }
 else if (data_access::names::href_name () == a_name) 
 {
-  COMPCHEM_ALWAYS (a_value == m_document->uri () or a_value == m_document->uri_path (),
-                    serial_name () + " object URI attribute cannot be changed after construction");
+  COMPCHEM_ALWAYS (std::string::npos != uri ().find (a_value), "can not change the project-src uri using set_attribute");
 }
 else
 {
@@ -177,9 +183,4 @@ else
     }
   }
   COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
-}
-!!!1449257.cpp!!!	write() : void
-if (m_document->is_open ())
-{
-  m_document->write ();
 }

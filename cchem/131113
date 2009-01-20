@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 220
+  revision 224
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -415,7 +415,7 @@ objects and XML elements such as comments, whitespace etc."
       end
 
       operation 1386921 "add_child"
-	cpp_virtual public explicit_return_type "basic_datum"
+	cpp_virtual public return_type class_ref 432681 // basic_datum
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param inout name "a_label" explicit_type "string"
@@ -447,7 +447,7 @@ base-class action is to throw an error!
       end
 
       operation 1427113 "add_comment"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443433 // comment
 	nparams 1
 	  param in name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
@@ -467,7 +467,7 @@ children are allowed.  Returns a reference to the new child object.
       end
 
       operation 1669033 "add_comment_swallow"
-	cpp_virtual public explicit_return_type "basic_datum"
+	cpp_virtual public return_type class_ref 443433 // comment
 	nparams 1
 	  param inout name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -492,7 +492,7 @@ Swallows text!
       end
 
       operation 1669161 "add_pi"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443561 // processing_instruction
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
@@ -514,7 +514,7 @@ object.
       end
 
       operation 1427241 "add_pi_swallow"
-	cpp_virtual public explicit_return_type "basic_datum"
+	cpp_virtual public return_type class_ref 443561 // processing_instruction
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param inout name "a_value" explicit_type "string"
@@ -539,7 +539,7 @@ object. Swallows a_value text!
       end
 
       operation 1426985 "add_text"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443305 // text
 	nparams 1
 	  param in name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
@@ -560,7 +560,7 @@ object.
       end
 
       operation 1668905 "add_text_swallow"
-	cpp_virtual public explicit_return_type "basic_datum"
+	cpp_virtual public return_type class_ref 443305 // text
 	nparams 1
 	  param in name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -586,7 +586,7 @@ object. Swallows a_value text!
       operation 1454377 "append_child"
 	protected explicit_return_type "void"
 	nparams 1
-	  param inout name "a_new" explicit_type "basic_datum"
+	  param inout name "a_new" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
 {
   m_children.push_back (&${p0});
@@ -619,7 +619,7 @@ object. Swallows a_value text!
 	stereotype "copy"
 	private explicit_return_type ""
 	nparams 1
-	  param in name "source" explicit_type "basic_datum"
+	  param in name "source" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
 "
 	
@@ -743,7 +743,7 @@ basic_datum::remove."
 	stereotype "const"
 	const public return_type class_ref 443689 // const_iterator
 	nparams 1
-	  param in name "a_ptr" explicit_type "basic_datum"
+	  param in name "a_ptr" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} *const ${p0}${)}${const}${volatile}${throw}${abstract}
 {
   return std::find (begin (), end (), ${p0});
@@ -759,7 +759,7 @@ basic_datum::remove."
       operation 1454121 "find"
 	public return_type class_ref 443817 // iterator
 	nparams 1
-	  param in name "a_ptr" explicit_type "basic_datum"
+	  param in name "a_ptr" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} *const ${p0}${)}${const}${volatile}${throw}${abstract}
 {
   return std::find (begin (), end (), ${p0});
@@ -798,8 +798,8 @@ is returned and a_value is unchanged.
       operation 1389609 "insert_child"
 	protected explicit_return_type "void"
 	nparams 2
-	  param inout name "a_pre" explicit_type "iterator"
-	  param inout name "a_new" explicit_type "basic_datum"
+	  param inout name "a_pre" type class_ref 443817 // iterator
+	  param inout name "a_new" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
 {
   m_children.insert (${p0}, &${p1});
@@ -820,9 +820,10 @@ a new object internally.
 
       operation 1454505 "insert_child"
 	protected explicit_return_type "void"
-	nparams 2
-	  param in name "a_pre" explicit_type "basic_datum"
-	  param inout name "a_new" explicit_type "basic_datum"
+	nparams 3
+	  param in name "a_pre" type class_ref 432681 // basic_datum
+	  param inout name "a_new" type class_ref 432681 // basic_datum
+	  param in name "" explicit_type ""
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
 {
   m_children.insert (find (&${p0}), &${p1});
@@ -1010,7 +1011,7 @@ This is an abstract base class of XML textual elements"
       end
 
       operation 1660201 "add_comment_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443433 // comment
 	nparams 1
 	  param inout name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -1018,8 +1019,6 @@ This is an abstract base class of XML textual elements"
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{always}(false, \"Can not add comments to a basic_text objects\");
-  // Dummy return value.
-  return *this;
 }
 "
 	
@@ -1034,7 +1033,7 @@ default action is to throw an error!
       end
 
       operation 1660329 "add_pi_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443561 // processing_instruction
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param inout name "a_value" explicit_type "string"
@@ -1043,8 +1042,6 @@ default action is to throw an error!
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   @{always}(false, \"Can not add processing instructions to a basic_text objects\");
-  // Dummy return value.
-  return *this;
 }
 "
 	
@@ -1059,7 +1056,7 @@ default action is to throw an error!
       end
 
       operation 1660457 "add_text_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443305 // text
 	nparams 1
 	  param in name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -1067,8 +1064,6 @@ default action is to throw an error!
 	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   @{always}(false, \"Can not add text object to a basic_text objects\");
-  // Dummy return value.
-  return *this;
 }
 "
 	
@@ -1173,7 +1168,6 @@ default action is to throw an error!
 	
 	comment "Throw an error as text objects have no attributes."
       end
-
     end
 
     class 443433 "comment"
@@ -2173,7 +2167,7 @@ ${inlines}
       end
 
       operation 1664681 "add_comment_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443433 // comment
 	nparams 1
 	  param inout name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -2210,7 +2204,7 @@ ${inlines}
       end
 
       operation 1664809 "add_pi_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443561 // processing_instruction
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
@@ -2230,7 +2224,7 @@ ${inlines}
       end
 
       operation 1664937 "add_text_swallow"
-	public explicit_return_type "basic_datum"
+	public return_type class_ref 443305 // text
 	nparams 1
 	  param in name "a_value" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -3757,10 +3751,12 @@ default action is to throw an error!
 
       operation 1421609 "add_memo_src"
 	public explicit_return_type "memo"
-	nparams 1
+	nparams 2
+	  param in name "a_uri" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};"
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3775,6 +3771,24 @@ meta_datum object. Only then is the virt_add_child method called.
 default action is to throw an error!
 
 \\return /= NULL"
+      end
+
+      operation 1685801 "add_worker_label"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_set" explicit_type "string"
+	constraint "Add a formula label to the list of formulae"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  data_access::names::list_add (m_workers, ${p0});
+}
+"
+	
+	
+	
+	
       end
 
       operation 1473065 "begin_info"
@@ -4137,6 +4151,22 @@ a_reference
 	comment "Add attributes to the XML element"
       end
 
+      operation 1685929 "has_priority"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_priority != 0;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
       operation 1612073 "initialise"
 	public explicit_return_type "void"
 	nparams 0
@@ -4407,36 +4437,19 @@ definition() object."
 	
       end
 
-      operation 1131177 "worker_list"
-	stereotype "get"
-	const public explicit_return_type "string"
+      operation 1686057 "unset_priority"
+	public explicit_return_type "void"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw()${abstract}
 {
-  return m_workers;
+  m_priority = 0;
 }
 "
 	
 	
-	
-	
-	comment "The list of workers on this experiment."
-      end
-
-      operation 1451305 "visit"
-	const public explicit_return_type "void"
-	nparams 1
-	  param inout name "a_visitor" explicit_type "visitor"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${p0}.on_visit (*this);
-}
-"
-	
-	
-	
 	
       end
 
@@ -4460,6 +4473,39 @@ ${docstring}${body}
 	comment "Called when an object of a derived class will be removed.
 
 throw exception if a_datum is not a child of derived class."
+      end
+
+      operation 1451305 "visit"
+	const public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_visitor" explicit_type "visitor"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${p0}.on_visit (*this);
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1131177 "worker_list"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_workers;
+}
+"
+	
+	
+	
+	
+	comment "The list of workers on this experiment."
       end
     end
 
@@ -4669,6 +4715,22 @@ a_label.
 	comment "Add attributes to the XML element"
       end
 
+      operation 1686185 "is_default_type"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_type.empty ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
       operation 1135529 "href"
 	stereotype "get"
 	const public explicit_return_type "string"
@@ -4727,6 +4789,21 @@ a_label.
 	comment "no assign"
       end
 
+      operation 1405097 "outcomes"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_outcomes;
+}
+"
+	
+	
+	
+	
+      end
+
       operation 1407913 "parent"
 	const public return_type class_ref 353705 // mechanism
 	nparams 0
@@ -4742,19 +4819,21 @@ a_label.
 	comment "Return a pointer to the parent object"
       end
 
-      operation 1405097 "outcomes"
-	stereotype "get"
-	const public explicit_return_type "string"
+      operation 1686313 "reset_type"
+	public explicit_return_type "void"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return m_outcomes;
+  m_type.clear ();
 }
 "
 	
 	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
 	
-	
+	comment "Sets the type to the default (=\"plugin\") type."
       end
 
       operation 1408297 "serial_name"
@@ -5109,6 +5188,7 @@ swallows a_label
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
+  COMPCHEM_REQUIRE (not label ().empty (), \"Attempting to get_attribute of an invalid formula object.\");
   bool Result (false);
   if (data_access::names::label_name () == ${p0})
   {
@@ -5191,6 +5271,24 @@ swallows a_label
 	
 	
 	
+      end
+
+      operation 1686441 "moiety"
+	stereotype "const"
+	const public return_type class_ref 356009 // compound
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Get the parent compound of this formula"
       end
 
       operation 1160361 "operator="
@@ -6859,6 +6957,15 @@ from the \"mechanism\" element."
 	  b parent class_ref 354089 // project
       end
 
+      classrelation 585769 // <dependency>
+	relation 564649 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 585769 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
       class 466089 "datum_iterator"
 	visibility package stereotype "typedef" explicit_base_type "datum"
 	cpp_decl "${comment}typedef boost::ptr_vector< ${type} >::iterator ${name};
@@ -6978,6 +7085,20 @@ set of results is attributed to."
 	  b parent class_ref 354601 // info
       end
 
+      attribute 445737 "m_is_open"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate if a memo-src document has been \"read\" or
+that a memo object has been converted to a memo-src
+object."
+      end
+
       attribute 261417 "m_label"
 	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -7077,6 +7198,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
+  COMPCHEM_REQUIRE (not is_src () or is_open (), \"can not filters to closed memo-src objects\");
   data_access::names::list_add (m_filters, ${p0});
 }
 "
@@ -7119,6 +7241,7 @@ default action is to throw an error!
 	
 	
 	
+	comment "Get iterator to beginning of datum object list"
       end
 
       operation 1480361 "begin_datum"
@@ -7134,6 +7257,7 @@ default action is to throw an error!
 	
 	
 	
+	comment "Get iterator to beginning of datum object list"
       end
 
       operation 1481001 "begin_info"
@@ -7148,6 +7272,7 @@ default action is to throw an error!
 	
 	
 	
+	comment "Get iterator to beginning of info object list"
       end
 
       operation 1481129 "begin_info"
@@ -7163,6 +7288,7 @@ default action is to throw an error!
 	
 	
 	
+	comment "Get iterator to beginning of info object list"
       end
 
       operation 1509929 "close"
@@ -7201,17 +7327,16 @@ TODO: currently does nothing!"
 	
 	
 	
-	comment "Get the ID of the main comopund"
+	comment "Get the ID of the compound this memo references"
       end
 
       operation 1559721 "compound_formula"
 	public explicit_return_type "void"
-	nparams 2
-	  param in name "a_cmpd" type class_ref 356009 // compound
+	nparams 1
 	  param in name "a_form" type class_ref 356521 // formula
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -7220,16 +7345,18 @@ TODO: currently does nothing!"
 	
 	
 	
-	comment "Set the compound and formula attributes."
+	comment "Set the compound and formula attributes. This is the only
+way to change the compound/formula reference of a memo
+object."
       end
 
       operation 1676969 "connect"
 	public explicit_return_type "void"
 	nparams 1
-	  param inout name "a_uri" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -7239,7 +7366,8 @@ TODO: currently does nothing!"
 	
 	
 	comment "Second part of constructor for memo-src objects. This sets the document
-from a_uri. swallows content of a_uri
+from a_uri and optionally reads the referenced document depending on
+data_access::helper().auto_open_memo ()
 
 \\post a_uri.empty"
       end
@@ -7256,6 +7384,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Are there no datum objects?"
       end
 
       operation 1481513 "empty_info"
@@ -7270,6 +7399,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Are there no info objects?"
       end
 
       operation 1480489 "end_datum"
@@ -7284,6 +7414,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Get one-past-end iterator of datum object list"
       end
 
       operation 1480873 "end_datum"
@@ -7299,6 +7430,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Get one-past-end iterator of datum object list"
       end
 
       operation 1481385 "end_info"
@@ -7313,6 +7445,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Get one-past-end iterator of info object list"
       end
 
       operation 1481257 "end_info"
@@ -7328,6 +7461,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
+	comment "Get one-past-end iterator of info object list"
       end
 
       operation 1186729 "filters"
@@ -7343,7 +7477,7 @@ from a_uri. swallows content of a_uri
 	
 	
 	
-	comment "The list of filters on this mechanism action.  If this is a standard mech-memo then this will give the list of possible filters.  For a result mech-memo this will list the used filters."
+	comment "The list of filters used to produce the contained results."
       end
 
       operation 1550761 "find_datum"
@@ -7435,7 +7569,8 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
-	comment "Get the ID of the main comopund"
+	comment "Get the ID of the formula that this memo references. This formula
+is a child of the memo's compound reference."
       end
 
       operation 1410985 "get_attribute"
@@ -7454,7 +7589,8 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
-	comment "Add attributes to the XML element"
+	comment "Get attributes by name. This returns values without checking
+whether the object is a memo or memo-src object."
       end
 
       operation 1190953 "href"
@@ -7470,7 +7606,8 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
-	comment "
+	comment "Get the memo @href attribute.
+
 \\return may be empty"
       end
 
@@ -7481,6 +7618,7 @@ optional a_iter (defaults to begin_datum)"
 	  param in name "a_type" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
 {
+  @{require}(not is_src () or is_open (), \"can not set href attribute of closed memo-src object.\");
   m_href.swap (${p0});
 }
 "
@@ -7488,17 +7626,17 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
+	comment "Set the href attribute
+
+\\pre not is_src or is_open"
       end
 
       operation 1497385 "is_open"
 	const public explicit_return_type "bool"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
 {
-  @{require}(is_src (), \"A non-src object is never open.\");
-  return m_document->is_open ();
+  return m_is_open;
 }
 "
 	
@@ -7507,7 +7645,7 @@ optional a_iter (defaults to begin_datum)"
 	
 	comment "Has the sub-file been openned?
 
-\\pre is_src"
+Only meaningful if is_src = true"
       end
 
       operation 1439785 "is_src"
@@ -7538,29 +7676,9 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
-      end
+	comment "Get the memo label
 
-      operation 1497513 "label"
-	stereotype "set"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  @{require}(m_label.empty () or ${p0} == m_label, \"Once set, label can not be changed.\");
-  if (m_label.empty ())
-  {
-    m_label.swap (${p0});
-  }
-}"
-	
-	
-	
-	
-	comment "Set the label. Note this can only be done \"once\"
-
-\\pre label.empty or a_label = label
-\\post label = a_label"
+\\return never empty"
       end
 
       operation 1498025 "make_src"
@@ -7580,7 +7698,9 @@ optional a_iter (defaults to begin_datum)"
 	
 	
 	
-	comment "Convert the memo into a src type. This requires that the target file does not exist.
+	comment "Convert the memo into a src type. This requires that the target file
+does not exist. The action of this method is similar to 'connect'
+except it sets the reference document as new (and doesn't auto-read!)
 
 \\pre not is_src and ((a_base.empty and exists(parent.database_path)) or exists(a_base))
 \\post is_src"
@@ -7601,6 +7721,7 @@ optional a_iter (defaults to begin_datum)"
 , m_formula ()
 , m_href ()
 , m_info ()
+, m_is_open (false)
 , m_label ()
 , m_mechanism ()
 , m_page (${p0})
@@ -7617,35 +7738,6 @@ optional a_iter (defaults to begin_datum)"
 a_label. Swallows a_label content.
 
 \\post a_label.empty"
-      end
-
-      operation 1677097 "memo"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "a_parent" explicit_type "experiment"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw}
-: @{base_class} ()
-, m_compound ()
-, m_document ()
-, m_filters ()
-, m_formula ()
-, m_href ()
-, m_info ()
-, m_label ()
-, m_mechanism ()
-, m_page (${p0})
-, m_results ()
-{}
-"
-	
-	
-	
-	
-	comment "Constructor for memo objects (from memo-src elements) using a_parent. You 
-must use connect to complete construction of the memo-src object.
-"
       end
 
       operation 1162793 "memo"
@@ -7717,7 +7809,7 @@ must use connect to complete construction of the memo-src object.
 	
 	
 	
-	comment "Return a pointer to the parent object, may be NULL."
+	comment "The parent object. The result of this is the same object as page()."
       end
 
       operation 1509801 "read"
@@ -7728,6 +7820,7 @@ must use connect to complete construction of the memo-src object.
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(is_src () and not is_open (), \"Can not open a non-src or already open src element.\");
+  m_is_open = true;
   m_document->read ();
 }
 "
@@ -7737,7 +7830,7 @@ must use connect to complete construction of the memo-src object.
 	
 	comment "Open a src type
 
-\\pre is_src"
+\\pre is_src and not is_open"
       end
 
       operation 1682729 "remove_child"
@@ -7876,7 +7969,11 @@ ${docstring}${body}
 	
 	
 	comment "Write an attribute. Can assume that a_name and a_value are valid as per the
-definition() object."
+definition() object.
+
+NOTE: This is mainly useful during deserialisation. This method has the following
+restrictions.
+label, compound"
       end
 
       operation 1480745 "size_datum"
@@ -7891,6 +7988,7 @@ definition() object."
 	
 	
 	
+	comment "The number of datum children"
       end
 
       operation 1481641 "size_info"
@@ -7905,6 +8003,7 @@ definition() object."
 	
 	
 	
+	comment "The number of info children"
       end
 
       operation 1136297 "target_mechanism"
@@ -7920,7 +8019,7 @@ definition() object."
 	
 	
 	
-	comment "This will always return a label for a mechanism.  The returned element will point to the direct parent if is_standard: mechanism   [data_scheme]"
+	comment "A reference to the mechanism object that created the contained results."
       end
 
       operation 1169449 "target_mechanism"
@@ -7930,6 +8029,7 @@ definition() object."
 	  param in name "a_target" explicit_type "string"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
 {
+  @{require} (not is_src () or is_open (), \"can not add children to closed memo-src objects\");
   m_mechanism.swap (${p0});
 }
 "
@@ -7937,9 +8037,9 @@ definition() object."
 	
 	
 	
-	comment "Set the mechanism label.
+	comment "Set the mechanism label. Changing this once set is not usual.
 
-\\pre program.end_mech != program.find_mech (a_target)"
+\\pre program.end_mech != program.find_mech (a_target) [TODO]"
       end
 
       operation 1442729 "uri_path"
@@ -8036,6 +8136,7 @@ throw exception if a_datum is not a child of derived class."
 	
 	
 	
+	comment "Call the on_visit(memo) method of the visitor"
       end
 
       operation 1449129 "write"
@@ -8045,17 +8146,17 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{require}(is_src (), \"Can not call write on a non-source element.\");
-  ${body}
+  @{require}(is_src () and is_open (), \"Can not call write on a non-source/closed element.\");
+  if (m_is_open) m_document->write ();
 }
 "
 	
 	
 	
 	
-	comment "Trigger document to write itself.
+	comment "Trigger a memo-src document to write itself.
 
-\\pre is_src"
+\\pre is_src (and is_open?)"
       end
     end
 
@@ -8514,11 +8615,12 @@ default action is to throw an error!
 
       operation 1425065 "add_project_src"
 	public explicit_return_type "project"
-	nparams 1
+	nparams 2
+	  param in name "a_uri" explicit_type "string"
 	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -8684,7 +8786,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
 {
-  m_document = data_access::manager::server().connect (*this, ${p0}, false);
+  m_document = data_access::manager::server ().connect (*this, ${p0});
   m_document->read ();
 }
 "
@@ -9533,13 +9635,13 @@ throw exception if a_datum is not a child of derived class."
       end
 
       operation 1449385 "write"
-	public explicit_return_type "void"
+	const public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${body}
+  m_document->write ();
 }
 "
 	
@@ -9686,6 +9788,21 @@ ${inlines}
 	  b parent class_ref 354601 // info
       end
 
+      attribute 445865 "m_is_open"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "If this is a proj-src, has it been read in. Also
+true for a project that has been changed into a
+proj-src type.
+"
+      end
+
       attribute 354985 "m_label"
 	private explicit_type "string"
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -9761,10 +9878,8 @@ default action is to throw an error!
 	
 	
 	
-	comment "add_child tests if this object can accept the tagname using the
-meta_datum object. Only then is the virt_add_child method called. 
-
-default action is to throw an error!
+	comment "create and return a compound_ref, with a_label, as a child of
+this project.
 
 \\return /= NULL"
       end
@@ -9822,6 +9937,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
+  COMPCHEM_REQUIRE (not is_src () or is_open (), \"can not add children to closed proj-src objects\");
   data_access::names::list_add (m_outcomes, ${p0});
 }
 "
@@ -9839,6 +9955,7 @@ default action is to throw an error!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
+  COMPCHEM_REQUIRE (not is_src () or is_open (), \"can not add children to closed proj-src objects\");
   data_access::names::list_add (m_workers, ${p0});
 }
 "
@@ -10165,12 +10282,9 @@ attributes and children by creating them if necessary."
       operation 1497257 "is_open"
 	const public explicit_return_type "bool"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
 {
-  @{require}(is_src (), \"A non-src object is never open.\");
-  return m_document->is_open ();
+  return m_is_open;
 }
 "
 	
@@ -10179,7 +10293,7 @@ attributes and children by creating them if necessary."
 	
 	comment "Has the sub-file been openned?
 
-\\pre is_src"
+Only meaningful is is_src = true."
       end
 
       operation 1441193 "is_src"
@@ -10210,29 +10324,6 @@ attributes and children by creating them if necessary."
 	
 	
 	
-      end
-
-      operation 1497641 "label"
-	stereotype "set"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  @{require}(m_label.empty () or ${p0} == m_label, \"Once set, label can not be changed.\");
-  if (m_label.empty ())
-  {
-    m_label.swap (${p0});
-  }
-}"
-	
-	
-	
-	
-	comment "Set the label. Note this can only be done \"once\"
-
-\\pre label.empty or a_label = label
-\\post label = a_label"
       end
 
       operation 1498153 "make_src"
@@ -10317,6 +10408,7 @@ attributes and children by creating them if necessary."
 , m_document ()
 , m_imports ()
 , m_info ()
+, m_is_open (false)
 , m_label ()
 , m_outcomes ()
 , m_site (${p0})
@@ -10333,32 +10425,6 @@ attributes and children by creating them if necessary."
 parent and a_label. Swallows content of a_label.
 
 \\post a_label.empty"
-      end
-
-      operation 1677353 "project"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "a_program" explicit_type "program"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw}
-: @{base_class} ()
-, m_activities ()
-, m_document ()
-, m_imports ()
-, m_info ()
-, m_label ()
-, m_outcomes ()
-, m_site (${p0})
-, m_workers ()
-{}
-"
-	
-	
-	
-	
-	comment "First part of constructor for project objects(from proj-src elements) with a_program
-parent. Call connect to complete construction."
       end
 
       operation 1170089 "project"
@@ -10397,6 +10463,7 @@ parent. Call connect to complete construction."
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(is_src () and not is_open (), \"Can not open a non-src or already open src element.\");
+  m_is_open = true;
   m_document->read ();
 }
 "
@@ -10530,7 +10597,7 @@ ${docstring}${body}
       end
 
       operation 1415977 "set_attribute"
-	private explicit_return_type "void"
+	public explicit_return_type "void"
 	nparams 2
 	  param in name "a_name" explicit_type "string"
 	  param in name "a_value" explicit_type "string"
@@ -10712,8 +10779,8 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{require}(is_src (), \"Can not call write on a non-source element.\");
-  ${body}
+  @{require}(is_src () and is_open (), \"Can not call write on a non-source/closed element.\");
+  if (m_is_open) m_document->write ();
 }
 "
 	
@@ -12080,22 +12147,6 @@ default action is to throw an error!
 	
       end
 
-      operation 1141161 "label"
-	stereotype "set"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
-{
-  m_label.swap (${p0});
-}
-"
-	
-	
-	
-	
-      end
-
       operation 1408681 "parent"
 	const public explicit_return_type "basic_datum"
 	nparams 0
@@ -12352,27 +12403,27 @@ Swallow the content of a_label.
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 166569 // settings
+	artifact_ref 142889 // mechanism
+	artifact_ref 141993 // info
+	artifact_ref 143657 // compound
+	artifact_ref 214569 // visitor
+	artifact_ref 207785 // text
+	artifact_ref 142249 // identity
+	artifact_ref 144041 // program
 	artifact_ref 232617 // compound_ref
 	artifact_ref 143273 // experiment
-	artifact_ref 142633 // worker
-	artifact_ref 142505 // filter
-	artifact_ref 143657 // compound
-	artifact_ref 222889 // data_scheme_helper
 	artifact_ref 143145 // memo
-	artifact_ref 157993 // utility
-	artifact_ref 202793 // basic_datum
-	artifact_ref 253353 // xml
-	artifact_ref 233897 // content_visitor
-	artifact_ref 143529 // formula
-	artifact_ref 143913 // project
-	artifact_ref 142889 // mechanism
-	artifact_ref 207785 // text
-	artifact_ref 214569 // visitor
-	artifact_ref 142249 // identity
-	artifact_ref 141993 // info
-	artifact_ref 144041 // program
+	artifact_ref 166569 // settings
 	artifact_ref 141737 // datum
+	artifact_ref 233897 // content_visitor
+	artifact_ref 142633 // worker
+	artifact_ref 143913 // project
+	artifact_ref 253353 // xml
+	artifact_ref 143529 // formula
+	artifact_ref 202793 // basic_datum
+	artifact_ref 157993 // utility
+	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 142505 // filter
       end
       comment "The library for the data_scheme objects"
     end

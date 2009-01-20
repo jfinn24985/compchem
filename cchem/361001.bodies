@@ -81,12 +81,13 @@ else
       data_scheme::compound::formula_iterator l_form (l_cmpd->find_formula (l_form_label));
       if (l_form == l_cmpd->end_formula ())
       {
-        l_cmpd->add_formula (l_form_label);
-        l_form = l_cmpd->find_formula (l_form_label);
-        COMPCHEM_ALWAYS (l_form != l_cmpd->end_formula (), "Could not find formula immediately after adding it!");
+        l_memo->compound_formula (l_cmpd->add_formula (l_form_label));
         l_time.log ("Added new formula with label: \"" + l_form_label + "\"");
       }
-      l_memo->compound_formula (*l_cmpd, *l_form);
+      else
+      {
+        l_memo->compound_formula (*l_form);
+      }
       // memo-src location = user-supplied or sub-directory that contains l_file
       l_memo->make_src (memo_src_location (l_file, l_memo_label));
     }

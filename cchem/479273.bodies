@@ -37,9 +37,7 @@ const boost::filesystem::path l_url (utility::filesystem::standardize (m_url));
 // 3: The (parent_doc).branch_dir  (if parent_doc is a file)
 boost::filesystem::path l_parurl;
 // top () is either a memo, project or program
-data_scheme::memo * l_memo (dynamic_cast< data_scheme::memo * > (&(top ())));
-data_scheme::project * l_project (dynamic_cast< data_scheme::project * > (&(top ())));
-data_scheme::program * l_program (dynamic_cast< data_scheme::program * > (&(top ())));
+const data_scheme::memo * l_memo (dynamic_cast< const data_scheme::memo * > (&(top ())));
 if (NULL != l_memo)
 {
   if (names::file_scheme () == l_memo->page ().section ().uri_scheme ())
@@ -47,22 +45,27 @@ if (NULL != l_memo)
     l_parurl = l_memo->page ().section ().uri_path ();
     l_parurl = l_parurl.branch_path ();
     COMPCHEM_CHECK (boost::filesystem::exists (l_parurl) and boost::filesystem::is_directory (l_parurl)
-                  , "Invalid path for parent document.");
-  } 
+                    , "Invalid path for parent document.");
+  }
 }
-else if (NULL != l_project)
+else
 {
-  if (names::file_scheme () == l_project->site ().uri_scheme ())
+  const data_scheme::project * l_project (dynamic_cast< const data_scheme::project * > (&(top ())));
+  if (NULL != l_project)
   {
-    l_parurl = l_project->site ().uri_path ();
-    l_parurl = l_parurl.branch_path ();
-    COMPCHEM_CHECK (boost::filesystem::exists (l_parurl) and boost::filesystem::is_directory (l_parurl)
-                  , "Invalid path for parent document.");
-  } 
-}
-else 
-{
-  COMPCHEM_ALWAYS (NULL != l_program, "Invalid owner of persistence object, not a memo, project or program");
+    if (names::file_scheme () == l_project->site ().uri_scheme ())
+    {
+      l_parurl = l_project->site ().uri_path ();
+      l_parurl = l_parurl.branch_path ();
+      COMPCHEM_CHECK (boost::filesystem::exists (l_parurl) and boost::filesystem::is_directory (l_parurl)
+                      , "Invalid path for parent document.");
+    }
+  }
+  else
+  {
+    COMPCHEM_CHECK (NULL != dynamic_cast< const data_scheme::program * > (&(top ()))
+                    , "Invalid owner of persistence object, not a memo, project or program");
+  }
 }
 /////////////////////////////
 // Test the three paths
@@ -71,7 +74,9 @@ if (not m_base.empty () and boost::filesystem::exists (m_base / m_url))
 {
   // m_base and m_url are set correctly.
   Result = m_base / m_url;
-  DLOG ("Found file at (base / path): "); DLOG (Result.string ()); DLOG ("\n");
+  DLOG ("Found file at (base / path): ");
+  DLOG (Result.string ());
+  DLOG ("\n");
 }
 // 2: parent_doc.branch_dir / m_url
 else if (not l_parurl.empty () and boost::filesystem::exists (l_parurl / m_url))
@@ -79,55 +84,37 @@ else if (not l_parurl.empty () and boost::filesystem::exists (l_parurl / m_url))
   // m_url is relative to parent, set m_base.
   m_base = l_parurl;
   Result = l_parurl / m_url;
-  DLOG ("Found file at (parent_doc.dir / path): "); DLOG (Result.string ()); DLOG ("\n");
+  DLOG ("Found file at (parent_doc.dir / path): ");
+  DLOG (Result.string ());
+  DLOG ("\n");
 }
 // 3: m_url as a complete path.
 else if (boost::filesystem::exists (l_url))
 {
- // Complete path mactches.
- m_url = utility::filesystem::standardize (m_url);
- // Attempt to make relative to parent if it has the same scheme. 
- if (not l_parurl.empty ())
- {
-   boost::filesystem::path l_tmp = utility::filesystem::relative_path (l_parurl, m_url);
-   // If l_tmp != m_url then we can be relative, 
-   if (l_tmp != m_url)
-   {
-     m_base = l_parurl;
-     m_url = l_tmp;
+// Complete path mactches.
+  m_url = utility::filesystem::standardize (m_url);
+// Attempt to make relative to parent if it has the same scheme.
+  if (not l_parurl.empty ())
+  {
+    boost::filesystem::path l_tmp = utility::filesystem::relative_path (l_parurl, m_url);
+    // If l_tmp != m_url then we can be relative,
+    if (l_tmp != m_url)
+    {
+      m_base = l_parurl;
+      m_url = l_tmp;
     }
   }
   Result = l_url;
-  DLOG ("Found file at (path): "); DLOG (Result.string ()); DLOG ("\n");
+  DLOG ("Found file at (path): ");
+  DLOG (Result.string ());
+  DLOG ("\n");
 }
-// If not found then broken-link OR new document
+// If not found then broken-link [find_file is never called for a new document]
 else
 {
-  if (m_open) // ==> New document
-  {
-    COMPCHEM_CHECK (m_base.empty (), "New document has m_base set?");
-    // If parent_doc.dir then assume path is going to be relative.
-    if (not l_parurl.empty ())
-    {
-      m_base = l_parurl;
-      Result = l_parurl / m_url;
-    }
-    else
-    {
-      // No parent_dic so use the standardized path.
-      if (l_url != m_url)
-      {
-        m_url = l_url;
-      }
-      Result = m_url;
-    }
-  }
-  else // ==> broken link
-  {
-    // This throws when the link can not be repaired. Note l_parurl was checked
-    // for being an existing directory earlier.
-    Result = find_link (l_parurl);
-  }
+  // This throws when the link can not be repaired. Note l_parurl was checked
+  // for being an existing directory earlier.
+  Result = find_link (l_parurl);
 }
 COMPCHEM_ALWAYS (not Result.empty (), "Can not find path from URL = " + m_url.string ());
 return Result.native_file_string ();
@@ -397,7 +384,6 @@ parse (top (), l_reader, m_header, false);
 DLOG("Header : \""); DLOG(header ()); DLOG("\"\n");
 // Check parsing was OK.
 COMPCHEM_ALWAYS (l_reader.is_doc_valid (), "Reading of XML document failed.");
-m_open = true;
 !!!1522985.cpp!!!	read_string(inout a_parent : basic_datum, in a_buffer : string, in a_is_part : bool = true) : void
 // Find file
 std::istringstream l_doc (a_buffer);

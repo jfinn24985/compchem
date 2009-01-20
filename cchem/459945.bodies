@@ -8,7 +8,7 @@ project::experiment_iterator (project::*project_end_experiment)() = &project::en
 project::compound_ref_iterator (project::*project_begin_reference)() = &project::begin_compound_ref;
 project::compound_ref_iterator (project::*project_end_reference)() = &project::end_compound_ref;
 const std::string & (project::*get_project_label)() const = &project::label;
-void (project::*set_project_label)(std::string) = &project::label;
+// void (project::*set_project_label)(std::string) = &project::label;
 
 boost::python::class_< project, boost::python::bases< basic_datum_py >, boost::noncopyable >("project",
         "A project should be single consistent branch of the main research \n"
@@ -34,7 +34,7 @@ boost::python::class_< project, boost::python::bases< basic_datum_py >, boost::n
         "The range of references to compounds that should be imported into this project.")
  .def ("is_open", &project::is_open, "If is_src, then has the project body bean read?")
  .def ("is_src", &project::is_src, "Is the body of the project contained in a sub-file?")
- .add_property("label", boost::python::make_function(get_project_label, boost::python::return_value_policy< boost::python::return_by_value >()), set_project_label,
+ .add_property("label", boost::python::make_function(get_project_label, boost::python::return_value_policy< boost::python::return_by_value >()), /* set_project_label, */
         "The unique ID of the project. Note this can only be set if currently empty.")
  .def ("make_src", &project_py::make_src, "Convert a direct project into one where the body is in a sub-file?")
  .add_property("outcomes", boost::python::make_function(&project::outcomes, boost::python::return_value_policy< boost::python::return_by_value >()),

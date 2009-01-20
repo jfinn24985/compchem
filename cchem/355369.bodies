@@ -10,33 +10,33 @@ return add_datum (a_label);
 bool Result (false);
 if (data_access::names::outcome_name () == a_name)
 {
-  if (not this->m_outcome.empty ())
+  if (not m_outcome.empty ())
   {
-    a_value.assign (this->m_outcome);
+    a_value.assign (m_outcome);
     Result = true;
   }
 }
 else if (data_access::names::format_name () == a_name)
 {
-  if (not this->m_format.empty ())
+  if (not m_format.empty ())
   {
-    a_value.assign (this->m_format);
+    a_value.assign (m_format);
     Result = true;
   }
 }
 else if (data_access::names::scale_name () == a_name)
 {
-  if (not this->m_scale.empty ())
+  if (not m_scale.empty ())
   {
-    a_value.assign (this->m_scale);
+    a_value.assign (m_scale);
     Result = true;
   }
 }
 else if (data_access::names::ordinal_name () == a_name)
 {
-  if (this->m_ordinal != NO_ORDINAL)
+  if (m_ordinal != NO_ORDINAL)
   {
-    a_value.assign (boost::lexical_cast< std::string >(this->m_ordinal));
+    a_value.assign (boost::lexical_cast< std::string >(m_ordinal));
     Result = true;
   }
 }

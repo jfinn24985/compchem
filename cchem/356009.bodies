@@ -69,7 +69,7 @@ return std::find_if (begin_formula (), end_formula ()
 return std::find_if (begin_formula (), end_formula ()
     , boost::bind (std::equal_to< std::string >(), boost::bind (&formula::label, _1), a_label));
 !!!1384233.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
-REQUIRE (not label ().empty (), "Attempting to write an invalid compound object.");
+COMPCHEM_REQUIRE (not label ().empty (), "Attempting to write an invalid compound object.");
 bool Result (false);
 // Process attributes.
 if (a_name == data_access::names::label_name ())

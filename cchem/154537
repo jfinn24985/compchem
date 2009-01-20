@@ -1,6 +1,6 @@
 format 61
 "py" // /compchem/data_scheme::py
-  revision 6
+  revision 8
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -84,6 +84,15 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 452137 // <realization>
 	  b parent class_ref 458153 // python::wrapper
+      end
+
+      classrelation 584617 // <dependency>
+	relation 563497 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 584617 // <dependency>
+	  b parent class_ref 435369 // basic_text
       end
 
       operation 1471017 "has_attribute_py"
@@ -2424,33 +2433,33 @@ ${inlines}
     artifact 229929 "data_scheme_py"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 220329 // filter_py
-	artifact_ref 220201 // experiment_py
-	artifact_ref 232745 // compound_ref_py
-	artifact_ref 219561 // basic_datum_py
-	artifact_ref 220585 // identity_py
-	artifact_ref 221097 // program_py
-	artifact_ref 221353 // settings_py
-	artifact_ref 221225 // project_py
-	artifact_ref 220713 // info_py
-	artifact_ref 253097 // date_time
-	artifact_ref 220969 // memo_py
-	artifact_ref 276009 // python_lib
-	artifact_ref 219689 // visitor_py
-	artifact_ref 217257 // data_scheme_py_main
-	artifact_ref 230057 // data_access
-	artifact_ref 252841 // program_options
-	artifact_ref 219817 // text_py
-	artifact_ref 221481 // worker_py
-	artifact_ref 220841 // mechanism_py
 	artifact_ref 252969 // regex
+	artifact_ref 219817 // text_py
+	artifact_ref 220201 // experiment_py
 	artifact_ref 219945 // datum_py
-	artifact_ref 230313 // filesystem
-	artifact_ref 220457 // formula_py
+	artifact_ref 220841 // mechanism_py
 	artifact_ref 220073 // compound_py
-	artifact_ref 253353 // xml
+	artifact_ref 252841 // program_options
+	artifact_ref 230057 // data_access
 	artifact_ref 144169 // data_scheme
+	artifact_ref 221481 // worker_py
+	artifact_ref 221353 // settings_py
+	artifact_ref 220457 // formula_py
+	artifact_ref 230313 // filesystem
+	artifact_ref 221225 // project_py
+	artifact_ref 276009 // python_lib
+	artifact_ref 221097 // program_py
+	artifact_ref 220713 // info_py
+	artifact_ref 253353 // xml
+	artifact_ref 219561 // basic_datum_py
+	artifact_ref 220969 // memo_py
+	artifact_ref 220329 // filter_py
+	artifact_ref 217257 // data_scheme_py_main
+	artifact_ref 232745 // compound_ref_py
+	artifact_ref 220585 // identity_py
+	artifact_ref 219689 // visitor_py
+	artifact_ref 157993 // utility
+	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "python-extension"

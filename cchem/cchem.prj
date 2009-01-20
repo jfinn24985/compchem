@@ -1,6 +1,6 @@
 format 61
 "cchem"
-  revision 85
+  revision 86
   modified_by 41 "finnerty"
   cpp_root_dir "/scratch/finnerty/compchem/include/"
   python_root_dir "/scratch/finnerty/compchem/pythonlib/"
@@ -38,7 +38,7 @@ format 61
 
   mark_for_import
   
-  ncouples 21
+  ncouples 22
   key "check-in-cmd" value "ci -u %file"
   key "check-out-cmd" value "co -l %file"
   key "html dir" value "/home/finnerty/Office/Projects/compchem/documentation/"
@@ -60,6 +60,7 @@ format 61
   key "butter base" value ".."
   key "butter type" value "shared"
   key "butter build-dir" value "build"
+  key "function_attrib" value "__attribute__"
   comment "= Compchem Project =
 
 Assumptions (Current version):

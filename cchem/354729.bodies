@@ -1,25 +1,35 @@
 class filter
 !!!1408169.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not label ().empty (), "Attempting to get_attribute of an invalid filter object.");
 bool Result (false);
 if (data_access::names::href_name () == a_name)
 {
-  a_value.assign (m_href);
-  Result = true;
+  if (not m_href.empty ())
+  {
+    a_value.assign (m_href);
+    Result = true;
+  }
 }
 else if (data_access::names::label_name () == a_name)
 {
-  a_value.assign (label ());
+  a_value.assign (m_label);
   Result = true;
 }
 else if (data_access::names::outcome_name () == a_name)
 {
-  a_value.assign (outcomes ());
-  Result = true;
+  if (not m_outcomes.empty ())
+  {
+    a_value.assign (m_outcomes);
+    Result = true;
+  }
 }
 else if (data_access::names::type_name () == a_name)
 {
-  a_value.assign (filter_type ());
-  Result = true;
+  if (not m_type.empty ())
+  {
+    a_value.assign (m_type);
+    Result = true;
+  }
 }
 return Result;
 !!!1408041.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
@@ -33,15 +43,22 @@ else if (data_access::names::outcome_name () == a_name)
 }
 else if (data_access::names::type_name () == a_name)
 {
-  m_type.swap (a_value);
+  if (data_access::names::plugin_filter_name () == a_name)
+  {
+    if (not m_type.empty ()) m_type.clear ();
+  }
+  else
+  {
+    m_type.swap (a_value);
+  }
 }
 else if (data_access::names::label_name () == a_name) 
 {
-  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
+  COMPCHEM_ALWAYS (a_value == label (), "filter object labels cannot be changed after construction");
 }
 else
 {
   const bool bad_attribute_name (false);
-  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+  COMPCHEM_ALWAYS (bad_attribute_name, "filter objects do not have an attribute named " + a_name);
 }
 

@@ -1,12 +1,9 @@
 class info
 !!!1422889.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
-if (data_access::names::info_name () != a_name);
-{
-  const bool bad_child_name (false);
-  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
-}
+COMPCHEM_ALWAYS (data_access::names::info_name () == a_name, "info class has no child with name " + a_name);
 return add_info (a_label);
 !!!1407657.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_name.empty (), "Attempting to get_attribute of an invalid info object.");
 bool Result (false);
 if (data_access::names::name_name () == a_name)
 {

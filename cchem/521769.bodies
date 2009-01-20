@@ -23,25 +23,32 @@ for (data_scheme::program::project_iterator l_project (l_program.begin_project (
   }
 }
 bool_test (not l_not_found, "memo found from key.");
-std::auto_ptr < xml_persistence > l_file (new xml_persistence (*l_memo, m_path, false));
+std::auto_ptr < xml_persistence > l_file (new xml_persistence (*l_memo, m_path));
 bool_test (NULL != l_file.get (), "persistence object created.");
 log () << TTLE << "Base persistence information\n";
 log () << WTCH << "URI path: " << l_file->uri_path () << "\n";
 log () << WTCH << "URI scheme: " << l_file->uri_scheme () << "\n";
 log () << WTCH << "URI: " << l_file->uri () << "\n";
-log () << WTCH << "Is open? " << (l_file->is_open ()?"yes":"no") << "\n";
 log () << TTLE << "XML persistence information\n";
 log () << WTCH << "Base path: " << l_file->base ().string () << "\n";
 log () << WTCH << "Full path: " << l_file->full_path ().string () << "\n";
 log () << WTCH << "Path: " << l_file->path ().string () << "\n";
 log () << WTCH << "Header " << l_file->header () << "\n";
-log () << TTLE << "Results after reading XML file.\n";
+log () << TTLE << "Reading XML file...\n";
+if (l_memo->is_src ())
+{
+  if (not l_memo->is_open ()) l_memo->read ();
+}
+else
+{
+  l_memo->make_src (l_file->uri_path ());
+}
 l_file->read ();
+log () << TTLE << "Results after reading XML file.\n";
 log () << TTLE << "Base persistence information\n";
 log () << WTCH << "URI path: " << l_file->uri_path () << "\n";
 log () << WTCH << "URI scheme: " << l_file->uri_scheme () << "\n";
 log () << WTCH << "URI: " << l_file->uri () << "\n";
-bool_test (l_file->is_open (), "is_open 'true' after 'read'");
 log () << TTLE << "XML persistence information\n";
 log () << WTCH << "Base path: " << l_file->base ().string () << "\n";
 log () << WTCH << "Full path: " << l_file->full_path ().string () << "\n";

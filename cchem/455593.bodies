@@ -40,7 +40,7 @@ if (a_datum.is_src ())
   m_os << " " << names::href_name () << "=\"" << a_datum.uri () << "\"";
   m_os << "/>";
   // Get object to write itself.
-  a_datum.write ();
+  if (a_datum.is_open ()) a_datum.write ();
 }
 else
 {
@@ -57,7 +57,7 @@ if (a_datum.is_src ())
   m_os << " " << names::href_name () << "=\"" << a_datum.uri () << "\"";
   m_os << "/>";
   // Get object to write itself.
-  a_datum.write ();
+  if (a_datum.is_open ()) a_datum.write ();
 }
 else
 {

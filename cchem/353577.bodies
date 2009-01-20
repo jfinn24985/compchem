@@ -12,6 +12,7 @@ m_information.push_back (new info (*this, a_label));
 append_child (m_information.back ());
 return m_information.back ();
 !!!1408937.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_label.empty (), "Attempting to get_attribute of an invalid worker object.");
 bool Result (false);
 if (data_access::names::label_name () == a_name)
 {

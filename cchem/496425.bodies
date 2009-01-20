@@ -1,11 +1,11 @@
 class manager
-!!!1530281.cpp!!!	connect(inout a_top : basic_datum, in a_uri : string, in a_is_new : bool) : persistence
+!!!1530281.cpp!!!	connect(inout a_top : basic_datum, in a_uri : string) : persistence
 // Assume is a plain filename if URI scheme is empty
 const xmlreader::uri l_uri (a_uri);
 const std::string l_uri_scheme (l_uri.scheme ());
 const std::string l_scheme (l_uri_scheme.empty ()? names::file_scheme (): l_uri_scheme);
 std::auto_ptr< persistence > Result;
-return m_creator[l_scheme] (a_top, a_uri, a_is_new);
+return m_creator[l_scheme] (a_top, a_uri);
 !!!1638057.cpp!!!	is_supported(in a_uri : string) : bool
 std::auto_ptr< xmlreader::uri > l_uri (xmlreader::uri::make_uri (a_uri));
 return (NULL != l_uri.get () and

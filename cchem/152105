@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 23
+  revision 25
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -319,7 +319,7 @@ ${inlines}
       associated_artifacts
       end
       comment "${butter_boost}
-using gcc : : : <cxxflags>\"-std=c++98 -Weffc++\" <linkflags>\"-rdynamic -lz\" <optimization>speed:<cflags>\"-march=native -mfpmath=sse -msse2\" ;
+using gcc : : : <cxxflags>\"-std=c++98 -Weffc++ -Woverloaded-virtual -Wstrict-null-sentinel\" <linkflags>\"-rdynamic -lz\" <optimization>speed:<cflags>\"-march=native -mfpmath=sse -msse2\" ;
 # using intel : : :  <cxxflags>\"-D_BOOL -wd383,981,869\" <linkflags>\"-i_dynamic -rdynamic -lz\" <optimization>speed:<cflags>\"-tpp7 -xW -ipo\" ;
 
 import string ;
@@ -2049,7 +2049,6 @@ is not a real C++ sourcefile.
   -> [ ] Make test system report failed tests.
 
 Todo
-- update tests for data_scheme
 - update tests for report
 - update tests fir supplier
 - update tests for utility

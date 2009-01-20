@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 77
+  revision 78
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1039,18 +1039,6 @@ ${inlines}
 	  b parent class_ref 432681 // basic_datum
       end
 
-      operation 1524137 "is_open"
-	abstract const cpp_virtual public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	
-	
-	
-	
-	comment "Has the data been deserialised from this source (or is source new)?"
-      end
-
       operation 1528617 "persistence"
 	public explicit_return_type ""
 	nparams 1
@@ -1069,7 +1057,9 @@ ${inlines}
       operation 1528745 "~persistence"
 	cpp_virtual public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ()
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
 {}
 "
 	
@@ -1145,9 +1135,7 @@ ${inlines}
 	
 	
 	
-	comment "Deserialise data from persistent storage
-
-\\post is_open"
+	comment "Deserialise data from persistent storage"
       end
 
       operation 1524521 "uri_path"
@@ -1193,7 +1181,7 @@ persistent storage. "
       end
 
       operation 1524265 "write"
-	abstract cpp_virtual public explicit_return_type "void"
+	abstract const cpp_virtual public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -1242,7 +1230,7 @@ Front-ends get the appropriate based on the data-base URI."
 
       class 511785 "create_persistence_function"
 	visibility package stereotype "typedef" base_type class_ref 449449 // persistence
-	cpp_decl "${comment}typedef boost::function3< std::auto_ptr< ${type} >, data_scheme::basic_datum&, const std::string&, bool > ${name};
+	cpp_decl "${comment}typedef boost::function2< std::auto_ptr< ${type} >, data_scheme::basic_datum&, const std::string& > ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -1284,13 +1272,12 @@ Front-ends get the appropriate based on the data-base URI."
       operation 1530281 "connect"
 	stereotype "auto_ptr"
 	public return_type class_ref 449449 // persistence
-	nparams 3
+	nparams 2
 	  param inout name "a_top" type class_ref 432681 // basic_datum
 	  param in name "a_uri" explicit_type "string"
-	  param in name "a_is_new" explicit_type "bool"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   @{require}(is_supported (${p1}), \"Unsupported URI scheme, can not create persistence object.\");
   ${body}
@@ -3844,17 +3831,6 @@ nodes will be located between the DOCTYPE node and the
 document element regardless of their original position."
       end
 
-      attribute 356905 "m_open"
-	private explicit_type "bool"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Has this object been opened?"
-      end
-
       attribute 356393 "m_url"
 	private type class_ref 361513 // path
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -3971,7 +3947,7 @@ possible matches."
 	private return_type class_ref 361513 // path
 	nparams 1
 	  param in name "a_start_path" type class_ref 361513 // path
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
@@ -4022,21 +3998,6 @@ prepending the base() path to path()."
 	
 	
 	comment "Get the header section of the XML document"
-      end
-
-      operation 1428777 "is_open"
-	const public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  return m_open;
-}
-"
-	
-	
-	
-	
-	comment "Test if this document has been read."
       end
 
       operation 1433641 "operator="
@@ -4116,19 +4077,14 @@ prepending the base() path to path()."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{require}(not is_open (), \"Can not open a document twice.\");
   ${body}
-  @{ensure}(is_open (), \"Openning document failed.\");
 }
 "
 	
 	
 	
 	
-	comment "Read the document into top () object.
-
-\\pre not is_open
-\\post is_open"
+	comment "Read the document into a_top object."
       end
 
       operation 1522985 "read_string"
@@ -4151,25 +4107,6 @@ prepending the base() path to path()."
 	
 	comment "Parse the (part) document in the string. The parsed content 
 is appended to a_parent."
-      end
-
-      operation 1500329 "set_open"
-	public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
-{
-  m_open = true;
-}
-"
-	
-	
-	
-	
-	comment "Artificially set the file to \"open\" status.  This is necessary when 
-creating an new file.
-
-Unnecessary as the absence of the file should trigger the object as
-being new."
       end
 
       operation 1444137 "uri_path"
@@ -4235,13 +4172,12 @@ persistent storage. "
       end
 
       operation 1436457 "write"
-	public explicit_return_type "void"
+	const public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
 {
-  @{require}(is_open (), \"Can only save an open document.\");
   ${body}
 }
 "
@@ -4249,24 +4185,20 @@ persistent storage. "
 	
 	
 	
-	comment "Write the objects descendent from top() onto the URL
-
-\\pre is_open"
+	comment "Write the objects descendent from top() onto the URL"
       end
 
       operation 1433257 "xml_persistence"
 	public explicit_return_type ""
-	nparams 3
+	nparams 2
 	  param inout name "a_top" type class_ref 432681 // basic_datum
 	  param in name "a_path" type class_ref 361513 // path
-	  param in name "a_is_new" explicit_type "bool"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw};
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw} 
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
 : @{base_class} (${p0})
 , m_base ()
 , m_header ()
-, m_open (${p2})
 , m_url (${p1})
 {
   @{require}(allowed_document_element (${p0}.serial_name ()), \"Invalid document element\");
@@ -4324,13 +4256,13 @@ until read or write are called."
 
       extra_member 151209 "create_xml_persistence"
 	
-	cpp "" "static std::auto_ptr < persistence > 
-create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_uri, bool a_is_new)
+	cpp "" "static std::auto_ptr < persistence >
+create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_uri)
 {
   const xmlreader::uri l_uri (a_uri);
   COMPCHEM_REQUIRE (l_uri.scheme ().empty () or l_uri.scheme () == names::file_scheme ()
                    , \"Invalid URI scheme\");
-  return std::auto_ptr< persistence > (new xml_persistence (a_dat, l_uri.path (), a_is_new));
+  return std::auto_ptr< persistence > (new xml_persistence (a_top, l_uri.path ()));
 }"
 	java ""
 	php ""
@@ -4349,13 +4281,13 @@ create_xml_persistence (data_scheme::basic_datum &a_dat, const std::string &a_ur
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214697 // xml_write_visitor
 	artifact_ref 231465 // xml_persistence
 	artifact_ref 230057 // data_access
-	artifact_ref 157993 // utility
-	artifact_ref 253353 // xml
-	artifact_ref 203945 // meta_datum
 	artifact_ref 157097 // xml_access_helper
+	artifact_ref 203945 // meta_datum
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 253353 // xml
+	artifact_ref 157993 // utility
       end
     end
 

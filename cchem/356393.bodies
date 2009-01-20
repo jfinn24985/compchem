@@ -1,5 +1,6 @@
 class identity
 !!!1407785.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_type.empty (), "Attempting to get_attribute of an invalid formula object.");
 bool Result (false);
 if (data_access::names::type_name () == a_name)
 {

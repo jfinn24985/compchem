@@ -8,8 +8,10 @@ if (data_access::names::memo_name () == a_name)
 }
 else if (data_access::names::memo_src_name () == a_name)
 {
-  m_results.push_back (new memo (*this));
-  m_results.back ().connect (a_label);
+  std::string l_dummy;
+  std::auto_ptr< memo > l_temp (new memo (*this, l_dummy));
+  l_temp.get ()->connect (a_label);
+  m_results.push_back (l_temp.release ());
   Result = &(m_results.back ());
 }
 else if (data_access::names::info_name () == a_name)
@@ -41,9 +43,11 @@ m_results.push_back (new memo (*this, a_label));
 // Memos are last
 append_child (m_results.back ());
 return m_results.back ();
-!!!1421609.cpp!!!	add_memo_src(in a_label : string) : memo
-m_results.push_back (new memo (*this));
-m_results.back ().connect (a_label);
+!!!1421609.cpp!!!	add_memo_src(in a_uri : string, in a_label : string) : memo
+std::auto_ptr < memo > Result (new memo (*this, a_label));
+Result.get ()->connect (a_uri);
+// Store successfully constructed memo
+m_results.push_back (Result.release ());
 // Memos are last
 append_child (m_results.back ());
 return m_results.back ();
@@ -52,6 +56,7 @@ return std::find_if (m_results.begin (), m_results.end (), boost::bind (std::equ
 !!!1659817.cpp!!!	find_memo(in a_label : string) : const_memo_iterator
 return std::find_if (m_results.begin (), m_results.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&memo::label, _1), a_label));
 !!!1413289.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not reference ().empty (), "Attempting to get_attribute from an invalid experiment object.");
 bool Result (false);
 if (data_access::names::reference_name () == a_name)
 {
@@ -60,15 +65,18 @@ if (data_access::names::reference_name () == a_name)
 }
 else if (data_access::names::date_start_name () == a_name)
 {
-  a_value.assign (m_date_start);
-  Result = true;
+  if (not m_date_start.empty ())
+  {
+    a_value.assign (m_date_start);
+    Result = true;
+  }
 }
 else if (data_access::names::date_end_name () == a_name)
 {
-  if (not m_date_end.empty ()) 
+  if (not m_date_end.empty ())
   {
     a_value.assign (m_date_end);
-  Result = true;
+    Result = true;
   }
 }
 else if (data_access::names::priority_name () == a_name)
@@ -76,13 +84,16 @@ else if (data_access::names::priority_name () == a_name)
   if (0 != m_priority)
   {
     a_value.assign (boost::lexical_cast< std::string > (m_priority));
-  Result = true;
+    Result = true;
   }
 }
 else if (data_access::names::worker_name () == a_name)
 {
-  a_value.assign (m_workers);
-  Result = true;
+  if (not m_workers.empty ())
+  {
+    a_value.assign (m_workers);
+    Result = true;
+  }
 }
 return Result;
 !!!1612073.cpp!!!	initialise() : void

@@ -1,16 +1,22 @@
 class basic_datum
-!!!1669033.cpp!!!	add_comment_swallow(inout a_value : string) : basic_datum
-m_base_elements.push_back (new comment (*this, a_value));
-m_children.push_back (&m_base_elements.back ());
-return m_base_elements.back ();
-!!!1427241.cpp!!!	add_pi_swallow(in a_name : string, inout a_value : string) : basic_datum
-m_base_elements.push_back (new processing_instruction (*this, a_name, a_value));
-m_children.push_back (&m_base_elements.back ());
-return m_base_elements.back ();
-!!!1668905.cpp!!!	add_text_swallow(in a_value : string) : basic_datum
-m_base_elements.push_back (new text (*this, a_value));
-m_children.push_back (&m_base_elements.back ());
-return m_base_elements.back ();
+!!!1669033.cpp!!!	add_comment_swallow(inout a_value : string) : comment
+std::auto_ptr< comment > l_child (new comment (*this, a_value));
+comment * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *(Result);
+!!!1427241.cpp!!!	add_pi_swallow(in a_name : string, inout a_value : string) : processing_instruction
+std::auto_ptr< processing_instruction > l_child (new processing_instruction (*this, a_name, a_value));
+processing_instruction * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *Result;
+!!!1668905.cpp!!!	add_text_swallow(in a_value : string) : text
+std::auto_ptr< text > l_child (new text (*this, a_value));
+text * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *Result;
 !!!1397929.cpp!!!	remove(in a_item : iterator) : void
 COMPCHEM_REQUIRE (a_item != end (), "iterator can not equal end iterator.");
 if (not m_base_elements.empty ())

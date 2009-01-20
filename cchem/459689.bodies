@@ -6,7 +6,7 @@ class memo_py
 const std::string& (memo::*get_memo_href)() const = &memo::href;
 void (memo::*set_memo_href)(std::string) = &memo::href;
 const std::string& (memo::*get_memo_label)() const = &memo::label;
-void (memo::*set_memo_label)(std::string) = &memo::label;
+// void (memo::*set_memo_label)(std::string) = &memo::label;
 const std::string& (memo::*get_memo_mechanism)() const = &memo::target_mechanism;
 void (memo::*set_memo_mechanism)(std::string) = &memo::target_mechanism;
 memo::datum_iterator (memo::*memo_begin_datum)() = &memo::begin_datum;
@@ -40,7 +40,7 @@ boost::python::class_< memo, boost::python::bases< basic_datum_py >, boost::nonc
       "The filename of the result file this memo we generated from.")
  .def ("is_open", &memo::is_open, "If is_src, then has the memo body bean read?")
  .def ("is_src", &memo::is_src, "Is the body of the memo contained in a sub-file?")
- .add_property("label", boost::python::make_function(get_memo_label, boost::python::return_value_policy< boost::python::return_by_value >()), set_memo_label,
+ .add_property("label", boost::python::make_function(get_memo_label, boost::python::return_value_policy< boost::python::return_by_value >()), /* set_memo_label, */
       "The ID of this memo object. Note this can only be set if currently empty.")
  .def ("make_src", &memo_py::make_src, "Convert a direct memo into one where the body is in a sub-file?")
  .add_property("target_mechanism", boost::python::make_function(get_memo_mechanism, boost::python::return_value_policy< boost::python::return_by_value >()), set_memo_mechanism,

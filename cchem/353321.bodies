@@ -13,8 +13,10 @@ else if (data_access::names::project_name () == a_name)
 }
 else if (data_access::names::project_src_name () == a_name)
 {
-  m_projects.push_back (new project (*this));
-  m_projects.back ().connect (a_label);
+  std::string l_dummy;
+  std::auto_ptr < project > l_temp (new project (*this, l_dummy));
+  l_temp.get ()->connect (a_label);
+  m_projects.push_back (l_temp.release ());
   Result = &(m_projects.back ());
 }
 else if (data_access::names::mechanism_name () == a_name)
@@ -101,9 +103,11 @@ m_projects.push_back (new project (*this, a_label));
 append_child (m_projects.back ());
 return m_projects.back ();
 
-!!!1425065.cpp!!!	add_project_src(in a_label : string) : project
-m_projects.push_back (new project (*this));
-m_projects.back ().connect (a_label);
+!!!1425065.cpp!!!	add_project_src(in a_uri : string, in a_label : string) : project
+std::auto_ptr< project > Result (new project (*this, a_label));
+Result.get ()->connect (a_uri);
+// Save successfully created project.
+m_projects.push_back (Result.release ());
 // Always last
 append_child (m_projects.back ());
 return m_projects.back ();
@@ -246,6 +250,3 @@ else
   }
   COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
 }
-!!!1449385.cpp!!!	write() : void
-COMPCHEM_CHECK (m_document->is_open (), "Program objects should always be open.");
-m_document->write ();

@@ -176,4 +176,10 @@ relationcanvas 192681 relation_ref 436393 // <directional composition>
   role_a_pos 135 46 3000 no_role_b
   multiplicity_a_pos 135 76 3000 no_multiplicity_b
 end
+relationcanvas 192937 relation_ref 564649 // <dependency>
+  from ref 182825 z 1999 to point 409 334
+  line 193065 z 1999 to ref 183721
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
 end
