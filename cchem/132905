@@ -1,6 +1,6 @@
 format 61
 "test" // /compchem/data_access::test
-  revision 48
+  revision 53
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -240,13 +240,13 @@ Failed tests are indicated by an uncaught exception."
       associated_artifacts
 	artifact_ref 252969 // regex
 	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 208937 // test_names
+	artifact_ref 230313 // filesystem
 	artifact_ref 230057 // data_access
 	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
 	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
-	artifact_ref 208937 // test_names
-	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -257,17 +257,17 @@ Failed tests are indicated by an uncaught exception."
     artifact 272553 "test_data_access2"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252969 // regex
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 252841 // program_options
-	artifact_ref 230057 // data_access
-	artifact_ref 144169 // data_scheme
-	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
 	artifact_ref 271401 // test_data_manager
+	artifact_ref 252969 // regex
+	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+	artifact_ref 160553 // test
 	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -862,6 +862,95 @@ ${docstring}${body}
 "
 	
       end
+
+      classrelation 589481 // <dependency>
+	relation 568361 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 589481 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+    end
+
+    class 525353 "test_xml_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 588201 // <generalisation>
+	relation 567081 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 588201 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 588329 // <dependency>
+	relation 567209 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 588329 // <dependency>
+	  b parent class_ref 494121 // xml_writer_proxy
+      end
+
+      attribute 447017 "s_exemplar"
+	class_attribute private type class_ref 525353 // test_xml_writer
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The representative for this unit-test"
+      end
+
+      operation 1688873 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test the xml_writer class.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1689001 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"Test @{namespace}/${class}\");
+}
+"
+	
+	
+	
+	
+      end
     end
   end
 
@@ -872,16 +961,17 @@ ${docstring}${body}
     artifact 266409 "test_data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 266281 // data_xml_access
 	artifact_ref 204073 // test_meta_datum
+	artifact_ref 273705 // test_xml_persistence
+	artifact_ref 278313 // test_xml_writer
+	artifact_ref 253097 // date_time
+	artifact_ref 266281 // data_xml_access
 	artifact_ref 215977 // test_file_helper
-	artifact_ref 230057 // data_access
 	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
 	artifact_ref 160553 // test
 	artifact_ref 253353 // xml
-	artifact_ref 273705 // test_xml_persistence
 	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -1000,6 +1090,48 @@ ${import}
 ${definition}"
       associated_classes
 	class_ref 521769 // test_xml_persistence
+      end
+    end
+
+    artifact 278313 "test_xml_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <sstream>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 525353 // test_xml_writer
       end
     end
   end

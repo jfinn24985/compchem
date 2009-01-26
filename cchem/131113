@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_scheme" // /compchem/data_scheme
-  revision 224
+  revision 225
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1276,7 +1276,7 @@ Swallows content!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -2108,7 +2108,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -2422,7 +2422,7 @@ attributes are allowed."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -3493,7 +3493,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -4483,7 +4483,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -4881,7 +4881,7 @@ definition() object."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -5423,7 +5423,7 @@ ${docstring}${body}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -5661,7 +5661,7 @@ content of a_type
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -6119,7 +6119,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -6897,7 +6897,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -8129,7 +8129,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -8266,7 +8266,7 @@ Swallows content!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_pi (*this);
 }
 "
 	
@@ -9625,7 +9625,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -10747,7 +10747,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -11419,7 +11419,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -11535,7 +11535,7 @@ Swallows content!
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -11561,7 +11561,7 @@ ${inlines}
       
       comment "This class defines an abstract interface to an object that can 
 visit the data objects in document-order. "
-      operation 1417385 "on_visit"
+      operation 1417385 "visit_basic_datum"
 	abstract cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
@@ -11574,7 +11574,7 @@ visit the data objects in document-order. "
 	comment "Pure virtual method to operate on objects as basic_datum."
       end
 
-      operation 1417257 "on_visit"
+      operation 1417257 "visit_comment"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443433 // comment
@@ -11582,7 +11582,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11592,7 +11592,7 @@ visit the data objects in document-order. "
 	comment "Operator on comment objects."
       end
 
-      operation 1440937 "on_visit"
+      operation 1440937 "visit_compound"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356009 // compound
@@ -11600,7 +11600,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11610,7 +11610,7 @@ visit the data objects in document-order. "
 	comment "Operate on compound objects."
       end
 
-      operation 1533481 "on_visit"
+      operation 1533481 "visit_compound_ref"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 480425 // compound_ref
@@ -11618,7 +11618,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11628,7 +11628,7 @@ visit the data objects in document-order. "
 	comment "Operate on compound objects."
       end
 
-      operation 1441065 "on_visit"
+      operation 1441065 "visit_datum"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 355369 // datum
@@ -11636,7 +11636,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11646,7 +11646,7 @@ visit the data objects in document-order. "
 	comment "Operate on datum objects."
       end
 
-      operation 1444393 "on_visit"
+      operation 1444393 "visit_experiment"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356905 // experiment
@@ -11654,7 +11654,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11664,7 +11664,7 @@ visit the data objects in document-order. "
 	comment "Operate on experiment objects."
       end
 
-      operation 1444521 "on_visit"
+      operation 1444521 "visit_filter"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354729 // filter
@@ -11672,7 +11672,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11682,7 +11682,7 @@ visit the data objects in document-order. "
 	comment "Operate on filter objects."
       end
 
-      operation 1444649 "on_visit"
+      operation 1444649 "visit_formula"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356521 // formula
@@ -11690,7 +11690,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11700,7 +11700,7 @@ visit the data objects in document-order. "
 	comment "Operate on formula objects."
       end
 
-      operation 1444777 "on_visit"
+      operation 1444777 "visit_identity"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356393 // identity
@@ -11708,7 +11708,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11718,7 +11718,7 @@ visit the data objects in document-order. "
 	comment "Operate on identity objects."
       end
 
-      operation 1444905 "on_visit"
+      operation 1444905 "visit_info"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354601 // info
@@ -11726,7 +11726,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11736,7 +11736,7 @@ visit the data objects in document-order. "
 	comment "Operate on info objects."
       end
 
-      operation 1445033 "on_visit"
+      operation 1445033 "visit_mechanism"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353705 // mechanism
@@ -11744,7 +11744,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11754,7 +11754,7 @@ visit the data objects in document-order. "
 	comment "Operate on mechanism objects."
       end
 
-      operation 1445161 "on_visit"
+      operation 1445161 "visit_memo"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
@@ -11762,7 +11762,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11772,7 +11772,7 @@ visit the data objects in document-order. "
 	comment "Operate on memo objects."
       end
 
-      operation 1445289 "on_visit"
+      operation 1445289 "visit_pi"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443561 // processing_instruction
@@ -11780,7 +11780,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11790,7 +11790,7 @@ visit the data objects in document-order. "
 	comment "Operate on processing_instruction objects."
       end
 
-      operation 1445417 "on_visit"
+      operation 1445417 "visit_program"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353321 // program
@@ -11798,7 +11798,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11808,7 +11808,7 @@ visit the data objects in document-order. "
 	comment "Operate on program objects."
       end
 
-      operation 1445545 "on_visit"
+      operation 1445545 "visit_project"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
@@ -11816,7 +11816,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11826,7 +11826,7 @@ visit the data objects in document-order. "
 	comment "Operate on project objects."
       end
 
-      operation 1445673 "on_visit"
+      operation 1445673 "visit_settings"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 371497 // settings
@@ -11834,7 +11834,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11844,7 +11844,7 @@ visit the data objects in document-order. "
 	comment "Operate on settings objects."
       end
 
-      operation 1445929 "on_visit"
+      operation 1445929 "visit_text"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text
@@ -11852,7 +11852,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11862,7 +11862,7 @@ visit the data objects in document-order. "
 	comment "Operate on text objects."
       end
 
-      operation 1466409 "on_visit"
+      operation 1466409 "visit_worker"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353577 // worker
@@ -11870,7 +11870,7 @@ visit the data objects in document-order. "
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  on_visit_base (${p0});
+  visit_basic_datum (${p0});
 }
 "
 	
@@ -11878,22 +11878,6 @@ visit the data objects in document-order. "
 	
 	
 	comment "Operate on worker objects."
-      end
-
-      operation 1440809 "on_visit_base"
-	private explicit_return_type "void"
-	nparams 1
-	  param in name "a_datum" type class_ref 432681 // basic_datum
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  on_visit (${p0});
-}
-"
-	
-	
-	
-	
-	comment "Calls the on_visit(const basic_datum&) method."
       end
 
       operation 1593513 "~visitor"
@@ -12301,7 +12285,7 @@ throw exception if a_datum is not a child of derived class."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.on_visit (*this);
+  ${p0}.visit_${class} (*this);
 }
 "
 	
@@ -12403,27 +12387,27 @@ Swallow the content of a_label.
     artifact 144169 "data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 142889 // mechanism
-	artifact_ref 141993 // info
 	artifact_ref 143657 // compound
-	artifact_ref 214569 // visitor
-	artifact_ref 207785 // text
-	artifact_ref 142249 // identity
-	artifact_ref 144041 // program
-	artifact_ref 232617 // compound_ref
-	artifact_ref 143273 // experiment
-	artifact_ref 143145 // memo
-	artifact_ref 166569 // settings
-	artifact_ref 141737 // datum
-	artifact_ref 233897 // content_visitor
-	artifact_ref 142633 // worker
+	artifact_ref 142889 // mechanism
 	artifact_ref 143913 // project
-	artifact_ref 253353 // xml
-	artifact_ref 143529 // formula
+	artifact_ref 142633 // worker
 	artifact_ref 202793 // basic_datum
-	artifact_ref 157993 // utility
-	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 233897 // content_visitor
+	artifact_ref 143529 // formula
+	artifact_ref 141737 // datum
+	artifact_ref 141993 // info
 	artifact_ref 142505 // filter
+	artifact_ref 166569 // settings
+	artifact_ref 222889 // data_scheme_helper
+	artifact_ref 157993 // utility
+	artifact_ref 143145 // memo
+	artifact_ref 143273 // experiment
+	artifact_ref 232617 // compound_ref
+	artifact_ref 144041 // program
+	artifact_ref 142249 // identity
+	artifact_ref 207785 // text
+	artifact_ref 253353 // xml
+	artifact_ref 214569 // visitor
       end
       comment "The library for the data_scheme objects"
     end
@@ -13366,7 +13350,7 @@ all its descendents into the ostream object given in the constructor."
 	comment "no copy"
       end
 
-      operation 1541289 "on_visit"
+      operation 1541289 "visit_basic_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
@@ -13384,7 +13368,7 @@ all its descendents into the ostream object given in the constructor."
 	comment "Process children of any object."
       end
 
-      operation 1541417 "on_visit"
+      operation 1541417 "visit_text"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text

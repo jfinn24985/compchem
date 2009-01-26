@@ -1,6 +1,6 @@
 format 61
 "py" // /compchem/data_scheme::py
-  revision 8
+  revision 9
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -137,7 +137,7 @@ not set."
       end
 
       operation 1461289 "visit"
-	public explicit_return_type "void"
+	const public explicit_return_type "void"
 	nparams 1
 	  param inout name "a_visitor" type class_ref 435241 // visitor
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
@@ -165,6 +165,38 @@ not set."
 	
 	
 	comment "Generate the pythonised version of basic_datum"
+      end
+
+      operation 1689129 "add_child"
+	cpp_virtual public return_type class_ref 432681 // basic_datum
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param inout name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}, ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{always}(false, \"Can not add children to a this object\");
+  // Dummy return value.
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "add_child creates a new object corresponding to a_name and appends it
+to the list of children.
+
+Note: add_child always appends objects to list. It should therefore only be 
+used by deserialisation classes.
+
+throw is a_name is not a valid child.
+base-class action is to throw an error!
+
+\\post a_label.empty
+
+\\return /= NULL"
       end
     end
 
@@ -1663,7 +1695,7 @@ ${inlines}
 	  b parent class_ref 435241 // visitor
       end
 
-      operation 1461929 "on_visit"
+      operation 1461929 "visit_comment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443433 // comment
@@ -1671,11 +1703,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1684,7 +1716,7 @@ ${inlines}
 	
       end
 
-      operation 1464489 "def_on_visit_comment"
+      operation 1464489 "def_visit_comment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443433 // comment
@@ -1692,7 +1724,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1701,7 +1733,7 @@ ${inlines}
 	
       end
 
-      operation 1462057 "on_visit"
+      operation 1462057 "visit_compound"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356009 // compound
@@ -1709,11 +1741,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1722,7 +1754,7 @@ ${inlines}
 	
       end
 
-      operation 1464617 "def_on_visit_compound"
+      operation 1464617 "def_visit_compound"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356009 // compound
@@ -1730,7 +1762,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1739,7 +1771,7 @@ ${inlines}
 	
       end
 
-      operation 1535145 "on_visit"
+      operation 1535145 "visit_compound_ref"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 480425 // compound_ref
@@ -1747,11 +1779,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1760,7 +1792,7 @@ ${inlines}
 	
       end
 
-      operation 1535273 "def_on_visit_compound_ref"
+      operation 1535273 "def_visit_compound_ref"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 480425 // compound_ref
@@ -1768,7 +1800,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1777,7 +1809,7 @@ ${inlines}
 	
       end
 
-      operation 1462185 "on_visit"
+      operation 1462185 "visit_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 355369 // datum
@@ -1785,11 +1817,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1798,7 +1830,7 @@ ${inlines}
 	
       end
 
-      operation 1464745 "def_on_visit_datum"
+      operation 1464745 "def_visit_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 355369 // datum
@@ -1806,7 +1838,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1815,7 +1847,7 @@ ${inlines}
 	
       end
 
-      operation 1462313 "on_visit"
+      operation 1462313 "visit_experiment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356905 // experiment
@@ -1823,11 +1855,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1836,7 +1868,7 @@ ${inlines}
 	
       end
 
-      operation 1464873 "def_on_visit_experiment"
+      operation 1464873 "def_visit_experiment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356905 // experiment
@@ -1844,7 +1876,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1853,7 +1885,7 @@ ${inlines}
 	
       end
 
-      operation 1462441 "on_visit"
+      operation 1462441 "visit_filter"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354729 // filter
@@ -1861,11 +1893,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1874,7 +1906,7 @@ ${inlines}
 	
       end
 
-      operation 1465001 "def_on_visit_filter"
+      operation 1465001 "def_visit_filter"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354729 // filter
@@ -1882,7 +1914,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1891,7 +1923,7 @@ ${inlines}
 	
       end
 
-      operation 1462569 "on_visit"
+      operation 1462569 "visit_formula"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356521 // formula
@@ -1899,11 +1931,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1912,7 +1944,7 @@ ${inlines}
 	
       end
 
-      operation 1465129 "def_on_visit_formula"
+      operation 1465129 "def_visit_formula"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356521 // formula
@@ -1920,7 +1952,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1929,7 +1961,7 @@ ${inlines}
 	
       end
 
-      operation 1462697 "on_visit"
+      operation 1462697 "visit_identity"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356393 // identity
@@ -1937,11 +1969,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1950,7 +1982,7 @@ ${inlines}
 	
       end
 
-      operation 1465257 "def_on_visit_identity"
+      operation 1465257 "def_visit_identity"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356393 // identity
@@ -1958,7 +1990,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1967,7 +1999,7 @@ ${inlines}
 	
       end
 
-      operation 1462825 "on_visit"
+      operation 1462825 "visit_info"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354601 // info
@@ -1975,11 +2007,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -1988,7 +2020,7 @@ ${inlines}
 	
       end
 
-      operation 1465385 "def_on_visit_info"
+      operation 1465385 "def_visit_info"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354601 // info
@@ -1996,7 +2028,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2005,7 +2037,7 @@ ${inlines}
 	
       end
 
-      operation 1462953 "on_visit"
+      operation 1462953 "visit_mechanism"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353705 // mechanism
@@ -2013,11 +2045,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2026,7 +2058,7 @@ ${inlines}
 	
       end
 
-      operation 1465513 "def_on_visit_mechanism"
+      operation 1465513 "def_visit_mechanism"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353705 // mechanism
@@ -2034,7 +2066,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2043,7 +2075,7 @@ ${inlines}
 	
       end
 
-      operation 1463081 "on_visit"
+      operation 1463081 "visit_memo"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
@@ -2051,11 +2083,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2064,7 +2096,7 @@ ${inlines}
 	
       end
 
-      operation 1465641 "def_on_visit_memo"
+      operation 1465641 "def_visit_memo"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
@@ -2072,7 +2104,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2081,7 +2113,7 @@ ${inlines}
 	
       end
 
-      operation 1463209 "on_visit"
+      operation 1463209 "visit_pi"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443561 // processing_instruction
@@ -2089,11 +2121,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_pi (${p0});
 }
 "
 	
@@ -2102,7 +2134,7 @@ ${inlines}
 	
       end
 
-      operation 1465769 "def_on_visit_processing_instruction"
+      operation 1465769 "def_visit_pi"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443561 // processing_instruction
@@ -2110,7 +2142,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_pi (${p0});
 }
 "
 	
@@ -2119,7 +2151,7 @@ ${inlines}
 	
       end
 
-      operation 1463337 "on_visit"
+      operation 1463337 "visit_program"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353321 // program
@@ -2127,11 +2159,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2140,7 +2172,7 @@ ${inlines}
 	
       end
 
-      operation 1465897 "def_on_visit_program"
+      operation 1465897 "def_visit_program"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353321 // program
@@ -2148,7 +2180,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2157,7 +2189,7 @@ ${inlines}
 	
       end
 
-      operation 1463465 "on_visit"
+      operation 1463465 "visit_project"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
@@ -2165,11 +2197,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2178,7 +2210,7 @@ ${inlines}
 	
       end
 
-      operation 1466025 "def_on_visit_project"
+      operation 1466025 "def_visit_project"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
@@ -2186,7 +2218,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2195,7 +2227,7 @@ ${inlines}
 	
       end
 
-      operation 1463593 "on_visit"
+      operation 1463593 "visit_settings"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 371497 // settings
@@ -2203,11 +2235,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2216,7 +2248,7 @@ ${inlines}
 	
       end
 
-      operation 1466153 "def_on_visit_settings"
+      operation 1466153 "def_visit_settings"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 371497 // settings
@@ -2224,7 +2256,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2233,7 +2265,7 @@ ${inlines}
 	
       end
 
-      operation 1463721 "on_visit"
+      operation 1463721 "visit_text"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text
@@ -2241,11 +2273,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2254,7 +2286,7 @@ ${inlines}
 	
       end
 
-      operation 1466665 "def_on_visit_text"
+      operation 1466665 "def_visit_text"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text
@@ -2262,7 +2294,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2271,7 +2303,7 @@ ${inlines}
 	
       end
 
-      operation 1466537 "on_visit"
+      operation 1466537 "visit_worker"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353577 // worker
@@ -2279,11 +2311,11 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  boost::python::override func = this->get_override (\"${name}_${t0}\");
+  boost::python::override func = this->get_override (\"${name}\");
   if (func)
     func (${p0});
   else
-    this->visitor::on_visit (${p0});
+    this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2292,7 +2324,7 @@ ${inlines}
 	
       end
 
-      operation 1466281 "def_on_visit_worker"
+      operation 1466281 "def_visit_worker"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353577 // worker
@@ -2300,7 +2332,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->visitor::on_visit (${p0});
+  this->visitor::visit_${t0} (${p0});
 }
 "
 	
@@ -2309,7 +2341,7 @@ ${inlines}
 	
       end
 
-      operation 1463849 "on_visit"
+      operation 1463849 "visit_basic_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
@@ -2317,7 +2349,7 @@ ${inlines}
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  this->get_override (\"${name}_basic_datum\")(${p0});
+  this->get_override (\"${name}\")(${p0});
 }
 "
 	
@@ -2346,12 +2378,16 @@ ${inlines}
       operation 1593641 "~visitor_py"
 	cpp_virtual public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
 "
 	
 	
 	
 	
+	comment "Dtor (does nothing in this class)"
       end
     end
 
@@ -2433,33 +2469,33 @@ ${inlines}
     artifact 229929 "data_scheme_py"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252969 // regex
-	artifact_ref 219817 // text_py
-	artifact_ref 220201 // experiment_py
-	artifact_ref 219945 // datum_py
-	artifact_ref 220841 // mechanism_py
-	artifact_ref 220073 // compound_py
-	artifact_ref 252841 // program_options
-	artifact_ref 230057 // data_access
-	artifact_ref 144169 // data_scheme
-	artifact_ref 221481 // worker_py
-	artifact_ref 221353 // settings_py
 	artifact_ref 220457 // formula_py
-	artifact_ref 230313 // filesystem
-	artifact_ref 221225 // project_py
-	artifact_ref 276009 // python_lib
-	artifact_ref 221097 // program_py
-	artifact_ref 220713 // info_py
-	artifact_ref 253353 // xml
-	artifact_ref 219561 // basic_datum_py
-	artifact_ref 220969 // memo_py
-	artifact_ref 220329 // filter_py
-	artifact_ref 217257 // data_scheme_py_main
-	artifact_ref 232745 // compound_ref_py
-	artifact_ref 220585 // identity_py
+	artifact_ref 230057 // data_access
+	artifact_ref 220201 // experiment_py
+	artifact_ref 221353 // settings_py
 	artifact_ref 219689 // visitor_py
-	artifact_ref 157993 // utility
+	artifact_ref 221481 // worker_py
+	artifact_ref 252841 // program_options
+	artifact_ref 220585 // identity_py
+	artifact_ref 221225 // project_py
+	artifact_ref 219817 // text_py
+	artifact_ref 232745 // compound_ref_py
+	artifact_ref 230313 // filesystem
+	artifact_ref 217257 // data_scheme_py_main
+	artifact_ref 220713 // info_py
 	artifact_ref 253097 // date_time
+	artifact_ref 220329 // filter_py
+	artifact_ref 221097 // program_py
+	artifact_ref 220969 // memo_py
+	artifact_ref 219561 // basic_datum_py
+	artifact_ref 220073 // compound_py
+	artifact_ref 220841 // mechanism_py
+	artifact_ref 252969 // regex
+	artifact_ref 157993 // utility
+	artifact_ref 219945 // datum_py
+	artifact_ref 144169 // data_scheme
+	artifact_ref 253353 // xml
+	artifact_ref 276009 // python_lib
       end
       ncouples 1
       key "butter other" value "python-extension"

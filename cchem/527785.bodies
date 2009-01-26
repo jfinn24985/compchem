@@ -1,0 +1,163 @@
+class pcr2
+!!!1701161.cpp!!!	add_memo(in a_memo : memo, inout a_compound_map : compound_map_type) : void
+const std::string l_compound_label (a_memo.compound_label ());
+const std::string l_formula_label (a_memo.formula_label ());
+DLOG("Add_memo with compound label=\"");DLOG(l_compound_label);DLOG("\" and formula=\"");DLOG(l_formula_label);DLOG("\"\n");
+// *l_i_form_map --> pair< string, pair< bool, formula_map > >
+// this means the formula map is l_i_form_map->second.second
+compound_map_type::iterator l_i_form_map (a_compound_map.find (l_compound_label));
+if (l_i_form_map == a_compound_map.end ())
+{
+  l_i_form_map = a_compound_map.insert (std::make_pair(l_compound_label, std::make_pair (false, formula_map_type ()))).first;
+}
+
+// *l_i_memo_map --> pair < string, vector< memo * > >
+formula_map_type::iterator l_i_memo_map (l_i_form_map->second.second.find (l_formula_label));
+if (l_i_memo_map == l_i_form_map->second.second.end ())
+{
+  l_i_memo_map = l_i_form_map->second.second.insert (std::make_pair (l_formula_label, std::make_pair (false, std::vector< const data_scheme::memo* >()))).first;
+}
+
+// Insert memo
+l_i_memo_map->second.second.push_back (&a_memo);
+!!!1701289.cpp!!!	add_reference(in a_ref : compound_ref, inout a_compound_map : compound_map_type) : void
+const std::string l_compound_label (a_ref.compound_label ());
+// *l_i_form_map --> pair< string, pair< bool, formula_map > >
+// this means the formula map is l_i_form_map->second.second
+compound_map_type::iterator l_i_form_map (a_compound_map.find (l_compound_label));
+if (l_i_form_map == a_compound_map.end ())
+{
+  l_i_form_map = a_compound_map.insert (std::make_pair(l_compound_label, std::make_pair (true, formula_map_type ()))).first;
+}
+
+// Iterate over formula list of program/compound or a_ref.formulae list.
+if (a_ref.formulae ().empty ())
+{
+  // Use all formulae of compound
+  data_scheme::program::const_compound_iterator l_comp (a_ref.section ().site ().find_compound (a_ref.compound_label ()));
+  COMPCHEM_CHECK (l_comp != a_ref.section ().site ().end_compound (), "Invalid compound_ref that does not refer to an existing compound.");
+  for (data_scheme::compound::const_formula_iterator l_formula_iter (l_comp->begin_formula ()); l_formula_iter != l_comp->end_formula (); ++l_formula_iter)
+  {
+    formula_map_type::iterator l_i_memo_map (l_i_form_map->second.second.find (l_formula_iter->label ()));
+    if (l_i_memo_map == l_i_form_map->second.second.end ())
+    {
+      l_i_form_map->second.second.insert (std::make_pair (l_formula_iter->label (), std::make_pair (true, std::vector< const data_scheme::memo *>())));
+    }
+  }
+}
+else
+{
+  boost::tokenizer<> l_tokens (a_ref.formulae ());
+  for (boost::tokenizer<>::iterator l_formula_label (l_tokens.begin ()); l_formula_label  != l_tokens.end (); ++l_formula_label)
+  {
+    formula_map_type::iterator l_i_memo_map (l_i_form_map->second.second.find (*l_formula_label));
+    if (l_i_memo_map == l_i_form_map->second.second.end ())
+    {
+      l_i_form_map->second.second.insert (std::make_pair (*l_formula_label, std::make_pair (true, std::vector< const data_scheme::memo *>())));
+    }
+  }
+}
+
+!!!1701417.cpp!!!	generate_map(in a_parent : project, inout a_compound_map : compound_map_type) : void
+///////////
+// Pass one
+
+// Add project's direct memos
+for (data_scheme::project::const_experiment_iterator l_i (a_parent.begin_experiment ()); l_i != a_parent.end_experiment (); ++l_i)
+{
+  for (data_scheme::experiment::const_memo_iterator l_j (l_i->begin_memo ()); l_j != l_i->end_memo (); ++l_j)
+  {
+    add_memo (*l_j, a_compound_map);
+  }
+}
+
+// Add compound references
+for (data_scheme::project::const_compound_ref_iterator l_i (a_parent.begin_compound_ref ()); l_i != a_parent.end_compound_ref (); ++l_i)
+{
+  add_reference (*l_i, a_compound_map);
+}
+
+///////////
+// Pass two
+
+// This tries to add the memos from compound_refs.
+for (data_scheme::program::const_project_iterator l_i (a_parent.site ().begin_project ()); l_i != a_parent.site ().end_project (); ++l_i)
+{
+  if (l_i->label () != a_parent.label ()) // Only check other projects
+  {
+    for (data_scheme::project::const_experiment_iterator l_k (l_i->begin_experiment ()); l_k != l_i->end_experiment (); ++l_k)
+    {
+      for (data_scheme::experiment::const_memo_iterator l_j (l_k->begin_memo ()); l_j != l_k->end_memo (); ++l_j)
+      {
+        // Search a_compound_map for the compound/formula.
+        compound_map_type::const_iterator l_i (a_compound_map.find (l_j->compound_label ()));
+        if (not (l_i == a_compound_map.end ()
+            or l_i->second.second.find (l_j->formula_label ()) == l_i->second.second.end ()))
+        {
+          add_memo (*l_j, a_compound_map);
+        }
+      }
+    }
+  }
+}
+!!!1701545.cpp!!!	operator()(in a_project : project, inout a_os : ostream) : void
+compound_map_type l_compound_map;
+{
+  data_scheme::scoped_open< data_scheme::project > l_local_open (a_project);
+  generate_map (a_project, l_compound_map);
+}
+write_map (a_os, l_compound_map, a_project.label ());
+!!!1702185.cpp!!!	write_map(inout a_os : ostream, in a_compound_map : compound_map_type, in a_project_label : string) : void
+const std::string l_cmpdlbl (data_access::names::compound_name ());
+const std::string l_formlbl (data_access::names::formula_name ());
+const std::string l_lbl (data_access::names::label_name ());
+// write project
+data_access::xml_writer_proxy l_project (a_os
+    , data_access::names::project_name ()
+    , data_access::xml_access_helper::helper ().public_id ()
+    , data_access::xml_access_helper::helper ().system_id ());
+l_project.attribute (l_lbl, a_project_label);
+for (compound_map_type::const_iterator l_cmpd (a_compound_map.begin ()); l_cmpd != a_compound_map.end (); ++l_cmpd)
+{
+  data_access::xml_writer_proxy l_compound (l_project, l_cmpdlbl);
+  COMPCHEM_CHECK (not l_cmpd->first.empty (), "Empty compound label!");
+  l_compound.attribute (l_lbl, l_cmpd->first);
+  for (formula_map_type::const_iterator l_form (l_cmpd->second.second.begin ()); l_form != l_cmpd->second.second.end (); ++l_form)
+  {
+    data_access::xml_writer_proxy l_formula (l_compound, l_formlbl);
+    COMPCHEM_CHECK (not l_form->first.empty (), "Empty formula label!");
+    l_formula.attribute (l_lbl, l_form->first);
+    for (std::vector< const data_scheme::memo* >::const_iterator l_memo (l_form->second.second.begin ()); l_memo != l_form->second.second.end (); ++l_memo)
+    {
+      data_access::xml_writer_proxy l_memo_node (l_formula, data_access::names::memo_src_name ());
+      COMPCHEM_CHECK (not (*l_memo)->label ().empty (), "Empty memo label!");
+      l_memo_node.attribute (l_lbl, (*l_memo)->label ());
+      l_memo_node.attribute (l_cmpdlbl, l_cmpd->first);
+      l_memo_node.attribute (l_formlbl, l_form->first);
+      // Construct href
+      std::string l_href;
+      if (not (*l_memo)->is_src ())
+      {
+        std::stringstream l_ss;
+        // Need to make up the href as
+        // %database_uri%/program/project[@label='%proj%']/experiment[@reference='%ref%']/memo[@label='%label%']
+        // or
+        // %project_src_uri%/project[@label='%proj%']/experiment[@reference='%ref%']/memo[@label='%label%'
+        l_ss << (*l_memo)->page ().section ().uri_scheme () << "://" << (*l_memo)->page ().section ().uri_path ();
+        if (not (*l_memo)->page ().section ().is_src ()) // need to append project info
+        {
+          l_ss << "/" << data_access::names::project_name () << "[@" << l_lbl << "='" << (*l_memo)->page ().section ().label () << "']";
+        }
+        // Now add experiment and memo.
+        l_ss << "/" << data_access::names::experiment_name () << "[@" << data_access::names::reference_name () << "='" << (*l_memo)->page ().reference () << "']/" << data_access::names::memo_name () << "[@" << l_lbl << "='" << (*l_memo)->label () << "'";
+        l_href.assign (l_ss.str ());
+      }
+      else
+      {
+        l_href = (*l_memo)->uri ();
+      }
+      COMPCHEM_CHECK (not l_href.empty (), "Empty memo href!");
+      l_memo_node.attribute (data_access::names::href_name (), l_href);
+    }
+  }
+}

@@ -1,6 +1,6 @@
 format 61
 "report unit tests" // /compchem/report::report unit tests
-  revision 9
+  revision 11
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -100,6 +100,18 @@ ${inlines}
 	comment "The name of the database to query."
       end
 
+      attribute 453673 "m_test_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The name of a file containing the expected output."
+      end
+
       attribute 405033 "s_exemplar"
 	class_attribute private type class_ref 495273 // test_cfm_report
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -116,7 +128,7 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
 {
-  return std::string (\"Unit test for project_cfm_report class.\");
+  return std::string (\"Test report//project_cfm_report class.\");
 }
 "
 	
@@ -166,6 +178,7 @@ nothing."
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : m_database ()
+, m_test_file ()
 {
   register_options ();
 }
@@ -221,6 +234,25 @@ nothing."
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 257705 "test_report"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
+	artifact_ref 230057 // data_access
+	artifact_ref 242217 // test_cfm_report
+	artifact_ref 255657 // report
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 253353 // xml
+	artifact_ref 253097 // date_time
+	artifact_ref 144169 // data_scheme
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
     artifact 242217 "test_cfm_report"
       stereotype "source"
       cpp_h "#ifndef @{PREFIX}${NAME}_HPP
@@ -251,6 +283,7 @@ ${comment}
 ${includes}
 // Manual include
 #include \"utility/program_options.hpp\"
+#include \"utility/filesystem.hpp\"
 // --
 ${namespace_start}
 ${members}
@@ -258,25 +291,6 @@ ${namespace_end}"
       associated_classes
 	class_ref 495273 // test_cfm_report
       end
-    end
-
-    artifact 257705 "test_report"
-      stereotype "library"
-      associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 253097 // date_time
-	artifact_ref 242217 // test_cfm_report
-	artifact_ref 230057 // data_access
-	artifact_ref 252841 // program_options
-	artifact_ref 160553 // test
-	artifact_ref 230313 // filesystem
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 255657 // report
-	artifact_ref 144169 // data_scheme
-	artifact_ref 253353 // xml
-      end
-      ncouples 1
-      key "butter other" value "unit-test"
     end
   end
 

@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/data_scheme::test cases
-  revision 45
+  revision 46
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -512,7 +512,7 @@ ${docstring}${body}
 	comment "no assign"
       end
 
-      operation 1623337 "on_visit"
+      operation 1623337 "visit_basic_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
@@ -530,7 +530,7 @@ ${docstring}${body}
 	comment "Test basic_datum methods for derived classes that can have children."
       end
 
-      operation 1623465 "on_visit"
+      operation 1623465 "visit_comment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443433 // comment
@@ -548,7 +548,7 @@ ${docstring}${body}
 	comment "Operate on comment objects."
       end
 
-      operation 1623593 "on_visit"
+      operation 1623593 "visit_compound"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356009 // compound
@@ -566,7 +566,7 @@ ${docstring}${body}
 	comment "Operate on compound objects."
       end
 
-      operation 1623721 "on_visit"
+      operation 1623721 "visit_compound_ref"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 480425 // compound_ref
@@ -584,7 +584,7 @@ ${docstring}${body}
 	comment "Operate on compound ref objects."
       end
 
-      operation 1623849 "on_visit"
+      operation 1623849 "visit_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 355369 // datum
@@ -602,7 +602,7 @@ ${docstring}${body}
 	comment "Operate on datum objects."
       end
 
-      operation 1623977 "on_visit"
+      operation 1623977 "visit_experiment"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356905 // experiment
@@ -620,7 +620,7 @@ ${docstring}${body}
 	comment "Operate on experiment objects."
       end
 
-      operation 1624105 "on_visit"
+      operation 1624105 "visit_filter"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354729 // filter
@@ -638,7 +638,7 @@ ${docstring}${body}
 	comment "Operate on filter objects."
       end
 
-      operation 1624233 "on_visit"
+      operation 1624233 "visit_formula"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356521 // formula
@@ -656,7 +656,7 @@ ${docstring}${body}
 	comment "Operate on formula objects."
       end
 
-      operation 1624361 "on_visit"
+      operation 1624361 "visit_identity"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 356393 // identity
@@ -674,7 +674,7 @@ ${docstring}${body}
 	comment "Operate on identity objects."
       end
 
-      operation 1624489 "on_visit"
+      operation 1624489 "visit_info"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354601 // info
@@ -692,7 +692,7 @@ ${docstring}${body}
 	comment "Operate on info objects."
       end
 
-      operation 1624617 "on_visit"
+      operation 1624617 "visit_mechanism"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353705 // mechanism
@@ -710,7 +710,7 @@ ${docstring}${body}
 	comment "Operate on mechanism objects."
       end
 
-      operation 1624745 "on_visit"
+      operation 1624745 "visit_memo"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
@@ -728,7 +728,7 @@ ${docstring}${body}
 	comment "Operate on memo objects."
       end
 
-      operation 1624873 "on_visit"
+      operation 1624873 "visit_pi"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443561 // processing_instruction
@@ -746,7 +746,7 @@ ${docstring}${body}
 	comment "Operate on processing_instruction objects."
       end
 
-      operation 1625001 "on_visit"
+      operation 1625001 "visit_program"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353321 // program
@@ -764,7 +764,7 @@ ${docstring}${body}
 	comment "Operate on program objects."
       end
 
-      operation 1625129 "on_visit"
+      operation 1625129 "visit_project"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
@@ -782,7 +782,7 @@ ${docstring}${body}
 	comment "Operate on project objects."
       end
 
-      operation 1625257 "on_visit"
+      operation 1625257 "visit_settings"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 371497 // settings
@@ -800,7 +800,7 @@ ${docstring}${body}
 	comment "Operate on settings objects."
       end
 
-      operation 1625385 "on_visit"
+      operation 1625385 "visit_text"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 443305 // text
@@ -818,7 +818,7 @@ ${docstring}${body}
 	comment "Operate on text objects."
       end
 
-      operation 1625513 "on_visit"
+      operation 1625513 "visit_worker"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 353577 // worker
@@ -948,16 +948,16 @@ ${docstring}${body}
     artifact 257321 "test_data_scheme"
       stereotype "library"
       associated_artifacts
-	artifact_ref 266281 // data_xml_access
-	artifact_ref 265129 // test_object_visitor
 	artifact_ref 230057 // data_access
 	artifact_ref 252841 // program_options
-	artifact_ref 160553 // test
-	artifact_ref 144169 // data_scheme
+	artifact_ref 266281 // data_xml_access
 	artifact_ref 230313 // filesystem
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
 	artifact_ref 253097 // date_time
+	artifact_ref 160553 // test
+	artifact_ref 157993 // utility
+	artifact_ref 265129 // test_object_visitor
+	artifact_ref 144169 // data_scheme
+	artifact_ref 253353 // xml
       end
       ncouples 1
       key "butter other" value "unit-test"

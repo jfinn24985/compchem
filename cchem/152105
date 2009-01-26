@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 25
+  revision 27
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2055,6 +2055,13 @@ Todo
 - update tests for xmlreader
 - chemistry tests
 - tests for python!
+- update tests for xml_writer/xml_writer_proxy
+
+Bugs
+- xmlreader test always has is_empty = 0
+
+Todos
+- data_access::xml_persistence::parse and checking the DOCTYPE
 
 Specifics
 - test_supplier

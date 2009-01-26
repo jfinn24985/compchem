@@ -1,6 +1,6 @@
 format 61
 "/compchem/report" // /compchem/report
-  revision 19
+  revision 26
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1009,17 +1009,26 @@ memos in the program that match project/compound_ref
 	  b parent class_ref 476713 // names
       end
 
+      classrelation 589737 // <dependency>
+	relation 568617 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 589737 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
       classrelation 527273 // <dependency>
 	relation 510249 -_->
 	  a default
 	    cpp default "#include in source"
 	    classrelation_ref 527273 // <dependency>
-	  b parent class_ref 494121 // xml_writer
+	  b parent class_ref 494121 // xml_writer_proxy
       end
 
-      class 493993 "formula_map_type"
-	visibility package stereotype "typedef" base_type class_ref 357033 // memo
-	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, std::vector< const ${type}* > > > ${name};
+      class 493993 "key_type"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef std::pair< ${type}, ${type} > ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -1031,8 +1040,8 @@ memos in the program that match project/compound_ref
       end
 
       class 493865 "compound_map_type"
-	visibility package stereotype "typedef" base_type class_ref 493993 // formula_map_type
-	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, ${type} > > ${name};
+	visibility package stereotype "typedef" base_type class_ref 357033 // memo
+	cpp_decl "${comment}typedef std::multimap< std::pair< std::string, std::string >, const ${type} *, bool (*)(const std::pair<std::string, std::string >&, const std::pair<std::string, std::string >&) > ${name};
 "
 	java_decl ""
 	php_decl ""
@@ -1041,28 +1050,21 @@ memos in the program that match project/compound_ref
 "
 	explicit_switch_type ""
 	
+	comment "Map of [compound_label] --> (is_from_ref, fomula_map)
+
+Only needs to be multi_map [(compd_lbl, formula_lbl)] --> memo"
       end
 
-      operation 1575337 "add_memo"
-	const private explicit_return_type "void"
-	nparams 2
-	  param in name "a_memo" type class_ref 357033 // memo
-	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+      extra_member 153513 "compare_pair"
+	
+	cpp "" "static bool compare_pair (const project_cfm_report::key_type & lhs, const project_cfm_report::key_type & rhs)
 {
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Add a memo, if two memos occur with the same outcomes, use the memo
-with the higher priority.
-
-If the compound/formula for this memo do not exist, add them."
+  return lhs.first < rhs.first or (lhs.first == rhs.first and lhs.second < rhs.second);
+}"
+	java ""
+	php ""
+	python ""
+	idl ""
       end
 
       operation 1575593 "add_reference"
@@ -1081,7 +1083,9 @@ If the compound/formula for this memo do not exist, add them."
 	
 	
 	
-	comment "Add the referenced compound/formula(e)"
+	comment "Add the referenced compound/formula(e). This inserts an entry
+into a_compound_map with a nul for the memo ptr (iff no entry
+already exists)."
       end
 
       operation 1572649 "generate_map"
@@ -1148,7 +1152,7 @@ objects for the referenced compound/formulae. "
       operation 1578025 "project_cfm_report"
 	public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile} throw ()
 {}
 "
 	
@@ -1161,7 +1165,7 @@ objects for the referenced compound/formulae. "
       operation 1578153 "~project_cfm_report"
 	public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ()
 {}
 "
 	
@@ -1182,26 +1186,6 @@ objects for the referenced compound/formulae. "
 	
 	
 	
-      end
-
-      operation 1575465 "use_formula"
-	const cpp_inline private explicit_return_type "bool"
-	nparams 3
-	  param in name "a_compound" explicit_type "string"
-	  param in name "a_formula" explicit_type "string"
-	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-	comment "Does this project need a reference to comp/formula."
       end
 
       operation 1575849 "write_map"
@@ -1225,7 +1209,7 @@ objects for the referenced compound/formulae. "
       end
     end
 
-    class 494121 "xml_writer"
+    class 527785 "pcr2"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
@@ -1239,94 +1223,228 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "This is a helper class for writing well-formed XML. It writes the
-document as it goes which simplifies the class but provides a
-few limitations.
-* You must set all attributes before you use an object as a parent
-* Using an object as a parent automatically closes the start tag 
-  and sets have_children
+      comment "The class generates a compound-formula-memo document
+based on a given project.
 
-General usage pattern
+It generates a report with the following XML psuedo-structure:
 
-xml_proxy l_docelem (a_os, \"nodename1\");
-xml_proxy l_child (l_docelem, \"nodename2\");"
-      attribute 403881 "m_close"
-	private explicit_type "string"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+project/compound/formula/memo-src
+
+Which includes all memo objects within the project plus any
+memos in the program that match project/compound_ref 
++ project/@outcomes."
+      classrelation 590889 // <dependency>
+	relation 569769 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 590889 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 591017 // <dependency>
+	relation 569897 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591017 // <dependency>
+	  b parent class_ref 480425 // compound_ref
+      end
+
+      classrelation 591145 // <dependency>
+	relation 570025 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591145 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 591273 // <dependency>
+	relation 570153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591273 // <dependency>
+	  b parent class_ref 356521 // formula
+      end
+
+      classrelation 591401 // <dependency>
+	relation 570281 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591401 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 591529 // <dependency>
+	relation 570409 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591529 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 591657 // <dependency>
+	relation 570537 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591657 // <dependency>
+	  b parent class_ref 505641 // scoped_open
+      end
+
+      classrelation 591785 // <dependency>
+	relation 570665 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591785 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 591913 // <dependency>
+	relation 570793 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 591913 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 592041 // <dependency>
+	relation 570921 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 592041 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      classrelation 592169 // <dependency>
+	relation 571049 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 592169 // <dependency>
+	  b parent class_ref 494121 // xml_writer_proxy
+      end
+
+      class 527913 "formula_map_type"
+	visibility package stereotype "typedef" base_type class_ref 357033 // memo
+	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, std::vector< const ${type}* > > > ${name};
 "
 	java_decl ""
 	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The possible closing tag."
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	comment "Map of [formula_label] --> (is_from_ref, memo* list)"
       end
 
-      attribute 403753 "m_have_children"
-	private explicit_type "bool"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+      class 528041 "compound_map_type"
+	visibility package stereotype "typedef" explicit_base_type "formula_map_type"
+	cpp_decl "${comment}typedef std::map< std::string, std::pair< bool, ${type} > > ${name};
 "
 	java_decl ""
 	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "Do we have children?"
-      end
-
-      attribute 403497 "m_os"
-	private explicit_type "ostream"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
 "
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The stream to write to"
+	explicit_switch_type ""
+	
+	comment "Map of [compound_label] --> (is_from_ref, fomula_map)"
       end
 
-      operation 1576617 "attribute"
-	public explicit_return_type "void"
+      operation 1701161 "add_memo"
+	const private explicit_return_type "void"
 	nparams 2
-	  param in name "a_label" explicit_type "string"
-	  param in name "a_value" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+	  param in name "a_memo" type class_ref 357033 // memo
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
-  COMPCHEM_REQUIRE (not m_have_children, \"Cannot set an attribute after adding children\");
-  COMPCHEM_REQUIRE (not ${p0}.empty (), \"Cannot set an attribute with an empty label\");
-  m_os << \" \" << ${p0} << \"=\\\"\" << ${p1} << \"\\\"\";
+  ${body}
 }
 "
 	
 	
 	
 	
-	comment "Write an attribute to the stream. All attributes must be given before
-this object is used as a parent.
+	comment "Add a memo, if two memos occur with the same outcomes, will use the memo
+with the higher priority.
 
-\\pre not have_children
-\\pre not a_label.empty"
+If the compound/formula for this memo do not exist, add them."
       end
 
-      operation 1576745 "have_children"
-	const public explicit_return_type "bool"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+      operation 1701289 "add_reference"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_ref" type class_ref 480425 // compound_ref
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
-  return m_have_children;
+  ${body}
 }
 "
 	
 	
 	
 	
-	comment "Do we have children"
+	comment "Add the referenced compound/formula(e)"
       end
 
-      operation 1576361 "operator="
-	private return_type class_ref 494121 // xml_writer
+      operation 1701417 "generate_map"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_parent" type class_ref 354089 // project
+	  param inout name "a_compound_map" type class_ref 493865 // compound_map_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Scans the parent project for compound/formula/memos.
+
+On the first pass it searches through the compound_ref and 
+memo objects for formulae references that are added along 
+with the corresponding compounds. If the source of the formula
+reference was a memo object it is also added.
+
+On the second pass the entire document is searched for memo 
+objects for the referenced compound/formulae. "
+      end
+
+      operation 1701545 "operator()"
+	const public explicit_return_type "void"
+	nparams 2
+	  param in name "a_project" type class_ref 354089 // project
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Generate the proj/comp/form/memo report of a_project on a_os."
+      end
+
+      operation 1701673 "operator="
+	private return_type class_ref 527785 // pcr2
 	nparams 1
-	  param in name "source" type class_ref 494121 // xml_writer
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
-"
+	  param in name "source" type class_ref 527785 // pcr2
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return *this;
+}"
 	
 	
 	
@@ -1334,104 +1452,63 @@ this object is used as a parent.
 	comment "no assign"
       end
 
-      operation 1576873 "stream"
-	public explicit_return_type "ostream"
+      operation 1701801 "pcr2"
+	public explicit_return_type ""
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile} throw ()
+{}
+"
+	
+	
+	
+	
+	comment "Create the report."
+      end
+
+      operation 1701929 "~pcr2"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1702057 "pcr2"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 527785 // pcr2
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1702185 "write_map"
+	const private explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_compound_map" type class_ref 493865 // compound_map_type
+	  param in name "a_project_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}
 {
-  if (not m_have_children) 
-  {
-    m_have_children = true;
-    m_os << \">\";
-  }
-  return m_os;
+  ${body}
 }
 "
 	
 	
 	
 	
-	comment "Access the stream (automatically sets have_children)
-
-\\post have_children"
-      end
-
-      operation 1575977 "xml_writer"
-	public explicit_return_type ""
-	nparams 2
-	  param inout name "a_parent" type class_ref 494121 // xml_writer
-	  param in name "a_label" explicit_type "string"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
-${body}
-"
-	
-	
-	
-	
-	comment "Construct an xml_proxy as a child of a_parent.
-
-\\pre not a_label.empty
-\\post a_parent.have_children"
-      end
-
-      operation 1576489 "xml_writer"
-	public explicit_return_type ""
-	nparams 4
-	  param inout name "a_os" explicit_type "ostream"
-	  param in name "a_label" explicit_type "string"
-	  param in name "a_pub_id" explicit_type "string"
-	    defaultvalue "\"\""
-	  param in name "a_sys_id" explicit_type "string"
-	    defaultvalue "\"\""
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}=${t2}(), const ${t3}& ${p3}=${t3}()${)}${volatile}${throw};
-"
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
-${body}
-"
-	
-	
-	
-	
-	comment "Construct the document element. If a_pub_id and a_sys_id are not 
-supplied then a DOCTYPE element is not created.
-
-\\pre not a_label.empty"
-      end
-
-      operation 1576105 "~xml_writer"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{
-  if (m_have_children)
-  {
-    m_os << \"</\" << m_close << \">\\n\";
-  }
-  else
-  {
-    m_os << \"/>\";
-  }
-}"
-	
-	
-	
-	
-      end
-
-      operation 1576233 "xml_writer"
-	stereotype "copy"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 494121 // xml_writer
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
-"
-	
-	
-	
-	
-	comment "no copy"
+	comment "Write the report."
       end
     end
   end
@@ -1454,6 +1531,9 @@ supplied then a DOCTYPE element is not created.
 ${comment}
 #include \"config.hpp\"
 ${includes}
+// Manual includes
+#include <map>
+// -
 ${declarations}
 ${namespace_start}
 ${definition}
@@ -1477,47 +1557,10 @@ ${namespace_end}"
       end
     end
 
-    artifact 241065 "xml_writer"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 494121 // xml_writer
-      end
-    end
-
     artifact 255657 "report"
       stereotype "library"
       associated_artifacts
 	artifact_ref 240937 // project_cfm_report
-	artifact_ref 241065 // xml_writer
       end
       ncouples 1
       key "butter type" value "static"

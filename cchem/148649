@@ -1,6 +1,6 @@
 format 61
 "libxml2" // /xmlreader::libxml2
-  revision 41
+  revision 42
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -423,10 +423,15 @@ loading the DTD)"
       end
 
       operation 1212969 "debug"
-	class_operation public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
-  xmlMemDisplay (stderr); }
+	class_operation cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "a_reader" type class_ref 499369 // reader_t
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
 "
 	
 	

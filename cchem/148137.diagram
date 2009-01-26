@@ -52,9 +52,9 @@ classcanvas 135465 class_ref 472873 // supplier_helper
   draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
   xyz 263 203 3005
 end
-classcanvas 136873 class_ref 450217 // auto_free
+classcanvas 137385 class_ref 360233 // xml_access_helper
   draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
-  xyz 59 19 2005
+  xyz 484 11 2000
 end
 relationcanvas 129577 relation_ref 358697 // <generalisation>
   from ref 128169 z 1999 to ref 129449
@@ -121,7 +121,7 @@ relationcanvas 134569 relation_ref 406057 // <directional composition>
   from ref 134185 z 2009 to point 466 151
   line 134697 z 2009 to point 466 180
   line 134825 z 2009 to ref 134185
-  role_a_pos 436 128 3000 no_role_b
+  role_a_pos 435 129 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 135081 relation_ref 406185 // <dependency>
@@ -146,6 +146,11 @@ relationcanvas 135593 relation_ref 467625 // <dependency>
 end
 relationcanvas 136745 relation_ref 497449 // <dependency>
   from ref 134185 z 2009 to ref 135465
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 137513 relation_ref 568489 // <dependency>
+  from ref 134185 z 1999 to ref 137385
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

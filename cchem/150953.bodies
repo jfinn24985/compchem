@@ -1,83 +1,13 @@
-class gaussian_dipole
-!!!1065641.cpp!!!	can_process(inout a_filter : basic_filter_traits, in a_filetype_info : char, in a_isize : int, in a_subtype_info : char, in a_ssize : int, in a_filetype_flags : int, inout a_errbuf : char, in a_esize : int) : int
-int Result (ON_SUCCESS);
-if (NULL != a_filter->m_internal_state) {
-  Result = ON_ERROR;
-  utility::c_streambuf< char > l_buf(a_errbuf, a_esize);
-  std::ostream l_err (&l_buf);
-  l_err << a_filter->m_name << ": state object already exists, can_process should be called once."; }
-else {
-  try {
-    a_filter->m_internal_state = new gaussian_dipole; }
-  catch (const std::exception &a_err) {
-    Result = ON_ERROR;
-    utility::c_streambuf< char > l_buf(a_errbuf, a_esize);
-    std::ostream l_err (&l_buf);
-    l_err << a_filter->m_name << ": " << a_err.what (); }}
-return Result;
-
-!!!233641.cpp!!!	process_segment(inout a_filter : basic_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
-// LOCAL
-int Result (ON_SUCCESS);
-try
+class xml2_reader_traits
+!!!1212969.cpp!!!	debug(in a_reader : reader_t) : void
+xmlMemDisplay (stderr);
+fprintf (stderr, "Bytes parsed %ld\n", xmlTextReaderByteConsumed (a_reader));
+fprintf (stderr, "Line %d\n", xmlTextReaderGetParserLineNumber (a_reader));
+fprintf (stderr, "Column %d\n", xmlTextReaderGetParserColumnNumber (a_reader));
+xmlChar * l_inner = xmlTextReaderReadInnerXml (a_reader);
+if (NULL != l_inner)
 {
-  gaussian_dipole *l_state = static_cast < gaussian_dipole * >(a_filter->m_internal_state);
-  if (boost::regex_search (a_segment, a_segment + a_ssize, l_state->m_find_dipole))
-  {
-    l_state->m_result.assign (a_segment, a_ssize);
-  }
-}
-catch (const std::exception & a_err)
-{
-  utility::c_streambuf < char >l_errbuf (a_errbuf, a_esize);
-  std::ostream l_err (&l_errbuf);
-  l_err << a_filter->m_name << ": " << a_err.what ();
-  Result = ON_ERROR;
+  fprintf (stderr, "Inner: %s\n", (char*)l_inner);
+  xmlFree (l_inner);
 }
 
-return Result;
-!!!233769.cpp!!!	output(inout a_filter : basic_filter_traits, inout a_cb_data : any, inout a_errbuf : char, in a_esize : int) : int
-// LOCAL
-int Result = ON_SUCCESS;
-try {
-  std::string & l_result (static_cast< gaussian_dipole * >(a_filter->m_internal_state)->m_result);
-  // DO
-  if (not l_result.empty ()) {
-    // This regex looks for "X= 0.0 Y= 0.0 Z= 0.0 Tot= 0.0"
-    boost::regex l_extract ("[XYZt]=[[:space:]]*([-.[:digit:]]+)", boost::regex::extended);
-    unsigned int l_counter (0);
-    std::stringstream l_output;
-    // Perform match
-    for (boost::sregex_iterator l_matcher (boost::make_regex_iterator (l_result, l_extract)), l_end;
-         l_matcher != l_end;
-         ++l_matcher, ++l_counter) {
-        // Get result string
-        if (l_counter > 0) {
-          l_output << ","; }
-        l_output << l_matcher->str(1); }
-    if (4 <= l_counter) {
-      // Add to result twiglet.
-      // - Get top element (assume is ??)
-      datum_writer l_dipole;
-      l_dipole.outcome ("dipole");
-      l_dipole.scale ("debye");
-      l_dipole.format ("x,y,z,tot");
-      // - Set content
-      l_dipole.content (l_output.str ());
-      // - Push results back
-      const std::string l_final (l_dipole.to_string ());
-      (*(a_filter->m_output_cb)) (a_cb_data, l_final.data (), l_final.size ()); }
-    else {
-      // ERROR: Could not find what we wanted in result string.
-      utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
-      std::ostream l_err (&l_errbuf);
-      l_err << a_filter->m_name << ": Error extracting dipole from string [" << l_result << "].";
-      Result = ON_ERROR; }}}
-catch (const std::exception &a_err) {
-  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
-  std::ostream l_err (&l_errbuf);
-  l_err << a_filter->m_name << ": " << a_err.what ();
-  Result = ON_ERROR; }
-
-// END
-return Result;

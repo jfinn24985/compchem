@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 46
+  revision 47
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2267,13 +2267,13 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 245033 // time_stamp
-	artifact_ref 224041 // program_options
 	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
-	artifact_ref 157609 // filesystem
-	artifact_ref 277161 // call_once
 	artifact_ref 192553 // contract_error
+	artifact_ref 277161 // call_once
+	artifact_ref 157609 // filesystem
+	artifact_ref 224041 // program_options
+	artifact_ref 245033 // time_stamp
       end
     end
 

@@ -1,6 +1,6 @@
 format 61
 "xmlreader" // /xmlreader::xmlreader
-  revision 36
+  revision 37
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -383,8 +383,10 @@ loading the DTD)"
       operation 1213097 "debug"
 	const public explicit_return_type "void"
 	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
-  t_reader_traits::debug (); }
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  t_reader_traits::debug (this->m_reader);
+}
 "
 	
 	

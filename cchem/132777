@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 78
+  revision 84
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -30,6 +30,8 @@ format 61
   cpp_h_dir "data_access"
   cpp_src_dir "../src/data_access"
   cpp_namespace "data_access"
+  ncouples 1
+  key "namespace" value "data_access"
   comment "The key concept for types in this package is that they manage communication with a data store.
 
 This group of classes provides an abstract interface to a storage mechanism.  Concrete implementations of these abstract types are responsible for serialisation of information into and out of the application.  This might allow different storage mechanisms to be interchanged.  "
@@ -2543,8 +2545,8 @@ the case of empty arguments."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 244905 // manager
 	artifact_ref 214313 // persistence
+	artifact_ref 244905 // manager
       end
     end
 
@@ -2673,6 +2675,7 @@ ${namespace_end}"
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 161065 // xml_access
     comment "The classes responsible for providing XML access."
     class 433961 "meta_datum"
       visibility package 
@@ -3447,7 +3450,7 @@ file.  This will return a path relative to the installation's shared data direct
       end
     end
 
-    class 455593 "xml_write_visitor"
+    class 494121 "xml_writer_proxy"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
@@ -3461,7 +3464,690 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "This class is a visitor class that writes the database."
+      comment "This is a helper class for writing well-formed XML. It 
+collaborates with the xml_writer class to automate the
+calling of start/end_element methods.
+
+It has the following features.
+* Automatic closure of element when proxy goes out of scope.
+* Automatic closure of element(s) when parent (antecedents) 
+is given a new child. [can be checked with is_closed]"
+      attribute 449065 "m_rep"
+	private type class_ref 526633 // xml_writer
+	multiplicity "*"
+	stereotype "shared_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 450217 "m_done"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that this element has been completed."
+      end
+
+      attribute 450345 "m_last_child"
+	private type class_ref 494121 // xml_writer_proxy
+	multiplicity "0..1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Ptr to last child (nul if no prior child)"
+      end
+
+      attribute 450473 "m_parent"
+	private type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Our parent node"
+      end
+
+      operation 1693481 "add_comment"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert a comment. Returns a reference to itself.
+
+\\pre not a_str.empty"
+      end
+
+      operation 1693737 "add_pi"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0}, ${p1});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert a processing instruction. Returns a reference to itself.
+
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1693609 "add_text"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert text. Returns a reference to itself.
+
+\\pre not a_str.empty"
+      end
+
+      operation 1576617 "attribute"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->set_${name} (${p0}, ${p1});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Write an attribute to the stream. All attributes must be given before
+this object is used as a parent. Returns a reference to itself.
+
+\\pre can_set_attribute
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1576745 "can_set_attribute"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_rep->${name} () and not is_closed ();
+}
+"
+	
+	
+	
+	
+	comment "Do we have children?"
+      end
+
+      operation 1695017 "end_element"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1695145 "is_closed"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_done;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Is this element already completed? "
+      end
+
+      operation 1699881 "parent"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_parent;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Get the parent of this proxy (may be nul)"
+      end
+
+      operation 1576361 "operator="
+	private return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1694889 "set_child"
+	cpp_inline private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_child" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1575977 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_parent" type class_ref 494121 // xml_writer_proxy
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer, letting a_parent know it has children
+
+\\pre not a_label.empty and not a_parent.is_closed
+\\post a_parent.have_children"
+      end
+
+      operation 1576489 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy for a document fragment.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1700009 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_rep" type class_ref 526633 // xml_writer
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}std::tr1::shared_ptr< ${t0} > & ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}std::tr1::shared_ptr< ${t0} > & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy from an already created xml_writer.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1687593 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy for a document element. Creates the <?xml?> tag, if a_pub_id and a_sys_id 
+are not not both empty then a DOCTYPE element is also created with a_label as the document
+element.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1576105 "~xml_writer_proxy"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  end_element ();
+}"
+	
+	
+	
+	
+      end
+
+      operation 1576233 "xml_writer_proxy"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 526633 "xml_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This is a helper class for writing well-formed XML. It is a counter-
+point to the xml_reader class.
+
+It writes the document as it goes which simplifies the class although 
+gives the following limitations.
+* You must set all attributes before you use an object as a parent
+* Using an object as a parent automatically closes the start tag 
+  and sets have_children
+
+Usage
+  xml_writer l_writer (a_os, \"nodename\");
+  l_writer.attribute (...);
+  if (not object.empty ()) {
+    l_writer.set_children ();
+    write_children (a_os);
+  }"
+      attribute 448937 "m_element_stack"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "stack"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The stack of element labels."
+      end
+
+      attribute 448681 "m_is_empty"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Do we have children?"
+      end
+
+      attribute 448809 "m_os"
+	private explicit_type "ostream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The stream to write to"
+      end
+
+      operation 1693097 "add_comment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1693225 "add_pi"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1693353 "add_text"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1691689 "can_set_attribute"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_is_empty;
+}
+"
+	
+	
+	
+	
+	comment "Do we have children yet?"
+      end
+
+      operation 1692841 "end_element"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1691817 "operator="
+	private return_type class_ref 526633 // xml_writer
+	nparams 1
+	  param in name "source" type class_ref 526633 // xml_writer
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1691561 "set_attribute"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (m_is_empty, \"Cannot set an attribute after adding children\");
+  @{require} (not ${p0}.empty (), \"Cannot set an attribute with an empty label\");
+  @{require} (not ${p1}.empty (), \"Can set attribute [\" + ${p0} + \"] with an empty value\");
+  m_os << \" \" << ${p0} << \"=\\\"\" << ${p1} << \"\\\"\";
+}
+"
+	
+	
+	
+	
+	comment "Write an attribute to the stream. All attributes must be given before
+this object is used as a parent.
+
+\\pre not have_children
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1691945 "set_children"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  if (m_is_empty and not m_element_stack.empty ())
+  {
+    m_is_empty = false;
+    m_os << \">\";
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Let this object know it will have children.
+
+\\post not can_set_attribute"
+      end
+
+      operation 1692969 "start_element"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Start a new element."
+      end
+
+      operation 1692329 "xml_writer"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer to write a document fragment.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1692457 "xml_writer"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer for a document element. Creates the <?xml?> tag, if a_pub_id 
+and a_sys_id are not not both empty then a DOCTYPE element is also created with
+a_label as the document tag.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1692585 "~xml_writer"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1692713 "xml_writer"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 526633 // xml_writer
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 455593 "xml_write_visitor"
+      visibility protected 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class is a visitor class that writes the database tree into an
+XML document.
+
+Standard usage is something like the following. Note we use the
+visit_basic_datum as memo-src and proj-src objects would get
+into a loop as visit_memo and visit_project woudl call a_datum.write
+
+  xml_write_visitor l_obj (os, doc_elem_name, pub_id, sys_id); 
+  os << extra_doc_headers;
+  l_obj.visit_basic_datum (a_datum);"
       classrelation 448169 // <generalisation>
 	relation 437801 ---|>
 	  a public
@@ -3486,19 +4172,44 @@ ${inlines}
 	  b parent class_ref 476713 // names
       end
 
-      attribute 363177 "m_os"
-	private explicit_type "ostream"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+      classrelation 587049 // <dependency>
+	relation 565929 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 587049 // <dependency>
+	  b parent class_ref 494121 // xml_writer_proxy
+      end
+
+      attribute 363177 "m_writer"
+	private type class_ref 494121 // xml_writer_proxy
+	multiplicity "0..1"
+	stereotype "ptr_vector"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
 "
 	java_decl ""
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-	comment "The output stream."
+	comment "The wrapped output stream."
       end
 
-      operation 1365801 "on_visit"
-	public explicit_return_type "void"
+      attribute 452521 "m_writer_rep"
+	private type class_ref 526633 // xml_writer
+	multiplicity "0..1"
+	stereotype "shared_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The xml_writer."
+      end
+
+      operation 1365801 "visit_basic_datum"
+	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -3519,15 +4230,16 @@ Note that this should only be overriden for types like text, comment and PI
 \\final"
       end
 
-      operation 1440297 "on_visit"
-	public explicit_return_type "void"
+      operation 1440297 "visit_comment"
+	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_comment" type class_ref 443433 // comment
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  m_os << \"<!-- \" << ${p0}.the_content << \" -->\";
+  @{require} (not m_writer.empty (), \"first element can not be a comment.\");
+  m_writer.back ().add_comment (${p0}.the_content);
 }
 "
 	
@@ -3537,15 +4249,16 @@ Note that this should only be overriden for types like text, comment and PI
 	comment "Write a comment."
       end
 
-      operation 1394217 "on_visit"
-	public explicit_return_type "void"
+      operation 1394217 "visit_pi"
+	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_pi" type class_ref 443561 // processing_instruction
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  m_os << \"<? \" << ${p0}.name << \" \" << ${p0}.the_content << \" >\";
+  @{require} (not m_writer.empty (), \"first element can not be a P.I.\");
+  m_writer.back ().add_pi (${p0}.name, ${p0}.the_content);
 }
 "
 	
@@ -3555,15 +4268,16 @@ Note that this should only be overriden for types like text, comment and PI
 	comment "Write well-formed XML for processing instruction."
       end
 
-      operation 1387433 "on_visit"
-	public explicit_return_type "void"
+      operation 1387433 "visit_text"
+	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_text" type class_ref 443305 // text
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  m_os << ${p0}.the_content;
+  @{require} (not m_writer.empty (), \"first element can not be a comment.\");
+  m_writer.back ().add_text (${p0}.the_content);
 }
 "
 	
@@ -3575,7 +4289,7 @@ Note that this should only be overriden for types like text, comment and PI
 No default implementation."
       end
 
-      operation 1448489 "on_visit"
+      operation 1448489 "visit_memo"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 357033 // memo
@@ -3592,7 +4306,7 @@ No default implementation."
 	
       end
 
-      operation 1448617 "on_visit"
+      operation 1448617 "visit_project"
 	cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 354089 // project
@@ -3622,38 +4336,31 @@ No default implementation."
 	comment "no assign"
       end
 
-      operation 1437993 "write"
-	public explicit_return_type "void"
-	nparams 2
-	  param in name "a_datum" type class_ref 432681 // basic_datum
-	  param in name "a_header" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
-{
-  ${body}
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1451945 "xml_write_visitor"
+      operation 1437993 "xml_write_visitor"
 	public explicit_return_type ""
-	nparams 1
+	nparams 4
 	  param inout name "a_os" explicit_type "ostream"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile} throw ();
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}, const ${t3}& ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile} throw () 
-: m_os (${p0})
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${throw}${staticnl}
+: m_writer ()
+, m_writer_rep (new xml_writer (${p0}, ${p1}, ${p2}, ${p3}))
 {}
 "
 	
 	
 	
 	
+	comment "Construct and initialise the xml_write_visitor.
+
+After this method the xml header (<?xml ..> + <!DOCTYPE..>)
+is written to the stream but not the document element. If 
+you want to add extra header information you can write these
+directly to the stream before initialising the write process.
+"
       end
 
       operation 1452201 "xml_write_visitor"
@@ -4271,6 +4978,7 @@ create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_u
 	comment "Creator function for XML based persistence objects."
       end
     end
+
   end
 
   deploymentview 161065 "xml_access"
@@ -4281,13 +4989,14 @@ create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_u
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 231465 // xml_persistence
-	artifact_ref 230057 // data_access
 	artifact_ref 157097 // xml_access_helper
-	artifact_ref 203945 // meta_datum
 	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 241065 // xml_writer
+	artifact_ref 230057 // data_access
 	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
+	artifact_ref 203945 // meta_datum
+	artifact_ref 231465 // xml_persistence
       end
     end
 
@@ -4369,6 +5078,43 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 360233 // xml_access_helper
+      end
+    end
+
+    artifact 241065 "xml_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 526633 // xml_writer
+	class_ref 494121 // xml_writer_proxy
       end
     end
 

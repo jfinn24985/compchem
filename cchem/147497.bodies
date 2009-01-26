@@ -54,11 +54,13 @@ else
       {
         log () << base_test::EXCP << "Unhandled std::exception caught by 'main':\n" << err.what () << "\n\n";
         log ().flush ();
+        Result = 1;
       }
       catch (...)
       {
         log () << base_test::EXCP << "Unhandled and unknown exception caught by 'main'\n";
         log ().flush ();
+        Result = 1;
       }
       log () << "**** Ending unit test [" << (*l_iter)->title () << "] ****\n";
       log ().flush ();

@@ -1,0 +1,43 @@
+class xw_2
+!!!1698601.cpp!!!	end_element() : void
+if (m_is_empty)
+{
+  m_os << "/>";
+}
+else
+{
+  m_os << "</" << m_element_stack.top () << ">";
+}
+// At end, indicate popped element is non-empty.
+if (m_is_empty) m_is_empty = false;
+m_element_stack.pop ();
+!!!1699113.cpp!!!	start_element(in a_label : string) : xwp_2
+set_children ();
+m_is_empty = true;
+m_element_stack.push (a_label);
+m_os << "<" << a_label;
+!!!1699241.cpp!!!	xw_2(inout a_os : ostream)
+: m_element_stack ()
+, m_is_empty (true)
+, m_os (a_os)
+{}
+!!!1699369.cpp!!!	xw_2(inout a_os : ostream, in a_label : string, in a_pub_id : string, in a_sys_id : string)
+: m_element_stack ()
+, m_is_empty (true)
+, m_os (a_os)
+{
+  a_os << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+  a_os << "<!DOCTYPE " << a_label;
+  if (not a_pub_id.empty ())
+  {
+    a_os << " PUBLIC " << a_pub_id;
+  }
+  if (not a_sys_id.empty ())
+  {
+    a_os << " SYSTEM " << a_sys_id;
+  }
+  a_os << ">\n";
+}
+!!!1699497.cpp!!!	~xw_2()
+set_children ();
+while (not m_element_stack.empty ()) end_element ();

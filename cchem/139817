@@ -1,6 +1,6 @@
 format 61
 "ccverify" // /compchem/data_access::ccverify
-  revision 11
+  revision 12
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -400,7 +400,7 @@ ${docstring}${body}
 	comment "no copy"
       end
 
-      operation 1620009 "on_visit"
+      operation 1620009 "visit_basic_datum"
 	public explicit_return_type "void"
 	nparams 1
 	  param in name "a_datum" type class_ref 432681 // basic_datum
@@ -424,16 +424,16 @@ ${docstring}${body}
     artifact 255913 "ccverify"
       stereotype "executable"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 157353 // verify_app
-	artifact_ref 253097 // date_time
 	artifact_ref 230057 // data_access
 	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 263977 // verify_visitor
 	artifact_ref 266281 // data_xml_access
-	artifact_ref 253353 // xml
+	artifact_ref 263977 // verify_visitor
+	artifact_ref 230313 // filesystem
+	artifact_ref 253097 // date_time
+	artifact_ref 157353 // verify_app
+	artifact_ref 157993 // utility
 	artifact_ref 144169 // data_scheme
+	artifact_ref 253353 // xml
       end
     end
 

@@ -96,8 +96,11 @@ else
             {
               l_manager.process (*l_memo, l_file.string ());
               log () << IFYS << "Filtered \"" << l_file.string () << "\".\n";
-              data_access::xml_write_visitor l_writer (log ());
-              l_writer.on_visit (*l_memo);
+              data_access::xml_write_visitor l_writer (log ()
+                                                      , l_memo->serial_name ()
+                                                      , data_access::xml_access_helper::helper ().public_id ()
+                                                      , data_access::xml_access_helper::helper ().system_id ());
+              l_writer.visit_basic_datum (*l_memo);
               log () << "\n";
             }
           }

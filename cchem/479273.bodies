@@ -289,41 +289,19 @@ while (a_reader.read ()and a_reader.is_doc_valid ())
   case xml_reader_t::DOCTYPE:
   {
     // At document.
-    bool l_ok;
     const std::string l_name (a_reader.name ());
-    COMPCHEM_CHECK (l_object_stack.empty (), "At document element, but have objects on stack.");
+    COMPCHEM_CHECK (l_object_stack.empty (), "At document type, but have objects on stack.");
     COMPCHEM_ALWAYS (allowed_document_element (l_name), "Invalid XML document [" + l_name + "] document is not allowed.");
     COMPCHEM_ALWAYS (l_name == a_parent.serial_name (), "Incorrect XML document [" + l_name + "], expected [" + a_parent.serial_name () + "]");
-    l_header << "<!DOCTYPE ";
-    l_header << l_name;
-    xml_access_helper & l_help (xml_access_helper::helper ());
-    if (not l_help.public_id ().empty ())
-    {
-      l_header << " PUBLIC \"";
-      l_header << l_help.public_id ();
-      l_header << "\"";
-      l_ok = true;
-    }
-    if (not l_help.system_id ().empty ())
-    {
-      if (not l_ok)
-      {
-        l_header << " SYSTEM";
-      }
-      l_header << " \"";
-      l_header << l_help.system_id ();
-      l_header << "\"";
-      l_ok = true;
-    }
-    l_header << ">";
-    COMPCHEM_CHECK (l_ok, "Incomplete document header without a public or system ID.");
+    // COMPCHEM_CHECK (l_ok, "Incomplete document header without a public or system ID.");
+    // TODO Check pub_id and sys_id
   }
   break;
   case xml_reader_t::START_ELEMENT:
   {
     if (l_object_stack.empty ())
     {
-// At document element.
+      // At document element.
       const std::string l_name (a_reader.name ());
       COMPCHEM_ALWAYS (allowed_document_element (l_name), "Invalid XML document element [" + l_name + "] document elment is incorrect.");
       COMPCHEM_ALWAYS (l_name == a_parent.serial_name (), "Incorrect XML document element [" + l_name + "], expected [" + a_parent.serial_name () + "]");
@@ -407,8 +385,12 @@ if (boost::filesystem::exists (full_path ()))
   // Write header
   {
     // Write the data into a buffer.
-    xml_write_visitor l_guest (l_outstream);
-    l_guest.write (top (), header ());
+    xml_write_visitor l_guest (l_outstream
+                               , top ().serial_name ()
+                               , xml_access_helper::helper ().public_id ()
+                               , xml_access_helper::helper ().system_id ());
+    l_outstream << header ();
+    l_guest.visit_basic_datum (top ());
   }
   // Compare files for changes
   const std::string& l_outstr (l_outstream.str ());
@@ -443,6 +425,10 @@ else
   // No existing file, write the file directly.
   std::basic_ofstream< std::string::value_type > l_outfile (full_path ().native_file_string ().c_str ());
   // Write the data into a buffer.
-  xml_write_visitor l_guest (l_outfile);
-  l_guest.write (top (), header ());
+  xml_write_visitor l_guest (l_outfile
+                            , top ().serial_name ()
+                            , xml_access_helper::helper ().public_id ()
+                            , xml_access_helper::helper ().system_id ());
+  l_outfile << header ();
+  l_guest.visit_basic_datum (top ());
 }

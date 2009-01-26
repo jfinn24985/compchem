@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 32
+  revision 34
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -323,6 +323,15 @@ ${inlines}
 	    cpp default "#include in source"
 	    classrelation_ref 514857 // <dependency>
 	  b parent class_ref 455593 // xml_write_visitor
+      end
+
+      classrelation 589609 // <dependency>
+	relation 568489 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 589609 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
       end
 
       attribute 392105 "m_database"
@@ -894,17 +903,17 @@ ${namespace_end}"
       stereotype "library"
       associated_artifacts
 	artifact_ref 183977 // test_supplier_helper
-	artifact_ref 157993 // utility
+	artifact_ref 254889 // supplier
+	artifact_ref 252969 // regex
+	artifact_ref 252841 // program_options
+	artifact_ref 253097 // date_time
+	artifact_ref 230313 // filesystem
+	artifact_ref 266281 // data_xml_access
 	artifact_ref 144169 // data_scheme
 	artifact_ref 160553 // test
-	artifact_ref 252841 // program_options
 	artifact_ref 230057 // data_access
-	artifact_ref 254889 // supplier
+	artifact_ref 157993 // utility
 	artifact_ref 201641 // test_filtermanager
-	artifact_ref 230313 // filesystem
-	artifact_ref 253097 // date_time
-	artifact_ref 252969 // regex
-	artifact_ref 266281 // data_xml_access
       end
       ncouples 1
       key "butter other" value "unit-test"

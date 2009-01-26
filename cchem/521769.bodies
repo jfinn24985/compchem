@@ -61,12 +61,16 @@ if (not m_test_file.empty ())
   std::string l_buffer;
   {
     std::ostringstream l_os;
-    data_access::xml_write_visitor l_writer (l_os);
-    l_writer.write (*l_memo, l_file->header ());
+    data_access::xml_write_visitor l_writer (l_os
+                                             , l_memo->serial_name ()
+                                             , xml_access_helper::helper ().public_id ()
+                                             , xml_access_helper::helper ().system_id ());
+    l_os << l_file->header ();
+    l_writer.visit_basic_datum (*l_memo);
     l_buffer.assign (l_os.str ());
   } 
   log () << COMM << "Writen file is:\n----\n" << l_buffer << "\n----\n";
-  bool_test (utility::filesystem::compare (m_test_file, l_buffer.data (), l_buffer.size ()), "original file matchs write buffer");
+  bool_test (utility::filesystem::compare (m_test_file, l_buffer.data (), l_buffer.size ()), "original file matches write buffer");
 }
 // boost::filesystem::path l_path (l_helper.find (l_memo_dfn, *(l_file.get ()), m_key));
 // log () << WTCH << "Found path = \"" << l_path.string () << "\"\n";

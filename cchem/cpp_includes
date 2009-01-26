@@ -25,3 +25,7 @@
 
 "std::ostringstream" "#include <sstream>"
 
+"std::stack" "#include <stack>"
+
+"std::tr1::shared_ptr" "#include <tr1/memory>"
+

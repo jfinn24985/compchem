@@ -15,10 +15,30 @@ if (l_fd != -1)
       if (l_start != MAP_FAILED)
       {
         Result = (0 == memcmp (l_start, a_start, l_sb.st_size));
+        if (not Result)
+        {
+           DLOG ("Buffer and file ["); DLOG(a_path); DLOG ("] did not compare equal.\n");
+        }
+      }
+      else
+      {
+        DLOG ("Mapping file ["); DLOG(a_path); DLOG ("] failed.\n");
       }
     }
+    else
+    {
+      DLOG("Different sizes, file ["); DLOG(a_path); DLOG ("] = "); DLOG(l_sb.st_size); DLOG(", buffer = "); DLOG (a_sz); DLOG ("\n");
+    }
+  }
+  else
+  {
+    DLOG ("Unable to stat file ["); DLOG(a_path); DLOG ("].\n");
   }
   close (l_fd);
+}
+else
+{
+  DLOG ("Unable to open file ["); DLOG(a_path); DLOG ("] \n");
 }
 return Result;
 !!!1182761.cpp!!!	standardize(in a_path : path) : path

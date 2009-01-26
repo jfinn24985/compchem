@@ -1,5 +1,5 @@
 class test_object_visitor
-!!!1623337.cpp!!!	on_visit(in a_datum : basic_datum) : void
+!!!1623337.cpp!!!	visit_basic_datum(in a_datum : basic_datum) : void
 log () << COMM << "entering on_visit (basic_datum)\n";
 // Count basic_datum objects
 ++m_type[0];
@@ -69,7 +69,7 @@ if (not a_datum.empty ())
     (*l_i)->visit (*this);
   }
 }
-!!!1623465.cpp!!!	on_visit(in a_datum : comment) : void
+!!!1623465.cpp!!!	visit_comment(in a_datum : comment) : void
 log () << COMM << "entering on_visit (comment)\n";
 // Increment counter
 ++m_type[s_comment];
@@ -79,7 +79,7 @@ bool_test (a_datum.serial_name () == data_access::names::comment_type (), "type 
 test_basic_text (a_datum);
 // Count basic_datum objects
 ++m_type[0];
-!!!1623593.cpp!!!	on_visit(in a_datum : compound) : void
+!!!1623593.cpp!!!	visit_compound(in a_datum : compound) : void
 log () << COMM << "entering on_visit (compound) [" << a_datum.label () << "]\n";
 // Count compound objs.
 ++m_type[s_compound];
@@ -205,8 +205,8 @@ bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "compo
   monitor_function (utility::contract_error::always, boost::bind (&basic_datum::set_attribute, &l_temp, data_access::names::label_name (), l_str), "can not set label attribute");
 }
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1623721.cpp!!!	on_visit(in a_datum : compound_ref) : void
+visit_basic_datum (a_datum);
+!!!1623721.cpp!!!	visit_compound_ref(in a_datum : compound_ref) : void
 log () << COMM << "entering on_visit (compound_ref) [" << a_datum.compound_label () << "]\n";
 // Count compound objs.
 ++m_type[s_compound_ref];
@@ -239,8 +239,8 @@ bool_test (a_datum.empty (), "compound-ref objects always empty.");
 // Are we a child of our parent
 bool_test (a_datum.section ().find (&a_datum) != a_datum.section ().end (), "object is a child of its parent.");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1623849.cpp!!!	on_visit(in a_datum : datum) : void
+visit_basic_datum (a_datum);
+!!!1623849.cpp!!!	visit_datum(in a_datum : datum) : void
 log () << COMM << "entering on_visit (datum) [" << a_datum.outcome () << "]\n";
 // Count compound objs.
 ++m_type[s_datum];
@@ -345,8 +345,8 @@ bool_test (l_orig_size >= a_datum.size_datum (), "number of children >= to numbe
 // Are we a child of our parent
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is a child of its parent.");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1623977.cpp!!!	on_visit(in a_datum : experiment) : void
+visit_basic_datum (a_datum);
+!!!1623977.cpp!!!	visit_experiment(in a_datum : experiment) : void
 log () << COMM << "entering on_visit (experiment) [" << a_datum.reference () << "]\n";
 // Count experiment objs.
 ++m_type[s_experiment];
@@ -451,8 +451,8 @@ bool_test (l_orig_size >= (a_datum.size_info () + a_datum.size_memo ())
 // Are we a child of our parent
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is a child of its parent.");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624105.cpp!!!	on_visit(in a_datum : filter) : void
+visit_basic_datum (a_datum);
+!!!1624105.cpp!!!	visit_filter(in a_datum : filter) : void
 log () << COMM << "entering on_visit (filter) [" << a_datum.label () << "]\n";
 // Count filter objs.
 ++m_type[s_filter];
@@ -516,8 +516,8 @@ bool_test (a_datum.serial_name () == data_access::names::filter_name (), "type n
 // test parent
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624233.cpp!!!	on_visit(in a_datum : formula) : void
+visit_basic_datum (a_datum);
+!!!1624233.cpp!!!	visit_formula(in a_datum : formula) : void
 log () << COMM << "entering on_visit (formula) [" << a_datum.label () << "]\n";
 // Capture the first formula!
 if (NULL == m_formula)
@@ -602,8 +602,8 @@ bool_test (l_orig_size >= (a_datum.size_identity () + (a_datum.has_information (
 // parent
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624361.cpp!!!	on_visit(in a_datum : identity) : void
+visit_basic_datum (a_datum);
+!!!1624361.cpp!!!	visit_identity(in a_datum : identity) : void
 log () << COMM << "entering on_visit (identity) [" << a_datum.identity_type () << "]\n";
 // Count identity objs.
 ++m_type[s_identity];
@@ -622,8 +622,8 @@ bool_test (a_datum.serial_name () == data_access::names::identity_name (), "type
 // check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624489.cpp!!!	on_visit(in a_datum : info) : void
+visit_basic_datum (a_datum);
+!!!1624489.cpp!!!	visit_info(in a_datum : info) : void
 log () << COMM << "entering on_visit (info) [" << a_datum.name () << "]\n";
 // Count info objs.
 ++m_type[s_info];
@@ -671,8 +671,8 @@ bool_test (l_orig_size >= a_datum.size_info (), "number of children >= to number
 // check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624617.cpp!!!	on_visit(in a_datum : mechanism) : void
+visit_basic_datum (a_datum);
+!!!1624617.cpp!!!	visit_mechanism(in a_datum : mechanism) : void
 log () << COMM << "entering on_visit (mechanism) [" << a_datum.label () << "]\n";
 // Count mechanism objs.
 ++m_type[s_mechanism];
@@ -773,8 +773,8 @@ bool_test (l_orig_size >= (a_datum.size_filter () + a_datum.size_settings () + (
 // check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624745.cpp!!!	on_visit(in a_datum : memo) : void
+visit_basic_datum (a_datum);
+!!!1624745.cpp!!!	visit_memo(in a_datum : memo) : void
 log () << COMM << "entering on_visit (memo)[" << a_datum.label () << "]\n";
 // Count memo objs.
 ++m_type[s_memo];
@@ -916,8 +916,8 @@ bool_test (l_orig_size >= (a_datum.size_datum () + a_datum.size_info ())
 // check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1624873.cpp!!!	on_visit(in a_datum : processing_instruction) : void
+visit_basic_datum (a_datum);
+!!!1624873.cpp!!!	visit_pi(in a_datum : processing_instruction) : void
 log () << COMM << "entering on_visit (pi)\n";
 // Increment counter
 ++m_type[s_pi];
@@ -929,7 +929,7 @@ bool_test (a_datum.serial_name () == data_access::names::processing_instruction_
 test_basic_text (a_datum);
 // Count basic_datum objects
 ++m_type[0];
-!!!1625001.cpp!!!	on_visit(in a_datum : program) : void
+!!!1625001.cpp!!!	visit_program(in a_datum : program) : void
 log () << COMM << "entering on_visit (program)\n";
 // Count program objs.
 ++m_type[s_program];
@@ -1089,8 +1089,8 @@ bool_test (l_cmpd_size == a_datum.size_compound (), "have original number of com
 bool_test (l_proj_size == a_datum.size_project (), "have original number of project objects");
 bool_test (l_has_info == a_datum.has_information (), "have original status of info objects");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1625129.cpp!!!	on_visit(in a_datum : project) : void
+visit_basic_datum (a_datum);
+!!!1625129.cpp!!!	visit_project(in a_datum : project) : void
 log () << COMM << "entering on_visit (project) [" << a_datum.label () << "]\n";
 // Count project objs.
 ++m_type[s_project];
@@ -1238,8 +1238,8 @@ bool_test (l_orig_size >= (a_datum.size_experiment () + a_datum.size_compound_re
 // check child/parent
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end  (), "object is child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1625257.cpp!!!	on_visit(in a_datum : settings) : void
+visit_basic_datum (a_datum);
+!!!1625257.cpp!!!	visit_settings(in a_datum : settings) : void
 log () << COMM << "entering on_visit (settings) [" << a_datum.label () << "]\n";
 // Count settings objs.
 ++m_type[s_settings];
@@ -1353,8 +1353,8 @@ bool_test (l_orig_size >= (unsigned int)((a_datum.has_data ()?1:0) + (a_datum.ha
 // Check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is a child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
-!!!1625385.cpp!!!	on_visit(in a_datum : text) : void
+visit_basic_datum (a_datum);
+!!!1625385.cpp!!!	visit_text(in a_datum : text) : void
 log () << COMM << "entering on_visit (text)\n";
 // Check serial_name
 bool_test (a_datum.serial_name () == data_access::names::text_type (), "type name matches");
@@ -1363,7 +1363,7 @@ test_basic_text (a_datum);
 // Count basic_datum objects
 ++m_type[0];
 ++m_type[s_text];
-!!!1625513.cpp!!!	on_visit(in a_datum : worker) : void
+!!!1625513.cpp!!!	visit_worker(in a_datum : worker) : void
 log () << COMM << "entering on_visit (worker) [" << a_datum.label () << "]\n";
 // Count worker objs.
 ++m_type[s_worker];
@@ -1410,7 +1410,7 @@ bool_test (l_orig_size >= a_datum.size_info (), "number of children >= to number
 // check parent/child
 bool_test (a_datum.parent ().find (&a_datum) != a_datum.parent ().end (), "object is a child of parent");
 // Call parent method
-visitor::on_visit (a_datum);
+visit_basic_datum (a_datum);
 !!!1205289.cpp!!!	main_test() : void
 // DO
 int Result (0);
