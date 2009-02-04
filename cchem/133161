@@ -1,6 +1,6 @@
 format 61
 "//posix" // /compchem/utility:://posix
-  revision 12
+  revision 13
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -948,10 +948,11 @@ The filename can be relative or absolute.
 	nparams 1
 	  param in name "a_prop" type class_ref 335785 // filesystem_properties
 	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: m_stat (((a_prop.exists ())?(new struct stat):(NULL)))
+: m_stat (NULL)
 {
-  if (a_prop.exists ())
+  if (${p0}.exists ())
   {
+    m_stat = new struct stat;
     memcpy(m_stat, a_prop.m_stat, sizeof(struct stat));
   }
 }
@@ -962,7 +963,7 @@ The filename can be relative or absolute.
 	
 	comment "Copy constructor
 
-\\throws may throw from new operator"
+\\may throw from new"
       end
 
       operation 1011497 "operator ="
@@ -971,23 +972,10 @@ The filename can be relative or absolute.
 	  param in name "a_prop" type class_ref 335785 // filesystem_properties
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
 {
-  if (exists ())
+  if (this != &${p0})
   {
-    if (!a_prop.exists ())
-    {
-      delete m_stat;
-    }
-  }
-  else
-  {
-    if (a_prop.exists ())
-    {
-      m_stat = new struct stat;
-    }
-  }
-  if (a_prop.exists ())
-  {
-    memcpy(m_stat, a_prop.m_stat, sizeof(struct stat));
+    ${class} l_tmp (${p0});
+    swap (l_tmp);
   }
   return *this;
 }
@@ -997,6 +985,28 @@ The filename can be relative or absolute.
 	
 	
 	comment "Copy operator"
+      end
+
+      operation 1735337 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_other" type class_ref 335785 // filesystem_properties
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  std::swap (m_stat, ${p0}.m_stat);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Swap state of this with a_other.
+
+strong throw guaranttee"
       end
 
       attribute 226345 "m_stat"
@@ -1113,6 +1123,9 @@ ${comment}
 ${includes}
 // Manual includes
 // --
+#ifdef HAVE_GETCWD_EXT
+#include \"utility/free_ptr.hpp\"
+#endif
 #include <boost/scoped_array.hpp>
 // --
 ${namespace_start}

@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 42
+  revision 43
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -485,14 +485,6 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 367401 // <generalisation>
 	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 400041 // <dependency>
-	relation 391081 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 400041 // <dependency>
-	  b parent class_ref 422825 // const_c_streambuf
       end
 
       classrelation 367529 // <dependency>
@@ -1010,9 +1002,11 @@ ${namespace_end}
 ${comment}
 ${includes}
 //
-#include <istream>
+// #include <istream>
 #include <boost/bind.hpp>
 #include <algorithm>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
 // -
 ${namespace_start}
 ${members}
@@ -1141,19 +1135,19 @@ ${namespace_end}"
     artifact 258089 "test_supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 144169 // data_scheme
-	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
-	artifact_ref 201641 // test_filtermanager
-	artifact_ref 230057 // data_access
-	artifact_ref 181673 // test_matcher
-	artifact_ref 183977 // test_supplier_helper
-	artifact_ref 160553 // test
-	artifact_ref 157993 // utility
 	artifact_ref 252969 // regex
+	artifact_ref 201641 // test_filtermanager
+	artifact_ref 252841 // program_options
+	artifact_ref 230057 // data_access
 	artifact_ref 253097 // date_time
+	artifact_ref 181673 // test_matcher
+	artifact_ref 144169 // data_scheme
+	artifact_ref 183977 // test_supplier_helper
 	artifact_ref 254889 // supplier
+	artifact_ref 230313 // filesystem
 	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 160553 // test
       end
       ncouples 1
       key "butter other" value "unit-test"

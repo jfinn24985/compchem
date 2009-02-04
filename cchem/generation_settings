@@ -5,7 +5,7 @@
   cpp_root_relative_path
   cpp_javadoc_comment
 
-  type_forms 24 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
+  type_forms 25 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
     "void" "void" "void" "void" "${type}" "${type} &" "${type}" "${type}"
     "any" "void *" "Object" "any" "${type}" "${type}" "${type} &" "${type}"
     "bool" "bool" "boolean" "boolean" "${type}" "${type} &" "${type} &" "${type}"
@@ -30,6 +30,7 @@
     "stringstream" "std::stringstream" "IOstream" "stream" "const ${type} &" "${type} &" "${type} &" "${type}"
     "istringstream" "std::istringstream" "Istream" "stream" "const ${type} &" "${type} &" "${type} &" "${type}"
     "ostringstream" "std::ostringstream" "ostream" "stream" "const ${type} &" "${type} &" "${type} &" "${type}"
+    "streamsize" "std::streamsize" "int" "unsigned long" "${type}" "${type} &" "${type} &" "${type}"
   
   relations_stereotypes 11 // uml cpp java pythonidl
     "sequence" "std::vector" "Vector" "list" "sequence"

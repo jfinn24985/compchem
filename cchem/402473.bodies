@@ -306,8 +306,8 @@ bool_test (l_result1 == l_result2, "results from orignal and reset original matc
 if (a_line_oriented)
 {
   // Go line by line
-  utility::const_c_streambuf < char >l_buf (a_buf, a_sz);
-  std::istream l_is (&l_buf);
+  boost::iostreams::array_source l_buf (a_buf, a_sz);
+  boost::iostreams::stream< boost::iostreams::array_source > l_is (l_buf);
   std::string l_line;
   log () << "no match at offset: ";
   for (unsigned int l_ix = 0;

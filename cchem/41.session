@@ -7,7 +7,10 @@ diagrams
 end
 show_stereotypes
 selected 
-  package_ref 152105 // Docs
+  package_ref 148393 // /xmlreader
 open
+  deploymentview_ref 146473 // Overview
+  
+  package_ref 137257 // /compchem/utility
 end
 end

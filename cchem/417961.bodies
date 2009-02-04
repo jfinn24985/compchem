@@ -1,54 +1,56 @@
 class test_streambuf
 !!!1630249.cpp!!!	main_test() : void
 boost::scoped_array< char > l_read_buffer (new char[s_size]);
-{
-  log () << TTLE << "Case 1: utility::streambuf < char, s_size >.\n";
-  utility::streambuf < char, s_size > l_testbuf;
-  log () << WTCH << "Contract tests after ctor.\n";
-  post_ctor_test (l_testbuf, false);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-  test_one_write (l_testbuf);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-  // Reset buffer.
-  l_testbuf.clear ();
-  log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
-  post_ctor_test (l_testbuf, false);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-  test_two_write (l_testbuf);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-  const std::string l_tmpstr (l_testbuf.str ());
-  l_tmpstr.copy (l_read_buffer.get (), s_size, 0);
-  // Do copy test
-  test_five_copy (l_testbuf, l_testbuf);
-  test_three_read (l_testbuf);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-  // Reset buffer.
-  l_testbuf.clear ();
-  log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
-  test_four_read_write (l_testbuf);
-  bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
-}
-{
-  log () << TTLE << "Case 2: utility::c_streambuf < char >.\n";
-  boost::scoped_array< char > l_realbuf (new char[s_size]);
-  utility::c_streambuf < char > l_testbuf (l_realbuf.get (), s_size);
-  log () << WTCH << "Contract tests after ctor.\n";
-  post_ctor_test (l_testbuf, false);
-  test_one_write (l_testbuf);
-  // Reset buffer.
-  l_testbuf.clear ();
-  log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
-  post_ctor_test (l_testbuf, false);
-  test_two_write (l_testbuf);
-  test_three_read (l_testbuf);
-  // Reset buffer.
-  l_testbuf.clear ();
-  log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
-  test_four_read_write (l_testbuf);
-}
+// {
+//   log () << TTLE << "Case 1: utility::streambuf < char, s_size >.\n";
+//   utility::streambuf < char, s_size > l_testbuf;
+//   log () << WTCH << "Contract tests after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   test_one_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   test_two_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   const std::string l_tmpstr (l_testbuf.str ());
+//   l_tmpstr.copy (l_read_buffer.get (), s_size, 0);
+//   // Do copy test
+//   test_five_copy (l_testbuf, l_testbuf);
+//   test_three_read (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   test_four_read_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+// }
+// {
+//   log () << TTLE << "Case 2: utility::c_streambuf < char >.\n";
+//   boost::scoped_array< char > l_realbuf (new char[s_size]);
+//   utility::c_streambuf < char > l_testbuf (l_realbuf.get (), s_size);
+//   log () << WTCH << "Contract tests after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   test_one_write (l_testbuf);
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   test_two_write (l_testbuf);
+//   test_three_read (l_testbuf);
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   test_four_read_write (l_testbuf);
+// }
 {
   log () << TTLE << "Case 3: utility::const_c_streambuf < char >.\n";
-  utility::const_c_streambuf < char > l_testbuf (l_read_buffer.get (), s_size);
+  const char l_temp[s_size] = "Hello World";
+  utility::const_c_streambuf < char > l_testbuf (&l_temp[0], sizeof(l_temp));
+//  utility::const_c_streambuf < char > l_testbuf (l_read_buffer.get (), s_size);
   log () << WTCH << "Contract tests after ctor.\n";
   post_ctor_test (l_testbuf, true);
   // Do copy test

@@ -1,23 +1,38 @@
 class filesystem_properties
 !!!1007145.cpp!!!	current_directory() : string
 // LOCAL
-size_t l_size = 1024;
 std::string Result;
 // DO
-do
+#ifdef HAVE_GETCWD_EXT
 {
-  boost::scoped_array< char > l_buffer(new char [l_size]);
-  errno = 0;
-  if (l_buffer.get () == getcwd (l_buffer.get (), l_size))
-  {
-    // Assign string on success.
-    l_buffer[l_size - 1] = '\0'; // Ensure is nul terminated
-    Result.assign (l_buffer.get ());
-  }
-  // Double size in case we loop on ERANGE
-  l_size *= 2;
+  free_ptr< char* > l_buffer (getcwd (NULL, 0));
+  Result.assign (l_buffer.get ());
 }
-while (errno == ERANGE);
+#else
+{
+  size_t l_size = 256;
+  int l_errno;
+  do
+  {
+    boost::scoped_array< char > l_buffer(new char [l_size]);
+    errno = 0;// reset error indicator.
+    if (l_buffer.get () == getcwd (l_buffer.get (), l_size - 1))
+    {
+      // Assign string on success.
+      l_buffer[l_size - 1] = '\0'; // Ensure is nul terminated
+      Result.assign (l_buffer.get ());
+      l_errno = 0;
+    }
+    else
+    {
+      l_errno = errno;
+      // Double size (in case we loop on ERANGE)
+      l_size *= 2;
+    }
+  }
+  while (l_errno == ERANGE);
+}
+#endif
 // END
 return Result;
 

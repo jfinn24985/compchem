@@ -1,6 +1,6 @@
 format 61
 "test_args" // /compchem/utility::test cases::test_args
-  revision 2
+  revision 3
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -37,7 +37,8 @@ format 61
 file=bobs-your-uncle
 file=test/canon
 file=test/gaussian_test
-compare-file=Jamroot"
+compare-file=Jamroot
+posix-ignore=\".*[[]RR[]] access time.*\""
       associated_classes
       end
     end

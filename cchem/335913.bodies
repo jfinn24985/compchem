@@ -19,7 +19,8 @@ if (not m_filelist.empty ())
 {
   const std::string l_fn1 (*m_filelist.begin ());
   const filesystem_properties l_fp1 (*m_filelist.begin ());
-  for (std::vector < std::string >::const_iterator l_i (m_filelist.begin ()); l_i != m_filelist.end (); ++l_i)
+  for (std::vector < std::string >::const_iterator l_i (m_filelist.begin ())
+       ; l_i != m_filelist.end (); ++l_i)
   {
     filesystem_properties l_fp2 (*l_i);
     print_file_properties (*l_i, l_fp2, log ());
@@ -147,5 +148,7 @@ a_os << COMM << "--------------------------\n";
 if (NULL == utility::program_options::helper ().public_options ().find_nothrow ("file", true))
 {
   // Add option
-  utility::program_options::helper ().public_options ().add_options ()("file", boost::program_options::value < std::vector < std::string > >(&(this->m_filelist))->composing (), "Files to test");
+  utility::program_options::helper ().public_options ().add_options ()
+  ("file", boost::program_options::value < std::vector < std::string > >(&(this->m_filelist))->composing (), "Files to test")
+  ("posix-ignore", boost::program_options::value < std::string >(), "Regular expression of variable items to exclude from canonical comparison");
 }

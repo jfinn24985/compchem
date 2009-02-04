@@ -1,7 +1,7 @@
 class contract_error
 !!!1338921.cpp!!!	contract_error(in a_msg1 : string, in a_msg2 : char, in a_level : uint, in a_filename : char, in a_line : int, in a_fn_name : char, in a_backtrace : any = NULL, in a_backsz : int = 0)
-utility::c_streambuf< char > l_what (&m_what[0], s_size);
-std::ostream l_errlog (&l_what);
+boost::iostreams::array_sink l_what (&m_what[0], s_size);
+boost::iostreams::stream< boost::iostreams::array_sink > l_errlog (l_what);
 l_errlog << "================== CONTRACT FAILURE ==================\n"
          << "REASON: \"" << a_msg1 << "\"\n"
          << "LEVEL[" << a_level << "] FAILED TEST: (" << a_msg2 << ")\n"
