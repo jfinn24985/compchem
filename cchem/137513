@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 47
+  revision 48
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1860,6 +1860,144 @@ release the allocated memory.
       end
     end
 
+    class 534697 "scoped_call"
+      visibility protected 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class ensures that some function is called even in the event
+of an exception."
+      class 534825 "function_type"
+	visibility package stereotype "typedef" base_type class_ref 535081 // function0
+	nactuals 1
+	actual class class_ref 535081 // function0
+	  rank 0 explicit_value "void"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 596777 // <realization>
+	  relation 575657 -_-|>
+	    a public
+	      cpp default "${type}"
+	      python "${type}"
+	      classrelation_ref 596777 // <realization>
+	    b parent class_ref 535081 // function0
+	end
+      end
+
+      attribute 459177 "m_fn"
+	private type class_ref 534825 // function_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The function to call at scope exit."
+      end
+
+      operation 1715753 "scoped_call"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_fn" type class_ref 534825 // function_type
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${v0}${)}${volatile}${throw}
+: m_fn (${p0})
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Save the function for scope exit."
+      end
+
+      operation 1716393 "scoped_call"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_fn" type class_ref 534825 // function_type
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${v0}${)}${volatile}${throw}
+: m_fn ()
+{
+  m_fn.swap (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Save the function for scope exit."
+      end
+
+      operation 1715881 "~scoped_call"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  if (not m_fn.empty ()) m_fn ();
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Call the stored functor"
+      end
+
+      operation 1716009 "scoped_call"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 534697 // scoped_call
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1716137 "operator="
+	private return_type class_ref 534697 // scoped_call
+	nparams 1
+	  param in name "source" type class_ref 534697 // scoped_call
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
+    end
+
     class 417705 "streambuf"
       visibility private 
       nformals 3
@@ -2267,13 +2405,13 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
+	artifact_ref 192553 // contract_error
+	artifact_ref 245033 // time_stamp
+	artifact_ref 224041 // program_options
+	artifact_ref 157609 // filesystem
+	artifact_ref 277161 // call_once
 	artifact_ref 252841 // program_options
 	artifact_ref 230313 // filesystem
-	artifact_ref 192553 // contract_error
-	artifact_ref 277161 // call_once
-	artifact_ref 157609 // filesystem
-	artifact_ref 224041 // program_options
-	artifact_ref 245033 // time_stamp
       end
     end
 
@@ -2748,6 +2886,36 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 496681 // time_stamp
+      end
+    end
+
+    artifact 283177 "scoped_call"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 534697 // scoped_call
       end
     end
   end

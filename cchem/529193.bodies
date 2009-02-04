@@ -1,0 +1,143 @@
+class table_writer
+!!!1705513.cpp!!!	end_element(inout a_os : ostream) : void
+if (not this->m_marks.is_null< end_element_index > ())
+{
+  this->m_marks.at< end_element_index > ().mark (a_os);
+}
+!!!1703849.cpp!!!	end_row(inout a_os : ostream, in a_width : uint) : void
+if (not this->m_marks.is_null< end_row_index > ())
+{
+  this->m_marks.at< end_row_index > ().bind (0, a_width).mark (a_os).clear ();
+}
+!!!1703593.cpp!!!	end_table(inout a_os : ostream, in a_length : uint, in a_width : uint) : void
+if (not this->m_marks.is_null< end_table_index > ())
+{
+  this->m_marks.at< end_table_index > ().bind (0, a_length).bind (1, a_width).mark (a_os).clear ();
+}
+!!!1716521.cpp!!!	html_table_writer() : table_writer
+std::auto_ptr< table_writer > Result (new table_writer);
+std::string l_stable ("<table>\n");
+std::string l_etable ("</table>\n");
+std::string l_srow("<tr>\n  <td>");
+std::string l_erow ("</td>\n</tr>\n");
+std::string l_sdat ("  <td>");
+std::string l_edat("</td>\n");
+html_filter l_filt;
+Result->replace_start_table_markup (new report::filetype::string_markup (l_stable));
+Result->replace_end_table_markup (new report::filetype::string_markup (l_etable));
+Result->replace_start_row_markup (new report::filetype::string_markup (l_srow));
+Result->replace_end_row_markup (new report::filetype::string_markup (l_erow));
+Result->replace_start_element_markup (new report::filetype::string_markup (l_sdat));
+Result->replace_end_element_markup (new report::filetype::string_markup (l_edat));
+Result->set_filter (l_filt);
+return Result;
+!!!1706921.cpp!!!	start_element(inout a_os : ostream) : void
+if (not this->m_marks.is_null (start_element_index))
+{
+  this->m_marks.at< start_element_index > ().mark (a_os);
+}
+!!!1707049.cpp!!!	start_row(inout a_os : ostream, in a_width : uint) : void
+if (not this->m_marks.is_null< start_row_index > ())
+{
+  this->m_marks.at < start_row_index > ().bind (0, a_width).mark (a_os).clear ();
+}
+!!!1707177.cpp!!!	start_table(inout a_os : ostream, in a_length : uint, in a_width : uint) : void
+if (not this->m_marks.is_null< start_table_index > ())
+{
+  this->m_marks.at< start_table_index > ().bind (0, a_length).bind (1, a_width).mark (a_os).clear ();
+}
+!!!1703337.cpp!!!	write_table(in a_begin : InputIterator, in a_end : InputIterator, in a_length : size_t, in a_width : size_t, inout a_os : ostream) : void
+COMPCHEM_REQUIRE (a_width > 0, "can not have a table with width less than 1");
+COMPCHEM_REQUIRE (a_length > 0, "can not have a table with less than 1 one row");
+if (NULL != m_filter.get ())
+{
+  m_filter->push (a_os); // Must succeed before we save pop
+  utility::scoped_call l_pop (boost::bind (&boost::iostreams::filtering_ostream::pop, m_filter.get ()));
+  a_os.tie (m_filter.get ()); // Must succeed before we save "untie" op.
+  utility::scoped_call l_untie (boost::bind (&std::ostream::tie, &a_os, (std::basic_ostream<char, std::char_traits<char> >*)NULL));
+  write_table_priv (a_begin, a_end, a_length, a_width, a_os, *m_filter.get ());
+}
+else
+{
+  write_table_priv (a_begin, a_end, a_length, a_width, a_os, a_os);
+}
+!!!1715625.cpp!!!	write_table_priv(in a_begin : InputIterator, in a_end : InputIterator, in a_length : size_t, in a_width : size_t, inout a_os : ostream, inout a_filtos : ostream) : void
+this->start_table (a_os, a_length, a_width);
+if (1 == a_width) // Specialisation for lists.
+{
+  while (a_begin != a_end)
+  {
+    this->start_row (a_os, 1);
+    a_filtos << *a_begin;
+    this->end_row (a_os, 1);
+    ++a_begin;
+  }
+}
+else if (2 == a_width) // specialisation two column tables
+{
+  while (a_begin != a_end)
+  {
+    this->start_row (a_os, 2);
+    a_filtos << *a_begin;
+    this->end_element (a_os);
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    this->start_element (a_os);
+    a_filtos << *a_begin;
+    this->end_row (a_os, 2);
+    ++a_begin;
+  }
+}
+else if (3 == a_width) // specialisation three column tables
+{
+  while (a_begin != a_end)
+  {
+    this->start_row (a_os, 3);
+    a_filtos << *a_begin;
+    this->end_element (a_os);
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    this->start_element (a_os);
+    a_filtos << *a_begin;
+    this->end_element (a_os);
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    this->start_element (a_os);
+    a_filtos << *a_begin;
+    this->end_row (a_os, 3);
+    ++a_begin;
+  }
+}
+else // General case
+{
+  size_t index (0);
+  while (a_begin != a_end)
+  {
+    if (a_width == index)
+    {
+      index = 0;
+    }
+    if (0 == index)
+    {
+      this->start_row (a_os, a_width);
+      a_filtos << *a_begin;
+      this->end_element (a_os);
+    }
+    else if (a_width - 1 == index)
+    {
+      this->start_element (a_os);
+      a_filtos << *a_begin;
+      this->end_row (a_os, a_width);
+    }
+    else
+    {
+      this->start_element (a_os);
+      a_filtos << *a_begin;
+      this->end_element (a_os);
+    }
+    ++a_begin;
+    ++index;
+  }
+  COMPCHEM_CHECK (a_width == index, "table dimension/iterator distance mismatch");
+}
+this->end_table (a_os, a_length, a_width);

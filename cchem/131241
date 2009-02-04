@@ -1,6 +1,6 @@
 format 61
 "/compchem/supplier" // /compchem/supplier
-  revision 123
+  revision 131
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1145,18 +1145,18 @@ Registered options
       stereotype "library"
       associated_artifacts
 	artifact_ref 144169 // data_scheme
-	artifact_ref 230313 // filesystem
-	artifact_ref 181417 // matcher_filter
 	artifact_ref 151721 // filter_manager
-	artifact_ref 157993 // utility
-	artifact_ref 230057 // data_access
+	artifact_ref 179113 // basic_filter
+	artifact_ref 239785 // basic_plugin_handler
+	artifact_ref 230313 // filesystem
+	artifact_ref 225193 // supplier_helper
+	artifact_ref 181417 // matcher_filter
 	artifact_ref 235177 // matcher_types
 	artifact_ref 151465 // plugin_filter
-	artifact_ref 226345 // datum_traits
-	artifact_ref 179113 // basic_filter
+	artifact_ref 230057 // data_access
+	artifact_ref 157993 // utility
 	artifact_ref 252969 // regex
-	artifact_ref 239785 // basic_plugin_handler
-	artifact_ref 225193 // supplier_helper
+	artifact_ref 226345 // datum_traits
       end
       comment "${butter_generic}
 LINK=-ldl"
@@ -1337,7 +1337,7 @@ ${namespace_end}"
     end
 
     classdiagram 148009 "match types"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -1360,12 +1360,12 @@ The filters with outcome 'detect' should preferentially operate in BUFFER
 mode. When they have output for the other node sets the should return
 SUCCESS to an output method which is also added to the result set. When
 they have no output they return UNUSABLE to a output method."
-      classrelation 477225 // <dependency>
-	relation 466089 -_->
-	  a package
-	    cpp default "#include in header"
-	    classrelation_ref 477225 // <dependency>
-	  b parent class_ref 345129 // result_value
+      classrelation 508201 // <dependency>
+	relation 492457 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 508201 // <dependency>
+	  b parent class_ref 353705 // mechanism
       end
 
       classrelation 477353 // <dependency>
@@ -1374,6 +1374,14 @@ they have no output they return UNUSABLE to a output method."
 	    cpp default "#include in header"
 	    classrelation_ref 477353 // <dependency>
 	  b parent class_ref 413737 // plugin_flag
+      end
+
+      classrelation 477225 // <dependency>
+	relation 466089 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 477225 // <dependency>
+	  b parent class_ref 345129 // result_value
       end
 
       classrelation 498857 // m_filter (<directional aggregation>)
@@ -1502,7 +1510,9 @@ must be in the same state as after a call to reset ()."
 	
 	
 	comment "A unique identifier for this filter within the set of filters
-that operate on the mechanism. This may not be empty."
+that operate on the mechanism. This may not be empty.
+
+(This is the the label of the data_scheme::filter object.)"
       end
 
       operation 1549353 "mechanism_label"
@@ -1518,7 +1528,10 @@ that operate on the mechanism. This may not be empty."
 	
 	
 	
-	comment "The label of the mechanism associated with this filter."
+	comment "The label of the mechanism associated with this filter.
+
+(This is the the label of the mechanism parent of the 
+data_scheme::filter object.)"
       end
 
       operation 1504937 "output_direct"
@@ -1670,14 +1683,6 @@ related to the filtering process."
 	
 	
 	comment "Return the defining filter object."
-      end
-
-      classrelation 508201 // <dependency>
-	relation 492457 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 508201 // <dependency>
-	  b parent class_ref 353705 // mechanism
       end
     end
 
@@ -1916,64 +1921,11 @@ ${inlines}
       explicit_switch_type ""
       
       comment "A matcher object is used as a sub-part of the matcher_filter. This
-enables a matcher_filter object to be composed of several steps.
+enables a matcher_filter object to be composed of several steps. A
+major assumption of this class heirarchy is that its members will 
+be called in LINE_ORIENTED mode.
 
 "
-      classrelation 500265 // <dependency>
-	relation 486825 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 500265 // <dependency>
-	  b parent class_ref 345129 // result_value
-      end
-
-      attribute 390569 "mode"
-	const_attribute public explicit_type "uchar"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The mode:
-0 = first (default)
-1 = last
-2 = accum"
-      end
-
-      operation 1294121 "basic_matcher"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: mode (0)
-{}
-"
-	
-	
-	
-	
-	comment "Default contructor.  
-
-\\param a_line: Whether this matcher is line or buffer oriented."
-      end
-
-      operation 1542057 "basic_matcher"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "a_mode" explicit_type "uchar"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
-: mode (${p0})
-{}
-"
-	
-	
-	
-	
-	comment "Default contructor.  
-
-\\param a_line: Whether this matcher is line or buffer oriented."
-      end
-
       operation 1292073 "~basic_matcher"
 	cpp_virtual public explicit_return_type ""
 	nparams 0
@@ -1986,8 +1938,25 @@ enables a matcher_filter object to be composed of several steps.
 	comment "Destructor. At the base level does nothing special."
       end
 
+      operation 1724585 "clone"
+	stereotype "auto_ptr"
+	abstract const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self.
+
+\\return not result.get = nul"
+      end
+
       operation 1293865 "process_part"
-	abstract cpp_virtual public explicit_return_type "int"
+	abstract cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -1997,38 +1966,25 @@ enables a matcher_filter object to be composed of several steps.
 	
 	
 	
-	comment "Perform a match against a_target.  If there is a match return true 
-and set a_result.  This is a pure virtual method that will provided by 
-derived classes.
+	comment "Perform a match against a_target, return true if
+a match is made. Throw an exception on error. 
 
-\\return Did a match occur?"
+\\return true on process event, may set a_result
+  false --> BEGIN(a_result) == END(a_result)"
       end
 
-      operation 1294889 "basic_matcher"
-	stereotype "copy"
-	private explicit_return_type ""
-	nparams 1
-	  param in name "source" type class_ref 401961 // basic_matcher
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+      operation 1726377 "reset"
+	cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {}
 "
 	
 	
-	
-	
-	comment "no copy"
-      end
-
-      operation 1295017 "operator="
-	private return_type class_ref 401961 // basic_matcher
-	nparams 1
-	  param in name "source" type class_ref 401961 // basic_matcher
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
 "
 	
-	
-	
-	
-	comment "no copy"
+	comment "Reinitialise the matcher"
       end
     end
 
@@ -2492,9 +2448,7 @@ ${inlines}
       
       ncouples 1
       key "base_class" value "basic_matcher"
-      comment "When searching in a file it is useful to define the possible start and end point
-of a search.  This class provides the interface for managing a start/end point
-as a fixed number of bytes."
+      comment "base class for matcher_bytes and matcher_lines."
       classrelation 495017 // <generalisation>
 	relation 481833 ---|>
 	  a public
@@ -2529,8 +2483,26 @@ as a fixed number of bytes."
 	comment "The target offset."
       end
 
+      operation 1724713 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1537065 "process_part"
-	cpp_virtual public explicit_return_type "int"
+	cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -2539,7 +2511,7 @@ as a fixed number of bytes."
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   count += ${p0}.size ();
-  return (count >= offset ? CCHEM_SUPPLIER_COMPLETE : CCHEM_SUPPLIER_SUCCESS);
+  return count >= offset;
 }
 "
 	
@@ -2558,8 +2530,7 @@ derived classes.
 	nparams 1
 	  param in name "a_count" explicit_type "uint64"
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
-: @{base_class}()
-, count (0)
+: count (0)
 , offset (${p0})
 {}
 "
@@ -2567,6 +2538,7 @@ derived classes.
 	
 	
 	
+	comment "throw: strong guarrantee"
       end
 
       operation 1536937 "~matcher_bytes"
@@ -2582,6 +2554,85 @@ derived classes.
 	
 	
 	comment "Base class virtual destructor, does nothing special."
+      end
+
+      operation 1721001 "matcher_bytes"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 482089 // matcher_bytes
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: count (${p0}.count)
+, offset (${p0}.offset)
+{}
+
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1721129 "operator="
+	public return_type class_ref 482089 // matcher_bytes
+	nparams 1
+	  param in name "a_source" type class_ref 482089 // matcher_bytes
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    count = ${p0}.count;
+    const_cast< uint64_t& > (offset) = ${p0}.offset;
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1726505 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  count = 0;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Reinitialise the matcher"
+      end
+
+      operation 1721769 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 482089 // matcher_bytes
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    std::swap (count, ${p0}.count);
+    std::swap (const_cast< uint64_t& > (offset), const_cast< uint64_t& > (${p0}.offset));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -2638,8 +2689,26 @@ as a fixed number of lines."
 	comment "The target offset."
       end
 
+      operation 1725609 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1537193 "process_part"
-	cpp_virtual public explicit_return_type "int"
+	cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -2648,7 +2717,7 @@ as a fixed number of lines."
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ++count;
-  return (count >= offset ? CCHEM_SUPPLIER_COMPLETE : CCHEM_SUPPLIER_SUCCESS);
+  return count >= offset;
 }
 "
 	
@@ -2665,8 +2734,7 @@ as a fixed number of lines."
 	nparams 1
 	  param in name "a_count" explicit_type "uint"
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw}
-: @{base_class}()
-, count (0)
+: count ()
 , offset (${p0})
 {}
 "
@@ -2690,9 +2758,86 @@ as a fixed number of lines."
 	
 	comment "Base class virtual destructor, does nothing special."
       end
+
+      operation 1721257 "matcher_lines"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 482217 // matcher_lines
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: count (${p0}.count)
+, offset (${p0}.offset)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1721385 "operator="
+	public return_type class_ref 482217 // matcher_lines
+	nparams 1
+	  param in name "a_source" type class_ref 482217 // matcher_lines
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    count = ${p0}.count;
+    const_cast< unsigned int& > (offset) = ${p0}.offset;
+  }
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1726633 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  count = 0;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Reinitialise the matcher"
+      end
+
+      operation 1721897 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "source" type class_ref 482217 // matcher_lines
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    std::swap (count, ${p0}.count);
+    std::swap (const_cast< unsigned int& > (offset), const_cast< unsigned int& > (${p0}.offset));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
     end
 
-    class 482473 "matcher_pair"
+    class 482473 "matcher_end_pair"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit}
 {
@@ -2708,7 +2853,15 @@ ${inlines}
       
       ncouples 1
       key "base_class" value "basic_matcher"
-      comment "Hold a main and end matcher."
+      comment "Combine two matchers for use-case: accumulate data 
+from 'main' until 'end' matches. Therefore main matcher 
+is an accumulating matcher and the end matcher is a 
+search scanner. 
+
+* any results from end are ignored, 
+* accumulating results from main are stored locally. 
+* should be treated as a 'first' matcher.
+"
       classrelation 495401 // <generalisation>
 	relation 482217 ---|>
 	  a public
@@ -2717,10 +2870,22 @@ ${inlines}
 	  b parent class_ref 401961 // basic_matcher
       end
 
+      attribute 463529 "accumulator"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The accumulated results."
+      end
+
       classrelation 495657 // end (<directional composition>)
 	relation 482473 *-->
 	  stereotype "auto_ptr"
-	  a role_name "end" multiplicity "0..1" private
+	  a role_name "end" multiplicity "0..1" public
 	    comment "The end matcher"
 	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
 "
@@ -2731,7 +2896,7 @@ ${inlines}
       classrelation 495529 // main (<directional composition>)
 	relation 482345 *-->
 	  stereotype "auto_ptr"
-	  a role_name "main" multiplicity "0..1" private
+	  a role_name "main" multiplicity "0..1" public
 	    comment "The main matcher"
 	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
 "
@@ -2739,8 +2904,26 @@ ${inlines}
 	  b parent class_ref 401961 // basic_matcher
       end
 
+      operation 1725737 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1537705 "process_part"
-	cpp_virtual public explicit_return_type "int"
+	cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -2755,14 +2938,15 @@ ${inlines}
 	
 	
 	
-	comment "Perform a match against a_target.  If there is a match return true 
-and set a_result.  This is a pure virtual method that will provided by 
-derived classes.
+	comment "Equivalent to:
+if main.process_part --> save result
+if end.process_part --> set a_result to saved.
 
-\\return Did a match occur?"
+Supported use-case: accumulate data from 'main' until 'end'
+matches."
       end
 
-      operation 1537833 "matcher_pair"
+      operation 1537833 "matcher_end_pair"
 	public explicit_return_type ""
 	nparams 2
 	  param inout name "a_main" type class_ref 401961 // basic_matcher
@@ -2770,26 +2954,24 @@ derived classes.
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw};
 "
 	cpp_def "${comment}${inline}${class}::${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw} 
-: @{base_class}(${p0}->mode)
+: accumulator ()
 , end (${p1})
 , main (${p0})
 {
   @{require}(NULL != ${p0}, \"Main submatch must not be nul\");
   @{require}(NULL != ${p1}, \"End submatch must not be nul\");
-  @{require}(0 == ${p1}->mode, \"End submatch must have 'first' match mode\");
 }
 "
 	
 	
 	
 	
-	comment "Make a pair matcher. It is not possible to get results from a_end matcher.
+	comment "Combine a pair or matchers.
 
-\\pre a_main /= nul, a_end /= nul
-\\pre 'first' = a_end.mode"
+\\pre a_main /= nul, a_end /= nul"
       end
 
-      operation 1537961 "~matcher_pair"
+      operation 1537961 "~matcher_end_pair"
 	public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
@@ -2802,6 +2984,93 @@ derived classes.
 	
 	
 	
+	
+      end
+
+      operation 1724457 "matcher_end_pair"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 482473 // matcher_end_pair
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: accumulator (${p0}.accumulator)
+, end (${p0}.end->clone ())
+, main (${p0}.main->clone ())
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1724329 "operator="
+	public return_type class_ref 482473 // matcher_end_pair
+	nparams 1
+	  param in name "a_source" type class_ref 482473 // matcher_end_pair
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    accumulator = ${p0}.accumulator;
+    end = ${p0}.end->clone ();
+    main = ${p0}.main->clone ();
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1726761 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  accumulator.clear ();
+  end.get ()->reset ();
+  main.get ()->reset ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Reinitialise the matcher"
+      end
+
+      operation 1724201 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 482473 // matcher_end_pair
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    accumulator.swap (${p0}.accumulator);
+    basic_matcher * l_temp (end.release ());
+    end.reset (${p0}.end.release ());
+    ${p0}.end.reset (l_temp);
+    l_temp = main.release ();
+    main.reset (${p0}.main.release ());
+    ${p0}.main.reset (l_temp);
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
 	
       end
     end
@@ -2857,8 +3126,26 @@ library and this string is the format string passed to a boost::regex_match
 object. It should produce a string containing valid datum XML element(s)."
       end
 
+      operation 1725865 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1297065 "process_part"
-	public explicit_return_type "int"
+	public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -2882,15 +3169,13 @@ extract text into a_result.
 
       operation 1298217 "matcher_regex"
 	public explicit_return_type ""
-	nparams 3
+	nparams 2
 	  param in name "a_rgx" explicit_type "string"
 	  param in name "a_lbl" explicit_type "string"
-	  param in name "a_flags" explicit_type "uchar"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${volatile}${throw};
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
 "
-	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${volatile}${throw}
-: @{base_class} (${p2})
-, finder (${p0})
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw}
+: finder (${p0})
 , format (${p1})
 {
   @{require} (!${p0}.empty (), \"Can not match an empty string!\");
@@ -2905,7 +3190,38 @@ extract text into a_result.
 are set by default, if false then a default set of flags for buffer oriented
 searches is used..
 
-\\param a_rgx:  The regular expression in POSIX syntax (see boost::regex)
+\\param a_rgx:  The regular expression in Boost Perl-like syntax (see boost::regex)
+\\param a_lbl: a 'sed' like replacement string where \\1, \\2 etc represent 
+    the sub-matches from the regular expression. (see format() in boost::regex_match)
+
+\\pre not a_rgx.empty and not a_lbl.empty
+\\pre a_rgx is a valid regular expression."
+      end
+
+      operation 1718825 "matcher_regex"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "a_rgx" explicit_type "string"
+	  param in name "a_regex_flags" explicit_type "uint"
+	  param in name "a_lbl" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${volatile}${throw}
+: @{base_class} ()
+, finder (${p0}, ${p1})
+, format (${p2})
+{
+  @{require} (!${p0}.empty (), \"Can not match an empty string!\");
+  @{require} (!${p2}.empty (), \"Can not use an empty format string!\");
+}
+"
+	
+	
+	
+	
+	comment "Construct a regular expression matcher with a set of regular expression flags.
+
+\\param a_rgx:  The regular expression in Boost Perl-like syntax (see boost::regex)
 \\param a_lbl: a 'sed' like replacement string where \\1, \\2 etc represent 
     the sub-matches from the regular expression. (see format() in boost::regex_match)
 
@@ -2923,6 +3239,70 @@ searches is used..
 	
 	
 	comment "Destructor, does nothing special."
+      end
+
+      operation 1723689 "matcher_regex"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 401833 // matcher_regex
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: finder (${p0}.finder)
+, format (${p0}.format)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723561 "operator="
+	public return_type class_ref 401833 // matcher_regex
+	nparams 1
+	  param in name "a_source" type class_ref 401833 // matcher_regex
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder and format reflect the object's property not
+    // the object, therefore it is valid to cast off constness here.
+    const_cast< boost::regex& > (finder) = ${p0}.finder;
+    const_cast< std::string& > (format) = ${p0}.format;
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723433 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 401833 // matcher_regex
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder/format is not part of object constness
+    const_cast < boost::regex & > (finder).swap (const_cast< boost::regex & >(${p0}.finder));
+    const_cast < std::string & > (format).swap (const_cast < std::string & > (${p0}.format));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -2961,8 +3341,26 @@ relevant."
 	  b parent class_ref 346153 // regex
       end
 
+      operation 1725993 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1536425 "process_part"
-	public explicit_return_type "int"
+	public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -2991,8 +3389,7 @@ extract text into a_result.
 	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
 "
 	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: @{base_class} ()
-, finder (${p0})
+: finder (${p0})
 {
   @{require} (!${p0}.empty (), \"Can not match an empty string!\");
 }
@@ -3023,6 +3420,300 @@ searches is used..
 	
 	
 	comment "Destructor, does nothing special."
+      end
+
+      operation 1722665 "matcher_regex_search"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 481961 // matcher_regex_search
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: finder (${p0}.finder)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1722537 "operator="
+	public return_type class_ref 481961 // matcher_regex_search
+	nparams 1
+	  param in name "a_source" type class_ref 481961 // matcher_regex_search
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder reflects the object's property not
+    // the object, therefore it is valid to cast off constness here.
+    const_cast< boost::regex& > (finder) = ${p0}.finder;
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1722409 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 481961 // matcher_regex_search
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder/format is not part of object constness
+    const_cast < boost::regex & > (finder).swap (const_cast< boost::regex & >(${p0}.finder));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+    end
+
+    class 538537 "matcher_start_pair"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Combine two matchers for use-case: scan document 
+until 'start' matches then switch to 'main'.
+
+* any results from start are ignored.
+* should be treated as a 'first' matcher.
+"
+      classrelation 600489 // <generalisation>
+	relation 579369 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 600489 // <generalisation>
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      attribute 464681 "in_start"
+	public explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Has start matched yet?"
+      end
+
+      classrelation 600745 // main (<directional composition>)
+	relation 579625 *-->
+	  stereotype "auto_ptr"
+	  a role_name "main" multiplicity "0..1" public
+	    comment "The main matcher"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 600745 // main (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      classrelation 600617 // start (<directional composition>)
+	relation 579497 *-->
+	  stereotype "auto_ptr"
+	  a role_name "start" multiplicity "0..1" public
+	    comment "The end matcher"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 600617 // start (<directional composition>)
+	  b parent class_ref 401961 // basic_matcher
+      end
+
+      operation 1727913 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
+      operation 1728041 "process_part"
+	cpp_virtual public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_target" explicit_type "string"
+	  param out name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Equivalent to:
+if main.process_part --> save result
+if end.process_part --> set a_result to saved.
+
+Supported use-case: accumulate data from 'main' until 'end'
+matches."
+      end
+
+      operation 1728169 "matcher_start_pair"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_start" type class_ref 401961 // basic_matcher
+	  param inout name "a_main" type class_ref 401961 // basic_matcher
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} * ${p0}, ${t1} * ${p1}${)}${volatile}${throw} 
+: in_start (true)
+, main (${p1})
+, start (${p0})
+{
+  @{require}(NULL != ${p0}, \"Main submatch must not be nul\");
+  @{require}(NULL != ${p1}, \"End submatch must not be nul\");
+}
+"
+	
+	
+	
+	
+	comment "Combine a pair or matchers.
+
+\\pre a_main /= nul, a_end /= nul"
+      end
+
+      operation 1728297 "~matcher_start_pair"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1728425 "matcher_start_pair"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 538537 // matcher_start_pair
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: in_start (${p0}.in_start)
+, main (${p0}.main->clone ())
+, start (${p0}.start->clone ())
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1728553 "operator="
+	public return_type class_ref 538537 // matcher_start_pair
+	nparams 1
+	  param in name "a_source" type class_ref 538537 // matcher_start_pair
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    in_start = ${p0}.in_start;
+    main = ${p0}.main->clone ();
+    start = ${p0}.start->clone ();
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1728681 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  in_start = true;
+  main.get ()->reset ();
+  start.get ()->reset ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Reinitialise the matcher"
+      end
+
+      operation 1728809 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 538537 // matcher_start_pair
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    std::swap (in_start, ${p0}.in_start);
+    basic_matcher * l_temp = main.release ();
+    main.reset (${p0}.main.release ());
+    ${p0}.main.reset (l_temp);
+    l_temp = start.release ();
+    start.reset (${p0}.start.release ());
+    ${p0}.start.reset (l_temp);
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -3087,8 +3778,26 @@ TODO: mode!"
 	comment "A boost format string that is used to build a datum XML element."
       end
 
+      operation 1726121 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1295529 "process_part"
-	cpp_virtual public explicit_return_type "int"
+	cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -3112,15 +3821,12 @@ m_label is not empty, otherwise it contains m_phrase.
 
       operation 1294633 "matcher_string"
 	public explicit_return_type ""
-	nparams 3
+	nparams 2
 	  param in name "a_phr" explicit_type "string"
 	  param in name "a_lbl" explicit_type "string"
 	    defaultvalue "\"<datum outcome=\\\"unknown\\\">%1%</datum>\""
-	  param in name "a_flagset" explicit_type "uchar"
-	    defaultvalue "0"
-	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1} = ${t1}(), ${t2} ${p2} = 0${)}${volatile}${throw}
-: @{base_class} (${p2})
-, phrase (${p0})
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${v1}${)}${volatile}${throw}
+: phrase (${p0})
 , format (${p1})
 {
   @{require} (!${p0}.empty (), \"Can not match an empty string!\");
@@ -3134,6 +3840,9 @@ m_label is not empty, otherwise it contains m_phrase.
 	comment "Default ctor. Searches for literal text of a_phr.  If a match 
 occurs a_lbl is used to format the result.
 
+\\param a_phr: what to search for
+\\param a_lbl: how to output result
+\\param a_flagset: operation mode (first (default), last or accumulating)
 \\pre not a_phr.empty and not a_lbl.empty
  (note a_lbl has a non-empty default)"
       end
@@ -3148,6 +3857,70 @@ occurs a_lbl is used to format the result.
 	
 	
 	comment "Destructor, does nothing special."
+      end
+
+      operation 1723305 "matcher_string"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 402217 // matcher_string
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: phrase (${p0}.phrase)
+, format (${p0}.format)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723177 "operator="
+	public return_type class_ref 402217 // matcher_string
+	nparams 1
+	  param in name "a_source" type class_ref 402217 // matcher_string
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder and format reflect the object's property not
+    // the object, therefore it is valid to cast off constness here.
+    const_cast< std::string& > (phrase) = ${p0}.phrase;
+    const_cast< std::string& > (format) = ${p0}.format;
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723049 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 402217 // matcher_string
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder/format is not part of object constness
+    const_cast < std::string & > (phrase).swap (const_cast < std::string & > (${p0}.phrase));
+    const_cast < std::string & > (format).swap (const_cast < std::string & > (${p0}.format));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -3188,8 +3961,26 @@ This has two attributes.
 	comment "The phrase to match"
       end
 
+      operation 1726249 "clone"
+	stereotype "auto_ptr"
+	const cpp_virtual public return_type class_ref 401961 // basic_matcher
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::auto_ptr< ${type} > (new ${class} (*this));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Clone self."
+      end
+
       operation 1538089 "process_part"
-	cpp_virtual public explicit_return_type "int"
+	cpp_virtual public explicit_return_type "bool"
 	nparams 2
 	  param in name "a_target" explicit_type "string"
 	  param out name "a_result" explicit_type "string"
@@ -3214,8 +4005,7 @@ This has two attributes.
 	nparams 1
 	  param in name "a_phr" explicit_type "string"
 	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
-: @{base_class} ()
-, phrase (${p0})
+: phrase (${p0})
 {
   @{require} (!${p0}.empty (), \"Can not match an empty string!\");
 }
@@ -3241,6 +4031,67 @@ occurs a_lbl is used to format the result.
 	
 	
 	comment "Destructor, does nothing special."
+      end
+
+      operation 1724073 "matcher_string_search"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 482601 // matcher_string_search
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: phrase (${p0}.phrase)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723945 "operator="
+	public return_type class_ref 482601 // matcher_string_search
+	nparams 1
+	  param in name "a_source" type class_ref 482601 // matcher_string_search
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder and format reflect the object's property not
+    // the object, therefore it is valid to cast off constness here.
+    const_cast< std::string& > (phrase) = ${p0}.phrase;
+  }
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1723817 "swap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_source" type class_ref 482601 // matcher_string_search
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (&${p0} != this)
+  {
+    // constness of finder/format is not part of object constness
+    const_cast < std::string & > (phrase).swap (const_cast < std::string & > (${p0}.phrase));
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -3317,12 +4168,74 @@ the base_matcher object will not be used on subsequent match()
 operations.  When a match has occurred have_result is true and you 
 can get the result.  The matcher's internal state can be reset() if 
 the object is going to be reused."
+      class 536233 "mode_constant"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum ${name}
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	attribute 460457 "first"
+	  public type class_ref 536233 // mode_constant
+	  init_value "0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 460585 "last"
+	  public type class_ref 536233 // mode_constant
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 460713 "accum"
+	  public type class_ref 536233 // mode_constant
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+      end
+
       classrelation 496297 // <generalisation>
 	relation 483113 ---|>
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 496297 // <generalisation>
 	  b parent class_ref 400681 // basic_filter
+      end
+
+      classrelation 500137 // <dependency>
+	relation 486697 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 500137 // <dependency>
+	  b parent class_ref 484009 // content_visitor
       end
 
       classrelation 496169 // m_current (<directional aggregation>)
@@ -3351,7 +4264,7 @@ the object is going to be reused."
 	  stereotype "auto_ptr"
 	  a role_name "m_main" multiplicity "0..1" private
 	    comment "The main matcher object"
-	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}std::pair< mode_constant, ${stereotype}<${type}> > ${name}${value};
 "
 	    classrelation_ref 377769 // m_main (<directional composition>)
 	  b parent class_ref 401961 // basic_matcher
@@ -3373,7 +4286,7 @@ the object is going to be reused."
 	  stereotype "auto_ptr"
 	  a role_name "m_start" multiplicity "0..1" private
 	    comment "The (possible) first match."
-	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}std::pair< mode_constant, ${stereotype}<${type}> > ${name}${value};
 "
 	    classrelation_ref 496041 // m_start (<directional composition>)
 	  b parent class_ref 401961 // basic_matcher
@@ -3450,11 +4363,12 @@ descriptive name, version and author, eg.
 
       operation 1541161 "make_matcher"
 	private return_type class_ref 401961 // basic_matcher
-	nparams 1
+	nparams 2
 	  param in name "a_line" explicit_type "string"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	  param inout name "a_mode" type class_ref 536233 // mode_constant
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+	cpp_def "${comment}${inline}${type} * ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
 {
   ${body}
 }
@@ -3489,7 +4403,12 @@ is not necessary. Note this 'end' indicator is tested after the 'main'
 matcher.
 
 The format string should not include the closing XML node (\"</datum>\")
-this is automatically added."
+this is automatically added.
+
+Programming note.  It was decided that this method should be part of 
+matcher_filter not basic_matcher because the major function is to
+decode the filter's description, which is really independent of the 
+matcher types."
       end
 
       operation 1309865 "matcher_filter"
@@ -3506,23 +4425,16 @@ this is automatically added."
 , m_result ()
 , m_start ()
 , m_start_result ()
-{
-  ${body}
-}
+{}
 "
 	
 	
 	
 	
-	comment "Constructor
+	comment "Constructor. Note that processing the content of the filter description
+is delayed until the first process_* call.
 
-\\param a_filter, The filter object from which to derive this matcher.
-
-* Process filter desc.
-* calls reset()
-
-\\post start = nul or start->mode = 0 (first)
-\\post main /= nul"
+\\param a_filter, The filter object from which to derive this matcher."
       end
 
       operation 1309993 "~matcher_filter"
@@ -3554,7 +4466,7 @@ this is automatically added."
 	
 	
 	
-	comment "Output the results directly into the a_memo object."
+	comment "This filter can only return a string, this always leads to an error."
       end
 
       operation 1538985 "output_string"
@@ -3575,6 +4487,26 @@ this is automatically added."
 	comment "Put the results into a_result string containing XML elements.
 
 \\pre a_result.empty ()"
+      end
+
+      operation 1720873 "parse_filter"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "* Process filter desc into matcher filters.
+
+\\post start = nul or start.mode = 0 (first)
+\\post main /= nul"
       end
 
       operation 1539753 "process_file"
@@ -3603,6 +4535,10 @@ error."
 "
 	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
+  if (NULL == m_main.second.get ())
+  {
+     parse_filter ();
+  }
   @{require} (NULL != m_current, \"Can not call the filter once it has returned COMPLETE.\");
   ${body}
 }
@@ -3634,11 +4570,9 @@ filter/parser set."
 	
 	
 	
-	comment "Reset the matcher to perform another search.  
+	comment "Reset the matcher to perform another search.
 
-* clears m_result and sets m_current
-
-\\post not no_match and not have_result"
+* clears m_result and sets m_current"
       end
 
       operation 1310889 "matcher_filter"
@@ -3666,14 +4600,6 @@ filter/parser set."
 	
 	
 	comment "no copy"
-      end
-
-      classrelation 500137 // <dependency>
-	relation 486697 -_->
-	  a default
-	    cpp default "#include in source"
-	    classrelation_ref 500137 // <dependency>
-	  b parent class_ref 484009 // content_visitor
       end
     end
 
@@ -4196,11 +5122,12 @@ ${namespace_end}"
 	class_ref 401961 // basic_matcher
 	class_ref 482089 // matcher_bytes
 	class_ref 482217 // matcher_lines
-	class_ref 482473 // matcher_pair
+	class_ref 482473 // matcher_end_pair
 	class_ref 401833 // matcher_regex
 	class_ref 481961 // matcher_regex_search
 	class_ref 402217 // matcher_string
 	class_ref 482601 // matcher_string_search
+	class_ref 538537 // matcher_start_pair
       end
     end
 
@@ -4270,4 +5197,6 @@ ${namespace_end}"
   package_ref 129065 // unused
 
   package_ref 142377 // test cases
+
+  package_ref 163113 // ccregex
 end

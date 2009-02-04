@@ -31,7 +31,7 @@
     "istringstream" "std::istringstream" "Istream" "stream" "const ${type} &" "${type} &" "${type} &" "${type}"
     "ostringstream" "std::ostringstream" "ostream" "stream" "const ${type} &" "${type} &" "${type} &" "${type}"
   
-  relations_stereotypes 10 // uml cpp java pythonidl
+  relations_stereotypes 11 // uml cpp java pythonidl
     "sequence" "std::vector" "Vector" "list" "sequence"
     "vector" "std::vector" "Vector" "list" "sequence"
     "list" "std::list" "Vector" "list" "sequence"
@@ -42,6 +42,7 @@
     "map" "std::map" "Vector" "list" "sequence"
     "stack" "std::stack" "Vector" "list" "sequence"
     "shared_ptr" "std::tr1::shared_ptr" "ignored" "ignored" "ignored"
+    "ptr_array" "boost::ptr_array" "Vector" "list" "sequence"
   
   classes_stereotypes 13 // uml cpp java php python idl
     "class" "class" "class" "class" "class" "valuetype"
@@ -73,6 +74,8 @@
 ${comment}
 #include \"config.hpp\"
 ${includes}
+// Manual includes
+// -
 ${declarations}
 ${namespace_start}
 ${definition}
@@ -87,6 +90,8 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+// Manual includes
+// -
 ${namespace_start}
 ${members}
 ${namespace_end}"

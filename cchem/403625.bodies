@@ -22,6 +22,21 @@ const std::string l_file_orig (l_help.target_file ().string ());
 const std::string l_form_orig (l_help.target_formula ());
 const std::string l_memo_orig (l_help.target_memo ());
 const std::string l_mems_orig (l_help.target_memo_src ());
+/////////////////
+// Set up to reset helper.
+utility::scoped_call l_cmpd_reset (boost::bind (&supplier::supplier_helper::target_compound
+                                                , &l_help, l_cmpd_orig));
+utility::scoped_call l_expt_reset (boost::bind (&supplier::supplier_helper::target_experiment
+                                                , &l_help, l_expt_orig));
+utility::scoped_call l_file_reset (boost::bind (&supplier::supplier_helper::target_file
+                                                , &l_help, l_file_orig));
+utility::scoped_call l_form_reset (boost::bind (&supplier::supplier_helper::target_formula
+                                                , &l_help, l_form_orig));
+utility::scoped_call l_memo_reset (boost::bind (&supplier::supplier_helper::target_memo
+                                                , &l_help, l_memo_orig));
+utility::scoped_call l_mems_reset (boost::bind (&supplier::supplier_helper::target_memo_src
+                                                , &l_help, l_mems_orig));
+
 if (l_cmpd_orig.empty ())
 {
   log () << COMM << "No target compound label.\n";
@@ -70,8 +85,6 @@ else
 {
   log () << COMM << "Target memo src label: " << l_mems_orig << ".\n";
 }
-try
-{
 log () << TTLE << "Test setting options.\n";
 ////////////////////
 // Test adding a dir
@@ -135,27 +148,3 @@ const std::string l_mems ("OL08-2-87-FREQ.xml");
 l_help.target_memo_src (l_mems);
 bool_test (not l_help.target_memo_src ().empty (), "target memo-src not empty after setting.");
 bool_test (l_mems == l_help.target_memo_src (), "target memo-src matches set value \"" + l_mems + "\".");
-
-/////////////////
-// Reset helper.
-l_help.target_compound (l_cmpd_orig);
-l_help.target_experiment (l_expt_orig);
-l_help.target_file (l_file_orig);
-l_help.target_formula (l_form_orig);
-l_help.target_memo (l_memo_orig);
-l_help.target_memo_src (l_mems_orig);
-
-}
-catch (...)
-{
-/////////////////
-// Reset helper.
-l_help.target_compound (l_cmpd_orig);
-l_help.target_experiment (l_expt_orig);
-l_help.target_file (l_file_orig);
-l_help.target_formula (l_form_orig);
-l_help.target_memo (l_memo_orig);
-l_help.target_memo_src (l_mems_orig);
-// Rethrow exception
-throw;
-}

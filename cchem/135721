@@ -1,6 +1,6 @@
 format 61
 "filetype" // /compchem/report::filetype
-  revision 24
+  revision 31
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -50,8 +50,134 @@ data file is an extension."
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 134185 // filetypes
     classdiagram 134697 "Filetypes"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
+    end
+
+    class 530729 "basic_markup"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An abstract interface to inserting some markup into a stream. This
+markup may be modified using place-holder substitution using
+the bind methods. The clear method resets any bound values."
+      operation 1706793 "~basic_markup"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw() {}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1707305 "bind"
+	abstract cpp_virtual public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1707433 "bind"
+	abstract cpp_virtual public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1707561 "bind"
+	abstract cpp_virtual public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "double"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1707689 "bind"
+	abstract cpp_virtual public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1707817 "clear"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Unset any bound values."
+      end
+
+      operation 1706665 "mark"
+	abstract cpp_virtual public return_type class_ref 530729 // basic_markup
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert our mark into a_os. Return a reference to this."
+      end
     end
 
     class 351529 "base_out_decor"
@@ -404,6 +530,230 @@ ${inlines}
 	
 	
 	comment "This method adds '\\' before those characters in a_str that need them for CSV encoding."
+      end
+    end
+
+    class 531113 "format_markup"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Use a boost format as the markup. Note that the 
+format string uses \"1\" based counting and the bind
+functions are given \"0\" based indices.  Therefore
+here the bind operations all add 1 to their index 
+arguments before applying them to the format object."
+      classrelation 593577 // <generalisation>
+	relation 572457 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 593577 // <generalisation>
+	  b parent class_ref 530729 // basic_markup
+      end
+
+      attribute 455721 "m_format"
+	private type class_ref 482345 // format
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The markup format object."
+      end
+
+      operation 1709225 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_format.bind_arg (${p0} + 1, ${p1});
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1709353 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_format.bind_arg (${p0} + 1, ${p1});
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1709481 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "double"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_format.bind_arg (${p0} + 1, ${p1});
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1709609 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_format.bind_arg (${p0} + 1, ${p1});
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1709737 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  m_format.clear_binds ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Unset any bound values."
+      end
+
+      operation 1709865 "mark"
+	public return_type class_ref 530729 // basic_markup
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  a_os << m_format;
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert our mark into a_os. Return a reference to this."
+      end
+
+      operation 1709993 "format_markup"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${v0}${)}${volatile} throw ()
+: m_format (${p0})
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Create an object from a_str. Swallows a_str!"
+      end
+
+      operation 1710121 "format_markup"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 531113 // format_markup
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_format (${p0}.m_format)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1710249 "~format_markup"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw() {}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1710377 "operator="
+	public return_type class_ref 531113 // format_markup
+	nparams 1
+	  param in name "a_source" type class_ref 531113 // format_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (this != &${p0}) m_format = ${p0}.m_format;
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
       end
     end
 
@@ -992,6 +1342,222 @@ ${inlines}
       end
     end
 
+    class 530985 "string_markup"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Use a boost format object as the markup."
+      classrelation 593449 // <generalisation>
+	relation 572329 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 593449 // <generalisation>
+	  b parent class_ref 530729 // basic_markup
+      end
+
+      attribute 455593 "m_str"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The markup string."
+      end
+
+      operation 1708073 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+ return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1708201 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+ return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1708329 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "double"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1708457 "bind"
+	public return_type class_ref 530729 // basic_markup
+	nparams 2
+	  param in name "a_index" explicit_type "uint"
+	  param in name "a_value" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  return *this;
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Bind a_value to the nth markup position. Returns
+a reference to this."
+      end
+
+      operation 1708585 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Unset any bound values."
+      end
+
+      operation 1708713 "mark"
+	public return_type class_ref 530729 // basic_markup
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  a_os << m_str;
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert our mark into a_os. Return a reference to this."
+      end
+
+      operation 1708841 "string_markup"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${v0}${)}${volatile} throw ()
+: m_str ()
+{
+  m_str.swap (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Create an object from a_str. Swallows a_str!"
+      end
+
+      operation 1708969 "string_markup"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_source" type class_ref 530985 // string_markup
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: m_str (${p0}.m_str)
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1707945 "~string_markup"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw() {}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1709097 "operator="
+	public return_type class_ref 530985 // string_markup
+	nparams 1
+	  param in name "source" type class_ref 530985 // string_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  if (this != &source) m_str.assign (source.m_str);
+  return *this;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+    end
+
     class 352553 "text_in_decor"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -1133,6 +1699,655 @@ ${inlines}
 	
       end
     end
+
+    class 529193 "table_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This table_writer provides support for formatting the output of data
+that follows a table concept. A table concept is a two dimensional 
+array of types. This object allows inserting markers into the stream
+around the table elements and a filter to transform the
+table elements (eg escaping <, >, and & for HTML) without 
+transforming the markup.
+
+Minimum requirements:
+iterator that follows input_iterator_tag
+value_type supports the stream inserter (for arrays with multiple types see boost::variant)
+"
+      classrelation 596393 // <dependency>
+	relation 575273 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 596393 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 596265 // <dependency>
+	relation 575145 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 596265 // <dependency>
+	  b parent class_ref 534697 // scoped_call
+      end
+
+      class 533417 "filter_type"
+	visibility package stereotype "typedef" base_type class_ref 534569 // iostreams::filtering_ostream
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 530857 "marks_index"
+	visibility private stereotype "enum"
+	cpp_decl "${comment}enum
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	comment "The indices of m_marks"
+	attribute 454825 "start_table_index"
+	  public type class_ref 530857 // marks_index
+	  init_value "0"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 454953 "end_table_index"
+	  public type class_ref 530857 // marks_index
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 455081 "start_row_index"
+	  public type class_ref 530857 // marks_index
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 455209 "end_row_index"
+	  public type class_ref 530857 // marks_index
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 455337 "start_element_index"
+	  public type class_ref 530857 // marks_index
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+
+	attribute 455465 "end_element_index"
+	  public type class_ref 530857 // marks_index
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+      end
+
+      classrelation 593321 // m_marks (<directional composition>)
+	relation 572201 *-->
+	  stereotype "ptr_array"
+	  a role_name "m_marks" multiplicity "*" private
+	    comment "The mark ups for various points in the table."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}, 6> ${name}${value};
+"
+	    python "${comment}${self}${name} = ${type}()
+"
+	    classrelation_ref 593321 // m_marks (<directional composition>)
+	  b parent class_ref 530729 // basic_markup
+      end
+
+      attribute 458025 "m_filter"
+	private type class_ref 533417 // filter_type
+	multiplicity "0..1"
+	stereotype "auto_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The output filter. Base operation is no-op."
+      end
+
+      operation 1705513 "end_element"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      operation 1703849 "end_row"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_width" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      operation 1703593 "end_table"
+	private explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_length" explicit_type "uint"
+	  param in name "a_width" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      extra_member 154793 "class html_filter"
+	
+	cpp "" "struct html_filter
+{
+  typedef char                   char_type;
+  typedef boost::iostreams::output_filter_tag  category;
+
+  template<typename Sink>
+  bool put(Sink& snk, char c) 
+  {
+    char Result (c);
+    switch (Result)
+    {
+    case '&':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'a');
+      boost::iostreams::put(snk, 'm');
+      boost::iostreams::put(snk, 'p');
+      Result = ';';
+      break;
+    case '<':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'l');
+      boost::iostreams::put(snk, 't');
+      Result = ';';
+      break;
+    case '>':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'g');
+      boost::iostreams::put(snk, 't');
+      Result = ';';
+      break;
+    default: // do nothing
+      break;
+    }
+    return boost::iostreams::put (snk, Result);
+  }
+};"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 1716521 "html_table_writer"
+	stereotype "auto_ptr"
+	class_operation public return_type class_ref 529193 // table_writer
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Get a table_writer for simple html table output."
+      end
+
+      operation 1712425 "operator="
+	private return_type class_ref 529193 // table_writer
+	nparams 1
+	  param in name "a_source" type class_ref 529193 // table_writer
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
+
+      operation 1715369 "remove_filter"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  m_filter.reset ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Remove any filter."
+      end
+
+      operation 1713577 "replace_end_element_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< end_element_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1713705 "replace_end_row_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< end_row_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1713833 "replace_end_table_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< end_table_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1713961 "replace_start_element_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< start_element_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1714089 "replace_start_row_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< start_row_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1714217 "replace_start_table_markup"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_markup" type class_ref 530729 // basic_markup
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  this->m_marks.replace< start_table_index > (${p0});
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Take possession of the end_element markup.
+
+Exception safety: strong guarantee"
+      end
+
+      operation 1715497 "set_filter"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_filt" explicit_type "Sink"
+	cpp_decl "    ${comment}template< typename Sink > ${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_filter.reset (new boost::iostreams::filtering_ostream (a_filt));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Create a filter stream with a_filt."
+      end
+
+      operation 1706921 "start_element"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      operation 1707049 "start_row"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_width" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      operation 1707177 "start_table"
+	private explicit_return_type "void"
+	nparams 3
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_length" explicit_type "uint"
+	  param in name "a_width" explicit_type "uint"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Insert end-element mark into a_os."
+      end
+
+      operation 1712041 "table_writer"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+: m_marks ()
+, m_filter ()
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Default ctor"
+      end
+
+      operation 1712169 "~table_writer"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Dtor"
+      end
+
+      operation 1712297 "table_writer"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param inout name "a_source" type class_ref 529193 // table_writer
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: m_marks ()
+, m_filter (${p0}.m_filter)
+{
+  m_marks.swap (${p0}.m_marks);
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Copy is private. Swallows content of a_source."
+      end
+
+      operation 1703337 "write_table"
+	cpp_inline public explicit_return_type "void"
+	nparams 5
+	  param in name "a_begin" explicit_type "InputIterator"
+	  param in name "a_end" explicit_type "InputIterator"
+	  param in name "a_length" explicit_type "size_t"
+	  param in name "a_width" explicit_type "size_t"
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}template< class InputIterator > ${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}, const ${t1} & ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} & ${p4}${v4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class InputIterator > ${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} & ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} & ${p4}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Write the table using a_decorator
+
+A table concept is a two dimensional array of types. 
+Minimum requirements:
+iterator that follows input_iterator_tag
+value_type supports the stream inserter (for arrays with multiple types see boost::variant)
+
+\\pre a_width * a_length = distance (a_begin, a_end)"
+      end
+
+      operation 1715625 "write_table_priv"
+	cpp_inline private explicit_return_type "void"
+	nparams 6
+	  param in name "a_begin" explicit_type "InputIterator"
+	  param in name "a_end" explicit_type "InputIterator"
+	  param in name "a_length" explicit_type "size_t"
+	  param in name "a_width" explicit_type "size_t"
+	  param inout name "a_os" explicit_type "ostream"
+	  param inout name "a_filtos" explicit_type "ostream"
+	cpp_decl "    ${comment}template< class InputIterator > ${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${v0}, const ${t1} & ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} & ${p4}${v4}, ${t5} & ${p5}${v5}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}template< class InputIterator > ${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} & ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} & ${p4}, ${t5} & ${p5}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Write the table (private implementation)
+
+A table concept is a two dimensional array of types. 
+Minimum requirements:
+iterator that follows input_iterator_tag
+value_type supports the stream inserter (for arrays with multiple types see boost::variant)
+
+\\pre a_width * a_length = distance (a_begin, a_end)"
+      end
+    end
   end
 
   deploymentview 134185 "filetypes"
@@ -1142,14 +2357,16 @@ ${inlines}
     artifact 255785 "filetypes"
       stereotype "library"
       associated_artifacts
-	artifact_ref 155177 // output_header_options
 	artifact_ref 252841 // program_options
-	artifact_ref 253097 // date_time
-	artifact_ref 154793 // output_header
 	artifact_ref 252969 // regex
-	artifact_ref 155561 // csv_decor
-	artifact_ref 155689 // text_decor
+	artifact_ref 253097 // date_time
+	artifact_ref 280745 // table_writer
 	artifact_ref 155433 // jcampdx_decor
+	artifact_ref 155689 // text_decor
+	artifact_ref 280617 // markup
+	artifact_ref 155561 // csv_decor
+	artifact_ref 154793 // output_header
+	artifact_ref 155177 // output_header_options
       end
       ncouples 1
       key "butter type" value "static"
@@ -1278,6 +2495,47 @@ ${namespace_end}"
       associated_classes
 	class_ref 351657 // jcampdx_out_decor
 	class_ref 351785 // jcampdx_in_decor
+      end
+    end
+
+    artifact 280617 "markup"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 530729 // basic_markup
+	class_ref 530985 // string_markup
+	class_ref 531113 // format_markup
       end
     end
 
@@ -1423,6 +2681,45 @@ ${namespace_end}"
       associated_classes
 	class_ref 352553 // text_in_decor
 	class_ref 352681 // text_out_decor
+      end
+    end
+
+    artifact 280745 "table_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 529193 // table_writer
       end
     end
   end

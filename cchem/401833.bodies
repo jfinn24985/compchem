@@ -1,10 +1,11 @@
 class matcher_regex
-!!!1297065.cpp!!!	process_part(in a_target : string, out a_result : string) : int
+!!!1297065.cpp!!!	process_part(in a_target : string, out a_result : string) : bool
 // LOCAL
 boost::smatch l_result;
+const bool Result (boost::regex_search (a_target, l_result, finder));
 // DO
-if (boost::regex_search (a_target, l_result, finder))
+if (Result)
 {
-  a_result.assign (l_result.format (format));
+  l_result.format (format).swap (a_result);
 }
-return CCHEM_SUPPLIER_SUCCESS;
+return Result;

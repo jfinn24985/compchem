@@ -1,6 +1,6 @@
 format 61
 "report unit tests" // /compchem/report::report unit tests
-  revision 11
+  revision 17
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -47,7 +47,7 @@ format 61
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 152489 // report unit tests
     classdiagram 154025 "report unit tests"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -228,6 +228,166 @@ nothing."
 	comment "no assign"
       end
     end
+
+    class 532265 "test_table_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 594729 // <generalisation>
+	relation 573609 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 594729 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 595113 // <dependency>
+	relation 573993 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 595113 // <dependency>
+	  b parent class_ref 530729 // basic_markup
+      end
+
+      classrelation 594857 // <dependency>
+	relation 573737 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 594857 // <dependency>
+	  b parent class_ref 529193 // table_writer
+      end
+
+      extra_member 154665 "class html_filter"
+	
+	cpp "" "struct html_filter
+{
+  typedef char                   char_type;
+  typedef boost::iostreams::output_filter_tag  category;
+
+  template<typename Sink>
+  bool put(Sink& snk, char c) 
+  {
+    char Result (c);
+    switch (Result)
+    {
+    case '&':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'a');
+      boost::iostreams::put(snk, 'm');
+      boost::iostreams::put(snk, 'p');
+      Result = ';';
+      break;
+    case '<':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'l');
+      boost::iostreams::put(snk, 't');
+      Result = ';';
+      break;
+    case '>':
+      boost::iostreams::put(snk, '&');
+      boost::iostreams::put(snk, 'g');
+      boost::iostreams::put(snk, 't');
+      Result = ';';
+      break;
+    default: // do nothing
+      break;
+    }
+    return boost::iostreams::put (snk, Result);
+  }
+};"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 1711529 "test_table_writer"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Ctor"
+      end
+
+      operation 1711657 "~test_table_writer"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1711785 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1711913 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"test report/table_writer\");
+}
+"
+	
+	
+	
+	
+      end
+
+      attribute 456873 "s_exemplar"
+	class_attribute private type class_ref 532265 // test_table_writer
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Singleton for this test class."
+      end
+    end
   end
 
   deploymentview 152489 "report unit tests"
@@ -237,17 +397,30 @@ nothing."
     artifact 257705 "test_report"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157993 // utility
-	artifact_ref 160553 // test
-	artifact_ref 230057 // data_access
-	artifact_ref 242217 // test_cfm_report
 	artifact_ref 255657 // report
+	artifact_ref 160553 // test
+	artifact_ref 230313 // filesystem
 	artifact_ref 266281 // data_xml_access
 	artifact_ref 253353 // xml
+	artifact_ref 230057 // data_access
 	artifact_ref 253097 // date_time
 	artifact_ref 144169 // data_scheme
+	artifact_ref 157993 // utility
 	artifact_ref 252841 // program_options
-	artifact_ref 230313 // filesystem
+	artifact_ref 242217 // test_cfm_report
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
+    artifact 282025 "test_filetypes"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 255657 // report
+	artifact_ref 160553 // test
+	artifact_ref 281897 // test_table_writer
+	artifact_ref 255785 // filetypes
+	artifact_ref 252841 // program_options
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -290,6 +463,50 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 495273 // test_cfm_report
+      end
+    end
+
+    artifact 281897 "test_table_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <vector>
+#include <sstream>
+#include <boost/variant.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 532265 // test_table_writer
       end
     end
   end

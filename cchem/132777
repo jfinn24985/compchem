@@ -1,6 +1,6 @@
 format 61
 "/compchem/data_access" // /compchem/data_access
-  revision 84
+  revision 85
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2545,8 +2545,8 @@ the case of empty arguments."
     artifact 230057 "data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 214313 // persistence
 	artifact_ref 244905 // manager
+	artifact_ref 214313 // persistence
       end
     end
 
@@ -4978,7 +4978,6 @@ create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_u
 	comment "Creator function for XML based persistence objects."
       end
     end
-
   end
 
   deploymentview 161065 "xml_access"
@@ -4989,14 +4988,14 @@ create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_u
     artifact 266281 "data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 157097 // xml_access_helper
-	artifact_ref 214697 // xml_write_visitor
-	artifact_ref 241065 // xml_writer
-	artifact_ref 230057 // data_access
 	artifact_ref 253353 // xml
+	artifact_ref 241065 // xml_writer
+	artifact_ref 231465 // xml_persistence
 	artifact_ref 157993 // utility
 	artifact_ref 203945 // meta_datum
-	artifact_ref 231465 // xml_persistence
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 230057 // data_access
+	artifact_ref 157097 // xml_access_helper
       end
     end
 
@@ -5423,7 +5422,7 @@ ${inlines}
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 170921 // <generalisation>
-	  b parent class_ref 180265 // source
+	  b parent class_ref 180265 // database_source
       end
     end
 
@@ -5675,7 +5674,7 @@ ${inlines}
       end
     end
 
-    class 180265 "source"
+    class 180265 "database_source"
       abstract visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
 ${members}};
@@ -5826,11 +5825,11 @@ ${inlines}
 	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
 "
 	    classrelation_ref 172457 // m_selected_source (<directional aggregation>)
-	  b parent class_ref 180265 // source
+	  b parent class_ref 180265 // database_source
       end
 
       operation 343721 "get_source"
-	const public return_type class_ref 180265 // source
+	const public return_type class_ref 180265 // database_source
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -5872,7 +5871,7 @@ ${inlines}
       end
 
       operation 340905 "select_source"
-	public return_type class_ref 180265 // source
+	public return_type class_ref 180265 // database_source
 	nparams 1
 	  param in name "a_locale" explicit_type ""
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -6198,10 +6197,10 @@ What the ``merge`` document contains as data of the experiment is based on what 
       end
     end
 
-    artifact 210217 "source"
+    artifact 210217 "database_source"
       stereotype "source"
       associated_classes
-	class_ref 180265 // source
+	class_ref 180265 // database_source
 	class_ref 180393 // project_cursor
 	class_ref 180905 // project_lock
 	class_ref 180777 // source_manager

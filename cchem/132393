@@ -1,6 +1,6 @@
 format 61
 "/boost" // External Components::/boost
-  revision 30
+  revision 33
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -102,6 +102,44 @@ ${members}};
       
     end
 
+    class 535081 "function0"
+      visibility package 
+      nformals 1
+      formal name "Ret" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/function.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+    end
+
+    class 534953 "function1"
+      visibility package 
+      nformals 2
+      formal name "Ret" type "class" explicit_default_value ""
+        explicit_extends ""
+      formal name "Arg1" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_external cpp_decl "${name}
+#include <boost/function.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+    end
+
     class 182825 "function2"
       visibility package 
       nformals 3
@@ -120,6 +158,21 @@ ${members}};
       idl_decl "${comment}struct ${name} {
 ${members}};
 "
+      explicit_switch_type ""
+      
+    end
+
+    class 534569 "iostreams::filtering_ostream"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/iostreams/filtering_stream.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
       explicit_switch_type ""
       
     end
@@ -237,6 +290,22 @@ ${members}};
       explicit_switch_type ""
       
     end
+
+    class 529577 "variant"
+      visibility package 
+      cpp_external cpp_decl "${name}
+#include <boost/${name}.hpp>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A variable type that supports ostream <<"
+    end
   end
 
   deploymentview 133801 "dummy view"
@@ -259,6 +328,7 @@ ${members}};
 	class_ref 478121 // ptr_map
 	class_ref 458153 // python::wrapper
 	class_ref 496937 // timer
+	class_ref 529577 // variant
       end
     end
 
@@ -319,6 +389,16 @@ LINK=-lboost_date_time"
       key "butter project" value "boost"
       comment "${butter_generic}
 LINK=-lboost_python"
+    end
+
+    artifact 284585 "iostreams"
+      stereotype "library"
+      associated_artifacts
+      end
+      ncouples 1
+      key "butter project" value "boost"
+      comment "${butter_generic}
+LINK=-lboost_iostreams"
     end
   end
 end

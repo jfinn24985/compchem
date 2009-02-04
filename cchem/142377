@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/supplier::test cases
-  revision 34
+  revision 42
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -71,6 +71,24 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 371369 // <generalisation>
 	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 598057 // <dependency>
+	relation 576937 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 598057 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 597929 // <dependency>
+	relation 576809 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 597929 // <dependency>
+	  b parent class_ref 534697 // scoped_call
       end
 
       classrelation 510633 // <dependency>
@@ -201,6 +219,21 @@ ${inlines}
 	comment "Override in derived classes to perform unit test."
       end
 
+      operation 1717673 "main_test2"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
       operation 1306409 "title"
 	const public explicit_return_type "string"
 	nparams 0
@@ -228,6 +261,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "Test run the filter_manager."
       classrelation 414761 // <generalisation>
 	relation 405801 ---|>
 	  a public
@@ -486,6 +520,18 @@ ${inlines}
 	  b parent class_ref 470185 // program_options
       end
 
+      attribute 460329 "m_gaussian_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The name of the gaussian file to scan"
+      end
+
       attribute 300969 "s_exmplr"
 	class_attribute private type class_ref 402473 // test_matcher
 	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -531,15 +577,206 @@ register program options.  The default implementation does
 nothing."
       end
 
-      operation 1304873 "test_matching"
-	class_operation private explicit_return_type "void"
-	nparams 3
-	  param inout name "a_matcher" type class_ref 407593 // matcher_filter
+      operation 1731241 "test_bytes"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482089 // matcher_bytes
 	  param in name "a_buf" explicit_type "char"
 	  param in name "a_sz" explicit_type "uint"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_bytes object."
+      end
+
+      operation 1734057 "test_end_pair"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482473 // matcher_end_pair
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1731369 "test_lines"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482217 // matcher_lines
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_lines object."
+      end
+
+      operation 1733929 "test_regex"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 401833 // matcher_regex
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1733801 "test_regex_search"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 481961 // matcher_regex_search
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1734185 "test_start_pair"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 538537 // matcher_start_pair
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1732649 "test_string"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 402217 // matcher_string
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1731497 "test_string_search"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482601 // matcher_string_search
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1304873 "test_first_matching"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 401961 // basic_matcher
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1729961 "test_first_matching_priv"
+	const private explicit_return_type "void"
+	nparams 5
+	  param inout name "a_matcher" type class_ref 401961 // basic_matcher
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	  param inout name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} const *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} & ${p4}${v4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} & ${p4}${)}${const}${throw}${staticnl}
+{
   ${body}
 }
 "
@@ -554,6 +791,7 @@ nothing."
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
 : unit_test ()
+, m_gaussian_file ()
 {
   register_options ();
 }
@@ -774,6 +1012,7 @@ ${includes}
 //
 #include <istream>
 #include <boost/bind.hpp>
+#include <algorithm>
 // -
 ${namespace_start}
 ${members}
@@ -902,18 +1141,19 @@ ${namespace_end}"
     artifact 258089 "test_supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 183977 // test_supplier_helper
-	artifact_ref 254889 // supplier
-	artifact_ref 252969 // regex
-	artifact_ref 252841 // program_options
-	artifact_ref 253097 // date_time
-	artifact_ref 230313 // filesystem
-	artifact_ref 266281 // data_xml_access
 	artifact_ref 144169 // data_scheme
-	artifact_ref 160553 // test
-	artifact_ref 230057 // data_access
-	artifact_ref 157993 // utility
+	artifact_ref 252841 // program_options
+	artifact_ref 230313 // filesystem
 	artifact_ref 201641 // test_filtermanager
+	artifact_ref 230057 // data_access
+	artifact_ref 181673 // test_matcher
+	artifact_ref 183977 // test_supplier_helper
+	artifact_ref 160553 // test
+	artifact_ref 157993 // utility
+	artifact_ref 252969 // regex
+	artifact_ref 253097 // date_time
+	artifact_ref 254889 // supplier
+	artifact_ref 266281 // data_xml_access
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -1182,73 +1422,6 @@ where processed successfully."
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
     draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
-    artifact 182825 "test_boostregex"
-      stereotype "source"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// Orig author: Justin Finnerty
-// $author:$
-// Orig date: 
-// $date:$
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-#include \"config.hpp\"
-#include <boost/regex.hpp>
-#include <boost/scoped_array.hpp>
-#include <fstream>
-
-int main (int argc, char** argv) {
-  static const unsigned int l_sz (8192);
-  boost::scoped_array< char > l_buf (new char[l_sz]);
-  int Result (0);
-  if (argc > 1) {
-    std::ifstream l_is (argv[1]);
-    if (!l_is) {
-      Result = 1;
-      std::cout << \"File [\" << argv[1] << \"] could not be openned.\\n\"; }
-    else {
-      l_is.read (l_buf.get (), l_sz - 1);
-      l_buf[l_sz -1] = '\\0';
-      std::cout << \"Buffer: --\\n\" << l_buf.get () << \"-- \\n\"; }}
-  else { 
-    Result = 1;
-    std::cout << \"One filename argument required.\\n\"; }
-
-  while (0 == Result) { // still ok
-    std::string l_re, l_fmt;
-    std::cout << \"Enter regex: \";
-    std::getline (std::cin, l_re);
-    if (l_re.empty ()) {
-      break; }
-    std::cout << \"Enter format: \";
-    std::getline (std::cin, l_fmt);
-    std::cout << \"Got regex [\" << l_re << \"], format [\" << l_fmt << \"]\\n\"; 
-    try {
-    boost::cmatch l_result;
-    boost::regex l_regex (l_re);
-    static const boost::match_flag_type l_flagset (boost::regex_constants::match_not_bob
-     | boost::regex_constants::match_not_eob | boost::regex_constants::match_not_bol
-     | boost::regex_constants::match_not_eol);
-    // DO
-    if (boost::regex_search (l_buf.get (), l_result, l_regex, l_flagset)) {
-      for (unsigned int l_ix = 0; l_ix < l_result.size (); ++l_ix) {
-         std::cout << \"match [\" << l_ix << \"] [\" << l_result[l_ix] << \"]\\n\"; }
-      if (not l_fmt.empty ()) {
-        std::cout << \"result [\" << l_result.format (l_fmt) << \"]\\n\"; }}
-    else {
-      std::cout << \"no match\\n\"; }}
-    catch (const std::exception &l_err) {
-      std::cout << \"Caught exception:\\n\" << l_err.what () << \"\\n\"; }}
-  return Result; }
-
-   
-"
-      associated_classes
-      end
-    end
-
     artifact 153129 "plugin_test"
       stereotype "source"
       cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP

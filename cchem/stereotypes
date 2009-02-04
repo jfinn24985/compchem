@@ -23,7 +23,7 @@
     -_-> 2 "deploy" "manifest"
   end
   
-  attribute_stereotypes  0
+  attribute_stereotypes  2 "auto_ptr" "shared_ptr"
   operation_stereotypes  7 "value" "pointer" "reference" "get" "set" "const" "auto_ptr"
   state_stereotypes  3 "machine" "submachine" "top"
   activity_stereotypes  0

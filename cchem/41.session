@@ -1,19 +1,13 @@
-window_sizes 960 672 340 614 393 200
+window_sizes 960 672 340 614 415 178
 diagrams
-  active  classdiagram_ref 165545 // Overview
-    614 393 100 4 0 0
+  classdiagram_ref 148137 // Supplier test cases
+    494 332 100 4 82 29
+  active  classdiagram_ref 148009 // match types
+    614 415 100 4 0 0
 end
 show_stereotypes
-selected operation_ref 1101481 // serialise
+selected 
+  package_ref 152105 // Docs
 open
-  classview_ref 173353 // xml_data_access tests
-  deploymentview_ref 176553 // xml_data_access test deploy
-  class_ref 352809 // spectrum
-  class_ref 352297 // xy_spectrum
-  
-package_ref 150953 // ccreport
-  classview_ref 153513 // report unit tests
-  deploymentview_ref 152489 // report unit tests
-  deploymentview_ref 174249 // test-args
 end
 end

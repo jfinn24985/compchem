@@ -29,3 +29,5 @@
 
 "std::tr1::shared_ptr" "#include <tr1/memory>"
 
+"boost::ptr_array" "#include <boost/ptr_container/ptr_array.hpp>"
+

@@ -1,9 +1,14 @@
-class matcher_pair
-!!!1537705.cpp!!!	process_part(in a_target : string, out a_result : string) : int
-int Result (main->process_part (a_target, a_result));
-if (CCHEM_SUPPLIER_SUCCESS == Result)
+class matcher_end_pair
+!!!1537705.cpp!!!	process_part(in a_target : string, out a_result : string) : bool
+std::string l_result;
+if (main->process_part (a_target, l_result))
 {
-  std::string l_result; // We discard results from end.
-  Result = end->process_part (a_target, l_result);
+  this->accumulator.append (l_result);
+  l_result.clear ();
+}
+const bool Result (end->process_part (a_target, l_result));
+if (Result)
+{
+  a_result.assign (this->accumulator);
 }
 return Result;

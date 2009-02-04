@@ -47,7 +47,7 @@ else
         {
           l_expt->add_memo (l_memo_label);
           l_memo = l_expt->find_memo (l_memo_label);
-          COMPCHEM_ALWAYS (l_memo != l_expt->end_memo (), "Could not find memo immediately after adding it!");
+          bool_test (l_memo != l_expt->end_memo (), "found memo immediately after adding it!");
           const std::string l_cmpd_label (supplier_helper::helper ().target_compound ());
           const std::string l_form_label (supplier_helper::helper ().target_formula ());
           if (l_cmpd_label.empty ())  
@@ -62,7 +62,7 @@ else
             {
               l_program.add_compound (l_cmpd_label);
               l_cmpd = l_program.find_compound (l_cmpd_label);
-              COMPCHEM_ALWAYS (l_cmpd != l_program.end_compound (), "Could not find compound immediately after adding it!");
+              bool_test (l_cmpd != l_program.end_compound (), "found compound immediately after adding it!");
               log () << WTCH << "Added new compound with label: \"" << l_cmpd_label << "\"\n";
             }
             if (l_form_label.empty ())

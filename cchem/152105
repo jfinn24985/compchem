@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 27
+  revision 29
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2049,13 +2049,13 @@ is not a real C++ sourcefile.
   -> [ ] Make test system report failed tests.
 
 Todo
-- update tests for report
-- update tests fir supplier
 - update tests for utility
 - update tests for xmlreader
 - chemistry tests
+- harden tests/classes
 - tests for python!
 - update tests for xml_writer/xml_writer_proxy
+- complete test-suite for supplier
 
 Bugs
 - xmlreader test always has is_empty = 0

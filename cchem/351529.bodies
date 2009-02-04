@@ -1,0 +1,69 @@
+class base_out_decor
+!!!1703337.cpp!!!	write_table(inout a_begin : InputIterator, in a_end : InputIterator, in a_length : size_t, in a_width : size_t, inout a_os : ostream) : void
+COMPCHEM_REQUIRE (a_width > 0, "can not have a table with width less than 1");
+COMPCHEM_REQUIRE (a_length > 0, "can not have a table with less than 1 one row");
+boost::function1< std::ostream& , std::ostream& > l_start_row (boost::bind (&start_row, this, _1, a_width);
+boost::function1< std::ostream& , std::ostream& > l_end_row (boost::bind (&end_row, this, _1, a_width);
+boost::function1< std::ostream& , std::ostream& > l_start_element (boost::bind (&start_element, this, _1);
+boost::function1< std::ostream& , std::ostream& > l_end_element (boost::bind (&end_element, this, _1);
+
+this->start_table (a_os, a_length, a_width);
+if (1 == a_width) // Specialisation for lists.
+{
+  while (a_begin != a_end)
+  {
+    a_os << l_start_row << *a_begin << l_end_row;
+    ++a_begin;
+  }
+}
+else if (2 == a_width) // specialisation two column tables
+{
+  while (a_begin != a_end)
+  {
+    a_os << l_start_row << *a_begin << l_end_element;
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    a_os << l_start_element << *a_begin << l_end_row;
+    ++a_begin;
+  }
+}
+else if (3 == a_width) // specialisation three column tables
+{
+  while (a_begin != a_end)
+  {
+    a_os << l_start_row << *a_begin << l_end_element;
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    a_os << l_start_element << *a_begin << l_end_element;
+    ++a_begin;
+    COMPCHEM_CHECK (a_begin != a_end, "table dimension/iterator distance mismatch");
+    a_os << l_start_element << *a_begin << l_end_row;
+    ++a_begin;
+  }
+}
+else // General case
+{
+  size_t index (0);
+  while (a_begin != a_end)
+  {
+    if (a_width == index)
+    {
+      index = 0;
+    }
+    if (0 == index)
+    {
+      a_os << l_start_row << *a_begin << l_end_element;
+    }
+    else if (a_width - 1 == index)
+    {
+      a_os << l_start_element << *a_begin << l_end_row;
+    }
+    else
+    {
+      a_os << l_start_element << *a_begin << l_end_element;
+    }
+    ++a_begin;
+    ++index;
+  }
+}
+this->end_table (a_os, a_length, a_width);
