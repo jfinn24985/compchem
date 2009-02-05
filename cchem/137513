@@ -1,6 +1,6 @@
 format 61
 "//utility" // /compchem/utility:://utility
-  revision 50
+  revision 51
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -193,23 +193,6 @@ level will be."
 	  b parent class_ref 128042 // exception
       end
 
-      classrelation 128298 // <dependency>
-	relation 128298 -_->
-	  a package
-	    cpp default "#include in source"
-	    classrelation_ref 128298 // <dependency>
-	  b parent class_ref 416553 // basic_ostream
-      end
-
-      classrelation 403497 // <dependency>
-	relation 394537 -_->
-	  a package
-	    comment "Used for ensuring clean-up of backtrace data."
-	    cpp default "#include in source"
-	    classrelation_ref 403497 // <dependency>
-	  b parent class_ref 416425 // free_ptr
-      end
-
       class 419241 "contracts"
 	visibility public stereotype "enum"
 	cpp_decl "${comment}enum {
@@ -372,6 +355,24 @@ operate with the Design-by-Contract macros. This class doesn't allocate
 memory from the heap."
       end
 
+      operation 1736489 "contract_error"
+	stereotype "copy"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_other" type class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
       operation 128298 "~contract_error"
 	public explicit_return_type ""
 	nparams 0
@@ -389,7 +390,7 @@ memory from the heap."
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} * ${name}${(}${)}${const}${volatile} throw ()${abstract}
 {
-  return m_what;
+  return &m_what[0];
 }
 "
 	
@@ -398,159 +399,43 @@ memory from the heap."
 	
 	comment "The error message"
       end
-    end
 
-    class 416425 "free_ptr"
-      visibility package 
-      nformals 1
-      formal name "T_ptr" type "class" explicit_default_value ""
-        explicit_extends ""
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "This is a work-a-like for auto_ptr (actually more boost::scoped_ptr)
-that uses the \"C\" 'free' function to release memory instead of 'delete'.
-Its purpose is to capture the result of C library functions that return 
-malloc allocated objects that the caller is expect to free.
-
-For a smart pointer with arbitrary delete functions use the 
-std::tr1::shared_ptr (boost::shared_ptr)"
-      attribute 317609 "m_ptr"
-	private explicit_type "T_ptr"
-	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "The to-be-free pointer"
-      end
-
-      operation 1326889 "free_ptr"
-	public explicit_return_type ""
+      operation 1736617 "operator="
+	public return_type class_ref 419113 // contract_error
 	nparams 1
-	  param inout name "a_ptr" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}=T_ptr(0)${)}${volatile}${throw}
-: m_ptr(${p0})
-{}
-"
-	
-	
-	
-	
-	comment "Capture a pointer to memory allocated by \"C\" malloc and friends"
-      end
-
-      operation 1327145 "free_ptr"
-	stereotype "copy"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "source" type class_ref 416425 // free_ptr
-	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}
-: m_ptr (${p0}.m_ptr)
+	  param in name "a_other" type class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  ${p0}.m_ptr = T_ptr(0);
+  ${body}
 }
 "
 	
 	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1327017 "~free_ptr"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{
-  reset();
-}
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
 "
 	
-	
-	
-	
-	comment "Free the held pointer"
       end
 
-      operation 1327401 "get"
-	public explicit_return_type "T_ptr"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return m_ptr;
-}
-"
-	
-	
-	
-	
-	comment "Get the pointer"
-      end
-
-      operation 1327529 "operator="
-	public return_type class_ref 416425 // free_ptr
-	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  reset (${p0});
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Capture"
-      end
-
-      operation 1327273 "operator="
-	public return_type class_ref 416425 // free_ptr
-	nparams 1
-	  param in name "source" type class_ref 416425 // free_ptr
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
-{
-  reset (${p0}.m_ptr);
-  ${p0}.m_ptr = T_ptr(0);
-  return *this;
-}
-"
-	
-	
-	
-	
-	comment "Transfer ownership."
-      end
-
-      operation 1327657 "reset"
+      operation 1736745 "swap"
 	public explicit_return_type "void"
 	nparams 1
-	  param in name "source" explicit_type "T_ptr"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}=T_ptr(0)${)}${const}${volatile}${throw}${abstract}
+	  param inout name "a_other" type class_ref 419113 // contract_error
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
 {
-  if (${p0} != m_ptr)
-  {
-    if (m_ptr != T_ptr(0))
-    {
-      free (m_ptr);
-    }
-    m_ptr = ${p0};
-  }
+  ${body}
 }
 "
 	
 	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
 	
-	
+	comment "throw-less swap."
       end
     end
 
@@ -1703,7 +1588,6 @@ ${body}
 	comment "no assign"
       end
     end
-
   end
 
   deploymentview 131369 "framework"
@@ -1713,13 +1597,13 @@ ${body}
     artifact 157993 "utility"
       stereotype "library"
       associated_artifacts
-	artifact_ref 245033 // time_stamp
 	artifact_ref 252841 // program_options
-	artifact_ref 224041 // program_options
-	artifact_ref 157609 // filesystem
-	artifact_ref 277161 // call_once
-	artifact_ref 192553 // contract_error
 	artifact_ref 230313 // filesystem
+	artifact_ref 245033 // time_stamp
+	artifact_ref 192553 // contract_error
+	artifact_ref 277161 // call_once
+	artifact_ref 157609 // filesystem
+	artifact_ref 224041 // program_options
       end
     end
 
@@ -1892,9 +1776,11 @@ ${namespace_end}
 
 ${comment}
 ${includes}
+// Manual includes
 #include <boost/iostreams/device/array.hpp>
 #include <boost/iostreams/stream.hpp>
-    
+#include <tr1/memory>
+// -
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -1955,31 +1841,6 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 361385 // filesystem
-      end
-    end
-
-    artifact 194857 "free_ptr"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      associated_classes
-	class_ref 416425 // free_ptr
       end
     end
 

@@ -1,6 +1,6 @@
 format 61
 "Docs" // Docs
-  revision 29
+  revision 30
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -2040,6 +2040,8 @@ interested in getting command line/configuration options.
     end
 
     artifact 260137 "TODO.current"
+      associated_artifacts
+      end
       comment "Test system convert to boost unit-test
 - change filter-manager class to handle the following
  - no-command line parameters
@@ -2049,13 +2051,27 @@ is not a real C++ sourcefile.
   -> [ ] Make test system report failed tests.
 
 Todo
-- update tests for utility
+
+Priority 1
 - update tests for xmlreader
+- utility: unit-test for program_options
+
+Priority 2
 - chemistry tests
-- harden tests/classes
-- tests for python!
 - update tests for xml_writer/xml_writer_proxy
 - complete test-suite for supplier
+- utility: unit-test for scope templates
+
+Priority 3
+- harden tests/classes
+- tests for python!
+
+Priority 4
+
+Priority 5
+- utility: unit-test for time_stamp, pam, epoch_time
+
+
 
 Bugs
 - xmlreader test always has is_empty = 0

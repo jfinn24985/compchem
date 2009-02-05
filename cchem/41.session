@@ -1,8 +1,6 @@
 window_sizes 960 672 340 614 415 178
 diagrams
-  classdiagram_ref 148137 // Supplier test cases
-    494 332 100 4 82 29
-  active  classdiagram_ref 148009 // match types
+  active  classdiagram_ref 129577 // framework classes
     614 415 100 4 0 0
 end
 show_stereotypes

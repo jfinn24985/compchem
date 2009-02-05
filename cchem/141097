@@ -1,6 +1,6 @@
 format 61
 "test cases" // /compchem/utility::test cases
-  revision 37
+  revision 38
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -382,99 +382,6 @@ macros."
       end
     end
 
-    class 427561 "test_freeptr"
-      visibility package 
-      cpp_decl "${comment}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      classrelation 408745 // <generalisation>
-	relation 399785 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 408745 // <generalisation>
-	  b parent class_ref 332585 // unit_test
-      end
-
-      classrelation 408873 // <dependency>
-	relation 399913 -_->
-	  a default
-	    cpp default "#include in header"
-	    classrelation_ref 408873 // <dependency>
-	  b parent class_ref 416425 // free_ptr
-      end
-
-      classrelation 409001 // exemplar (<directional composition>)
-	relation 400041 *-->
-	  a role_name "exemplar" class_relation private
-	    comment "The unit-test exemplar"
-	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	    classrelation_ref 409001 // exemplar (<directional composition>)
-	  b parent class_ref 427561 // test_freeptr
-      end
-
-      operation 1356329 "main_test"
-	const public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-	comment "Override in derived classes to perform unit test."
-      end
-
-      operation 1356457 "title"
-	const public explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
-{
-  return std::string (\"Test of smart-pointer free_ptr class\");
-}
-"
-	
-	
-	
-	
-      end
-
-      operation 1358889 "test_freeptr"
-	public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
-: unit_test ()
-{}
-"
-	
-	
-	
-	
-      end
-
-      operation 1358761 "~test_freeptr"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
-{}
-"
-	
-	
-	
-	
-      end
-    end
-
     class 427689 "test_filesystem_util"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -692,42 +599,6 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 427689 // test_filesystem_util
-      end
-    end
-
-    artifact 197417 "test_freeptr"
-      stereotype "source"
-      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
-#define @{PREFIX}${NAME}_HPP
-
-// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-#include \"config.hpp\"
-${includes}
-${declarations}
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "// ------------------------------------------------------------
-// class: ${name}
-// $revision:$
-// $log:$
-// ------------------------------------------------------------
-
-${comment}
-${includes}
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 427561 // test_freeptr
       end
     end
 
@@ -1072,16 +943,15 @@ ${inlines}
     artifact 199209 "test_test"
       stereotype "library"
       associated_artifacts
-	artifact_ref 197545 // test_filesystem_util
-	artifact_ref 252841 // program_options
 	artifact_ref 193705 // test_contract_error
-	artifact_ref 197417 // test_freeptr
+	artifact_ref 252841 // program_options
 	artifact_ref 199081 // test_testmanager
-	artifact_ref 158249 // posix
-	artifact_ref 147241 // test_posix
 	artifact_ref 230313 // filesystem
-	artifact_ref 157993 // utility
+	artifact_ref 158249 // posix
+	artifact_ref 197545 // test_filesystem_util
 	artifact_ref 160553 // test
+	artifact_ref 157993 // utility
+	artifact_ref 147241 // test_posix
       end
       ncouples 1
       key "butter other" value "unit-test"

@@ -1,6 +1,6 @@
 format 61
 "//posix" // /compchem/utility:://posix
-  revision 13
+  revision 14
   modified_by 41 "finnerty"
   // class settings
   //class diagram settings
@@ -1124,7 +1124,7 @@ ${includes}
 // Manual includes
 // --
 #ifdef HAVE_GETCWD_EXT
-#include \"utility/free_ptr.hpp\"
+#include <tr1/memory>
 #endif
 #include <boost/scoped_array.hpp>
 // --

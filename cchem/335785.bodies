@@ -5,7 +5,7 @@ std::string Result;
 // DO
 #ifdef HAVE_GETCWD_EXT
 {
-  free_ptr< char* > l_buffer (getcwd (NULL, 0));
+  std::tr1::shared_ptr< char > l_buffer (getcwd (NULL, 0), &free);
   Result.assign (l_buffer.get ());
 }
 #else
