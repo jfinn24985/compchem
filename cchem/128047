@@ -1,0 +1,3199 @@
+format 75
+"XML stylesheets" // XML stylesheets
+  revision 1
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_src_dir "../stylesheets"
+  deploymentview 128175 "stylesheets"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 130991 "energy-parts.xml"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<a><b>thermochemistry</b><b>singlepoint</b><b>other</b></a>
+"
+    end
+
+    artifact 131119 "energy.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   Energy
+
+   This stylesheet converts a \"program.dtd\" valid XML file to a
+   table of thermochemistry information.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2009/09/04 15:49:49 $
+
+$Log: energy.xsl,v $
+Revision 1.5  2009/09/04 15:49:49  finnerty
+Updated the DTD and corresponding XSLT files.
+
+Revision 1.4  2008/06/24 18:00:27  finnerty
+Last commit for version 1.0
+
+Revision 1.3  2008/01/13 18:38:09  finnerty
+Updated for program.dtd v3
+
+Revision 1.2  2008/01/13 17:54:16  finnerty
+Updated for program.dtd v3
+
+Revision 1.2  2008/01/12 12:37:41  finnerty
+Initial version
+
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:40:13  finnerty
+Initial revision
+
+
+$Revision: 1.5 $
+
+                                                                   -->
+<!-- ============================================================= -->
+  <xsl:output method=\"text\"/>
+
+  <xsl:include href=\"program-util.xsl\"/>
+  <xsl:include href=\"text-styles.xsl\"/>
+
+  <!-- Constants for converting hartrees to Joules -->
+  <xsl:variable name=\"hartree-to-kcalmol\">
+    627.5095
+  </xsl:variable>
+
+  <xsl:variable name=\"calmol-to-jmol\">
+    4.184
+  </xsl:variable>
+
+  <!-- Assumption: Temperature is 298.15K -->
+  <xsl:variable name=\"temperature\">
+    298.15
+  </xsl:variable>
+
+  <xsl:variable name=\"energy-table-width\">
+    24
+  </xsl:variable>
+
+  <xsl:template match=\"/\">
+    <!-- Output a header for the output table -->
+    <xsl:call-template name=\"document-start\"/>
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$energy-table-width\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$energy-table-width\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>Compound</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Geometry</xsl:text>               
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Program</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Method</xsl:text>        
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Basis</xsl:text>         
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>PageRef</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Type</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>E type</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>E</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>dH(corr)</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>ZPVE</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Entropy</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Dipole</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Program</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Method</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Basis</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>PageRef</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Type</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>E type</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>E</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>dH(corr)</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>ZPVE</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Entropy</xsl:text>       
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Dipole</xsl:text>    
+    <xsl:call-template name=\"table-row-end\"/>
+
+    <!-- Handle each compound in document order -->
+
+    <xsl:call-template name=\"compound-formula-memo-visit\">
+      <xsl:with-param name=\"p1\" select=\"document('energy-parts.xml')//b\"/>
+      <xsl:with-param name=\"project-name\" select=\"'default'\"/>
+    </xsl:call-template>
+
+    <xsl:call-template name=\"table-end\"/>
+    <xsl:call-template name=\"document-end\"/>
+  </xsl:template>
+
+  <xsl:template name=\"compound-start\"/>
+  <xsl:template name=\"compound-end\"/>
+  <xsl:template name=\"experiment-start\"/>
+  <xsl:template name=\"experiment-end\"/>
+  <xsl:template name=\"visit-start\"/>
+  <xsl:template name=\"visit-end\"/>
+ 
+  <xsl:template name=\"formula-end\">
+    <!-- Handle each geometry in document order -->
+    <xsl:call-template name=\"table-row-end\"/>
+   </xsl:template>
+
+   <xsl:template name=\"formula-start\">
+    <!-- Output the compound label and geometry -->
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$energy-table-width\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:value-of select=\"../@label\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:value-of select=\"@label\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+  </xsl:template>
+
+  <xsl:template match=\"memo\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <!-- Handle the 'Freq' experiments to extract energy data -->
+    <!-- <xsl:message terminate=\"no\">
+      <xsl:text>IN ENERGY \"memo\" template p1 = '</xsl:text>
+      <xsl:value-of select=\"$p1\"/>
+      <xsl:text>' reference = '</xsl:text>
+      <xsl:value-of select=\"$p2\"/>
+      <xsl:text>'
+      </xsl:text>
+    </xsl:message> -->
+    <xsl:choose>
+      <xsl:when test=\"$p1='thermochemistry'\">
+        <xsl:if test=\".//datum[@outcome='type' and text()='Freq']\">
+          <!-- If we have a frequency calculation output that -->
+          <xsl:apply-templates select=\"datum[@outcome='version']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='method']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='basis-set']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\"@label\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\".//datum[@outcome='type']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:choose>
+            <xsl:when test=\".//datum[@outcome='CCSD(T)']\">
+              <xsl:value-of select=\"'CCSD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='CCSD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='QCISD(T)']\">
+              <xsl:value-of select=\"'QCISD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='QCISD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP2']\">
+              <xsl:value-of select=\"'MP2'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP2']/text()\"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select=\"'hf'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='hf']/text()\"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:call-template name=\"table-next-datum\"/>
+           <xsl:value-of select=\".//datum[@outcome='enthalpy-corr']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\".//datum[@outcome='zero-point-corr']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\".//datum[@outcome='entropy']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"last-in-comma-list\">
+            <xsl:with-param name=\"tailstring\" select=\".//datum[@outcome='dipole']/text()\"/>
+          </xsl:call-template>
+          <xsl:call-template name=\"table-next-datum\"/>
+        </xsl:if>
+      </xsl:when>
+      <xsl:when test=\"$p1='singlepoint'\">
+        <!-- otherwise add enough blanks -->
+        <xsl:if test=\".//datum[@outcome='type' and text()='SP']\">
+          <!-- Handle the experiments to extract energy data -->
+          <xsl:apply-templates select=\"datum[@outcome='version']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='method']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='basis-set']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\"@label\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\".//datum[@outcome='type']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:choose>
+            <xsl:when test=\".//datum[@outcome='CCSD(T)']\">
+              <xsl:value-of select=\"'CCSD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='CCSD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='QCISD(T)']\">
+              <xsl:value-of select=\"'QCISD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='QCISD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP2']\">
+              <xsl:value-of select=\"'MP2'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP2']/text()\"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select=\"'hf'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='hf']/text()\"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"last-in-comma-list\">
+            <xsl:with-param name=\"tailstring\" select=\".//datum[@outcome='dipole']/text()\"/>
+          </xsl:call-template>
+          <xsl:call-template name=\"table-next-datum\"/>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- otherwise add enough blanks -->
+        <xsl:if test=\".//datum[@outcome='type' and text()='FOpt']\">
+          <!-- Handle the experiments to extract energy data -->
+          <xsl:apply-templates select=\"datum[@outcome='version']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='method']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:apply-templates select=\"datum[@outcome='basis-set']\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\"@label\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:value-of select=\".//datum[@outcome='type']/text()\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:choose>
+            <xsl:when test=\".//datum[@outcome='CCSD(T)']\">
+              <xsl:value-of select=\"'CCSD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='CCSD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='QCISD(T)']\">
+              <xsl:value-of select=\"'QCISD(T)'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='QCISD(T)']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP4SDTQ']\">
+              <xsl:value-of select=\"'MP4SDTQ'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP4SDTQ']/text()\"/>
+            </xsl:when>
+            <xsl:when test=\".//datum[@outcome='MP2']\">
+              <xsl:value-of select=\"'MP2'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='MP2']/text()\"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select=\"'hf'\"/>
+              <xsl:call-template name=\"table-next-datum\"/>
+              <xsl:value-of select=\".//datum[@outcome='hf']/text()\"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"table-next-datum\"/>
+          <xsl:call-template name=\"last-in-comma-list\">
+            <xsl:with-param name=\"tailstring\" select=\".//datum[@outcome='dipole']/text()\"/>
+          </xsl:call-template>
+          <xsl:call-template name=\"table-next-datum\"/>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"last-in-comma-list\">
+    <xsl:param name=\"tailstring\"/>
+    <xsl:choose>
+      <xsl:when test=\"contains($tailstring,',')\">
+        <xsl:call-template name=\"last-in-comma-list\">
+          <xsl:with-param name=\"tailstring\" select=\"substring-after($tailstring,',')\"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select=\"$tailstring\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131247 "html-styles.xml"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   HTML-only/CSV styles
+
+   This stylesheet is one of a set of stylesheets for textual
+   output. It provides a set of target-dependent templates for
+   formatting output, in this case ***HTML text + tables***. Careful
+   use of this set of templates should allow client
+   stylesheets to be independent of output format.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/12 12:37:22 $
+
+$Log: html-styles.xsl,v $
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:41:19  finnerty
+Initial revision
+
+
+$Revision: 1.1 $
+
+                                                                   -->
+<!-- ============================================================= -->
+  <xsl:output method=\"text\"/>
+
+  <!-- This style files provides some basic templates that can be -->
+  <!-- used to format documents for TEXT and CSV output. -->
+
+  <!-- Author: Justin Finnerty -->
+  <!-- Date: February 2003 -->
+
+  <!-- This style file provides the following templates -->
+  <!-- document-start, document-end -->
+  <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+  <!-- heading-one, heading-two, heading-three -->
+  <!-- font-bold, font-slanted -->
+
+
+  <!-- In this style a document start/end has no special meaning -->
+  <xsl:template name=\"document-start\">
+    <head></head>
+    <body>
+  </xsl:template>
+
+  <xsl:template name=\"document-end\">
+    </body>
+  </xsl:template>
+
+  <xsl:template name=\"paragraph-end\">
+    <p>
+  </xsl:template>
+
+  <!-- In this style a table is represented as comma-separated-values -->
+  <xsl:template name=\"table-start\">
+    <xsl:param name=\"columns\"/><!-- unused here -->
+    <table>
+  </xsl:template>
+
+  <xsl:template name=\"table-end\">
+    </table>
+  </xsl:template>
+
+  <xsl:template name=\"table-row-start\">
+    <xsl:param name=\"columns\"/><!-- unused here -->
+    <tr><td>
+  </xsl:template>
+
+  <xsl:template name=\"table-row-end\">
+    </td></tr>
+  </xsl:template>
+
+  <xsl:template name=\"table-next-datum\">
+    </td><td>
+  </xsl:template>
+
+  <!-- In this style a heading is represented by multiple asterices -->
+  <xsl:template name=\"heading-one\">
+    <xsl:param name=\"heading-text\"/>
+    <h1><xsl:value-of select=\"$heading-text\"/></h1>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-two\">
+    <xsl:param name=\"heading-text\"/>
+    <h2><xsl:value-of select=\"$heading-text\"/></h2>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-three\">
+    <xsl:param name=\"heading-text\"/>
+    <h3><xsl:value-of select=\"$heading-text\"/></h3>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"font-bold\">
+    <xsl:param name=\"the-text\"/>
+    <strong><xsl:value-of select=\"$the-text\"/></strong>
+  </xsl:template>
+
+  <xsl:template name=\"font-slanted\">
+    <xsl:param name=\"the-text\"/>
+    <em><xsl:value-of select=\"$the-text\"/><xsl:text></em>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131375 "input-deck.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "
+<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   Input-Deck
+
+   This stylesheet converts a \"experiment.dtd\" valid XML file to a
+   computer program input file.
+
+    stylesheet version 1.00 for version 1.00 of the chkcalc package
+        Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/12 12:37:22 $
+
+$Log: input-deck.xsl,v $
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+
+$Revision: 1.1 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:template name=\"chkdir\">
+    <xsl:param name=\"worker\"/>
+
+    <xsl:text>/scratch/</xsl:text>
+    <xsl:value-of select=\"$worker\"/>
+    <xsl:text>/</xsl:text>
+  </xsl:template>
+
+  <xsl:output method=\"text\"/>
+  
+  <xsl:template match=\"/\">
+    <xsl:apply-templates select=\"experiment\"/>
+  </xsl:template>
+    
+  <xsl:template match=\"atom-list\">
+    <xsl:value-of select=\"@charge\"/>
+    <xsl:text>,</xsl:text>
+    <xsl:value-of select=\"@multiplicity\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:choose>
+      <xsl:when test=\"@format = 'axyz'\">
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\".\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"4\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:when>     
+      <xsl:when test=\"@format = 'alad'\">
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-before(.,'&#92;&#92;')\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"endl\"/>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-after(.,'&#92;&#92;')\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"endl\"/>
+      </xsl:when>
+      <xsl:when test=\"@format = 'free'\">
+        <!-- Assume it is already formatted -->
+        <xsl:value-of select=\".\"/>
+        <xsl:call-template name=\"endl\"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>Stylesheet cannot handle format \"</xsl:text>
+        <xsl:value-of select=\"@format\"/>
+        <xsl:text>\" atom-lists, content:</xsl:text>
+        <xsl:call-template name=\"endl\"/>
+        <xsl:text>[[</xsl:text>
+        <xsl:value-of select=\".\"/>
+        <xsl:text>]]</xsl:text>
+        <xsl:call-template name=\"endl\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"calc-method\">
+    <xsl:param name=\"basename\"/>
+    <xsl:param name=\"control-lines\"/>
+    
+    <xsl:value-of select=\"../calc-program/@name\"/>
+    <xsl:text> &lt;&lt; EOF &gt; </xsl:text>
+    <xsl:value-of select=\"$basename\"/>
+    <xsl:text>.</xsl:text>
+    <xsl:value-of select=\"@method\"/>
+    <xsl:text>.</xsl:text>
+    <xsl:value-of select=\"@type\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:value-of select=\"$control-lines\"/>
+    <xsl:call-template name=\"endl\"/>
+    <!-- Generate the program task control lines -->
+    <xsl:text>#P </xsl:text>    
+    <xsl:value-of select=\"@method\"/>
+    <xsl:if test=\"@method != 'ONIOM'\">
+      <xsl:text> </xsl:text>
+    </xsl:if>
+    <xsl:value-of select=\"@basis-set\"/>
+    <xsl:text> </xsl:text>
+    <xsl:apply-templates select=\"./option\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text>#</xsl:text>    
+    <xsl:apply-templates select=\"../calc-program/option\" mode=\"general\">
+      <xsl:with-param name=\"step\">
+        <xsl:value-of select=\"@step\"/>
+      </xsl:with-param>
+    </xsl:apply-templates>
+    <xsl:if test=\"not(atom-list)\">
+      <xsl:call-template name=\"endl\"/>
+      <xsl:text>#geom(allcheck) guess(check) </xsl:text>
+    </xsl:if>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:apply-templates select=\"../information\"/>
+    <xsl:choose>
+      <xsl:when test=\"@type='freq'\">
+        <xsl:text> - harmonic frequency calculation</xsl:text>
+      </xsl:when>
+      <xsl:when test=\"@type='opt'\">
+        <xsl:text> - geometry optimisation calculation</xsl:text>
+      </xsl:when>
+      <xsl:when test=\"@type='sp'\">
+        <xsl:text> - single point calculation</xsl:text>
+      </xsl:when>
+      <xsl:when test=\"@type='stable'\">
+        <xsl:text> - stability calculation</xsl:text>
+      </xsl:when>
+    </xsl:choose>
+    <!-- Now let us encode some information for later use -->
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text>&lt;experiment</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text> pageref=\"</xsl:text>
+    <xsl:value-of select=\"../@pageref\"/>
+    <xsl:text>-</xsl:text>
+    <xsl:value-of select=\"@type\"/>
+    <xsl:text>\"</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text> compound=\"</xsl:text>
+    <xsl:value-of select=\"../@compound\"/>
+    <xsl:text>\"</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text> geometry=\"</xsl:text>
+    <xsl:value-of select=\"../@geometry\"/>
+    <xsl:text>\"</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text> worker=\"</xsl:text>
+    <xsl:value-of select=\"../@worker\"/>
+    <xsl:text>\"/&gt;</xsl:text>
+    <!-- Done -->
+    <xsl:call-template name=\"endl\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:if test=\"atom-list\">
+      <xsl:apply-templates select=\"atom-list\"/>
+    </xsl:if>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:text>EOF</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+  </xsl:template>
+
+  <xsl:template match=\"experiment\">
+    <xsl:variable name=\"basename\">
+      <xsl:value-of select=\"@compound\"/>
+      <xsl:text>.</xsl:text>
+      <xsl:value-of select=\"@geometry\"/>
+      <xsl:text>.</xsl:text>
+      <xsl:value-of select=\"@pageref\"/>
+    </xsl:variable>
+    <!-- Generate the program starting lines -->
+    <xsl:text>#!/bin/csh</xsl:text>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:call-template name=\"endl\"/>
+    <xsl:for-each select=\"calc-method\">
+      <!-- sort calculations by step ordinal -->
+      <xsl:sort select=\"calc-method/@step\"/>
+      
+      <xsl:call-template name=\"calc-method\">
+        <xsl:with-param name=\"basename\">
+          <xsl:value-of select=\"$basename\"/>
+        </xsl:with-param>
+        <xsl:with-param name=\"control-lines\">
+          <!-- Pre-generate the program global control lines -->
+          <xsl:text>%chk=</xsl:text>
+          <xsl:call-template name=\"chkdir\">
+            <xsl:with-param name=\"worker\">
+              <xsl:value-of select=\"../@worker\"/>
+            </xsl:with-param>
+          </xsl:call-template>
+          <xsl:value-of select=\"$basename\"/>
+          <xsl:text>.chk</xsl:text>
+        </xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name=\"endl\"/>
+      <xsl:text>if ($status != 0) then</xsl:text>
+      <xsl:call-template name=\"endl\"/>
+      <xsl:text>exit($status)</xsl:text>
+      <xsl:call-template name=\"endl\"/>
+      <xsl:text>endif</xsl:text>
+      <xsl:call-template name=\"endl\"/>
+      <xsl:call-template name=\"endl\"/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match=\"option\">
+    <xsl:value-of select=\"@type\"/>
+    <xsl:if test=\"text()\">
+      <xsl:text>(</xsl:text>
+      <xsl:value-of select=\".\"/>
+      <xsl:text>)</xsl:text>
+    </xsl:if>
+    <xsl:text> </xsl:text>
+  </xsl:template>
+  
+  <xsl:template match=\"option\" mode=\"general\">
+    <xsl:param name=\"step\"/>
+    <!-- Check if this option is appropriate for this step (empty
+    @include means suitable for all) -->
+    <xsl:if test=\"(not(@include) or contains(@include, $step)) and not(contains(@exclude, $step))\">
+      <xsl:value-of select=\"@type\"/>
+      <xsl:if test=\"text()\">
+        <xsl:text>(</xsl:text>
+        <xsl:value-of select=\".\"/>
+        <xsl:text>)</xsl:text>
+      </xsl:if>
+      <xsl:text> </xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+<!-- ============================================================= -->
+<!-- Helper templates                                              -->
+<!-- ============================================================= -->
+
+  <xsl:template name=\"make-table\">
+    <xsl:param name=\"list-string\"/>
+    <xsl:param name=\"table-width\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:param name=\"row-divider\"/>
+
+    <xsl:choose>
+      <xsl:when test=\"contains($list-string,$row-divider)\">
+        <!-- Output the row -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"substring-before($list-string,$row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <!-- End the row -->
+        <xsl:call-template name=\"endl\"/>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-after($list-string, $row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"$table-width\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"$row-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- End recursion stage, output whats left -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"$list-string\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>        
+        <!-- End the row -->
+        <xsl:call-template name=\"endl\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"make-table-by-row-column\">
+    <xsl:param name=\"row-string\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:choose>
+      <xsl:when test=\"contains($row-string, $column-divider)\">
+        <!-- in recursive section -->
+        <!-- get column entry -->
+        <xsl:value-of select=\"substring-before($row-string, $column-divider)\"/>
+        <!-- get column divider -->
+        <xsl:text>   </xsl:text>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table-by-row-column\">
+          <xsl:with-param name=\"row-string\">
+            <xsl:value-of select=\"substring-after($row-string, $column-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+          
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- in recursive section -->
+        <xsl:value-of select=\"$row-string\"/>
+        <!-- no column divider -->
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"endl\">
+    <xsl:text>
+</xsl:text>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131503 "program-util.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   Utility Stylesheet
+
+   This stylesheet provides a number of utility styles that are
+   general to all other stylesheets that operate on \"program.dtd\"
+   files. This includes operations that operate across documents.
+
+   Date: 28 January 2003
+   Date: $Date: 2008/06/24 18:00:28 $
+
+   $Log: program-util.xsl,v $
+   Revision 1.5  2008/06/24 18:00:28  finnerty
+   Last commit for version 1.0
+
+   Revision 1.4  2008/01/15 20:56:46  finnerty
+   Updated for program.dtd v3
+
+   Revision 1.3  2008/01/13 18:38:19  finnerty
+   Updated for program.dtd v3
+
+   Revision 1.2  2008/01/13 17:55:40  finnerty
+   Updated for program.dtd v3
+
+   Revision 1.2  2008/01/12 12:38:05  finnerty
+   Initial version
+
+   Revision 1.1  2008/01/12 12:37:22  finnerty
+   Initial version
+
+
+   $Revision: 1.5 $
+
+                                                                   -->
+<!-- ============================================================= -->
+  <xsl:template name=\"replaceAllSubStrings\">
+    <xsl:param name=\"subString\"/>
+    <xsl:param name=\"replaceString\"/>
+    <xsl:param name=\"stringToSearchIn\"/>
+    <xsl:choose>
+      <xsl:when test=\"contains($stringToSearchIn,$subString)\">
+        <xsl:value-of select=\"substring-before($stringToSearchIn,$subString)\"/>
+        <xsl:value-of select=\"$replaceString\"/>
+        <xsl:call-template name=\"replaceAllSubStrings\">
+          <xsl:with-param name=\"stringToSearchIn\">
+            <xsl:value-of select=\"substring-after($stringToSearchIn,$subString)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"subString\">
+            <xsl:value-of  select=\"$subString\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"replaceString\">
+            <xsl:value-of select=\"$replaceString\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select=\"$stringToSearchIn\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!--
+    Template to automate jumping proj-src.  This method allows
+    up to three paramaters to be transferred. 
+  -->
+  <xsl:template match=\"proj-src\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:param name=\"label\" select=\"@label\"/>
+    <!-- <xsl:message terminate=\"no\">
+	 <xsl:text>IN UTIL \"proj-src\" template: </xsl:text>
+	 <xsl:value-of select=\"@href\"/>
+	 </xsl:message> -->
+    <xsl:apply-templates select=\"document(@href)//project[@label=$label]\">
+      <xsl:with-param name=\"p1\" select=\"$p1\"/>
+      <xsl:with-param name=\"p2\" select=\"$p2\"/>
+      <xsl:with-param name=\"p3\" select=\"$p3\"/>
+    </xsl:apply-templates>
+  </xsl:template>
+
+  <!--
+    Template to automate jumping memo-src.  This method allows
+    up to three paramaters to be transferred. 
+  -->
+  <xsl:template match=\"memo-src\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:param name=\"label\" select=\"@label\"/>
+    <!-- <xsl:message terminate=\"no\">
+	 <xsl:text>IN UTIL \"memo-src\" template: </xsl:text>
+	 <xsl:value-of select=\"@href\"/>
+	 </xsl:message> -->
+    <xsl:apply-templates select=\"document(@href)//memo[@label=$label]\">
+      <xsl:with-param name=\"p1\" select=\"$p1\"/>
+      <xsl:with-param name=\"p2\" select=\"$p2\"/>
+      <xsl:with-param name=\"p3\" select=\"$p3\"/>
+    </xsl:apply-templates>
+  </xsl:template>
+
+  <!--
+    The following template walks the document in compound/formula order
+    for the project with @label = $project-name calling memo templates.
+    Parameters are:
+      project-name = label of project to use
+      p1 = passed as parameter p1 to {template match=\"memo\"} call
+
+    This template also calls templates named \"compound-start\", \"compound-end\",
+    \"formula-start\" and \"formula-end\" with parameter p1 at appropriate
+    places.
+
+    At each formula node the template eventually calls to a template with 
+    match=\"memo\" with three parameters and where memo/@compound=[compound/@label]
+    and memo/@formula=[formula/@label]:
+      p1 = supplied in call to compound-formula-walk
+      p2 = compound-label
+      p3 = formula-label
+    
+    Example usage (in pseudo code) to get 
+    call-template [p1=freq-mode]
+    call-template [p1=thermo-mode]
+
+    template (memo)
+      apply-template (datum) mode=$p1  
+   
+    template (datum) mode=freq-mode
+      ...
+    
+    template (datum) mode=thermo-mode
+      ...
+  -->
+  <xsl:template name=\"compound-formula-memo-walk\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"project-name\"/>
+    <xsl:for-each select=\"compound\">
+      <xsl:call-template name=\"compound-start\">
+        <xsl:with-param name=\"p1\" select=\"$p1\"/>
+      </xsl:call-template>
+      <xsl:param name=\"p2\" select=\"@label\"/>
+      <xsl:for-each select=\"formula\">
+        <xsl:call-template name=\"formula-start\">
+          <xsl:with-param name=\"p1\" select=\"$p1\"/>
+        </xsl:call-template>
+        <xsl:variable name=\"project-node\" select=\"(//project[@label=$project-name]/experiment[memo[@compound=$p2 and @formula=$p3]|memo-src[@compound=$p2 and @formula=$p3]]|document(//proj-src[@label=$project-name]/@href)//project[@label=$project-name]/experiment[memo[@compound=$p2 and @formula=$p3]|memo-src[@compound=$p2 and @formula=$p3]])\"/>    
+        <xsl:if test=\"0=count($project-node)\">
+          <xsl:message terminate=\"yes\">
+  	    <xsl:text>No project found in compound-formula-memo-visit with project: \"</xsl:text>
+  	    <xsl:value-of select=\"$project-name\"/>
+  	    <xsl:text>\", compound \"</xsl:text>
+  	    <xsl:value-of select=\"$p2\"/>
+  	    <xsl:text>\", formula \"</xsl:text>
+  	    <xsl:value-of select=\"$p3\"/>
+  	    <xsl:text>\", in \"</xsl:text>
+  	    <xsl:value-of select=\"$p1\"/>
+  	    <xsl:text>\"</xsl:text>
+            <xsl:text>
+</xsl:text>
+  	  </xsl:message>
+        </xsl:if>
+        <xsl:for-each select=\"$p1\">
+          <xsl:variable name=\"p1\" select=\".\"/>
+          <!-- <xsl:message exit=\"no\">In visit p1[i] = <xsl:value-of select=\".\"/>
+</xsl:message> -->
+          <xsl:call-template name=\"visit-start\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          </xsl:call-template>
+          <xsl:apply-templates select=\"$project-node\" mode=\"compound-formula-walk\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+            <xsl:with-param name=\"p2\" select=\"$p2\"/>
+            <xsl:with-param name=\"p3\" select=\"$p3\"/>
+          </xsl:apply-templates>
+          <xsl:call-template name=\"visit-end\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          </xsl:call-template>
+        </xsl:for-each>
+        <xsl:call-template name=\"formula-end\">
+          <xsl:with-param name=\"p1\" select=\"$p1\"/>
+        </xsl:call-template>
+      </xsl:for-each>
+      <xsl:call-template name=\"compound-end\">
+        <xsl:with-param name=\"p1\" select=\"$p1\"/>
+      </xsl:call-template>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!--
+    The following template walks the document in compound/formula order
+    for the project with @label = $project-name calling memo templates.
+    Parameters are:
+      project-name = label of project to use
+      p1 = list of parameters
+
+    This template also calls templates named \"compound-start\", \"compound-end\",
+    \"formula-start\", \"formula-end\" with no parameters and \"visit-start\" and
+    \"visit-end\" with parameter p1[i] at appropriate places.
+
+    At each formula node the template steps along the list of nodes in p1 and
+    eventually calls to a template with match=\"memo\" where memo/@compound=[compound/@label]
+    and memo/@formula=[formula/@label] with three parameters:
+      p1 = p1[i] supplied in call to compound-formula-walk
+      p2 = experiment/@reference
+      p3 = experiment/@worker
+    
+    Example usage (in pseudo code) to get 
+    call-template [p1=document('somefile')//nodes]
+
+    template (memo)
+      apply-template (datum) mode=$p1  
+   
+    template (datum) mode=freq-mode
+      ...
+    
+    template (datum) mode=thermo-mode
+      ...
+  -->
+  <xsl:template name=\"compound-formula-memo-visit\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"project-name\"/>
+    <!-- <xsl:message exit=\"no\">In visit p1 = <xsl:value-of select=\"$p1\"/>
+</xsl:message> -->
+    <xsl:for-each select=\"//compound\">
+      <!-- <xsl:message exit=\"no\">In visit compound = <xsl:value-of select=\"@label\"/>
+</xsl:message> -->
+      <xsl:call-template name=\"compound-start\"/>
+      <xsl:variable name=\"p2\" select=\"@label\"/>
+      <xsl:for-each select=\"formula\">
+        <xsl:variable name=\"p3\" select=\"@label\"/>
+        <!-- <xsl:message exit=\"no\">In visit formula = <xsl:value-of select=\"@label\"/>
+</xsl:message> -->
+        <xsl:call-template name=\"formula-start\"/>
+        <xsl:variable name=\"project-node\" select=\"(//project[@label=$project-name]/experiment[memo[@compound=$p2 and @formula=$p3]|memo-src[@compound=$p2 and @formula=$p3]]|document(//proj-src[@label=$project-name]/@href)//project[@label=$project-name]/experiment[memo[@compound=$p2 and @formula=$p3]|memo-src[@compound=$p2 and @formula=$p3]])\"/>    
+        <xsl:if test=\"0=count($project-node)\">
+          <xsl:message terminate=\"yes\">
+  	    <xsl:text>No project found in compound-formula-memo-visit with project: \"</xsl:text>
+  	    <xsl:value-of select=\"$project-name\"/>
+  	    <xsl:text>\", compound \"</xsl:text>
+  	    <xsl:value-of select=\"$p2\"/>
+  	    <xsl:text>\", formula \"</xsl:text>
+  	    <xsl:value-of select=\"$p3\"/>
+  	    <xsl:text>\", in \"</xsl:text>
+  	    <xsl:value-of select=\"$p1\"/>
+  	    <xsl:text>\"
+</xsl:text>
+  	  </xsl:message>
+        </xsl:if>
+        <xsl:for-each select=\"$p1\">
+          <xsl:variable name=\"p1\" select=\".\"/>
+          <!-- <xsl:message exit=\"no\">In visit p1[i] = <xsl:value-of select=\".\"/>
+</xsl:message> -->
+          <xsl:call-template name=\"visit-start\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          </xsl:call-template>
+          <xsl:apply-templates select=\"$project-node\" mode=\"compound-formula-walk\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+            <xsl:with-param name=\"p2\" select=\"$p2\"/>
+            <xsl:with-param name=\"p3\" select=\"$p3\"/>
+          </xsl:apply-templates>
+          <xsl:call-template name=\"visit-end\">
+            <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          </xsl:call-template>
+        </xsl:for-each>
+        <xsl:call-template name=\"formula-end\"/>
+      </xsl:for-each>
+      <xsl:call-template name=\"compound-end\"/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match=\"experiment\" mode=\"compound-formula-walk\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:call-template name=\"experiment-start\">
+      <xsl:with-param name=\"p1\" select=\"$p1\"/>
+    </xsl:call-template>
+    <xsl:apply-templates select=\"memo[@compound=$p2 and @formula=$p3]|memo-src[@compound=$p2 and @formula=$p3]\">
+      <xsl:with-param name=\"p1\" select=\"$p1\"/>
+      <xsl:with-param name=\"p2\" select=\"@reference\"/>
+      <xsl:with-param name=\"p3\" select=\"@worker\"/>
+    </xsl:apply-templates>
+    <xsl:call-template name=\"experiment-end\">
+      <xsl:with-param name=\"p1\" select=\"$p1\"/>
+    </xsl:call-template>
+  </xsl:template>
+  
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131631 "rotation-summary-table.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   Supplementary Material
+
+   This stylesheet converts a \"program.dtd\" valid XML file to a
+   textual representation suitable for the supplementary material
+   needed by a scientific journal.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/12 12:37:22 $
+
+$Log: rotation-summary-table.xsl,v $
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:40:31  finnerty
+Initial revision
+
+
+$Revision: 1.1 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"text\"/>
+  <xsl:strip-space elements=\"*\"/>
+
+  <xsl:include href=\"rtf-styles.xsl\"/>
+  <xsl:include href=\"program-util.xsl\"/>
+
+  <xsl:variable name=\"scale-factor\">
+    0.9613
+  </xsl:variable>
+
+  <xsl:template match=\"/\">
+    <!-- Output a heading for the supplementary material -->
+    <xsl:call-template name=\"document-start\"/>
+
+    <!-- Handle each compound in document order -->
+    <xsl:apply-templates/>
+
+    <xsl:call-template name=\"document-end\"/>
+  </xsl:template>
+
+  <xsl:template match=\"program\">
+    <xsl:call-template name=\"make-table\">
+      <xsl:with-param name=\"list-string\">
+        <xsl:text>Harmonic Frequencies</xsl:text>
+      </xsl:with-param>
+      <xsl:with-param name=\"table-width\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"column-divider\">
+        <xsl:value-of select=\"','\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"row-divider\">
+        <xsl:value-of select=\"'&#92;'\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"4\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"4\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>Structure</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>stretch(C2,C3,X){\\i a}</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>stretch(C1,X1){\\i a}</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>NImag</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:call-template name=\"table-row-end\"/>
+    <xsl:call-template name=\"table-end\"/>    
+    <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+    <xsl:apply-templates select=\"//compound|//comp-src\"/>
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>{\\i a} Frequencies have been scaled by</xsl:text>
+    <xsl:value-of select=\"$scale-factor\"/>
+    <xsl:text>Ref. Wong, M. W. {\\i Chem. Phys. Lett.} {\\b 1996}, {\\i 256}, 391-399.</xsl:text>
+
+    <xsl:call-template name=\"table-row-end\"/>
+    <xsl:call-template name=\"table-end\"/>    
+  </xsl:template>
+
+  <xsl:template match=\"compound\">
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>{\\b </xsl:text>
+    <xsl:value-of select=\"@label\"/>
+    <xsl:text>}</xsl:text>
+    <xsl:call-template name=\"table-row-end\"/>
+    <xsl:call-template name=\"table-end\"/>    
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"4\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:apply-templates select=\"geometry|geom-src\"/>
+    <xsl:call-template name=\"table-end\"/>    
+  </xsl:template>
+
+  <xsl:template match=\"geometry\">
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"4\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+     <xsl:text>{\\i </xsl:text>
+    <xsl:value-of select=\"@label\"/>
+    <xsl:text>}</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>   
+    <xsl:apply-templates select=\"experiment\"/>
+    <xsl:call-template name=\"table-row-end\"/>
+  </xsl:template>
+
+  <xsl:template match=\"experiment\">
+    <xsl:if test=\"calc-method[@type='Freq']\">
+      <xsl:apply-templates select=\".//dan[@name='vibration']\" mode=\"vibration-summary\">
+        <xsl:with-param name=\"low-freq\" select=\"1920\"/>
+        <xsl:with-param name=\"hi-freq\" select=\"2300\"/>
+      </xsl:apply-templates>
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:apply-templates select=\".//dan[@name='vibration']\" mode=\"vibration-summary\">
+        <xsl:with-param name=\"low-freq\" select=\"1660\"/>
+        <xsl:with-param name=\"hi-freq\" select=\"1885\"/>
+      </xsl:apply-templates>
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:value-of select=\"dan[@name='NImag']\"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match=\"dan\" mode=\"vibration-summary\">
+    <xsl:param name=\"low-freq\"/>
+    <xsl:param name=\"hi-freq\"/>
+    <xsl:if test=\"dan[@name='frequency'] &gt; $low-freq and dan[@name='frequency'] &lt; $hi-freq\">
+      <xsl:value-of select=\"ceiling((dan[@name='frequency'] * $scale-factor) - 0.5 )\"/>
+      <xsl:text>(</xsl:text>
+      <xsl:value-of select=\"ceiling(dan[@name='IR-intensity'] - 0.5 )\"/>
+      <xsl:text>)</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+
+  <xsl:template name=\"make-table\">
+    <xsl:param name=\"list-string\"/>
+    <xsl:param name=\"table-width\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:param name=\"row-divider\"/>
+
+    <!-- Start the table -->
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$table-width\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <!-- Version 1 only splits by line -->
+    <xsl:call-template name=\"make-table-by-row\">
+      <xsl:with-param name=\"list-string\">
+        <xsl:value-of select=\"$list-string\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"table-width\">
+        <xsl:value-of select=\"$table-width\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"column-divider\">
+        <xsl:value-of select=\"$column-divider\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"row-divider\">
+        <xsl:value-of select=\"$row-divider\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <!-- Finish the table -->
+    <xsl:call-template name=\"table-end\"/>
+  </xsl:template>
+  
+  <xsl:template name=\"make-table-by-row\">
+    <xsl:param name=\"list-string\"/>
+    <xsl:param name=\"table-width\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:param name=\"row-divider\"/>
+
+    <!-- Version 1 only splits by line -->
+    <xsl:choose>
+      <xsl:when test=\"contains($list-string,$row-divider)\">
+        <!-- Start the row -->
+        <xsl:call-template name=\"table-row-start\">
+          <xsl:with-param name=\"columns\" select=\"$table-width\"/>
+        </xsl:call-template>
+        <!-- Output the row -->
+        <!-- <xsl:text>Row text [</xsl:text> -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"substring-before($list-string,$row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- End the row -->
+        <xsl:call-template name=\"table-row-end\"/>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table-by-row\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-after($list-string, $row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"$table-width\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"$row-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- Start the row -->
+        <xsl:call-template name=\"table-row-start\">
+          <xsl:with-param name=\"columns\" select=\"$table-width\"/>
+        </xsl:call-template>
+        <!-- End recursion stage, output whats left -->
+        <!-- <xsl:text>Last Row text [</xsl:text> -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"$list-string\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>        
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- End the row -->
+        <xsl:call-template name=\"table-row-end\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"make-table-by-row-column\">
+    <xsl:param name=\"row-string\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:choose>
+      <xsl:when test=\"contains($row-string, $column-divider)\">
+        <!-- in recursive section -->
+        <!-- get column entry -->
+        <!-- <xsl:text>Row text [</xsl:text> -->
+        <xsl:value-of select=\"substring-before($row-string, $column-divider)\"/>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- get column divider -->
+        <xsl:call-template name=\"table-next-datum\"/>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table-by-row-column\">
+          <xsl:with-param name=\"row-string\">
+            <xsl:value-of select=\"substring-after($row-string, $column-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- in recursive section -->
+        <!-- get column entry -->
+        <!-- <xsl:text>Last Row text [</xsl:text> -->
+        <xsl:value-of select=\"$row-string\"/>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- no column divider -->
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131759 "rtf-styles.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   RTF styles
+
+   This stylesheet is one of a set of stylesheets for textual
+   output. It provides a set of target-dependent templates for
+   formatting output, in this case ***Rich-Text Format***. Careful use
+   of this set of templates should allow client stylesheets to be
+   independent of output format.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/15 20:56:46 $
+
+$Log: rtf-styles.xsl,v $
+Revision 1.2  2008/01/15 20:56:46  finnerty
+Updated for program.dtd v3
+
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:40:59  finnerty
+Initial revision
+
+
+$Revision: 1.2 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"text\"/>
+
+  <!-- This style files provides some basic templates that can be -->
+  <!-- used to format documents for RTF output. -->
+
+  <!-- Author: Justin Finnerty -->
+  <!-- Date: December 2002 -->
+
+  <!-- This style file provides the following templates -->
+  <!-- document-start, document-end -->
+  <!-- paragraph-end -->
+  <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+  <!-- heading-one, heading-two, heading-three -->
+  <!-- font-bold, font-slanted -->
+
+
+  <!-- In this style a document start/end has no special meaning -->
+  <xsl:template name=\"document-start\">
+    <xsl:text>{\\rtf0\\ansi
+{\\fonttbl
+{\\f0\\fswiss Helvetica;}
+{\\f1\\froman Times;}}
+\\paperw12240\\paperh15840\\margl1800\\margr1800\\margt1440\\margb1440
+\\ftnbj\\aenddoc\\ftnrstcont\\aftnrstcont\\ftnnar\\aftnnrlc
+\\sectd\\pgwsxn11908\\pghsxn16847\\marglsxn720\\margtsxn720\\margrsxn720
+\\margbsxn720
+{\\stylesheet{\\s0\\f1\\fs20\\lang1031\\snext0 Normal;}
+{\\s1\\sb240\\sa60\\keepn{\\*\\pn \\pnlvl1\\pndec\\pnprev1\\pnstart1\\pnsp144 {\\pntxta .}}\\b\\f0\\fs32\\lang2057\\kerning28 \\sbasedon0\\snext0 Heading 1;}
+{\\s2\\sb240\\sa60\\keepn{\\*\\pn \\pnlvl2\\pndec\\pnprev1\\pnstart1\\pnsp144 }\\b\\f0\\fs24\\lang2057 \\sbasedon0\\snext0 Heading 2;}
+{\\s3\\sb240\\sa60\\keepn{\\*\\pn \\pnlvl3\\pndec\\pnprev1\\pnstart1\\pnsp144 {\\pntxtb .}}\\b\\f0\\fs24\\lang2057 \\sbasedon0\\snext0 Heading 3;}
+{\\s4\\sb240\\sa60\\keepn{\\*\\pn \\pnlvl4\\pndec\\pnprev1\\pnstart1\\pnsp144 {\\pntxtb .}}\\b\\f0\\fs24\\lang2057 \\sbasedon0\\snext0 Heading 4;}
+{\\*\\cs10 \\additive Default Paragraph Font;}}
+{\\*\\pnseclvl1\\pnucrm\\pnstart1\\pnindent720\\pnhang{\\pntxta .}}
+{\\*\\pnseclvl2\\pnucltr\\pnstart1\\pnindent720\\pnhang{\\pntxta .}}
+{\\*\\pnseclvl3\\pndec\\pnstart1\\pnindent720\\pnhang{\\pntxta .}}
+{\\*\\pnseclvl4\\pnlcltr\\pnstart1\\pnindent720\\pnhang{\\pntxta .}}
+{\\footer\\pard\\fi-1\\li1\\ri1\\qr\\plain
+\\f1\\fs20{S\\field{\\*\\fldinst{PAGE }}{\\fldrslt{?}}}}
+\\f1\\fs20
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"document-end\">
+    <xsl:text>
+}</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"paragraph-end\">
+    <xsl:text> \\par </xsl:text>
+  </xsl:template>
+
+  <!-- In this style a table is quite complex, with cell widths being calculated -->
+  <xsl:template name=\"table-start\">
+    <xsl:param name=\"columns\"/>
+    <xsl:text>{</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-end\">
+    <xsl:text>}</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-row-start\">
+    <xsl:param name=\"columns\"/>
+    <xsl:text>\\trowd \\trqc \\trgaph88\\trrh402 </xsl:text>
+    <xsl:call-template name=\"define-columns\">
+      <xsl:with-param name=\"total-columns\" select=\"$columns\"/>
+      <xsl:with-param name=\"columns-so-far\" select=\"1\"/>
+    </xsl:call-template>
+    <xsl:text> {</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-row-end\">
+    <xsl:text>}\\cell \\pard \\intbl \\row
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-next-datum\">
+    <xsl:text>} \\cell \\pard \\intbl {</xsl:text>
+  </xsl:template>
+
+  <!-- In this style a heading is defined using styles, defined in document start section -->
+  <xsl:template name=\"heading-one\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>{\\s1 </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>}\\par</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-two\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>{\\s2 </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>}\\par</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-three\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>{\\s3 </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>}\\par</xsl:text>
+  </xsl:template>
+
+  <!-- In this style bold and slanted/italic are natively represented -->
+  <xsl:template name=\"font-bold\">
+    <xsl:param name=\"the-text\"/>
+    <xsl:text>{\\b </xsl:text>
+    <xsl:value-of select=\"$the-text\"/>
+    <xsl:text>}</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"font-slanted\">
+    <xsl:param name=\"the-text\"/>
+    <xsl:text>{\\i </xsl:text>
+    <xsl:value-of select=\"$the-text\"/>
+    <xsl:text>}</xsl:text>
+  </xsl:template>
+
+  <!-- RTF specific templates -->
+  <xsl:variable name=\"page-width\" select=\"10000.0\"/>
+
+  <xsl:template name=\"define-columns\">
+    <!-- This generates the \\cellx??? widths for the columns -->
+    <xsl:param name=\"total-columns\"/>
+    <xsl:param name=\"columns-so-far\"/>
+    <xsl:text>\\cellx</xsl:text>
+    <xsl:value-of select=\"round( ( $page-width div $total-columns ) * $columns-so-far )\"/>
+    <xsl:if test=\"$total-columns &gt; $columns-so-far\">
+      <xsl:call-template name=\"define-columns\">
+        <xsl:with-param name=\"total-columns\" select=\"$total-columns\"/>
+        <xsl:with-param name=\"columns-so-far\" select=\"$columns-so-far + 1\"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 131887 "schemas.xml"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\"?>
+<locatingRules xmlns=\"http://thaiopensource.com/ns/locating-rules/1.0\">
+  <uri resource=\"split-file.xsl\" typeId=\"XSLT\"/>
+</locatingRules>
+"
+    end
+
+    artifact 132015 "split-file.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"
+  xmlns:redirect=\"org.apache.xalan.xslt.extensions.Redirect\"
+  extension-element-prefixes=\"redirect\">
+<!-- ============================================================= -->
+<!--
+  File Splitter
+
+  This stylesheet splits the input file into a set of
+  sub-documents. This follows the multi-level nature of the DTD and
+  allows a large data base to be broken into smaller file. This also
+  converts from the dtd version 1.0 to the dtd version 2.0
+
+  Date: 06 August 2007
+  Date: $Date: 2009/09/04 15:49:49 $
+  
+  $Log: split-file.xsl,v $
+  Revision 1.5  2009/09/04 15:49:49  finnerty
+  Updated the DTD and corresponding XSLT files.
+
+  Revision 1.4  2008/06/24 18:00:28  finnerty
+  Last commit for version 1.0
+
+  Revision 1.3  2008/01/15 20:56:46  finnerty
+  Updated for program.dtd v3
+
+  Revision 1.2  2008/01/13 17:55:48  finnerty
+  Updated for program.dtd v3
+
+  Revision 1.2  2008/01/12 12:37:41  finnerty
+  Initial version
+  
+  Revision 1.1  2008/01/12 12:37:22  finnerty
+  Initial version
+  
+  $Revision: 1.5 $
+  
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"xml\" doctype-public=\"http://www.openscience.net.au/datascheme/V2.0.0/\" doctype-system=\"/home/finnerty/Office/Projects/compchem/schema/program.dtd\" version=\"1.0\" encoding=\"UTF-8\"/>
+
+  <xsl:variable name=\"baseDir\">
+    <!-- <xsl:text>~/.chkcalc/db/</xsl:text> -->
+  </xsl:variable>
+
+  <xsl:template match=\"/\">
+    <!-- Put out DTD info -->
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match=\"processing-instruction()\">
+    <xsl:processing-instruction name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:processing-instruction>
+  </xsl:template>
+
+  <xsl:template match=\"comment()\">
+    <xsl:comment><xsl:value-of select=\".\"/></xsl:comment>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'apparatus' to 'mechanism' -->
+  <xsl:template match=\"apparatus\">
+    <xsl:element name=\"mechanism\">
+      <xsl:if test=\"@label\">
+	<xsl:attribute name=\"label\"><xsl:value-of select=\"@label\"/></xsl:attribute>
+      </xsl:if>
+      <xsl:if test=\".\">
+	<!-- need to wrap 'apparatus' content in 'info' element -->
+	<xsl:element name=\"info\">
+	  <xsl:attribute name=\"name\">information</xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:element>
+      </xsl:if>
+    </xsl:element>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'atom-list' to nix -->
+  <xsl:template match=\"atom-list\">
+    <!-- The atom-list is no longer used.  Now it
+         is a 'datum' set within an 'experiment'. 
+         The 'experiment' template attempts to do
+         the translation. -->
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'atom-list' to \"datum\" -->
+  <xsl:template match=\"atom-list\" mode=\"in-experiment\">
+    <xsl:element name=\"datum\">
+      <xsl:attribute name=\"outcome\"><xsl:text>atom-list</xsl:text></xsl:attribute>
+      <xsl:if test=\"@charge\">
+        <xsl:element name=\"datum\">
+          <xsl:attribute name=\"outcome\"><xsl:text>charge</xsl:text></xsl:attribute>
+          <xsl:value-of select=\"@charge\"/>
+        </xsl:element>
+      </xsl:if>
+      <xsl:if test=\"@multiplicity\">
+        <xsl:element name=\"datum\">
+          <xsl:attribute name=\"outcome\"><xsl:text>multiplicity</xsl:text></xsl:attribute>
+          <xsl:value-of select=\"@multiplicity\"/>
+        </xsl:element>
+      </xsl:if>
+      <xsl:element name=\"datum\">
+        <xsl:attribute name=\"outcome\"><xsl:text>structure</xsl:text></xsl:attribute>
+        <xsl:attribute name=\"format\"><xsl:value-of select=\"@format\"/></xsl:attribute>
+        <xsl:if test=\".\"><xsl:apply-templates/></xsl:if>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'calc-program' to 'datum' -->
+  <!-- This should be processed within a 
+       'mech-memo' element in the new doc
+       which will use the @name attr. -->
+  <xsl:template match=\"calc-program\">
+    <xsl:element name=\"datum\">
+      <xsl:attribute name=\"outcome\"><xsl:text>version</xsl:text></xsl:attribute>
+      <xsl:if test=\".\"><xsl:apply-templates/></xsl:if>
+    </xsl:element>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'calc-program' to 'datum' -->
+  <!-- This should be processed within a 
+       'mech-memo' element in the new doc. -->
+  <xsl:template match=\"calc-method\">
+    <xsl:if test=\"@method\">
+      <xsl:element name=\"datum\">
+	<xsl:attribute name=\"outcome\"><xsl:text>method</xsl:text></xsl:attribute>
+	<xsl:value-of select=\"@method\"/>
+      </xsl:element>
+    </xsl:if>
+    <xsl:if test=\"@basis-set\">
+      <xsl:element name=\"datum\">
+	<xsl:attribute name=\"outcome\"><xsl:text>basis-set</xsl:text></xsl:attribute>
+	<xsl:value-of select=\"@basis-set\"/>
+      </xsl:element>
+    </xsl:if>
+    <xsl:if test=\"@type\">
+      <xsl:element name=\"datum\">
+	<xsl:attribute name=\"outcome\"><xsl:text>type</xsl:text></xsl:attribute>
+	<xsl:value-of select=\"@type\"/>
+      </xsl:element>
+    </xsl:if>
+    <xsl:if test=\".\">
+      <xsl:element name=\"datum\">
+	<xsl:attribute name=\"outcome\"><xsl:text>route</xsl:text></xsl:attribute>
+	<xsl:apply-templates/>
+      </xsl:element>
+    </xsl:if>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'chem-notation' to nix -->
+  <xsl:template match=\"chem-notation\">
+    <!-- The atom-list is no longer used.  Now it
+         is a 'datum' set within an 'experiment'. 
+         The 'experiment' template attempts to do
+         the translation. -->
+  </xsl:template>
+
+  <!--====================================-->
+  <!-- translate 'compound' to 'compound' v2 -->
+  <xsl:template match=\"compound\" mode=\"top\">
+    <!-- Write cross-reference element to current doc -->
+    <xsl:element name=\"{name()}\">
+	<xsl:for-each select=\"@*\">
+	  <xsl:choose>
+	    <xsl:when test=\"'chem-note' = name()\">
+	      <xsl:attribute name=\"category\"><xsl:value-of select=\".\"/></xsl:attribute>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:for-each>
+	<xsl:if test=\".\">
+        <xsl:apply-templates select=\"iupac-name\"/>
+        <xsl:apply-templates select=\"information\"/>
+        <xsl:element name=\"identity\">
+          <xsl:attribute name=\"type\"><xsl:text>label</xsl:text></xsl:attribute>
+          <xsl:value-of select=\"@label\"/>
+        </xsl:element>
+        <xsl:apply-templates select=\"geometry\" mode=\"top\"/>
+      </xsl:if>
+    </xsl:element>
+    <xsl:text>
+</xsl:text>
+  </xsl:template>
+
+   <!--====================================-->
+  <!-- translate 'compound' to 'comp-src' -->
+  <xsl:template match=\"compound\" mode=\"proj\">
+    <xsl:apply-templates select=\"geometry\" mode=\"proj\"/>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'comp-program' to 'mechanism' -->
+  <xsl:template match=\"comp-program\">
+    <xsl:element name=\"mechanism\">
+      <xsl:if test=\"@name\">
+	<xsl:attribute name=\"label\"><xsl:value-of select=\"@name\"/></xsl:attribute>
+      </xsl:if>
+      <xsl:if test=\".\">
+	<!-- need to wrap 'comp-program' content in 'text' element -->
+	<xsl:element name=\"info\">
+	  <xsl:attribute name=\"name\">information</xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:element>
+      </xsl:if>
+    </xsl:element>
+  </xsl:template>
+
+  <!--======================================-->
+  <!-- translate 'dan' to 'datum' -->
+  <xsl:template match=\"dan\">
+    <xsl:element name=\"datum\">
+      <xsl:for-each select=\"@*\">
+	<xsl:choose>
+	  <xsl:when test=\"'unit' = name()\">
+	    <xsl:attribute name=\"scale\"><xsl:value-of select=\".\"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:when test=\"'name' = name()\">
+	    <xsl:attribute name=\"outcome\"><xsl:value-of select=\".\"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:for-each>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <!--=====================================================-->
+  <!-- extract 'experiment' from 'geometry' into 'project' -->
+  <xsl:template match=\"geometry\" mode=\"proj\">
+    <xsl:variable name=\"pageref\" select=\"experiment/@pageref\"/><!-- Use first pageref -->
+    <xsl:element name=\"experiment\">
+      <xsl:attribute name=\"reference\"><xsl:value-of select=\"$pageref\"/></xsl:attribute>
+      <xsl:for-each select=\"@*\">
+	<xsl:choose>
+	  <xsl:when test=\"'pageref' = name()\"/><!-- Do nothing -->
+	  <xsl:when test=\"'type'=name()\"/><!-- Do nothing -->
+	  <xsl:when test=\"'label'=name()\"/><!-- Do nothing -->
+	  <xsl:otherwise>
+	    <xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute>
+	  </xsl:otherwise>	  
+	</xsl:choose>
+      </xsl:for-each>
+      <xsl:if test=\"not(@date-start)\">
+	<xsl:attribute name=\"date-start\">unknown</xsl:attribute>
+      </xsl:if>
+      <xsl:if test=\"not(@worker)\">
+	<xsl:attribute name=\"worker\">finnerty</xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select=\"information\"/>
+      <xsl:for-each select=\"experiment\">
+        <!--======================================-->
+        <!-- translate 'experiment' to 'experiment' -->
+        <xsl:variable name=\"filename\">
+          <xsl:value-of select=\"concat (../../@label,'/', @pageref, '.xml')\"/>
+        </xsl:variable>
+        <!-- Write cross-reference element to current doc -->
+        <xsl:element name=\"memo-src\">
+          <xsl:attribute name=\"label\"><xsl:value-of select=\"@pageref\"/></xsl:attribute>
+          <xsl:attribute name=\"formula\"><xsl:value-of select=\"../@label\"/></xsl:attribute>
+          <xsl:attribute name=\"compound\"><xsl:value-of select=\"../../@label\"/></xsl:attribute>
+          <xsl:attribute name=\"href\">
+            <xsl:value-of select=\"$filename\"/>
+          </xsl:attribute>
+        </xsl:element>
+        <!-- Write compound and children to new doc -->
+        <redirect:write select=\"concat($baseDir, $filename)\" doctype-public=\"http://www.openscience.net.au/datascheme/V2.0.0/\" doctype-system=\"/home/finnerty/Office/Projects/compchem/schema/program.dtd\" version=\"1.0\" encoding=\"UTF-8\">
+          <xsl:element name=\"memo\">
+            <xsl:attribute name=\"label\"><xsl:value-of select=\"@pageref\"/></xsl:attribute>
+            <xsl:attribute name=\"formula\"><xsl:value-of select=\"../@label\"/></xsl:attribute>
+            <xsl:attribute name=\"compound\"><xsl:value-of select=\"../../@label\"/></xsl:attribute>
+            <xsl:if test=\"calc-program\">
+              <xsl:attribute name=\"mechanism\"><xsl:value-of select=\"calc-program/@name\"/></xsl:attribute>
+              <xsl:apply-templates select=\"calc-program\"/>
+            </xsl:if>
+            <xsl:if test=\"calc-method\">
+              <xsl:apply-templates select=\"calc-method\"/>
+            </xsl:if>
+            <xsl:for-each select=\"../atom-list[@pageref=$pageref]\">
+              <xsl:if test=\"position()=1\">
+                <xsl:apply-templates select=\".\" mode=\"in-experiment\"/>
+              </xsl:if>
+            </xsl:for-each>
+            <xsl:apply-templates select=\"dan\"/>
+          </xsl:element>
+        </redirect:write>
+      </xsl:for-each>
+    </xsl:element>
+    <xsl:text>
+</xsl:text>
+  </xsl:template>
+
+  <!--===================================-->
+  <!-- translate 'geometry' to 'formula' -->
+  <xsl:template match=\"geometry\" mode=\"top\">
+    <xsl:element name=\"formula\">
+      <xsl:attribute name=\"label\"><xsl:value-of select=\"@label\"/></xsl:attribute>
+      <xsl:apply-templates select=\"information\"/>
+      <xsl:element name=\"identity\">
+        <xsl:attribute name=\"type\"><xsl:text>label</xsl:text></xsl:attribute>
+        <xsl:value-of select=\"@label\"/>
+      </xsl:element>
+    </xsl:element>      
+    <xsl:text>
+</xsl:text>
+  </xsl:template>
+
+  <!--===========================-->
+  <!-- translate 'information' to 'info' -->
+  <xsl:template match=\"information\">
+    <xsl:element name=\"info\">
+      <xsl:attribute name=\"name\">
+        <xsl:text>information</xsl:text>
+      </xsl:attribute>
+      <xsl:if test=\".\">
+        <xsl:apply-templates/>
+      </xsl:if>
+    </xsl:element>
+  </xsl:template>
+
+  <!--===========================-->
+  <!-- translate 'iupac-name' to 'identity' -->
+  <xsl:template match=\"iupac-name\">
+    <xsl:element name=\"identity\">
+      <xsl:attribute name=\"type\">iupac-name</xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <!--===========================-->
+  <!-- translate 'program' to 'program' -->
+  <xsl:template match=\"program\">
+    <xsl:element name=\"program\">
+      <xsl:apply-templates select=\"information\"/>
+      <xsl:apply-templates select=\"worker\"/>
+      <xsl:apply-templates select=\"apparatus\"/>
+      <xsl:apply-templates select=\"comp-program\"/>
+      <xsl:apply-templates select=\"compound\" mode=\"top\"/>
+      <xsl:element name=\"project\">
+	<xsl:attribute name=\"label\"><xsl:text>default</xsl:text></xsl:attribute>
+	<xsl:apply-templates select=\"compound\" mode=\"proj\"/>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <!--===========================-->
+  <!-- translate 'tan' to 'info' -->
+  <xsl:template match=\"tan\">
+    <xsl:element name=\"info\">
+      <xsl:choose>
+	<xsl:when test=\"@type\">
+          <xsl:attribute name=\"name\">
+            <xsl:value-of select=\"@type\"/>
+          </xsl:attribute>
+        </xsl:when>
+	<xsl:otherwise>
+          <xsl:attribute name=\"name\">information</xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:if test=\".\">
+        <xsl:apply-templates/>
+      </xsl:if>
+    </xsl:element>
+  </xsl:template>
+
+  <!--===========================-->
+  <!-- translate 'worker' to 'worker' -->
+  <xsl:template match=\"worker\">
+    <xsl:element name=\"worker\"><xsl:for-each select=\"@*\"><xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute></xsl:for-each>
+      <xsl:element name=\"info\"><xsl:attribute name=\"name\">information</xsl:attribute><xsl:apply-templates select=\"text()\"/></xsl:element>
+      
+      <xsl:apply-templates select=\"tan\"/>
+    </xsl:element>
+  </xsl:template>
+
+  <!-- Catch all template -->
+  <xsl:template match=\"*\">
+    <xsl:element name=\"{name()}\"><xsl:for-each select=\"@*\"><xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute></xsl:for-each><xsl:if test=\".\"><xsl:apply-templates/></xsl:if></xsl:element>
+  </xsl:template>
+</xsl:stylesheet>
+"
+    end
+
+    artifact 132143 "suppl-mater.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   Supplementary Material
+
+ This, stylesheet converts a \"program.dtd\" valid XML file to a
+   textual representation suitable for the supplementary material
+   needed by a scientific journal.
+
+atylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2009/09/04 15:49:49 $
+
+$Log: suppl-mater.xsl,v $
+Revision 1.4  2009/09/04 15:49:49  finnerty
+Updated the DTD and corresponding XSLT files.
+
+Revision 1.3  2008/06/24 18:00:28  finnerty
+Last commit for version 1.0
+
+Revision 1.2  2008/01/15 20:56:46  finnerty
+Updated for program.dtd v3
+
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:40:31  finnerty
+Initial revision
+
+
+$Revision: 1.4 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"text\"/>
+  <xsl:strip-space elements=\"*\"/>
+
+  <xsl:include href=\"rtf-styles.xsl\"/>
+  <xsl:include href=\"program-util.xsl\"/>
+  
+  <xsl:variable name=\"vibration-style\" select=\"vibration-table-standard\"/>
+  <!-- xsl:variable name=\"vibration-style\" select=\"vibration-table-compact\"/ -->
+  <xsl:variable name=\"config-node\" select=\"document('suppl-parts.xml')/suppl-mater\"/>
+  <xsl:variable name=\"style\" select=\"$config-node/base-style\"/>
+  <!-- xsl:variable name=\"style\" select=\"compact\"/ -->
+  <xsl:variable name=\"energysummary-fstyle\" select=\"energy-summary-freq-standard\"/>
+  <xsl:variable name=\"energysummary-ostyle\" select=\"energy-summary-opt-standard\"/>
+  <xsl:variable name=\"scale-factor-ext\" select=\"$config-node/scale-value\"/>
+  <xsl:variable name=\"scale-factor-ref\" select=\"$config-node/scale-ref\"/>
+
+  <!-- Constants for converting hartrees to Joules -->
+  <xsl:variable name=\"hartree-to-kcalmol\">
+    627.5095
+  </xsl:variable>
+
+  <xsl:variable name=\"calmol-to-jmol\">
+    4.184
+  </xsl:variable>
+
+  <!-- Assumption: Temperature is 298.15K -->
+  <xsl:variable name=\"temperature\">
+    298.15
+  </xsl:variable>
+
+  <!-- If this is 7 then include raman activity, if 5 then don't -->
+  <xsl:variable name=\"use-raman\" select=\"$config-node/use-raman\"/>
+
+  <xsl:variable name=\"scale-factor\">
+  <xsl:choose>
+    <xsl:when test=\"$scale-factor-ext\"><xsl:value-of select=\"$scale-factor-ext\"/></xsl:when>
+    <xsl:otherwise>1.0</xsl:otherwise>
+  </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name=\"scale-factor-ref-internal\">
+  <xsl:choose>
+    <xsl:when test=\"$scale-factor-ref\"><xsl:value-of select=\"$scale-factor-ref\"/></xsl:when>
+    <xsl:otherwise>(unscaled)</xsl:otherwise>
+  </xsl:choose>
+  </xsl:variable>
+
+  <xsl:template match=\"/\">
+    <!-- Output a heading for the supplementary material -->
+    <xsl:call-template name=\"document-start\"/>
+    <xsl:call-template name=\"heading-one\">
+      <xsl:with-param name=\"heading-text\" select=\"'Supplementary Material'\"/>
+    </xsl:call-template>
+    <xsl:message terminate=\"no\">
+      <xsl:text>Working style \"</xsl:text>
+      <xsl:value-of select=\"$style\"/>
+      <xsl:text>\"</xsl:text>
+   </xsl:message>
+
+    <!-- 
+      Handle each compound in document order using
+      compound-formula-memo-visit.
+
+      This means that we will get calls to compound/formula start/end
+      and memo(mode=?).
+ 
+      stages:
+        - energy-summary (freq, sp)
+        - structure (freq)
+        - vibration-table (freq)
+  -->
+    <xsl:message terminate=\"no\">Raman Activity \"<xsl:value-of select=\"$use-raman\"/>\" (5=no,7=yes)</xsl:message>
+    <xsl:call-template name=\"compound-formula-memo-visit\">
+      <xsl:with-param name=\"p1\" select=\"document('suppl-parts.xml')//stage\"/>
+      <xsl:with-param name=\"project-name\" select=\"'default'\"/>
+    </xsl:call-template>
+    <xsl:call-template name=\"document-end\"/>
+  </xsl:template>
+
+  <!-- Set default behavior to descend nodes but have no output -->
+  <xsl:template match=\"*\" mode=\"compact\">
+    <xsl:apply-templates mode=\"compact\"/>
+  </xsl:template>
+
+  <xsl:template match=\"*\" mode=\"standard\">
+    <xsl:apply-templates mode=\"standard\"/>
+  </xsl:template>
+
+  <xsl:template match=\"text()\" mode=\"compact\"/>
+  <xsl:template match=\"text()\" mode=\"standard\"/>
+
+
+  <xsl:template match=\"memo\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:choose>
+      <xsl:when test=\"$style='compact'\">
+        <xsl:apply-templates select=\".\" mode=\"compact\">
+          <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          <xsl:with-param name=\"p2\" select=\"$p2\"/>
+          <xsl:with-param name=\"p3\" select=\"$p3\"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:when test=\"$style='standard'\">
+        <xsl:apply-templates select=\".\" mode=\"standard\">
+          <xsl:with-param name=\"p1\" select=\"$p1\"/>
+          <xsl:with-param name=\"p2\" select=\"$p2\"/>
+          <xsl:with-param name=\"p3\" select=\"$p3\"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message terminate=\"yes\">
+          <xsl:text>Unknown style </xsl:text>
+          <xsl:value-of select=\"$style\"/>
+        </xsl:message>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"compound-start\">
+    <xsl:variable name=\"compound-name\">
+      <xsl:value-of select=\"identity[@type='iupac-name']\"/>
+    </xsl:variable>
+    <xsl:variable name=\"compound-label\">
+      <xsl:choose>
+        <xsl:when test=\"identity[@type='label']\">
+          <xsl:value-of select=\"identity[@type='label']\"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select=\"@label\"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:call-template name=\"heading-two\">
+      <xsl:with-param name=\"heading-text\">
+        <xsl:text>Compound </xsl:text>
+        <xsl:value-of select=\"$compound-name\"/>
+        <xsl:text> </xsl:text>
+        <xsl:call-template name=\"font-bold\">
+          <xsl:with-param name=\"the-text\" select=\"$compound-label\"/>
+        </xsl:call-template>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"paragraph-end\"/>
+    <!-- xsl:apply-templates select=\"info\"/ -->
+  </xsl:template>
+
+  <xsl:template name=\"compound-end\"/>
+  <xsl:template name=\"experiment-start\"/>
+  <xsl:template name=\"experiment-end\"/>
+  <xsl:template name=\"visit-start\"/>
+  <xsl:template name=\"visit-end\"/>
+ 
+  <xsl:template name=\"formula-start\">
+    <xsl:variable name=\"compound-label\">
+      <xsl:choose>
+        <xsl:when test=\"identity[@type='label']\">
+          <xsl:value-of select=\"../identity[@type='label']\"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select=\"../@label\"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <!-- Formula subheading -->
+    <xsl:call-template name=\"heading-three\">
+      <xsl:with-param name=\"heading-text\">
+                <xsl:choose>
+                  <xsl:when test=\"identity[@type='label']\">
+                    <xsl:value-of select=\"identity[@type='label']\"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select=\"@label\"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"paragraph-end\"/>
+  </xsl:template>
+
+  <xsl:template name=\"formula-end\">
+    <!-- Handle each geometry in document order -->
+    <xsl:call-template name=\"paragraph-end\"/>
+   </xsl:template>
+
+  <xsl:template match=\"memo\" mode=\"compact\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:choose>
+      <xsl:when test=\"$p1='energy-summary'\">
+        <xsl:apply-templates select=\"datum[@outcome='route']\"/>
+        <xsl:if test=\"datum[@outcome='type' and text()='Freq']|datum[@outcome='type' and text()='SP']|datum[@outcome='type' and text()='FOpt']\">
+          <xsl:choose>
+            <xsl:when test=\"datum[@outcome='type' and text()='FOpt']\">
+              <xsl:text>
+Geometry optimisation calculation: Program version = </xsl:text>
+            </xsl:when>
+            <xsl:when test=\"datum[@outcome='type' and text()='Freq']\">
+              <xsl:text>
+Frequency calculation: Program version = </xsl:text>
+            </xsl:when>
+            <xsl:when test=\"datum[@outcome='type' and text()='SP']\">
+              <xsl:text>
+Single-point energy calculation: Program version = </xsl:text>
+            </xsl:when>
+          </xsl:choose>
+          <xsl:value-of select=\"datum[@outcome='version']\"/>
+          <xsl:text>. Method and basis set = </xsl:text>
+          <xsl:value-of select=\"datum[@outcome='method']\"/>
+          <xsl:text>/</xsl:text>
+          <xsl:value-of select=\"datum[@outcome='basis-set']\"/>
+          <xsl:text>. Calculated Energy </xsl:text>
+          <xsl:for-each select=\"datum[@outcome='hf']|.//datum[@outcome='MP2']\">
+            <xsl:choose>
+              <xsl:when test=\"@outcome='hf'\">
+                <xsl:text>E(HF) = </xsl:text>
+                <xsl:choose>
+                  <xsl:when test=\"@scale='hartree'\">
+                    <xsl:value-of select=\".\"/>
+                    <xsl:text> (hartree), </xsl:text>
+                    <xsl:value-of select=\". * $hartree-to-kcalmol * $calmol-to-jmol\"/>
+                    <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+                  </xsl:when>
+                  <xsl:when test=\"@scale='kjmol'\">
+                    <xsl:value-of select=\".\"/>
+                    <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:message terminate=\"no\">(Error retrieving energy from database). </xsl:message>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>E(</xsl:text>
+                <xsl:value-of select=\"@outcome\"/>
+                <xsl:text>) = </xsl:text>
+                <!-- TODO assumes energy is hartree -->
+                <xsl:value-of select=\".\"/>
+                <xsl:text> (hartree), </xsl:text>
+                <xsl:value-of select=\". * $hartree-to-kcalmol * $calmol-to-jmol\"/>
+                <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+               </xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+        </xsl:if>
+      </xsl:when>
+      <xsl:when test=\"$p1='structure'\">
+	<xsl:choose>
+          <xsl:when test=\"datum[@outcome='type' and text()='Freq']\">
+            <xsl:apply-templates select=\"datum[@outcome='atom-list']/datum[@outcome='structure']\" mode=\"compact\"/>
+          </xsl:when>
+          <xsl:when test=\"datum[@outcome='type' and text()='FOpt']\">
+            <xsl:apply-templates select=\"datum[@outcome='atom-list']/datum[@outcome='structure']\" mode=\"compact\"/>
+          </xsl:when>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:when test=\"$p1='vibration-table'\">
+        <xsl:apply-templates select=\"datum[@outcome='vibration-table']\" mode=\"compact\"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match=\"memo\" mode=\"standard\">
+    <xsl:param name=\"p1\"/>
+    <xsl:param name=\"p2\"/>
+    <xsl:param name=\"p3\"/>
+    <xsl:choose>
+      <xsl:when test=\"$p1='energy-summary'\">
+        <xsl:if test=\"datum[@outcome='type' and text()='Freq']|datum[@outcome='type' and text()='SP']\">
+          <xsl:call-template name=\"table-start\">
+            <xsl:with-param name=\"columns\" select=\"1\"/>
+          </xsl:call-template>
+          <xsl:call-template name=\"table-row-start\">
+            <xsl:with-param name=\"columns\" select=\"1\"/>
+          </xsl:call-template>
+          <xsl:apply-templates select=\"datum[@outcome='route']\"/>
+          <xsl:choose>
+            <xsl:when test=\"datum[@outcome='type' and text()='Freq']\">
+              <xsl:text>
+Frequency calculation</xsl:text>
+            </xsl:when>
+            <xsl:when test=\"datum[@outcome='type' and text()='SP']\">
+              <xsl:text>
+Single-point energy calculation</xsl:text>
+            </xsl:when>
+          </xsl:choose>
+          <xsl:call-template name=\"table-row-end\"/>
+          <xsl:call-template name=\"table-row-start\">
+            <xsl:with-param name=\"columns\" select=\"1\"/>
+          </xsl:call-template>
+          <xsl:text>Program version: </xsl:text>
+          <xsl:value-of select=\"datum[@outcome='version']\"/>
+          <xsl:text>. </xsl:text>
+          <xsl:call-template name=\"table-row-end\"/>
+          <xsl:call-template name=\"table-row-start\">
+            <xsl:with-param name=\"columns\" select=\"1\"/>
+          </xsl:call-template>
+          <xsl:text>Theory level: </xsl:text>
+          <xsl:value-of select=\"datum[@outcome='method']\"/>
+          <xsl:text>/</xsl:text>
+          <xsl:value-of select=\"datum[@outcome='basis-set']\"/>
+          <xsl:text>. </xsl:text>
+          <xsl:call-template name=\"table-row-end\"/>
+          <xsl:call-template name=\"table-row-start\">
+            <xsl:with-param name=\"columns\" select=\"1\"/>
+          </xsl:call-template>
+          <xsl:text>Calculated Energy: </xsl:text>
+          <xsl:for-each select=\"datum[@outcome='hf']|.//datum[@outcome='MP2']\">
+            <xsl:choose>
+              <xsl:when test=\"@outcome='hf'\">
+                <xsl:text>E(HF) = </xsl:text>
+                <xsl:choose>
+                  <xsl:when test=\"@scale='hartree'\">
+                    <xsl:value-of select=\".\"/>
+                    <xsl:text> (hartree), </xsl:text>
+                    <xsl:value-of select=\". * $hartree-to-kcalmol * $calmol-to-jmol\"/>
+                    <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+                  </xsl:when>
+                  <xsl:when test=\"@scale='kjmol'\">
+                    <xsl:value-of select=\".\"/>
+                    <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:message terminate=\"no\">(Error retrieving energy from database). </xsl:message>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>E(</xsl:text>
+                <xsl:value-of select=\"@outcome\"/>
+                <xsl:text>) = </xsl:text>
+                <!-- TODO assumes energy is hartree -->
+                <xsl:value-of select=\".\"/>
+                <xsl:text> (hartree), </xsl:text>
+                <xsl:value-of select=\". * $hartree-to-kcalmol * $calmol-to-jmol\"/>
+                <xsl:text> (kJ mol{{\\*\\updnprop5801}\\up8\\fs12 -1}). </xsl:text>
+               </xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+          <xsl:call-template name=\"table-row-end\"/>
+          <xsl:call-template name=\"table-end\"/>
+          <xsl:call-template name=\"paragraph-end\"/>
+        </xsl:if>
+      </xsl:when>
+      <xsl:when test=\"$p1='structure'\">
+        <xsl:if test=\"datum[@outcome='type' and text()='Freq']\">
+          <xsl:apply-templates select=\"datum[@outcome='atom-list']/datum[@outcome='structure']\" mode=\"standard\"/>
+        </xsl:if>
+      </xsl:when>
+      <xsl:when test=\"$p1='vibration-table'\">
+        <xsl:apply-templates select=\"datum[@outcome='vibration-table']\" mode=\"standard\"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='vibration-table']\" mode=\"compact\">
+    <xsl:text>
+Harmonic Frequencies (Number, Frequency (cm{{\\*\\updnprop5801}\\up8\\fs12 -1}), IR Intensity (km mol{{\\*\\updnprop5801}\\up10\\fs12 -1})</xsl:text>
+    <xsl:if test=\"$use-raman=7\">
+      <xsl:text>, Raman Activity</xsl:text>
+    </xsl:if>
+    <xsl:text>): </xsl:text>
+   <xsl:apply-templates mode=\"compact\" select=\"datum[@outcome='vibration']\"/>
+   <xsl:call-template name=\"paragraph-end\"/>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='vibration']\" mode=\"compact\">
+    <xsl:if test=\"number(@ordinal)!=0\">
+      <xsl:text>{\\i </xsl:text>
+      <xsl:value-of select=\"@ordinal\"/>
+      <xsl:text>}: </xsl:text>
+      <xsl:value-of select=\"format-number(datum[@outcome='frequency'] * $scale-factor, '#0.##')\"/>
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select=\"format-number(datum[@outcome='IR-intensity'], '#0.##')\"/>
+      <xsl:if test=\"$use-raman=7\">
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select=\"format-number(datum[@outcome='raman-activity'], '#0.##')\"/>
+      </xsl:if>
+      <xsl:text>; </xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='vibration-table']\" mode=\"standard\">
+    <xsl:call-template name=\"make-table\">
+      <xsl:with-param name=\"list-string\">
+        <xsl:text>Harmonic Frequencies</xsl:text>
+      </xsl:with-param>
+      <xsl:with-param name=\"table-width\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"column-divider\">
+        <xsl:value-of select=\"','\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"row-divider\">
+        <xsl:value-of select=\"'&#92;'\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$use-raman\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$use-raman\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>Mode</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Frequency{\\up8\\fs12\\i a}</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Reduced Mass</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>Force Constants</xsl:text>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:text>IR Intensity</xsl:text>
+    <xsl:if test=\"$use-raman=7\">
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:text>Raman Activity</xsl:text>
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:text>Depolar</xsl:text>
+    </xsl:if>
+    <xsl:call-template name=\"table-row-end\"/>
+    <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+    <xsl:apply-templates mode=\"standard\" select=\"datum[@outcome='vibration']\"/>
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"1\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:text>{\\up8\\fs12\\i a} Frequencies have been scaled by </xsl:text>
+    <xsl:value-of select=\"$scale-factor\"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select=\"$scale-factor-ref-internal\"/>
+
+    <xsl:call-template name=\"table-row-end\"/>
+    <xsl:call-template name=\"table-end\"/>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='vibration']\" mode=\"standard\">
+    <xsl:call-template name=\"table-row-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$use-raman\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <xsl:value-of select=\"datum[@outcome='mode']\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:value-of select=\"format-number( datum[@outcome='frequency'] * $scale-factor, '#0.####' )\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:value-of select=\"datum[@outcome='reduced-mass']\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:value-of select=\"datum[@outcome='force-constants']\"/>
+    <xsl:call-template name=\"table-next-datum\"/>
+    <xsl:value-of select=\"datum[@outcome='IR-intensity']\"/>
+    <xsl:if test=\"$use-raman=7\">
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:value-of select=\"datum[@outcome='raman-activity']\"/>
+      <xsl:call-template name=\"table-next-datum\"/>
+      <xsl:value-of select=\"datum[@outcome='depolar']\"/>
+    </xsl:if>
+    <xsl:call-template name=\"table-row-end\"/>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='structure']\" mode=\"standard\">
+    <xsl:choose>
+      <xsl:when test=\"@format = 'axyz'\">
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:text>Structure definition (3D Coordinates)</xsl:text>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"1\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:text>Atom,X coord/ Angstrom,Y coord/ Angstrom,Z coord/ Angstrom</xsl:text>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"4\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\".\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"4\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:when>     
+      <xsl:when test=\"@format = 'alad'\">
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:text>Structure definition (Z-matrix)</xsl:text>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"1\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:text>Atom, Centre 1, Length/ &#197;, Centre 2, Angle/ &#176;, Centre 3, Dihedral/ &#176;</xsl:text>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-before(.,'&#92;&#92;')\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"''\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"make-table\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-after(.,'&#92;&#92;')\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"8\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"'='\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"'&#92;'\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>Stylesheet cannot handle format \"</xsl:text>
+        <xsl:value-of select=\"@format\"/>
+        <xsl:text>\" atom-lists, content:</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+        <xsl:text>[[</xsl:text>
+        <xsl:value-of select=\".\"/>
+        <xsl:text>]]</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='structure']\" mode=\"compact\">
+    <xsl:choose>
+      <xsl:when test=\"@format = 'axyz'\">
+        <xsl:text>Structure definition (3D Coordinates, Atom, X coord/ Angstrom, Y coord/ Angstrom, Z coord/ Angstrom): </xsl:text>
+        <xsl:call-template name=\"replaceAllSubStrings\">
+          <xsl:with-param name=\"stringToSearchIn\">
+            <xsl:call-template name=\"replaceAllSubStrings\">
+              <xsl:with-param name=\"stringToSearchIn\">
+                <xsl:value-of select=\".\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"subString\">
+                <xsl:value-of select=\"'\\'\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"replaceString\">
+                <xsl:value-of select=\"'; '\"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:with-param>
+          <xsl:with-param name=\"subString\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"replaceString\">
+            <xsl:value-of select=\"', '\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:text>.</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:when>     
+      <xsl:when test=\"@format = 'alad'\">
+        <xsl:text>Structure definition (Z-matrix, Atom, Centre 1, Length/ &#197;, Centre 2, Angle/ &#176;, Centre 3, Dihedral/ &#176;): </xsl:text>
+        <xsl:call-template name=\"replaceAllSubStrings\">
+          <xsl:with-param name=\"stringToSearchIn\">
+            <xsl:call-template name=\"replaceAllSubStrings\">
+              <xsl:with-param name=\"stringToSearchIn\">
+                <xsl:value-of select=\".\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"subString\">
+                <xsl:value-of select=\"'\\'\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"replaceString\">
+                <xsl:value-of select=\"'; '\"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:with-param>
+          <xsl:with-param name=\"subString\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"replaceString\">
+            <xsl:value-of select=\"', '\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:text>.</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>Stylesheet cannot handle format \"</xsl:text>
+        <xsl:value-of select=\"@format\"/>
+        <xsl:text>\", atom-lists content:</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+        <xsl:call-template name=\"replaceAllSubStrings\">
+          <xsl:with-param name=\"stringToSearchIn\">
+            <xsl:call-template name=\"replaceAllSubStrings\">
+              <xsl:with-param name=\"stringToSearchIn\">
+                <xsl:value-of select=\".\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"subString\">
+                <xsl:value-of select=\"'\\'\"/>
+              </xsl:with-param>
+              <xsl:with-param name=\"replaceString\">
+                <xsl:value-of select=\"'; '\"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:with-param>
+          <xsl:with-param name=\"subString\">
+            <xsl:value-of select=\"','\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"replaceString\">
+            <xsl:value-of select=\"', '\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:text>.</xsl:text>
+        <xsl:call-template name=\"paragraph-end\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match=\"datum[@outcome='route']\">
+    <xsl:variable name=\"route\" select=\"text()\"/>
+    <xsl:if test=\"contains($route, 'SCRF')\">
+      <xsl:text>Solvent field (PCM model) calculation </xsl:text>
+      <xsl:choose>
+        <xsl:when test=\"contains($route, 'ETHER')\">
+          <xsl:text>with ether. </xsl:text>
+        </xsl:when>
+        <xsl:when test=\"contains($route, 'ACETONE')\">
+          <xsl:text>with acetone. </xsl:text>
+        </xsl:when>
+        <xsl:when test=\"contains($route, 'WATER')\">
+          <xsl:text>with water. </xsl:text>
+        </xsl:when>
+        <xsl:when test=\"contains($route, 'ACETONITRILE')\">
+          <xsl:text>with acetonitrile. </xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+
+  <xsl:template name=\"make-table\">
+    <xsl:param name=\"list-string\"/>
+    <xsl:param name=\"table-width\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:param name=\"row-divider\"/>
+
+    <!-- Start the table -->
+    <xsl:call-template name=\"table-start\">
+      <xsl:with-param name=\"columns\">
+        <xsl:value-of select=\"$table-width\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <!-- Version 1 only splits by line -->
+    <xsl:call-template name=\"make-table-by-row\">
+      <xsl:with-param name=\"list-string\">
+        <xsl:value-of select=\"$list-string\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"table-width\">
+        <xsl:value-of select=\"$table-width\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"column-divider\">
+        <xsl:value-of select=\"$column-divider\"/>
+      </xsl:with-param>
+      <xsl:with-param name=\"row-divider\">
+        <xsl:value-of select=\"$row-divider\"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <!-- Finish the table -->
+    <xsl:call-template name=\"table-end\"/>
+  </xsl:template>
+  
+  <xsl:template name=\"make-table-by-row\">
+    <xsl:param name=\"list-string\"/>
+    <xsl:param name=\"table-width\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:param name=\"row-divider\"/>
+
+    <!-- Version 1 only splits by line -->
+    <xsl:choose>
+      <xsl:when test=\"contains($list-string,$row-divider)\">
+        <!-- Start the row -->
+        <xsl:call-template name=\"table-row-start\">
+          <xsl:with-param name=\"columns\" select=\"$table-width\"/>
+        </xsl:call-template>
+        <!-- Output the row -->
+        <!-- <xsl:text>Row text [</xsl:text> -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"substring-before($list-string,$row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- End the row -->
+        <xsl:call-template name=\"table-row-end\"/>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table-by-row\">
+          <xsl:with-param name=\"list-string\">
+            <xsl:value-of select=\"substring-after($list-string, $row-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"table-width\">
+            <xsl:value-of select=\"$table-width\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"row-divider\">
+            <xsl:value-of select=\"$row-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- Start the row -->
+        <xsl:call-template name=\"table-row-start\">
+          <xsl:with-param name=\"columns\" select=\"$table-width\"/>
+        </xsl:call-template>
+        <!-- End recursion stage, output whats left -->
+        <!-- <xsl:text>Last Row text [</xsl:text> -->
+        <xsl:call-template name=\"make-table-by-row-column\">
+          <xsl:with-param  name=\"row-string\">
+            <xsl:value-of select=\"$list-string\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>        
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- End the row -->
+        <xsl:call-template name=\"table-row-end\"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name=\"make-table-by-row-column\">
+    <xsl:param name=\"row-string\"/>
+    <xsl:param name=\"column-divider\"/>
+    <xsl:choose>
+      <xsl:when test=\"contains($row-string, $column-divider)\">
+        <!-- in recursive section -->
+        <!-- get column entry -->
+        <!-- <xsl:text>Row text [</xsl:text> -->
+        <xsl:value-of select=\"substring-before($row-string, $column-divider)\"/>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- get column divider -->
+        <xsl:call-template name=\"table-next-datum\"/>
+        <!-- Do recursive call -->
+        <xsl:call-template  name=\"make-table-by-row-column\">
+          <xsl:with-param name=\"row-string\">
+            <xsl:value-of select=\"substring-after($row-string, $column-divider)\"/>
+          </xsl:with-param>
+          <xsl:with-param name=\"column-divider\">
+            <xsl:value-of select=\"$column-divider\"/>
+          </xsl:with-param>
+        </xsl:call-template>
+          
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- in recursive section -->
+        <!-- get column entry -->
+        <!-- <xsl:text>Last Row text [</xsl:text> -->
+        <xsl:value-of select=\"$row-string\"/>
+        <!-- <xsl:text>]</xsl:text> -->
+        <!-- no column divider -->
+      </xsl:otherwise>
+    </xsl:choose>
+    
+  </xsl:template>
+</xsl:stylesheet>
+"
+    end
+
+    artifact 132271 "suppl-part.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\"?>
+<suppl-mater>
+<base-style>compact</base-style>
+<stage>energy-summary</stage>
+<stage>structure</stage>
+<!-- stage>vibration-table</stage -->
+<scale-value>0.9617</scale-value>
+<scale-ref>(scaled by 0.9617)</scale-ref>
+<use-raman>5</use-raman><!-- 7 = yes, 5 = no -->
+</suppl-mater>
+"
+    end
+
+    artifact 132399 "text-styles.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" ?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+<!-- ============================================================= -->
+<!--
+   TExt-only/CSV styles
+
+   This stylesheet is one of a set of stylesheets for textual
+   output. It provides a set of target-dependent templates for
+   formatting output, in this case ***ASCII text + comma-separated
+   value***. Careful use of this set of templates should allow client
+   stylesheets to be independent of output format.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 18 December 2002
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/12 12:37:22 $
+
+$Log: text-styles.xsl,v $
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+Revision 1.1  2002/12/18 04:41:19  finnerty
+Initial revision
+
+
+$Revision: 1.1 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"text\"/>
+
+  <!-- This style files provides some basic templates that can be -->
+  <!-- used to format documents for TEXT and CSV output. -->
+
+  <!-- Author: Justin Finnerty -->
+  <!-- Date: December 2002 -->
+
+  <!-- This style file provides the following templates -->
+  <!-- document-start, document-end -->
+  <!-- table-start, table-end, table-row-start, table-row-end, table-next-datum -->
+  <!-- heading-one, heading-two, heading-three -->
+  <!-- font-bold, font-slanted -->
+
+
+  <!-- In this style a document start/end has no special meaning -->
+  <xsl:template name=\"document-start\">
+  </xsl:template>
+
+  <xsl:template name=\"document-end\">
+  </xsl:template>
+
+  <xsl:template name=\"paragraph-end\">
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <!-- In this style a table is represented as comma-separated-values -->
+  <xsl:template name=\"table-start\">
+    <xsl:param name=\"columns\"/><!-- unused here -->
+  </xsl:template>
+
+  <xsl:template name=\"table-end\">
+  </xsl:template>
+
+  <xsl:template name=\"table-row-start\">
+    <xsl:param name=\"columns\"/><!-- unused here -->
+    <xsl:text>\"</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-row-end\">
+    <xsl:text>\"
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"table-next-datum\">
+    <xsl:text>\",\"</xsl:text>
+  </xsl:template>
+
+  <!-- In this style a heading is represented by multiple asterices -->
+  <xsl:template name=\"heading-one\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>* </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-two\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>** </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"heading-three\">
+    <xsl:param name=\"heading-text\"/>
+    <xsl:text>*** </xsl:text>
+    <xsl:value-of select=\"$heading-text\"/>
+    <xsl:text>
+
+</xsl:text>
+  </xsl:template>
+
+  <!-- In this style bold and slanted/italic are psuedo represented -->
+  <xsl:template name=\"font-bold\">
+    <xsl:param name=\"the-text\"/>
+    <xsl:text>*</xsl:text>
+    <xsl:value-of select=\"$the-text\"/>
+    <xsl:text>*</xsl:text>
+  </xsl:template>
+
+  <xsl:template name=\"font-slanted\">
+    <xsl:param name=\"the-text\"/>
+    <xsl:text>_</xsl:text>
+    <xsl:value-of select=\"$the-text\"/>
+    <xsl:text>_</xsl:text>
+  </xsl:template>
+
+</xsl:stylesheet>
+"
+    end
+
+    artifact 132527 "unsplit-file.xsl"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<xsl:stylesheet version=\"1.0\"
+  xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"
+  xmlns:redirect=\"org.apache.xalan.xslt.extensions.Redirect\"
+  extension-element-prefixes=\"redirect\">
+<!-- ============================================================= -->
+<!--
+   File UN-Splitter
+
+     This stylesheet unsplits the split input files that result from
+     the split-file.xsl stylesheet. This allows a large data base to
+     be broken into smaller file edited then rebuild.
+
+Stylesheet version 1.00 for version 1.00 of the chkcalc package
+
+Date: 02 August 2007
+Author:  Justin Finnerty
+Current Author: $Author: finnerty $
+Date: $Date: 2008/01/15 20:56:46 $
+
+$Log: unsplit-file.xsl,v $
+Revision 1.2  2008/01/15 20:56:46  finnerty
+Updated for program.dtd v3
+
+Revision 1.1  2008/01/12 12:37:22  finnerty
+Initial version
+
+$Revision: 1.2 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+  <xsl:output method=\"xml\" doctype-public=\"http://www.openscience.net.au/datascheme/V2.0.0/\" doctype-system=\"/home/finnerty/Office/Projects/compchem/schema/program.dtd\" version=\"1.0\" encoding=\"UTF-8\"/>
+
+  <!-- Get program-util to collapse memo-src and proj-src links -->
+  <xsl:include href=\"program-util.xsl\"/>
+
+  <xsl:template match=\"/\">
+    <!-- Put out DTD info -->
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match=\"processing-instruction()\">
+    <xsl:processing-instruction name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:processing-instruction>
+  </xsl:template>
+
+  <xsl:template match=\"comment()\">
+    <xsl:comment><xsl:value-of select=\".\"/></xsl:comment>
+  </xsl:template>
+
+  <!-- Catch all template -->
+  <xsl:template match=\"*\">
+    <xsl:element name=\"{name()}\"><xsl:for-each select=\"@*\"><xsl:attribute name=\"{name()}\"><xsl:value-of select=\".\"/></xsl:attribute></xsl:for-each><xsl:if test=\".\"><xsl:apply-templates/></xsl:if></xsl:element>
+  </xsl:template>
+</xsl:stylesheet>
+"
+    end
+  end
+end

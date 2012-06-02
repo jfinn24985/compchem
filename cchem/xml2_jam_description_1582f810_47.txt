@@ -1,0 +1,87 @@
+#
+#  Jamfile for the libxml2
+#
+#
+
+# libxml2 library support module
+#
+# The module attempts to detect libxml2:
+#
+# toolset.using xml2 : /usr/local/... ;
+#
+# Example:
+#
+#     exe myapp : myapp.cpp myapp.h  
+#                 /xml2//xml ;
+#
+
+# import modules ;
+# import feature ;
+import errors ;
+# import type ;
+# import "class" : new ;
+import project ;
+# import toolset : flags ;
+# import os ;
+# import virtual-target ;
+import string ;
+
+project.initialize $(__name__) ;
+project xml2 ;
+
+# Save the project so that we tolerate 'import + using' combo.
+.project = [ project.current ] ;
+
+
+# Initialized the XML2 support module. The 'prefix' parameter
+# tells where XML2 is installed. 
+rule init ( )
+{
+    project.push-current $(.project) ;
+    
+    if $(.initialized)
+    {
+         errors.error
+              "Attempt to reinitialize libxml2 with different installation prefix" ;
+    }
+    else
+    {
+        .initialized = true ;
+
+        #~ Setup prefixes for include, binaries and libs.
+        .compileflags = [ string.join [ string.words [ SHELL "pkg-config libxml-2.0 --cflags-only-other" ] ] : " " ] ;
+        .incprefix = [ MATCH "-I\(.*\)" : [ string.words [ SHELL "pkg-config libxml-2.0 --cflags-only-I" ] ] ] ;
+        .linkflags = [ string.join [ MATCH "-lxml2|(.*)" : [ string.words [ SHELL "pkg-config libxml-2.0 --libs" ] ] ] : " " ] ;
+
+        # Use pre-built xml2
+        {
+            local usage-requirements = 
+                  <define>XML_XML2
+                  <include>$(.incprefix) 
+                  <cflags>$(.compileflags)
+                  <linkflags>$(.linkflags)
+                  <allow>xml2
+                ;
+            
+            lib xml : $(main)
+                : # requirements
+                  <name>xml2 
+                : # default-build
+                : # usage-requirements
+                  $(usage-requirements)
+                ;
+        }
+    }
+    
+    project.pop-current ;
+}
+
+rule initialized ( )
+{
+    return $(.initialized) ;
+}
+
+
+# Local Variables:
+# mode: makefile
+# End: 

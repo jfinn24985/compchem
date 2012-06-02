@@ -1,16 +1,16 @@
-format 61
+format 75
 "test" // /compchem/data_access::test
-  revision 53
-  modified_by 41 "finnerty"
+  revision 54
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
    write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
@@ -31,13 +31,13 @@ format 61
   cpp_namespace "data_access"
   classview 130729 "data access test classes"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default
@@ -47,7 +47,7 @@ format 61
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 132137 // data access test deployment
     classdiagram 133545 "test classes"
-      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -238,15 +238,15 @@ Failed tests are indicated by an uncaught exception."
     artifact 251305 "test_data_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252969 // regex
-	artifact_ref 252841 // program_options
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
 	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
 	artifact_ref 208937 // test_names
 	artifact_ref 230313 // filesystem
 	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
-	artifact_ref 157993 // utility
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -257,17 +257,17 @@ Failed tests are indicated by an uncaught exception."
     artifact 272553 "test_data_access2"
       stereotype "library"
       associated_artifacts
-	artifact_ref 271401 // test_data_manager
-	artifact_ref 252969 // regex
-	artifact_ref 252841 // program_options
-	artifact_ref 253097 // date_time
 	artifact_ref 266281 // data_xml_access
-	artifact_ref 230313 // filesystem
-	artifact_ref 144169 // data_scheme
-	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
+	artifact_ref 230057 // data_access
+	artifact_ref 144169 // data_scheme
+	artifact_ref 271401 // test_data_manager
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -347,17 +347,80 @@ ${namespace_end}"
 	class_ref 444969 // test_names
       end
     end
+
+    artifact 129711 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:14 2012
+##END:date
+##START:target test_data_access
+make test_data_access :
+	/cchem/utility//utility
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	/boost//regex
+	test_names.cpp
+	/boost//filesystem
+	/cchem/data_access//data_access
+	:
+	;
+
+install install_test_data_access : test_data_access : <location>$(DATADIR) ;
+##END:target test_data_access
+##START:target test_data_access2
+make test_data_access2 :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	/boost//regex
+	/boost//filesystem
+	/cchem/data_access//data_access
+	/cchem/data_scheme//data_scheme
+	test_data_manager.cpp
+	:
+	;
+
+install install_test_data_access2 : test_data_access2 : <location>$(DATADIR) ;
+##END:target test_data_access2
+##START:target test_data_xml_access
+make test_data_xml_access :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	test_file_helper.cpp
+	test_meta_datum.cpp
+	test_xml_writer.cpp
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/cchem/data_access//data_access
+	/cchem/data_scheme//data_scheme
+	test_xml_persistence.cpp
+	:
+	;
+
+install install_test_data_xml_access : test_data_xml_access : <location>$(DATADIR) ;
+##END:target test_data_xml_access
+"
+    end
   end
 
   classview 173353 "xml_data_access tests"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default
@@ -961,17 +1024,17 @@ Failed tests are indicated by an uncaught exception."
     artifact 266409 "test_data_xml_access"
       stereotype "library"
       associated_artifacts
-	artifact_ref 204073 // test_meta_datum
-	artifact_ref 273705 // test_xml_persistence
-	artifact_ref 278313 // test_xml_writer
-	artifact_ref 253097 // date_time
 	artifact_ref 266281 // data_xml_access
-	artifact_ref 215977 // test_file_helper
-	artifact_ref 144169 // data_scheme
-	artifact_ref 230057 // data_access
-	artifact_ref 160553 // test
-	artifact_ref 253353 // xml
 	artifact_ref 157993 // utility
+	artifact_ref 215977 // test_file_helper
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 278313 // test_xml_writer
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 144169 // data_scheme
+	artifact_ref 273705 // test_xml_persistence
       end
       ncouples 1
       key "butter other" value "unit-test"
@@ -1138,13 +1201,13 @@ ${definition}"
 
   classview 174505 "test sql access"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default

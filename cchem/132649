@@ -1,50 +1,50 @@
-format 55
+format 75
 "gtkmm" // External Components::gtkmm
-  revision 4
-  modified_by 41 "finnerty"
+  revision 5
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
-  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
-   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
-  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
   //deployment diagram settings
   package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
-  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
   //state diagram settings
   package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-  show_activities default region_horizontally default drawing_language default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
   //activity diagram settings
   package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-  show_infonote default drawing_language default
+  show_infonote default drawing_language default show_stereotype_properties default
   
   stereotype "library"
   cpp_src_dir ".."
   cpp_namespace "Gtk"
   classview 130473 "gtkmm"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
-     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-    show_activities default region_horizontally default drawing_language default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
     //class settings
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-    show_infonote default drawing_language default
+    show_infonote default drawing_language default show_stereotype_properties default
     class 280617 "AccelFlags"
       visibility package stereotype "enum"
       cpp_external cpp_decl ""
@@ -107608,7 +107608,7 @@ ${body}}
   deploymentview 133929 "dummy view"
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
-    draw_component_as_icon default show_component_req_prov default show_component_rea default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     artifact 153641 "gtkmm"
       stereotype "source"
       associated_classes
@@ -107847,6 +107847,198 @@ ${body}}
 	class_ref 306601 // WindowType
 	class_ref 317225 // WrapMode
       end
+    end
+
+    artifact 130607 "gtkmm.jam"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "#
+#  Jamfile for the libgtkmm
+#
+#
+
+# libgtkmm library support module
+#
+# The module attempts to detect libgtkmm:
+#
+# toolset.using gtkmm : /usr/local/... ;
+#
+# Example:
+#
+#     exe myapp : myapp.cpp myapp.h  
+#                 /MotifTools//gtkmm ;
+#
+
+# import modules ;
+# import feature ;
+import errors ;
+# import type ;
+# import \"class\" : new ;
+import project ;
+# import toolset : flags ;
+# import os ;
+# import virtual-target ;
+import string ;
+
+project.initialize $(__name__) ;
+project GtkMM ;
+
+# Save the project so that we tolerate 'import + using' combo.
+.project = [ project.current ] ;
+
+
+# Initialized the XML2 support module. The 'prefix' parameter
+# tells where XML2 is installed. 
+rule init ( )
+{
+    project.push-current $(.project) ;
+    
+    if $(.initialized)
+    {
+         errors.error
+              \"Attempt to reinitialize GtkMM with different installation prefix\" ;
+    }
+    else
+    {
+        .initialized = true ;
+
+        #~ Setup prefixes for include, binaries and libs.
+        .compileflags = [ string.join [ string.words [ SHELL \"pkg-config gtkmm-2.4 --cflags-only-other\" ] ] : \" \" ] ;
+        .incprefix = [ MATCH \"-I\\(.*\\)\" : [ string.words [ SHELL \"pkg-config gtkmm-2.4 --cflags-only-I\" ] ] ] ;
+        .libprefix = [ MATCH \"-L\\(.*\\)\" : string.join [ string.words [ SHELL \"pkg-config gtkmm-2.4 --libs-only-L\" ] ] ] ;
+        .linkflags = [ string.join [ MATCH \"-lgtkmm|(.*)\" : [ string.words [ SHELL \"pkg-config gtkmm-2.4 --libs-only-l --libs-only-other\" ] ] ] : \" \" ] ;
+
+        # Use pre-built gtkmm
+        {
+            local usage-requirements = 
+                  <include>$(.incprefix) 
+                  <library-path>$(.libprefix)
+                  <cflags>$(.compileflags)
+                  <linkflags>$(.linkflags)
+		  <allow>gtkmm
+                ;
+            
+            lib gtkmm : $(main)
+                : # requirements
+                 <name>gtkmm-2.4
+                : # default-build
+                : # usage-requirements
+                  $(usage-requirements)
+                ;
+            
+         }
+    }
+    
+    project.pop-current ;
+}
+
+rule initialized ( )
+{
+    return $(.initialized) ;
+}
+
+
+# Local Variables:
+# mode: makefile
+# End: 
+"
+    end
+
+    artifact 130735 "glade.jam"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "#
+#  Jamfile for the libglade
+#
+#
+
+# libglade library support module
+#
+# The module attempts to detect libglade:
+#
+# toolset.using glade : /usr/local/... ;
+#
+# Example:
+#
+#     exe myapp : myapp.cpp myapp.h  
+#                 /MotifTools//glade ;
+#
+
+# import modules ;
+# import feature ;
+import errors ;
+# import type ;
+# import \"class\" : new ;
+import project ;
+# import toolset : flags ;
+# import os ;
+# import virtual-target ;
+import string ;
+
+project.initialize $(__name__) ;
+project Glade ;
+
+# Save the project so that we tolerate 'import + using' combo.
+.project = [ project.current ] ;
+
+
+# Initialized the XML2 support module. The 'prefix' parameter
+# tells where XML2 is installed. 
+rule init ( )
+{
+    project.push-current $(.project) ;
+    
+    if $(.initialized)
+    {
+         errors.error
+              \"Attempt to reinitialize GtkMM with different installation prefix\" ;
+    }
+    else
+    {
+        .initialized = true ;
+
+        #~ Setup prefixes for include, binaries and libs.
+        .compileflags = [ string.join [ string.words [ SHELL \"pkg-config libglade-2.0 --cflags-only-other\" ] ] : \" \" ] ;
+        .incprefix = [ MATCH \"-I\\(.*\\)\" : [ string.words [ SHELL \"pkg-config libglade-2.0 --cflags-only-I\" ] ] ] ;
+        .libprefix = [ MATCH \"-L\\(.*\\)\" : string.join [ string.words [ SHELL \"pkg-config libglade-2.0 --libs-only-L\" ] ] ] ;
+        .linkflags = [ string.join [ MATCH \"-lglade|(.*)\" : [ string.words [ SHELL \"pkg-config libglade-2.0 --libs-only-l --libs-only-other\" ] ] ] : \" \" ] ;
+
+        # Use pre-built glade
+        {
+            local usage-requirements = 
+                  <include>$(.incprefix) 
+                  <library-path>$(.libprefix)
+                  <cflags>$(.compileflags)
+                  <linkflags>$(.linkflags)
+		  <allow>glade
+                ;
+            
+            lib glade : $(main)
+                : # requirements
+                 <name>glade-2.0
+                : # default-build
+                : # usage-requirements
+                  $(usage-requirements)
+                ;
+            
+         }
+    }
+    
+    project.pop-current ;
+}
+
+rule initialized ( )
+{
+    return $(.initialized) ;
+}
+
+
+# Local Variables:
+# mode: makefile
+# End: 
+"
     end
   end
 end

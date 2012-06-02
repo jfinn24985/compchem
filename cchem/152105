@@ -1,16 +1,16 @@
-format 61
+format 75
 "Docs" // Docs
-  revision 30
-  modified_by 41 "finnerty"
+  revision 31
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
    write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
@@ -249,9 +249,11 @@ including management of data import through the supplier component."
     //use case diagram settings
     package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //state diagram settings
@@ -2084,6 +2086,120 @@ Specifics
   - relative path incorrect! = \"dir/file/../\" ??
 - test_offsetter - convert to use monitor_fn
 - verify_visitor"
+    end
+
+    artifact 128047 "Jamroot"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:17 2012
+##END:date
+##START:preamble
+# Include local constants
+path-constant topdir : . ;
+include local.jam ;
+
+# Set debug as default variant
+variant ?= debug ;
+
+# Set project's global settings
+project cchem
+	: requirements <debug-symbols>on:<define>\"DEBUG=1\"
+	<debug-symbols>off:<define>\"DEBUG=0\"
+	<include>$(topdir)/\"include\" 
+	: build-dir build ;
+##END:preamble
+##START:target boost
+#
+# Section for project: boost
+#
+project boost ;
+alias filesystem : : : : <linkflags>\"-lboost_filesystem\" ;
+
+alias program_options : : : : <linkflags>\"-lboost_program_options\" ;
+
+alias regex : : : : <linkflags>\"-lboost_regex\" ;
+
+alias date_time : : : : <linkflags>\"-lboost_date_time\" ;
+
+alias python_lib : : : : <linkflags>\"-lboost_python\" ;
+
+alias iostreams : : : : <linkflags>\"-lboost_iostreams\" ;
+
+##END:target boost
+##START:target boost-python
+#
+# Section for project: boost-python
+#
+project boost-python ;
+using python ;
+##END:target boost-python
+##START:target xml2
+#
+# Section for project: xml2
+#
+project xml2 ;
+using xml2 ;
+##END:target xml2
+##START:close
+use-project /cchem/chemistry : src/chemistry ;
+build-project src/chemistry ;
+
+use-project /cchem/ccspectrum : src/chemistry/ccspectrum ;
+build-project src/chemistry/ccspectrum ;
+
+use-project /cchem/data_access : src/data_access ;
+build-project src/data_access ;
+
+use-project /cchem/ccverify : src/data_access/ccverify ;
+build-project src/data_access/ccverify ;
+
+use-project /cchem/data_scheme : src/data_scheme ;
+build-project src/data_scheme ;
+
+use-project /cchem/report : src/report ;
+build-project src/report ;
+
+use-project /cchem/filetype : src/report/filetype ;
+build-project src/report/filetype ;
+
+use-project /cchem/supplier : src/supplier ;
+build-project src/supplier ;
+
+use-project /cchem/ccfilter : src/supplier/ccfilter ;
+build-project src/supplier/ccfilter ;
+
+use-project /cchem/filter : src/supplier/filter ;
+build-project src/supplier/filter ;
+
+use-project /cchem/ccregex : src/supplier/ccregex ;
+build-project src/supplier/ccregex ;
+
+use-project /cchem/utility : src/utility ;
+build-project src/utility ;
+
+use-project /cchem/data_access_test : src/test/data_access_test ;
+build-project src/test/data_access_test ;
+
+use-project /cchem/data_scheme_test : src/test/data_scheme_test ;
+build-project src/test/data_scheme_test ;
+
+use-project /cchem/report_test : src/test/report_test ;
+build-project src/test/report_test ;
+
+use-project /cchem/supplier_test : src/test/supplier_test ;
+build-project src/test/supplier_test ;
+
+use-project /cchem/utility_test : src/test/utility_test ;
+build-project src/test/utility_test ;
+
+use-project /cchem/xmlreader_test : src/test/xmlreader_test ;
+build-project src/test/xmlreader_test ;
+
+##END:close
+"
     end
   end
 

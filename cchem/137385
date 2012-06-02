@@ -1,30 +1,30 @@
-format 55
+format 75
 "//auth" // /compchem/utility:://auth
-  revision 5
-  modified_by 41 "finnerty"
+  revision 6
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
-  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
-   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
-  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
   //deployment diagram settings
   package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
-  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
   //state diagram settings
   package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-  show_activities default region_horizontally default drawing_language default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
   //activity diagram settings
   package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-  show_infonote default drawing_language default
+  show_infonote default drawing_language default show_stereotype_properties default
   
   stereotype "library"
   cpp_h_dir "utility"
@@ -32,20 +32,20 @@ format 55
   cpp_namespace "utility"
   classview 134697 "auth"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
-     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
-    show_activities default region_horizontally default drawing_language default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
     //class settings
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-    show_infonote default drawing_language default
+    show_infonote default drawing_language default show_stereotype_properties default
     class 182441 "authentication_manager"
       abstract visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
@@ -774,7 +774,7 @@ m_user(${p0})
   deploymentview 135977 "auth"
     //deployment diagram settings
     package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
-    draw_component_as_icon default show_component_req_prov default show_component_rea default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
     artifact 158121 "auth"
       stereotype "library"
       associated_artifacts
@@ -886,6 +886,60 @@ ${namespace_end}"
       associated_classes
 	class_ref 181673 // pam_manager
       end
+    end
+
+    artifact 129583 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:14 2012
+##END:date
+##START:target utility
+lib utility :
+	filesystem.cpp
+	contract_error.cpp
+	program_options.cpp
+	call_once.cpp
+	/boost//program_options
+	time_stamp.cpp
+	/boost//filesystem
+	:
+	<link>shared
+	;
+
+install install_utility : utility : <location>$(LIBDIR) ;
+##END:target utility
+##START:target test
+lib test :
+	/cchem/utility//utility
+	test_manager.cpp
+	:
+	<link>shared
+	;
+
+install install_test : test : <location>$(LIBDIR) ;
+##END:target test
+##START:target posix
+lib posix :
+	filesystem_properties.cpp
+	:
+	<link>shared
+	;
+
+install install_posix : posix : <location>$(LIBDIR) ;
+##END:target posix
+##START:target auth
+lib auth :
+	pam_manager.cpp
+	:
+	<link>shared
+	;
+
+install install_auth : auth : <location>$(LIBDIR) ;
+##END:target auth
+"
     end
   end
 end

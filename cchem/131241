@@ -1,16 +1,16 @@
-format 61
+format 75
 "/compchem/supplier" // /compchem/supplier
-  revision 132
-  modified_by 41 "finnerty"
+  revision 133
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
    write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
@@ -36,15 +36,67 @@ The core component deals with how to register a new input object with the system
 
 The input object interface to the main system is through a set of C-based interface functions. These are wrapped in C++ classes for writing supplier plugins in this language. The C-based interface should allow supplier plugins to be written in any language the can attach to these interface functions.
 "
+  deploymentview 128047 "filter component configuration example"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 130479 "filter.xml"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!-- DOCTYPE config PUBLIC \"http://www.purpletree.net.au/compchem/filter/V1.0.0/\" \"/home/finnerty/Office/Projects/compchem/schema/filter.dtd\" -->
+<config type=\"filter\">
+  <group label=\"gaussian\"> <!-- optional \"label\" here is informatory only -->
+    <filetype label=\"g03\" type=\"generic\">
+      <!-- optional \"label\" is also informatory only -->
+      <mechanism start=\"start\" type=\"regex\" label=\"\\1\">Entering Gaussian .*0=(g..)</mechanism>
+      <subtype start=\"0\" type=\"regex\" label=\"\\1\\4\\7\">----------------------------------------------------------------------[[:space:]]+#((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+(((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+)?(((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+)?---------------------------------------</subtype>
+    </filetype>
+    <!--  filter src=\"filename\" public=\"http://..\" options=\"a, b, c\" name=\"frequency\" type=\"file\"/ -->
+       <!-- locations to retrieve filter from.
+          \"public\" attribute may be used for XML catalog style filter lookup.
+          \"options\"/\"name\" attributes will be available for dynamic filter configuration. -->
+    <!-- filter type=\"generic\">
+       < ! - - \"part\" elements will become literal datum elements in the
+          result. They therefore have the attributes necessary for a valid
+          datum element. Container type elements will be searched for in the
+          output twiglet - allowing filters to colaborate - before being 
+          created when necessary. - - >
+       <part type=\"regex\" name=\"dan-name\" match=\"#\"></regex>
+    </filter>
+    <filter type=\"generic\">
+       <part type=\"container\" name=\"dan-name\" repeat=\"*\">
+         <part type=\"regex\" name=\"dan-name\" match=\"#, #, #\"></regex>
+         <part type=\"regex\" name=\"dan-name\" match=\"#\"></regex>
+       </container>
+    </filter>
+    <filter type=\"python\" src=\"?\" public=\"?\"/-->
+    <filter label=\"energy\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_energy.so\"/>
+    <filter label=\"stable\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_stable.so\"/>
+    <filter label=\"structure\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_structure.so\"/>
+    <filter label=\"status\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_termination_status.so\"/>
+    <filter label=\"dipole\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_dipole.so\"/>
+    <filter label=\"step\" type=\"plugin\" src=\"/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_step.so\"/>
+  </group>
+</config>
+ 
+"
+    end
+  end
+
   package_ref 156969 // C types
 
   usecaseview 131113 "supplier"
     //use case diagram settings
     package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //state diagram settings
@@ -57,9 +109,11 @@ The input object interface to the main system is through a set of C-based interf
       //use case diagram settings
       package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
       //sequence diagram settings
-      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
       //collaboration diagram settings
-      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+      //class diagram settings
+      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       //object diagram settings
        write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
       //state diagram settings
@@ -73,13 +127,13 @@ The input object interface to the main system is through a set of C-based interf
 
   classview 129833 "supplier"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default
@@ -99,12 +153,12 @@ nodes occurs if the attributes of one node is a subset of the other. In the new 
 results from a single file exist in a single subtree.  The root of this subtree is assumed 
 as the root of the plugin twiglets."
     classdiagram 134057 "Suppliers"
-      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
     collaborationdiagram 161449 "Parser process"
-      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -1144,19 +1198,19 @@ Registered options
     artifact 254889 "supplier"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252969 // regex
+	artifact_ref 151465 // plugin_filter
+	artifact_ref 151721 // filter_manager
+	artifact_ref 157993 // utility
 	artifact_ref 235177 // matcher_types
-	artifact_ref 181417 // matcher_filter
+	artifact_ref 179113 // basic_filter
 	artifact_ref 225193 // supplier_helper
 	artifact_ref 226345 // datum_traits
-	artifact_ref 230057 // data_access
-	artifact_ref 144169 // data_scheme
-	artifact_ref 230313 // filesystem
-	artifact_ref 179113 // basic_filter
-	artifact_ref 157993 // utility
-	artifact_ref 151465 // plugin_filter
+	artifact_ref 252969 // regex
 	artifact_ref 239785 // basic_plugin_handler
-	artifact_ref 151721 // filter_manager
+	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+	artifact_ref 181417 // matcher_filter
       end
       comment "${butter_generic}
 LINK=-ldl"
@@ -1301,13 +1355,13 @@ ${namespace_end}"
 
   classview 151081 "base filter subtypes"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default
@@ -1332,12 +1386,12 @@ ${namespace_end}"
 ** matcher_string_search ***
 ** plugin_filter                  ****"
     classdiagram 162601 "regex_filter"
-      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
     classdiagram 148009 "match types"
-      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 

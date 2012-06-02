@@ -1,16 +1,16 @@
-format 61
+format 75
 "filetype" // /compchem/report::filetype
-  revision 31
-  modified_by 41 "finnerty"
+  revision 32
+  modified_by 47 "finnerty"
   // class settings
   //class diagram settings
-  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   //use case diagram settings
   package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
   //sequence diagram settings
-  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
   //collaboration diagram settings
-  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
   //object diagram settings
    write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
   //component diagram settings
@@ -34,13 +34,13 @@ these types is that they can write an output file.  Being able to read the
 data file is an extension."
   classview 132649 "filetypes"
     //class diagram settings
-    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
     //collaboration diagram settings
-    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
     //object diagram settings
      write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
     //sequence diagram settings
-    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
     //state diagram settings
     package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
     show_activities default region_horizontally default drawing_language default show_stereotype_properties default
@@ -50,7 +50,7 @@ data file is an extension."
     show_infonote default drawing_language default show_stereotype_properties default
     associated_deployment_view deploymentview_ref 134185 // filetypes
     classdiagram 134697 "Filetypes"
-      draw_all_relations default hide_attributes yes hide_operations yes show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
@@ -2357,16 +2357,16 @@ value_type supports the stream inserter (for arrays with multiple types see boos
     artifact 255785 "filetypes"
       stereotype "library"
       associated_artifacts
-	artifact_ref 252841 // program_options
-	artifact_ref 252969 // regex
-	artifact_ref 253097 // date_time
-	artifact_ref 280745 // table_writer
-	artifact_ref 155433 // jcampdx_decor
-	artifact_ref 155689 // text_decor
-	artifact_ref 280617 // markup
-	artifact_ref 155561 // csv_decor
 	artifact_ref 154793 // output_header
+	artifact_ref 280617 // markup
+	artifact_ref 155433 // jcampdx_decor
 	artifact_ref 155177 // output_header_options
+	artifact_ref 253097 // date_time
+	artifact_ref 252969 // regex
+	artifact_ref 252841 // program_options
+	artifact_ref 280745 // table_writer
+	artifact_ref 155561 // csv_decor
+	artifact_ref 155689 // text_decor
       end
       ncouples 1
       key "butter type" value "static"
@@ -2721,6 +2721,36 @@ ${definition}"
       associated_classes
 	class_ref 529193 // table_writer
       end
+    end
+
+    artifact 128943 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:12 2012
+##END:date
+##START:target filetypes
+lib filetypes :
+	output_header.cpp
+	markup.cpp
+	jcampdx_decor.cpp
+	output_header_options.cpp
+	/boost//date_time
+	/boost//regex
+	/boost//program_options
+	table_writer.cpp
+	csv_decor.cpp
+	text_decor.cpp
+	:
+	<link>static
+	: :
+	;
+
+install install_filetypes : filetypes : <location>$(DATADIR) ;
+##END:target filetypes
+"
     end
   end
 end
