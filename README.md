@@ -1,2 +1,7 @@
 # compchem
-XML database definition and associated utilities for storing computational chemisty result data
+XML database definition and associated utilities for storing computational chemistry result data
+
+## Summary
+This project contains XML schema and stylesheets for managing chemistry related data, particularly computational chemistry.  The database is designed to be distributed over various XML files.  For example you create a local XML file in a computational chemistry result directory for the results of a single chemistry structure.  A project XML file links these result XML files together allowing rapid querying of the data for all structures in the project. For example you can generate result summary data suitable for inclusion as supplementary information or an energy table that can be imported into a spreadsheet to calculate relative free energies.  The speed with which the database can be queried means that you can regenerate reports on the fly ensuring that the latest computational results are always included in your report documents.  Additionally the reports contain computational meta-data so it is easy to verify derived results, for example ensuring energy values from different calculations were calculated using the same program version and theory level when you calculate relative energy results. 
+
+Additionally this project contains several utility programs, including a filter program for computational chemistry result files created by the Gaussian package.  It contains predefined filters for standard results and a facility for user-supplied filters written in python or C++.
