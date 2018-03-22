@@ -1,0 +1,13 @@
+class manager_dummy
+!!!995369.cpp!!!	manager_dummy()
+if (counter == 0)
+{
+	test_manager::s_exemplar = new test_manager();
+}
+++counter;
+!!!995497.cpp!!!	~manager_dummy()
+--counter;
+if (counter <= 0)
+{
+	delete test_manager::s_exemplar;
+}

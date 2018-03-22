@@ -1,0 +1,81 @@
+class gaussian_file
+!!!157865.cpp!!!	_get_header(in  : void) : void
+  // --private:  filtration--
+  // if ( !(*this) )
+  //  _m_istream = cin;
+
+  // Chekc that the object has been set up.
+
+  if ( !*this ) {
+    std::string _msg = "Gaussian File Module Error: Unable to open file = ";
+    _msg += _m_filename;
+    throw _msg.c_str();
+  };
+       
+  // This routine gets the header section of the 'gaussian' file and
+  // finds the section of text that was the original 'gaussian'
+  // control statement. We then pass this statement to each filter and
+  // ask them if they can handle it.
+
+  std_regex words;
+//   divider.set_regex_string( "(-----+)" );
+//   warn.set_regex_string( "Warning[^[:alnum:]]--[^[:alnum:]]This[^[:alnum:]]program" );
+  words.regex_string( "([[:alnum:]]+)" );
+
+  _m_command = "";
+  _m_title = "";
+  
+  int counterA = 0;
+  bool count = false;
+  std::vector< std::string > line;
+  char current_line_buf[256];
+  std::string current_line;
+    
+  while ( *this ) {
+    getline( current_line_buf, 255, '\n' );
+    current_line = current_line_buf;
+    line = words.split( current_line );
+    if ( line.size() > 2 &&
+	 line[0] == "Leave" &&
+	 line[1] == "Link" &&
+	 line[2] == "101" ) {
+	// Found end of Link 101
+	break;
+    };
+    if ( line.size() == 1 && 
+	 line[0] == "GradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGradGrad" )
+      {
+	// Found start of Link 103
+	break;
+      };
+    _m_header.append( current_line );
+    _m_header.append( "\n" ); // Add newlines back in
+    
+    if ( current_line.find( "------" ) < 256 ) {
+      if ( count ) {
+	// Count is 1
+	count = false;
+	++counterA;
+	DEBUG( "Found divider line (count true), counter is = ", counterA );
+      } else {
+	DEBUG( "Found divider line (count false), counter is = ", counterA );
+	// Count is 0
+	count = true;
+	continue;
+      };
+    };
+    if ( count && counterA > 0) {
+      DEBUG( "Getting command string:" );
+      if ( counterA == 1 ) {
+	_m_command += std_regex::chomp( current_line );
+	DEBUG( "Command = ", _m_command.c_str() );
+      } else if ( counterA == 2 ) {
+	_m_title += std_regex::chomp( current_line );
+	DEBUG( "Title = ", _m_title.c_str() );
+      };
+    };
+  };
+  if ( _m_header.empty() )
+    throw "Gaussian File Module Error: Could not obtain gaussian header information";
+  if ( _m_command.empty() )
+    throw "Gaussian File Module Error: Could not obtain gaussian input command information";

@@ -1,0 +1,35 @@
+class TreeView
+!!!684585.cpp!!!	append_column(in title : Glib::ustring, in model_column : TreeModelColumn<ColumnType>) : int
+  // compilation will fail if there is no appropriate TreeViewColumn
+  // constructor for this model column type.
+  TreeViewColumn *const pViewColumn = Gtk::manage( new TreeViewColumn(title, model_column) );
+
+  return append_column(*pViewColumn);
+!!!684713.cpp!!!	append_column_editable(in title : Glib::ustring, in model_column : TreeModelColumn<ColumnType>) : int
+  g_assert(model_column.type() != 0);
+
+  // compilation will fail if there is no appropriate TreeViewColumn
+  // constructor for this model column type.
+  TreeViewColumn *const pViewColumn = Gtk::manage( new TreeViewColumn(title, model_column) );
+
+  //connect signal handlers for auto-storing of edited cell data
+  CellRenderer* pCellRender = pViewColumn->get_first_cell_renderer();
+  TreeView_Private::_connect_auto_store_editable_signal_handler<ColumnType>(this, pCellRender, model_column);
+
+  return append_column(*pViewColumn);
+!!!685481.cpp!!!	insert_column(in title : Glib::ustring, in model_column : TreeModelColumn<ColumnType>, in position : int) : int
+  // compilation will fail if there is no appropriate TreeViewColumn
+  // constructor for this model column type.
+  TreeViewColumn *const pViewColumn = Gtk::manage( new TreeViewColumn(title, model_column) );
+
+  return insert_column(*pViewColumn, position);
+!!!685609.cpp!!!	insert_column_editable(in title : Glib::ustring, in model_column : TreeModelColumn<ColumnType>, in position : int) : int
+  // compilation will fail if there is no appropriate TreeViewColumn
+  // constructor for this model column type.
+  TreeViewColumn *const pViewColumn = Gtk::manage( new TreeViewColumn(title, model_column) );
+
+   //connect signal handlers for auto-storing of edited cell data
+  CellRenderer* pCellRender = pViewColumn->get_first_cell_renderer();
+  TreeView_Private::_connect_auto_store_editable_signal_handler(this, pCellRender, model_column);
+
+  return insert_column(*pViewColumn, position);

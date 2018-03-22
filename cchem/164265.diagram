@@ -1,0 +1,84 @@
+format 55
+
+artifactcanvas 128041 artifact_ref 144169 // data_scheme
+  xyz 269 98 2000
+artifactcanvas 128169 artifact_ref 202793 // basic_datum
+  xyz 38 240 2004
+artifactcanvas 128425 artifact_ref 143657 // compound
+  xyz 40 310 2004
+artifactcanvas 128681 artifact_ref 222889 // data_scheme_helper
+  xyz 38 390 2004
+artifactcanvas 128937 artifact_ref 141737 // datum
+  xyz 40 460 2004
+artifactcanvas 129193 artifact_ref 143273 // experiment
+  xyz 188 239 2004
+artifactcanvas 129449 artifact_ref 142505 // filter
+  xyz 189 309 2004
+artifactcanvas 129705 artifact_ref 143529 // formula
+  xyz 188 388 2004
+artifactcanvas 129961 artifact_ref 142249 // identity
+  xyz 189 459 2004
+artifactcanvas 130217 artifact_ref 141993 // info
+  xyz 346 238 2004
+artifactcanvas 130473 artifact_ref 142889 // mechanism
+  xyz 348 309 2004
+artifactcanvas 130729 artifact_ref 143145 // memo
+  xyz 349 387 2004
+artifactcanvas 130985 artifact_ref 141609 // names
+  xyz 481 131 2004
+artifactcanvas 131241 artifact_ref 144041 // program
+  xyz 344 458 2004
+artifactcanvas 131497 artifact_ref 143913 // project
+  xyz 494 239 2004
+artifactcanvas 131753 artifact_ref 166569 // settings
+  xyz 496 310 2004
+artifactcanvas 132009 artifact_ref 207785 // text
+  xyz 494 388 2004
+artifactcanvas 132265 artifact_ref 142633 // worker
+  xyz 267 536 2004
+artifactcanvas 132521 artifact_ref 214569 // visitor
+  xyz 495 459 2009
+packagecanvas 133033 
+  package_ref 131113 // /compchem/data_scheme
+    xyzwh 17 12 1994 636 596
+artifactcanvas 133161 artifact_ref 229929 // data_scheme_py.so
+  xyz 27 99 2005
+containcanvas 128297
+  from ref 128041 z 1999 to ref 128169
+containcanvas 128553
+  from ref 128041 z 1999 to ref 128425
+containcanvas 128809
+  from ref 128041 z 1999 to ref 128681
+containcanvas 129065
+  from ref 128041 z 1999 to ref 128937
+containcanvas 129321
+  from ref 128041 z 1999 to ref 129193
+containcanvas 129577
+  from ref 128041 z 1999 to ref 129449
+containcanvas 129833
+  from ref 128041 z 1999 to ref 129705
+containcanvas 130089
+  from ref 128041 z 1999 to ref 129961
+containcanvas 130345
+  from ref 128041 z 1999 to ref 130217
+containcanvas 130601
+  from ref 128041 z 1999 to ref 130473
+containcanvas 130857
+  from ref 128041 z 1999 to ref 130729
+containcanvas 131369
+  from ref 128041 z 1999 to ref 131241
+containcanvas 131625
+  from ref 128041 z 1999 to ref 131497
+containcanvas 131881
+  from ref 128041 z 1999 to ref 131753
+containcanvas 132137
+  from ref 128041 z 1999 to ref 132009
+containcanvas 132393
+  from ref 128041 z 1999 to ref 132265
+containcanvas 132649
+  from ref 128041 z 1999 to ref 132521
+simplerelationcanvas 132777 simplerelation_ref 132265
+  from ref 128041 z 1999 to ref 130985
+simplerelationcanvas 133289 simplerelation_ref 132393
+  from ref 133161 z 1999 to ref 128041
+end

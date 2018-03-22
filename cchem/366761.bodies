@@ -1,0 +1,113 @@
+class test_node_iterator
+!!!1208745.cpp!!!	for_end_loop(in a_start : node) : void
+unsigned int l_count (0);
+const std::string l_space (256, ' ');
+for (node_iterator l_cursor (a_start), l_end (l_cursor.end());
+     l_cursor != l_end and l_count < 1000;
+     ++l_cursor, ++l_count) {
+  if (l_cursor->node_type () == l_cursor->DOCUMENT_NODE) {
+    log << WTCH << "At document node\n"; }
+  else {
+    log << WTCH << "[" << purpletree::dom::get_utf8 ((*l_cursor).node_name ())
+        << "] type[" << l_cursor->node_type () << "]";
+    if (l_cursor->node_type () == l_cursor->TEXT_NODE) {
+      log << " = \"" << purpletree::dom::get_utf8 (l_cursor->node_value ()) << "\""; }
+    log << "\n"; }}
+!!!1208617.cpp!!!	for_test_loop(in a_start : node) : void
+unsigned int l_count (0);
+for (node_iterator l_cursor (a_start);
+     l_cursor and l_count < 1000;
+     ++l_cursor, ++l_count) {
+  if (l_cursor->node_type () == (*l_cursor).DOCUMENT_NODE) {
+    log << WTCH << "At document node\n"; }
+  else if (l_cursor->node_type () == (*l_cursor).ATTRIBUTE_NODE) {
+    log << WTCH << "Attribute [" << purpletree::dom::get_utf8 (l_cursor->node_name ())
+        << "] type[" << (*l_cursor).node_type () << "]\n"; }
+  else {
+    log << WTCH << "[" << purpletree::dom::get_utf8 (l_cursor->node_name ())
+        << "] type[" << (*l_cursor).node_type () << "]\n"; }}
+!!!1202473.cpp!!!	main_test(in argc : int, in argv : char) : int
+using data_access::namespace purpletree::dom;
+// LOCAL
+int Result (0);
+// DO
+log << TTLE << "Getting test database\n";
+document l_doc;
+try {
+  if (not test::helper().initialise (argc, argv)) {
+    Result = 1; }
+  else {
+    l_doc = data_scheme::test::helper().document ();
+    if (l_doc.is_null ()) {
+    Result = 1; }}
+}
+catch (const std::exception &a_err) {
+  log << EXCP << a_err.what () << "\n";
+  Result = 1; }
+if (0 == Result and not l_doc.document_element ().is_null ()) {
+  log << TTLE << "Logic tests\n";
+  element l_elem (l_doc.document_element ());
+  node_iterator l_test_iterator;
+  log << COMM << "Null iterator must equal self.end\n";
+  if (l_test_iterator == l_test_iterator.end()) {
+    log << IFYS << "Pass\n"; }
+  else {
+    log << IFNO << "Fail\n"; }
+  log << COMM << "Null iterator must be false\n";
+  if (not l_test_iterator) {
+    log << IFYS << "Pass\n"; }
+  else {
+    log << IFNO << "Fail\n"; }
+  l_test_iterator = l_elem;
+  log << COMM << "Assigned iterator must not be false if not l_node.is_null\n";
+  if (l_test_iterator or l_elem.is_null ()) {
+    log << IFYS << "Pass\n"; }
+  else {
+    log << IFNO << "Fail\n"; }
+  log << COMM << "Assigned iterator must equal l_node\n";
+  if (l_test_iterator == l_elem) {
+    log << IFYS << "Pass\n"; }
+  else {
+    log << IFNO << "Fail\n"; }
+  log << COMM << "Incrementing assigned iterator must equal l_node.first_child or end\n";
+  node_iterator l_test_end (l_test_iterator.end ());
+  ++l_test_iterator;
+  if (l_test_iterator == l_elem.first_child () or l_test_iterator == l_test_end) {
+    log << IFYS << "Pass\n"; }
+  else {
+    log << IFNO << "Fail\n"; }
+  
+
+  log << TTLE << "Motion test (tests op(++), op(*) and op(->))\n";
+  implementation::serialise (l_doc, std::cout);
+  log << WTCH << "Iterator motion (for iter != end).\n";
+  for_end_loop (l_doc.document_element ());
+  log << WTCH << "Iterator motion (for bool(iter)).\n";
+  for_test_loop (l_doc.document_element ());
+  element l_docelem (l_doc.document_element ());
+  log << WTCH << "Got doc element\n";
+  l_elem = utility::get_element \(data_access::names::mechanism_name (), l_docelem);
+  log << WTCH << "Got sub-element\n";
+  if (not l_elem.is_null ()) {
+    log << WTCH << "Iterator motion on subset (for iter != end).\n";
+    for_end_loop (l_elem);
+    log << WTCH << "Iterator motion (for bool(iter)).\n";
+    for_test_loop (l_elem); }
+  l_elem = utility::get_element \(data_access::names::project_name (), l_docelem);
+  if (not l_elem.is_null ()) {   
+    l_elem = utility::get_element \(data_access::names::compound_src_name (), l_elem);
+    if (not l_elem.is_null ()) {
+      attr l_attr = l_elem.get_attribute_node \(data_access::names::label_name ());
+      log << WTCH << "Got attribute\n";
+      if (not l_attr.is_null ()) {
+        log << WTCH << "Iterator motion on attribute (for iter != end).\n";
+        for_end_loop (l_attr);
+        log << WTCH << "Iterator motion on attribute (for bool(iter)).\n";
+        for_test_loop (l_attr);  }}}
+  if (not l_doc.is_null ()) {
+    log << WTCH << "Iterator motion on document (for iter != end).\n";
+    for_end_loop (l_doc);
+    log << WTCH << "Iterator motion on document (for bool(iter)).\n";
+    for_test_loop (l_doc); }
+}
+return Result;

@@ -1,0 +1,19 @@
+class base_node_iterator
+!!!1144617.cpp!!!	increment(in a_cursor : node_rep_t) : node_rep_t
+REQUIRE (a_cursor, "Cannot increment past end of a tree");
+if (t_node_traits::first_child (a_cursor)) {
+  // If the node has children step to first child
+  a_cursor = t_node_traits::first_child (a_cursor); }
+else {
+  // If no children then go to antecedant's next sibling.  This
+  // may involve multiple moves up ancestor tree.
+  while (t_node_traits::parent_node (a_cursor)
+	and not t_node_traits::next_sibling (a_cursor)) {
+    a_cursor = t_node_traits::parent_node (a_cursor); }
+  // Note that a_cursor will always point to a valid node
+  // here.  If we reached the very last node then the
+  // next_sibling will be nul. Simply leaving when a_cursor ==
+  // 0 allows us to increment to the end of a tree (The end
+  // iterator is simply an iterator with a_cursor == 0
+  a_cursor = t_node_traits::next_sibling (a_cursor); }
+return a_cursor;

@@ -1,0 +1,14 @@
+window_sizes 960 672 340 614 415 178
+diagrams
+  active  classdiagram_ref 129577 // framework classes
+    614 415 100 4 0 0
+end
+show_stereotypes
+selected 
+  package_ref 148393 // /xmlreader
+open
+  deploymentview_ref 146473 // Overview
+  
+  package_ref 137257 // /compchem/utility
+end
+end

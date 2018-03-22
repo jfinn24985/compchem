@@ -1,0 +1,1038 @@
+format 75
+"test cases" // /compchem/data_scheme::test cases
+  revision 47
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "test/data_scheme_test"
+  cpp_src_dir "../src/test/data_scheme_test"
+  cpp_namespace "data_scheme"
+  classview 135849 "data_scheme test"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 137129 // data_scheme test
+    comment "Unit-test classes for data_scheme types"
+    classdiagram 138025 "Dependencies"
+      draw_all_relations no hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 510633 "test_object_visitor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This version of data_scheme::visitor performs type specific tests on every
+object it encounters. It is the main test vehicle for the data_scheme classes.
+
+This class is a test for 'visit' method of basic_datum objects."
+      classrelation 553641 // <generalisation>
+	relation 532521 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 553641 // <generalisation>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 581929 // <generalisation>
+	relation 560809 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 581929 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 578601 // <dependency>
+	relation 557481 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 578601 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 579881 // <dependency>
+	relation 558761 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 579881 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 582057 // <dependency>
+	relation 560937 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 582057 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      class 522921 "anonymous_tov"
+	visibility package stereotype "enum"
+	cpp_decl "${comment}enum
+{
+${items}
+};
+"
+	java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl "${comment}${visibility}final class ${name} {
+${items}}
+"
+	python_2_2 python_decl "class ${name}:
+${docstring}${members}
+"
+	idl_decl "${comment}enum ${name} {
+${items}};
+"
+	explicit_switch_type ""
+	
+	attribute 439721 "s_size"
+	  public type class_ref 522921 // anonymous_tov
+	  init_value "18"
+	  cpp_decl "  ${name}${value},${comment}"
+	  java_decl ""
+	  php_decl ""
+	  python_decl "${comment}${self}${name} = ${value}
+"
+	  idl_decl ""
+	end
+      end
+
+      attribute 426793 "s_comment"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(1)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for comment objects. (== 1)"
+      end
+
+      attribute 428329 "s_compound"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(2)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for compound objects. (== 2)"
+      end
+
+      attribute 428457 "s_compound_ref"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(3)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for compound-ref objects. (== 3)"
+      end
+
+      attribute 428585 "s_datum"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(4)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for datum objects. (== 4)"
+      end
+
+      attribute 428713 "s_experiment"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(5)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for experiment objects. (== 5)"
+      end
+
+      attribute 428841 "s_filter"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(6)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for filter objects. (== 6)"
+      end
+
+      attribute 428969 "s_formula"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(7)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for formula objects. (== 7)"
+      end
+
+      attribute 429097 "s_identity"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(8)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for identity objects. (== 8)"
+      end
+
+      attribute 429225 "s_info"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(9)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for info objects. (== 9)"
+      end
+
+      attribute 429353 "s_mechanism"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(10)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for mechanism objects. (== 10)"
+      end
+
+      attribute 429481 "s_memo"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(11)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for memo objects. (== 11)"
+      end
+
+      attribute 427049 "s_pi"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(12)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for p.i. objects. (== 12)"
+      end
+
+      attribute 429609 "s_program"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(13)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for program objects. (== 13)"
+      end
+
+      attribute 429737 "s_project"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(14)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for project objects. (== 14)"
+      end
+
+      attribute 429865 "s_settings"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(15)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for settings objects. (== 15)"
+      end
+
+      attribute 429993 "s_text"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(16)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for text objects. (== 16)"
+      end
+
+      attribute 430121 "s_worker"
+	class_attribute const_attribute private explicit_type "uchar"
+	init_value "(17)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that the visitor should only be called
+for worker objects. (== 17)"
+      end
+
+      attribute 440873 "s_exemplar"
+	class_attribute private type class_ref 510633 // test_object_visitor
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The class exemplar"
+      end
+
+      attribute 426921 "m_type"
+	private explicit_type "uint"
+	multiplicity "s_size"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The object-type counts"
+      end
+
+      attribute 327337 "m_doc_filename"
+	private explicit_type "string"
+	multiplicity "1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The filename of a database file."
+      end
+
+      attribute 444585 "m_formula"
+	const_attribute private type class_ref 356521 // formula
+	multiplicity "0..1"
+	cpp_mutable cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Some formula"
+      end
+
+      operation 1621673 "test_object_visitor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+: visitor ()
+, unit_test ()
+, m_type ()
+, m_doc_filename ()
+, m_formula (NULL)
+{
+  register_options ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Default ctor"
+      end
+
+      operation 1621801 "~test_object_visitor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1621929 "test_object_visitor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 510633 // test_object_visitor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no copy"
+      end
+
+      operation 1622057 "operator="
+	private return_type class_ref 510633 // test_object_visitor
+	nparams 1
+	  param in name "source" type class_ref 510633 // test_object_visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "no assign"
+      end
+
+      operation 1623337 "visit_basic_datum"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test basic_datum methods for derived classes that can have children."
+      end
+
+      operation 1623465 "visit_comment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443433 // comment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on comment objects."
+      end
+
+      operation 1623593 "visit_compound"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356009 // compound
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on compound objects."
+      end
+
+      operation 1623721 "visit_compound_ref"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 480425 // compound_ref
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on compound ref objects."
+      end
+
+      operation 1623849 "visit_datum"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 355369 // datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on datum objects."
+      end
+
+      operation 1623977 "visit_experiment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356905 // experiment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on experiment objects."
+      end
+
+      operation 1624105 "visit_filter"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354729 // filter
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on filter objects."
+      end
+
+      operation 1624233 "visit_formula"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356521 // formula
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on formula objects."
+      end
+
+      operation 1624361 "visit_identity"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 356393 // identity
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on identity objects."
+      end
+
+      operation 1624489 "visit_info"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354601 // info
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on info objects."
+      end
+
+      operation 1624617 "visit_mechanism"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353705 // mechanism
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on mechanism objects."
+      end
+
+      operation 1624745 "visit_memo"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on memo objects."
+      end
+
+      operation 1624873 "visit_pi"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443561 // processing_instruction
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on processing_instruction objects."
+      end
+
+      operation 1625001 "visit_program"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353321 // program
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on program objects."
+      end
+
+      operation 1625129 "visit_project"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on project objects."
+      end
+
+      operation 1625257 "visit_settings"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 371497 // settings
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on settings objects."
+      end
+
+      operation 1625385 "visit_text"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 443305 // text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on text objects."
+      end
+
+      operation 1625513 "visit_worker"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 353577 // worker
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Operate on worker objects."
+      end
+
+      operation 1205289 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1351593 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+
+      operation 1658281 "test_basic_text"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 435369 // basic_text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Test a basic_text object"
+      end
+
+      operation 1661737 "test_src_types"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" explicit_type "src_T"
+	
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1205417 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_scheme schema class tests\");
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1667113 "show_coverage"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Print the number of types analysed."
+      end
+    end
+  end
+
+  deploymentview 137129 "data_scheme test"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    comment "Unit-test classes for data_scheme types"
+    artifact 257321 "test_data_scheme"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 265129 // test_object_visitor
+	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
+    artifact 265129 "test_object_visitor"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/lexical_cast.hpp>
+// - 
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 510633 // test_object_visitor
+      end
+    end
+
+    artifact 129839 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:14 2012
+##END:date
+##START:target test_data_scheme
+make test_data_scheme :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	test_object_visitor.cpp
+	/boost//filesystem
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	:
+	;
+
+install install_test_data_scheme : test_data_scheme : <location>$(DATADIR) ;
+##END:target test_data_scheme
+"
+    end
+  end
+
+  package_ref 158121 // test_args
+end

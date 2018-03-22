@@ -1,0 +1,458 @@
+format 55
+"testcode" // /compchem/programs::testcode
+  revision 5
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default
+  
+  cpp_h_dir "programs/testcode"
+  cpp_src_dir "../src/programs/testcode"
+  cpp_namespace "testcode"
+  comment "This package contains programs for trying out various things."
+  classview 167465 "testcode"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default
+  end
+
+  deploymentview 164521 "testcode"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default
+    artifact 243369 "test_regex"
+      stereotype "source"
+      cpp_src "#include <boost/regex.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/scoped_array.hpp>
+#include <boost/regex/pattern_except.hpp>
+#include <fstream>
+#include <iostream>
+
+int main (int argc, char ** argv)
+{
+  int Result (0);
+  if (argc < 3)
+  {
+    std::cout << argc << \" is too few arguments\\nUsage is: \" << argv[0] << \" filename \\\"re string (boost/extended)\\\"\\n\";
+    Result = 1;
+  }
+  else
+  {
+    try
+    {
+      std::cout << \"Regular expression is : \\\"\" << argv[2] << \"\\\" dummy\\n\";
+      std::cout << \"  Supply the third dummy argument if R.E. is 'normal' rather than extended\\n\";
+      // Compile regular expression early, in case of failure.
+      boost::regex l_re (argv[2], (argc > 3 ? boost::regex::normal : boost::regex::extended));
+      // Read all of file.
+      std::ifstream l_infile (argv[1]);
+      const unsigned int l_sz (boost::filesystem::file_size (argv[1]));
+      boost::scoped_array< char > l_buffer (new char[l_sz]);
+      l_infile.read (l_buffer.get (), l_sz);
+      if (l_infile.gcount () == static_cast<const int>(l_sz))
+      {
+        for (boost::regex_iterator< char * > l_M (l_buffer.get (), l_buffer.get () + l_sz, l_re); 
+             l_M != boost::regex_iterator< char * > (); ++l_M)
+        {
+          std::cout << \"Match found\\n\";
+          int l_count (0);
+          for (boost::match_results< char * >::const_iterator l_i (l_M->begin ()); l_i != l_M->end (); ++l_i)
+          {
+            std::cout << \"Match[\"<< l_count << \"] = \" << *l_i << \"\\n\";
+            ++l_count;
+          }
+        }
+      }
+      else
+      {
+         std::cout << \"File size was \" << l_sz << \" but read only \" << l_infile.gcount () << \"\\n\";
+         Result = 1;
+      }
+    }
+    catch (const boost::regex_error &a_err)
+    {
+      std::cout << \"Error compiling regular expression:\\n\" << a_err.what () << \"\\n\\n\";
+      Result = 1;
+    }
+    catch (const std::exception &a_err)
+    {
+      std::cout << \"Caught exception:\\n\" << a_err.what () << \"\\n\\n\";
+      Result = 1;
+    }
+  }
+  return Result;
+}
+
+"
+      associated_classes
+      end
+      comment "Provide a program for trying out boost::regex expressions against an arbitrary file.
+
+This can be useful when developing a regex based filter."
+    end
+
+    artifact 243497 "test_ptr_list"
+      stereotype "source"
+      cpp_src "#include <boost/ptr_container/ptr_list.hpp>
+#if defined(USE_LAMBDA)
+#include <boost/lambda/lambda.hpp>
+#elif defined(USE_BIND)
+#include <boost/bind.hpp>
+#else
+#endif
+#include <string>
+#include <iostream>
+#include <algorithm>
+
+class A
+{
+private:
+  std::string m_what;
+public:
+  A(const std::string & w)
+  : m_what (w)
+  {
+    std::cout << \"Constructor [\" << m_what << \"]\\n\";
+  }
+  ~A()
+  {
+    std::cout << \"Destructor [\" << m_what << \"]\\n\";
+  }
+  const std::string & what () const { return m_what; }
+  void what (const std::string & w) { m_what = w; }
+private:
+  A(const A &);
+  A & operator= (const A &);
+};
+
+#if defined(USE_LAMBDA)
+#elif defined(USE_BIND)
+bool compare (const A & a1, const A & a2)
+{
+  return &a1 == &a2;
+}
+#else
+bool operator== (const A & a1, const A & a2)
+{
+  return &a1 == &a2;
+}
+#endif
+int main (int argc, char** argv)
+{
+#if defined(USE_LAMBDA) 
+using namespace boost::lambda;
+#endif
+  std::cout << \"main entry\\n\";
+  boost::ptr_list<A> l_vec;
+  boost::ptr_list<A>::iterator l_i;
+  std::cout << \"created vector\\n\";
+  l_vec.push_back (new A(\"one\"));
+  std::cout << \"added element to vector\\n\";
+  A * l_aptr (new A(\"two\"));
+  l_vec.push_back (l_aptr);
+  std::cout << \"added second element to vector\\n\";
+  std::cout << \"Second element is = \" << l_aptr->what () << \"\\n\";
+  std::cout << \"About to remove second element.\\n\";
+#if defined(USE_LAMBDA)
+  l_i = std::find_if (l_vec.begin (), l_vec.end (), &_1 == l_aptr);
+#elif defined (USE_BIND)
+  l_i = std::find_if (l_vec.begin (), l_vec.end (), boost::bind(&compare, boost::ref(*l_aptr), _1));
+#else
+  l_i = std::find (l_vec.begin (), l_vec.end (), *l_aptr);
+#endif
+  if (l_vec.end () != l_i)
+  {
+    std::cout << \"found second element.\\n\";
+    l_vec.erase (l_i);
+    std::cout << \"erased second element.\\n\";
+  }
+  A l_a1 (\"three\");
+  std::cout << \"try to find a non element.\\n\";
+#if defined(USE_LAMBDA)
+  l_i = std::find_if (l_vec.begin (), l_vec.end (), &_1 == &l_a1);
+#elif defined (USE_BIND)
+  l_i = std::find_if (l_vec.begin (), l_vec.end (), boost::bind(&compare, boost::ref(l_a1), _1));
+#else
+  l_i = std::find (l_vec.begin (), l_vec.end (), l_a1);
+#endif
+  if (l_vec.end () == l_i)
+  {
+    std::cout << \"did not find unknown element.\\n\";
+  }
+  std::cout << \"done.\\n\";
+  // This segmentation faults as the object l_aptr points to is deleted when erased.
+  // std::cout << \"Second element is = \" << l_aptr->what () << \"\\n\";
+  return 0;
+} 
+
+"
+      associated_classes
+      end
+      comment "Compare the performance of lambda, bind and inline searching.
+"
+    end
+
+    artifact 248873 "test_swap_stream"
+      stereotype "source"
+      cpp_src "// ------------------------------------------------------------
+// Test swapping of std::stringstream buffers.
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+#include <iostream>
+#include <sstream>
+
+int main (int argc, char** argv)
+{
+  std::stringstream s1, s2;
+  s1 << \"Hello World.\";
+  s2 << \"Goodbye cruel world.\";
+  std::cout << \"S1 = \\\"\" << s1.str () << \"\\\"\\n\";
+  std::cout << \"S2 = \\\"\" << s2.str () << \"\\\"\\n\";
+  // std::basic_streambuf<std::stringstream::char_type> * l_tmp = s1.rdbuf ();
+  // s1.init (s2.rdbuf ());
+  // s2.init (l_tmp);
+  std::cout << \"Swapped stream buffers is not possible.\\n\";
+  std::cout << \"S1 = \\\"\" << s1.str () << \"\\\"\\n\";
+  std::cout << \"S2 = \\\"\" << s2.str () << \"\\\"\\n\";
+  return 0;
+}
+"
+      associated_classes
+      end
+    end
+
+    artifact 243625 "xmlreader_c"
+      stereotype "source"
+      cpp_src "extern \"C\"
+{
+/**
+ * section: xmlReader
+ * synopsis: Parse an XML file with an xmlReader
+ * purpose: Demonstrate the use of xmlReaderForFile() to parse an XML file
+ *          and dump the informations about the nodes found in the process.
+ *          (Note that the XMLReader functions require libxml2 version later
+ *          than 2.6.)
+ * usage: reader1 <filename>
+ * test: reader1 test2.xml > reader1.tmp ; diff reader1.tmp reader1.res ; rm reader1.tmp
+ * author: Daniel Veillard
+ * copy: see Copyright for the status of this software.
+ */
+
+#include <stdio.h>
+#include <libxml/xmlreader.h>
+
+#ifdef LIBXML_READER_ENABLED
+
+/**
+ * processNode:
+ * @reader: the xmlReader
+ *
+ * Dump information about the current node
+ */
+static void
+processNode(xmlTextReaderPtr reader) {
+    const xmlChar *name, *value;
+
+    name = xmlTextReaderConstName(reader);
+    if (name == NULL)
+	name = BAD_CAST \"--\";
+
+    value = xmlTextReaderConstValue(reader);
+
+    printf(\"%d %d %s %d %d\", 
+	    xmlTextReaderDepth(reader),
+	    xmlTextReaderNodeType(reader),
+	    name,
+	    xmlTextReaderIsEmptyElement(reader),
+	    xmlTextReaderHasValue(reader));
+    if (value == NULL)
+	printf(\"\\n\");
+    else {
+        if (xmlStrlen(value) > 40)
+            printf(\" %.40s...\\n\", value);
+        else
+	    printf(\" %s\\n\", value);
+    }
+}
+
+/**
+ * streamFile:
+ * @filename: the file name to parse
+ *
+ * Parse and print information about an XML file.
+ */
+static void
+streamFile(const char *filename) {
+    xmlTextReaderPtr reader;
+    int ret;
+
+    reader = xmlReaderForFile(filename, NULL, 0);
+    if (reader != NULL) {
+        ret = xmlTextReaderRead(reader);
+        while (ret == 1) {
+            processNode(reader);
+            ret = xmlTextReaderRead(reader);
+        }
+        xmlFreeTextReader(reader);
+        if (ret != 0) {
+            fprintf(stderr, \"%s : failed to parse\\n\", filename);
+        }
+    } else {
+        fprintf(stderr, \"Unable to open %s\\n\", filename);
+    }
+}
+
+int main(int argc, char **argv) {
+    if (argc != 2)
+        return(1);
+
+    /*
+     * this initialize the library and check potential ABI mismatches
+     * between the version it was compiled for and the actual shared
+     * library used.
+     */
+    LIBXML_TEST_VERSION
+
+    streamFile(argv[1]);
+
+    /*
+     * Cleanup function for the XML library.
+     */
+    xmlCleanupParser();
+    /*
+     * this is to debug memory for regression tests
+     */
+    xmlMemoryDump();
+    return(0);
+}
+
+#else
+int main(void) {
+    fprintf(stderr, \"XInclude support not compiled in\\n\");
+    exit(1);
+}
+#endif
+}
+
+"
+      associated_classes
+      end
+      ncouples 1
+      key "filename" value "xmlreader.c"
+      comment "Demonstrate the libxml2 reader in C"
+    end
+
+    artifact 250025 "test_throw_ctr"
+      stereotype "source"
+      cpp_src "#include <iostream>
+#include <stdexcept>
+// This program tests whether a pass-by-value function that
+// throws in the copy-ctor of the argument is thrown by
+// the function.
+
+class test_throw
+{
+  int m_val;
+public:
+  test_throw (int a_val):m_val (a_val)
+  {
+  }
+  ~test_throw ()
+  {
+  }
+
+  void foo (test_throw a) throw ()
+  {
+    m_val = 0;
+  }
+
+  void bar (const test_throw & a) throw ()
+  {
+    foo (a);
+  }
+
+  int val () throw ()
+  {
+    return m_val;
+  }
+
+  test_throw (const test_throw & source):m_val (source.m_val)
+  {
+    throw std::logic_error (\"Throwing error in the copy ctor\");
+  }
+};
+
+int
+main (int argc, char **argv)
+{
+  try
+  {
+    test_throw l_a (3), l_b (40);
+    std::cout << \"A = \" << l_a.val () << \"\\nB = \" << l_b.val () << std::endl;
+    try
+    {
+      std::cout << \"Calling A.foo (B) should not be caught if copy-ctr called 'in' foo\" << std::endl;
+      l_a.foo (l_b);
+    }
+    catch (const std::exception & a_err)
+    {
+      std::cout << \"Caught error: \" << a_err.what () << std::endl;
+    }
+    try
+    {
+      std::cout << \"Calling A.bar (B) should not be caught as copy-ctor called in no-throw method\" << std::endl;
+      l_a.bar (l_b);
+    }
+    catch (const std::exception & a_err)
+    {
+      std::cout << \"Caught error: \" << a_err.what () << std::endl;
+    }
+    std::cout << \"A = \" << l_a.val () << \"\\nB = \" << l_b.val () << std::endl;
+  }
+  catch (const std::exception & a_err)
+  {
+    std::cout << \"Caught error: \" << a_err.what () << std::endl;
+  }
+  return 0;
+}
+"
+      associated_classes
+      end
+    end
+  end
+end

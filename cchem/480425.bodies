@@ -1,0 +1,34 @@
+class compound_ref
+!!!1533353.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_label.empty (), "Attempting to write an invalid compound-ref object.");
+bool Result (false);
+// Process attributes.
+if (a_name == data_access::names::label_name ())
+{
+  a_value.assign (m_label);
+  Result = true;
+}
+else if (a_name == data_access::names::formula_name ())
+{
+  if (not m_formulae.empty ())
+  {
+    a_value.assign (m_formulae);
+    Result = true;
+  }
+}
+return Result;
+!!!1533225.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::formula_name () == a_name) 
+{
+  m_formulae.swap (a_value);
+}
+else if (data_access::names::label_name () == a_name) 
+{
+  COMPCHEM_ALWAYS (a_value == m_label, serial_name () + " object labels cannot be changed after construction");
+}
+else
+{
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+}
+

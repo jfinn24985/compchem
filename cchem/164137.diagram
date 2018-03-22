@@ -1,0 +1,47 @@
+format 55
+
+artifactcanvas 128041 artifact_ref 230057 // data_access
+  xyz 237 99 2010
+artifactcanvas 128169 artifact_ref 157097 // data_access_helper
+  xyz 197 199 2010
+componentcanvas 128553 component_ref 131113 // data_access
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 25 62 1994 169 78
+artifactcanvas 129065 artifact_ref 203945 // meta_datum
+  xyz 199 271 2004
+artifactcanvas 129321 artifact_ref 214313 // xml_file
+  xyz 41 198 2015
+artifactcanvas 129577 artifact_ref 214697 // xml_write_visitor
+  xyz 46 273 2020
+artifactcanvas 129833 artifact_ref 210089 // xml_io
+  xyz 367 199 2000
+artifactcanvas 129961 artifact_ref 213161 // xml_types
+  xyz 368 271 2000
+packagecanvas 130345 
+  package_ref 132777 // /compchem/data_access
+    xyzwh 15 16 1989 510 516
+artifactcanvas 130473 artifact_ref 230185 // data_access_py.so
+  xyz 174 362 2000
+artifactcanvas 130601 artifact_ref 218409 // data_access_py
+  xyz 139 444 2004
+artifactcanvas 130857 artifact_ref 221609 // meta_datum_py
+  xyz 293 443 2004
+containcanvas 128937
+  from ref 128041 z 2009 to ref 128169
+containcanvas 129193
+  from ref 128041 z 1999 to ref 129065
+containcanvas 129449
+  from ref 128041 z 1999 to ref 129321
+containcanvas 129705
+  from ref 128041 z 1999 to ref 129577
+simplerelationcanvas 130089 simplerelation_ref 131881
+  from ref 128041 z 1999 to ref 129961
+simplerelationcanvas 130217 simplerelation_ref 132009
+  from ref 128041 z 1999 to ref 129833
+containcanvas 130729
+  from ref 130473 z 1999 to ref 130601
+containcanvas 130985
+  from ref 130473 z 1999 to ref 130857
+simplerelationcanvas 131113 simplerelation_ref 132137
+  from ref 130473 z 1999 to ref 128041
+end

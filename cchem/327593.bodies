@@ -1,0 +1,55 @@
+class experiment
+!!!149929.cpp!!!	get_date_end() : string
+// local
+std::string result;
+// do
+if (true == has_attribute (S_DATE_END_NAME, m_rep))
+{
+  result = get_attribute (S_DATE_END_NAME, m_rep);
+}
+else
+{
+  result = get_date_start ();
+}
+return result;
+!!!149673.cpp!!!	get_date_start() : string
+// local
+// check
+CHECK(true == has_attribute (S_DATE_START_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_DATE_START_NAME, m_rep);
+!!!318505.cpp!!!	get_formulation() : starting_condition
+// local
+purpletree::dom::node result;
+// check
+CHECK(true == has_attribute (S_FORMULATION_NAME, m_rep)
+      or true == has_attribute (S_REFERENCE_NAME, m_rep), "Invalid document");
+// do
+if (true == has_attribute (S_FORMULATION_NAME, m_rep))
+{
+  result = data_source::connector::find_node (S_FORMULATION_NAME
+                                             , S_LABEL_NAME
+                                             , get_attribute_priv (S_FORMULATION_NAME, m_rep)
+                                             , m_rep);
+
+}
+else
+{
+  result = data_source::connector::find_node (S_FORMULATION_NAME
+                                             , S_LABEL_NAME
+                                             , get_attribute_priv (S_REFERENCE_NAME, m_rep)
+                                             , m_rep);
+}
+// Check node is not nul
+CHECK(false == result.is_null (), "Unable to get formulation node from cross-reference");
+return formulation (result);
+!!!317353.cpp!!!	get_information() : information
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "Cannot get non-existant node");
+// do
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!148905.cpp!!!	get_reference() : string
+// check
+CHECK(true == has_attribute (S_REFERENCE_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_REFERENCE_NAME, m_rep);

@@ -1,0 +1,64 @@
+class ParserErrorHandler
+!!!248489.cpp!!!	handleError(in domError : xercesc::DOMError) : bool
+    char*_l_str;
+    std::stringstream _l_os;
+    fSawErrors = true;
+  
+    if (domError.getSeverity() == xercesc::DOMError::DOM_SEVERITY_WARNING)
+      {
+	_l_os << std::endl << "Warning at file ";
+      }
+    else if (domError.getSeverity() == xercesc::DOMError::DOM_SEVERITY_ERROR)
+      {
+	_l_os << std::endl << "Error at file ";
+      }
+    else
+      {
+        _l_os << std::endl << "Fatal Error at file ";
+      }
+    if ( domError.getLocation()->getURI() )
+      {
+	_l_str = transcodeString( domError.getLocation()->getURI() );
+	_l_os << _l_str;
+	releaseString( &_l_str );
+	_l_os << ", line " << domError.getLocation()->getLineNumber();
+	_l_os << ", char " << domError.getLocation()->getColumnNumber();
+      }
+    _l_os << std::endl;
+    _l_str = transcodeString( domError.getMessage() );
+    _l_os << " Message: " << _l_str << std::endl;
+    releaseString( &_l_str );
+    _m_errorMessages += _l_os.str();
+    return true;
+  
+!!!249385.cpp!!!	__saxError(in exception : xercesc::SAXParseException, in level : int) : void
+    char*_l_str;
+    std::stringstream _l_os;
+    fSawErrors = true;
+  
+    switch( level )
+      {
+      case 2: // Fatal Error
+        _l_os << std::endl << "Fatal Error at file ";
+	break;
+      case 1:
+	_l_os << std::endl << "Error at file ";
+	break;
+      default:
+	_l_os << std::endl << "Warning at file ";
+	break;
+      }
+    if ( exception.getSystemId() )
+      {
+	_l_str = transcodeString( exception.getSystemId() );
+	_l_os << _l_str;
+	releaseString( &_l_str );
+	_l_os << ", line " << exception.getLineNumber();
+	_l_os << ", char " << exception.getColumnNumber();
+      }
+    _l_os << std::endl;
+    _l_str = transcodeString( exception.getMessage() );
+    _l_os << " Message: " << _l_str << std::endl;
+    releaseString( &_l_str );
+    _m_errorMessages += _l_os.str();
+  

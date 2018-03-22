@@ -1,0 +1,884 @@
+format 75
+"C types" // /compchem/supplier::C types
+  revision 4
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "supplier"
+  cpp_src_dir "../src/supplier"
+  comment "Package for C compatible types (no-namespace)."
+  classview 132393 "C (POD) types"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 133545 // C (POD) types
+    class 345129 "result_value"
+      visibility package stereotype "enum"
+      cpp_decl "${comment}enum {
+${items}
+};
+"
+      java_decl "${comment}${@}${public}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}enum ${name} {
+${items}};
+"
+      explicit_switch_type ""
+      
+      comment "A set of return values from the various methods. (should be one of 
+enum result_values; ON_ERROR, ON_LOADERROR, ON_NOFILE
+or ON_BADDATA)"
+      attribute 239017 "CCHEM_SUPPLIER_SUCCESS"
+	public explicit_type ""
+	init_value "= 0"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Return value for when a function performed some task and is not in an error state."
+      end
+
+      attribute 378665 "CCHEM_SUPPLIER_COMPLETE"
+	public type class_ref 345129 // result_value
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This value is returned by a process method when the 
+filter no longer needs to process the file to generate 
+its result."
+      end
+
+      attribute 239145 "CCHEM_SUPPLIER_UNUSABLE"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Return value when a function fails but is not in an error state.  For example this is returned when a plugin filter can not process the given file type."
+      end
+
+      attribute 239273 "CCHEM_SUPPLIER_FATAL"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The lowest return value that indicates a function encountered an error.  This implies that the filter has writen an error message in the supplied error buffer.  Additionally, any number larger than this value also indicates an error."
+      end
+
+      attribute 296745 "CCHEM_SUPPLIER_LOADERROR"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that loading a dynamic library failed."
+      end
+
+      attribute 296873 "CCHEM_SUPPLIER_NOFILE"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that a file was not found. This is a type of fatal error"
+      end
+
+      attribute 298921 "CCHEM_SUPPLIER_BADDATA"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that inconsistent data has been obtained. This is a
+type of fatal error."
+      end
+
+      attribute 331561 "CCHEM_SUPPLIER_BADCONFIG"
+	public explicit_type ""
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate a problem with the system configuration. This is a type of
+fatal error"
+      end
+    end
+
+    class 413737 "plugin_flag"
+      visibility package stereotype "enum"
+      cpp_decl "${comment}enum {
+${items}
+};
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Set of flags for communicating state between plugin and application"
+      attribute 313001 "CCHEM_SUPPLIER_LINE_ORIENTED"
+	public explicit_type ""
+	init_value "= 1"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin is designed to operate line-by-line."
+      end
+
+      attribute 378153 "CCHEM_SUPPLIER_BUFFER_ORIENTED"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 2"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin can act on fixed size segments of the file."
+      end
+
+      attribute 378281 "CCHEM_SUPPLIER_FILE_ORIENTED"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 4"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the plugin takes the filename and manages reading
+internally."
+      end
+
+      attribute 378409 "CCHEM_SUPPLIER_STRING_OUTPUT"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 8"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate the filter outputs results as a string
+containing XML elements."
+      end
+
+      attribute 378537 "CCHEM_SUPPLIER_DIRECT_OUTPUT"
+	public type class_ref 413737 // plugin_flag
+	init_value "= 16"
+	cpp_decl "  ${name}${value},${comment}"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that the filter can create elements directly."
+      end
+    end
+
+    class 485545 "add_content_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, char const * const, int);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the text content of
+datum objects."
+    end
+
+    class 485417 "create_datum_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef ${type} (*${name})(${type}, char const* const, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for creating a new datum object that is the child
+of another object (memo or datum)."
+    end
+
+    class 486057 "initialise_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type}* a_filter, char const *const a_buffer, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to feed the file being processed to the filter."
+    end
+
+    class 344745 "process_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type}* a_filter, char const *const a_buffer, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to feed the file being processed to the filter."
+    end
+
+    class 344873 "output_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef int (*${name})(${type} * a_filter, void * a_data);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is used to indicate that the parsing
+stage is complete.  It should finalise the outputbuf object with any cached 
+results and call the outputbuf callback before returning.  If called multiple 
+times the function should short-circuit after the first call.
+
+\\param a_cb_data: An object to use as the first parameter to m_output_cb"
+    end
+
+    class 345001 "reset_method_t"
+      visibility package stereotype "typedef" base_type class_ref 344489 // basic_filter_traits
+      cpp_decl "${comment}typedef void (*${name})(${type}*);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "A method with this signature is called to clean up filter state before 
+deleting the object.  This **MUST** set the m_internal_state attribute 
+and all the callback function pointers of the passed object to NULL. 
+It can not report any errors."
+    end
+
+    class 485929 "set_int_attribute_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, int);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the hint and ordinal of
+datum objects."
+    end
+
+    class 485673 "set_string_attribute_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef int (*${name})(${type}, char const* const, int a_bufsize);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The function type for setting the format and scale of
+datum objects."
+    end
+
+    class 411305 "set_string_output_t"
+      visibility package stereotype "typedef" explicit_base_type "any"
+      cpp_decl "${comment}typedef void (*${name})(${type} a_parent, char const *const a_result, int a_sz);
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "The output callback function type.  Object of this type are supplied 
+by the application to the filter.  Such a function should be called 
+by the filter in response to the application calling an output_method_t 
+function at the end of the filtering process."
+    end
+
+    class 344489 "basic_filter_traits"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This structure is used to communicate between the filter manager and 
+the filter libraries.  It is a \"C\" structure that contains \"C\" style callback
+ functions and a pointer to filter state.  This pointer is considered 
+opaque by the filter manager and can be used by the library to hold its 
+state object.
+
+DIRECT_OUTPUT is always the preferred output method.
+
+The contract between the application and plugin are:
+* The data from m_identity to m_flags is owned and controlled by the 
+plugin. The application may read these variables but will not change them.
+* The data from m_output_cb to m_set_scale_cb is owned and controlled
+by the application. The plugin may read these variable but must not
+change them.
+* Only m_error and m_internal_state may contain allocated memory.
+* Only after calling m_initialise may m_internal_state be non-nul.
+* After calling m_finalise m_internal_state and m_error must be nul."
+      attribute 239657 "m_identity"
+	const_attribute public explicit_type "char"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A string containing information about the plugin."
+      end
+
+      attribute 239785 "m_error"
+	const_attribute public explicit_type "char"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "When an error occurs, this will point to a textual 
+message about the error."
+      end
+
+      attribute 238889 "m_internal_state"
+	public explicit_type "any"
+	init_value "(NULL)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This pointer should be used by the filter library to hold its state
+information. It is not accessed by the filter manager.
+
+This is the only pointer in the structure that may be NULL."
+      end
+
+      classrelation 506793 // m_initialise (<directional composition>)
+	relation 491049 *-->
+	  a role_name "m_initialise" public
+	    comment "This initialises the plugin. It gets the text from a 'detect' filter as
+its argument and should initialise itself accordingly. If it is not 
+suitable for this file it can return UNUSABLE and remain in the
+'nul' state."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506793 // m_initialise (<directional composition>)
+	  b parent class_ref 486057 // initialise_t
+      end
+
+      classrelation 473897 // m_process (<directional composition>)
+	relation 463017 *-->
+	  a role_name "m_process" multiplicity "1" public
+	    comment "A pointer to the method to use to filter the input. When this
+is LINE_ORIENTED or BUFFER_ORIENTED then the passed
+character pointer contains a piece of the target file. When this
+is FILE_ORIENTED then the passed character pointer is the
+the filename"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 473897 // m_process (<directional composition>)
+	  b parent class_ref 344745 // process_method_t
+      end
+
+      classrelation 276649 // m_output (<directional composition>)
+	relation 270633 *-->
+	  a role_name "m_output" multiplicity "1" public
+	    comment "The method to transfer the filtered data from the filter plugin to the filter 
+manager. When this is a STRING_OUTPUT method then the second 
+argument to the function should be passed back as the first argument 
+of m_output_cb. When this is a DIRECT_OUTPUT method then the 
+second rgument is the memo object to add results to."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 276649 // m_output (<directional composition>)
+	  b parent class_ref 344873 // output_method_t
+      end
+
+      classrelation 276777 // m_reset (<directional composition>)
+	relation 270761 *-->
+	  a role_name "m_reset" multiplicity "1" public
+	    comment "A method to clean-up the plugin state. This resets the plugin
+object to its 'nul' state."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 276777 // m_reset (<directional composition>)
+	  b parent class_ref 345001 // reset_method_t
+      end
+
+      attribute 312873 "m_flags"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A set of state flags of type plugin_flag"
+      end
+
+      classrelation 382121 // m_output_cb (<directional composition>)
+	relation 373417 *-->
+	  a role_name "m_output_cb" multiplicity "1" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_STRING.  It should be called by the filter to return the 
+result of a filter operation. It will be nul in OUTPUT_DIRECT mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 382121 // m_output_cb (<directional composition>)
+	  b parent class_ref 411305 // set_string_output_t
+      end
+
+      classrelation 506025 // m_create_datum_cb (<directional composition>)
+	relation 490281 *-->
+	  a role_name "m_create_datum_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to create a new datum
+child of its first argument. It will be nul in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506025 // m_create_datum_cb (<directional composition>)
+	  b parent class_ref 485417 // create_datum_t
+      end
+
+      classrelation 506153 // m_add_content_cb (<directional composition>)
+	relation 490409 *-->
+	  a role_name "m_add_content_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to create add text 
+content to a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506153 // m_add_content_cb (<directional composition>)
+	  b parent class_ref 485545 // add_content_t
+      end
+
+      classrelation 506281 // m_set_format_cb (<directional composition>)
+	relation 490537 *-->
+	  a role_name "m_set_format_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the format 
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506281 // m_set_format_cb (<directional composition>)
+	  b parent class_ref 485673 // set_string_attribute_t
+      end
+
+      classrelation 506537 // m_set_ordinal_cb (<directional composition>)
+	relation 490793 *-->
+	  a role_name "m_set_ordinal_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the ordinal
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506537 // m_set_ordinal_cb (<directional composition>)
+	  b parent class_ref 485929 // set_int_attribute_t
+      end
+
+      classrelation 506665 // m_set_scale_cb (<directional composition>)
+	relation 490921 *-->
+	  a role_name "m_set_scale_cb" public
+	    comment "This function pointer is set by the application when the plugin has mode 
+OUTPUT_DIRECT.  It should be called by the filter to set the scale
+attribute of a datum object created by m_create_datum_cb. It will be nul 
+in OUTPUT_STRING mode."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 506665 // m_set_scale_cb (<directional composition>)
+	  b parent class_ref 485673 // set_string_attribute_t
+      end
+    end
+
+    class 485289 "datum_traits"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This provides a series of functions for managing datum objects that can 
+be called from \"C\". These are given to the plugin as the m_create_datum_cb
+... m_set_scale_cb and enable the implementation of the OUTPUT_DIRECT 
+mode. The creation, attributes and content can all be set. Note that the 
+navigation of the tree is not supported so must be managed by the caller."
+      operation 1547049 "create"
+	class_operation public explicit_return_type "any"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_outcome" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const* const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const* const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method creates and returns a new datum object as a child
+of the given object.
+
+\\param a_node The parent node of the new datum.
+\\param a_outcome The value of the new datum's outcome attribute.
+\\return The newly create datum object (ptr owned by parent).
+
+\\errors Will return NULL if an error occurs.
+"
+      end
+
+      operation 1547177 "add_content"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_content" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the text contents of the given node. This will insert the
+text at the current \"position\".
+
+\\param The new content string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547305 "set_format"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the format attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The new format string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547561 "set_ordinal"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_ordinal" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the ordinal attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The ordinal, (> 0)
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+
+      operation 1547689 "set_scale"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_scale" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} const * const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Set the scale attribute of the given node. This will throw
+an exception in C++ if a_node is not a datum node! 
+
+\\param The new scale string
+\\return Error indicator (0 == success, 0 /= error)
+"
+      end
+    end
+  end
+
+  deploymentview 133545 "C (POD) types"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 151337 "basic_filter_traits"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+
+#ifdef __cplusplus
+extern \"C\" {
+#endif
+${declarations}
+struct ${name};
+${definition}
+#ifdef __cplusplus
+}
+#endif
+#endif
+"
+      associated_classes
+	class_ref 485545 // add_content_t
+	class_ref 485417 // create_datum_t
+	class_ref 486057 // initialise_t
+	class_ref 344873 // output_method_t
+	class_ref 344745 // process_method_t
+	class_ref 345001 // reset_method_t
+	class_ref 485929 // set_int_attribute_t
+	class_ref 485673 // set_string_attribute_t
+	class_ref 411305 // set_string_output_t
+	class_ref 344489 // basic_filter_traits
+      end
+    end
+
+    artifact 226345 "datum_traits"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/lexical_cast.hpp>
+#include \"data_scheme/basic_datum.hpp\"
+#include \"data_access/names.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 485289 // datum_traits
+      end
+    end
+
+    artifact 227625 "supplier_constants"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 413737 // plugin_flag
+	class_ref 345129 // result_value
+      end
+    end
+
+    artifact 129071 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:12 2012
+##END:date
+##START:target supplier
+lib supplier :
+	plugin_filter.cpp
+	filter_manager.cpp
+	/cchem/utility//utility
+	matcher_types.cpp
+	basic_filter.cpp
+	supplier_helper.cpp
+	datum_traits.cpp
+	/boost//regex
+	basic_plugin_handler.cpp
+	/boost//filesystem
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	matcher_filter.cpp
+	:
+	<link>shared
+	;
+
+install install_supplier : supplier : <location>$(LIBDIR) ;
+##END:target supplier
+##START:target test_filterutils
+install install_test_filterutils : test_filterutils : <location>$(BINDIR) ;
+##END:target test_filterutils
+##START:target supplier_py
+make supplier_py :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	filter_manager_py.cpp
+	/xml2//xml
+	/boost//python_lib
+	/boost//date_time
+	/cchem/supplier//supplier
+	/boost//program_options
+	/boost//filesystem
+	/cchem/data_access//data_access
+	/cchem/data_scheme//data_scheme
+	:
+	;
+
+install install_supplier_py : supplier_py : <location>$(DATADIR) ;
+##END:target supplier_py
+"
+    end
+  end
+end

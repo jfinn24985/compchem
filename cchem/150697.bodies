@@ -1,0 +1,171 @@
+class gaussian_summary
+!!!1071785.cpp!!!	initial_test(inout a_filter : basic_filter_traits, in a_phrase : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);	// This filter is always appropriate
+if (NULL == a_filter)
+{
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+else
+{
+  try
+  {
+    boost::regex l_command_re ("[[:space:]]irc[[:space:](=]", boost::regex::extended | boost::regex::icase);
+// DO
+// If the Gaussian "command" phrase matches our test regular expression then
+// switch to B system.  Otherwise just create the A system state object.
+    if (boost::regex_search (a_phrase, a_phrase + a_sz, l_command_re))
+    {
+      // Match RE so we must cut-over to use filter system B
+      DLOG ("Using B system\n");
+      a_filter->m_internal_state = new state_b;
+    }
+    else
+    {
+      DLOG ("Using A system\n");
+      a_filter->m_internal_state = new state_a;
+    }
+  }
+  catch (const supplier_error &a_err)
+  {
+    set_error (a_filter, a_err.what ());
+    Result = a_err.level;
+  }
+  catch (const std::exception & a_err)
+  {
+    set_error (a_filter, a_err.what ());
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  catch (...)
+  {
+    set_error (a_filter, "Unknown error.");
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+}
+
+// END
+return Result;
+!!!233641.cpp!!!	process_dipole(inout a_filter : basic_filter_traits, in a_segment : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+COMPCHEM_CHECK (m_result_set [DIPOLE].empty (), "Invalid state, searching for dipole after it was found.");
+if (68 == a_sz		// Skip lines with incorrect size
+    and boost::regex_search (a_segment, a_segment + a_sz, m_find_dipole))
+{
+  Result = CCHEM_SUPPLIER_COMPLETE; 
+  DLOG ("Dipole found with line size ");DLOG(a_sz);DLOG("\n");
+  // This regex looks for "X= 0.0 Y= 0.0 Z= 0.0 Tot= 0.0"
+  boost::regex l_extract ("[XYZt]=[[:space:]]*([-.[:digit:]]+)", boost::regex::extended);
+  unsigned int l_counter (0);
+  std::stringstream l_output;
+  // Perform match
+  for (boost::regex_iterator<const char*> l_matcher (a_segment, a_segment + a_sz, l_extract), l_end; l_matcher != l_end; ++l_matcher, ++l_counter)
+  {
+    // Get result string
+    if (l_counter > 0)
+    {
+      l_output << ",";
+    }
+    l_output << l_matcher->str (1);
+  }
+  if (4 <= l_counter)
+  {
+    // Add to result twiglet.
+    m_result_set [DIPOLE].scale.assign ("debye");
+    m_result_set [DIPOLE].format.assign ("x,y,z,tot");
+    m_result_set [DIPOLE].content.assign (l_output.str ());
+  }
+  else
+  {
+    // ERROR: Could not find what we wanted in result string.
+    set_error (a_filter, "Error extracting dipole from string [" + std::string (a_segment, a_sz) + "].");
+    Result = CCHEM_SUPPLIER_BADDATA;
+  }
+}
+// END
+return Result;
+!!!1067561.cpp!!!	process_termination(inout a_filter : basic_filter_traits, in a_segment : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+// DO
+COMPCHEM_CHECK (m_result_set [EXIT_STATUS].empty (), "Invalid state, searching for dipole after it was found.");
+if (boost::regex_search (a_segment, a_segment + a_sz, m_find_term))
+{
+  m_result_set[EXIT_STATUS].content.assign (a_segment, a_sz);
+  if (m_result_set[EXIT_STATUS].content.find ("Normal") == std::string::npos)
+  {
+    // Gaussian did not terminate normally, set error indicators and do not save status.
+    set_error (a_filter, "Invalid result with program termination [" + std::string (a_segment, a_sz) + "]");
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  else
+  {
+    boost::trim (m_result_set[EXIT_STATUS].content);
+    Result = CCHEM_SUPPLIER_COMPLETE;
+  }
+}
+// END
+return Result;
+!!!1073321.cpp!!!	output_default(inout a_filter : basic_filter_traits, in a_cb_data : any) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+// First lets check we have the calc-method and
+// basis-set. It is not a big problem to not have other data.
+if (m_result_set[CALC_METHOD].content.empty ())
+{
+  Result = CCHEM_SUPPLIER_BADDATA;
+  set_error (a_filter, "No calculation method data found.");
+}
+else if (m_result_set[BASIS_SET].content.empty ())
+{
+  Result = CCHEM_SUPPLIER_BADDATA;
+  set_error (a_filter, "No basis set information found.");
+}
+else
+{
+  // Set the outcomes on the various datum proxy objects
+  m_result_set[BASIS_SET].outcome.assign ("basis-set");
+  m_result_set[CALC_METHOD].outcome.assign ("calc-method");
+  m_result_set[CALC_TYPE].outcome.assign ("calc-type");
+  m_result_set[DIPOLE].outcome.assign ("dipole");
+  m_result_set[ENERGY_HF].outcome.assign ("energy-HF");
+  m_result_set[ENERGY_MP2].outcome.assign ("energy-MP2");
+  m_result_set[EXIT_STATUS].outcome.assign ("exit-status");
+  m_result_set[NIMAG].outcome.assign ("nimag");
+  m_result_set[POINT_GROUP].outcome.assign ("point-group");
+  m_result_set[STATE].outcome.assign ("state");
+  m_result_set[TITLE].outcome.assign ("title");
+  m_result_set[GEOM_DATA].outcome.assign ("geometry");
+  m_result_set[GEOM_CHARGE].outcome.assign ("charge");
+  m_result_set[GEOM_MULT].outcome.assign ("multiplicity");
+  // Create summary node as child of the top-level node 
+  datum_proxy l_top ("summary");
+  void *l_top_node (l_top.output (a_filter, a_cb_data));
+  // Add non-geometry data as children of the summary node
+  for (unsigned int l_i = 0; l_i <= TITLE; ++l_i)
+  {
+    if (not m_result_set[l_i].empty ())
+    {
+      m_result_set[l_i].output (a_filter, l_top_node);
+    }
+  }
+  // Now do the geometry.
+  if (not m_result_set[GEOM_DATA].empty ())
+  {
+    // Create a geometry node as a child of the top-level.
+    l_top_node = m_result_set[GEOM_DATA].output (a_filter, a_cb_data);
+    if (m_result_set[GEOM_CHARGE].empty () or m_result_set[GEOM_MULT].empty ())
+    {
+      set_error (a_filter, "Invalid geometry data without charge and/or multiplicity.");
+      Result = CCHEM_SUPPLIER_BADDATA;
+    }
+    else
+    {
+      // Now add the sub-nodes.
+      m_result_set[GEOM_CHARGE].output (a_filter, l_top_node);
+      m_result_set[GEOM_MULT].output (a_filter, l_top_node);
+    }
+  }
+}
+// END
+return Result;

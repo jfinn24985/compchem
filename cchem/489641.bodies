@@ -1,0 +1,99 @@
+class basic_plugin
+!!!1071913.cpp!!!	finalise(inout a_filter : basic_filter_traits) : void
+if (NULL != a_filter)
+{
+  if (NULL != a_filter->m_internal_state)
+  {
+    delete static_cast < basic_plugin * >(a_filter->m_internal_state);
+    a_filter->m_internal_state = NULL;
+  }
+  if (NULL != a_filter->m_error)
+  {
+    delete[]a_filter->m_error;
+    a_filter->m_error = NULL;
+  }
+}
+!!!1072553.cpp!!!	output(inout a_filter : basic_filter_traits, inout a_cb_data : any) : int
+// DO
+int Result (CCHEM_SUPPLIER_SUCCESS);
+if (NULL == a_filter)
+{
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+else if (NULL == a_filter->m_internal_state)
+{
+  set_error (a_filter, "Invalid state, attempt to get result from nul or uninitialised filter.");
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+else
+{
+  try
+  {
+    Result = static_cast < basic_plugin * >(a_filter->m_internal_state)->output_default (a_filter, a_cb_data);
+  }
+  catch (const supplier_error &a_err)
+  {
+    set_error (a_filter, a_err.what ());
+    Result = a_err.level;
+  }
+   catch (const std::exception &a_err)
+  {
+    set_error (a_filter, a_err.what ());
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  catch (...)
+  {
+    set_error (a_filter, "Unknown error");
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+}
+return Result;
+!!!1553577.cpp!!!	process(in a_filter : basic_filter_traits, in a_buffer : char, in a_sz : int) : int
+int Result (CCHEM_SUPPLIER_SUCCESS);
+try
+{
+  if (NULL == a_filter)
+  {
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  else if (NULL == a_filter->m_internal_state)
+  {
+    set_error (a_filter, "Uninitialised plugin object passed as argument to process.");
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  else
+  { 
+    Result = static_cast< basic_plugin * >(a_filter->m_internal_state)->process_default (a_filter, a_buffer, a_sz);
+  }
+}
+catch (const supplier_error &a_err)
+{
+  set_error (a_filter, a_err.what ());
+  Result = a_err.level;
+}
+ catch (const std::exception a_err)
+{
+  set_error (a_filter, a_err.what ());
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+catch (...)
+{
+  set_error (a_filter, "Unknown error.");
+  Result = CCHEM_SUPPLIER_FATAL;
+}
+return Result;
+!!!1560873.cpp!!!	set_error(inout a_filter : basic_filter_traits, in a_msg : string) : void
+if (not a_msg.empty ())
+{
+  if (NULL != a_filter->m_error)
+  {
+    a_msg.insert (0, "\n");
+    a_msg.insert (0, a_filter->m_error); // Combine error messages
+    delete [] a_filter->m_error;
+    a_filter->m_error = NULL;
+  } 
+  char *l_error = new char[a_msg.size () + 1];
+  a_msg.copy (l_error, a_msg.size (), 0);
+  *(l_error + a_msg.size ()) = '\0';
+  a_filter->m_error = l_error;
+}

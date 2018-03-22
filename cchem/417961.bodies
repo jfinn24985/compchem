@@ -1,0 +1,234 @@
+class test_streambuf
+!!!1630249.cpp!!!	main_test() : void
+boost::scoped_array< char > l_read_buffer (new char[s_size]);
+// {
+//   log () << TTLE << "Case 1: utility::streambuf < char, s_size >.\n";
+//   utility::streambuf < char, s_size > l_testbuf;
+//   log () << WTCH << "Contract tests after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   test_one_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   test_two_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   const std::string l_tmpstr (l_testbuf.str ());
+//   l_tmpstr.copy (l_read_buffer.get (), s_size, 0);
+//   // Do copy test
+//   test_five_copy (l_testbuf, l_testbuf);
+//   test_three_read (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   test_four_read_write (l_testbuf);
+//   bool_test (l_testbuf.max_size () == s_size, "Max size = template arg.");
+// }
+// {
+//   log () << TTLE << "Case 2: utility::c_streambuf < char >.\n";
+//   boost::scoped_array< char > l_realbuf (new char[s_size]);
+//   utility::c_streambuf < char > l_testbuf (l_realbuf.get (), s_size);
+//   log () << WTCH << "Contract tests after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   test_one_write (l_testbuf);
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   post_ctor_test (l_testbuf, false);
+//   test_two_write (l_testbuf);
+//   test_three_read (l_testbuf);
+//   // Reset buffer.
+//   l_testbuf.clear ();
+//   log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+//   test_four_read_write (l_testbuf);
+// }
+{
+  log () << TTLE << "Case 3: utility::const_c_streambuf < char >.\n";
+  const char l_temp[s_size] = "Hello World";
+  utility::const_c_streambuf < char > l_testbuf (&l_temp[0], sizeof(l_temp));
+//  utility::const_c_streambuf < char > l_testbuf (l_read_buffer.get (), s_size);
+  log () << WTCH << "Contract tests after ctor.\n";
+  post_ctor_test (l_testbuf, true);
+  // Do copy test
+  test_five_copy (l_testbuf, l_testbuf);
+  test_three_read (l_testbuf, true);
+  // Reset buffer to initial state.
+  l_testbuf.clear ();
+  log () << WTCH << "Contract tests after 'clear' should be same as after ctor.\n";
+  post_ctor_test (l_testbuf, true);
+  test_three_read (l_testbuf, true);
+}
+!!!1630761.cpp!!!	post_ctor_test(inout a_buf : T_streambuf, in a_readonly : bool) : void
+bool_test (a_buf.begin () != NULL, "begin /= nul");
+bool_test (a_buf.data () == a_buf.begin (), "begin = data");
+bool_test (a_buf.end () != NULL, "end /= nul");
+if (a_readonly)
+{
+  bool_test (not a_buf.str ().empty (), "Before output str must not give an empty string"); 
+  bool_test (a_buf.begin () != a_buf.end (), "Before output begin /= end"); 
+}
+else
+{
+  bool_test (a_buf.str ().empty (), "Before input/output str gives an empty string"); 
+  bool_test (a_buf.begin () == a_buf.end (), "Before input/output begin = end");
+}
+!!!1335337.cpp!!!	test_one_write(inout a_buf : T_streambuf) : void
+log () << TTLE << "Test One: Write (ostream) test.\n";
+std::ostream l_test (&a_buf);
+unsigned int i (0);
+for (i = 0; i < 2000 and l_test; ++i)
+{
+  if (i % 128 == 0)
+  {
+    log () << COMM << "Inserted " << i << " characters\n";
+  }
+  l_test << i % 10;
+}
+log () << WTCH << "Inserted " << i << " characters, one-by-one until stream failed.\n";
+
+log () << WTCH << "Final buffer converted to string\n" << a_buf.str () << "\n";
+const std::string l_tmpstr (a_buf.data (), a_buf.data () + s_size);
+log () << WTCH << "Final buffer as C buffer\n" << l_tmpstr << "\n";
+
+bool_test (true == l_test.fail (), "Fail bit = true");
+bool_test (false == l_test.eof (), "EOF  bit = false");
+bool_test (true == l_test.bad (), "Bad  bit = true");
+bool_test (false == l_test.good (), "Good bit = false");
+log () << WTCH << "Contract tests after writing to buffer.\n";
+bool_test (a_buf.begin () != NULL, "begin /= nul");
+bool_test (a_buf.data () == a_buf.begin (), "begin = data");
+bool_test (a_buf.end () != NULL, "end /= nul");
+bool_test (!a_buf.str ().empty (), "After input str does not give an empty string"); 
+bool_test (a_buf.begin () != a_buf.end (), "After input begin /= end");
+!!!1630889.cpp!!!	test_two_write(inout a_buf : T_streambuf) : void
+log () << TTLE << "Test two: Write (ostream) test two.\n";
+std::ostream l_test (&a_buf);
+unsigned int i (0);
+const char l_val[] = "987654321 ";
+
+for (i = 0; i < 200 and l_test; ++i)
+{
+  if (i % 8 == 0)
+  {
+    log () << COMM << "Inserted " << (sizeof (l_val) - 1) * i << " characters\n";
+  }
+  l_test << l_val;
+}
+log () << WTCH << "Inserted " << (sizeof (l_val) - 1) * i << " characters, " << (sizeof (l_val) - 1) << " at-a-time until stream failed.\n";
+
+log () << WTCH << "Final buffer is\n" << a_buf.str () << "\n";
+
+bool_test (true == l_test.fail (), "Fail bit = true");
+bool_test (false == l_test.eof (), "EOF  bit = false");
+bool_test (true == l_test.bad (), "Bad  bit = true");
+bool_test (false == l_test.good (), "Good bit = false");
+!!!1631145.cpp!!!	test_three_read(inout a_buf : T_streambuf, in a_readonly : bool = false) : void
+log () << TTLE << "Test three: Read (istream) test.\n";
+std::istream l_test (&a_buf);
+unsigned int
+  i = 0, l_val = 0;
+
+for (i = 0; i < 200 and l_test; ++i)
+{
+  l_test >> l_val;
+  log () << COMM << "Attempted to extract " << i << "th integer\n";
+}
+log () << WTCH << "Extracted " << i << " integers, last was " << l_val << ".\n";
+
+const std::string l_tmpstr (a_buf.data (), a_buf.data () + s_size);
+log () << WTCH << "Buffer is\n" << l_tmpstr << std::endl;
+log () << WTCH << "Buffer as string is\n" << a_buf.str () << std::endl;
+
+bool_test (true == l_test.fail (), "Fail bit = true");
+if (a_readonly)
+{
+  bool_test (false == l_test.eof (), "EOF  bit = false (read-only buffer)");
+}
+else
+{
+  bool_test (true == l_test.eof (), "EOF  bit = true");
+}
+bool_test (false == l_test.bad (), "Bad  bit = false");
+bool_test (false == l_test.good (), "Good bit = false");
+
+log () << TTLE << "Contract tests after reading from buffer.\n";
+bool_test (a_buf.begin () != NULL, "begin /= nul");
+bool_test (a_buf.data () == a_buf.begin (), "begin = data");
+bool_test (a_buf.end () != NULL, "end /= nul");
+bool_test (!a_buf.str ().empty (), "After input/output str does not give an empty string"); 
+bool_test (a_buf.begin () != a_buf.end (), "After input/output begin /= end"); 
+!!!1630633.cpp!!!	test_four_read_write(inout a_buf : T_streambuf) : void
+log () << TTLE << "Test four: Read/Write (iostream) test.\n";
+std::iostream l_test (&a_buf);
+unsigned int i = 0, l_val = 0;
+for (unsigned int j = 0; j < 10; ++j)
+{
+  for (i = 0; i < 20 and l_test; ++i)
+  {
+    l_val = rand ();
+    l_test << l_val << " ";
+    log () << COMM << "Attempted to input " << i << "th integer " << l_val << "\n";
+  }
+  log () << WTCH << "Inputed " << i << " integers, last was " << l_val << ".\n";
+
+  if (not l_test.bad ())
+  {
+    bool_test (false == l_test.fail (), "Fail bit = false");
+    bool_test (false == l_test.eof (), "EOF  bit = false");
+    bool_test (false == l_test.bad (), "Bad  bit = false");
+    bool_test (true == l_test.good (), "Good bit = true");
+  }
+  else
+  {
+    bool_test (true == l_test.fail (), "Fail bit = true");
+    bool_test (false == l_test.eof (), "EOF  bit = false");
+    bool_test (true == l_test.bad (), "Bad  bit = true");
+    bool_test (false == l_test.good (), "Good bit = false");
+    log () << WTCH << "Buffer full, clearing to allow read.\n";
+    l_test.clear ();
+  }
+  for (i = 0; i < 21 and l_test; ++i)
+  {
+    l_test >> l_val;
+    log () << COMM << "Attempted to extract " << i << "th integer " << l_val << "\n";
+  }
+  log () << WTCH << "Extracted " << i << " integers, last was " << l_val << ".\n";
+
+  log () << WTCH << "Buffer is\n" << a_buf.str () << "\n";
+
+  if (l_test.bad ())
+  {
+    log () << WTCH << "Buffer full\n";
+    bool_test (true == l_test.fail (), "Fail bit = true");
+    bool_test (false == l_test.eof (), "EOF  bit = false");
+    bool_test (true == l_test.bad (), "Bad  bit = true");
+    bool_test (false == l_test.good (), "Good bit = false");
+    break;
+  }
+  bool_test (true == l_test.fail (), "Fail bit = true");
+  bool_test (true == l_test.eof (), "EOF  bit = true");
+  bool_test (false == l_test.bad (), "Bad  bit = false");
+  bool_test (false == l_test.good (), "Good bit = false");
+  log () << COMM << "Clearing state.\n";
+  l_test.clear ();
+  bool_test (false == l_test.fail (), "Fail bit = false");
+  bool_test (false == l_test.eof (), "EOF  bit = false");
+  bool_test (false == l_test.bad (), "Bad  bit = false");
+  bool_test (true == l_test.good (), "Good bit = true");
+}
+!!!1634089.cpp!!!	test_five_copy(in a_copy : T_streambuf, inout a_orig : T_streambuf) : void
+log () << TTLE << "Test Five: copy test.\n";
+// a_copy and a_orig should be identical
+bool_test (*(a_copy.begin ()) == *(a_orig.begin ()), "first character of copy matchs original");
+bool_test (a_copy.str () == a_orig.str (), "strings from copy identical to original");
+std::string l_s1;
+std::string l_s2;
+std::istream l_is1 (&a_copy);
+std::istream l_is2 (&a_orig);
+l_is1 >> l_s1;
+l_is2 >> l_s2;
+bool_test (l_s1 == l_s2, "first word from copy and original are identical");

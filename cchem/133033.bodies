@@ -1,0 +1,860 @@
+class xml_rb_node
+!!!179881.cpp!!!	_S_get_index(in rp : xml_type, in index : uint) : xml_type
+  if ( index == 0 ) {
+    return NULL;
+  } else {
+    DEBUG( "xml_rb_node::_S_get_index: get index for ", index );
+    DEBUG( "xml_rb_node::_S_get_index: from dictionary ", _S_dict( rp ) );
+    if ( xml_rb_node::_c_xml_node_map[ _S_dict( rp ) ].find( index ) != xml_rb_node::_c_xml_node_map[ _S_dict( rp ) ].end() ) {
+      DEBUG( "xml_rb_node::_S_get_index: Found index " );
+      return xml_rb_node::_c_xml_node_map[ _S_dict( rp ) ][ index ];
+    } else {
+      DEBUG( "xml_rb_node::_S_get_index: Did not find index " );
+      static char _msg[] = "xml_rb_node.out_of_bounds -> non-existent index in dictionary";
+      throw _msg;
+      return NULL;
+    };
+  };
+!!!180521.cpp!!!	__str__(in  : void) : string
+// Python Code:
+//        strlist = []
+//         def opp( newstr, list=strlist):
+//             list.append( newstr )
+//         self._writer( opp )
+//         repstr = ""
+//         for item in strlist:
+//             repstr = repstr + item
+  std::stringstream _l_retval;
+  _writer( _l_retval, false );
+  return _l_retval.str();
+!!!180649.cpp!!!	_list_content(in  : void) : std::vector<xml_type>
+// // Python Code:
+//         "This returns the list of child elements contained in this node"
+//         retval = []
+//         if self.has_child():
+//             content_node_ind = self._m_rep[xml_node._c_child]
+//             while ( not content_node_ind == 0 ):
+//                 retval.append( self._m_tree_dictionary[ content_node_ind ] )
+//                 content_node_ind = self._m_tree_dictionary[ content_node_ind ]._m_rep[xml_node._c_sibling]
+//         return retval
+  std::vector<xml_rb_node::xml_type> _l_retval;
+  xml_rb_node::xml_type _l_tmp;
+  if ( has_child() ) {
+    unsigned int content_node_ind = _S_child( this );
+    while ( content_node_ind != 0 ) {
+      _l_tmp = _S_get_index( this, content_node_ind );
+      _l_retval.push_back( _l_tmp );
+      content_node_ind = _S_sibling( _l_tmp );
+    };
+  };
+  return _l_retval;  
+!!!180777.cpp!!!	_list_content_tags(in  : void) : std::vector<std::string>
+// Python Code:
+//         retval = []
+//         if self.has_child():
+//             content_node_ind = self._m_rep[xml_node._c_child]
+//             while ( not content_node_ind == 0 ):
+//                 retval.append( self._m_tree_dictionary[ content_node_ind ].tag() )
+//                 content_node_ind = self._m_tree_dictionary[ content_node_ind ]._m_rep[xml_node._c_sibling]
+//         return retval
+  std::vector<std::string> _l_retval;
+  xml_rb_node::xml_type _l_tmp;
+  if ( has_child() ) {
+    unsigned int content_node_ind = _S_child( this );
+    while ( content_node_ind != 0 ) {
+      _l_tmp = _S_get_index( this, content_node_ind );
+      _l_retval.push_back( std::string(_S_tagname( _l_tmp )) );
+      content_node_ind = _S_sibling( _l_tmp );
+    };
+  };
+
+  return _l_retval;
+!!!180905.cpp!!!	_list_content_tags(in separator : char) : string
+// Python Code:
+//         retval = []
+//         if self.has_child():
+//             content_node_ind = self._m_rep[xml_node._c_child]
+//             while ( not content_node_ind == 0 ):
+//                 retval.append( self._m_tree_dictionary[ content_node_ind ].tag() )
+//                 content_node_ind = self._m_tree_dictionary[ content_node_ind ]._m_rep[xml_node._c_sibling]
+//         return retval
+  std::string _l_retval = "";
+  xml_rb_node::xml_type _l_tmp;
+  if ( has_child() ) {
+    unsigned int content_node_ind = _S_child( this );
+    while ( content_node_ind != 0 ) {
+      _l_tmp = _S_get_index( this, content_node_ind );
+      _l_retval += _S_tagname( _l_tmp );
+      _l_retval += separator;
+      content_node_ind = _S_sibling( _l_tmp );
+    };
+  };
+//   _l_retval += '\0';
+  return _l_retval;
+!!!181033.cpp!!!	_S_level_order_traversal(in node : xml_type, in fn : traversal_operation) : void
+// Python Code:
+//         """This performs a 'levelorder' traversal of the tree starting
+//         at this node. It is non-recursive, instead using a 'queue'. It
+//         performs the given operation on each node retrieved."""
+//         queue = []
+//         min = -1
+//         max = 0
+//         queue.append( self )
+//         while max > min:
+//             "Pop off the stack"
+//             min = min + 1
+//             node = queue[ min ]
+//             "Perform operation"
+//             operation( node )
+//             if ( not node._m_rep[xml_node._c_sibling] == 0 ):
+//                 "Push new node onto stack"
+//                 queue.append( node.sibling() )
+//                 max = max + 1
+//             if ( not node._m_rep[xml_node._c_child] == 0 ):
+//                 "Push new node onto stack"
+//                 queue.append( node.child() )
+//                 max = max + 1
+  std::deque<xml_rb_node::xml_type> _l_queue;
+  xml_rb_node::xml_type _l_tmp;
+  _l_queue.push_back( node );
+  while( !_l_queue.empty() ) {
+    // "Pop off the stack"
+    _l_tmp = _l_queue.front();
+    _l_queue.pop_front();
+    //  "Perform operation"
+    (*fn)( _l_tmp );
+    //  "Add sibling and child to stack"
+    if ( _S_sibling( _l_tmp ) != 0 && _S_sibling( _l_tmp ) != _S_sibling( node ) ) {
+      _l_queue.push_back( _S_get_index( _l_tmp, _S_sibling( _l_tmp ) ) );
+    };
+    if ( _S_child( _l_tmp ) != 0 ) {
+      _l_queue.push_back( _S_get_index( _l_tmp, _S_child( _l_tmp ) ) );
+    };
+  };
+!!!181161.cpp!!!	_S_preorder_traversal(in node : xml_type, in fn : traversal_operation) : void
+// Python Code:
+//         """This performs a 'preorder' traversal of the tree starting
+//         at this node. It is non-recursive, instead using a 'stack'. It
+//         performs the given operation on each node retrieved."""
+//         stack = []
+//         ind = 0
+//         stack.append( self )
+//         while ind >= 0:
+//             "Pop off the stack"
+//             node = stack[ ind ]
+//             ind = ind - 1
+//             "Perform operation"
+//             operation( node )
+//             if ( not node._m_rep[xml_node._c_sibling] == 0 ):
+//                 "Push new node onto stack"
+//                 try:
+//                     stack[ind + 1] = node.sibling()
+//                 except IndexError:
+//                     stack.append( node.sibling() )
+//                 ind = ind + 1
+//             if ( not node._m_rep[xml_node._c_child] == 0 ):
+//                 "Push new node onto stack"
+//                 try:
+//                     stack[ind + 1] = node.child()
+//                 except IndexError:
+//                     stack.append( node.child() )
+//                 ind = ind + 1
+  std::deque<xml_rb_node::xml_type> _l_stack;
+  xml_rb_node::xml_type _l_tmp;
+  _l_stack.push_back( node );
+  while( !_l_stack.empty() ) {
+    // "Pop off the stack"
+    _l_tmp = _l_stack.front();
+    _l_stack.pop_front();
+    //  "Perform operation"
+    (*fn)( _l_tmp );
+    //  "Add sibling and child to stack"
+    if ( _S_sibling( _l_tmp ) != 0 && _S_sibling( _l_tmp ) != _S_sibling( node )) {
+      _l_stack.push_front( _S_get_index( _l_tmp, _S_sibling( _l_tmp ) ) );
+    };
+    if ( _S_child( _l_tmp ) != 0 ) {
+      _l_stack.push_front( _S_get_index( _l_tmp, _S_child( _l_tmp ) ) );
+    };
+  };
+!!!181417.cpp!!!	__S_change_dictionary(in new_dict : uint) : void
+  DEBUG( "xml_rb_node::__S_change_dictionary -> entered" );
+  // Check for children or siblings.
+  if ( !has_child() && !has_sibling() ) {
+    // The node has no children/siblings, use short dictionary change.
+    // DEBUG cout << "use short dictionary change" << endl;
+    // Find vacant position and add this element 
+    _S_dict( this ) = new_dict;
+    while ( xml_rb_node::_c_xml_node_map[ new_dict ].find( _S_index( this ) ) !=  xml_rb_node::_c_xml_node_map[ new_dict ].end() ) {
+      ++_S_index( this );
+    };
+    xml_rb_node::_c_xml_node_map[ _S_dict( this ) ].erase( _S_index( this ) );
+    xml_rb_node::_c_xml_node_map[ new_dict ][ _S_index( this ) ] = this;
+  } else {
+    // The node has children/siblings, use long dictionary change.
+    //BEBUG cout << "use long dictionary change" << endl;
+
+    std::vector< xml_rb_node::xml_type > _all_list;
+    std::deque< xml_rb_node::xml_type > _l_stack;
+    std::vector< std::pair<unsigned int,unsigned int> > _bad_list;
+    std::map< unsigned int, xml_rb_node::xml_type> &_dict_old = 
+      xml_rb_node::_c_xml_node_map[ _S_dict( this ) ];
+    std::map< unsigned int, xml_rb_node::xml_type> &_dict_new = 
+      xml_rb_node::_c_xml_node_map[ new_dict ];
+
+    xml_rb_node::xml_type _l_tmp = this;
+    _l_stack.push_back( this );
+    while ( !_l_stack.empty() ) {
+      _l_tmp = _l_stack.front();
+      _l_stack.pop_front();
+      _all_list.push_back( _l_tmp );
+      if ( _S_sibling( _l_tmp ) != 0 )
+	_l_stack.push_back( _dict_old[ _S_sibling( _l_tmp ) ] );
+      if ( _S_child( _l_tmp ) != 0 )
+	_l_stack.push_back( _dict_old[ _S_child( _l_tmp ) ] );
+    };
+    
+    //BEBUG cout << "size of list is " << _all_list.size();
+
+    std::vector<xml_rb_node::xml_type>::iterator _i;
+    unsigned int _new_index;
+
+    for( _i = _all_list.begin(); _i != _all_list.end(); ++_i ) {
+      // get node's index
+      _new_index = _S_index( *_i );
+      // remove from old dictionary
+      _dict_old.erase( _new_index );
+      // check if it exists in new dict
+      if ( _dict_new.find( _new_index ) != _dict_new.end() ) {
+	// index exists in new dictionary
+	// increment to find a vacant spot.
+	while ( _dict_new.find( _new_index ) != _dict_new.end() &&
+		_dict_old.find( _new_index ) != _dict_old.end() ) {
+	  ++_new_index;
+	};
+	// add to bad list
+	_bad_list.push_back( std::make_pair( _S_index( *_i ), _new_index ) );
+	// update internal index
+	_S_index( *_i ) = _new_index;
+      };
+      // Ok, add and update
+      _dict_new[ _new_index ] = *_i;
+      _S_dict( *_i ) = new_dict;
+    };
+    if ( !_bad_list.empty() ) {
+      // have some indices changed. search for them and update
+      std::vector< std::pair<unsigned int,unsigned int> >::iterator _j;
+      for( _i = _all_list.begin(); _i != _all_list.end(); ++_i ) {
+	for ( _j = _bad_list.begin(); _j != _bad_list.end(); ++_j ) {
+	  if ( (*_j).first == _S_parent( *_i )  ) _S_parent( *_i )  = (*_j).second;
+	  if ( (*_j).first == _S_child( *_i )   ) _S_child( *_i )   = (*_j).second;
+	  if ( (*_j).first == _S_sibling( *_i ) ) _S_sibling( *_i ) = (*_j).second;
+	  if ( (*_j).first == _S_preface( *_i ) ) _S_preface( *_i ) = (*_j).second;
+	};
+      };    
+    };
+  };
+!!!181545.cpp!!!	_writer(inout os : std::ostream, in str_conv : bool = false) : void
+  // -----------------
+  //  This is the recursive version of this code. A non-recursive
+  //  version exists and will be added later.
+  // -----------------
+  DEBUG( "void xml_rb_node::_writer -> entered" );
+// Python Code:
+//         if self._m_rep[xml_node._c_preface] != 0:
+//             ## print str(self._m_rep[xml_node._c_preface])
+//             preface_node_ind = self._m_rep[xml_node._c_preface]
+//             while (not preface_node_ind == 0 ):
+//                 self._m_tree_dictionary[ preface_node_ind ]._writer( add_op, str_conv )
+//                 preface_node_ind = self._m_tree_dictionary[ preface_node_ind ]._m_rep[xml_node._c_sibling]
+        
+//         add_op( "<" + self.tag() )
+//         tmplist = [] + self._m_rep[xml_node._c_attributes].keys()
+//         tmplist.sort()
+//         for key in tmplist:
+//             add_op( " " + key + "=\"" + self._m_rep[xml_node._c_attributes][key] + "\"" )
+//         if self.is_empty():
+//             add_op( "/>" )
+//         else:
+//             add_op( ">" )
+//             sibling_node_ind = self._m_rep[xml_node._c_child]
+//             while (not sibling_node_ind == 0 ):
+//                 self._m_tree_dictionary[ sibling_node_ind ]._writer( add_op, str_conv )
+//                 sibling_node_ind = self._m_tree_dictionary[ sibling_node_ind ]._m_rep[xml_node._c_sibling]
+//             add_op( "</" + self.tag() + ">" )
+  xml_rb_node::xml_type _l_tmp;
+  // -- 
+  // For root node (the only one that can have a preface)
+  // --
+  if ( _S_preface( this ) != 0 ) {
+    unsigned int preface_node_ind = _S_preface( this );
+    while ( preface_node_ind != 0 ) {
+      _l_tmp = _S_get_index( this, preface_node_ind );
+      _l_tmp->_writer( os, str_conv );
+      preface_node_ind = _S_preface( _l_tmp );
+    };
+  };
+  // --
+  // Output the node's tag name
+  // -- 
+  os << "<" << _S_tagname( this );
+  // --
+  // Output the node's attributes, iff any
+  // -- 
+  if ( has_attributes() ) {
+    std::map<std::string, std::string> attrib = attribute_dictionary();
+    for ( std::map<std::string, std::string>::iterator i = attrib.begin();
+	  i != attrib.end();
+	  ++i ) {
+      os << " " << (*i).first;
+      if ( (*i).second.empty() ) 
+	os << "";
+      else 
+	os << "=\"" << (*i).second << "\"";
+    };    
+  };
+  DEBUG( "void xml_rb_node::_writer -> atributes done, now for children" );
+  // --
+  // Output the node's content, iff any
+  // -- 
+  if ( is_empty() ) {
+    // --
+    // No content, use empty node terminator
+    // -- 
+    DEBUG( "void xml_rb_node::_writer -> no children, now our end then done" );
+    os << "/>";
+  } else {
+    os << ">";
+    unsigned int sibling_node_ind = _S_child( this );
+    while (  sibling_node_ind != 0 ) {
+      DEBUG( "void xml_rb_node::_writer -> Getting child", sibling_node_ind );
+      _l_tmp = _S_get_index( this, sibling_node_ind );
+      DEBUG( "void xml_rb_node::_writer -> Calling writer" );
+      _l_tmp->_writer( os, str_conv );
+      DEBUG( "void xml_rb_node::_writer -> Getting next child index" );
+      sibling_node_ind = _S_sibling( _l_tmp );
+    };
+    // --
+    // Has content, use ordinary terminator
+    // -- 
+    DEBUG( "void xml_rb_node::_writer -> children done, now our end then done" );
+    os << "</" << _S_tagname( this ) << ">";
+  };
+!!!181801.cpp!!!	attribute_dictionary(in  : void) : std::map<std::string, std::string>
+// Python Code:
+  std::map<std::string,std::string> _l_retval;
+  // -- 
+  // Check for attribs (this is a virtual function so any derived
+  // classes that do not have attributes should redefine the
+  // "_can_have_attributes" function to return false)
+  // -- 
+  DEBUG( "map<string, string> xml_rb_node::attribute_dictionary entered");
+  if ( _can_have_attributes() && !_S_attributes( this ).empty() ) {
+    DEBUG( "xml_rb_node::attribute_dictionary begin finding attributes");
+    unsigned int _name_begin, _name_end, _value_begin, _value_end;
+    _name_begin = 0;
+    while( 1 ) {
+      _name_end = _S_attributes( this ).find( "\n", _name_begin );
+      if ( _name_end > _S_attributes( this ).size() ||
+	   _name_begin >= _S_attributes( this ).size() ||
+	   _name_begin == _name_end ) {
+	break;
+      }
+      _value_begin = _name_end + 1;
+      _value_end = _S_attributes( this ).find( "\n", _value_begin );
+      if ( _value_end > _S_attributes( this ).size() ) {
+	break;
+      }
+      _l_retval.insert( std::make_pair( _S_attributes( this ).substr(_name_begin, (_name_end - _name_begin ) ),
+				   _S_attributes( this ).substr(_value_begin, (_value_end - _value_begin ) ) ) );
+      _name_begin = _value_end + 1;
+    };
+  };	
+  return _l_retval;
+!!!181929.cpp!!!	attributes(in c_str_array : char) : void
+  DEBUG( " xml_rb_node::attributes -> entered" ); 
+  if ( c_str_array ) {
+    if ( _S_attributes( this ).empty() ) {
+      // cout << " xml_rb_node::attributes -> no previous attributes" << endl; 
+      for ( int i = 0; NULL != c_str_array[i] && NULL != c_str_array[i + 1]; i += 2 ) {
+	// cout << " xml_rb_node::attributes -> new attribute name = [" << c_str_array[i] << "]" << endl; 
+	// cout << " xml_rb_node::attributes -> new attribute value = [" << c_str_array[i] << "]" << endl; 
+	
+	_S_attributes( this ).append( c_str_array[i] );
+	_S_attributes( this ).append( "\n" );
+	_S_attributes( this ).append( c_str_array[i + 1] );
+	_S_attributes( this ).append( "\n" );
+      };
+    } else {
+      // cout << " xml_rb_node::attributes -> prior attributes, add one by one" << endl; 
+      for ( int i = 0; NULL != c_str_array[i] && NULL != c_str_array[i + 1]; i += 2 ) {
+	// cout << " xml_rb_node::attributes -> new attribute name = [" << c_str_array[i] << "]" << endl; 
+	// cout << " xml_rb_node::attributes -> new attribute value = [" << c_str_array[i] << "]" << endl; 
+	attribute( c_str_array[i], c_str_array[i + 1] );
+      };
+    };
+  };
+  DEBUG( " xml_rb_node::attributes -> done" ); 
+!!!182057.cpp!!!	attribute(in name : string) : string
+  std::string _l_retval;
+  unsigned int _index[4];
+  if ( find_attribute( name, _index) ) { // attrib found
+    _l_retval = _S_attributes( this ).substr( _index[2], ( _index[3] - _index[2] ) );
+  };
+  return _l_retval;
+!!!182185.cpp!!!	attribute(in name : string, in value : string) : bool
+// Python Code:
+//         if value:
+//             self._m_rep[xml_node._c_attributes][name] = value
+//         elif not self._m_rep[xml_node._c_attributes].has_key(name):
+//             return None
+//         return self._m_rep[xml_node._c_attributes][name]
+
+  // Remember to always check for attributes using "_can_have_attributes"
+  if ( !_can_have_attributes() ) {
+    return false;
+  };
+  // Check input
+  if ( name.find( "\n" ) < name.size() || 
+       ( !value.empty() && value.find( "\n" ) < value.size() ) ) {
+    throw "Attempt to find attribute with included newlines";
+    return false;
+  };
+//   cerr << "Here! 2" << endl;
+//   if ( _S_attributes( this ).empty() ) {
+//     // No attributes so far, need to add new attribute 
+//     // => Append "name"
+//     _S_attributes( this ).append( name );
+//     _S_attributes( this ).append( "\n" );
+//     // => Append "value"
+//     _S_attributes( this ).append( value );
+//     _S_attributes( this ).append( "\n" );
+//     return true;
+//   };
+//   cerr << "Here! 3" << endl;
+
+  unsigned int _index[4];
+  if ( find_attribute( name, _index) ) { // attrib found
+    if ( value != _S_attributes( this ).substr( _index[2], ( _index[3] - _index[2] ) ) ) {
+      _S_attributes( this ).replace( _index[2], ( _index[3] - _index[2] ), value );
+    };
+  } else {
+    // No match, need to add new attribute 
+    // => Append "name"
+    _S_attributes( this ).append( name );
+    _S_attributes( this ).append( "\n" );
+    // => Append "value"
+    _S_attributes( this ).append( value );
+    _S_attributes( this ).append( "\n" );
+  };
+  return true;
+!!!182313.cpp!!!	find_attribute(in name : string, inout _l_return : uint) : bool
+  _l_return[0] = 0;
+  _l_return[1] = 0;
+  _l_return[2] = 0;
+  _l_return[3] = 0;
+  if ( _can_have_attributes() && !_S_attributes( this ).empty() ) {
+    // Check input
+    if ( name.find( "\n" ) < name.size() ) {
+      throw "Attempt to find attribute with included newlines";
+      return false;
+    };
+					     
+    while( 1 ) {
+      _l_return[1] = _S_attributes( this ).find( "\n", _l_return[0] );
+      if ( _l_return[1] > _S_attributes( this ).size() ||
+	   _l_return[0] >= _S_attributes( this ).size() ||
+	   _l_return[0] == _l_return[1] ) {
+	_l_return[1] = 0; // Nothing found indicator
+	return false;
+      };
+      _l_return[2] = _l_return[1] + 1;
+      _l_return[3] = _S_attributes( this ).find( "\n", _l_return[2] );
+      if ( _l_return[3] > _S_attributes( this ).size() ) {
+	_l_return[1] = 0; // Nothing found indicator
+	return false;
+      };
+//       cout << "comparing [" << _S_attributes( this ).substr(_l_return[0], (_l_return[1] - _l_return[0] ) ) << "] to [" << name << "]" << endl;
+      if ( _S_attributes( this ).substr(_l_return[0], (_l_return[1] - _l_return[0] ) ) == name ) {
+	// Name found, 
+	break;
+      };
+      _l_return[0] = _l_return[3] + 1;
+    };
+    return true;
+  } else {
+    return false;
+  };
+!!!182441.cpp!!!	del_attribute(in name : string, in value : string = std::string()) : void
+  // Remember to always check for attributes using "_can_have_attributes"
+  if ( _can_have_attributes() && !_S_attributes( this ).empty() ) {
+  unsigned int _index[4];
+  if ( find_attribute( name, _index) ) { // attrib found
+      if ( value.empty() || value == _S_attributes( this ).substr( _index[2], ( _index[3] - _index[2] ) ) ) {
+	_S_attributes( this ).erase( _index[0], ( _index[3] + 1 - _index[0] ) );
+      };
+    };
+  };
+!!!182569.cpp!!!	child(in new_child : xml_type = NULL) : xml_type
+// Python Code:
+//         "Tree operation: Query the dictionary for first child"
+//         if newnode:
+//             ## print "Insert new child(ren), pushing old children away"
+//             old_child_ind = self._m_rep[xml_node._c_child]
+//             "Change dictionary of newnode and its descendents"
+//             newnode.tree_dictionary( self._m_tree_dictionary )
+//             "Add new sibling and reparent"
+//             self._m_rep[xml_node._c_child] = newnode._m_rep[xml_node._c_index]
+//             newnode._m_rep[xml_node._c_parent] = self._m_rep[xml_node._c_index]
+//             "Traverse sibling list of newnode, reparenting each one"
+//             if old_child_ind != 0:
+//                 while newnode._m_rep[xml_node._c_sibling] != 0:
+//                     newnode = newnode._m_tree_dictionary[ newnode._m_rep[xml_node._c_sibling] ]
+//                     newnode._m_rep[xml_node._c_parent] = self.index()
+//                 newnode._m_rep[xml_node._c_sibling] = old_child_ind           
+//         if self._m_rep[xml_node._c_child] != 0:
+//             return self._m_tree_dictionary[ self._m_rep[xml_node._c_child] ]
+//         else:
+//             return None
+  xml_rb_node::xml_type _l_ret_val = NULL;
+  if ( new_child ) {
+    DEBUG( "xml_rb_node::child -> entered" );
+    // set return value.
+    _l_ret_val = new_child;
+    // save position of any child
+    unsigned int _l_old_child_ind = _S_child( this );
+    // Change dictionary of newnode and its descendents
+    DEBUG( "xml_rb_node::child -> changing new child's dictionary" );
+    _S_change_dictionary( new_child, _S_dict( this ) );
+    // Add new sibling
+    _S_child( this ) = _S_index( new_child );
+    DEBUG( "xml_rb_node::child -> reparenting new child and its sibs" );
+    // reparent the child and its siblings
+    unsigned int _l_sibs = _S_index( new_child );
+    xml_rb_node::xml_type _l_tmp = new_child;
+    DEBUG( "xml_rb_node::child -> got new child's dictionary ", _S_index( this ) );
+    while ( _l_sibs != 0 ) {
+      DEBUG( "xml_rb_node::child -> change dictionary loop 1 ", _l_sibs );   
+      _l_tmp = _S_get_index( this, _l_sibs );
+      DEBUG( "xml_rb_node::child -> change dictionary loop 2 ", _S_index( _l_tmp ) );   
+      _S_parent( _l_tmp ) = _S_index( this );
+      DEBUG( "xml_rb_node::child -> change dictionary loop 3 " );   
+      _l_sibs = _S_sibling( _l_tmp );
+#ifdef __DEBUG__
+      if ( _l_sibs != 0 )
+	DEBUG( "xml_rb_node::child -> more sibs", _l_sibs );
+      else
+	DEBUG( "xml_rb_node::child -> no more sibs", _l_sibs );
+#endif
+    };
+    DEBUG( "xml_rb_node::child -> if we have an old child, tack it on the end" );
+    if ( _l_old_child_ind != 0 ) {
+      // had children before, lets add them
+      _S_sibling( _l_tmp ) = _l_old_child_ind;
+    };
+  } else {
+    // return existing child if it exists
+    if ( _S_child( this ) != 0 ) {
+      _l_ret_val = _S_get_index( this, _S_child( this ) );
+    } else {
+      _l_ret_val = NULL;
+    };
+  };
+  DEBUG( "xml_rb_node::child -> done" );
+  return _l_ret_val;
+!!!182697.cpp!!!	child_search(inout srch : search_cond) : std::vector<xml_type>
+  if ( has_child() ) {
+    xml_rb_node::xml_type _l_tmp;
+    _l_tmp = _S_get_index( this, _S_child( this ) );
+    if ( _l_tmp )
+      return _l_tmp->search( srch );
+    else
+      throw "vector<xml_rb_node::xml_type> xml_rb_node::child_search( xml_rb_node::search_cond &srch ) ERROR";
+//     return _S_get_index( this, _S_child( this ) )->search( srch );
+  } else {
+    return std::vector<xml_type>();
+  };
+!!!182825.cpp!!!	append(in new_child : xml_type, in index : uint = 0) : xml_type
+// Python Code:
+//         if value:
+//             if DEBUG > 2: print "Index requested = [" + str(index) + "]"
+//             if type(value) == type(""):
+//                 if DEBUG > 2: print "Adding text [" + value + "]"
+//                 value = xml_text( value )
+//             if self._m_rep[xml_node._c_child] != 0 and index != 0:
+//                 node_ind = self._m_rep[xml_node._c_child]
+//                 index = index - 1
+//                 while index != 0:                
+//                     new_ind = self._m_tree_dictionary[ node_ind ]._m_rep[xml_node._c_sibling]
+//                     if new_ind == 0:
+//                         break
+//                     node_ind = new_ind
+//                     index = index - 1
+//                 if DEBUG > 2: print "Added node to content list [" + str(value) + "]"
+//                 self._m_tree_dictionary[ node_ind ].sibling( value )
+//             else:
+//                 if DEBUG > 2: print "Added first child [" + str(value) + "]"
+//                 self.child( value )
+//         else:
+//             return self._list_content()
+  if ( new_child ) {
+    if ( has_child() ) {
+      if ( index != 0 )  {
+	// create list if needed
+	std::vector< xml_rb_node::xml_type > _content_list;
+	unsigned int new_ind = _S_child( this );
+	xml_rb_node::xml_type _l_tmp = _S_get_index( this, new_ind );
+	// push onto list
+	_content_list.push_back( _l_tmp );
+	while ( new_ind != 0 ) { 
+	  // Until we run out of siblings ... 
+	  new_ind = _S_sibling( _l_tmp );
+	  if ( new_ind == 0 ) break;
+	  _l_tmp = _S_get_index( this, new_ind );
+	  if ( index != 0 ) // push onto list if needed
+	    _content_list.push_back( _l_tmp );
+	};
+	// Check index
+	if ( index > _content_list.size() ) {
+	  child( new_child );
+	} else {
+	  _l_tmp = _content_list[index]->sibling( new_child );
+	};
+      } else {
+	unsigned int new_ind = _S_child( this );
+	xml_rb_node::xml_type _l_tmp = _S_get_index( this, new_ind );
+	while ( new_ind != 0 ) { 
+	  // Until we run out of siblings ... 
+	  new_ind = _S_sibling( _l_tmp );
+	  if ( new_ind == 0 ) break;
+	  _l_tmp = _S_get_index( this, new_ind );
+	};
+	// or 'index' decrements to 0...
+	// Add as sibling of _l_tmp
+	_l_tmp->sibling( new_child );
+      };
+    } else {
+      // No content, Add as child of this
+      child( new_child );
+    };
+    return new_child;
+  } else {
+    return _S_get_index( this, _S_child( this ) );
+  };
+!!!183209.cpp!!!	content(in new_child : xml_type, in index : uint = 0) : xml_type
+// Python Code:
+//         if value:
+//             if DEBUG > 2: print "Index requested = [" + str(index) + "]"
+//             if type(value) == type(""):
+//                 if DEBUG > 2: print "Adding text [" + value + "]"
+//                 value = xml_text( value )
+//             if self._m_rep[xml_node._c_child] != 0 and index != 0:
+//                 node_ind = self._m_rep[xml_node._c_child]
+//                 index = index - 1
+//                 while index != 0:                
+//                     new_ind = self._m_tree_dictionary[ node_ind ]._m_rep[xml_node._c_sibling]
+//                     if new_ind == 0:
+//                         break
+//                     node_ind = new_ind
+//                     index = index - 1
+//                 if DEBUG > 2: print "Added node to content list [" + str(value) + "]"
+//                 self._m_tree_dictionary[ node_ind ].sibling( value )
+//             else:
+//                 if DEBUG > 2: print "Added first child [" + str(value) + "]"
+//                 self.child( value )
+//         else:
+//             return self._list_content()
+  DEBUG( "xml_rb_node::content -> entered with index of", index );
+  if ( new_child ) {
+    if ( has_child() && index != 0 ) {
+      DEBUG( "xml_rb_node::content -> Adding somewhere beyond the first child" );
+      xml_rb_node::xml_type _l_tmp = _S_get_index( this, _S_child( this ) );
+      xml_rb_node::xml_type _l_retval = _l_tmp;
+      unsigned int new_ind;
+      while ( index != 0 ) { 
+	// We run out of siblings ... 
+	new_ind = _S_sibling( _l_tmp );
+	if ( new_ind == 0 ) break;
+	_l_tmp = _S_get_index( this, new_ind );
+	// or 'index' decrements to 0...
+	--index;
+      };
+      _l_tmp->sibling( new_child );
+      return _l_retval;
+    } else {
+      DEBUG( "xml_rb_node::content -> Adding as first child" );
+      child( new_child );
+      return new_child;
+    };
+  } else {
+    return _S_get_index( this, _S_child( this ) );
+  };
+!!!183721.cpp!!!	delete_content(in  : void) : void
+// Python Code:
+//         "Walk the tree deleting as we go.."
+//         if self.has_child():
+//             child_node = self._m_tree_dictionary[ self._m_rep[xml_node._c_child] ]
+//             "Put child descendents into a temporary dictionary"
+//             temp = {}
+//             child_node.tree_dictionary( temp )
+//             "delete dictionary"
+//             del temp
+//             "Reset child index"
+//             self._m_rep[xml_node._c_child] = 0
+  if ( has_child() ) {
+    std::deque<unsigned int> _l_stack;
+    _l_stack.push_front( _S_child( this ) );
+    xml_rb_node::xml_type _l_work;
+    while ( !_l_stack.empty() ) {
+      _l_work = _S_get_index( this, _l_stack.front() );
+      _l_stack.pop_front();
+      if ( !_l_work ) {
+	throw "Null pointer passed";
+	break;
+      };
+      if ( 0 != _S_sibling( _l_work ) ) 
+	_l_stack.push_front( _S_sibling( _l_work ) );
+      if ( 0 != _S_child( _l_work ) ) 
+	_l_stack.push_front( _S_child( _l_work ) );
+      //DEBUG cout << "About to delete content" << endl;
+    };
+    _S_child( this ) = 0;
+  };
+!!!183849.cpp!!!	dump(in filename : string, in  : bool = false) : void
+  std::ofstream os( filename.c_str() );
+  if ( !os ) {
+    std::string msg("Unable to open file ["); msg.append(filename); msg.append("]");
+    throw msg.c_str();
+  };
+  os << "<?xml version=\"1.0\"?>" << std::endl;
+  _writer( os, true );
+!!!185513.cpp!!!	look_up(in parent_tag_name : string) : xml_type
+// Python Code:
+//         if self.tag() == tag_name:
+//             return self
+//         elif self._m_rep[xml_node._c_parent]:
+//             return self._m_tree_dictionary[ self._m_rep[xml_node._c_parent] ].look_up( tag_name )
+//         else:
+//             return None
+  xml_rb_node::xml_type _l_tmp = this;
+  while( _l_tmp ) {
+    if ( _S_tagname( _l_tmp ) == parent_tag_name )
+      break;
+    _l_tmp = _S_get_index( _l_tmp, _S_parent( _l_tmp ) );
+  };
+  return _l_tmp;
+!!!185641.cpp!!!	open(in filename : string) : bool
+  xml_retrieve_helper my_help( this );
+  return xml_import_manager::parse( &my_help, filename );
+!!!185769.cpp!!!	open(inout is : std::istream) : bool
+  xml_retrieve_helper my_help( this );
+  return xml_import_manager::parse( &my_help, is );
+!!!185897.cpp!!!	parent(in new_parent : xml_type = NULL) : xml_type
+// Python Code:
+//         "Tree operation: Query the dictionary for parent"
+//         if newnode:
+//             "Set the new parent"
+//             self._m_rep[xml_node._c_parent] = newnode.index()
+//         if self.has_parent():
+//             return self._m_tree_dictionary[ self._m_rep[xml_node._c_parent] ]
+  if ( new_parent ) {
+    _S_change_dictionary( this, _S_dict( new_parent ) );
+    _S_parent( this ) = _S_index( new_parent );
+    return new_parent;
+  } else {
+    return _S_get_index( this, _S_parent( this ) );
+  };
+!!!186025.cpp!!!	preface(in new_preface : xml_type) : xml_type
+// Python Code:
+//         if value:
+//             node_ind = self._m_rep[xml_node._c_preface]
+//             if node_ind == 0:
+//                 self._m_rep[xml_node._c_preface] = value.index()
+//             else:
+//                 while 1:                
+//                     new_ind = self._m_tree_dictionary[ node_ind ]._m_rep[xml_node._c_sibling]
+//                     if new_ind == 0:
+//                         break
+//                     node_ind = new_ind
+//                 self._m_tree_dictionary[ node_ind ].sibling( value )
+//         else: 
+//             self._m_tree_dictionary[ self._m_rep[xml_node._c_preface] ]
+  if ( new_preface ) {
+    _S_change_dictionary( new_preface, _S_dict( this ) );
+    unsigned int node_ind = _S_preface( this );
+    if ( node_ind == 0 ) {
+      _S_preface( this ) = _S_index( new_preface );
+    } else {
+      unsigned int new_ind;
+      while( 1 ) {
+	new_ind = _S_sibling( _S_get_index( this, node_ind ) );
+	if ( new_ind == 0 ) break;
+	node_ind = new_ind;
+      };
+      _S_sibling( _S_get_index( this, node_ind ) ) = _S_index( new_preface );
+    };
+    return new_preface;
+  } else {
+    return _S_get_index( this, _S_preface( this ) );
+  };
+!!!186537.cpp!!!	sibling(in new_sibling : xml_type = NULL) : xml_type
+// Python Code:
+//         "Tree operation: Query the dictionary for next sibling"
+//         if newnode:
+//             "Insert new sibling(s), pushing old siblings away"
+//             old_sib_ind = self._m_rep[xml_node._c_sibling]
+//             "Change dictionary of newnode and its descendents"
+//             newnode.tree_dictionary( self._m_tree_dictionary )
+//             "Add new sibling and reparent"
+//             self._m_rep[xml_node._c_sibling] = newnode._m_rep[xml_node._c_index]
+//             newnode._m_rep[xml_node._c_parent] = self._m_rep[xml_node._c_parent]
+//             "Traverse new sibling list, reparenting each one"
+//             if old_sib_ind != 0:
+//                 while newnode._m_rep[xml_node._c_sibling] != 0:
+//                     newnode = newnode._m_tree_dictionary[ newnode._m_rep[xml_node._c_sibling] ]
+//                     newnode._m_rep[xml_node._c_parent] = self._m_rep[xml_node._c_parent]
+//                 newnode._m_rep[xml_node._c_sibling] = old_sib_ind           
+//         if self._m_rep[xml_node._c_sibling] != 0:
+//             return self._m_tree_dictionary[ self._m_rep[xml_node._c_sibling] ]
+//         else:
+//             return None
+  if ( new_sibling ) {
+    // Insert new sibling(s), pushing old siblings away
+    unsigned int old_sib_ind = _S_sibling( this );
+    // Change dictionary of newnode and its descendents
+    _S_change_dictionary( new_sibling, _S_dict( this ) );
+    // Add new sibling and reparent
+    unsigned int new_sib = _S_index( new_sibling );
+    _S_sibling( this ) = new_sib;
+    xml_rb_node::xml_type _l_tmp = new_sibling;
+    while( 1 ) {
+      _S_parent( _l_tmp ) = _S_parent( this );
+      if ( _S_sibling( _l_tmp ) == 0 ) break;
+      _l_tmp = _S_get_index( _l_tmp, _S_sibling( _l_tmp ) );
+    };
+    _S_sibling( _l_tmp ) = old_sib_ind;
+    return new_sibling;
+  } else {
+    return _S_get_index( this, _S_sibling( this ) );
+  };
+!!!186665.cpp!!!	search(inout srch : search_cond) : std::vector<xml_type>
+// Python Code:
+//         """Starting here, test to see if the object, siblings or
+//         descendants has an 'xml_node' matching the att_val_list"""
+//         retlist = []
+//         self._preorder_traversal( search_op )
+//         return retlist
+  std::vector<xml_rb_node::xml_type> _l_retval;
+  srch.collector( &_l_retval );
+   xml_rb_node::_S_preorder_traversal( this, &srch );
+  return _l_retval;
+!!!187177.cpp!!!	make(in tagname : string) : xml_rb_node
+  // First lets try to make the new node using the make
+  // dictionary. If we can't find a maker, we will use the default.
+  if ( _c_tag_to_type_maker_dict ) {
+    if ( 0 != _c_tag_to_type_maker_dict->count( tagname ) ) {
+      DEBUG( "Found specialised maker for tag", tagname.c_str() );
+      return (*(*_c_tag_to_type_maker_dict)[ tagname ])( tagname );
+    };
+  };
+  DEBUG( "Using default maker for tag", tagname.c_str() );
+  return (*_c_default_type_maker)( tagname );

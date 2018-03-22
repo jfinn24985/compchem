@@ -1,0 +1,5 @@
+format 24
+
+classcanvas 128553 class_ref 180137 // worker
+  xyz 220 127 3005 label_xy 194 167
+end

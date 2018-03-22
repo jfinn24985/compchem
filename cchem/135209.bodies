@@ -1,0 +1,14 @@
+class iupac_name
+!!!327337.cpp!!!	get_text() : text
+// require
+CHECK(has_element(S_TEXT_NAME, m_rep), "Invalid_document"); 
+// do
+return text(get_element(S_TEXT_NAME, m_rep)); 
+!!!327465.cpp!!!	iupac_name(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_IUPAC_NAME_NAME, m_rep), "Node, object type mismatch");
+!!!327849.cpp!!!	operator=(in source : iupac_name) : iupac_name
+// do
+m_rep = source.m_rep;
+// end
+return *this;

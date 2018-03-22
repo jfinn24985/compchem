@@ -1,0 +1,6218 @@
+format 61
+"/compchem/data_access" // /compchem/data_access
+  revision 85
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "framework"
+  cpp_h_dir "data_access"
+  cpp_src_dir "../src/data_access"
+  cpp_namespace "data_access"
+  ncouples 1
+  key "namespace" value "data_access"
+  comment "The key concept for types in this package is that they manage communication with a data store.
+
+This group of classes provides an abstract interface to a storage mechanism.  Concrete implementations of these abstract types are responsible for serialisation of information into and out of the application.  This might allow different storage mechanisms to be interchanged.  "
+  usecaseview 128553 "data_access"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    usecase 132009 "add_object"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      collaborationdiagram 132777 "Object serialisation - change memo v5"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
+	comment "Perform serialisation for an existing non-compound object. Compound objects also call store() on each child."
+	size A4
+      end
+
+      collaborationdiagram 132905 "Object Deserialisation v5"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
+	comment "This use case gives an example of how a parent object deserialises one of its child types (You can imagine a similar process for a other compound objects and for a program object deserialising itself).
+
+How the object deserialises the result of get_buffer() is not shown."
+	size A4
+      end
+
+      collaborationdiagram 133033 "Object serialisation - new memo v5"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
+	comment "Use case to perform serialisation for a new non-compound object. Compound objects also call store() on each child."
+	size A4
+      end
+    end
+
+    usecase 134825 "manage_database"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+    end
+
+    usecase 131881 "view_object"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      collaborationdiagram 132265 "Open Program v5"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations no shadow default show_stereotype_properties default
+	size A4
+      end
+    end
+  end
+
+  classview 156969 "data_access"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 157097 // data_access
+    comment "These classes provide the management infrastructure for data
+persistence.  They provide an abstract interface that should
+allow the implementation of various data-persistence back-ends."
+    classdiagram 158761 "data_access types"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 178601 "basic_names"
+      visibility package 
+      nformals 1
+      formal name "T_xml_string" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This type is a container for names in the XML document schema and some DOM node helper functions additional to those provided in DOM."
+      class 476585 "string_type"
+	visibility package stereotype "typedef" explicit_base_type "T_xml_string"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      operation 1167529 "category_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"category\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of compound attribute in XML appl that allows compound grouping "
+      end
+
+      operation 1526313 "comment_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"#CM\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments in application"
+      end
+
+      operation 1117993 "compound_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"compound\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1535017 "compound_ref_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"compound-ref\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1118249 "date_start_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"date-start\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of starting date attribute in XML appl"
+      end
+
+      operation 1118377 "date_end_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"date-end\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of ending date attribute in XML appl"
+      end
+
+      operation 1118505 "datum_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"datum\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The name of datum elements in the XML appl."
+      end
+
+      operation 1511593 "detect_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"detect\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The special name of filters that detect the mechanism of files."
+      end
+
+      operation 1118633 "dimension_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"dim\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The datum object's dimension attribute name in the XML appl."
+      end
+
+      operation 1118761 "experiment_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"experiment\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment container element in XML appl"
+      end
+
+      operation 1120169 "filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"filter\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of filter that can be applied to output of enclosing mechanism"
+      end
+
+      operation 1530409 "file_scheme"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"file\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The URI \"scheme\" of a href attribute that indicates the target is a
+local file."
+      end
+
+      operation 1118889 "format_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"format\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The name of the datum format attribute in the XML appl."
+      end
+
+      operation 1119017 "formula_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"formula\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of formula container element in XML appl"
+      end
+
+      operation 1119401 "href_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"href\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of URL link or filename attribute in XML appl"
+      end
+
+      operation 1119529 "info_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"info\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Value of [text/@name] for textual information relating to the containing element"
+      end
+
+      operation 1119657 "identity_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"identity\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of identity element in XML appl"
+      end
+
+      operation 1119785 "label_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"label\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of label attribute in XML appl"
+      end
+
+      operation 1120041 "mechanism_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"mechanism\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of a mechanism container element in XML appl"
+      end
+
+      operation 1120297 "memo_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"memo\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of mechanism used in an experiment in XML appl"
+      end
+
+      operation 1118121 "memo_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"memo-src\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound reference element in XML appl"
+      end
+
+      operation 1120425 "name_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"name\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The string for the name attribute of datum element in the XML appl."
+      end
+
+      operation 1120553 "ordinal_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"ordinal\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The name of the bag element ordinal attribute in XML appl."
+      end
+
+      operation 1209897 "outcome_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"outcome\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The name of attribute in XML appl."
+      end
+
+      operation 1519657 "plugin_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"plugin\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The type name of filters that are dynamically loaded external code."
+      end
+
+      operation 1169193 "priority_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"priority\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1526569 "processing_instruction_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"#PI\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments."
+      end
+
+      operation 1120681 "program_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"program\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of research program container element in XML appl"
+      end
+
+      operation 1120809 "project_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"project\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of project container element in XML appl"
+      end
+
+      operation 1120937 "project_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"proj-src\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of project link element in XML appl"
+      end
+
+      operation 1121065 "reference_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"reference\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment (page) reference attribute in XML appl"
+      end
+
+      operation 1519785 "regex_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"regex\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The type name of internal filter that uses regular expressions."
+      end
+
+      operation 1121193 "scale_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"scale\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The name of the scale attribute in the XML appl."
+      end
+
+      operation 1211689 "settings_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"settings\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of settings container element in XML appl"
+      end
+
+      operation 1401897 "space"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\" \");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "A white space."
+      end
+
+      operation 1526441 "text_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"#TX\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML text."
+      end
+
+      operation 1121449 "type_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"type\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of the \"type\" attribute."
+      end
+
+      operation 1121577 "worker_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  const static ${type} Result (\"worker\");
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1412137 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 2
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1412265 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 3
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1412393 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 4
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1412521 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 5
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1412649 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 6
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	  param in name "i6" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}, const ${t5} & ${p5}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  list_add (${p0}, ${p5});
+  return ${p0};
+}
+
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1414441 "list_add"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  if (not ${p1}.empty ())
+  {
+    if (${p0}.empty ())
+    {
+      ${p0}.assign (${p1});
+    }
+    else
+    {
+      ${p0}.append (${class}::space ());
+      ${p0}.append (${p1});
+    }
+  }
+}
+"
+	
+	
+	
+	
+	comment "convenience function to append a single item to an existing list. Handles 
+the case of empty arguments."
+      end
+
+      operation 1525801 "is_element_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered object names?"
+      end
+
+      operation 1525929 "is_attribute_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_attr" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered attribute names?"
+      end
+
+      operation 1526057 "is_special_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered special value names?"
+      end
+
+      operation 1526697 "is_type_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  return (a_name == ${class}::comment_type()
+    || a_name == ${class}::processing_instruction_type ()
+    || a_name == ${class}::text_type ());
+}
+"
+	
+	
+	
+	
+	comment "Test if a_name is a type name."
+      end
+    end
+
+    class 476713 "names"
+      visibility package stereotype "typedef" explicit_base_type "string"
+      cpp_decl "${comment}typedef basic_names< ${type} > ${name};
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+      comment "This is the std::string implemenation of basic_names"
+    end
+
+    class 449449 "persistence"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "The base class for objects that lead to persistence of a class."
+      classrelation 486825 // m_top (<directional composition>)
+	relation 475433 *-->
+	  a role_name "m_top" multiplicity "1" private
+	    comment "Reference to the owning object."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 486825 // m_top (<directional composition>)
+	  b parent class_ref 432681 // basic_datum
+      end
+
+      operation 1528617 "persistence"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_top" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile} throw ()
+: m_top (${p0})
+{}
+"
+	
+	
+	
+	
+	comment "Default ctor"
+      end
+
+      operation 1528745 "~persistence"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1528873 "persistence"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1529001 "operator="
+	private return_type class_ref 449449 // persistence
+	nparams 1
+	  param in name "source" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1528489 "top"
+	public return_type class_ref 432681 // basic_datum
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_top;
+}
+"
+	
+	
+	
+	
+	comment "A reference to the top of the managed object tree."
+      end
+
+      operation 1530665 "top"
+	stereotype "const"
+	const public return_type class_ref 432681 // basic_datum
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_top;
+}
+"
+	
+	
+	
+	
+	comment "A reference to the top of the managed object tree."
+      end
+
+      operation 1524393 "read"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Deserialise data from persistent storage"
+      end
+
+      operation 1524521 "uri_path"
+	stereotype "get"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "The URI path of the persistent storage. This is the fully qualified path
+and not a relative path. It is represented as a string."
+      end
+
+      operation 1524649 "uri_scheme"
+	stereotype "get"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "The URI scheme of the persistent storage. Currently this will be 
+'file' for XML file. Future extensions to 'odbc' for databases is planned."
+      end
+
+      operation 1530025 "uri"
+	stereotype "get"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "The combination of the URI scheme and a (possibly relative) path to the 
+persistent storage. "
+      end
+
+      operation 1524265 "write"
+	abstract const cpp_virtual public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Serialise data to persistent storage."
+      end
+    end
+
+    class 496425 "manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This classes provides management functions for the data access.
+Back-ends register handlers for the URI schemes they support. 
+Front-ends get the appropriate based on the data-base URI."
+      classrelation 564393 // <dependency>
+	relation 543273 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 564393 // <dependency>
+	  b parent class_ref 178601 // basic_names
+      end
+
+      classrelation 556073 // <dependency>
+	relation 534953 -_->
+	  a package
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 556073 // <dependency>
+	  b parent class_ref 182569 // function
+      end
+
+      class 511785 "create_persistence_function"
+	visibility package stereotype "typedef" base_type class_ref 449449 // persistence
+	cpp_decl "${comment}typedef boost::function2< std::auto_ptr< ${type} >, data_scheme::basic_datum&, const std::string& > ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 569001 // m_creator (<directional composition>)
+	relation 547881 *-->
+	  stereotype "map"
+	  a role_name "m_creator" multiplicity "*" private
+	    comment "The map of creation functions."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${association}, ${type}> ${name}${value};
+"
+	    python "${comment}${self}${name} = ${stereotype}()
+"
+	    classrelation_ref 569001 // m_creator (<directional composition>)
+	  b parent class_ref 511785 // create_persistence_function
+	  association_explicit_type "string"
+      end
+
+      attribute 406825 "m_indices"
+	private type class_ref 496553 // index
+	multiplicity "*"
+	stereotype "map"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "(Possible FUTURE) The map of uri/indices
+
+\\see class index"
+      end
+
+      operation 1530281 "connect"
+	stereotype "auto_ptr"
+	public return_type class_ref 449449 // persistence
+	nparams 2
+	  param inout name "a_top" type class_ref 432681 // basic_datum
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}std::auto_ptr< ${type} > ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(is_supported (${p1}), \"Unsupported URI scheme, can not create persistence object.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create a persistence object that matches the uri.
+
+\\pre is_supported (a_uri_scheme)"
+      end
+
+      operation 1584041 "get_index"
+	public return_type class_ref 496553 // index
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	
+	
+	
+	
+	
+	comment "(Possible FUTURE) Get the index for a_uri.
+
+\\see class index"
+      end
+
+      operation 1638057 "is_supported"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Does this manager have support for the given URI? 
+
+NOTE: This really only checks that the URI scheme/protocol has 
+a matching persistence creation method.  Whether the rest of the
+URI is valid requires a connection to be attempted."
+      end
+
+      operation 1582121 "manager"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+: m_creator ()
+{}
+"
+	
+	
+	
+	
+	comment "Singleton constructor"
+      end
+
+      operation 1582249 "~manager"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1582377 "manager"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 496425 // manager
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1582505 "operator="
+	private return_type class_ref 496425 // manager
+	nparams 1
+	  param in name "source" type class_ref 496425 // manager
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1626793 "register_creator"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_uri_type" explicit_type "string"
+	  param in name "a_creation_function" type class_ref 511785 // create_persistence_function
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_supported (${p0}), \"Cannot add support for a single URI scheme more than once.\");
+  m_creator [${p0}] = ${p1};
+  @{ensure} (is_supported (${p0}), (\"Failed to add support for URI scheme: \" + ${p0}));
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Register a_creation_function for a_uri_type with the manager
+
+\\pre not is_supported (a_uri_type)
+\\post is_supported (a_uri_type)"
+      end
+
+      operation 1582633 "server"
+	class_operation public return_type class_ref 496425 // manager
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract};
+"
+	cpp_def "${comment}${inline}${type} & ${class}::${name}${(}${)}${const}${volatile} throw ()${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Get the manager Singleton object."
+      end
+
+      operation 1637929 "size"
+	const public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_creator.size ();
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "The number of supported URI schemes."
+      end
+    end
+
+    class 496553 "index"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "(Possible FUTURE) Class to manage the indexed IDs of compound, experiment,
+project and worker objects.
+
+In early version of the cchem system reading the XML database was time 
+consuming step. This meant that attempting to add an experiment with
+an existing ID failed after some time.  One optimisation was to create an
+index file that could be checked before reading the database file.  The
+current version appears to be much faster at reading the database and so
+this optimisation is currently considered unnecessary."
+      attribute 406313 "m_compound_index"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of compound labels."
+      end
+
+      attribute 406441 "m_experiment_index"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of experiment references."
+      end
+
+      attribute 406953 "m_index_fname"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The name of the index file."
+      end
+
+      attribute 406569 "m_project_index"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of project labels."
+      end
+
+      attribute 406697 "m_worker_set"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of worker labels."
+      end
+
+      operation 1584169 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  m_compound_index.clear ();
+  m_experiment_index.clear ();
+  m_project_index.clear ();
+  m_worker_index.clear ();
+}
+"
+	
+	
+	
+	
+	comment "Clears the various indices"
+      end
+
+      operation 1583273 "has_compound_label"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return 0 != m_compound_index.count (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Is there a compound with label a_key in the database?"
+      end
+
+      operation 1583145 "has_experiment_reference"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return 0 != m_experiment_index.count (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Is there an experiment with reference a_key in the database?"
+      end
+
+      operation 1583017 "has_project_label"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return 0 != m_project_index.count (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Is there a project with the label a_key in the database?"
+      end
+
+      operation 1582889 "has_worker_label"
+	public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_key" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return 0 != m_worker_index.count (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Is there a worker with the label a_key in the database?"
+      end
+
+      operation 1583401 "index"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_uri" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "The main constructor, reads the index for a_uri."
+      end
+
+      operation 1583529 "~index"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1583657 "index"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 496553 // index
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1583785 "operator="
+	private return_type class_ref 496553 // index
+	nparams 1
+	  param in name "source" type class_ref 496553 // index
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1584297 "save"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Save the index."
+      end
+
+      extra_member 147497 "friend oarchive"
+	
+	cpp "friend class boost::serialization::access;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+	comment "Make boost archiving a friend of index."
+      end
+
+      operation 1584425 "serialize"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a_ar" explicit_type "T_archive"
+	  param in name "a_int" explicit_type "uint"
+	cpp_decl "    ${comment}template < ${t0} > ${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  a_ar & m_compound_index;
+  a_ar & m_experiment_index;
+  a_ar & m_project_index;
+  a_ar & m_worker_index;
+}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 524073 "basic_names_2"
+      visibility package 
+      nformals 1
+      formal name "T_xml_string" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This type is a container for names in the XML document schema and some DOM node helper functions additional to those provided in DOM."
+      class 524201 "string_type"
+	visibility package stereotype "typedef" explicit_base_type "T_xml_string"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      operation 1669801 "category_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"category\");
+}
+"
+	
+	
+	
+	
+	comment "Name of compound attribute in XML appl that allows compound grouping "
+      end
+
+      operation 1669929 "comment_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#CM\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments in application"
+      end
+
+      operation 1670057 "compound_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"compound\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1670185 "compound_ref_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"compound-ref\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound container element in XML appl"
+      end
+
+      operation 1670313 "date_start_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"date-start\");
+}
+"
+	
+	
+	
+	
+	comment "Name of starting date attribute in XML appl"
+      end
+
+      operation 1670441 "date_end_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"date-end\");
+}
+"
+	
+	
+	
+	
+	comment "Name of ending date attribute in XML appl"
+      end
+
+      operation 1670569 "datum_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"datum\");
+}
+"
+	
+	
+	
+	
+	comment "The name of datum elements in the XML appl."
+      end
+
+      operation 1670697 "detect_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"detect\");
+}
+"
+	
+	
+	
+	
+	comment "The special name of filters that detect the mechanism of files."
+      end
+
+      operation 1670825 "dimension_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"dim\");
+}
+"
+	
+	
+	
+	
+	comment "The datum object's dimension attribute name in the XML appl."
+      end
+
+      operation 1670953 "experiment_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"experiment\");
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment container element in XML appl"
+      end
+
+      operation 1671081 "filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"filter\");
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of filter that can be applied to output of enclosing mechanism"
+      end
+
+      operation 1671209 "file_scheme"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"file\");
+}
+"
+	
+	
+	
+	
+	comment "The URI \"scheme\" of a href attribute that indicates the target is a
+local file."
+      end
+
+      operation 1671337 "format_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"format\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the datum format attribute in the XML appl."
+      end
+
+      operation 1671465 "formula_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"formula\");
+}
+"
+	
+	
+	
+	
+	comment "Name of formula container element in XML appl"
+      end
+
+      operation 1671593 "href_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"href\");
+}
+"
+	
+	
+	
+	
+	comment "Name of URL link or filename attribute in XML appl"
+      end
+
+      operation 1671721 "info_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"info\");
+}
+"
+	
+	
+	
+	
+	comment "Value of [text/@name] for textual information relating to the containing element"
+      end
+
+      operation 1671849 "identity_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"identity\");
+}
+"
+	
+	
+	
+	
+	comment "Name of identity element in XML appl"
+      end
+
+      operation 1671977 "label_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"label\");
+}
+"
+	
+	
+	
+	
+	comment "Name of label attribute in XML appl"
+      end
+
+      operation 1672105 "mechanism_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"mechanism\");
+}
+"
+	
+	
+	
+	
+	comment "Name of a mechanism container element in XML appl"
+      end
+
+      operation 1672233 "memo_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"memo\");
+}
+"
+	
+	
+	
+	
+	comment "Name of element containing details of mechanism used in an experiment in XML appl"
+      end
+
+      operation 1672361 "memo_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"memo-src\");
+}
+"
+	
+	
+	
+	
+	comment "Name of chemical compound reference element in XML appl"
+      end
+
+      operation 1672489 "name_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"name\");
+}
+"
+	
+	
+	
+	
+	comment "The string for the name attribute of datum element in the XML appl."
+      end
+
+      operation 1672617 "ordinal_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"ordinal\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the bag element ordinal attribute in XML appl."
+      end
+
+      operation 1672745 "outcome_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"outcome\");
+}
+"
+	
+	
+	
+	
+	comment "The name of attribute in XML appl."
+      end
+
+      operation 1672873 "plugin_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"plugin\");
+}
+"
+	
+	
+	
+	
+	comment "The type name of filters that are dynamically loaded external code."
+      end
+
+      operation 1673001 "priority_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"priority\");
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1673129 "processing_instruction_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#PI\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML comments."
+      end
+
+      operation 1673257 "program_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"program\");
+}
+"
+	
+	
+	
+	
+	comment "Name of research program container element in XML appl"
+      end
+
+      operation 1673385 "project_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"project\");
+}
+"
+	
+	
+	
+	
+	comment "Name of project container element in XML appl"
+      end
+
+      operation 1673513 "project_src_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"proj-src\");
+}
+"
+	
+	
+	
+	
+	comment "Name of project link element in XML appl"
+      end
+
+      operation 1673641 "reference_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"reference\");
+}
+"
+	
+	
+	
+	
+	comment "Name of experiment (page) reference attribute in XML appl"
+      end
+
+      operation 1673769 "regex_filter_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"regex\");
+}
+"
+	
+	
+	
+	
+	comment "The type name of internal filter that uses regular expressions."
+      end
+
+      operation 1673897 "scale_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"scale\");
+}
+"
+	
+	
+	
+	
+	comment "The name of the scale attribute in the XML appl."
+      end
+
+      operation 1674025 "settings_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"settings\");
+}
+"
+	
+	
+	
+	
+	comment "Name of settings container element in XML appl"
+      end
+
+      operation 1674153 "space"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\" \");
+}
+"
+	
+	
+	
+	
+	comment "A white space."
+      end
+
+      operation 1674281 "text_type"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"#TX\");
+}
+"
+	
+	
+	
+	
+	comment "Special name for XML text."
+      end
+
+      operation 1674409 "type_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"type\");
+}
+"
+	
+	
+	
+	
+	comment "Name of the \"type\" attribute."
+      end
+
+      operation 1674537 "worker_name"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"worker\");
+}
+"
+	
+	
+	
+	
+	comment "Name of worker container element in XML appl"
+      end
+
+      operation 1674665 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 2
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1674793 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 3
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1674921 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 4
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675049 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 5
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  return ${p0};
+}
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675177 "list"
+	class_operation public return_type class_ref 476585 // string_type
+	nparams 6
+	  param in name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	  param in name "i3" type class_ref 476585 // string_type
+	  param in name "i4" type class_ref 476585 // string_type
+	  param in name "i5" type class_ref 476585 // string_type
+	  param in name "i6" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}, const ${t4} & ${p4}, const ${t5} & ${p5}${)}${const}${volatile}${throw}${abstract}
+{
+  list_add (${p0}, ${p1});
+  list_add (${p0}, ${p2});
+  list_add (${p0}, ${p3});
+  list_add (${p0}, ${p4});
+  list_add (${p0}, ${p5});
+  return ${p0};
+}
+
+"
+	
+	
+	
+	
+	comment "convenience function to create a list."
+      end
+
+      operation 1675305 "list_add"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param inout name "i1" type class_ref 476585 // string_type
+	  param in name "i2" type class_ref 476585 // string_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  if (not ${p1}.empty ())
+  {
+    if (${p0}.empty ())
+    {
+      ${p0}.assign (${p1});
+    }
+    else
+    {
+      ${p0}.append (${class}::space ());
+      ${p0}.append (${p1});
+    }
+  }
+}
+"
+	
+	
+	
+	
+	comment "convenience function to append a single item to an existing list. Handles 
+the case of empty arguments."
+      end
+
+      operation 1675433 "is_element_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered object names?"
+      end
+
+      operation 1675561 "is_attribute_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_attr" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered attribute names?"
+      end
+
+      operation 1675689 "is_special_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Is a_name one of the registered special value names?"
+      end
+
+      operation 1675817 "is_type_name"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  return (a_name == ${class}::comment_type()
+    || a_name == ${class}::processing_instruction_type ()
+    || a_name == ${class}::text_type ());
+}
+"
+	
+	
+	
+	
+	comment "Test if a_name is a type name."
+      end
+    end
+  end
+
+  deploymentview 157097 "data_access"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 230057 "data_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 244905 // manager
+	artifact_ref 214313 // persistence
+      end
+    end
+
+    artifact 244905 "manager"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual Includes
+#include \"xmlreader/xml2_uri.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 496425 // manager
+      end
+    end
+
+    artifact 141609 "names"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 178601 // basic_names
+	class_ref 476713 // names
+      end
+    end
+
+    artifact 214313 "persistence"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include \"data_access/names.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 449449 // persistence
+      end
+    end
+  end
+
+  classview 164009 "xml_access"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 161065 // xml_access
+    comment "The classes responsible for providing XML access."
+    class 433961 "meta_datum"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Objects of this type contain an abstract definition of data_scheme type, which
+are used by xml_persistence to deserialise XML objects.
+
+It can:
+Check for valid tag name.
+Check for valid attribute name
+Check for valid child name
+
+It can _not_
+Check for valid attribute content
+Check for valid child order "
+      classrelation 483881 // <dependency>
+	relation 472489 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 483881 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      class 455465 "const_iterator"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef std::set< ${type} >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      class 452009 "name_map_t"
+	visibility package stereotype "typedef" base_type class_ref 478121 // ptr_map
+	nactuals 2
+	actual class class_ref 478121 // ptr_map
+	  rank 0 explicit_value "string"
+	actual class class_ref 478121 // ptr_map
+	  rank 1 value class_ref 433961 // meta_datum
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+	classrelation 574633 // <realization>
+	  relation 553513 -_-|>
+	    a public
+	      cpp default "${type}"
+	      python "${type}"
+	      classrelation_ref 574633 // <realization>
+	    b parent class_ref 478121 // ptr_map
+	end
+      end
+
+      attribute 348329 "key_attribute"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "An attribute name that is REQUIRED and key for this datum type. This
+is used by the reader to select the second argument of the add_child
+constructor.
+
+It can be empty indicating no key attribute."
+      end
+
+      attribute 385577 "m_attributes"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of allowed attributes"
+      end
+
+      attribute 385705 "m_children"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "set"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The names of allowed child elements"
+      end
+
+      attribute 333865 "name"
+	const_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The XML tag for this datum."
+      end
+
+      classrelation 444329 // s_map (<directional composition>)
+	relation 433961 *-->
+	  stereotype "auto_ptr"
+	  a role_name "s_map" multiplicity "0..1" class_relation private
+	    comment "The map of names to meta_datum objects."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 444329 // s_map (<directional composition>)
+	  b parent class_ref 452009 // name_map_t
+      end
+
+      operation 1451561 "begin_attr"
+	const public return_type class_ref 455465 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_attributes.begin ();
+}
+"
+	
+	
+	
+	
+	comment "Get an iterator to the first attribute name."
+      end
+
+      operation 1434921 "by_name"
+	class_operation public return_type class_ref 433961 // meta_datum
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}const ${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Get the key attribute for the tag a_name.
+
+I this returned the key_attribute then the reader would have to 
+find the attribute and meta_datum would be independent of the
+reader type.
+
+\\pre names::is_element_name (a_name) "
+      end
+
+      operation 1451689 "end_attr"
+	const public return_type class_ref 455465 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_attributes.end ();
+}
+"
+	
+	
+	
+	
+	comment "Get an iterator to the first attribute name."
+      end
+
+      operation 1440169 "empty_children"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_children.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Does this element have children tags?"
+      end
+
+      operation 1373097 "has_attr_name"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_attributes.count (${p0}) != 0;
+}
+"
+	
+	
+	
+	
+	comment "Does this object allow the given attribute name."
+      end
+
+      operation 1451433 "has_attributes"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return not m_attributes.empty ();
+}
+"
+	
+	
+	
+	
+	comment "Can this element have attributes"
+      end
+
+      operation 1369129 "has_child_tag"
+	const public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  return (0 != m_children.count (${p0}));
+}
+
+"
+	
+	
+	
+	
+	comment "Does this element allow children with the given tag?"
+      end
+
+      operation 1629097 "initialise_map"
+	class_operation private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+  @{ensure}(NULL != s_map.get (), \"Meta-datum map still undefined after creating data-scheme objects.\");
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Initialise map with data_scheme types."
+      end
+
+      operation 1368233 "meta_datum"
+	private explicit_return_type ""
+	nparams 4
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_key" explicit_type "string"
+	  param in name "a_child_list" explicit_type "string"
+	  param in name "a_attribute_list" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${volatile}${throw}
+: key_attribute (${p1})
+, m_attributes ()
+, m_children ()
+, name (${p0})
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Main constructor. The tag name for this object is a_name, the list of 
+child tag names is a_child_list and the list of attribute names is 
+a_attribute_list. The attribute name a_key is a key attribute (#REQUIRED)
+for the element, it will automatically be added to a_attribute_list.
+Lists are space separated list of words.
+
+\\pre names::is_element_name (a_name) and names::is_element_name (ALL in a_child_list) and names::is_attribute_name (ALL in a_attribute_list)
+
+PROGRAM NOTE, List parsing is:
+m_children.insert(istream_iterator<..>(istringstream(a_child_list)), istream_iterator<...>())"
+      end
+
+      operation 1368489 "meta_datum"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 433961 // meta_datum
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1368361 "~meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw() 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1368617 "operator="
+	private return_type class_ref 433961 // meta_datum
+	nparams 1
+	  param in name "source" type class_ref 433961 // meta_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1385641 "valid_attribute"
+	const public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile} throw ()${abstract}
+{
+  return has_attr_name (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Return if this is a valid attribute name, value pair. This checks that a_name
+is a valid attribute label and that a_value is a valid attribute content. Note this
+can also check that a coded form of a_value is an acceptable attribtue 
+content.
+
+\\return has_attr_name (a_name)
+\\todo validate attribute value (a_value)"
+      end
+
+      classrelation 575017 // <dependency>
+	relation 553897 -_->
+	  stereotype "friend"
+	  a package
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 575017 // <dependency>
+	  b parent class_ref 434089 // test_meta_datum
+      end
+    end
+
+    class 360233 "xml_access_helper"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This contains functions to attempt to registers program options for controlling 
+the operation of the xml_persistence broken-link file recovery seach.
+
+Set options:
+ autofix,A: automatically rebuild broken cross-references in database
+ search-dir,D: directory paths to search for broken cross-references (may be used multiple times)
+ (hidden options)
+ public-id: the public ID to use for new XML documents.
+ system-id: the system ID to use for new XML documents.
+"
+      classrelation 467753 // <dependency>
+	relation 456873 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 467753 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      class 360489 "const_iterator"
+	visibility package stereotype "typedef" base_type class_ref 361513 // path
+	cpp_decl "${comment}typedef std::vector< ${type} >::const_iterator ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      attribute 265129 "m_auto_fix"
+	private explicit_type "bool"
+	init_value "(false)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Whether the system should rebuild broken links automatically."
+      end
+
+      attribute 262569 "m_dir_set"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}std::vector< ${type} > ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The set of directory paths to search."
+      end
+
+      attribute 364713 "m_filter_include"
+	private type class_ref 346153 // regex
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A regex to match filenames to include in search."
+      end
+
+      attribute 364841 "m_filter_exclude"
+	private type class_ref 346153 // regex
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A regex to match filenames to include in search."
+      end
+
+      attribute 363561 "m_public_id"
+	private explicit_type "string"
+	init_value "(default_public_id ())"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The public ID of the current program version."
+      end
+
+      attribute 363433 "m_system_id"
+	private explicit_type "string"
+	init_value "(default_system_id())"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The system ID, this is dependent on the installation."
+      end
+
+      attribute 370473 "s_exemplar"
+	class_attribute private type class_ref 360233 // xml_access_helper
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The singleton helper object."
+      end
+
+      operation 1175593 "add_directory"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  m_dir_set.push_back (${p0});
+}
+"
+	
+	
+	
+	
+	comment "Add a search directory. This is usually called during the program initialisation."
+      end
+
+      operation 1176361 "add_directories"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const std::vector< ${t0} > & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const std::vector< ${t0} > & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add a set of search directories."
+      end
+
+      operation 1181609 "auto_fix"
+	stereotype "get"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_auto_fix;
+}
+"
+	
+	
+	
+	
+	comment "Should we automatically rebuild links?"
+      end
+
+      operation 1181737 "auto_fix"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_fix" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile} throw ()${abstract}
+{
+  m_auto_fix = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set if we automatically rebuild links or not."
+      end
+
+      operation 1175977 "begin"
+	const public return_type class_ref 360489 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_dir_set.${name} ();
+}
+"
+	
+	
+	
+	
+	comment "Get a const iterator to the first search dir."
+      end
+
+      operation 1452841 "default_public_id"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return ${type}(\"@{datapublicid}\");
+}
+"
+	
+	
+	
+	
+	comment "The default public ID for the system."
+      end
+
+      operation 1452713 "default_system_id"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return ${type}(\"@{datasystemid}\");
+}
+"
+	
+	
+	
+	
+	comment "The compile time defined system ID"
+      end
+
+      operation 1176233 "empty"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_dir_set.${name} ();
+}
+"
+	
+	
+	
+	
+	comment "Are there any registered search dirs?"
+      end
+
+      operation 1176105 "end"
+	const public return_type class_ref 360489 // const_iterator
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_dir_set.${name} ();
+}
+"
+	
+	
+	
+	
+	comment "Get const iterator to the one-past-last search dir."
+      end
+
+      operation 1175721 "helper"
+	class_operation public return_type class_ref 360233 // xml_access_helper
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return s_exemplar;
+}"
+	
+	
+	
+	
+	comment "Return a reference to the Singleton."
+      end
+
+      operation 1452585 "public_id"
+	public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The public ID for this document type. This is an indirect reference to the location of a DTD
+
+A public ID is an public label for a DTD.  It is used to look up a DTD in catalogues etc to find local copies of \"standard\" DTDs.  It is generally given with the real (definitive?) location of the DTD."
+      end
+
+      operation 1452457 "system_id"
+	public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_${name};
+}
+"
+	
+	
+	
+	
+	comment "The system ID for this document type.
+
+This is a URI for the location of the DTD.  It is a direct URl reference to a DTD 
+file.  This will return a path relative to the installation's shared data directory."
+      end
+
+      operation 1174953 "xml_access_helper"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_auto_fix (false)
+, m_dir_set ()
+, m_public_id (default_public_id ())
+, m_system_id (default_system_id ())
+{
+  register_options ();
+}
+"
+	
+	
+	
+	
+	comment "Hidden default ctor, use helper() function to get a helper object."
+      end
+
+      operation 1175081 "~xml_access_helper"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1175465 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add options to the configuration helper."
+      end
+
+      operation 1175209 "xml_access_helper"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 360233 // xml_access_helper
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1175337 "operator="
+	private return_type class_ref 360233 // xml_access_helper
+	nparams 1
+	  param in name "source" type class_ref 360233 // xml_access_helper
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 494121 "xml_writer_proxy"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This is a helper class for writing well-formed XML. It 
+collaborates with the xml_writer class to automate the
+calling of start/end_element methods.
+
+It has the following features.
+* Automatic closure of element when proxy goes out of scope.
+* Automatic closure of element(s) when parent (antecedents) 
+is given a new child. [can be checked with is_closed]"
+      attribute 449065 "m_rep"
+	private type class_ref 526633 // xml_writer
+	multiplicity "*"
+	stereotype "shared_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      attribute 450217 "m_done"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Indicate that this element has been completed."
+      end
+
+      attribute 450345 "m_last_child"
+	private type class_ref 494121 // xml_writer_proxy
+	multiplicity "0..1"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Ptr to last child (nul if no prior child)"
+      end
+
+      attribute 450473 "m_parent"
+	private type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Our parent node"
+      end
+
+      operation 1693481 "add_comment"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert a comment. Returns a reference to itself.
+
+\\pre not a_str.empty"
+      end
+
+      operation 1693737 "add_pi"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0}, ${p1});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert a processing instruction. Returns a reference to itself.
+
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1693609 "add_text"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->${name} (${p0});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Insert text. Returns a reference to itself.
+
+\\pre not a_str.empty"
+      end
+
+      operation 1576617 "attribute"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  m_rep->set_${name} (${p0}, ${p1});
+  return *this;
+}
+"
+	
+	
+	
+	
+	comment "Write an attribute to the stream. All attributes must be given before
+this object is used as a parent. Returns a reference to itself.
+
+\\pre can_set_attribute
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1576745 "can_set_attribute"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_rep->${name} () and not is_closed ();
+}
+"
+	
+	
+	
+	
+	comment "Do we have children?"
+      end
+
+      operation 1695017 "end_element"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1695145 "is_closed"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_done;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Is this element already completed? "
+      end
+
+      operation 1699881 "parent"
+	public return_type class_ref 494121 // xml_writer_proxy
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} * ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_parent;
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Get the parent of this proxy (may be nul)"
+      end
+
+      operation 1576361 "operator="
+	private return_type class_ref 494121 // xml_writer_proxy
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1694889 "set_child"
+	cpp_inline private explicit_return_type "void"
+	nparams 1
+	  param inout name "a_child" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not is_closed (), \"element is already closed.\");
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1575977 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_parent" type class_ref 494121 // xml_writer_proxy
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer, letting a_parent know it has children
+
+\\pre not a_label.empty and not a_parent.is_closed
+\\post a_parent.have_children"
+      end
+
+      operation 1576489 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy for a document fragment.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1700009 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "a_rep" type class_ref 526633 // xml_writer
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}std::tr1::shared_ptr< ${t0} > & ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}std::tr1::shared_ptr< ${t0} > & ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy from an already created xml_writer.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1687593 "xml_writer_proxy"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct a proxy for a document element. Creates the <?xml?> tag, if a_pub_id and a_sys_id 
+are not not both empty then a DOCTYPE element is also created with a_label as the document
+element.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1576105 "~xml_writer_proxy"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{
+  end_element ();
+}"
+	
+	
+	
+	
+      end
+
+      operation 1576233 "xml_writer_proxy"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 494121 // xml_writer_proxy
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 526633 "xml_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This is a helper class for writing well-formed XML. It is a counter-
+point to the xml_reader class.
+
+It writes the document as it goes which simplifies the class although 
+gives the following limitations.
+* You must set all attributes before you use an object as a parent
+* Using an object as a parent automatically closes the start tag 
+  and sets have_children
+
+Usage
+  xml_writer l_writer (a_os, \"nodename\");
+  l_writer.attribute (...);
+  if (not object.empty ()) {
+    l_writer.set_children ();
+    write_children (a_os);
+  }"
+      attribute 448937 "m_element_stack"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "stack"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The stack of element labels."
+      end
+
+      attribute 448681 "m_is_empty"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Do we have children?"
+      end
+
+      attribute 448809 "m_os"
+	private explicit_type "ostream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The stream to write to"
+      end
+
+      operation 1693097 "add_comment"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1693225 "add_pi"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_name" explicit_type "string"
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1693353 "add_text"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_str" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1691689 "can_set_attribute"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_is_empty;
+}
+"
+	
+	
+	
+	
+	comment "Do we have children yet?"
+      end
+
+      operation 1692841 "end_element"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1691817 "operator="
+	private return_type class_ref 526633 // xml_writer
+	nparams 1
+	  param in name "source" type class_ref 526633 // xml_writer
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1691561 "set_attribute"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  @{require} (m_is_empty, \"Cannot set an attribute after adding children\");
+  @{require} (not ${p0}.empty (), \"Cannot set an attribute with an empty label\");
+  @{require} (not ${p1}.empty (), \"Can set attribute [\" + ${p0} + \"] with an empty value\");
+  m_os << \" \" << ${p0} << \"=\\\"\" << ${p1} << \"\\\"\";
+}
+"
+	
+	
+	
+	
+	comment "Write an attribute to the stream. All attributes must be given before
+this object is used as a parent.
+
+\\pre not have_children
+\\pre not a_label.empty and not a_value.empty"
+      end
+
+      operation 1691945 "set_children"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  if (m_is_empty and not m_element_stack.empty ())
+  {
+    m_is_empty = false;
+    m_os << \">\";
+  }
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Let this object know it will have children.
+
+\\post not can_set_attribute"
+      end
+
+      operation 1692969 "start_element"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+	comment "Start a new element."
+      end
+
+      operation 1692329 "xml_writer"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "a_os" explicit_type "ostream"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer to write a document fragment.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1692457 "xml_writer"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${volatile}${throw} 
+${body}
+"
+	
+	
+	
+	
+	comment "Construct an xml_writer for a document element. Creates the <?xml?> tag, if a_pub_id 
+and a_sys_id are not not both empty then a DOCTYPE element is also created with
+a_label as the document tag.
+
+\\pre not a_label.empty"
+      end
+
+      operation 1692585 "~xml_writer"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1692713 "xml_writer"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 526633 // xml_writer
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 455593 "xml_write_visitor"
+      visibility protected 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class is a visitor class that writes the database tree into an
+XML document.
+
+Standard usage is something like the following. Note we use the
+visit_basic_datum as memo-src and proj-src objects would get
+into a loop as visit_memo and visit_project woudl call a_datum.write
+
+  xml_write_visitor l_obj (os, doc_elem_name, pub_id, sys_id); 
+  os << extra_doc_headers;
+  l_obj.visit_basic_datum (a_datum);"
+      classrelation 448169 // <generalisation>
+	relation 437801 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 448169 // <generalisation>
+	  b parent class_ref 435241 // visitor
+      end
+
+      classrelation 485161 // <dependency>
+	relation 473769 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 485161 // <dependency>
+	  b parent class_ref 433961 // meta_datum
+      end
+
+      classrelation 484009 // <dependency>
+	relation 472617 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 484009 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 587049 // <dependency>
+	relation 565929 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 587049 // <dependency>
+	  b parent class_ref 494121 // xml_writer_proxy
+      end
+
+      attribute 363177 "m_writer"
+	private type class_ref 494121 // xml_writer_proxy
+	multiplicity "0..1"
+	stereotype "ptr_vector"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The wrapped output stream."
+      end
+
+      attribute 452521 "m_writer_rep"
+	private type class_ref 526633 // xml_writer
+	multiplicity "0..1"
+	stereotype "shared_ptr"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The xml_writer."
+      end
+
+      operation 1365801 "visit_basic_datum"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 432681 // basic_datum
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Write well-formed XML for this node (and its children) into a_os.
+
+Note that this should only be overriden for types like text, comment and PI
+
+\\final"
+      end
+
+      operation 1440297 "visit_comment"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_comment" type class_ref 443433 // comment
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not m_writer.empty (), \"first element can not be a comment.\");
+  m_writer.back ().add_comment (${p0}.the_content);
+}
+"
+	
+	
+	
+	
+	comment "Write a comment."
+      end
+
+      operation 1394217 "visit_pi"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_pi" type class_ref 443561 // processing_instruction
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not m_writer.empty (), \"first element can not be a P.I.\");
+  m_writer.back ().add_pi (${p0}.name, ${p0}.the_content);
+}
+"
+	
+	
+	
+	
+	comment "Write well-formed XML for processing instruction."
+      end
+
+      operation 1387433 "visit_text"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_text" type class_ref 443305 // text
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (not m_writer.empty (), \"first element can not be a comment.\");
+  m_writer.back ().add_text (${p0}.the_content);
+}
+"
+	
+	
+	
+	
+	comment "Write well-formed XML for this node (and its children) into a_os.
+
+No default implementation."
+      end
+
+      operation 1448489 "visit_memo"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 357033 // memo
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1448617 "visit_project"
+	cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "a_datum" type class_ref 354089 // project
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1452329 "operator="
+	private return_type class_ref 455593 // xml_write_visitor
+	nparams 1
+	  param in name "source" type class_ref 455593 // xml_write_visitor
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1437993 "xml_write_visitor"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "a_os" explicit_type "ostream"
+	  param in name "a_label" explicit_type "string"
+	  param in name "a_pub_id" explicit_type "string"
+	  param in name "a_sys_id" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2}& ${p2}${v2}, const ${t3}& ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${throw}${staticnl}
+: m_writer ()
+, m_writer_rep (new xml_writer (${p0}, ${p1}, ${p2}, ${p3}))
+{}
+"
+	
+	
+	
+	
+	comment "Construct and initialise the xml_write_visitor.
+
+After this method the xml header (<?xml ..> + <!DOCTYPE..>)
+is written to the stream but not the document element. If 
+you want to add extra header information you can write these
+directly to the stream before initialising the write process.
+"
+      end
+
+      operation 1452201 "xml_write_visitor"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 455593 // xml_write_visitor
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1452073 "~xml_write_visitor"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+{}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 453161 "xml_reader_t"
+      visibility package stereotype "typedef" base_type class_ref 151209 // xml_reader
+      cpp_decl "${comment}typedef ${type} ${name};
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}typedef ${type} ${name};
+"
+      explicit_switch_type ""
+      
+    end
+
+    class 479273 "xml_persistence"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "persistence"
+      comment "The base class for the XML-based object persistence system."
+      classrelation 486313 // <generalisation>
+	relation 474921 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 486313 // <generalisation>
+	  b parent class_ref 449449 // persistence
+      end
+
+      classrelation 567849 // <dependency>
+	relation 546729 -_->
+	  a package
+	    comment "Use to initialise the xml_persistence library."
+	    cpp default "#include in header"
+	    python "${type}"
+	    classrelation_ref 567849 // <dependency>
+	  b parent class_ref 518313 // call_once
+      end
+
+      classrelation 488873 // <dependency>
+	relation 477481 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 488873 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 556201 // <dependency>
+	relation 535081 -_->
+	  a package
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 556201 // <dependency>
+	  b parent class_ref 496425 // manager
+      end
+
+      classrelation 486569 // <dependency>
+	relation 475177 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 486569 // <dependency>
+	  b parent class_ref 433961 // meta_datum
+      end
+
+      classrelation 488361 // <dependency>
+	relation 476969 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 488361 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 486697 // <dependency>
+	relation 475305 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 486697 // <dependency>
+	  b parent class_ref 476713 // names
+      end
+
+      classrelation 488489 // <dependency>
+	relation 477097 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 488489 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 488617 // <dependency>
+	relation 477225 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 488617 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 486953 // <dependency>
+	relation 475561 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 486953 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      classrelation 486441 // <dependency>
+	relation 475049 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 486441 // <dependency>
+	  b parent class_ref 455593 // xml_write_visitor
+      end
+
+      attribute 362025 "m_base"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The base path for the parent file. This is only present if m_url is a relative path."
+      end
+
+      attribute 368041 "m_header"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "This contains a literal representation of non-element
+nodes at the document level.  Note that on writing these
+nodes will be located between the DOCTYPE node and the
+document element regardless of their original position."
+      end
+
+      attribute 356393 "m_url"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The possibly relative path of the file."
+      end
+
+      operation 1174569 "allowed_document_element"
+	class_operation public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_tag_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  return ${p0} == names::program_name ()
+      or ${p0} == names::project_name ()
+      or ${p0} == names::memo_name ();
+}
+"
+	
+	
+	
+	
+	comment "Is the given tag name an allowed document element?
+
+\\result implies a_tag_name = (program|project|memo)"
+      end
+
+      operation 1442985 "base"
+	stereotype "get"
+	const public return_type class_ref 361513 // path
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_base;
+}
+"
+	
+	
+	
+	
+	comment "The base part. This is non-empty if path() is relative."
+      end
+
+      operation 1497897 "base"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_base" type class_ref 361513 // path
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require}(boost::filesystem::exists (${p0}), \"Base path for xml_file object must already exist.\");
+  m_base = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "The base part. This will be non-empty if path() is relative.
+
+\\pre exists(a_base)"
+      end
+
+      operation 1173545 "check_candidate"
+	private explicit_return_type "bool"
+	nparams 4
+	  param in name "a_filename" type class_ref 361513 // path
+	  param in name "a_doc_elem_name" explicit_type "string"
+	  param in name "a_attr_name" explicit_type "string"
+	  param in name "a_attr_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${staticnl}
+{
+  @{require} (boost::filesystem::exists (${p0}), \"${name} requires a valid filename.\");
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Attempt to find element with a_doc_elem and a_attr_name=\"a_attr_value\"
+in the file with a_filename.  Return true if found."
+      end
+
+      operation 1442857 "find_file"
+	private return_type class_ref 361513 // path
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Attempt to convert m_uri into a filename.  May use parent filename as base. If
+m_open is true and path is not found then will assume file is new. If m_open is
+false and path is not found then will assume link is broken and will search for 
+possible matches."
+      end
+
+      operation 1454633 "find_link"
+	private return_type class_ref 361513 // path
+	nparams 1
+	  param in name "a_start_path" type class_ref 361513 // path
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Attempt to find an XML file with a document element that matches top(). 
+Use a_start_path as the starting position (unless it is empty.)
+
+\\pre is_directory (a_start_path)
+
+TODO: Cannot handle filenames \".a.b\" because of boost::path exception with
+default filename checker...
+"
+      end
+
+      operation 1529769 "full_path"
+	const public return_type class_ref 361513 // path
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return (m_base.empty () ? m_url : m_base / m_url);
+}
+"
+	
+	
+	
+	
+	comment "This returns the fully qualified filename of the xml file. This may involve
+prepending the base() path to path()."
+      end
+
+      operation 1458473 "header"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_header;
+}
+"
+	
+	
+	
+	
+	comment "Get the header section of the XML document"
+      end
+
+      operation 1433641 "operator="
+	private return_type class_ref 449449 // persistence
+	nparams 1
+	  param in name "source" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1522857 "parse"
+	class_operation private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_parent" type class_ref 432681 // basic_datum
+	  param inout name "a_reader" type class_ref 453161 // xml_reader_t
+	  param inout name "a_header" explicit_type "string"
+	  param in name "a_is_part" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, ${t1} & ${p1}, ${t2} & ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}, ${t2} & ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Deserialise XML document in a_reader to a_parent.
+
+\\pre not is_open
+\\post is_open"
+      end
+
+      operation 1433129 "path"
+	stereotype "get"
+	const public return_type class_ref 361513 // path
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile} throw ()${abstract}
+{
+  return m_url;
+}
+"
+	
+	
+	
+	
+	comment "Get the current path"
+      end
+
+      operation 1497769 "path"
+	stereotype "set"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_path" type class_ref 361513 // path
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_url = ${p0};
+}
+"
+	
+	
+	
+	
+	comment "Set the current path"
+      end
+
+      operation 1435305 "read"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Read the document into a_top object."
+      end
+
+      operation 1522985 "read_string"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param inout name "a_parent" type class_ref 432681 // basic_datum
+	  param in name "a_buffer" explicit_type "string"
+	  param in name "a_is_part" explicit_type "bool"
+	    defaultvalue "true"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, ${t2} ${p2}=true${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Parse the (part) document in the string. The parsed content 
+is appended to a_parent."
+      end
+
+      operation 1444137 "uri_path"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return full_path ().string ();
+}
+"
+	
+	
+	
+	
+	comment "The full path."
+      end
+
+      operation 1529641 "uri_scheme"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type}(\"file\");
+}
+"
+	
+	
+	
+	
+	comment "The URI scheme of the persistent storage. Currently this will be 
+'file' for XML file. Future extensions to 'odbc' for databases is planned."
+      end
+
+      operation 1530153 "uri"
+	stereotype "get"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  std::string Result;
+  if (m_url.is_complete ())
+  {
+    Result.reserve (m_url.string ().size () + 8);
+    Result.assign (uri_scheme ());
+    Result.append (\"://\");
+    Result.append (m_url.string ());
+  }
+  else
+  {
+    Result.assign (m_url.string ());
+  }
+  return Result;
+}
+"
+	
+	
+	
+	
+	comment "The combination of the URI scheme and a (possibly relative) path to the 
+persistent storage. "
+      end
+
+      operation 1436457 "write"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Write the objects descendent from top() onto the URL"
+      end
+
+      operation 1433257 "xml_persistence"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_top" type class_ref 432681 // basic_datum
+	  param in name "a_path" type class_ref 361513 // path
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${volatile}${throw} 
+: @{base_class} (${p0})
+, m_base ()
+, m_header ()
+, m_url (${p1})
+{
+  @{require}(allowed_document_element (${p0}.serial_name ()), \"Invalid document element\");
+}
+"
+	
+	
+	
+	
+	comment "This initialises the object but connecting to an actual file is delayed 
+until read or write are called."
+      end
+
+      operation 1433385 "~xml_persistence"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile} throw ();
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile} throw () 
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1433513 "xml_persistence"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 449449 // persistence
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1529897 "xml_persistence"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" explicit_type "xml_persistence"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      extra_member 151209 "create_xml_persistence"
+	
+	cpp "" "static std::auto_ptr < persistence >
+create_xml_persistence (data_scheme::basic_datum & a_top, const std::string &a_uri)
+{
+  const xmlreader::uri l_uri (a_uri);
+  COMPCHEM_REQUIRE (l_uri.scheme ().empty () or l_uri.scheme () == names::file_scheme ()
+                   , \"Invalid URI scheme\");
+  return std::auto_ptr< persistence > (new xml_persistence (a_top, l_uri.path ()));
+}"
+	java ""
+	php ""
+	python ""
+	idl ""
+	comment "Creator function for XML based persistence objects."
+      end
+    end
+  end
+
+  deploymentview 161065 "xml_access"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    comment "Sources for xml_access (part of xml_access)"
+    artifact 266281 "data_xml_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 253353 // xml
+	artifact_ref 241065 // xml_writer
+	artifact_ref 231465 // xml_persistence
+	artifact_ref 157993 // utility
+	artifact_ref 203945 // meta_datum
+	artifact_ref 214697 // xml_write_visitor
+	artifact_ref 230057 // data_access
+	artifact_ref 157097 // xml_access_helper
+      end
+    end
+
+    artifact 203945 "meta_datum"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <algorithm>
+// -- 
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 433961 // meta_datum
+      end
+    end
+
+    artifact 157097 "xml_access_helper"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes in source
+#include <deque>
+#include <boost/bind.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 360233 // xml_access_helper
+      end
+    end
+
+    artifact 241065 "xml_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 526633 // xml_writer
+	class_ref 494121 // xml_writer_proxy
+      end
+    end
+
+    artifact 214697 "xml_write_visitor"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/bind.hpp>
+//-
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 455593 // xml_write_visitor
+      end
+    end
+
+    artifact 231465 "xml_persistence"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+
+// This function initialises the XML persistence library. It is
+// automatically called only once via the call_once template
+// instantiation below. It is never necessary to call this
+// function in any other way.
+void initialise_xml_persistence_library_private ();
+
+// Create dummy object to initialise xml_persistence lib.
+static utility::call_once s_xml_persistence_initialise_dummy (&initialise_xml_persistence_library_private);
+
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#define NO_LOG
+${includes}
+// Manual includes -
+#include <stack>
+#include <fstream>
+#include <sstream>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/exception.hpp>
+#include \"utility/filesystem.hpp\"
+#include \"xmlreader/xml2_uri.hpp\"
+// -
+${namespace_start}
+${members}
+
+void initialise_xml_persistence_library_private ()
+{
+  manager::server ().register_creator (names::file_scheme (), &create_xml_persistence);
+}
+
+${namespace_end}"
+      associated_classes
+	class_ref 453161 // xml_reader_t
+	class_ref 479273 // xml_persistence
+      end
+    end
+  end
+
+  usecaseview 128169 "sql_access"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    usecase 128553 "database-connect"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+    end
+
+    usecase 128681 "project-select"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      comment "Offer the user a list of available projects depending on the user's credentials."
+    end
+
+    usecase 128297 "user-authentication"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      comment "Use an authentication mechanism to verify the user's identity.  This will result in the availability of a set of credentials.  The request for a set of credentials may trigger the authentication mechanism."
+    end
+  end
+
+  classview 129449 "sql_access"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 131241 // sql_access
+    comment "The classes responsible for providing SQL (mysql) access."
+    classdiagram 128809 "data_source"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    sequencediagram 129193 "merge document"
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      comment "Is there only one known source?  This means that the installation is locked into one, usually local, data source."
+      size A4
+    end
+
+    sequencediagram 129321 "User authentication"
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      comment "Is there only one known source?  This means that the installation is locked into one, usually local, data source."
+      size A4
+    end
+
+    class 178729 "connector"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class provides the interface between the internals of the data_source component and external clients."
+      operation 325417 "provide_node"
+	class_operation public explicit_return_type ""
+	nparams 2
+	  param in name "a_path" explicit_type ""
+	  param in name "a_base_node" explicit_type ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "This operation connects to the default data source to load a data sub-tree and return the root node of the sub-tree.  `a_path` is an URL/XPATH statement to retrieve the desired node from the document identified by the `a_url`.
+
+Note, if `a_url` is empty then the default location is assumed. If `a_path` is empty then the root node of the document pointed to by `a_url` is assumed. If both are empty then the root node of the default location is returned.
+
+The returned node may be null."
+      end
+
+      operation 330793 "find_node"
+	class_operation public explicit_return_type ""
+	nparams 4
+	  param in name "a_element_name" explicit_type ""
+	  param in name "a_attribute_name" explicit_type ""
+	  param in name "a_attribute_value" explicit_type ""
+	  param in name "a_base_node" explicit_type ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, const ${t3} & ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Find the first `a_element_name` node with `a_attribute_name` attribute equal to `a_attribute_value`. Use `a_base_node` as the starting point.
+
+The returned node may be null if no node is found.
+
+\\pre a_element_name /= empty, a_attribute_name /= empty, a_attribute_value /= empty
+\\pre a_base_node /= is_null
+"
+      end
+    end
+
+    class 178857 "local_source"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class provides the mechanism for connecting to a data source on the local machine."
+      attribute 169641 "m_data_source_root"
+	class_attribute private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The file name of the root of the local data base."
+      end
+
+      operation 339113 "set_data_source_root"
+	class_operation private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Discover the file name of the root of the local database and set the class attribute m_data_source_root."
+      end
+
+      classrelation 170921 // <generalisation>
+	relation 169897 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 170921 // <generalisation>
+	  b parent class_ref 180265 // database_source
+      end
+    end
+
+    class 180393 "project_cursor"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "To retrieve any information from a project requires obtaining a project_lock object. This object should only be used as a local variable and the information retrieved copied immediately."
+      attribute 169897 "m_project_node"
+	private explicit_type ""
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The internal representation of a node object."
+      end
+
+      operation 342313 "is_null"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Does this represent a valid connection to a project?"
+      end
+
+      operation 339625 "get_read_lock"
+	public return_type class_ref 180905 // project_lock
+	nparams 1
+	  param inout name "a_user" type class_ref 180137 // worker_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get a reader lock for this project."
+      end
+
+      operation 339753 "get_write_lock"
+	public return_type class_ref 180905 // project_lock
+	nparams 1
+	  param inout name "a_user" type class_ref 180137 // worker_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Attempt to get a write lock on this project."
+      end
+
+      operation 338857 "merge_document"
+	cpp_virtual public explicit_return_type "void"
+	nparams 3
+	  param in name "a_user" type class_ref 180137 // worker_type
+	  param in name "a_lock" type class_ref 180905 // project_lock
+	  param in name "a_doc" explicit_type "v3_merge"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method merges the given \"merge\" object into the local database."
+      end
+
+      operation 338985 "merge_file"
+	cpp_virtual public explicit_return_type "void"
+	nparams 3
+	  param in name "a_user" type class_ref 180137 // worker_type
+	  param in name "a_lock" type class_ref 180905 // project_lock
+	  param in name "a_file_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This merges the contents of the given file into the local database.
+
+\\pre a_file_name.empty() /= true
+\\pre framework::filesystem::is_file (a_file_name) /= true"
+      end
+
+      operation 342697 "read_dataset"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 342825 "write_dataset"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 341417 "~project_cursor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      classrelation 171689 // <aggregation>
+	relation_ref 170281 // <aggregation>
+      end
+
+      classrelation 171817 // <aggregation>
+	relation 170409 o---
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 171817 // <aggregation>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 171945 // <aggregation>
+      end
+
+      classrelation 172073 // m_locks (<composition>)
+	relation 170537 *---
+	  stereotype "list"
+	  a role_name "m_locks" multiplicity "*" private
+	    comment "The locks currently on this project"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 172073 // m_locks (<composition>)
+	  b role_name "m_project" multiplicity "1" private
+	    comment "The project this lock object locks."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 172201 // m_project (<composition>)
+      end
+    end
+
+    class 180905 "project_lock"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 342569 "is_null"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Is this lock valid?"
+      end
+
+      operation 342441 "is_write_lock"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Does this lock allow us to write to the project? False implies we have read-only access to the project.
+
+\\pre is_null() /= true
+"
+      end
+
+      classrelation 171945 // <aggregation>
+	relation_ref 170409 // <aggregation>
+      end
+
+      classrelation 172201 // m_project (<composition>)
+	relation_ref 170537 // <composition>
+      end
+
+      classrelation 172329 // m_worker (<directional aggregation>)
+	relation 170665 o-->
+	  a role_name "m_worker" multiplicity "1" private
+	    comment "The worker object that holds this lock."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 172329 // m_worker (<directional aggregation>)
+	  b parent class_ref 180137 // worker_type
+      end
+    end
+
+    class 180265 "database_source"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Manage access to the data system.  It is responsible for access and
+integrity of the managed data.
+
+ROLE[supplier]:
+When a raw data file is being processed, the data system is accessed to
+retrieve information to create a new data twiglet.  When the twiglet is filled
+with information from the data file it is saved into the data system."
+      classrelation 171305 // m_worker_mgr (<composition>)
+	relation 170153 *---
+	  a role_name "m_worker_mgr" multiplicity "1" private
+	    comment "An object that manages access to the source depending on the workers access rights."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 171305 // m_worker_mgr (<composition>)
+	  b role_name "m_source" multiplicity "1" private
+	    comment "A source location that this object manages"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 171433 // m_source (<composition>)
+      end
+
+      operation 341801 "get_worker_manager"
+	stereotype "reference"
+	cpp_virtual public return_type class_ref 180649 // worker_manager
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Return a worker_manager object that is associated with this source object."
+      end
+
+      operation 340009 "is_user_valid"
+	abstract const cpp_virtual public explicit_return_type "bool"
+	nparams 1
+	  param in name "a_user" type class_ref 180137 // worker_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Can a_user access any projects from this data source?"
+      end
+
+      operation 340265 "merge_document"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 2
+	  param in name "a_user" type class_ref 180137 // worker_type
+	  param in name "a_doc" explicit_type "v3_merge"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "This method merges the given \"merge\" object into the local database."
+      end
+
+      operation 340393 "merge_file"
+	abstract cpp_virtual public explicit_return_type "void"
+	nparams 2
+	  param in name "a_user" type class_ref 180137 // worker_type
+	  param in name "a_file_name" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "This merges the contents of the given file into the local database.
+
+\\pre a_file_name.empty() /= true
+\\pre framework::filesystem::is_file (a_file_name) /= true"
+      end
+
+      operation 339241 "retrieve_project"
+	abstract const cpp_virtual public return_type class_ref 180393 // project_cursor
+	nparams 2
+	  param in name "a_user" type class_ref 180137 // worker_type
+	  param in name "a_project_id" explicit_type ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Retrieve an object for the given project from the database.  This attempts to retrieve a project with a read lock assigned to a_user.  If the project could not be locked then a null project is returned."
+      end
+
+      operation 339881 "retrieve_worker_project_map"
+	abstract const cpp_virtual public explicit_return_type "std::map< purpletree::dom::dom_string, purpletree::dom::dom_string >"
+	nparams 1
+	  param in name "a_user" type class_ref 180137 // worker_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Get a map containing the titles and IDs of projects that the worker object a_user has at least read access to.  The a_user.is_guest () = true may still mean that some projects are accessible."
+      end
+
+      operation 340137 "source_location"
+	abstract const cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Get the unique identifier of this source objects location."
+      end
+    end
+
+    class 180777 "source_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 172457 // m_selected_source (<directional aggregation>)
+	relation 170793 o-->
+	  a role_name "m_selected_source" multiplicity "1" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 172457 // m_selected_source (<directional aggregation>)
+	  b parent class_ref 180265 // database_source
+      end
+
+      operation 343721 "get_source"
+	const public return_type class_ref 180265 // database_source
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 341673 "is_only_one_source"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 343593 "is_source_selected"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 340905 "select_source"
+	public return_type class_ref 180265 // database_source
+	nparams 1
+	  param in name "a_locale" explicit_type ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get a source object for the given locale. "
+      end
+
+      operation 340777 "source_list"
+	public explicit_return_type "std::vector < purpletree::dom::dom_string >"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This returns a list of known sources available to this process."
+      end
+    end
+
+    class 180137 "worker_type"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "The representation of a user in the database system. When first created this object represents a guest user."
+      classrelation 171561 // m_selected_project (<aggregation>)
+	relation 170281 o---
+	  a role_name "m_selected_project" multiplicity "1" init_value "(NULL)" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 171561 // m_selected_project (<aggregation>)
+	  b role_name "m_worker" multiplicity "1" const_relation private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 171689 // <aggregation>
+      end
+
+      attribute 169769 "m_worker"
+	private explicit_type "v3_worker"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The worker object that corresponds to the current user in the system."
+      end
+
+      operation 343337 "has_project_cursor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 339369 "is_null"
+	public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Does this object represent a worker that is not logged into the system?"
+      end
+
+      operation 342953 "get_authentication_token"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get the worker authentication token for this user object.
+
+\\pre is_null() /= true"
+      end
+
+      operation 343465 "get_project_cursor"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 339497 "get_worker_id"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Get the worker identifier for this user object.
+
+\\pre is_null() /= true"
+      end
+
+      operation 343209 "select_project"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 343081 "select_source"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 341289 "~worker_type"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 180649 "worker_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 340521 "login_worker"
+	public return_type class_ref 180137 // worker_type
+	nparams 3
+	  param in name "a_id" explicit_type ""
+	  param in name "a_password" explicit_type ""
+	  param inout name "a_accept" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Attempt to retrieve a logged in worker object. If the login failed, the worker will be a null or a \"guest\".
+
+\\post a_accept /= result.is_guest ()"
+      end
+
+      operation 341161 "logout_worker"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_user" type class_ref 180137 // worker_type
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Revoke a_user object's access rights.  This should release any connections, locks etc held by a_user.  It should only be called in the worker destructor.
+
+\\post a_user.is_null () = true"
+      end
+
+      operation 340649 "worker_list"
+	public explicit_return_type "std::map < purpletree::dom::dom_string, purpletree::dom::dom_string >"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Return a map of worker names and worker ID's available in the source."
+      end
+
+      classrelation 171433 // m_source (<composition>)
+	relation_ref 170153 // <composition>
+      end
+    end
+  end
+
+  deploymentview 131241 "sql_access"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 141225 "merge_howto.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "Merge document HOWTO (for Version 1)
+
+Justin Finnerty
+6 June 2006
+
+= Introduction =
+
+This document describes how the \"merge\" element is used to move information into the database.  This information provides a \"supplier\" centric view of what the data_source/data_system components do to add the data to the database.  Note this describe only in general details what occurs. 
+
+== Notes ==
+
+This document gives details about the current implementation (Version 1).  When features are encountered that are planned to change in the future they are marked with \"(Version 1)\" or \"(Not in Version 1)\".  In most cases these features are optional and indicate future extensions to the system. 
+
+= What the data_source does. =
+
+When the data_source component recieves a merge document it needs to do a number of things to add the document to the database.
+
++ It assumes the ``site`` of the data is the current one (Version 1).
+
++ It needs to determine the ``project`` tree.
+
+ + It is an error for the ``project`` not to exist. The ``data_source`` component may return an error or initiate the creation of a new ``project``.
+
+ + It needs to determine the submitting ``worker`` is a member of the ``project`` team with write permission. (Not in Verions 1).
+
++ Once it has found the ``project`` tree, it descends the tree looking for, in turn, a ``compound`` and ``formula`` tree in which to insert the new data.
+
+ + If either sub-tree does not exist then a skeleton sub-tree is created.  The ``data_source`` component may initiate a dialog to fill in the tree.
+
++ Once it has descended to the ``formula`` tree it appends the data to the end of the tree's data section.
+
+
+= What the supplier must provide =
+
+This means that the ``merge`` document is composed of the same elements as a ``formula`` sub-tree. This means that it can contains (at least one) ``experiment`` elements and possibly ``formulation`` elements. In addition the ``merge`` element has required attributes that provide the **ID**s of the ``project``, ``compound`` and ``formula`` in which to insert the data.
+
+What the ``merge`` document contains as data of the experiment is based on what a ``supplier`` sub-component can provide and what a corresponding ``report`` sub-component uses.
+"
+    end
+
+    artifact 141865 "connector"
+      stereotype "source"
+      associated_classes
+	class_ref 178729 // connector
+      end
+    end
+
+    artifact 144297 "local_source"
+      stereotype "source"
+      associated_classes
+	class_ref 178857 // local_source
+      end
+    end
+
+    artifact 144553 "user"
+      stereotype "source"
+      associated_classes
+      end
+    end
+
+    artifact 210217 "database_source"
+      stereotype "source"
+      associated_classes
+	class_ref 180265 // database_source
+	class_ref 180393 // project_cursor
+	class_ref 180905 // project_lock
+	class_ref 180777 // source_manager
+	class_ref 180137 // worker_type
+	class_ref 180649 // worker_manager
+      end
+    end
+  end
+
+  package_ref 139817 // ccverify
+
+  package_ref 154409 // py
+
+  package_ref 132905 // test
+end

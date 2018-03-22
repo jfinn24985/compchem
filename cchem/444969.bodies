@@ -1,0 +1,83 @@
+class test_names
+!!!1402025.cpp!!!	main_test() : void
+// LOCAL
+class helper__
+{
+public:
+  static std::string is_or_is_not (bool a_is, std::string a_msg)
+  {
+    if (a_is)
+    {
+       a_msg.insert (0, "Text is ");
+    }
+    else
+    {
+       a_msg.insert (0, "Text is not ");
+    }
+    return a_msg;
+  }
+  static void print (std::string l_text_name, const std::string & l_text, std::string l_match, bool a_is_elem, bool a_is_attr, bool  a_is_spec, bool a_is_type)
+  {
+    const std::string l_pass (l_text_name + " => \'" + l_text + "\' == \"" + l_match + "\"");
+    bool_test (l_match == l_text, l_pass);
+    bool_test (a_is_elem == data_access::names::is_element_name (l_text), is_or_is_not (a_is_elem, "an element name."));
+    bool_test (a_is_attr == data_access::names::is_attribute_name (l_text), is_or_is_not (a_is_attr, "an attribute name."));
+    bool_test (a_is_spec == data_access::names::is_special_name (l_text), is_or_is_not (a_is_spec, "a special name."));
+    bool_test (a_is_type == data_access::names::is_type_name (l_text), is_or_is_not (a_is_type, "a type name."));
+  }
+};
+#define P(X,Y,Z1,Z2,Z3,Z4) helper__::print (#X, (X), (Y), (Z1), (Z2), (Z3), (Z4))
+
+P(data_access::names::category_name (), "category", false, true,  false, false);
+P(data_access::names::comment_type (), "#CM", false, false, false, true);
+P(data_access::names::compound_name (), "compound", true, true, false, false);
+P(data_access::names::compound_ref_name (), "compound-ref", true, false, false, false);
+P(data_access::names::date_start_name (), "date-start", false, true, false, false);
+P(data_access::names::date_end_name (), "date-end", false, true, false, false);
+P(data_access::names::datum_name (), "datum", true, false, false, false);
+P(data_access::names::detect_filter_name (), "detect", false, false, true, false);
+P(data_access::names::dimension_name (), "dim", false, true, false, false);
+P(data_access::names::experiment_name (), "experiment", true, false, false, false);
+P(data_access::names::file_scheme (), "file", false, false, true, false);
+P(data_access::names::filter_name (), "filter", true, true, false, false);
+P(data_access::names::format_name (), "format", false, true, false, false);
+P(data_access::names::formula_name (), "formula", true, true, false, false);
+P(data_access::names::href_name (), "href", false, true, false, false);
+P(data_access::names::info_name (), "info", true, false, false, false);
+P(data_access::names::identity_name (), "identity", true, false, false, false);
+P(data_access::names::label_name (), "label", false, true, false, false);
+P(data_access::names::mechanism_name (), "mechanism", true, true, false, false);
+P(data_access::names::memo_name (), "memo", true, false, false, false);
+P(data_access::names::memo_src_name (), "memo-src", true, false, false, false);
+P(data_access::names::name_name (), "name", false, true, false, false);
+P(data_access::names::ordinal_name (), "ordinal", false, true, false, false);
+P(data_access::names::outcome_name (), "outcome", false, true, false, false);
+P(data_access::names::plugin_filter_name (), "plugin", false, false, true, false);
+P(data_access::names::priority_name (), "priority", false, true, false, false);
+P(data_access::names::processing_instruction_type (), "#PI", false, false, false, true);
+P(data_access::names::program_name (), "program", true, false, false, false);
+P(data_access::names::project_name (), "project", true, false, false, false);
+P(data_access::names::project_src_name (), "proj-src", true, false, false, false);
+P(data_access::names::reference_name (), "reference", false, true, false, false);
+P(data_access::names::regex_filter_name (), "regex", false, false, true, false);
+P(data_access::names::scale_name (), "scale", false, true, false, false);
+P(data_access::names::settings_name (), "settings", true, false, false, false);
+P(data_access::names::space (), " ", false, false, false, false);
+P(data_access::names::text_type (), "#TX", false, false, false, true);
+P(data_access::names::type_name (), "type", false, true, false, false);
+P(data_access::names::worker_name (), "worker", true, true, false, false);
+P(data_access::names::list(data_access::names::text_type (), data_access::names::comment_type ()), "#TX #CM", false, false, false, false);
+P(data_access::names::list(data_access::names::text_type (), data_access::names::comment_type (), data_access::names::processing_instruction_type ()), "#TX #CM #PI", false, false, false, false);
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name ()), "memo datum info name", false, false, false, false);
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name (), data_access::names::project_name ()), "memo datum info name project", false, false, false, false);
+P(data_access::names::list(data_access::names::memo_name (), data_access::names::datum_name (), data_access::names::info_name (), data_access::names::name_name (), data_access::names::project_name (), data_access::names::program_name ()), "memo datum info name project program", false, false, false, false);
+{
+  std::string l_tmp;
+  data_access::names::list_add (l_tmp, "apple");
+  bool_test ("apple" == l_tmp, "list add with first argument empty equals second arg.");
+  data_access::names::list_add (l_tmp, std::string ());
+  bool_test ("apple" == l_tmp, "list add with second argument empty equals first arg.");
+  l_tmp.clear ();
+  data_access::names::list_add (l_tmp, std::string ());
+  bool_test (l_tmp.empty (), "list add with both arguments empty gives empty string.");
+}

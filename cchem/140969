@@ -1,0 +1,267 @@
+format 61
+"//configuration" // /compchem/utility:://configuration
+  revision 14
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_src_dir "../src/utility"
+  cpp_namespace "utility"
+  comment "A set of headers and classes that abstract compilation configuration and global error reporting functions/MACROS."
+  classview 131241 "System Configuration"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 133673 // System Configuration
+    comment "Files that set up and control the base programming environment"
+    class 336041 "implementation"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128170 // <dependency>
+	relation 128170 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 128170 // <dependency>
+	  b parent class_ref 419113 // contract_error
+      end
+
+      operation 1202217 "change_log"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "a_filename" explicit_type "std::string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  boost::shared_ptr < std::fstream > l_tmp (new std::fstream (a_filename.c_str (), std::ios::out | std::ios::trunc));
+  log_impl () = l_tmp;
+}
+"
+	
+	
+	
+	
+	comment "Change the file that std::clog points to."
+      end
+
+      operation 1076777 "errlog"
+	class_operation cpp_inline public explicit_return_type "std::ostream"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return (log_impl ().get ())? *(log_impl ().get ()) : std::cerr;
+}
+
+"
+	
+	
+	
+	
+	comment "Return a reference to the error stream. (Defaults to std::cerr)"
+      end
+
+      operation 1076649 "log"
+	class_operation cpp_inline public explicit_return_type "std::ostream"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return (log_impl ().get ())? *(log_impl ().get ()) : std::cout;
+}
+
+"
+	
+	
+	
+	
+	comment "Return a reference to the log stream. (Defaults to std::clog)"
+      end
+
+      operation 1202089 "log_impl"
+	class_operation public explicit_return_type "std::ostream"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}boost::shared_ptr < ${type} >& ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  static boost::shared_ptr < ${type} > s_log;
+  return s_log;
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1013801 "log_message"
+	class_operation cpp_inline public explicit_return_type "void"
+	nparams 4
+	  param in name "a_msg" explicit_type "string"
+	  param in name "a_file" explicit_type "char"
+	  param in name "a_line" explicit_type "int"
+	  param in name "a_fn_name" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}=NULL${)}${const}${volatile}${throw}${abstract}
+{
+  log() << \"LOG: \\\"\" << a_msg << \"\\\" (\" << a_file << \":\" << a_line;
+  if (NULL != ${p3})
+  {
+    log () << \":\" << ${p3};
+  }
+  log() << \")\\n\";
+}
+"
+	
+	
+	
+	
+	comment "Print a formatted error message.  Primarily designed to operate with LOG macro."
+      end
+    end
+  end
+
+  deploymentview 133673 "System Configuration"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    comment "Files that set up and control the base programming environment"
+    artifact 147369 "config"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_${NAME}_HPP
+#define COMPCHEM_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"requirements.hpp\"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <boost/shared_ptr.hpp>
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+
+#ifndef COMPCHEM_FUNCTION_NAME
+// Attempt to provide a meaningful function name on systems that support it
+# if defined __cplusplus && __GNUC_PREREQ(2, 6)
+#   define COMPCHEM_FUNCTION_NAME	__PRETTY_FUNCTION__
+# else
+#  if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#   define COMPCHEM_FUNCTION_NAME	__func__
+#  else
+#   define COMPCHEM_FUNCTION_NAME	((const char *) 0)
+#  endif
+# endif
+#endif
+#ifndef NO_LOG
+#define LOG(X) { ::utility::implementation::log_message (X, __FILE__, __LINE__, COMPCHEM_FUNCTION_NAME); }
+#define DLOG(X) { ::utility::implementation::log () << (X); } 
+#define COMPCHEM_LOG(X) { ::utility::implementation::log_message (X, __FILE__, __LINE__, COMPCHEM_FUNCTION_NAME); }
+#define COMPCHEM_DLOG(X) { ::utility::implementation::log () << (X); } 
+#else
+#define LOG(X)
+#define DLOG(X)
+#define COMPCHEM_LOG(X)
+#define COMPCHEM_DLOG(X)
+#endif
+
+// Define a macro that does nothing!
+#define COMPCHEM_NOOP(X) X
+
+#endif
+"
+      associated_classes
+	class_ref 336041 // implementation
+      end
+      comment "This header file contains macro definitions and code for the design by contract system.  Currently this is all inlined code."
+    end
+
+    artifact 153385 "requirements"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_${NAME}_HPP
+#define COMPCHEM_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+
+// This should be defined for all POSIX compliant systems
+#define HAVE_UNISTD_H
+
+// This should be defined for systems with \"stat\" libc function.
+#define HAVE_SYS_STAT_H 
+
+// This should be defined for systems with a backtrace function
+#define HAVE_BACKTRACE
+
+// For systems with snprintf
+#define HAVE_SNPRINTF
+
+// For systems with strerror_r
+#define HAVE_STRERROR_R
+
+// Std requirements
+#ifndef _POSIX_SOURCE
+#define _POSIX_SOURCE
+#endif
+
+// Can the libc internally malloc memory for getcwd?
+#define HAVE_GETCWD_EXT
+
+#endif
+"
+      associated_classes
+      end
+      comment "This header file defines macros that indicate what is available in the current compilation environment.  These are modelled on the macros found in the \"config.h\" file created by Configure scripts etc. with a view to later adding this capability."
+    end
+  end
+end

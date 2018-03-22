@@ -1,0 +1,945 @@
+format 75
+"//auth" // /compchem/utility:://auth
+  revision 6
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_h_dir "utility"
+  cpp_src_dir "../src/utility"
+  cpp_namespace "utility"
+  classview 134697 "auth"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 182441 "authentication_manager"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Abstract base class for authentication managers."
+      attribute 170025 "service_name"
+	class_attribute public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	get_oper operation_ref 1013289 // get_service_name
+	set_oper operation_ref 1013417 // set_service_name
+	comment "The service name for this application.  This is the name the authentication manager will use to identify the application/service to the external authentication system.  The external system will need to be configured to recognise this name."
+      end
+
+      operation 346793 "create_manager"
+	class_operation public return_type class_ref 182441 // authentication_manager
+	nparams 2
+	  param in name "a_user" explicit_type "string"
+	  param in name "a_service" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}std::auto_ptr< ${type} > ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Create an authentication manager object for the given user. (To be defined in the source of each authentication sub-class, only one sub-class can be linked into application.)"
+      end
+
+      operation 346665 "error_string"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "A textual message for why the user is not authenticated.
+
+\\pre !is_valid && is_valid_connection"
+      end
+
+      operation 1013289 "get_service_name"
+	class_operation cpp_inline public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}const ${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return service_name;
+}
+"
+	cpp_name_spec "get_${name}"
+	final 
+	java_name_spec "get_${name}"
+	
+	
+	
+	idl_name_spec "get_${name}"
+	get_of_attribute attribute_ref 170025 // service_name
+	comment "Get the service name "
+      end
+
+      operation 346537 "get_user"
+	abstract const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Get the current value of 'user'. (cached)"
+      end
+
+      operation 346281 "is_authenticated"
+	abstract const cpp_virtual public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Is the current user authenticated by the system.  If 'false' the reason for 
+the error can be found in error_number (and error_string)."
+      end
+
+      operation 346409 "is_valid"
+	abstract const cpp_virtual public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Does the object have an error?"
+      end
+
+      operation 1013417 "set_service_name"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  service_name = ${p0};
+}
+"
+	cpp_name_spec "set_${name}"
+	
+	java_name_spec "set_${name}"
+	
+	
+	
+	idl_name_spec "set_${name}"
+	set_of_attribute attribute_ref 170025 // service_name
+	comment "Set the service name"
+      end
+
+      operation 1013545 "~authentication_manager"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 181929 "pam_conv"
+      visibility package stereotype "struct"
+      cpp_external cpp_decl "${name}
+#include <security/pam_appl.h>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      comment "PAM struct"
+    end
+
+    class 182057 "pam_handle_t"
+      visibility package stereotype "struct"
+      cpp_external cpp_decl "${name}
+#include <security/pam_appl.h>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      comment "PAM struct"
+    end
+
+    class 182185 "pam_message"
+      visibility package stereotype "struct"
+      cpp_external cpp_decl "${name}
+#include <security/pam_appl.h>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      comment "PAM struct"
+    end
+
+    class 182313 "pam_response"
+      visibility package stereotype "struct"
+      cpp_external cpp_decl "${name}
+#include <security/pam_appl.h>
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      comment "PAM struct"
+    end
+
+    class 181673 "pam_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Manage user/worker authentication "
+      attribute 170153 "m_user"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The cached name of the current user.  This may be changed by the authentication system to something other than the initial value."
+      end
+
+      classrelation 172585 // m_pam_conversation (<directional composition>)
+	relation 170921 *-->
+	  a role_name "m_pam_conversation" multiplicity "1" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 172585 // m_pam_conversation (<directional composition>)
+	  b parent class_ref 181929 // pam_conv
+	comment "A structure containing information that allows the external authentication system to communicate with the user."
+      end
+
+      classrelation 172713 // m_pam_handle (<directional aggregation>)
+	relation 171049 o-->
+	  a role_name "m_pam_handle" multiplicity "1" init_value "(NULL)" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 172713 // m_pam_handle (<directional aggregation>)
+	  b parent class_ref 182057 // pam_handle_t
+	comment "A pointer to a pam library connection structure.  This is opaque to this application."
+      end
+
+      attribute 170537 "m_error_number"
+	private explicit_type "int"
+	init_value "NO_ERROR"
+	cpp_mutable cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The current error number."
+      end
+
+      operation 345257 "conversation_function"
+	class_operation private explicit_return_type "int"
+	nparams 4
+	  param in name "a_num_msg" explicit_type "int"
+	  param in name "a_pam_message" type class_ref 182185 // pam_message
+	  param out name "a_pam_response" type class_ref 182313 // pam_response
+	  param in name "a_object" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} ** ${p1}, ${t2} ** ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} ** ${p1}, ${t2} ** ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Static function used as callback by PAM library. (TODO)
+
+\\param a_num_msg The size of the message array.
+\\param a_pam_message A query for information from the user (array size is a_num_msg).
+\\param a_pam_response A array in which to place the results of the request (array size is a_num_msg)."
+      end
+
+      operation 344489 "error_number"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_error_number; }
+"
+	
+	
+	
+	
+	comment "A code number for the reason the user is not authenticated."
+      end
+
+      operation 344617 "error_string"
+	const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "A textual message for why the user is not authenticated.
+
+\\pre !is_valid && is_valid_connection"
+      end
+
+      operation 345513 "get_rhost"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Query what the requesting user host.
+
+\\pre is_valid"
+      end
+
+      operation 345385 "get_ruser"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Query what the requesting user name is.
+
+\\pre is_valid"
+      end
+
+      operation 345897 "get_user"
+	const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_user; }
+"
+	
+	
+	
+	
+	comment "Get the current value of 'user'. (cached)"
+      end
+
+      operation 344873 "get_user_prompt"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Query what the current user prompt is.
+
+\\pre is_valid"
+      end
+
+      operation 346025 "get_user_priv"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Query what the current value of 'user' from the external system.
+
+\\pre is_valid"
+      end
+
+      operation 344361 "is_authenticated"
+	const cpp_virtual public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Is the current user authenticated by the system.  If 'false' the reason for 
+the error can be found in error_number (and error_string)."
+      end
+
+      operation 346153 "is_valid"
+	const cpp_virtual public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_error_number == NO_ERROR; }
+"
+	
+	
+	
+	
+	comment "Does the object have an error?"
+      end
+
+      operation 345001 "is_valid_connection"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_error_number != INVALID_HANDLE; }
+"
+	
+	
+	
+	
+	comment "Is there a valid connection to the external system? This will only be false if is_valid is false.
+
+\\post is_valid <-> result == true
+\\post false --> !is_valid"
+      end
+
+      operation 343849 "pam_manager"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_name" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} :
+m_user(${p0})
+, m_pam_conversation()
+, m_pam_handle(NULL)
+, m_error_number(NO_ERROR)
+ {
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Create a PAM session for the given user.
+
+\\pre a_name.empty () /= true"
+      end
+
+      operation 343977 "~pam_manager"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 345769 "set_rhost"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_host" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Set the requesting host name.
+
+\\pre is_valid"
+      end
+
+      operation 345641 "set_ruser"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_user" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Set the requesting user.
+
+\\pre is_valid"
+      end
+
+      operation 965673 "set_user_priv"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "a_user" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Set what the current user prompt is.
+
+\\pre is_valid"
+      end
+
+      operation 344745 "set_user_prompt"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_prompt" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Set what the current user prompt is.
+
+\\pre is_valid"
+      end
+
+      operation 344105 "pam_manager"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 181673 // pam_manager
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "Undefined"
+      end
+
+      operation 344233 "operator="
+	private return_type class_ref 181673 // pam_manager
+	nparams 1
+	  param in name "source" type class_ref 181673 // pam_manager
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Undefined"
+      end
+
+      attribute 170665 "NO_ERROR"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_SUCCESS)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate that the system is not in an error state."
+      end
+
+      attribute 170793 "INVALID_HANDLE"
+	class_attribute const_attribute private explicit_type "int"
+	init_value "(PAM_SYSTEM_ERR)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Indicate authentication cannot proceed because connection to external authentication system has not been established. 
+
+* User should never get this error as it means a function precondition failed to detect the error bad connection condition."
+      end
+
+      attribute 170921 "PERMISSION_DENIED"
+	class_attribute const_attribute private explicit_type "int"
+	init_value "(PAM_PERM_DENIED)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "An attempt to do something invalid such as replacing the conversation structure with a NULL value.
+
+* The user should never get this error.  The class interface precludes this operation."
+      end
+
+      attribute 171049 "MEMORY_ERROR"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_BUF_ERR)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Ran out of memory during some operation."
+      end
+
+      attribute 171177 "INVALID_OPERATION"
+	class_attribute const_attribute private explicit_type "int"
+	init_value "(PAM_BAD_ITEM)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The application attempted to set an undefined or inaccessible item.
+
+* The user should never see this error as class interface precludes it."
+      end
+
+      attribute 171305 "AUTHENTICATION_ERROR"
+	class_attribute const_attribute private explicit_type "int"
+	init_value "(PAM_AUTH_ERR)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The user was not authenticated.
+
+* The user should never get this error. Function guard conditions should protect functions from this condition."
+      end
+
+      attribute 171433 "INSUFFICIENT_RIGHTS"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_CRED_INSUFFICIENT)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "For some reason the application does not have sufficient credentials to authenticate the user."
+      end
+
+      attribute 171561 "CANNOT_AUTHENTICATE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_AUTHINFO_UNAVAIL)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The modules were not able to access the authentication information. This might be due to a network or hardware failure etc."
+      end
+
+      attribute 171689 "USER_UNKNOWN"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_USER_UNKNOWN)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The supplied username is not known to the authentication service."
+      end
+
+      attribute 171817 "MAX_TRIES"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_MAXTRIES)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "One or more of the authentication modules has reached its limit of tries authenticating the user. Do not try again."
+      end
+
+      attribute 171945 "SYSTEM_ERROR"
+	class_attribute const_attribute public explicit_type "int"
+	init_value "(PAM_ABORT)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "One or more of the authentication modules failed to load."
+      end
+
+      classrelation 172841 // <generalisation>
+	relation 171177 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 172841 // <generalisation>
+	  b parent class_ref 182441 // authentication_manager
+      end
+    end
+  end
+
+  deploymentview 135977 "auth"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 158121 "auth"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 144681 // pam_manager
+      end
+      comment "The authentication utilities"
+    end
+
+    artifact 144809 "authentication_manager"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 182441 // authentication_manager
+      end
+    end
+
+    artifact 144681 "pam_manager"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+#include <string>
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+#include <security/pam_appl.h>
+#include <security/pam_misc.h>
+#include <boost/scoped_array.hpp>
+${namespace_start}
+${members}
+
+// Create an authentication manager object for the given user.
+std::auto_ptr< authentication_manager > authentication_manager::create_manager(const std::string& a_user, const std::string& a_service)
+{
+  REQUIRE (not a_service.empty () or
+	not get_service_name ().empty (), \"Cannot use empty string for service name.\");
+  if (not a_service.empty ())
+  {
+    set_service_name (a_service);
+  }
+  return std::auto_ptr< authentication_manager >(new pam_manager (a_user));
+}
+
+${namespace_end}"
+      associated_classes
+	class_ref 181673 // pam_manager
+      end
+    end
+
+    artifact 129583 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:14 2012
+##END:date
+##START:target utility
+lib utility :
+	filesystem.cpp
+	contract_error.cpp
+	program_options.cpp
+	call_once.cpp
+	/boost//program_options
+	time_stamp.cpp
+	/boost//filesystem
+	:
+	<link>shared
+	;
+
+install install_utility : utility : <location>$(LIBDIR) ;
+##END:target utility
+##START:target test
+lib test :
+	/cchem/utility//utility
+	test_manager.cpp
+	:
+	<link>shared
+	;
+
+install install_test : test : <location>$(LIBDIR) ;
+##END:target test
+##START:target posix
+lib posix :
+	filesystem_properties.cpp
+	:
+	<link>shared
+	;
+
+install install_posix : posix : <location>$(LIBDIR) ;
+##END:target posix
+##START:target auth
+lib auth :
+	pam_manager.cpp
+	:
+	<link>shared
+	;
+
+install install_auth : auth : <location>$(LIBDIR) ;
+##END:target auth
+"
+    end
+  end
+end

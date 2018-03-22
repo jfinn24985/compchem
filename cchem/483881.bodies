@@ -1,0 +1,15 @@
+class basic_filter_py
+!!!1544617.cpp!!!	pythonise() : void
+boost::python::class_< basic_filter_py, boost::noncopyable >("basic_filter"
+      , boost::python::no_init)
+    .def("error_message", boost::python::pure_virtual(&basic_filter::error_message))
+    .def("flags", boost::python::pure_virtual(&basic_filter::flags))
+    .def("identity", boost::python::pure_virtual(&basic_filter::identity))
+    .def("output_direct", boost::python::pure_virtual(&basic_filter::output_direct))
+    .def("output_string", boost::python::pure_virtual(&basic_filter::output_string))
+    .def("process_file", boost::python::pure_virtual(&basic_filter::process_file))
+    .def("process_part", boost::python::pure_virtual(&basic_filter::process_part))
+    .def("reset", boost::python::pure_virtual(&basic_filter::reset))
+    .add_property("label", boost::python::make_function (&basic_filter::label, boost::python::return_value_policy< boost::python::return_by_value >()))
+    .add_property("outcomes", boost::python::make_function (&basic_filter::outcomes, boost::python::return_value_policy< boost::python::return_by_value >()))
+    ;

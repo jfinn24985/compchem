@@ -1,0 +1,521 @@
+format 61
+"~//supplier" // /compchem/supplier::~//supplier
+  revision 52
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  stereotype "library"
+  cpp_h_dir "supplier"
+  cpp_src_dir "../src/supplier"
+  cpp_namespace "supplier"
+  classview 155817 "filter utility program"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 154793 // filter utility program
+    comment "Program to test a single filter that can be specified on the command line."
+    classdiagram 156457 "filter utility tests"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 348713 "plugin_filter_direct"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This class plays the role of the plugin_manager for a single filter. It does not load 
+the plugin dynamically, instead using the filter class directly.
+"
+      classrelation 524969 // <generalisation>
+	relation 507945 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 524969 // <generalisation>
+	  b parent class_ref 490793 // basic_plugin_handler
+      end
+
+      operation 1087145 "output"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_twiglet" explicit_type "any"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Load the filtered result from the plugin into the filter manager provided a_twiglet.
+
+\\pre is_valid
+\\post error = true if an error occurred"
+      end
+
+      operation 1088041 "operator="
+	private return_type class_ref 348713 // plugin_filter_direct
+	nparams 1
+	  param in name "source" type class_ref 348713 // plugin_filter_direct
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1087657 "plugin_filter_direct"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+	comment "Create a filter to operate on the given file.
+
+\\post error = true if an error occurred"
+      end
+
+      operation 1087785 "~plugin_filter_direct"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1087913 "plugin_filter_direct"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 348713 // plugin_filter_direct
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1088169 "plugin_object"
+	public explicit_return_type "any"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  REQUIRE (is_valid (), \"Can not get any information with an invalid plugin.\");
+  return state (); }
+"
+	
+	
+	
+	
+	comment "Get a reference to the filter state object."
+      end
+
+      operation 1087273 "process"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_filetype" explicit_type "base_filetype"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "																													Process the file.
+
+\\pre is_valid
+\\post error /= 0 if an error occurred"
+      end
+    end
+
+    class 490921 "datum_node"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This is a work-a-like copy of the datum class for use where the 
+data_scheme library is not begin used (eg plugin_filter_direct)"
+      classrelation 525097 // child (<directional composition>)
+	relation 508073 *-->
+	  stereotype "auto_ptr"
+	  a role_name "child" multiplicity "0..1" public
+	    comment "First child node"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 525097 // child (<directional composition>)
+	  b parent class_ref 490921 // datum_node
+      end
+
+      classrelation 525225 // sibling (<directional composition>)
+	relation 508201 *-->
+	  stereotype "auto_ptr"
+	  a role_name "sibling" multiplicity "0..1" public
+	    comment "My sibling node"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 525225 // sibling (<directional composition>)
+	  b parent class_ref 490921 // datum_node
+      end
+
+      attribute 400169 "content"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The text content."
+      end
+
+      attribute 400041 "format"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The datum's format"
+      end
+
+      attribute 399913 "outcome"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The outcome of the object."
+      end
+
+      attribute 399785 "ordinal"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The ordinal of the datum (default = -1 (unset))"
+      end
+
+      attribute 399657 "scale"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The scale attribute for the datum"
+      end
+
+      operation 1571241 "add_content"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_ndoe" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1570857 "create_datum"
+	class_operation public explicit_return_type "any"
+	nparams 3
+	  param in name "a_node" explicit_type "any"
+	  param in name "a_outcome" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "The outcome generator."
+      end
+
+      operation 1570217 "datum_node"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1570345 "~datum_node"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1570473 "datum_node"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 490921 // datum_node
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1570601 "operator="
+	private return_type class_ref 490921 // datum_node
+	nparams 1
+	  param in name "source" type class_ref 490921 // datum_node
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1571113 "set_format"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_ndoe" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1571369 "set_ordinal"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_ndoe" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1570985 "set_scale"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_ndoe" explicit_type "any"
+	  param in name "a_format" explicit_type "char"
+	  param in name "a_sz" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} cosnt *const ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 154793 "filter utility program"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 200489 "test_filterutils"
+      stereotype "executable"
+      associated_artifacts
+      end
+    end
+
+    artifact 154409 "plugin_filter_direct"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP
+#define COMPCHEM_SUPPLIER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <sstream>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date:
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}
+
+// int main (int argc, char ** argv) {
+//   int Result (0);
+//   if (argc > 1) {
+//     for (int i (0); i < argc; ++i)
+//       std::cout << \"argv[\" << i << \"] = [\" << argv[i] << \"]\\n\";
+//     supplier::plugin_filter_direct l_filter;
+//     supplier::filetype::gaussian_file l_file (argv[1]);
+//     if (l_file.is_valid ()) {
+//       std::cout << \"FILETYPE: \" << l_file.filetype () << \"\\n\";
+//       std::cout << \"SUBTYPE:  \" << l_file.subtype_info () << \"\\n\";
+//       l_filter.process (l_file);
+//       if (not l_filter.is_error ()) {
+// 	supplier::filter::gaussian_vibration* l_vib_filter = static_cast<supplier::filter::gaussian_vibration*>(l_filter.plugin_object ());
+// 	std::cout << \"SIZE: \" << l_vib_filter->size () << \"\\n\";
+//         for (supplier::filter::gaussian_vibration::const_iterator l_i (l_vib_filter->begin ());
+//             l_i != l_vib_filter->end ();
+//             ++l_i) {
+// 	    l_i->serialise (std::cout, \",\", chemistry::vibration::PEAK_TABLE); }}
+//       else {
+//         std::cout << \"ERROR: \" << l_filter.error_message () << \"\\n\"; }}
+//     else {
+//       std::cout << \"File \" << argv[1] << \" is not a valid gaussian file\\n\"; }}
+//   else {
+//     std::cout << \"Usage: get_freq filtename\\n\"; }
+//   return Result; }
+"
+      associated_classes
+	class_ref 348713 // plugin_filter_direct
+      end
+    end
+  end
+end

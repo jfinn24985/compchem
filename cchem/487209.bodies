@@ -1,0 +1,115 @@
+class basic_state
+!!!1065513.cpp!!!	finalise(inout a_filter : basic_filter_traits) : void
+if (NULL != a_filter)
+{
+  if (NULL != a_filter->m_internal_state)
+  {
+    delete static_cast < basic_state * >(a_filter->m_internal_state);
+    a_filter->m_internal_state = NULL;
+  }
+  if (NULL != a_filter->m_error)
+  {
+    delete [] a_filter->m_error;
+  }
+}
+!!!233769.cpp!!!	output_dipole(inout a_filter : basic_filter_traits, inout a_twiglet : any) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+// DO
+if (not m_result_dipole.empty ())
+{
+  // This regex looks for "X= 0.0 Y= 0.0 Z= 0.0 Tot= 0.0"
+  boost::regex l_extract ("[XYZt]=[[:space:]]*([-.[:digit:]]+)", boost::regex::extended);
+  unsigned int l_counter (0);
+  std::stringstream l_output;
+  // Perform match
+  for (boost::sregex_iterator l_matcher (boost::make_regex_iterator (m_result_dipole, l_extract)), l_end; l_matcher != l_end; ++l_matcher, ++l_counter)
+  {
+    // Get result string
+    if (l_counter > 0)
+    {
+      l_output << ",";
+    }
+    l_output << l_matcher->str (1);
+  }
+  if (4 <= l_counter)
+  {
+    // Add to result twiglet.
+    void * l_datum ((*a_filter->m_create_datum_cb)(a_twiglet, "dipole"));
+    COMPCHEM_CHECK (NULL != l_datum, "Failed to create a datum object.");
+    (*a_filter->m_set_scale_cb)(l_datum, "debye");
+    (*a_filter->m_set_format_cb)(l_datum, "x,y,z,tot");
+    const std::string l_content (l_output.str ());
+    (*a_filter->m_add_content_cb)(l_datum, l_content.data (), l_content.size ());
+  }
+  else
+  {
+    // ERROR: Could not find what we wanted in result string.
+    set_error (a_filter, "Error extracting dipole from string [" + m_result_dipole + "].");
+    Result = CCHEM_SUPPLIER_BADDATA;
+  }
+}
+else
+{
+  Result = CCHEM_SUPPLIER_UNUSABLE;
+}
+// END
+return Result;
+!!!1067689.cpp!!!	output_termination(inout a_filter : basic_filter_traits, inout a_twiglet : any) : int
+// LOCAL
+int Result = CCHEM_SUPPLIER_SUCCESS;
+// DO
+if (l_state->m_result_term.empty ())
+{
+  set_error (a_filter, "No termination message found in data file.");
+  Result = CCHEM_SUPPLIER_BADDATA;
+}
+else
+{
+  COMPCHEM_CHECK (m_result_term.find ("termination") != std::string::npos, "Captured string does not contain match string.");
+  COMPCHEM_CHECK (m_result_term.find ("Normal") != std::string::npos, "Abnormal gaussian termination should have stopped processing during file filtering.");
+  void *l_new_node ((*a_filter->m_create_datum_cb) (a_twiglet, "exit-status"));
+  COMPCHEM_CHECK (NULL != l_new_node, "Failed to create a new datum object.");
+  // remove leading/trailing white space from string before adding to result twiglet
+  boost::trim (m_result_term);
+  (*a_filter->m_add_content_cb) (l_new_node, m_result_term.data (), m_result_term.size ());
+}
+// END
+return Result;
+!!!233641.cpp!!!	process_dipole(in a_segment : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+if (m_result_dipole.empty () and boost::regex_search (a_segment, a_segment + a_ssize, m_find_dipole))
+{
+  m_result_dipole.assign (a_segment, a_ssize);
+  Result == CCHEM_SUPPLIER_COMPLETE;  
+}
+return Result;
+!!!1067561.cpp!!!	process_termination(inout a_filter : basic_filter_traits, in a_segment : char, in a_sz : int) : int
+// LOCAL
+int Result (CCHEM_SUPPLIER_SUCCESS);
+// DO
+if (boost::regex_search (a_segment, a_segment + a_sz, m_find_term))
+{
+  m_result_term.assign (a_segment, a_ssize);
+  if (m_result_term.find ("Normal") == std::string::npos)
+  {
+    // Gaussian did not terminate normally, set error indicators
+    set_error (a_filter, "Invalid result with program termination [" + m_result_term + "]");
+    Result = CCHEM_SUPPLIER_FATAL;
+  }
+  else
+  {
+    Result = CCHEM_SUPPLIER_COMPLETE;
+  }
+}
+
+// END
+return Result;
+!!!1560873.cpp!!!	set_error(in a_plugin : basic_filter_traits, in a_msg : string) : void
+if (not a_msg.empty ())
+{
+  a_filter->m_error = new char[a_msg.size () + 1];
+  a_msg.copy (a_filter->m_error, a_msg.size (), 0);
+  *(a_filter->m_error + a_msg.size ()) = '\0';
+}

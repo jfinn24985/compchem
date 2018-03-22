@@ -1,0 +1,45 @@
+format 24
+
+classinstance 128041 class_ref 328617 // user
+  xyz 14 115 2000 name ""  xyz 14 115 2000
+classinstance 128169 class_ref 135593 // project
+  xyz 194 114 2000 name "a_proj"  xyz 194 114 2000
+classinstance 132009 class_ref 327593 // experiment
+  xyz 159 282 2000 name "exp_from_list"  xyz 159 282 2000
+fragment 132905 "loop"
+  xyzwh 81 245 3005 296 92
+fragment 133417 "loop"
+  xyzwh 294 54 3005 341 76
+note 133545 "For reversible finalisation, the edit_permission will leave ADMINISTRATE permission set for current administrators. "
+  xyzwh 334 136 2000 311 75
+linkcanvas 128809
+  from ref 128041 z 1999 to ref 128169
+dirscanvas 128937 z 1000 linkcanvas_ref 128809
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "1 is_permitted(ADMINISTRATE)
+2 finalise(IRREVERSIBLE)" xyz 27 73 3000
+linkcanvas 132393
+  from ref 128169 z 1999 to ref 132009
+dirscanvas 132521 z 1000 linkcanvas_ref 132393
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "3 finalise()" xyz 258 202 3000
+selflinkcanvas 133289 classinstance_ref 128169 // a_proj:project
+  xy 288 120
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default
+  forward_label "4 edit_permissions(ith_id, VIEW_CONTENT, <all>)" xyz 307 88 3000
+msgs
+  explicitmsg "is_permitted(ADMINISTRATE)"
+    forward ranks 1 "1" dirscanvas_ref 128937
+    no_msg
+  explicitmsg "finalise(IRREVERSIBLE)"
+    forward ranks 2 "2" dirscanvas_ref 128937
+    msgs
+      msg operation_ref 974377 // "finalise()"
+	forward ranks 3 "2.1" dirscanvas_ref 132521
+	no_msg
+      explicitmsg "edit_permissions(ith_id, VIEW_CONTENT, <all>)"
+	forward ranks 4 "2.2" selflinkcanvas_ref 133289
+	no_msg
+    msgsend
+msgsend
+end

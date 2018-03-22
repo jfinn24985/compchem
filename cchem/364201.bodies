@@ -1,0 +1,51 @@
+class base_test
+!!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : string) : void
+if (a_test)
+{
+  log () << IFYS << "   passed   : " << a_msg << std::endl;
+}
+else
+{
+  COMPCHEM_ALWAYS (a_test, IFNO + " **failed** : " + a_msg);
+}
+!!!1669545.cpp!!!	bool_test(in a_test : bool, in a_msg : char) : void
+if (NULL != a_msg)
+{
+  if (a_test)
+  {
+    log () << IFYS << "   passed   : " << a_msg << std::endl;
+  }
+  else
+  {
+    COMPCHEM_ALWAYS (a_test, IFNO + " **failed** : " + a_msg);
+  }
+}
+else
+{
+  COMPCHEM_ALWAYS (a_test, IFNO + " **failed** : bool_test (no message)");
+  log () << IFYS << "   passed   : bool_test (no message)" << std::endl;
+}
+!!!1669673.cpp!!!	monitor_function(in a_lvl : uint, in a_fn : funtion_t, in a_msg : char) : void
+if (NULL != a_msg)
+{
+  log () << WTCH << a_msg << std::endl;
+}
+try
+{
+  a_fn();
+  const static bool function_throw_test_failed (true);
+  COMPCHEM_ALWAYS (function_throw_test_failed, "Test function failed to throw expected error.");
+}
+catch (const utility::contract_error &err)
+{
+  const std::string l_what (err.what (), 256);
+  if (err.level == a_lvl)
+  {
+    log () << IFYS << "Caught contract error of correct level [" << err.level << "]\n" << l_what << "\n";
+  }
+  else
+  {
+    // Exception is incorrect, rethrow.
+    throw;
+  }
+}

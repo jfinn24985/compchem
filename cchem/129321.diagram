@@ -1,0 +1,115 @@
+format 24
+
+classinstance 128041 class_ref 180649 // worker_manager
+  name "a_manager" xyz 228 188 2000 life_line_z 2000
+classinstance 128297 class_ref 180777 // source_manager
+  name "" mortal xyz 85 12 2000 life_line_z 2000
+classinstance 129449 class_ref 180265 // source
+  name "a_locale" xyz 163 118 2000 life_line_z 2000
+classinstance 130345 class_ref 180137 // worker
+  name "a_user" xyz 347 307 2000 life_line_z 2000
+classinstance 131241 class_ref 180393 // project_cursor
+  name "a_proj" xyz 392 416 2000 life_line_z 2000
+fragment 132393 "alt"
+  xyzwh 3 648 1995 609 150
+fragment 132521 "alt"
+  xyzwh 2 819 2015 480 132
+fragment 134697 "alt"
+  xyzwh 3 503 1990 609 141
+note 134825 "log out"
+  xyzwh 58 830 2000 72 40
+fragment 134953 "alt"
+  xyzwh 2 963 2015 478 200
+fragment 135081 "loop"
+  xyzwh 0 471 1985 621 336
+note 135209 "change project"
+  xyzwh 58 969 2000 119 38
+note 136105 "if project actually changed"
+  xyzwh 258 1054 3005 198 37
+continuation 136233 "as above"
+  xyzwh 169 1120 2015 94 36
+note 136617 "locale and worker may be preset in a configuration file. The above need only be used when changing these."
+  xyzwh 331 216 2005 380 59
+note 136745 "project may be preset in configuration file. This section only applies to change the current project."
+  xyzwh 403 337 2000 347 58
+classinstance 137257 class_ref 180905 // project_lock
+  name "a_lock" mortal xyz 482 521 2000 life_line_z 2000
+classinstance 138153 class_ref 180905 // project_lock
+  name "a_lock" mortal xyz 476 687 2000 life_line_z 2000
+durationcanvas 128553 classinstance_ref 128297 // :source_manager
+  xyzwh 139 72 2010 11 109
+durationcanvas 129577 classinstance_ref 129449 // a_locale:source
+  xyzwh 211 168 2010 11 39
+durationcanvas 130601 classinstance_ref 129449 // a_locale:source
+  xyzwh 211 352 2010 11 88
+durationcanvas 132905 classinstance_ref 130345 // a_user:worker
+  xyzwh 390 362 2010 11 25
+durationcanvas 133161 classinstance_ref 130345 // a_user:worker
+  xyzwh 390 418 2010 11 28
+durationcanvas 133673 classinstance_ref 128041 // a_manager:worker_manager
+  xyzwh 318 865 2010 11 36
+durationcanvas 133929 classinstance_ref 130345 // a_user:worker
+  xyzwh 390 883 2010 11 37
+durationcanvas 134185 classinstance_ref 131241 // a_proj:project_cursor
+  xyzwh 457 909 2010 11 25
+durationcanvas 135337 classinstance_ref 129449 // a_locale:source
+  xyzwh 211 1022 2010 11 108
+durationcanvas 135849 classinstance_ref 131241 // a_proj:project_cursor
+  xyzwh 457 1107 2010 11 25
+durationcanvas 137385 classinstance_ref 137257 // a_lock:project_lock
+  xyzwh 540 571 2010 11 63
+durationcanvas 137641 classinstance_ref 131241 // a_proj:project_cursor
+  xyzwh 457 519 2010 11 117
+durationcanvas 137769 classinstance_ref 131241 // a_proj:project_cursor
+  xyzwh 457 675 2010 11 110
+durationcanvas 138281 classinstance_ref 138153 // a_lock:project_lock
+  xyzwh 534 728 2010 11 60
+msg 129705 synchronous
+  from durationcanvas_ref 128553 // 128297
+  to durationcanvas_ref 129577 // 129449
+  yz 170 2000 explicitmsg "get_worker_manager()"
+  show_full_operations_definition default drawing_language default
+  label_xy 113 152
+msg 133033 synchronous
+  from durationcanvas_ref 130601 // 129449
+  to durationcanvas_ref 132905 // 130345
+  yz 362 2000 msg operation_ref 339497 // "get_worker_id() : purpletree::dom::dom_string"
+  show_full_operations_definition default drawing_language default
+  label_xy 256 344
+msg 133289 synchronous
+  from durationcanvas_ref 130601 // 129449
+  to durationcanvas_ref 133161 // 130345
+  yz 418 2000 msg operation_ref 339497 // "get_worker_id() : purpletree::dom::dom_string"
+  show_full_operations_definition default drawing_language default
+  label_xy 256 400
+msg 134057 synchronous
+  from durationcanvas_ref 133673 // 128041
+  to durationcanvas_ref 133929 // 130345
+  yz 886 2000 msg operation_ref 341289 // "~worker()"
+  show_full_operations_definition default drawing_language default
+  label_xy 325 868
+msg 134313 synchronous
+  from durationcanvas_ref 133929 // 130345
+  to durationcanvas_ref 134185 // 131241
+  yz 909 2000 msg operation_ref 341417 // "~project_cursor()"
+  show_full_operations_definition default drawing_language default
+  label_xy 401 891
+msg 135977 synchronous
+  from durationcanvas_ref 135337 // 129449
+  to durationcanvas_ref 135849 // 131241
+  yz 1107 2000 msg operation_ref 341417 // "~project_cursor()"
+  show_full_operations_definition default drawing_language default
+  label_xy 310 1089
+msg 138537 synchronous
+  from durationcanvas_ref 137641 // 131241
+  to durationcanvas_ref 137385 // 137257
+  yz 623 2000 msg operation_ref 342441 // "is_write_lock()"
+  show_full_operations_definition default drawing_language default
+  label_xy 459 605
+msg 138793 synchronous
+  from durationcanvas_ref 137769 // 131241
+  to durationcanvas_ref 138281 // 138153
+  yz 774 2000 msg operation_ref 342441 // "is_write_lock()"
+  show_full_operations_definition default drawing_language default
+  label_xy 456 756
+end

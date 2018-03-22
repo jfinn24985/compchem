@@ -1,0 +1,27 @@
+class document_type
+!!!1174057.cpp!!!	test_deserialise(in a_filename : string) : document
+COMPCHEM_REQUIRE (boost::filesystem::exists (a_filename), "Cannot open a non-existant file");
+// Do a quick test for DTD
+bool l_is_type (false);
+purpletree::dom::document Result;
+try {
+  std::fstream l_file (a_filename.c_str ());
+  if (l_file) {
+    char l_buffer[2048];
+    const unsigned int l_size (2048);
+    unsigned int l_read_size (l_file.readsome (&l_buffer[0], l_size - 1));
+    if (140 < l_read_size) { // 140 is used as a rough guide of the minimum size a valid document be
+      const boost::regex l_is_xml ("<?xml");
+      const boost::regex l_is_doctype ("<!DOCTYPE([^>]*)>");
+      boost::cmatch l_match;
+      l_is_type = boost::regex_search (&l_buffer[0], &l_buffer[0] + 140, l_is_xml)
+        && boost::regex_search<const char*> (&l_buffer[0], &l_buffer[0] + l_read_size, l_match, l_is_doctype)
+        && not l_match.empty ()
+        && std::string::npos != l_match.str (0).find (purpletree::dom::get_utf8 (public_id ())); }}}
+catch (std::exception &err) {
+  std::cerr << err.what (); }
+if (l_is_type) {
+  Result = purpletree::dom::implementation::deserialise (a_filename);
+  if (not purpletree::dom::implementation::validate_document (Result)) {
+    Result = purpletree::dom::document (); }}
+return std::make_pair (Result, l_is_type);

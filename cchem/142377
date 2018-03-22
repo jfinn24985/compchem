@@ -1,0 +1,1512 @@
+format 75
+"test cases" // /compchem/supplier::test cases
+  revision 44
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "test/supplier_test"
+  cpp_src_dir "../src/test/supplier_test"
+  cpp_namespace "supplier"
+  classview 143913 "Supplier Unit tests"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 142889 // Supplier Unit test
+    comment "Test for supplier classes"
+    classdiagram 148137 "Supplier test cases"
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 403625 "test_supplier_helper"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test case to try out the supplier_helper."
+      classrelation 371369 // <generalisation>
+	relation 362793 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 371369 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 598057 // <dependency>
+	relation 576937 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 598057 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 597929 // <dependency>
+	relation 576809 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 597929 // <dependency>
+	  b parent class_ref 534697 // scoped_call
+      end
+
+      classrelation 510633 // <dependency>
+	relation 494889 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 510633 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      attribute 304681 "s_exmplr"
+	class_attribute private explicit_type "test_supplier_helper"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Class exemplar"
+      end
+
+      operation 1301161 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1301289 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return \"Test /compchem/supplier//supplier_helper Singleton class\";
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1348137 "test_supplier_helper"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1348265 "~test_supplier_helper"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 406313 "test_filter"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "UNUSED"
+      classrelation 375209 // <generalisation>
+	relation 366633 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 375209 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 375337 // <dependency>
+	relation 366761 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 375337 // <dependency>
+	  b parent class_ref 400681 // basic_filter
+      end
+
+      attribute 306985 "s_exmplr"
+	class_attribute private type class_ref 406313 // test_filter
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The exemplar"
+      end
+
+      operation 1306281 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1717673 "main_test2"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1306409 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return \"Test filter objects\"; }
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 431273 "test_filtermanager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test run the filter_manager."
+      classrelation 414761 // <generalisation>
+	relation 405801 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 414761 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 415529 // <dependency>
+	relation 406569 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 415529 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 514985 // <dependency>
+	relation 499241 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 514985 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 513449 // <dependency>
+	relation 497705 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 513449 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 414889 // <dependency>
+	relation 405929 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 414889 // <dependency>
+	  b parent class_ref 345513 // filter_manager
+      end
+
+      classrelation 513577 // <dependency>
+	relation 497833 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 513577 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 511913 // <dependency>
+	relation 496169 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 511913 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 558633 // <dependency>
+	relation 537513 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 558633 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      classrelation 513321 // <dependency>
+	relation 497577 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 513321 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 513193 // <dependency>
+	relation 497449 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 513193 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      classrelation 511785 // <dependency>
+	relation 496041 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 511785 // <dependency>
+	  b parent class_ref 147497 // test_manager
+      end
+
+      classrelation 514857 // <dependency>
+	relation 499113 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 514857 // <dependency>
+	  b parent class_ref 455593 // xml_write_visitor
+      end
+
+      classrelation 589609 // <dependency>
+	relation 568489 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 589609 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      attribute 392105 "m_database"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The path to the test database."
+      end
+
+      classrelation 415017 // s_exemplar (<directional composition>)
+	relation 406057 *-->
+	  a role_name "s_exemplar" class_relation private
+	    comment "The class exemplar"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 415017 // s_exemplar (<directional composition>)
+	  b parent class_ref 431273 // test_filtermanager
+      end
+
+      operation 1363881 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Run tests on filter_manager class"
+      end
+
+      operation 1364009 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"Test the /compchem/supplier//filter_manager class\");
+}"
+	
+	
+	
+	
+      end
+
+      operation 1364137 "test_filtermanager"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: unit_test ()
+, m_database ()
+{
+  register_options ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1364265 "~test_filtermanager"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1550505 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+    end
+
+    class 402473 "test_matcher"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 367401 // <generalisation>
+	relation 358825 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 367401 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 367529 // <dependency>
+	relation 358953 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 367529 // <dependency>
+	  b parent class_ref 402217 // matcher_string
+      end
+
+      classrelation 368681 // <dependency>
+	relation 360105 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 368681 // <dependency>
+	  b parent class_ref 401833 // matcher_regex
+      end
+
+      classrelation 558505 // <dependency>
+	relation 537385 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 558505 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      attribute 460329 "m_gaussian_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The name of the gaussian file to scan"
+      end
+
+      attribute 300969 "s_exmplr"
+	class_attribute private type class_ref 402473 // test_matcher
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The class exemplar"
+      end
+
+      operation 1295657 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1347625 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+
+      operation 1731241 "test_bytes"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482089 // matcher_bytes
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_bytes object."
+      end
+
+      operation 1734057 "test_end_pair"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482473 // matcher_end_pair
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1731369 "test_lines"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482217 // matcher_lines
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_lines object."
+      end
+
+      operation 1733929 "test_regex"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 401833 // matcher_regex
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1733801 "test_regex_search"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 481961 // matcher_regex_search
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1734185 "test_start_pair"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 538537 // matcher_start_pair
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1732649 "test_string"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 402217 // matcher_string
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1731497 "test_string_search"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 482601 // matcher_string_search
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test a matcher_string_search object."
+      end
+
+      operation 1304873 "test_first_matching"
+	const private explicit_return_type "void"
+	nparams 4
+	  param inout name "a_matcher" type class_ref 401961 // basic_matcher
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, const ${t1} *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} *const ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1729961 "test_first_matching_priv"
+	const private explicit_return_type "void"
+	nparams 5
+	  param inout name "a_matcher" type class_ref 401961 // basic_matcher
+	  param in name "a_buf" explicit_type "char"
+	  param in name "a_sz" explicit_type "uint"
+	  param in name "a_line_oriented" explicit_type "bool"
+	  param inout name "a_result" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} const *const ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} & ${p4}${v4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} const *const ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} & ${p4}${)}${const}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1347241 "test_matcher"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: unit_test ()
+, m_gaussian_file ()
+{
+  register_options ();
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1347369 "~test_matcher"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1295785 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"Test matcher_? classes\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 402345 "test_offsetter"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 367273 // <generalisation>
+	relation 358697 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 367273 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      attribute 300457 "s_exmplr"
+	class_attribute private type class_ref 402345 // test_offsetter
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The class exemplar."
+      end
+
+      operation 1294377 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1361449 "test_offsetter"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1361577 "~test_offsetter"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1294505 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return \"offsetter test\";
+}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 142889 "Supplier Unit test"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 181545 "test_offsetter"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/scoped_array.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 402345 // test_offsetter
+      end
+    end
+
+    artifact 181673 "test_matcher"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+//
+// #include <istream>
+#include <boost/bind.hpp>
+#include <algorithm>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 402473 // test_matcher
+      end
+    end
+
+    artifact 183977 "test_supplier_helper"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 403625 // test_supplier_helper
+      end
+    end
+
+    artifact 186281 "test_filter"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 406313 // test_filter
+      end
+    end
+
+    artifact 201641 "test_filtermanager"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 431273 // test_filtermanager
+      end
+    end
+
+    artifact 258089 "test_supplier"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 183977 // test_supplier_helper
+	artifact_ref 181673 // test_matcher
+	artifact_ref 160553 // test
+	artifact_ref 254889 // supplier
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
+	artifact_ref 144169 // data_scheme
+	artifact_ref 230057 // data_access
+	artifact_ref 201641 // test_filtermanager
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+      comment "${butter_generic}
+LINK=-ldl"
+    end
+
+    artifact 130095 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:16 2012
+##END:date
+##START:target test_supplier
+make test_supplier :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	test_supplier_helper.cpp
+	test_matcher.cpp
+	/cchem/utility//test
+	/cchem/supplier//supplier
+	/boost//date_time
+	/boost//program_options
+	/boost//regex
+	/boost//filesystem
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	test_filtermanager.cpp
+	:
+	;
+
+install install_test_supplier : test_supplier : <location>$(DATADIR) ;
+##END:target test_supplier
+"
+    end
+  end
+
+  classview 152233 "External plugin test"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 151209 // External plugin test
+    class 347817 "plugin_test"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test the plugin system.  This class should exercise the whole 
+filter system, in particular allowing plugin filters to 
+be tested individually.
+
+When compiled as a program it defines the following options:
+-f|--filename [name]  =  filename of gaussian log file to process
+-p|--plugin [name] = filename of plugin to test (may be given multiple times)
+-?|-h|--help = help message
+
+TODO : install error  handler."
+      classrelation 279977 // <dependency>
+	relation 273961 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 279977 // <dependency>
+	  b parent class_ref 344489 // basic_filter_traits
+      end
+
+      attribute 316073 "m_conf_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 251817 "m_error"
+	private explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Flag an error occured"
+      end
+
+      attribute 251433 "m_filenames"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}std::vector< ${type} > ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The name of a gaussian log file"
+      end
+
+      classrelation 388137 // m_manager (<directional composition>)
+	relation 379433 *-->
+	  stereotype "auto_ptr"
+	  a role_name "m_manager" multiplicity "0..1" private
+	    comment "The plugin manager instance."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 388137 // m_manager (<directional composition>)
+	  b parent class_ref 345513 // filter_manager
+      end
+
+      attribute 316329 "m_result"
+	private explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The 'main' return value."
+      end
+
+      operation 1075241 "error_method"
+	private explicit_return_type "void"
+	nparams 2
+	  param in name "a_msg" explicit_type "string"
+	  param in name "a_id" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Call back to add to m_manager to get notification when an error occurs."
+      end
+
+      operation 1074985 "main"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Run the application.  This should be run after setting up
+the m_conf_file and m_filenames.
+
+\\pre (not m_conf_file.empty and exists(m_conf_file)) OR nul /= m_manager
+\\pre not m_filenames.empty and for_each(m_filenames, exist)"
+      end
+
+      operation 1076265 "title"
+	public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return \"Plugin Test\"; }
+"
+	
+	
+	
+	
+	comment "Return a pretty name for this object"
+      end
+
+      operation 1075113 "on_error"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_error; }
+"
+	
+	
+	
+	
+	comment "Has there been an error?"
+      end
+
+      operation 1075881 "operator="
+	private return_type class_ref 347817 // plugin_test
+	nparams 1
+	  param in name "source" type class_ref 347817 // plugin_test
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1075497 "plugin_test"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param in name "argv" explicit_type "char"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${volatile}${throw}
+  ${body}"
+	
+	
+	
+	
+	comment "Default Constructor
+"
+      end
+
+      operation 1075625 "~plugin_test"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1075753 "plugin_test"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 347817 // plugin_test
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1325225 "process_options"
+	private explicit_return_type "bool"
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param in name "argv" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Process the command line options.  Returns true if options
+where processed successfully."
+      end
+
+      operation 1325353 "result"
+	const public explicit_return_type "int"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_${name}; }
+"
+	
+	
+	
+	
+	comment "Get th 'main' return value"
+      end
+
+      classrelation 415145 // <dependency>
+	relation 406185 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 415145 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+    end
+  end
+
+  deploymentview 151209 "External plugin test"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 153129 "plugin_test"
+      stereotype "source"
+      cpp_h "#ifndef COMPCHEM_SUPPLIER_${NAME}_HPP
+#define COMPCHEM_SUPPLIER_${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <vector>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+// #include <fstream>
+// #include <boost/function.hpp>
+#include <boost/filesystem/operations.hpp>
+// #include <boost/mem_fn.hpp>
+#include <boost/bind.hpp>
+#include <boost/program_options.hpp>
+// Entry point function
+extern \"C\" {
+int main (int argc, char** argv) {
+supplier::plugin_test l_app (argc, argv);
+return l_app.result ();}}
+
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 347817 // plugin_test
+      end
+    end
+  end
+
+  package_ref 159529 // test_args
+end

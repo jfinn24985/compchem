@@ -1,0 +1,33 @@
+class unit_test
+!!!1356585.cpp!!!	bool_test(in a_test : bool, in a_msg : string) : void
+if (a_test)
+{
+  log () << IFYS << "   passed   : " << a_msg << std::endl;
+}
+else
+{
+  throw std::logic_error (IFNO + " **failed** : " + a_msg);
+}
+!!!1353385.cpp!!!	monitor_function(in a_lvl : uint, in a_fn : funtion_t, in a_msg : string = "") : void
+try
+{
+  if (not a_msg.empty ())
+  {
+    log () << WTCH << a_msg << std::endl;
+  }
+  a_fn();
+  throw std::logic_error ("Test function failed to throw expected error.");
+}
+catch (const utility::contract_error &err)
+{
+  const std::string l_what (err.what (), 256);
+  if (err.level == a_lvl)
+  {
+    log () << IFYS << "Caught contract error of correct level [" << err.level << "]\n" << l_what << "\n";
+  }
+  else
+  {
+    // Exception is incorrect, rethrow.
+    throw;
+  }
+}

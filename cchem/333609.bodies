@@ -1,0 +1,6 @@
+class query_item
+!!!999849.cpp!!!	operator=(in source : query_item) : query_item
+label = source.label;
+value = source.value;
+flag = source.flag;
+return *this;

@@ -1,0 +1,84 @@
+class unused
+!!!1141929.cpp!!!	parent_element_with_name(in a_name : dom_string, in a_node : node) : node
+// LOCAL
+purpletree::dom::node Result, l_null;
+// DO
+REQUIRE (not a_node.is_null (), "Cannot get relatives of a nul node");
+// Get the parent element node
+Result = a_node.parent_node ();
+// If Result is not null but has the wrong name reset it to nul
+if (not Result.is_null ()
+    and not check_name (a_name, Result)) {
+  Result = l_null; }
+return Result;
+!!!331817.cpp!!!	get_attribute_priv(in a_name : dom_string, in a_node : node) : dom_string
+// require
+COMPCHEM_REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+COMPCHEM_REQUIRE(false == a_name.empty (), "Cannot get unnamed attribute");
+// do
+return purpletree::dom::element (a_node).get_attribute (a_name);
+!!!325545.cpp!!!	get_value(in a_node : node) : string
+REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+return purpletree::dom::get_utf8 (a_node.node_value ());
+!!!325801.cpp!!!	has_element(in a_name : dom_string, in a_node : node) : bool
+// local
+bool result(false);
+// require
+REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+REQUIRE(a_node.ELEMENT_NODE == a_node.node_type (), "Starting node must be an ELEMENT_NODE type");
+REQUIRE(false == a_name.empty(), "Cannot search for unnamed element");
+// do
+for (purpletree::dom::node l_child = a_node.first_child ();
+     not l_child.is_null ();
+     l_child = l_child.next_sibling ())
+{
+  if (l_child.ELEMENT_NODE == l_child.node_type ()
+      and a_name == l_child.node_name())
+  {
+    result = true;
+    break;
+  }
+}
+// ensure
+// end
+return result;
+!!!325673.cpp!!!	has_content(in a_node : node) : bool
+// local
+bool result(false);
+// require
+COMPCHEM_REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+COMPCHEM_REQUIRE(a_node.ELEMENT_NODE == a_node.node_type (), "Starting node must be an ELEMENT_NODE type");
+
+// If has child nodes, check that none of them are "element" nodes. Our location means we should not
+// need to check for ATTRIBUTE_NODE or DOCUMENT_*_NODEs.
+for (purpletree::dom::node l_child = a_node.first_child ();
+     result or not l_child.is_null ();
+     l_child = l_child.next_sibling ()) {
+  if (l_child.ELEMENT_NODE == l_child.node_type ()) {
+    COMPCHEM_CHECK(result, "Only bag nodes can have sub-trees");
+    result = true; }
+  COMPCHEM_CHECK(l_child.ATTRIBUTE_NODE != l_child.node_type (), "Illegal node found");
+  COMPCHEM_CHECK(l_child.DOCUMENT_NODE != l_child.node_type (), "Illegal node found");
+  COMPCHEM_CHECK(l_child.DOCUMENT_TYPE_NODE != l_child.node_type (), "Illegal node found");
+  COMPCHEM_CHECK(l_child.DOCUMENT_FRAGMENT_NODE != l_child.node_type (), "Illegal node found"); }
+// end
+return result;
+!!!324393.cpp!!!	has_attribute(in a_name : dom_string, in a_node : node) : bool
+// local
+bool result(false);
+// require
+REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+// do
+if (a_node.ELEMENT_NODE == a_node.node_type ()
+    and false == a_name.empty ())
+{
+  result = not a_node.attributes ().named_item (a_name).is_null ();
+}
+// end
+return result;
+!!!324649.cpp!!!	is_element(in a_node : node) : bool
+REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+return a_node.ELEMENT_NODE == a_node.node_type ();
+!!!324265.cpp!!!	get_attribute(in a_name : dom_string, in a_node : node) : string
+// do
+return purpletree::dom::get_utf8 (get_attribute_priv (a_name, a_node));

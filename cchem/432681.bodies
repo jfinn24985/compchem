@@ -1,0 +1,46 @@
+class basic_datum
+!!!1669033.cpp!!!	add_comment_swallow(inout a_value : string) : comment
+std::auto_ptr< comment > l_child (new comment (*this, a_value));
+comment * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *(Result);
+!!!1427241.cpp!!!	add_pi_swallow(in a_name : string, inout a_value : string) : processing_instruction
+std::auto_ptr< processing_instruction > l_child (new processing_instruction (*this, a_name, a_value));
+processing_instruction * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *Result;
+!!!1668905.cpp!!!	add_text_swallow(in a_value : string) : text
+std::auto_ptr< text > l_child (new text (*this, a_value));
+text * Result (l_child.get ());
+m_base_elements.push_back (l_child.release ());
+m_children.push_back (Result);
+return *Result;
+!!!1397929.cpp!!!	remove(in a_item : iterator) : void
+COMPCHEM_REQUIRE (a_item != end (), "iterator can not equal end iterator.");
+if (not m_base_elements.empty ())
+{
+  basic_text * l_tmp (dynamic_cast< basic_text * >(*a_item));
+  if (NULL != l_tmp)
+  {
+    for (boost::ptr_vector< basic_text >::iterator a_item2 (m_base_elements.begin ()); m_base_elements.end () != a_item2; ++a_item2)
+    {
+      if (&(*a_item2) == l_tmp)
+      {
+        m_base_elements.erase (a_item2);
+        break;
+      }
+    }
+  }
+  else
+  {
+    virt_remove_child (*a_item);
+  }
+}
+else
+{
+  virt_remove_child (*a_item);
+}
+// Remove from child list
+erase (a_item);

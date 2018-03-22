@@ -1,0 +1,104 @@
+class entry_vw
+!!!1047465.cpp!!!	create_list_control(in a_node : purpletree::dom::element) : std::auto_ptr< control::item_ctl >
+  return std::auto_ptr< control::item_ctl >(new control::entry_ctl (a_node));
+!!!1047593.cpp!!!	entry_vw(in a_journal_view : base_view)
+  // PRE
+  is_valid ();
+  // REQUIRE (not date_view->is_editable (), "Date view should not be editable.");
+  
+  // DO
+!!!1047977.cpp!!!	is_changed() : bool
+  // PRE
+  is_valid ();
+  // DO
+  // If a change is not set, test for changes
+  if (not base_t::is_changed ())
+  {
+    // Test for differences
+    if (is_state_four ())
+      {
+        CHECK (date_view->get_text () == ui_traits::date_to_text (control::entry_ctl::get_entry_date (get_cursor ()))
+  	     , "Entry date text should not be editable");
+        if (sequence_view->get_text () != control::entry_ctl::get_sequence (get_cursor ()))
+  	{
+  	  on_change ();
+  	}
+        else if (observation_view->get_buffer ()->get_text () != control::entry_ctl::get_observation (get_cursor ()))
+  	{
+  	  on_change ();
+  	}
+        else if (action_view->get_buffer ()->get_text () != control::entry_ctl::get_action (get_cursor ()))
+  	{
+  	  on_change ();
+  	}
+      }
+    else
+      {
+        CHECK (date_view->get_text ().empty ()
+  	     , "Entry date text should be empty.");
+        CHECK (sequence_view->get_text ().empty ()
+  	     , "Should have no text in entry sequence field.");
+        CHECK (observation_view->get_buffer ()->get_text ().empty ()
+               , "Should have no text in entry observation field.");
+        CHECK (action_view->get_buffer ()->get_text ().empty ()
+  	     , "Should have no text in entry action field.");
+      }
+  }
+  return base_t::is_changed ();
+!!!1048361.cpp!!!	set_row(in a_row : row_iterator_t, in a_cursor : control::item_iterator) : void
+  // const row_iterator_t & a_row, const item_iterator & a_cursor
+  REQUIRE (not a_cursor.is_null (), "Invalid item iterator");
+  // DO
+  columns* l_defn = dynamic_cast< columns* >(m_columns.get ());
+  CHECK (NULL != l_defn, "List has incorrect column definition.");
+  // Set date
+  (*a_row)[l_defn->m_entrydate] = ui_traits::date_to_text (control::entry_ctl::get_entry_date (a_cursor));
+  // Set iterator.
+  (*a_row)[l_defn->m_iterator] = a_cursor;
+!!!1048489.cpp!!!	virt_poll() : void
+  // Update the control objects 
+  control::entry_ctl::set_sequence (get_cursor ()
+  				  , sequence_view->get_text ());
+  control::entry_ctl::set_observation (get_cursor ()
+  				     , observation_view->get_buffer ()->get_text ());
+  control::entry_ctl::set_action (get_cursor ()
+  				, action_view->get_buffer ()->get_text ());
+  // Reset change flag
+  reset_change_flag ();
+!!!1048617.cpp!!!	virt_update() : void
+  // PRE
+  is_valid ();
+  // DO
+  if (is_state_four ())
+  {
+    // Update the objects
+    date_view->set_text (ui_traits::date_to_text (control::entry_ctl::get_entry_date (get_cursor ())));
+    sequence_view->set_text (control::entry_ctl::get_sequence (get_cursor ()));
+    observation_view->get_buffer ()->set_text (control::entry_ctl::get_observation (get_cursor ()));
+    action_view->get_buffer ()->set_text (control::entry_ctl::get_action (get_cursor ()));
+    // Set the sensitivity
+    const bool l_not_is_done (not control::page_ctl::is_done (list_control.get ()));
+    sequence_view->set_sensitive (l_not_is_done);
+    observation_view->set_sensitive (l_not_is_done);
+    action_view->set_sensitive (l_not_is_done);
+    m_button->set_sensitive (l_not_is_done);
+  }
+  else
+  {
+    const string_t l_empty;
+    // Reset the views
+    date_view->set_text (l_empty);
+    sequence_view->set_text (l_empty);
+    observation_view->get_buffer ()->set_text (l_empty);
+    action_view->get_buffer ()->set_text (l_empty);
+    // Set the sensitivity
+    sequence_view->set_sensitive (false);
+    observation_view->set_sensitive (false);
+    action_view->set_sensitive (false);
+    if (not is_state_one())
+      {
+        m_button->set_sensitive (not control::page_ctl::is_done (list_control.get ()));
+      }
+  }
+  // No need to reset change flag
+  // change_flag = 0;

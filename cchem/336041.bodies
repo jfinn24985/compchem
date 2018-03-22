@@ -1,0 +1,17 @@
+class implementation
+!!!1013673.cpp!!!	exit_message(in a_msg1 : string, in a_msg2 : char, in a_filename : char, in a_line : int, in a_fn_name : char, in a_backtrace : any, in a_backsz : int) : void
+errlog () << "================== UNPLANNED EXIT ==================" << std::endl
+          << "REASON: \"" << a_msg1 << "\"" << std::endl
+          << "FAILED TEST: (" << a_msg2 << ")" << std::endl
+          << "FILE: " << a_filename << ", LINE: " << a_line << "." << std::endl;
+if (NULL != a_fn_name) {
+  errlog () << "FUNCTION: " << a_fn_name << "." << std::endl; }
+#ifdef HAVE_BACKTRACE
+  errlog () << "BACKTRACE: " << std::endl;
+if (NULL != a_backtrace) {
+    char ** l_trace = backtrace_symbols (a_backtrace, a_backsz);
+    free_ptr<char**> l_(l_trace); // Put into a free_ptr to auto free
+    for (int l_i = 0; l_i < a_backsz; ++l_i) { errlog () << l_trace[l_i] << std::endl; }}
+#endif
+errlog () << "================== UNPLANNED EXIT ==================" << std::endl;
+std::abort();

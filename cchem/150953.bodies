@@ -1,0 +1,13 @@
+class xml2_reader_traits
+!!!1212969.cpp!!!	debug(in a_reader : reader_t) : void
+xmlMemDisplay (stderr);
+fprintf (stderr, "Bytes parsed %ld\n", xmlTextReaderByteConsumed (a_reader));
+fprintf (stderr, "Line %d\n", xmlTextReaderGetParserLineNumber (a_reader));
+fprintf (stderr, "Column %d\n", xmlTextReaderGetParserColumnNumber (a_reader));
+xmlChar * l_inner = xmlTextReaderReadInnerXml (a_reader);
+if (NULL != l_inner)
+{
+  fprintf (stderr, "Inner: %s\n", (char*)l_inner);
+  xmlFree (l_inner);
+}
+

@@ -1,0 +1,31 @@
+format 55
+
+classcanvas 130857 class_ref 348713 // plugin_filter_direct
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 28 219 2000
+  end
+classcanvas 130985 class_ref 490793 // basic_plugin_handler
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 200 82 2005
+  end
+classcanvas 131241 class_ref 490921 // datum_node
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 426 177 2000
+  end
+relationcanvas 131113 relation_ref 507945 // <generalisation>
+  from ref 130857 z 1999 to ref 130985
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 131369 relation_ref 508073 // <directional composition>
+  from ref 131241 z 1999 stereotype "<<auto_ptr>>" xyz 432 142 3000 to point 469 107
+  line 131497 z 1999 to point 509 112
+  line 131625 z 1999 to ref 131241
+  role_a_pos 510 154 3000 no_role_b
+  multiplicity_a_pos 468 154 3000 no_multiplicity_b
+relationcanvas 131753 relation_ref 508201 // <directional composition>
+  from ref 131241 z 1999 stereotype "<<auto_ptr>>" xyz 364 216 3000 to point 379 181
+  line 131881 z 1999 to point 380 245
+  line 132009 z 1999 to ref 131241
+  role_a_pos 378 268 3000 no_role_b
+  multiplicity_a_pos 393 298 3000 no_multiplicity_b
+end

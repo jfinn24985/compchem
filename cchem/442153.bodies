@@ -1,0 +1,10 @@
+class xml_element_writer
+!!!1365801.cpp!!!	write(inout a_os : xml_ostream_t, in a_definition : meta_datum) : void
+data_access::xml_element_writer l_tmp (a_os, a_definition);
+// Process attributes.
+this->virt_write (l_tmp);
+// Now process children
+if (a_definition.has_children () and not m_children.empty ())
+{
+  std::for_each (begin (), end (), boost::bind (&data_access::xml_element_writer::child, &l_tmp, _1));
+}

@@ -1,0 +1,13 @@
+class xml2_uri_traits
+!!!1650473.cpp!!!	copy(in a_rep : rep_type) : rep_type
+rep_type Result;
+if (a_rep != rep_type (0))
+{
+  xmlChar * l_tmp (xmlSaveUri (a_rep));
+  if (NULL != l_tmp)
+  {
+    Result = xmlParseURI (reinterpret_cast<char*>(l_tmp));
+    xmlFree (l_tmp);
+  }
+}
+return Result;

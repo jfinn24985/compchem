@@ -1,0 +1,3 @@
+class initialise
+!!!1627433.cpp!!!	initialise()
+manager::server ().register_creator (names::file_scheme (), &create_xml_persistence);

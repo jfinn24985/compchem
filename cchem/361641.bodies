@@ -1,0 +1,201 @@
+class utility_
+!!!1159721.cpp!!!	add_to_list(in a_item : string, in a_attr : dom_string, in a_node : element) : void
+COMPCHEM_REQUIRE(not a_node.is_null (), "Require non-null node.");
+COMPCHEM_REQUIRE(not a_attr.empty (), "Require non-empty attribute name.");
+COMPCHEM_REQUIRE(not a_item.empty (), "Require non-empty item to add.");
+purpletree::dom::dom_string l_liststr (a_node.get_attribute (a_attr));
+const purpletree::dom::dom_string l_item (purpletree::dom::set_utf8 (a_item));
+if (l_liststr.empty ()) {
+  a_node.set_attribute (a_attr, l_item); }
+else {
+  if (l_liststr.find (l_item) != purpletree::dom::dom_string::npos) {
+    std::set < std::string > l_list;
+    split_attribute_list (l_list, a_attr, a_node);
+    if (0 == l_list.count (a_item)) {
+      l_liststr.append (purpletree::dom::set_utf8 (" ") + l_item);
+      a_node.set_attribute (a_attr, l_liststr); }}
+  else {
+    l_liststr.append (purpletree::dom::set_utf8 (" ") + l_item);
+    a_node.set_attribute (a_attr, l_liststr); }}
+        
+!!!1158057.cpp!!!	ancestor_with_name(in a_name : dom_string, in a_node : node) : node
+COMPCHEM_REQUIRE (not a_node.is_null (), "Cannot get relatives of a nul node");
+COMPCHEM_REQUIRE (not a_name.empty (), "Cannot find element with empty name");
+// LOCAL
+purpletree::dom::node Result;
+// DO
+for (Result = a_node.parent_node (); // Get the parent element node
+     not Result.is_null () // If Result is non-null element but has the wrong name move to next parent
+	 and Result.node_type () == purpletree::dom::node::ELEMENT_NODE
+	 and not check_name (a_name, Result);
+     Result = Result.parent_node ()) {} // do nothing in loop
+if (not Result.is_null () and Result.node_type () != purpletree::dom::node::ELEMENT_NODE) {
+  Result = purpletree::dom::node (); }
+return Result;
+!!!324521.cpp!!!	check_name(in a_name : dom_string, in a_node : node) : bool
+COMPCHEM_REQUIRE (not a_node.is_null (), "Cannot get anything from a null node.");
+COMPCHEM_REQUIRE (not a_name.empty (), "No point in comparing with empty string.");
+return a_name == a_node.node_name ();
+!!!1183017.cpp!!!	create_element(in a_src_tag : dom_string, in a_tag : dom_string, in a_label : string, in a_own_file : bool, in a_parent : element) : element
+COMPCHEM_REQUIRE (not a_tag.empty (), "Cannot create a new element with an empty tag");
+COMPCHEM_REQUIRE (not a_src_tag.empty (), "Cannot create a new element with an empty tag");
+COMPCHEM_REQUIRE (not a_label.empty (), "Cannot create a new element with an empty label");
+COMPCHEM_REQUIRE (not a_parent.is_null (), "Cannot create a new element with a null parent");
+std::pair < purpletree::dom::element, purpletree::dom::element > Result;
+if (a_own_file) {
+  std::string l_filename (purpletree::dom::get_utf8 (a_tag));
+  do { // Create a pseudo-random filename
+    boost::format l_fmter ("%s%06d.xml");
+    l_fmter % l_filename % std::rand () ;
+    l_filename.assign (l_fmter.str ());
+    if (not boost::filesystem::portable_posix_name (l_filename)) {
+      throw std::logic_error ("Created a non-portable filename " + l_filename); }}
+  while (boost::filesystem::exists (l_filename));
+  COMPCHEM_CHECK (data_scheme::document_type::allowed_document_element (a_tag), "Invalid document element");
+  // Create the new document and assign the filename.
+  purpletree::dom::document l_doc (data_scheme::document_type::new_document (a_tag));
+  COMPCHEM_CHECK (not l_doc.is_null(), "Failed to create a document element");
+  COMPCHEM_CHECK (not l_doc.document_element ().is_null(), "Document element not created");
+  purpletree::dom::implementation::document_filename (l_doc, l_filename);
+  Result.first = l_doc.document_element ();
+  // Create the cross-reference node.
+  Result.second = a_parent.owner_document ().create_element (a_src_tag);
+  Result.second.set_attribute (data_access::names::label_name (), purpletree::dom::set_utf8 (a_label));
+  Result.second.set_attribute (data_access::names::href_name (), purpletree::dom::set_utf8 (::utility::filesystem::relative_path (purpletree::dom::implementation::document_filename (a_parent.owner_document ())
+      , l_filename).string ())); }
+else {
+  Result.first = a_parent.owner_document ().create_element (a_tag); }
+Result.first.set_attribute (data_access::names::label_name (), purpletree::dom::set_utf8 (a_label));
+COMPCHEM_ENSURE (not Result.first.is_null(), "Did not create an element!");
+return Result;
+!!!1142569.cpp!!!	get_element(in a_name_begin : dom_string, in a_name_end : dom_string, in a_node : element) : element
+// local
+purpletree::dom::node result;
+bool is_not_found (true);
+// require
+COMPCHEM_REQUIRE(not a_node.is_null (), "Cannot get anything from a null node.");
+COMPCHEM_REQUIRE(NULL != a_name_begin, "Begin iterator cannot be nul.");
+COMPCHEM_REQUIRE(NULL != a_name_end, "End iterator cannot be nul.");
+COMPCHEM_REQUIRE(a_name_begin < a_name_end, "Begin iterator must be before end iterator");
+// do
+for (purpletree::dom::node l_curs_node = a_node.first_child ();
+    not l_curs_node.is_null () and is_not_found;
+    l_curs_node = l_curs_node.next_sibling ()) {
+  if (l_curs_node.ELEMENT_NODE == l_curs_node.node_type ()) { // If an element
+    for (const purpletree::dom::dom_string* l_cursor = a_name_begin;
+         l_cursor != a_name_end and is_not_found;
+	       ++l_cursor) { // Search for name
+      COMPCHEM_REQUIRE(not l_cursor->empty(), "Cannot find empty tag.");
+      if ((*l_cursor) == l_curs_node.node_name ()) {
+        is_not_found = false;
+        result = l_curs_node; }}}}
+// end
+return result;
+!!!1196073.cpp!!!	get_element_with_attribute_priv(in a_name : dom_string, in a_attr : dom_string, in a_value : dom_string, in a_node : element) : element
+// local
+purpletree::dom::node Result;
+// do
+for (Result = next_element_with_name_priv (a_name, a_node.first_child ());
+    not Result.is_null ()
+      and a_value != purpletree::dom::element (Result).get_attribute (a_attr);
+    Result = next_element_with_name_priv (a_name, Result.next_sibling ())) {}
+// end
+return Result;
+!!!1200809.cpp!!!	next_element_with_name_priv(in a_name : dom_string, in a_node : node) : element
+// LOCAL
+purpletree::dom::node Result (a_node);
+// DO
+for (;
+  not Result.is_null ()
+  and (Result.node_type () != Result.ELEMENT_NODE or not check_name (a_name, Result));
+  Result = Result.next_sibling ()) {}
+// END
+if (not Result.is_null () and Result.node_type () != Result.ELEMENT_NODE) {
+  Result = purpletree::dom::node(); } // Reset result value to nul
+return Result;
+!!!1200937.cpp!!!	next_element_with_name_priv(in a_name1 : dom_string, in a_name2 : dom_string, in a_node : node) : element
+// LOCAL
+purpletree::dom::node Result (a_node);
+// DO
+for (;
+  not Result.is_null ()
+    and (Result.node_type () != Result.ELEMENT_NODE
+        or not (check_name (a_name1, Result) or check_name (a_name2, Result)));
+  Result = Result.next_sibling ()) {}
+return (Result.is_null () or Result.node_type () == Result.ELEMENT_NODE)? Result : purpletree::dom::element ();
+!!!1141801.cpp!!!	previous_element_with_name(in a_name : dom_string, in a_node : node) : node
+// LOCAL
+purpletree::dom::node Result;
+// DO
+COMPCHEM_REQUIRE (not a_node.is_null (), "Cannot get relatives of a nul node.");
+COMPCHEM_REQUIRE (not a_name.empty (), "Cannot find an unnamed element.");
+// Get the previous element node
+for (Result = a_node.previous_sibling ();
+    not Result.is_null ()
+    and (Result.node_type () != Result.ELEMENT_NODE
+        or not check_name (a_name, Result));
+  Result = Result.previous_sibling ()) {}
+// If Result is not null but has the wrong name reset it to nul
+return (Result.is_null () or Result.node_type () == Result.ELEMENT_NODE) ? Result : purpletree::dom::element ();
+!!!1170729.cpp!!!	previous_element_with_name(in a_name1 : dom_string, in a_name2 : dom_string, in a_node : node) : node
+// LOCAL
+purpletree::dom::node Result;
+// DO
+COMPCHEM_REQUIRE (not a_node.is_null (), "Cannot get relatives of a nul node.");
+COMPCHEM_REQUIRE (not a_name1.empty (), "Cannot find an unnamed element.");
+COMPCHEM_REQUIRE (not a_name2.empty (), "Cannot find an unnamed element.");
+// Get the previous element node
+// DO
+for (Result = a_node.previous_sibling ();
+  not Result.is_null ()
+    and (Result.node_type () != Result.ELEMENT_NODE
+        or not (check_name (a_name1, Result) or check_name (a_name2, Result)));
+  Result = Result.previous_sibling ()) {}
+return (Result.is_null () or Result.node_type () == Result.ELEMENT_NODE)? Result : purpletree::dom::element ();
+
+!!!1183529.cpp!!!	register_options(inout a_opt_set : options_description, inout a_conf_set : options_description) : void
+// Add options to command line set (also looks in config etc)
+data_scheme::proxy_helper::helper ().register_options (a_opt_set);
+// Add file splitting options to the configuration file set only
+a_conf_set.add_options ()
+  ("use_separate_compound_file", boost::program_options::bool_switch (&s_separate_compound), "Place each new compound in a separate file.")
+  ("use_separate_formula_file", boost::program_options::bool_switch (&s_separate_formula), "Place each new formula in a separate file.")
+  ("use_separate_project_file", boost::program_options::bool_switch (&s_separate_project), "Place each new project in a separate file.");
+!!!1142441.cpp!!!	set_element(in a_sibling_begin : dom_string, in a_sibling_end : dom_string, inout a_new_node : node, inout a_node : node) : void
+COMPCHEM_REQUIRE (not a_new_node.is_null (), "Can not insert a nul node");
+COMPCHEM_REQUIRE (not a_node.is_null (), "Can not insert into a nul node");
+COMPCHEM_REQUIRE(NULL != a_sibling_begin, "Begin iterator cannot be nul.");
+COMPCHEM_REQUIRE(NULL != a_sibling_end, "End iterator cannot be nul.");
+COMPCHEM_REQUIRE(a_sibling_begin < a_sibling_end, "Begin iterator must be before end iterator");
+// (Other precondition check performed in get_element)
+// To set a node we check if node exists, and replace if not equal OR we insert in the right place.
+purpletree::dom::node l_node (get_element (a_new_node.node_name (), a_node));
+if (l_node.is_null ()) { // Not present
+  l_node = get_element (a_sibling_begin, a_sibling_end, a_node);
+  if (l_node.is_null ()) { //  No sibling, we append
+    a_node.append_child (a_new_node); }
+  else {
+    a_node.insert_before (a_new_node, l_node); }}
+else { // Is present
+  if (not l_node.is_equal (a_new_node)) {
+    a_node.replace_child (a_new_node, l_node); }}
+!!!1159849.cpp!!!	split_attribute_list(inout a_set : string, in a_attr : dom_string, in a_node : element) : void
+COMPCHEM_REQUIRE(not a_node.is_null (), "Cannot query a null node.");
+COMPCHEM_REQUIRE(not a_attr.empty (), "Cannot get an unnamed attribute.");
+std::string l_setstr = purpletree::dom::get_utf8 (a_node.get_attribute (a_attr));
+if (not l_setstr.empty ()) {
+  boost::tokenizer<> l_tok (l_setstr);
+  a_set.clear ();
+  a_set.insert (l_tok.begin (), l_tok.end ()); }
+!!!1173417.cpp!!!	target_name(in a_tag : dom_string) : dom_string
+COMPCHEM_REQUIRE (not a_tag.empty (), "Cannot match empty tag name");
+purpletree::dom::dom_string Result;
+if (names::project_src_name () == a_tag) {
+  Result.assign (names::project_name ()); }
+else if (names::compound_src_name () == a_tag) {
+  Result.assign (names::compound_name ()); }
+else if (names::formula_src_name () == a_tag) {
+  Result.assign (names::formula_name ()); }
+else {
+  COMPCHEM_REQUIRE (false, "Tag name is invalid"); }
+return Result;

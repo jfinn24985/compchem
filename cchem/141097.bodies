@@ -1,0 +1,40 @@
+class DOMLibGuard
+!!!195241.cpp!!!	DOMLibGuard()
+    // std::cout << "In DOMLibGuard, count = " << count << std::endl;
+    if ( this == &guard &&
+	 count == 0 )
+      {
+	// Initialize the Xerces system.
+	try
+	  {
+	    xercesc::XMLPlatformUtils::Initialize();
+	    // std::cout << "In DOMLibGuard, Library initialised" << std::endl;
+	  }      
+	catch(const xercesc::XMLException& toCatch)
+	  {
+	    throw DOM::Exception( toCatch.getMessage(),
+				  128 );
+	  }
+	++count;
+      }
+  
+!!!195369.cpp!!!	~DOMLibGuard()
+    --count;
+    // std::cout << "In DOMLibGuard, count = " << count << std::endl;
+    if ( count == 0 )
+      {
+	try
+	  {
+	    xercesc::XMLPlatformUtils::Terminate();
+	    // std::cout << "In DOMLibGuard, Library terminated" << std::endl;
+	  }      
+	catch(const xercesc::XMLException& toCatch)
+	  {
+	    char *pMsg = xercesc::XMLString::transcode(toCatch.getMessage());
+	    std::cerr << "Error during Xerces-c Termination.\n"
+		      << "  Exception message:"
+		      << pMsg;
+	    xercesc::XMLString::release(&pMsg);
+	  }
+      }
+  

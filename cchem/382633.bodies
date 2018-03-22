@@ -1,0 +1,46 @@
+class script_block
+!!!1239721.cpp!!!	read_parts(in a_part_name : string, inout a_scope : scope) : void
+// 
+const cchem::guistate::resource_path l_base (base_resource () / a_part_name);
+// See if there are parts:
+cchem::guistate::string_list_t l_list, l_sections;
+cchem::guistate::utility::convert_string_to_list (a_scope.value (l_base / "parts"), l_list);
+cchem::guistate::utility::convert_string_to_list (a_scope.value (l_base / "section"), l_sections);
+
+if (not l_list.empty ()) {
+ // Have sub-parts.
+ // - check if using 'if' clauses or 'switch'
+ const std::string l_varname (a_scope.value (l_base / "var"));
+ if (not l_varname.empty ()) { // Have a 'var' which means this is a 'switch'
+   // !this! is the switch!!
+   COMPCHEM_CHECK (NULL == m_state.get (), "Cannot change from an existing scripter state");
+   m_state.reset (new scripter_switch);
+   for (cchem::guistate::string_list_t::const_iterator ix (l_list.begin ());
+        ix != l_list.end ();
+        ++ix) {
+     push_back (new script_block (l_base / *ix, l_sections, a_scope, new scripter_switch_block)); }}
+ else { // No 'var' means this is a series of 'if's
+   for (cchem::guistate::string_list_t::const_iterator ix (l_list.begin ());
+        ix != l_list.end ();
+        ++ix) {
+     push_back (new script_block (l_base / *ix, l_sections, a_scope, new scripter_if)); }}}
+else {
+ if (l_sections.empty ()) {
+   // Just a single value
+   push_back (new script_value (l_base)); }
+ else {
+   // Just a block with sections
+   push_back (new script_block (l_base, l_sections, a_scope)); }}
+!!!1243561.cpp!!!	script_block(in a_path : resource_path, in a_sections : string_list_t, inout a_scope : scope, in a_scripter : scripter = NULL)
+COMPCHEM_ALWAYS (not a_sections.empty (), "Blocks (if, for etc) must have a non-empty 'sections' element");
+// Process list.
+std::for_each (a_sections.begin (), a_sections.end (), boost::bind (&script_block::read_parts, this, _1, boost::ref(a_scope)));
+  
+!!!1243689.cpp!!!	~script_block()
+//std::for_each (begin (), end (), &operator delete);
+for (iterator l_ix (begin ()); l_ix != end (); ++l_ix) { delete *l_ix; }
+!!!1250473.cpp!!!	serialise(out a_os : ostream, inout a_scope : scope) : void
+if (NULL != m_state.get ()) {
+  m_state->serialise (a_os, a_scope, *this); }
+else {
+  std::for_each (begin (), end(), boost::bind (&script_section::serialise, _1, boost::ref(a_os), boost::ref(a_scope))); }

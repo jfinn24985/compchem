@@ -1,0 +1,4 @@
+class scope_working
+!!!1261481.cpp!!!	subvalue(in a_key : string, in a_subkey : string, in a_path : resource_path) : string
+std::string Result;
+return Result;

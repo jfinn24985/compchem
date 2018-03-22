@@ -1,0 +1,155 @@
+class program_options
+!!!1619241.cpp!!!	help_message(in a_help : bool, inout a_log : ostream) : void
+if (a_help)
+{
+  a_log << "Help:\n";
+}
+else
+{
+  a_log << "usage:\n";
+}
+a_log << m_public << "\n";
+if (a_help)
+{
+  a_log << "The following options can only be set in the configuration file or environment:\n";
+  a_log << m_hidden << "\n";
+}
+!!!1490473.cpp!!!	process_options(in a_argc : int, in a_argv : char, out a_log : ostream, in a_flags : uint = 0) : int
+// local
+int Result (CCHEM_PARSE_SUCCESS);
+boost::program_options::variables_map l_map;
+///////////////////////////
+// Add program specific options
+m_public.add_options ()("help,h", "print long help")("usage,?", "print quick help")("config,C", "local configuration file");
+
+try
+{
+  ///////////////////////////
+  // Process the command line
+  boost::program_options::positional_options_description l_pos_args;
+  l_pos_args.add(m_position.c_str (), -1);
+  boost::program_options::store (boost::program_options::command_line_parser (a_argc, a_argv).options (m_public).positional (l_pos_args).run (), l_map);
+  ///////////////////////////
+  // Do the rest of the configuration
+  Result = process_options_priv (l_map, a_log, a_flags);
+}
+catch (const std::exception & a_err)
+{
+  // Assume option parsing error so print help.
+  Result = CCHEM_PARSE_ERROR;
+  a_log << "Error: " << a_err.what () << "\n";
+}
+
+///////////////////////////
+// Print help if required
+if (0 != l_map.count ("help") or 0 != l_map.count ("usage"))
+{
+  Result = CCHEM_PARSE_HELP;
+  help_message (0 != l_map.count ("help"), a_log);
+}
+
+return Result;
+!!!1610665.cpp!!!	process_options(in a_argv : string, out a_log : ostream, in a_flags : uint = 0) : int
+// local
+int Result (CCHEM_PARSE_SUCCESS);
+boost::program_options::variables_map l_map;
+///////////////////////////
+// Add program specific options
+m_public.add_options ()("help,h", "print long help")("usage,?", "print quick help")("config,C", "local configuration file");
+
+try
+{
+  ///////////////////////////
+  // Process the command line
+  boost::program_options::positional_options_description l_pos_args;
+  l_pos_args.add(m_position.c_str (), -1);
+  boost::program_options::store (boost::program_options::command_line_parser (a_argv).options (m_public).positional (l_pos_args).run (), l_map);
+  ///////////////////////////
+  // Do the rest of the configuration
+  Result = process_options_priv (l_map, a_log, a_flags);
+}
+catch (const std::exception & a_err)
+{
+  // Assume option parsing error so print help.
+  Result = CCHEM_PARSE_ERROR;
+  a_log << "Error: " << a_err.what () << "\n";
+}
+
+///////////////////////////
+// Print help if required
+if (0 != l_map.count ("help") or 0 != l_map.count ("usage"))
+{
+  Result = CCHEM_PARSE_HELP;
+  help_message (0 != l_map.count ("help"), a_log);
+}
+
+return Result;
+!!!1610537.cpp!!!	process_options_priv(inout a_map : variables_map, out a_log : ostream, in a_flags : uint = 0) : int
+// local
+int Result (CCHEM_PARSE_SUCCESS);
+///////////////////////////
+// Process the configuration files
+if (0 != a_map.count ("config"))
+{
+  const std::string l_filename (a_map["config"].as < std::string > ().c_str ());
+  if (boost::filesystem::exists (l_filename))
+  {
+    // Assemble the program options
+    boost::program_options::options_description l_all_opt ("All options");
+    l_all_opt.add (m_public);
+    l_all_opt.add (m_hidden);
+    std::ifstream l_conf (l_filename.c_str ());
+    boost::program_options::store (boost::program_options::parse_config_file (l_conf, l_all_opt), a_map);
+  }
+  else
+  {
+    Result = CCHEM_PARSE_ERROR;
+    a_log << "Error: Configuration file [" << l_filename << "] on command line does not exist.\n";
+  }
+}
+if (Result == CCHEM_PARSE_SUCCESS and 0 != (CCHEM_PARSE_CONFIG_FILE & a_flags) and not m_conf_filename.empty ())
+{
+  if (boost::filesystem::exists (m_conf_filename.c_str ()))
+  {
+    // Assemble the program options
+    boost::program_options::options_description l_all_opt ("All options");
+    l_all_opt.add (m_public);
+    l_all_opt.add (m_hidden);
+    std::ifstream l_conf (m_conf_filename.c_str ());
+    boost::program_options::store (boost::program_options::parse_config_file (l_conf, l_all_opt), a_map);
+  }
+  else
+  {
+    Result = CCHEM_PARSE_ERROR;
+    a_log << "Error: Default configuration file [" << m_conf_filename << "] does not exist.\n";
+  }
+}
+  ///////////////////////////
+  // Process the environment
+if (Result == CCHEM_PARSE_SUCCESS and 0 != (CCHEM_PARSE_ENVIRONMENT & a_flags) and not m_env_prefix.empty ())
+{
+  // Assemble the program options
+  boost::program_options::options_description l_all_opt ("All options");
+  l_all_opt.add (m_public);
+  l_all_opt.add (m_hidden);
+  boost::program_options::store (boost::program_options::parse_environment (l_all_opt, m_env_prefix), a_map);
+}
+if (Result == CCHEM_PARSE_SUCCESS)
+{
+  boost::program_options::notify (a_map);
+}
+return Result;
+!!!1488553.cpp!!!	program_options()
+: m_conf_filename ()
+, m_env_prefix ()
+, m_hidden ()
+, m_position ()
+, m_public ()
+, m_worker ()
+{
+#ifdef HAVE_UNISTD_H
+  m_worker = utility::filesystem_properties::current_user ();
+#endif
+  m_public.add_options ()("worker", boost::program_options::value < std::string >(&m_worker), "The Id of the current worker.");
+}
+

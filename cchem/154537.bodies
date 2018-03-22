@@ -1,0 +1,160 @@
+class ArcStanzaA
+!!!253353.cpp!!!	processLine(in line : string) : void
+      // The arcstanza_A filter is called when there will not be a valid
+      // archive at the end of the file. The filter therefore needs to get
+      // as much information as possible from beginning section of the
+      // file.
+
+      DEBUG( "ArcStanzaA::processLine -> entered" );
+
+      // The strings passed to the function contains the header section of
+      // the Gaussian file. This is everything from the first line to the
+      // line beginning "Leave Link 101...". We search through it
+      // gathering bits of information as we go. We use a simple case
+      // statement to help order the sequence of events. Note that this
+      // really has no error detection, so failure to find one part might
+      // cause subsequent sections to fail. Hopefully, this section of the
+      // output file is reasonable ordered so this should never be a
+      // problem.
+      std::vector< std::vector< std::string > >_l_divide;
+      // When _m_state == 7 then we have finished the header section
+      if ( _m_state < 7 ) 
+	{ 
+    
+	  switch( _m_state ) 
+	    {
+	    case 1:
+	      // In this state we are searching for the program name and
+	      // version information. This is contained in a section that
+	      // starts with a series of "******" stars.
+	      if ( _m_versionDividerRegex.search( line ) ) 
+		{
+		  _m_state = 2;
+		}
+	      break;
+	    case 2:
+	      // We have seen the stars in the last line, now we want the
+	      // version information to be captured from this line.
+	      _l_divide = PurpleTree::Regex::process( "Gaussian +([[:digit:]]+): +([^ ]+)",
+					    line );
+	      // The vector[0][1] should hold the gaussian version number
+	      // and vector[0][2] should hold the version string.
+	      if ( !_l_divide.empty() && _l_divide[0].size() >= 3 )
+		{
+		  // Store the information in results.
+		  //  - add the program name ID (which is "g98", "g94" etc.),
+		  results()[MECHANISM_ID] = "g" + _l_divide[0][1];
+		  //  - store the version string
+		  results()[VERSION] = _l_divide[0][2];
+	      
+		};
+	      _m_state = 3;
+	      break;
+	    case 3:
+	      // We have got the version information, now we are looking for
+	      // the command line(s), this starts with the next line of
+	      // "------------"
+	      if ( _m_titleDividerRegex.search( line ) )
+		{
+		  // Found divider line
+		  _m_state = 4;
+		};
+	      break;
+	    case 4:
+	      // We are in the gaussian command line(s), lets keep it.
+	      if ( _m_titleDividerRegex.search( line ) )
+		{
+		  // Found second divider line, end of command line(s)
+		  _m_state = 5;
+		}
+	      else
+		{
+		  // Lets add the command string to the results.
+		  if ( !results()[COMMAND].empty() ) {
+		    // Alternately use PurpleTree::Regex::chomp( str )
+		    results()[COMMAND] = PurpleTree::Regex::chomp( line );
+		  } else {
+		    results()[COMMAND] += " " + PurpleTree::Regex::chomp( line );
+		  };
+		};
+	      break;
+	    case 5:      
+	      // We have got the command string, now we are looking for
+	      // the title line(s), this starts with the next line of
+	      // "------------"
+	      if ( _m_titleDividerRegex.search( line ) )
+		{
+		  // Found divider line
+		  _m_state = 6;
+		};
+	      break;
+	    case 6:
+	      // We are in the gaussian command line. Lets keep it.
+	      if ( _m_titleDividerRegex.search( line ) ) 
+		{
+		  // Found second divider line, end of command section
+		  _m_state = 7;
+		}
+	      else
+		{
+		  // We have the title string now, lets store it in the results
+		  if ( !results()[TITLE].empty() ) 
+		    {
+		      results()[TITLE] = PurpleTree::Regex::chomp( line );
+		    }
+		  else
+		    {
+		      results()[TITLE] += PurpleTree::Regex::chomp( line );
+		    };
+		};
+	      break;
+	    default:
+	      // The default case is to do...
+	      // nothing.
+	      break;
+	    };
+
+	  // Until we get to _m_state == 7 we can short cut the rest...
+	  return;
+	  
+	};
+      
+      // Finished parsing the header section.
+
+      // Find the basis-set by looking for the string "Standard basis"
+
+      if ( _m_basisBool && _m_basisRegex.search( line ) )
+	{
+	  DEBUG( "ArcStanzaA::process_line -> found basis", 
+		 PurpleTree::Regex::splitByDelimiter( " +", line )[3].c_str() );
+    
+	  // We have found a line where we can get the basis-set so we set
+	  // the _m_basisBool to "false" to avoid doing this check again.
+	  _m_basisBool = false;
+	  // Now we need to add the basis-set to the results
+	  results()[BASIS_SET] =
+	    PurpleTree::Regex::splitByDelimiter( " +", line )[3];
+	};
+      // Find the method
+      if ( _m_methodBool && _m_methodRegex.search( line ) ) 
+	{
+	  DEBUG( "ArcStanzaA::process_line -> found method", 
+		 PurpleTree::Regex::splitByDelimiter( " +", line )[3].c_str() );
+	  // We have found a line where we can get the method so we set
+	  // the _m_methodBool to "false" to avoid doing this check again.
+	  _m_methodBool = false;
+	  // Now we need to add the method to the results
+	  results()[CALC_METHOD] = 
+	    PurpleTree::Regex::splitByDelimiter( " +", line )[3];
+	};
+    
+!!!253481.cpp!!!	::moduleInitialise(in command_str : string) : Filters::Base
+  if ( PurpleTree::Regex::search( "(freq[[:space:](=]|[[:space:](,]calcall[[:space:]),])", 
+				  command_str, true ) )
+    {    
+      return new Filters::Gaussian::Energy();
+    } 
+  else
+    {
+      return NULL;
+    };

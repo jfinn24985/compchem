@@ -1,0 +1,28 @@
+class chem_notation
+!!!314537.cpp!!!	get_formulation() : formulation
+// check
+CHECK(has_element (S_FORMULATION_NAME, m_rep), "Invalid document");
+// do
+return formulation(get_element (S_FORMULATION_NAME, m_rep));
+!!!146985.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+
+!!!314409.cpp!!!	get_information() : information
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "No information sub-tree for this chem_notation");
+// do
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!314281.cpp!!!	has_information() : bool
+// do
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!327977.cpp!!!	chem_notation(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_CHEM_NOTATION_NAME, m_rep), "Node, object type mismatch");
+!!!328361.cpp!!!	operator=(in source : chem_notation) : chem_notation
+// do
+m_rep = source.m_rep;
+// end
+return *this;

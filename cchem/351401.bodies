@@ -1,0 +1,9 @@
+class output_header_options
+!!!1102889.cpp!!!	register_options(inout a_opt_set : options_description, inout a_header : output_header) : void
+// Add options to a_opt_set
+a_opt_set.add_options ()
+  ("spectrum-title", boost::program_options::value< std::string >()->notifier (boost::bind (&output_header::title, &a_header, _1)), "the title shown in the output")
+  ("spectrum-date", boost::program_options::value< std::string >()->notifier (boost::bind (&output_header::date_string, &a_header, _1)), "the date shown in the output (if not set elsewhere, default is today)")
+  ("spectrum-source", boost::program_options::value< std::string >()->notifier (boost::bind (&output_header::origin, &a_header, _1)), "the source of the data in the output")
+  ("spectrum-type", boost::program_options::value< std::string >()->notifier (boost::bind (&output_header::data_type, &a_header, _1)), "the spectrum data type")
+  ("spectrum-owner", boost::program_options::value< std::string >()->notifier (boost::bind (&output_header::owner, &a_header, _1)), "the owner of the data in the output");

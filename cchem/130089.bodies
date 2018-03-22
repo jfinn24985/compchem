@@ -1,0 +1,8 @@
+class Widget
+!!!741801.cpp!!!	get_style_property(in the_property_name : Glib::ustring, inout value : PropertyType) : void
+  Glib::Value<PropertyType> property_value;
+  property_value.init(Glib::Value<PropertyType>::value_type());
+
+  this->get_style_property_value(the_property_name, property_value);
+
+  value = property_value.get();

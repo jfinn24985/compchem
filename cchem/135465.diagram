@@ -1,0 +1,17 @@
+format 29
+
+continuation 128041 "Process command line"
+  xyzwh 161 46 2000 167 34
+classinstance 128169 class_ref 361001 // ccfilter
+  name "" xyz 67 12 2000 life_line_z 2000
+continuation 128297 "Read project configuration"
+  xyzwh 159 139 2000 185 34
+continuation 128425 "Load filters as per proj conf"
+  xyzwh 164 205 2000 192 34
+continuation 128553 "Open data source file"
+  xyzwh 156 91 2000 183 34
+continuation 128681 "Merge results into database"
+  xyzwh 166 321 2000 195 34
+continuation 128809 "Process file"
+  xyzwh 173 261 2005 103 34
+end

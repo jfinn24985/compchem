@@ -1,0 +1,29 @@
+format 41
+
+artifactcanvas 128041 artifact_ref 191401 // test_streambuf
+  xyz 60 192 2000
+artifactcanvas 128169 artifact_ref 197417 // test_freeptr
+  xyz 125 266 2005
+artifactcanvas 128297 artifact_ref 197545 // test_filesystem_util
+  xyz 267 267 2005
+artifactcanvas 128425 artifact_ref 196265 // test_const_cstreambuf
+  xyz 323 193 2010
+artifactcanvas 128553 artifact_ref 196137 // test_cstreambuf
+  xyz 29 100 2015
+artifactcanvas 128681 artifact_ref 193705 // test_contract_error
+  xyz 371 104 2020
+artifactcanvas 128809 artifact_ref 198953 // test
+  xyz 182 21 2000
+containcanvas 128937
+  from ref 128809 z 1999 to ref 128553
+containcanvas 129065
+  from ref 128809 z 1999 to ref 128681
+containcanvas 129193
+  from ref 128809 z 1999 to ref 128041
+containcanvas 129321
+  from ref 128809 z 1999 to ref 128425
+containcanvas 129449
+  from ref 128809 z 1999 to ref 128169
+containcanvas 129577
+  from ref 128809 z 1999 to ref 128297
+end

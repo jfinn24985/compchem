@@ -1,0 +1,252 @@
+class program
+!!!1425193.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::compound_name () == a_name)
+{
+  m_catalog.push_back (new compound (*this, a_label));
+  Result = &(m_catalog.back ());
+}
+else if (data_access::names::project_name () == a_name)
+{
+  m_projects.push_back (new project (*this, a_label));
+  Result = &(m_projects.back ());
+}
+else if (data_access::names::project_src_name () == a_name)
+{
+  std::string l_dummy;
+  std::auto_ptr < project > l_temp (new project (*this, l_dummy));
+  l_temp.get ()->connect (a_label);
+  m_projects.push_back (l_temp.release ());
+  Result = &(m_projects.back ());
+}
+else if (data_access::names::mechanism_name () == a_name)
+{
+  m_equipment.push_back (new mechanism (*this, a_label));
+  Result = &(m_equipment.back ());
+}
+else if (data_access::names::worker_name () == a_name)
+{
+  m_staff.push_back (new worker (*this, a_label));
+  Result = &(m_staff.back ());
+}
+else if (data_access::names::info_name () == a_name)
+{
+  COMPCHEM_ALWAYS (not has_information (), "Can not add more than one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
+}
+else
+{
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
+}
+append_child (*Result);
+return *Result;
+!!!1424809.cpp!!!	add_compound(in a_label : string) : compound
+m_catalog.push_back (new compound (*this, a_label));
+// Before projects
+if (not m_projects.empty ())
+{
+  insert_child (m_projects.front (), m_catalog.back ());
+}
+else
+{
+  append_child (m_catalog.back ());
+}
+return m_catalog.back ();
+
+!!!1424425.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_ALWAYS (not has_information (), "Can not add more than one info object here");
+m_info.reset (new info (*this, a_label));
+// First! (worker+,mechanism*,compound*,project*)
+if (not m_staff.empty ())
+{
+  insert_child (m_staff.front (), *(m_info.get ()));
+}
+else if (not m_equipment.empty ())
+{
+  insert_child (m_equipment.front (), *(m_info.get ()));
+}
+else if (not m_catalog.empty ())
+{
+  insert_child (m_catalog.front (), *(m_info.get ()));
+}
+else if (not m_projects.empty ())
+{
+  insert_child (m_projects.front (), *(m_info.get ()));
+}
+else
+{
+  append_child (*(m_info.get ()));
+}
+return *(m_info.get ());
+!!!1424681.cpp!!!	add_mechanism(in a_label : string) : mechanism
+m_equipment.push_back (new mechanism (*this, a_label));
+// Before (compound*,project*)
+if (not m_catalog.empty ())
+{
+  insert_child (m_catalog.front (), m_equipment.back ());
+}
+else if (not m_projects.empty ())
+{
+  insert_child (m_projects.front (), m_equipment.back ());
+}
+else
+{
+  append_child (m_equipment.back ());
+}
+return m_equipment.back ();
+
+!!!1424937.cpp!!!	add_project(in a_label : string) : project
+m_projects.push_back (new project (*this, a_label));
+// Always last
+append_child (m_projects.back ());
+return m_projects.back ();
+
+!!!1425065.cpp!!!	add_project_src(in a_uri : string, in a_label : string) : project
+std::auto_ptr< project > Result (new project (*this, a_label));
+Result.get ()->connect (a_uri);
+// Save successfully created project.
+m_projects.push_back (Result.release ());
+// Always last
+append_child (m_projects.back ());
+return m_projects.back ();
+!!!1424553.cpp!!!	add_worker(in a_label : string) : worker
+m_staff.push_back (new worker (*this, a_label));
+// Before mechanism*,compound*,project*
+if (not m_equipment.empty ())
+{
+  insert_child (m_equipment.front (), m_staff.back ());
+}
+else if (not m_catalog.empty ())
+{
+  insert_child (m_catalog.front (), m_staff.back ());
+}
+else if (not m_projects.empty ())
+{
+  insert_child (m_projects.front (), m_staff.back ());
+}
+else
+{
+  append_child (m_staff.back ());
+}
+return m_staff.back ();
+!!!1417513.cpp!!!	find_compound(in a_label : string) : compound_iterator
+return std::find_if (m_catalog.begin (), m_catalog.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&compound::label, _1), a_label));
+!!!1419305.cpp!!!	find_compound(in a_label : string) : const_compound_iterator
+return std::find_if (m_catalog.begin (), m_catalog.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&compound::label, _1), a_label));
+!!!1138473.cpp!!!	find_mechanism(in a_label : string) : mechanism_iterator
+return std::find_if (m_equipment.begin (), m_equipment.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&mechanism::label, _1), a_label));
+!!!1419433.cpp!!!	find_mechanism(in a_label : string) : const_mechanism_iterator
+return std::find_if (m_equipment.begin (), m_equipment.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&mechanism::label, _1), a_label));
+!!!1138345.cpp!!!	find_project(in a_label : string) : project_iterator
+return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&project::label, _1), a_label));
+!!!1419561.cpp!!!	find_project(in a_label : string) : const_project_iterator
+return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&project::label, _1), a_label));
+!!!1138729.cpp!!!	find_worker(in a_label : string) : worker_iterator
+return std::find_if (m_staff.begin (), m_staff.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&worker::label, _1), a_label));
+!!!1419689.cpp!!!	find_worker(in a_label : string) : const_worker_iterator
+return std::find_if (m_staff.begin (), m_staff.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&worker::label, _1), a_label));
+!!!1684521.cpp!!!	remove_priv(inout a_datum : compound) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (compound_iterator l_f = begin_compound (); l_f != end_compound (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_catalog.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1684265.cpp!!!	remove_priv(inout a_datum : mechanism) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (mechanism_iterator l_f = begin_mechanism (); l_f != end_mechanism (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_equipment.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1684009.cpp!!!	remove_priv(inout a_datum : project) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (project_iterator l_f = begin_project (); l_f != end_project (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_projects.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1683753.cpp!!!	remove_priv(inout a_datum : worker) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (worker_iterator l_f = begin_worker (); l_f != end_worker (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_staff.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1557545.cpp!!!	target_project() : project_iterator
+return std::find_if (m_projects.begin (), m_projects.end (), boost::bind (std::equal_to< std::string >(), boost::bind (&project::label, _1), data_scheme_helper::helper ().target_project ()));
+!!!1663273.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// info?,worker+,mechanism*,compound*,(project|proj-src)*
+COMPCHEM_ALWAYS (not empty_worker () or not empty_mechanism () or not empty_project () or not empty_compound () or has_information ()
+                 , "attempt to remove child from empty object");
+if (has_information () and m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  bool object_is_my_child (false);
+  if (not empty_compound ())
+  {
+    compound * l_tmp (dynamic_cast< compound * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_project ())
+  {
+    project * l_tmp (dynamic_cast< project * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_mechanism ())
+  {
+    mechanism * l_tmp (dynamic_cast< mechanism * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_worker ())
+  {
+    worker * l_tmp (dynamic_cast< worker * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
+}

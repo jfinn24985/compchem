@@ -1,0 +1,190 @@
+class gaussian_structure
+!!!1069865.cpp!!!	can_process(inout a_filter : basic_filter_traits, in a_filetype_info : char, in a_isize : int, in a_subtype_info : char, in a_ssize : int, in a_filetype_flags : int, inout a_errbuf : char, in a_esize : int) : int
+int Result = ON_SUCCESS;
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid");
+  COMPCHEM_CHECK (NULL == a_filter->m_internal_state, "Plugin should be uninitialised before can_process");
+  a_filter->m_internal_state = new gaussian_structure; }
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+return Result;
+!!!1069481.cpp!!!	output(inout a_filter : basic_filter_traits, inout a_cb_data : any, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result = ON_SUCCESS;
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (NULL != a_filter->m_internal_state, "A filter with a nul state object is invalid.");
+  gaussian_structure * l_state = static_cast< gaussian_structure * >(a_filter->m_internal_state);
+  // DO
+  if (not l_state->m_results.empty ()) {
+    const std::string l_step ("step");
+    const std::string l_energy ("energy");
+    const std::string l_hartree ("hartree");
+    const std::string l_atom_list ("atom-list");
+    const std::string l_axyz ("axyz");
+    datum_writer l_structure_path;
+    l_structure_path.outcome ("structure-path");
+    l_structure_path.children ().resize (l_state->m_results.size());
+    for (unsigned int l_index = 0;
+         l_index < l_state->m_results.size();
+         ++l_index) {
+      // Make step's container node and add to structure path node
+      l_structure_path.children ()[l_index].outcome (l_step);
+      l_structure_path.children ()[l_index].ordinal (l_index);
+      l_structure_path.children ()[l_index].children ().resize (2);
+  
+      // Make step's energy node and add to structure path node
+      l_structure_path.children ()[l_index].children ()[0].outcome (l_energy);
+      l_structure_path.children ()[l_index].children ()[0].scale (l_hartree);
+      l_structure_path.children ()[l_index].children ()[0].content (l_state->m_results[l_index].first);
+  
+      // Make step's structure node and add to structure path node
+      l_structure_path.children ()[l_index].children ()[1].outcome (l_atom_list);
+      l_structure_path.children ()[l_index].children ()[1].scale (l_axyz);
+      // Note we remove a trailing '\' here.
+      l_structure_path.children ()[l_index].children ()[1].content (l_state->m_results[l_index].second.substr (0, l_state->m_results[l_index].second.size () - 1)); }
+  
+    // Add all nodes to twiglet
+    const std::string l_final (l_structure_path.to_string ());
+    (*(a_filter->m_output_cb))(a_cb_data, l_final.data (), l_final.size ()); }
+  else {
+    // No structures to output, is this an error??
+    Result = ON_FAILURE; }}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+
+// END
+return Result;
+!!!1069609.cpp!!!	process_segment(inout a_filter : basic_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+std::ostream l_err (&l_errbuf);
+int Result (ON_SUCCESS);
+// DO
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (a_filter->m_internal_state, "A filter with a nul state object is invalid.");
+  gaussian_structure * l_state = static_cast< gaussian_structure * >(a_filter->m_internal_state);
+  // This function is sort-of straightforward. The basic premise is
+  // that the various parts gather information from the file as it
+  // passes. All of this is reset when the end of the structure is
+  // passed. If four "YES"s (m_passed == 4) are matched before this
+  // happens then the filter creates a structure and stores it in the
+  // m_results vector.
+  DLOG("[");DLOG(l_state->m_count);DLOG("]");DLOG(a_segment);DLOG("\n");
+  switch (l_state->m_count) {
+  case 6: {
+      const std::string l_current_line (a_segment, a_ssize);
+      // Look for energy
+      if (l_current_line.find ("SCF Done") < std::string::npos) {
+        // Grab SCF energy
+        std::vector< std::string > l_fields;
+        DLOG ("Energy: = "); DLOG (l_current_line); DLOG ("\n");
+        boost::algorithm::split (l_fields, l_current_line
+  	  , boost::algorithm::is_any_of(" "), boost::token_compress_on);
+        if (5 < l_fields.size()) l_state->m_energy = l_fields[5];
+        ++(l_state->m_count); }}
+    // Fall through to capture second structure (standard orientation)
+  case 0:
+    if (a_ssize > 45) { // skip short lines
+      const std::string l_current_line (a_segment, a_ssize);
+      if (l_current_line.find ("orientation", 25) < std::string::npos) {
+        // Found structure, check if we fell through from above
+        if (0 == l_state->m_count) {
+  	++(l_state->m_count); }
+        else {
+  	l_state->m_structure.str (std::string ());
+  	l_state->m_count = 1; }}}
+    break;
+  case 1: {
+      // Check is a structure by looking for '-'
+      const std::string l_current_line (a_segment, a_ssize);
+      if (std::string::npos == l_current_line.find ("---------")) {
+        // Not a structure, reset count
+        l_state->m_count = 0; }
+      else {
+        // increment counter
+        ++(l_state->m_count); }}
+    break;
+  case 2: // increment counter (fall through)
+  case 3: // increment counter (fall through)
+  case 4: // increment counter (fall through)
+    ++(l_state->m_count);
+    break;
+  case 5: {
+      // Collect structure into a single string until the end divider
+      // line
+      const std::string l_current_line (a_segment, a_ssize);
+      if (std::string::npos == l_current_line.find("--------", 2)) {
+        // Divider not found, collecting structure line.
+        std::vector< std::string > l_fields;
+        boost::algorithm::split (l_fields, l_current_line
+  	  , boost::algorithm::is_any_of(" "), boost::token_compress_on);
+        // Adjust collection point depending on how many fields.
+        int l_offset = 0;
+        if (l_fields.size() != 5) {
+  	l_offset = 1; }
+        LOG ("Atom number =" + l_fields[2]);
+        int l_atom_num = boost::lexical_cast< int > (l_fields[2]);
+        l_state->m_structure << chemistry::periodic_table::table.get_element (l_atom_num).symbol ();
+        l_state->m_structure << "," << l_fields[l_offset + 3];
+        l_state->m_structure << "," << l_fields[l_offset + 4];
+        l_state->m_structure << "," << l_fields[l_offset + 5];
+        l_state->m_structure << "\\"; }
+      else {
+        // DEBUG( "Divider found" );
+        ++l_state->m_count; }}
+    break;
+  case 7: {
+      // Search for threshold
+      const std::string l_current_line (a_segment, a_ssize);
+      if (l_current_line.find("Threshold", 38) != std::string::npos) {
+        // Threshold settings found
+        ++l_state->m_count; }}
+    break;
+  case 8: {
+      // Search for YES
+      const std::string l_current_line (a_segment, a_ssize);
+      if (l_current_line.find("YES", 51) != std::string::npos) {
+        // Another \"YES\" found..
+        ++l_state->m_passed;
+        if (4 == l_state->m_passed) {
+  	// Have all \"YES\" so output data
+  	l_state->m_results.push_back (std::make_pair(l_state->m_energy, l_state->m_structure.str ()));
+  
+  	// reset variables
+  	l_state->m_threshold = false;
+  	l_state->m_count = 0;
+  	l_state->m_passed = 0;
+  	l_state->m_structure.str (std::string ()); }}
+      else {
+        // No \"YES\" so resetting data
+        l_state->m_threshold = false;
+        l_state->m_count = 0;
+        l_state->m_passed = 0;
+        l_state->m_structure.str (std::string ()); }}
+    break;
+  default:
+    // An error
+    l_err << a_filter->m_name << ": Reached invalid state indicator value [" << l_state->m_count << "]";
+    Result = ON_FAILURE;
+    break; }}
+catch (const std::exception &a_err) {
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;

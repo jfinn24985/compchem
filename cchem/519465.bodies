@@ -1,0 +1,13 @@
+class uri
+!!!1643049.cpp!!!	split_uri(in a_uri : string) : void
+const int l_index (a_uri.find ("://"));
+if (std::string::npos != l_index)
+{
+  m_scheme.assign (a_uri.substr (0, l_index));
+  m_path.assign (a_uri.substr (l_index + 3));
+}
+else
+{
+  m_scheme.clear ();
+  m_path.assign (a_uri);
+}

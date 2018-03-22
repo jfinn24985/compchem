@@ -1,0 +1,68 @@
+class xml_write_visitor
+!!!1365801.cpp!!!	visit_basic_datum(in a_datum : basic_datum) : void
+// Start element
+const meta_datum & l_defn (meta_datum::by_name (a_datum.serial_name ()));
+if (m_writer.empty ())
+{
+  m_writer.push_back (new xml_writer_proxy (m_writer_rep, l_defn.name));
+}
+else
+{
+  m_writer.push_back (new xml_writer_proxy (m_writer.back (), l_defn.name));
+}
+// Process attributes.
+if (l_defn.has_attributes ())
+{
+  for (meta_datum::const_iterator l_i (l_defn.begin_attr ());
+       l_i != l_defn.end_attr ();
+       ++l_i)
+  {
+    std::string l_value;
+    if (a_datum.get_attribute (*l_i, l_value))
+    {
+      m_writer.back ().attribute (*l_i, l_value);
+    }
+  }
+}
+// Now process children
+if (not a_datum.empty ())
+{
+  std::for_each (a_datum.begin (), a_datum.end (), boost::bind (&data_scheme::basic_datum::visit, _1, boost::ref(*this)));
+}
+m_writer.pop_back ();
+!!!1448489.cpp!!!	visit_memo(in a_datum : memo) : void
+if (a_datum.is_src ())
+{
+  COMPCHEM_REQUIRE (not m_writer.empty (), "first element can not be a memo-src.");
+  // Start element
+  xml_writer_proxy l_writer (m_writer.back (), a_datum.serial_src_name ());
+  // Process attributes.
+  l_writer.attribute (names::compound_name (), a_datum.compound_label ());
+  l_writer.attribute (names::formula_name (), a_datum.formula_label ());
+  l_writer.attribute (names::label_name (), a_datum.label ());
+  l_writer.attribute (names::href_name (), a_datum.uri ());
+  // Get object to write itself.
+  if (a_datum.is_open ()) a_datum.write ();
+}
+else
+{
+  // For non-src use std writer.
+  visit_basic_datum (a_datum);
+}
+!!!1448617.cpp!!!	visit_project(in a_datum : project) : void
+if (a_datum.is_src ())
+{
+  COMPCHEM_REQUIRE (not m_writer.empty (), "first element can not be a proj-src.");
+  // Start element
+  xml_writer_proxy l_writer (m_writer.back (), a_datum.serial_src_name ());
+  // Process attributes.
+  l_writer.attribute (names::label_name (), a_datum.label ());
+  l_writer.attribute (names::href_name (), a_datum.uri ());
+  // Get object to write itself.
+  if (a_datum.is_open ()) a_datum.write ();
+}
+else
+{
+  // Not non-src use std method
+  visit_basic_datum (a_datum);
+}

@@ -1,0 +1,93 @@
+class test_const_cstreambuf
+!!!1355177.cpp!!!	main_test() : void
+const std::string l_realbuf ("#\n\
+#  Jamroot for the compchem project\n\
+#\n\
+#  $Date: 2008/01/16 22:57:20 $\n\
+#  $Revision: 1.2 $\n\
+#\n\
+#  $Log: Jamroot,v $\n\
+#  Revision 1.2  2008/01/16 22:57:20  finnerty\n\
+#  bjam compilation system conversion complete\n\
+#\n\
+#  Revision 1.1  2008/01/13 11:24:40  finnerty\n\
+#  bjam compilation system\n\
+#\n\
+#\n\
+#\n\
+using gcc ;\n\
+import string ;\n\
+using ptdom ;\n\
+\n\
+project compchem\n\
+ : requirements <include>./include  \n\
+ <toolset>gcc:<cxxflags>\"-std=c++98\" \n\
+ <toolset>gcc:<linkflags>\"-rdynamic -lz\"  \n\
+ <toolset>gcc,<optimization>off:<cflags>\"-O0 \"  \n\
+ <toolset>gcc,<optimization>on:<cflags>\"-O3 -march=native -mfpmath=sse -msse3\" \n\
+ <toolset>pgi:<cxxflags>\"-D_BOOL\" \n\
+ <toolset>pgi:<include>\"/usr/opt/pgi/linux86/include\"  \n\
+ <toolset>pgi:<linkflags>\"-rdynamic\"  \n\
+ <toolset>pgi,<optimization>off:<cflags>\"-O0 \"  \n\
+ <toolset>pgi,<optimization>on:<cflags>\"-fast -tpp7\" \n\
+ <toolset>intel-linux:<cxxflags>\"-D_BOOL\" \n\
+ <toolset>intel-linux:<linkflags>\"-i_dynamic -rdynamic -lz\"  \n\
+ <toolset>intel-linux,<optimization>off:<cflags>\"-O0 \"  \n\
+ <toolset>intel-linux,<optimization>on:<cflags>\"-O3 -tpp7 -xW -ipo\" \n\
+ <variant>debug:<cflags>\"-ggdb -DDEBUG=1\" \n\
+ <warnings>all\n\
+\n\
+ : build-dir build ;\n\
+\n\
+use-project /compchem/chemistry : src/chemistry ;\n\
+use-project /compchem/data_scheme : src/data_scheme ;\n\
+use-project /compchem/supplier : src/supplier ;\n\
+use-project /compchem/utility : src/utility ;\n\
+\n\
+build-project src ;\n\
+\n\
+project boost ;\n\
+alias program_options : : : : <linkflags>-lboost_program_options ;\n\
+alias regex : : : : <linkflags>-lboost_regex ;\n\
+alias filesystem : : : : <linkflags>-lboost_filesystem ;\n\
+\n\
+# Local Variables:\n\
+# mode: makefile\n\
+# End: ");
+utility::const_c_streambuf < char > l_testbuf (l_realbuf.c_str (), l_realbuf.size () + 1);
+log () << TTLE << "Contract tests after ctor.\n";
+bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+bool_test (l_testbuf.begin () == &l_realbuf[0], "begin = buffer");
+bool_test (l_testbuf.end () != NULL, "end /= nul");
+bool_test (l_testbuf.begin () != l_testbuf.end (), "After ctor begin = end (assuming size /= 0)"); 
+log () << COMM << "Using utility::const_c_streambuf as an output buffer\n";
+try
+{
+  unsigned int i = 0;
+  std::string l_val;
+  std::istream l_test (&l_testbuf); 
+  for (;
+      l_test;
+      ++i)
+  {
+    std::getline (l_test, l_val);
+  }
+  log () << WTCH << "Extracted " << i << " lines.\n";
+  log () << WTCH << "Last line was [# End: ] = \"" << l_val << "\"\n";
+
+  log () << WTCH << "Fail bit = " << l_test.fail () << "\n";
+  log () << WTCH << "EOF  bit = " << l_test.eof () << "\n";
+  log () << WTCH << "Bad  bit = " << l_test.bad () << "\n";
+  log () << WTCH << "Good bit = " << l_test.good () << "\n";
+  log () << TTLE << "Contract tests after reading from buffer.\n";
+  bool_test (l_testbuf.begin () != NULL, "begin /= nul");
+  bool_test (l_testbuf.begin () == &l_realbuf[0], "begin = buffer");
+  bool_test (l_testbuf.end () != NULL, "end /= nul");
+  bool_test (l_testbuf.begin () != l_testbuf.end (), "After input/output begin /= end"); 
+}
+catch (const std::exception & a_err)
+{
+  log () << EXCP << a_err.what () << "\n";
+}
+
+

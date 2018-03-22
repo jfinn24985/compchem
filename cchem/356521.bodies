@@ -1,0 +1,85 @@
+class formula
+!!!1422377.cpp!!!	add_child(in a_name : string, in a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::info_name () == a_name)
+{
+  COMPCHEM_ALWAYS (not has_information (), "You can not add more than one info object here");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
+}
+else if (data_access::names::identity_name () == a_name)
+{
+  m_identity.push_back (new identity (*this, a_label));
+  Result = &(m_identity.back ());
+}
+else
+{
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
+}
+append_child (*Result);
+return *Result;
+!!!1422505.cpp!!!	add_identity(in a_label : string) : identity
+m_identity.push_back (new identity (*this, a_label));
+// Always last
+append_child (m_identity.back ());
+return m_identity.back ();
+!!!1409705.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "You can not add more than one info object here");
+m_info.reset (new info (*this, a_label));
+// Always first
+if (m_identity.empty ())
+{
+  append_child (*(m_info.get ()));
+}
+else
+{
+  insert_child (m_identity.back (), *(m_info.get ()));
+}
+return *(m_info.get ());
+!!!1681193.cpp!!!	remove_priv(inout a_datum : identity) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (identity_iterator l_f = begin_identity (); l_f != end_identity (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_identity.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1526953.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::label_name () == a_name) 
+{
+  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
+}
+else
+{
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+}
+
+!!!1662889.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// identity* or info?
+COMPCHEM_ALWAYS (not empty_identity () or has_information ()
+                 , "attempt to remove child from empty object");
+if (m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  bool object_is_my_child (false);
+  if (not empty_identity ())
+  {
+    identity * l_tmp (dynamic_cast< identity * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
+}

@@ -1,0 +1,52 @@
+class information_ctl
+!!!1033385.cpp!!!	create_item() : item_iterator
+  // DO
+  is_valid ();
+  purpletree::dom::element l_node (get_parent_node ().owner_document ().create_element (get_node_name ()));
+  ENSURE (not l_node.is_null (), "Newly created element should not be null.");
+  
+  // Add to parent node
+  l_node = get_parent_node ().append_child (l_node);
+  
+  // Indicate that document is dirty.
+  journal_ctl::make_dirty (l_node.owner_document ());
+  
+  // Create iterator
+  item_iterator Result(*this, l_node);
+  // DONE
+  ENSURE (Result != end (), "Iterator of new item should not equal end().");
+  return Result;
+!!!1033769.cpp!!!	get_value(in a_cursor : item_iterator) : string
+  require_valid_iterator (a_cursor);
+  return xml_traits::get_node_content (*a_cursor);
+!!!1034281.cpp!!!	is_valid() : void
+  base_t::is_valid ();
+  INVARIANT (xml_traits::is_element(get_parent_node (), PARENT_NODE_NAME)
+             , "List control must have a parent element or right type.");
+!!!1034409.cpp!!!	is_valid_iterator(in a_cursor : item_iterator) : bool
+  return xml_traits::is_element (*a_cursor, INFORMATION_NODE_NAME);
+!!!1034665.cpp!!!	require_valid_iterator(in a_cursor : item_iterator) : void
+  REQUIRE (is_valid_iterator (a_cursor), "Require iterator to 'information' type node");
+  REQUIRE (not (*a_cursor).get_attribute (NAME_ATTR_NAME).empty ()
+              or xml_traits::get_node_content (*a_cursor).empty ()
+           , "Cannot have a value without a name.");
+!!!1034793.cpp!!!	set_name(inout a_cursor : item_iterator, in a_string : string) : void
+  // PRE
+  REQUIRE (not a_string.empty (), "Cannot set 'name' attribute to empty string");
+  require_valid_iterator (a_cursor);
+  if (xml_traits::set_attribute (*a_cursor, NAME_ATTR_NAME, purpletree::dom::set_utf8 (a_string)))
+  {
+    journal_ctl::make_dirty((*a_cursor).owner_document ());
+  }
+  ENSURE (a_string == get_name (a_cursor), "Real value does not equal value input to set_name.");
+!!!1034921.cpp!!!	set_value(inout a_cursor : item_iterator, in a_value : string) : void
+  // PRE
+  REQUIRE (a_value.empty () or not get_name (a_cursor).empty ()
+  	 , "Cannot set 'value' if 'name' attribute is not set.");
+  require_valid_iterator (a_cursor);
+  // DO
+  if (xml_traits::set_node_content (*a_cursor, a_value))
+  {
+    journal_ctl::make_dirty ((*a_cursor).owner_document ());
+  }
+  ENSURE (a_value == get_value (a_cursor), "Real value does not equal value input to set_value.");

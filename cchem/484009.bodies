@@ -1,0 +1,7 @@
+class content_visitor
+!!!1541289.cpp!!!	on_visit(in a_datum : basic_datum) : void
+// Now process children
+if (not a_datum.empty ())
+{
+  std::for_each (a_datum.begin (), a_datum.end (), boost::bind (&data_scheme::basic_datum::visit, _1, boost::ref(*this)));
+}

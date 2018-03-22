@@ -1,0 +1,109 @@
+class dtd_attribute
+!!!154793.cpp!!!	dtd_attribute(in dtd_attrib_list : string)
+  if ( dtd_attrib_list.empty() ) 
+    _m_attrib_list = NULL;
+  else {
+    _m_attrib_list = _parse_dtd_attribute_list( dtd_attrib_list );
+    __make_attrib_list();
+  };
+!!!155049.cpp!!!	allow_attribute(inout id_list : std::set<std::string>, in attrib : string, in value : string, in setid : bool = true) : bool
+  DEBUG( "dtd_attribute::allow_attribute -> entered with name", attrib.c_str() );
+  if ( _m_attrib_list ) {
+    // the Real work
+    attribute_desc *_item = _m_attrib_list;
+    while( _item ) {
+      DEBUG( "dtd_attribute::allow_attribute -> have attribute", _item->_attrib_name.c_str() );
+      if ( _item->_attrib_name == attrib ) {
+	DEBUG( "dtd_attribute::allow_attribute -> name match, checking value", value.c_str() );
+	// attribute name match
+	return __valid_value( id_list, _item->_value_defn, value, setid );
+      };
+      // step along list
+      _item = _item->step();
+    };
+    // No match up to end of list -> invalid
+    DEBUG( "dtd_attribute::allow_attribute -> name not matched" );
+#ifndef __NO_FEEDBACK__
+    std::cerr << "Attribute \"" << attrib << "\" name not matched." << std::endl;
+#endif
+    return false;
+  } else {
+    DEBUG( "dtd_attribute::allow_attribute -> any allowed" );
+    // NO attrib list ( allow ANY )
+    return true;
+  };
+!!!155177.cpp!!!	extract_ids(inout id_list : std::set<std::string>, inout node : xml_rb_node) : std::set< std::string >
+  // This function passes along the attribute list looking for
+  // attributes with an ID value definition. If found, then the
+  // attribute is removed from the <varname>id_list</varname> and
+  // added to the return list.
+  std::set< std::string > _l_retval;
+  if ( !_m_attrib_list.empty() ) {
+    // We make an instance of the helper class;
+    _extract_ids my_little_helper( id_list, _l_retval, node );
+    // Step through the attribute definitions looking for a ID
+    // type. When found check the list of attributes.
+    for_each( _m_attrib_list.begin(),
+	      _m_attrib_list.end(),
+	      my_little_helper );
+    // All that remains is to return the ID set.
+  };
+  return _l_retval;
+!!!155561.cpp!!!	required_attributes(in attribdict : std::map<std::string,std::string>) : bool
+  DEBUG( "dtd_attribute::required_attributes -> entered" );
+  // Check that all required tags are in attribute list;
+  if ( _m_req_attrib ) {
+    // List exists
+    for ( std::vector<std::string>::iterator _item = _m_req_attrib->begin();
+	  _item != _m_req_attrib->end();
+	  ++_item ) {
+      DEBUG( "dtd_attribute::required_attributes -> check attribute", (*_item).c_str() );
+      if ( attribdict.count( *_item ) == 0 ) {
+	DEBUG( "dtd_attribute::required_attributes -> required attribute missing" );
+#ifndef __NO_FEEDBACK__
+	std::cerr << "Required attribute missing." << std::endl;
+#endif
+	return false;
+      };
+    };
+    // All required tags were present
+    DEBUG( "dtd_attribute::required_attributes -> all required attributes present" );
+    return true;
+  } else {
+    // NO required tags
+    DEBUG( "dtd_attribute::required_attributes -> no required attributes" );
+    return true;
+  };
+!!!155689.cpp!!!	valid_attributes(inout id_list : std::set<std::string>, in attribdict : std::map<std::string,std::string>, in setid : bool = false) : bool
+  DEBUG( "dtd_attribute::valid_attributes -> entered" );
+  if ( _m_attrib_list ) {
+    DEBUG( "dtd_attribute::valid_attributes -> m_attrib_list exists" );
+    // Have attrib list
+    if ( _m_attrib_list->_value_defn == "#EMPTY" ) {
+      // "#EMPTY" is pseudo defn to indicate NO attributes are allowed
+      // No attribs allowed, therefore true IFF attribdict is empty
+      DEBUG( "dtd_attribute::valid_attributes -> have empty check list" );
+      return ( attribdict.empty() );
+    } else {
+      // Attributes are allowed
+      if ( attribdict.empty() ) {
+	// Have empty attrib list, true IFF required attrib list is empty
+	DEBUG( "dtd_attribute::valid_attributes -> have empty passed attribute list" );
+	return ( _m_req_attrib && 0 == _m_req_attrib->size() );
+      } else {
+	// Have attributes to test, walk list testing each
+	DEBUG( "dtd_attribute::valid_attributes -> checking each attribute" );
+	for ( std::map<std::string,std::string>::const_iterator _item = attribdict.begin();
+	      _item != attribdict.end();
+	      ++_item ) {
+	  if ( !allow_attribute( id_list, (*_item).first, (*_item).second, setid ) ) 
+	    return false;
+	};
+	// OK, all attributes are valid but do we have all required attributes?
+	return required_attributes( attribdict );
+      };
+    };
+  } else {
+    // NO attrib list ( allow ANY )
+    return true;
+  };

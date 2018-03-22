@@ -1,0 +1,12 @@
+class mech_id
+!!!320425.cpp!!!	get_content() : string
+// do
+return get_value (m_rep);
+!!!328489.cpp!!!	mech_id(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_MECHANISM_ID_NAME, m_rep), "Node, object type mismatch");
+!!!328873.cpp!!!	operator=(in source : mech_id) : mech_id
+// do
+m_rep = source.m_rep;
+// end
+return *this;

@@ -1,0 +1,4 @@
+class matcher_string_search
+!!!1538089.cpp!!!	process_part(in a_target : string, out a_result : string) : bool
+// DO
+return a_target.size () > a_target.find (phrase);

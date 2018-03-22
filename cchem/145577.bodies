@@ -1,0 +1,67 @@
+class Gaussian
+!!!209577.cpp!!!	_verifyIsGaussianFile(in _m_filename : char) : void
+    char current_line_buf[256];
+    int counter = 0;
+    const int MAX_LINES = 512;
+    int maxLineCounter = 0;
+    std::streampos _l_startOfStream;
+    DEBUG( "In Gaussian::_verifyIsGaussianFile" );
+    // Check that the object has been set up.
+    if ( !*this )
+      {
+	std::string _msg = "Gaussian File Module Error: Unable to open file = ";
+	_msg += _m_filename;
+	throw Exception( _msg, Exception::NO_FILE );
+      };
+       
+    // This routine gets the header section of the 'gaussian' file and
+    // finds the section of text that was the original 'gaussian'
+    // control statement. We then pass this statement to each filter and
+    // ask them if they can handle it.
+    _m_command = "";
+    
+    _l_startOfStream = tellg();
+
+    while ( *this )
+      {
+	if ( maxLineCounter > MAX_LINES )
+	  {
+	    break;
+	  }
+	++maxLineCounter;
+#ifdef __DEBUG__
+	FrameWork::logStream << "[" << maxLineCounter << "] ";
+#endif
+	getline( current_line_buf, 255, '\n' );
+	if ( counter == 3 ) 
+	  {
+	    if ( 8 < std::strspn( current_line_buf + 1, "-" ) )
+	      {
+		DEBUG( "Found Closing \"------*\" string:" );
+#ifndef __DEBUG__
+		break;
+#endif
+	      }
+	    else
+	      {
+		DEBUG( "Getting command string:" );
+		_m_command += PurpleTree::modchomp( current_line_buf );
+		DEBUG( "Command = ", _m_command.c_str() );
+	      };
+	  };
+	if ( 8 < std::strspn( current_line_buf + 1, "-" ) )
+	  {
+	    DEBUG( "Found \"------*\" string:" );
+	    ++counter;
+	  };
+      };
+#ifdef __DEBUG__
+    FrameWork::logStream << std::endl;
+#endif
+    if ( _m_command.empty() ) 
+      {
+	throw Exception( "Gaussian File: Probably not gaussian output file", Exception::WRONG_FILE_TYPE );
+      };
+
+    seekg( _l_startOfStream );
+  

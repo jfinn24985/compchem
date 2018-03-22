@@ -1,0 +1,7 @@
+format 29
+
+artifactcanvas 128041 artifact_ref 143657 // compound
+  xyz 146 205 2000
+artifactcanvas 128169 artifact_ref 141609 // names
+  xyz 153 34 2000
+end

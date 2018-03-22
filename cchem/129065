@@ -1,0 +1,805 @@
+format 61
+"unused" // /compchem/supplier::unused
+  revision 29
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "supplier/filetype"
+  cpp_src_dir "../src/supplier/filetype"
+  cpp_namespace "supplier::filetype"
+  classview 130985 "filetypes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 133801 "Main types"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 348457 "base_filestream"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 253353 "m_filename"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The name of the associated file."
+      end
+
+      attribute 253225 "m_stream"
+	private explicit_type "std::ifstream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 1077417 "bad"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_stream.bad (); }
+"
+	
+	
+	
+	
+	comment "Is stream in bad state?"
+      end
+
+      operation 1077289 "eof"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_stream.eof (); }
+"
+	
+	
+	
+	
+	comment "Are we at the end of the stream?"
+      end
+
+      operation 1077673 "fail"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_stream.fail (); }
+"
+	
+	
+	
+	
+	comment "Is stream in fail state?"
+      end
+
+      operation 1080745 "filename"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw} { return m_filename; }
+"
+	final 
+	
+	
+	
+      end
+
+      operation 1077545 "good"
+	const public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} { return m_stream.good (); }
+"
+	
+	
+	
+	
+	comment "Is stream good?"
+      end
+
+      operation 1081513 "rewind"
+	public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Rewind the buffer to beginning of file."
+      end
+
+      operation 1080873 "stream"
+	protected explicit_return_type "std::ifstream"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual} ${type}& ${name}${(}${)}${const}${volatile}${throw} { return m_stream; }
+"
+	final 
+	
+	
+	
+	comment "Get a reference to the stream object - should only be used in derived classes."
+      end
+
+      operation 1081001 "base_filestream"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw}
+  ${body}
+"
+	
+	
+	
+	
+      end
+
+      operation 1081129 "~base_filestream"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1081257 "base_filestream"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" explicit_type "base_filestream"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1081385 "operator="
+	private explicit_return_type "base_filestream"
+	nparams 1
+	  param in name "source" explicit_type "base_filestream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 348329 "base_bufstream"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This generalisation of base_filetype provides methods for operating on a stream in a line oriented manner."
+      classrelation 281769 // <generalisation>
+	relation 275753 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 281769 // <generalisation>
+	  b parent class_ref 348457 // base_filestream
+      end
+
+      operation 1078441 "next_segment"
+	cpp_virtual public explicit_return_type "bool"
+	nparams 2
+	  param inout name "a_buffer" explicit_type "char"
+	  param inout name "a_bsize" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Fill a_buffer with the next segment of data.  This version will fill a_buffer.  The method returns false if an error occured. It sets a_bsize to the number of characters copied.  The returned buffer is nul-terminated if NUL_TERM & flags() is true."
+      end
+
+      operation 1079849 "base_bufstream"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}${)}${volatile}${throw}: base_filestream (${p0}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1079977 "~base_bufstream"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1080105 "base_bufstream"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" explicit_type "base_bufstream"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1080233 "operator="
+	private explicit_return_type "base_bufstream"
+	nparams 1
+	  param in name "source" explicit_type "base_bufstream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 348201 "base_linestream"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "This generalisation of base_filetype provides methods for operating on a stream in a line oriented manner."
+      classrelation 281641 // <generalisation>
+	relation 275625 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 281641 // <generalisation>
+	  b parent class_ref 348457 // base_filestream
+      end
+
+      operation 1077161 "next_segment"
+	cpp_virtual public explicit_return_type "bool"
+	nparams 2
+	  param inout name "a_buffer" explicit_type "char"
+	  param inout name "a_bsize" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Fill a_buffer with the next segment of data.  This version returns a single new-line delimited piece of data.  The method returns false if an error occured or line is longer than buffer.  The returned buffer is always nul-terminated.  It sets a_bsize to the number of characters copied excluding the nul."
+      end
+
+      operation 1077801 "base_linestream"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "a_filename" explicit_type "string"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw}: base_filestream (${p0}) {}
+"
+	
+	
+	
+	
+	comment "Create from a stream buffer.
+\\pre exists (a_filename)"
+      end
+
+      operation 1077929 "~base_linestream"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1078057 "base_linestream"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" explicit_type "base_linestream"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1078185 "operator="
+	private explicit_return_type "base_linestream"
+	nparams 1
+	  param in name "source" explicit_type "base_linestream"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+    end
+
+    class 151465 "gaussian_structure"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Outcome: structure
+
+Get optimised structure from Gaussian output.  This filters all structures 
+which have the four threshold values at YES.  Some Gaussian files may 
+have multiple structures. It returns the last optimised structure."
+      classrelation 280745 // <dependency>
+	relation 274729 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 280745 // <dependency>
+	  b parent class_ref 344489 // basic_filter_traits
+      end
+
+      classrelation 404649 // <dependency>
+	relation 395689 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 404649 // <dependency>
+	  b parent class_ref 139945 // periodic_table
+      end
+
+      attribute 241705 "m_count"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A counter used to skip over unwanted lines."
+      end
+
+      attribute 241449 "m_energy"
+	public explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The energy of this current structure"
+      end
+
+      attribute 241833 "m_passed"
+	public explicit_type "int"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "A counter for how many of the four threshold values were passed (\"YES\")."
+      end
+
+      attribute 241193 "m_results"
+	public explicit_type "std::vector< std::pair< std::string, std::string > >"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The found {energy, structure} pairs."
+      end
+
+      attribute 241321 "m_structure"
+	public explicit_type "std::stringstream"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The cached part of the current structure."
+      end
+
+      attribute 145321 "m_threshold"
+	public explicit_type "bool"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Flag to indicate whether we have passed the threshold section"
+      end
+
+      operation 1069865 "can_process"
+	class_operation public explicit_return_type "int"
+	nparams 8
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_filetype_info" explicit_type "char"
+	  param in name "a_isize" explicit_type "int"
+	  param in name "a_subtype_info" explicit_type "char"
+	  param in name "a_ssize" explicit_type "int"
+	  param in name "a_filetype_flags" explicit_type "int"
+	  param inout name "a_errbuf" explicit_type "char"
+	  param in name "a_esize" explicit_type "int"
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} * ${p6}, ${t7} ${p7}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, const ${t3} * ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} * ${p6}, ${t7} ${p7}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "There should be a structure in every normally terminated gaussian file"
+      end
+
+      operation 237353 "gaussian_structure"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_count (0)
+, m_energy ()
+, m_passed (0)
+, m_results ()
+, m_structure ()
+, m_threshold (false) {}"
+	
+	
+	
+	
+      end
+
+      operation 1070505 "gaussian_structure"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 151465 // gaussian_structure
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 237481 "~gaussian_structure"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1069737 "finalise"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract} {
+  if (NULL != a_filter and NULL != a_filter->m_internal_state) {
+    delete static_cast< ${class} * > (a_filter->m_internal_state); }}
+"
+	
+	
+	
+	
+      end
+
+      operation 1070633 "operator="
+	private return_type class_ref 151465 // gaussian_structure
+	nparams 1
+	  param in name "source" type class_ref 151465 // gaussian_structure
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1069481 "output"
+	class_operation public explicit_return_type "int"
+	nparams 4
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param inout name "a_cb_data" explicit_type "any"
+	  param inout name "a_errbuf" explicit_type "char"
+	  param in name "a_esize" explicit_type "int"
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, ${t1} ${p1}, ${t2} * ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, ${t1} ${p1}, ${t2} * ${p2}, ${t3} ${p3}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Output the result."
+      end
+
+      operation 1069609 "process_segment"
+	class_operation public explicit_return_type "int"
+	nparams 5
+	  param inout name "a_filter" type class_ref 344489 // basic_filter_traits
+	  param in name "a_segment" explicit_type "char"
+	  param in name "a_ssize" explicit_type "int"
+	  param inout name "a_errbuf" explicit_type "char"
+	  param in name "a_esize" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, ${t3} * ${p3}, ${t4} ${p4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}, const ${t1} * ${p1}, ${t2} ${p2}, ${t3} * ${p3}, ${t4} ${p4}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Find the dipole and extract into state."
+      end
+    end
+  end
+
+  deploymentview 129065 "filetypes"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    deploymentdiagram 134441 "Dependencies"
+      package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations no shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    artifact 153769 "base_bufstream"
+      stereotype "source"
+      associated_classes
+	class_ref 348329 // base_bufstream
+      end
+    end
+
+    artifact 154025 "base_filestream"
+      stereotype "source"
+      associated_classes
+	class_ref 348457 // base_filestream
+      end
+      comment "header 
+// Manual includes
+#include <fstream>
+// --
+
+source
+// Manual includes
+#include <boost/filesystem/operations.hpp>
+// --"
+    end
+
+    artifact 153897 "base_linestream"
+      stereotype "source"
+      associated_classes
+	class_ref 348201 // base_linestream
+      end
+      comment "
+// Manual header includes
+#include <fstream>
+// --"
+    end
+
+    artifact 154281 "gaussian_file_test"
+      stereotype "source"
+      associated_classes
+      end
+      comment "#ifndef GAUSSIAN_FILE_TEST_CC
+#define GAUSSIAN_FILE_TEST_CC
+
+#include \"gaussian_file.hpp\"
+
+std::string on_off (bool a_switch) {
+  return (a_switch)? std::string (\"ON\") : std::string (\"OFF\"); }
+
+int main(int argc, char** argv)
+{
+  // LOCAL
+  int Result (0);
+  std::cout << \"== Entering gaussian_file unit test ==\" << std::endl;
+
+  // Watch for special case help request
+  if (argc < 2 || 0 == std::string (argv[1], 2).find (\"-h\")) {
+      std::cout << \"\\nUsage:\\n\";
+      std::cout <<  \"    gaussian_file [filename]\\n\\n\";
+      std::cout <<  \"This program exercises the gaussian_file type.\\n\";
+      std::cout <<  \"It opens the given file and should:\\n\";
+      std::cout <<   \"        - read the header of file.\\n\";
+      std::cout <<   \"        - find the gaussian command.\\n\";
+      std::cout <<   \"        - determine if file is a Gaussian file.\\n\\n\"; }
+  else {
+    try {
+      std::cout << \"---------------------------------------\\n\";
+      std::cout << \"Filename [\" << argv[1] << \"]\\n\";
+      std::cout << \"---------------------------------------\\n\";
+      supplier::filetype::gaussian_file l_test_stream (argv[1]);
+      std::cout << \"---------------------------------------\\n\";
+      if (l_test_stream.is_valid ()) {
+	std::cout << \"FLAGS: LINE ORIENTED = [\";
+	std::cout << on_off (supplier::base_filetype::LINE_ORIENTED & l_test_stream.flags ());
+	std::cout << \"], NUL_TERMINATED = [\";
+	std::cout << on_off (supplier::base_filetype::NUL_TERM & l_test_stream.flags ());
+	std::cout << \"]\\n\";
+	std::cout << \"Filetype = [\" << l_test_stream.filetype () << \"]\\n\";
+	std::cout << \"Subtype = [\" << l_test_stream.subtype_info () << \"]\\n\";
+	std::cout << \"---------------------------------------\\n\";
+	// Output stream status
+	std::cout << \"Stream flags: BAD [\" << on_off (l_test_stream.bad ());
+	std::cout << \"] EOF [\" << on_off (l_test_stream.eof ());
+	std::cout << \"] FAIL [\" << on_off (l_test_stream.fail ());
+	std::cout << \"] GOOD [\" << on_off (l_test_stream.good ());
+	std::cout << \"]\\n\";
+	std::cout << \"---------------------------------------\\n\";
+	// Attempt to output the file using next_segment
+	char l_line[256];
+	for (int l_bsize = 256;
+	    l_test_stream.next_segment (&l_line[0], l_bsize);
+	    l_bsize = 256) {
+	    // Use string in case not nul-terminated
+	    std::string l_temp (&l_line[0], l_bsize);
+	    std::cout << \"[\" << l_temp << \"]\\n\"; }}
+      else {
+	std::cout << \"File is not a gaussian log file.\\n\"; }
+      std::cout << \"---------------------------------------\\n\";
+      // Output stream status
+      std::cout << \"Stream flags: BAD [\" << on_off (l_test_stream.bad ());
+      std::cout << \"] EOF [\" << on_off (l_test_stream.eof ());
+      std::cout << \"] FAIL [\" << on_off (l_test_stream.fail ());
+      std::cout << \"] GOOD [\" << on_off (l_test_stream.good ());
+      std::cout << \"]\\n\";
+      std::cout << \"---------------------------------------\\n\"; }
+    catch (const std::exception &err) {
+      std::cout << \"Caught standard exception\\n\";
+      std::cout << err.what() << \"\\n\"; }
+  std::cout << \"---------------------------------------\\n\"; }
+  return Result;
+}
+#endif
+
+"
+      simplerelation 130217
+	-_->
+	  on artifact_ref 151977 // gaussian_detect
+      end
+    end
+
+    artifact 152617 "gaussian_structure"
+      stereotype "source"
+      associated_classes
+	class_ref 151465 // gaussian_structure
+      end
+      comment "
+// Manual header includes
+#include <vector>
+#include <sstream>
+//-
+
+// Manual source includes
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+// --
+// The symbol retrieved by the filter manager
+extern \"C\" {
+base_filter_traits plugin_object = {
+      \"Gaussian (C) structure  filter\"
+      , \"1.1.0\"
+      , NULL
+      , &supplier::filter::${name}::can_process
+      , &supplier::filter::${name}::process_segment
+      , &supplier::filter::${name}::output
+      , &supplier::filter::${name}::finalise
+      , NULL
+      , PLUGIN_LINE_ORIENTED
+    };
+}"
+    end
+  end
+end

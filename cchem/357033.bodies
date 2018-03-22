@@ -1,0 +1,238 @@
+class memo
+!!!1423913.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
+COMPCHEM_ALWAYS (not is_src () or is_open (), "can not add child to closed memo-src");
+basic_datum * Result (NULL);
+if (data_access::names::datum_name () == a_name)
+{
+  m_results.push_back (new datum (*this, a_label));
+  Result = &(m_results.back ());
+}
+else if (data_access::names::info_name () == a_name)
+{
+  m_info.push_back (new info (*this, a_label));
+  Result = &(m_info.back ());
+}
+else
+{
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
+}
+append_child (*Result);
+return *Result;
+!!!1410601.cpp!!!	add_datum(in a_label : string) : datum
+COMPCHEM_REQUIRE (not is_src () or is_open (), "can not add child to closed memo-src");
+m_results.push_back (new datum (*this, a_label));
+// Datum before info
+if (not m_info.empty ())
+{
+  insert_child (m_info.front (), m_results.back ());
+}
+else
+{
+  append_child (m_results.back ());
+}
+return m_results.back ();
+!!!1423785.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not is_src () or is_open (), "can not add child to closed memo-src");
+m_info.push_back (new info (*this, a_label));
+// Always last
+append_child (m_info.back ());
+return m_info.back ();
+!!!1559721.cpp!!!	compound_formula(in a_form : formula) : void
+m_compound = a_form.moiety ().label ();
+m_formula = a_form.label ();
+!!!1676969.cpp!!!	connect(in a_uri : string) : void
+m_is_open = false;
+m_document = data_access::manager::server ().connect (*this, a_uri);
+if (data_scheme_helper::helper().auto_open_memo ())
+{
+  read ();
+}
+!!!1551017.cpp!!!	find_datum(in a_outcome : string, in a_iter : datum_iterator) : datum_iterator
+datum_iterator Result (a_iter);
+while (Result != end_datum ())
+{
+  if (Result->outcome ().find (a_outcome) < Result->outcome ().size ())
+  {
+    break;
+  }
+  ++Result;
+}
+return Result;
+!!!1551145.cpp!!!	find_datum(in a_outcome : string, in a_iter : const_datum_iterator) : const_datum_iterator
+const_datum_iterator Result (a_iter);
+while (Result != end_datum ())
+{
+  if (Result->outcome ().find (a_outcome) < Result->outcome ().size ())
+  {
+    break;
+  }
+  ++Result;
+}
+return Result;
+!!!1410985.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not m_label.empty (), "Attempting to get_attribute of an invalid memo object.");
+bool Result (false);
+if (data_access::names::label_name () == a_name)
+{
+  a_value.assign (m_label);
+  Result = true;
+}
+else if (data_access::names::mechanism_name () == a_name)
+{
+  if (not m_mechanism.empty ())
+  {
+    a_value.assign (m_mechanism);
+    Result = true;
+  }
+}
+else if (data_access::names::href_name () == a_name)
+{
+  if (not m_href.empty ())
+  {
+    a_value.assign (m_href);
+    Result = true;
+  }
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  if (not m_filters.empty ())
+  {
+    a_value.assign (m_filters);
+    Result = true;
+  }
+}
+else if (data_access::names::formula_name () == a_name)
+{
+  if (not m_formula.empty ())
+  {
+    a_value.assign (m_formula);
+    Result = true;
+  }
+}
+else if (data_access::names::compound_name () == a_name)
+{
+  if (not m_compound.empty ())
+  {
+    a_value.assign (m_compound);
+    Result = true;
+  }
+}
+return Result;
+!!!1498025.cpp!!!	make_src(in a_path : path) : void
+m_is_open = true;
+m_document = data_access::manager::server ().connect (*this, a_path.string ());
+!!!1682857.cpp!!!	remove_priv(inout a_datum : datum) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (datum_iterator l_f = begin_datum (); l_f != end_datum (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_results.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1682473.cpp!!!	remove_priv(inout a_datum : info) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (info_iterator l_f = begin_info (); l_f != end_info (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_info.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1410857.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::mechanism_name () == a_name)
+{
+  COMPCHEM_REQUIRE (not is_src () or is_open (), "can not set mechanism attribute of memo-src object.");
+  m_mechanism.swap (a_value);
+}
+else if (data_access::names::href_name () == a_name)
+{
+  // Do not use the memo-src/@href as the memo/@href
+  if (not is_src () or is_open ())
+  {
+    m_href.swap (a_value);
+  }
+  else
+  {
+    COMPCHEM_ALWAYS (std::string::npos != uri ().find (a_value), "can not change the memo-src uri using set_attribute");
+  }
+}
+else if (data_access::names::filter_name () == a_name)
+{
+  COMPCHEM_REQUIRE (not is_src () or is_open (), "can not set filter attribute of memo-src object.");
+  m_filters.swap (a_value);
+}
+else if (data_access::names::formula_name () == a_name)
+{
+  if (m_formula.empty ())
+  {
+    m_formula.swap (a_value);
+  }
+  else
+  {
+    COMPCHEM_ALWAYS (a_value == m_formula, "memo object formula labels cannot be changed once set.");
+  }
+}
+else if (data_access::names::compound_name () == a_name)
+{
+  if (m_compound.empty ())
+  {
+    m_compound.swap (a_value);
+  }
+  else
+  {
+    COMPCHEM_ALWAYS (a_value == m_compound, "memo object compound labels cannot be changed once set.");
+  }
+
+}
+else if (data_access::names::label_name () == a_name)
+{
+  if (m_label.empty ())
+  {
+    m_label.swap (a_value);
+  }
+  else
+  {
+    COMPCHEM_ALWAYS (m_label == a_value, "memo object labels cannot be changed once set.");
+  }
+}
+else
+{
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, "memo objects do not have an attribute named " + a_name);
+}
+
+!!!1663145.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// datum*,info*
+COMPCHEM_ALWAYS (not empty_datum () or not empty_info ()
+                 , "attempt to remove child from empty object");
+// a_datum should be an info object!
+bool object_is_my_child (false);
+if (not empty_datum ())
+{
+  datum * l_tmp (dynamic_cast< datum * >(a_datum));
+  if (NULL != l_tmp)
+  {
+    object_is_my_child = true;
+    remove_priv (*l_tmp);
+  }
+}
+if (not object_is_my_child and not empty_info ())
+{
+  info * l_tmp (dynamic_cast< info * >(a_datum));
+  if (NULL != l_tmp)
+  {
+    object_is_my_child = true;
+    remove_priv (*l_tmp);
+  }
+}
+COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");

@@ -1,0 +1,30 @@
+class TerminationStatus
+!!!260521.cpp!!!	processLine(in current_line : string) : void
+      if ( current_line.size() > 25 &&
+	   current_line.find( " termination " ) < GAUS_LINE_WIDTH )
+	{
+	  // remove leading/trailing white space from string.
+	  _m_terminationString = PurpleTree::chomp( current_line );
+	  // If this is not a "Normal" termination, then abort processing
+	  if ( current_line.find( "Normal" ) > GAUS_LINE_WIDTH )
+	    {
+	      _m_terminationString.insert( 0, "TerminationStatus Error: " );
+	      throw  Filters::IllegalStateException( _m_terminationString.c_str() );
+	    };
+	};
+    
+!!!260777.cpp!!!	output(inout experimentNode : DOM::Node) : void
+      if ( !_m_terminationString.empty() )
+	{
+	  // Create a DAN element to hold the result
+	  DOM::String _l_dan( "dan" );
+	  DOM::String _l_atName( "name" );
+	  DOM::String _l_value( "status" );
+	  DOM::Element *_new_node = experimentNode->getOwnerDocument()->createElement( _l_dan.c_str() );
+	  _new_node->setAttribute( _l_atName.c_str(), _l_value.c_str() );
+	  // Set the DOM string from the termination line
+	  _l_value = output();
+	  _new_node->appendChild( experimentNode->getOwnerDocument()->createTextNode( _l_value.c_str() ) );
+	  experimentNode->appendChild( _new_node );
+	};
+    

@@ -1,0 +1,160 @@
+class compound
+!!!1383721.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
+basic_datum * Result (NULL);
+if (data_access::names::formula_name () == a_name)
+{
+  m_instances.push_back (new formula (*this, a_label));
+  Result = &m_instances.back ();
+}
+else if (data_access::names::identity_name () == a_name)
+{
+  m_identity.push_back (new identity (*this, a_label));
+  Result = &m_identity.back ();
+}
+else if (data_access::names::info_name () == a_name)
+{
+  COMPCHEM_ALWAYS (NULL == m_info.get (), "Can not add more than one info object");
+  m_info.reset (new info (*this, a_label));
+  Result = m_info.get ();
+}
+else
+{
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
+}
+append_child (*Result);
+return *Result;
+!!!1182889.cpp!!!	add_formula(in a_label : string) : formula
+// LOCAL
+m_instances.push_back (new formula (*this, a_label));
+// formulae are always last
+append_child (m_instances.back ());
+return m_instances.back ();
+!!!1383593.cpp!!!	add_identity(in a_label : string) : identity
+// LOCAL
+// Create new object.
+m_identity.push_back (new identity (*this, a_label));
+// Insert: Identity is first elements.
+if (has_information ())
+{
+  insert_child (*(m_info.get ()), m_identity.back ());
+}
+else if (not m_instances.empty ())
+{
+  insert_child (m_instances.front (), m_identity.back ());
+}
+else
+{
+  append_child (m_identity.back ());
+}
+return m_identity.back ();
+!!!1113129.cpp!!!	add_info(in a_label : string) : info
+COMPCHEM_REQUIRE (not has_information (), "You can not add more than one info object");
+// To set a node we check if node exists, and replace if not equal OR we insert in the right place.
+m_info.reset (new info (*this, a_label));
+// Insert: Info is before formula elements.
+if (not m_instances.empty ())
+{
+  insert_child (m_instances.front (), *(m_info.get ()));
+}
+else
+{
+  append_child (*(m_info.get ()));
+}
+return *(m_info.get ());
+!!!1501737.cpp!!!	find_formula(in a_label : string) : formula_iterator
+return std::find_if (begin_formula (), end_formula ()
+    , boost::bind (std::equal_to< std::string >(), boost::bind (&formula::label, _1), a_label));
+!!!1659689.cpp!!!	find_formula(in a_label : string) : const_formula_iterator
+return std::find_if (begin_formula (), end_formula ()
+    , boost::bind (std::equal_to< std::string >(), boost::bind (&formula::label, _1), a_label));
+!!!1384233.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+COMPCHEM_REQUIRE (not label ().empty (), "Attempting to write an invalid compound object.");
+bool Result (false);
+// Process attributes.
+if (a_name == data_access::names::label_name ())
+{
+  a_value.assign (m_label);
+  Result = true;
+}
+else if (a_name == data_access::names::category_name ())
+{
+  if (not m_categories.empty ())
+  {
+    a_value.assign (m_categories);
+    Result = true;
+  }
+}
+return Result;
+!!!1678761.cpp!!!	remove_priv(inout a_datum : formula) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (formula_iterator l_f = begin_formula (); l_f != end_formula (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_instances.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1678889.cpp!!!	remove_priv(inout a_datum : identity) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (identity_iterator l_f = begin_identity (); l_f != end_identity (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_identity.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1384105.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::category_name () == a_name) 
+{
+  m_categories.swap (a_value);
+}
+else if (data_access::names::label_name () == a_name) 
+{
+  COMPCHEM_ALWAYS (a_value == label (), serial_name () + " object labels cannot be changed after construction");
+}
+else
+{
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+}
+
+!!!1662505.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// formula*, identity* or info?
+COMPCHEM_ALWAYS (not empty_formula () or not empty_identity () or has_information ()
+                 , "attempt to remove child from empty object");
+if (has_information () and m_info.get () == a_datum)
+{
+  m_info.reset ();
+}
+else
+{
+  bool object_is_my_child (false);
+  if (not empty_formula ())
+  {
+    formula * l_tmp (dynamic_cast< formula * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  if (not object_is_my_child and not empty_identity ())
+  {
+    identity * l_tmp (dynamic_cast< identity * >(a_datum));
+    if (NULL != l_tmp)
+    {
+      object_is_my_child = true;
+      remove_priv (*l_tmp);
+    }
+  }
+  COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");
+}

@@ -1,0 +1,36 @@
+format 24
+
+componentcanvas 128041 component_ref 128937 // report
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 332 200 2000 179 61
+arrowjunctioncanvas 128169 class_ref 180393 // project_cursor
+  xyz 238 141 2000
+componentcanvas 128425 component_ref 128425 // data_source
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 60 47 2000 179 61
+componentcanvas 128681 component_ref 128809 // supplier
+  draw_component_as_icon default show_component_req_prov default show_component_rea default
+  xyzwh 45 342 2000 179 61
+arrowjunctioncanvas 128809 class_ref 181545 // data_supplier
+  xyz 296 313 2000
+arrowjunctioncanvas 129193 class_ref 178729 // connector
+  xyz 105 222 2000
+arrowjunctioncanvas 129577 class_ref 178729 // connector
+  xyz 392 96 2000
+line 128297 ---(
+  from ref 128041 z 1999 to ref 128169
+line 128553 ---O
+  from ref 128425 z 1999 to ref 128169
+line 128937 ---(
+  from ref 128041 z 1999 to ref 128809
+line 129065 ---O
+  from ref 128681 z 1999 to ref 128809
+line 129321 ---(
+  from ref 128681 z 1999 to ref 129193
+line 129449 ---O
+  from ref 128425 z 1999 to ref 129193
+line 129705 ---O
+  from ref 128425 z 1999 to ref 129577
+line 129833 ---(
+  from ref 128041 z 1999 to ref 129577
+end

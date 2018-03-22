@@ -1,0 +1,6 @@
+format 29
+
+classinstance 128041 class_ref 361001 // ccfilter
+  xyz 137 65 2000 name "the_app"  xyz 137 65 2000
+no_msg
+end

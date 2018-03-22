@@ -1,0 +1,1310 @@
+format 61
+"newcalc" // /compchem/programs::newcalc
+  revision 48
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "programs/newcalc"
+  cpp_src_dir "../src/programs/newcalc"
+  cpp_namespace "cchem::newcalc"
+  ncouples 1
+  key "PREFIX" value "COMPCHEM_NEWCALC_"
+  comment "Newcalc is a program to create shell script files for
+computational chemistry programs.  It is actually more
+general than that, as it allows the creation of text
+files from some template.
+
+V1: The first version is a single program that combines
+input variables with a template to get a file or files. 
+This version uses X11/XMT for the GUI and the template.
+The simplifies runtime user configuration somewhat at the 
+expense a complex definition. (completed 11/2007)
+
+V2: This version will use an XML configuration file that
+will generate the GUI on-the-fly.  It will be split into
+a translation engine and a GUI driver.
+"
+  classview 139305 "newcalc"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 140585 // newcalc
+    classdiagram 142889 "NewCalc"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 381353 "newcalc"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Newcalc is a script writer; it manages the construction of a series of scripts."
+      class 381481 "guistate_type"
+	visibility public stereotype "typedef" explicit_base_type "guistate"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      attribute 283561 "m_parent"
+	private type class_ref 381481 // guistate_type
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The owning guistate object.  This is not set until register_with_x11 is
+called."
+      end
+
+      attribute 283433 "m_application"
+	class_attribute private type class_ref 381353 // newcalc
+	init_value "(NULL)"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The application object."
+      end
+
+      attribute 293673 "m_class"
+	class_attribute const_attribute private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The suppposed class name (blank here)"
+      end
+
+      attribute 282281 "m_name"
+	class_attribute const_attribute private explicit_type "string"
+	init_value "(\"NewCalc\")"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The application name (derived from the name the program was called as."
+      end
+
+      operation 1230761 "application_name"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return m_name; }
+"
+	
+	
+	
+	
+	comment "The X11 application name.  This can simply be a value derived from argv[0]."
+      end
+
+      operation 1230889 "application_class"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return m_class; }
+"
+	
+	
+	
+	
+	comment "The X11 application class name. If this an empty string it will be derived from the application name"
+      end
+
+      operation 1235881 "close"
+	private explicit_return_type "void"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  COMPCHEM_REQUIRE (NULL != m_parent, \"Can not call close without guistate parent\");
+  m_parent->close (); }
+"
+	
+	
+	
+	
+	comment "Close the application"
+      end
+
+      operation 1235753 "data_write"
+	private explicit_return_type "void"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Write the script file."
+      end
+
+      operation 1231017 "display"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "self" type class_ref 381481 // guistate_type
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract} {}
+"
+	
+	
+	
+	
+	comment "This method is called after the user interface has been created but before it is displayed. It
+is the place for the application to push data into the interface."
+      end
+
+      operation 1278505 "find_variable"
+	private explicit_return_type "string"
+	nparams 3
+	  param in name "a_str" explicit_type "string"
+	  param out name "a_start" explicit_type "uint"
+	  param out name "a_end" explicit_type "uint"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} & ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Find occurences of '%%var%%' and return \"var\" and set a_start and a_end"
+      end
+
+      operation 1278249 "generate"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "a_scope" type class_ref 384681 // scope
+	  param in name "a_dir" type class_ref 361513 // path
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method creates the result files. We create the result directory and 
+filenames on-the-fly. "
+      end
+
+      operation 1278377 "make_substitutions"
+	private explicit_return_type "string"
+	nparams 2
+	  param in name "a_str" explicit_type "string"
+	  param in name "a_scope" type class_ref 384681 // scope
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Convert the input string into final form by making substitutions from a_scope
+and elsewhere."
+      end
+
+      operation 1234089 "newcalc"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "a_argc" explicit_type "int"
+	  param inout name "a_argv" explicit_type "char"
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}${t0} & ${p0}, ${t1} ** ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${t0} & ${p0}, ${t1} ** ${p1}${)}${volatile}${throw}
+: m_parent (NULL) {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1234217 "~newcalc"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1234345 "newcalc"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 381353 // newcalc
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1235625 "notifier"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "a_widg" explicit_type "widget_t"
+	  param in name "client_data" explicit_type "any"
+	  param in name "calldata" explicit_type "any"
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method is registered with the Xmt system and acts as trigger callback."
+      end
+
+      operation 1234473 "operator="
+	private return_type class_ref 381353 // newcalc
+	nparams 1
+	  param in name "source" type class_ref 381353 // newcalc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1231913 "register_with_x11"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_self" type class_ref 381481 // guistate_type
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} * ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "This method is called before attempting to create an X11 connection. It should be
+used to register static information with the library.  For example this is the 
+place to register functions and widget types with the Xmt resource converter."
+      end
+
+      operation 1231657 "resource_file"
+	class_operation public explicit_return_type "string"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type}& ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  const static std::string Result(\"/home/finnerty/lib/app-defaults/NewCalc.ad\");
+  // const static std::string Result(\"NewCalc.ad\");
+  return Result; }
+"
+	
+	
+	
+	
+	comment "The X11 application resorce filename. This may not exist, the guistate system
+will check for this file, then attempt to look for other files in standard locations."
+      end
+
+      operation 1278121 "write_body"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "a_base" explicit_type "resource_path"
+	  param inout name "a_scope" type class_ref 384681 // scope
+	  param inout name "a_os" explicit_type "ostream"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}, ${t2} & ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Write a subsection starting from a_base resource path onto a_os stream.  Substitutions should be made from a_scope."
+      end
+
+      classrelation 358569 // <dependency>
+	relation 349993 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 358569 // <dependency>
+	  b parent class_ref 361513 // path
+      end
+
+      classrelation 358697 // <dependency>
+	relation 350121 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 358697 // <dependency>
+	  b parent class_ref 384681 // scope
+      end
+    end
+
+    class 384681 "scope"
+      abstract visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A scope is the table of entities that are available to construct the script.  It acts as the interface
+between the datasoure and the interpreter.
+
+ROLE: Objects of this type mediate the retrieval of information from the resource database.
+
+SCOPE: This base object provides an interface where the only indication of the underlying
+database is the resource_path and string based keys."
+      operation 1242409 "base"
+	abstract const cpp_virtual public explicit_return_type "resource_path"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "Get the template's base resource path."
+      end
+
+      operation 1264169 "has_value"
+	const cpp_virtual public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_path" explicit_type "resource_path"
+	  param inout name "a_result" explicit_type "string"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract} {
+bool Result (this->has_value_virt (${p0}, ${p1}));
+if (m_log) {
+  if (Result) {
+    std::cout << \"## Got configuration [\" << ${p0}.string () << \"], value [\" << ${p1} << \"]\\n\"; }
+  else {
+    std::cout << \"## No configuration for [\" << ${p0}.string () << \"]\\n\"; }}
+return Result; }
+"
+	
+	
+	
+	
+	comment "A test version of value() where a_result contains a meaningful value if
+the return value is true.  This should be used when you want to retrieve
+a value only if it is truly present."
+      end
+
+      operation 1276969 "has_value_virt"
+	abstract const cpp_virtual public explicit_return_type "bool"
+	nparams 2
+	  param in name "a_path" explicit_type "resource_path"
+	  param inout name "a_result" explicit_type "string"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "A test version of value() where a_result contains a meaningful value if
+the return value is true.  This should be used when you want to retrieve
+a value only if it is truly present."
+      end
+
+      operation 1254313 "operator="
+	private return_type class_ref 384681 // scope
+	nparams 1
+	  param in name "source" type class_ref 384681 // scope
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1254825 "scope"
+	public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw} {};
+"
+	
+	
+	
+	
+      end
+
+      operation 1254185 "scope"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 384681 // scope
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1254697 "~scope"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1261225 "value"
+	const public explicit_return_type "string"
+	nparams 2
+	  param in name "a_key" explicit_type "string"
+	  param in name "a_path" explicit_type "resource_path"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract} {
+  return value (${p1} / ${p0}); }
+"
+	
+	
+	
+	
+	comment "Return the value of variable a_key in the given resource path context"
+      end
+
+      operation 1261353 "value"
+	const public explicit_return_type "string"
+	nparams 1
+	  param in name "a_path" explicit_type "resource_path"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract} {
+  std::string Result;
+  has_value (${p0}, Result); 
+  return Result; }"
+	
+	
+	
+	
+	comment "Return the value of variable a_key in the given resource path context"
+      end
+
+      attribute 293801 "m_log"
+	class_attribute private explicit_type "bool"
+	init_value "= false"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Whether to produce log output of the configuration searches."
+      end
+    end
+
+    class 392105 "scope_local"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "A decoration for the scope class that adds the ability to fix some of the 'attribute' values."
+      classrelation 352809 // <generalisation>
+	relation 344233 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 352809 // <generalisation>
+	  b parent class_ref 384681 // scope
+      end
+
+      class 392233 "const_iterator"
+	visibility package stereotype "typedef" explicit_base_type "string"
+	cpp_decl "${comment}typedef std::map< ${type}, ${type} >::${name} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 352937 // m_up (<directional aggregation>)
+	relation 344361 o-->
+	  a role_name "m_up" multiplicity "1" private
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 352937 // m_up (<directional aggregation>)
+	  b parent class_ref 384681 // scope
+      end
+
+      attribute 291241 "m_local"
+	private explicit_type "string"
+	cpp_mutable cpp_decl "    ${comment}${static}${mutable}${volatile}${const}std::map< ${type}, ${type} > ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The local value map"
+      end
+
+      operation 1266601 "add_local"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_key" explicit_type "string"
+	  param in name "a_val" explicit_type "string"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract} {
+  m_local [${p0}] = ${p1}; }
+"
+	
+	
+	
+	
+	comment "Add a local value. It may replace an existing value."
+      end
+
+      operation 1275561 "base"
+	const cpp_virtual public explicit_return_type "resource_path"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return m_up.${name} (); };
+"
+	
+	
+	
+	
+	comment "Get the template's base resource path."
+      end
+
+      operation 1266473 "has_value_virt"
+	const protected explicit_return_type "bool"
+	nparams 2
+	  param in name "a_path" explicit_type "resource_path"
+	  param inout name "a_result" explicit_type "string"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "A test version of value() where a_result contains a meaningful value if
+the return value is true.  This should be used when you want to retrieve
+a value only if it is truly present."
+      end
+
+      operation 1265833 "scope_local"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "a_up" type class_ref 384681 // scope
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${inline}explicit ${name}${(}${t0} & ${p0}${)}${volatile}${throw}
+: scope(), m_up (${p0}), m_local () {}
+
+"
+	
+	
+	
+	
+      end
+
+      operation 1265961 "~scope_local"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 388649 "scope_working"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "An object of this class mediates with the main database."
+      class 387369 "guistate_type"
+	visibility package stereotype "typedef" explicit_base_type "guistate"
+	cpp_decl "${comment}typedef ${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl "${comment}typedef ${type} ${name};
+"
+	explicit_switch_type ""
+	
+      end
+
+      classrelation 346921 // <generalisation>
+	relation 338345 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 346921 // <generalisation>
+	  b parent class_ref 384681 // scope
+      end
+
+      attribute 289833 "m_path"
+	const_attribute private explicit_type "resource_path"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The base resource path of this scope"
+      end
+
+      classrelation 347177 // m_parent (<directional aggregation>)
+	relation 338601 o-->
+	  a role_name "m_parent" multiplicity "1" private
+	    comment "The parent context from which to obtain values."
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} & ${name}${value};
+"
+	    classrelation_ref 347177 // m_parent (<directional aggregation>)
+	  b parent class_ref 387369 // guistate_type
+      end
+
+      operation 1275433 "base"
+	const public explicit_return_type "resource_path"
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return m_path; }
+"
+	
+	
+	
+	
+	comment "Get the template's base resource path."
+      end
+
+      operation 1264297 "has_value_virt"
+	const cpp_virtual protected explicit_return_type "bool"
+	nparams 2
+	  param in name "a_path" explicit_type "resource_path"
+	  param inout name "a_result" explicit_type "string"
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract} {
+  return parent ().get_configuration_string (${p0}.string (), ${p1}); }
+"
+	
+	
+	
+	
+	comment "A test version of value() where a_result contains a meaningful value if
+the return value is true.  This should be used when you want to retrieve
+a value only if it is truly present."
+      end
+
+      operation 1253801 "parent"
+	const public return_type class_ref 387369 // guistate_type
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return m_parent; };
+"
+	
+	
+	
+	
+      end
+
+      operation 1253929 "scope_working"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "a_base" explicit_type "resource_path"
+	  param inout name "a_parent" type class_ref 387369 // guistate_type
+	nexceptions 1
+	  exception class_ref 395817 // bad_alloc
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}, ${t1} & ${p1}${)}${volatile}${throw}
+: m_path (${p0})
+, m_parent (${p1}) {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1254057 "~scope_working"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	nexceptions 1
+	  explicit_exception ""
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 140585 "newcalc"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 173993 "newcalc"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual include
+#include <boost/filesystem/path.hpp>
+#include <Xmt/Xmt.h> 
+#include <Xmt/Procedures.h> 
+#include \"guistate/gui.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}
+
+"
+      associated_classes
+	class_ref 381353 // newcalc
+      end
+    end
+
+    artifact 176809 "newcalc_main"
+      stereotype "source"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+#include \"programs/newcalc/newcalc.hpp\"
+
+int main (int argc, char** argv) {
+  cchem::newcalc::newcalc::guistate_type l_appl (argc, argv);
+  l_appl.display (); }
+"
+      associated_classes
+      end
+      comment "This file contains the application main function.  It contains no class."
+    end
+
+    artifact 175145 "scope"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual includes
+#include <map>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 384681 // scope
+	class_ref 392105 // scope_local
+	class_ref 388649 // scope_working
+      end
+    end
+  end
+
+  usecaseview 129705 "newcalc"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 381225 "user"
+      visibility package stereotype "actor"
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    usecase 133289 "create script"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      collaborationdiagram 143017 "create script"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	size A4
+      end
+    end
+
+    usecasediagram 143145 "newcalc"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    usecase 133417 "instantiate_gui"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+      collaborationdiagram 143273 "instantiate gui"
+	show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+	size A4
+      end
+
+      classinstance 128169 "appl"
+	type class_ref 381353 // newcalc
+	attributes
+	  end
+	relations
+	  end
+      end
+
+      class 381609 "configuration_db"
+	visibility package 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+      end
+    end
+
+    usecase 133545 "respond_to_user"
+      //use case diagram settings
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      //sequence diagram settings
+      show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+      //collaboration diagram settings
+      show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+      //object diagram settings
+       write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+      //state diagram settings
+      package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+      show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+      //activity diagram settings
+      package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+      show_infonote default drawing_language default show_stereotype_properties default
+    end
+  end
+
+  classview 141609 "test"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 141737 // test
+    class 393385 "scope_test"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 354089 // <generalisation>
+	relation 345513 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 354089 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      operation 1267753 "scope_test"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1267881 "~scope_test"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1268009 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {
+  return std::string (\"Scope Test\"); }
+"
+	
+	
+	
+	
+      end
+
+      operation 1268137 "main_test"
+	const public explicit_return_type "int"
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param in name "argv" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      classrelation 355497 // <dependency>
+	relation 346921 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 355497 // <dependency>
+	  b parent class_ref 388649 // scope_working
+      end
+
+      classrelation 355625 // <dependency>
+	relation 347049 -_->
+	  a package
+	    cpp default "#include in source"
+	    classrelation_ref 355625 // <dependency>
+	  b parent class_ref 381353 // newcalc
+      end
+    end
+  end
+
+  deploymentview 141737 "test"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 176553 "scope_test"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 393385 // scope_test
+      end
+    end
+
+    artifact 176681 "ns_test"
+      stereotype "source"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+#include \"programs/newcalc/scope_test.hpp\"
+
+// Exemplars
+static cchem::newcalc::scope_test l_scope;
+
+"
+      associated_classes
+      end
+    end
+  end
+end

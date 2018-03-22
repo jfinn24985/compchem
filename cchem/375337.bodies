@@ -1,0 +1,158 @@
+class guistate_impl
+!!!1220393.cpp!!!	get_configuration_string(in a_resource_name : string, out a_value : string) : bool
+int Result;
+char* valueType = XtRString;
+XrmValue valueRet; /* { int size, void* addr }*/
+COMPCHEM_LOG ("Entering get_configuration_string for [" + a_resource_name + "]");
+COMPCHEM_REQUIRE (NULL != m_database, "Should not call get_configuration_string before initialising system");
+Result = XrmGetResource (m_database,
+			 a_resource_name.c_str (),
+			 m_class.c_str (),
+			 &valueType,
+			 &valueRet);
+if (Result) {
+  COMPCHEM_DLOG ("Got configuration ["); 
+  COMPCHEM_DLOG (valueType); COMPCHEM_DLOG ("] [");
+  COMPCHEM_DLOG (a_resource_name); COMPCHEM_DLOG ("]: ["); 
+  if (NULL != valueRet.addr) {
+    a_value.assign (valueRet.addr); 
+    COMPCHEM_DLOG ((char*)valueRet.addr); COMPCHEM_DLOG ("]\n"); }
+  else {
+    COMPCHEM_DLOG ("NULL]\n"); 
+    a_value.clear (); }}
+else {
+  COMPCHEM_DLOG("No configuration value found\n"); }
+return static_cast< bool > (Result);
+
+!!!1223337.cpp!!!	display() : void
+XtRealizeWidget(m_toplevel);
+XmtDisplayDefaultCursor(m_toplevel);
+XtAppMainLoop(m_ctxt);
+!!!1223593.cpp!!!	get_widget_priv() : void
+std::string l_resource (m_name + ".configuration.widgetList");
+COMPCHEM_LOG ("Using resource label [" + l_resource + "]\n");
+std::string l_name_list;
+if (not get_configuration_string (l_resource, l_name_list)) {
+  throw std::domain_error ("Unable to determine attribute widget data_access::names: Is \""+ l_resource +"\" resource set?"); }
+std::vector < std::string > l_list;
+guistate::utility::convert_string_to_list (l_name_list, l_list);
+if (l_list.empty ()) {
+  throw std::domain_error ("Attribute widget list must have entries: Check \""+ l_resource +"\" resource?"); }
+// Remove any white space from strings
+std::for_each (l_list.begin (), l_list.end (), &guistate::utility::chomp);
+// Create list is attribute widgets.
+m_widgets.resize (l_list.size ());
+// Convert widget data_access::names to the widgets
+for (std::vector < std::string >::size_type l_i (0);
+     l_i != l_list.size ();
+     ++l_i) {
+  m_widgets [l_i].first = l_list[l_i];
+  m_widgets [l_i].second = XmtNameToWidget (m_toplevel, l_list[l_i].c_str ());
+  if (NULL == m_widgets [l_i].second) {
+    throw std::domain_error ("Unable to find attribute widget matching name \"" + l_list[l_i] + "\""); }}
+
+!!!1221161.cpp!!!	guistate_impl(in a_name : string, in a_class : string)
+COMPCHEM_REQUIRE (not m_name.empty (), "An application must have a non-empty X11 name");
+if (m_class.empty ()) {
+  m_class.assign (m_name);
+  m_class[0] = toupper(m_class[0]);
+  if ('X' == m_class[0]) {
+    COMPCHEM_REQUIRE (1 < m_class.size (), "An application can not have name of only 'X'");
+    m_class[1] = toupper(m_class[1]); }}
+!!!1221673.cpp!!!	initialise(in a_rsc_file : string, inout a_argc : int, inout a_argv : char) : void
+//====================================================================
+// This rather long method creates the X windows part of the
+// application. Several features contribute to the long method:   
+// (1) This method allowes the application resource file to be
+//     specified and can deduce the applclass.   
+// (2) It creates fallback resources to create a simple dialog when no
+//     application resources are found.   
+// (3) It registers the widgets classes and Xmt methods that should be
+//     available to the application.   
+// (4) It adds support for the "editres" program.   
+//====================================================================
+std::string l_filename (a_rsc_file); 
+// Test if the file is accessable
+if (access(l_filename.c_str (), R_OK) == -1) {
+  COMPCHEM_LOG("Unable to access file [" + l_filename + "]");
+  l_filename.clear (); }
+if (l_filename.empty ()) {
+  // Use XtFindFile to resource file based on the app-name.
+  std::stringstream l_findfile;
+  l_findfile << m_name << ":" << m_name << ".ad:"
+             << m_class << ":" << m_class << ".ad:"
+             << "app-defaults/" << m_class
+             << ":app-defaults/" << m_name;
+  xt_ptr< char > l_temp  (XtFindFile(l_findfile.str ().c_str (), NULL, 0, NULL));
+  COMPCHEM_ALWAYS (NULL != l_temp.get (), "Unable to find X11 resource file for application.");
+  l_filename.assign (l_temp.get ());
+  COMPCHEM_ALWAYS (access(l_temp.get (), R_OK) != -1, "Unable to access X11 resource file '" + l_filename + "'."); }
+
+// set the XENVIRONMENT variable to the resource file
+const std::string l_xenv ("XENVIRONMENT");
+setenv(l_xenv.c_str (), l_filename.c_str (), TRUE);
+
+// Now set some fallback resources to notify the user if the app-defaults
+// file was malformed and didn't have valid xmtChildren resource.
+// Using fallback resources is the only way we can know what happens.
+const std::string fallback1 (m_name + ".xmtChildren: XmPushButton _guistate;");
+const std::string fallback2 ("*_guistate.labelString: Error: \\n no `" + m_name
+                        + ".xmtChildren' resource \\n in `"
+                        + l_filename + "'. ");
+String fallbacks[4];
+fallbacks[0] = (char*)fallback1.c_str ();
+fallbacks[1] = (char*)fallback2.c_str ();
+fallbacks[2] = "*_guistate.activateCallback: exit(0);";
+fallbacks[3] = NULL;
+
+// and finally go create the root shell widget.
+// This call also parses Xmt command-line options,
+// registers type converters, and reads Xmt app resources.
+m_toplevel = XmtInitialize(&m_ctxt,
+			   (char*)m_class.c_str (), 
+			   NULL, 
+			   0,
+			   &a_argc, 
+			   (String*)a_argv, 
+			   fallbacks, 
+			   NULL, 
+			   0);
+COMPCHEM_ALWAYS (NULL != m_toplevel, "Unable to create top level shell of application.");
+  
+// if any args remain, it is a syntax error; issue a warning.
+for(int i=1; i < a_argc; i++) {
+  if ((a_argv[i] != m_name) && (a_argv[i] != l_filename)) {
+    XmtWarningMsg ((char*)m_name.c_str (), "badarg", "unknown argument '%s'.", a_argv[i]); }}
+
+// register all known Motif and Xmt widgets and procedures 
+XmtRegisterAll();
+
+/*   XmtRegisterWidgetClass("XbaeMatrix", xbaeMatrixWidgetClass); */
+/*   XmtRegisterWidgetClass("XmButtonBox", xmButtonBoxWidgetClass); */
+/*   XmtRegisterWidgetClass("XmColorSelector", xmColorSelectorWidgetClass); */
+/*   XmtRegisterWidgetClass("XmColumn", xmColumnWidgetClass); */
+/*   XmtRegisterWidgetClass("XmDataField", xmDataFieldWidgetClass); */
+/*   XmtRegisterWidgetClass("XmExt18List", xmExt18ListWidgetClass); */
+/*   XmtRegisterWidgetClass("XmFontSelector", xmFontSelectorWidgetClass); */
+/*   XmtRegisterWidgetClass("XmIconBox", xmIconBoxWidgetClass); */
+/*   XmtRegisterWidgetClass("XmIconButton", xmIconButtonWidgetClass); */
+XmtRegisterWidgetClass("XmTabStack", xmTabStackWidgetClass);
+/*   XmtRegisterWidgetClass("XmTree", xmTreeWidgetClass); */
+
+XtAddEventHandler(m_toplevel, 0, True,
+		  (XtEventHandler)_XEditResCheckMessages, NULL);
+// Get X database
+COMPCHEM_LOG ("Getting Xrm Database");
+m_database = XtDatabase (XtDisplay (m_toplevel));
+COMPCHEM_LOG ("Got Xrm Database");
+
+XmtCreateChildren(m_toplevel);
+!!!1220521.cpp!!!	warning_and_ask(in a_res_name : string, in a_def_msg : string, in a_yes_lbl : string, in a_no_lbl : string, in a_help : string) : int
+return XmtDisplayWarningAndAsk(m_toplevel,
+				a_res_name.c_str (),
+				a_def_msg.c_str (),
+				a_yes_lbl.c_str (),
+				a_no_lbl.c_str (),
+				XmtYesButton,
+				a_help.c_str ());
+

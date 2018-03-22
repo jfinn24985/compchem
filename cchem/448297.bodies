@@ -1,0 +1,3 @@
+class xml_element_reader
+!!!1432489.cpp!!!	~xml_element_reader()
+m_notify_on_completion (is_valid () and is_complete ());

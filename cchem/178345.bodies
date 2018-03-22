@@ -1,0 +1,130 @@
+class datum
+!!!316585.cpp!!!	add_scale_translation(in a_label : string, in a_scale : double) : void
+// local
+// require
+REQUIRE(false == has_scale_translation (a_label), "Duplicate entries not allowed.");
+// do
+if (NULL == s_scale_translation_map)
+{
+  s_scale_translation_map = new std::map< std::string, double >;
+}
+s_scale_translation_map->insert (std::make_pair (a_label, a_scale)); 
+!!!315433.cpp!!!	get_dimension() : string
+// local
+std::string result;
+// require
+REQUIRE(false == is_source(), "This object has no internal results");
+// do
+if (has_attribute (S_DIMENSION_NAME, m_rep))
+{
+ result = get_attribute (S_DIMENSION_NAME, m_rep);
+}
+// end
+return result;
+!!!315305.cpp!!!	get_format() : string
+// require
+REQUIRE(has_attribute (S_FORMAT_NAME, m_rep), "Cannot get value for non-existant attribute");
+// do
+return get_attribute (S_FORMAT_NAME, m_rep);
+!!!315561.cpp!!!	get_scale() : string
+// require
+REQUIRE(has_attribute (S_SCALE_NAME, m_rep), "Cannot get value of empty attribute");
+// do
+return get_attribute (S_SCALE_NAME, m_rep);
+!!!316841.cpp!!!	get_scale_translation(in a_label : string) : double
+// require
+REQUIRE(has_scale_translation (a_label), "Cannot get non-existant scale");
+CHECK(NULL != s_scale_translation_map, "Cannot get anything from non-existant map");
+// do
+return (*s_scale_translation_map)[a_label];
+!!!316457.cpp!!!	get_scale_value() : double
+// local
+double result;
+// require
+REQUIRE(is_scale_value (), "Scale must be a value");
+// do
+if (has_scale())
+{
+  std::string l_scale = get_scale();
+  if (has_scale_translation (l_scale))
+  {
+    result = get_scale_translation (l_scale);
+  }
+  else
+  {
+    result = purpletree::conversion_cast< double > (l_scale);
+  }
+}
+else
+{
+  result = 1.0;
+}
+return result;
+!!!326697.cpp!!!	get_source() : string
+// require
+REQUIRE(true == is_source (), "Cannot get source from this object");
+// do
+return get_attribute(S_HREF_NAME, m_rep);
+!!!317097.cpp!!!	get_value() : string
+// require
+REQUIRE(false == is_source(), "This object has no internal results");
+// do
+return purpletree::dom::get_utf8 (m_rep.node_value ());
+!!!315177.cpp!!!	has_format() : bool
+return has_attribute (S_FORMAT_NAME, m_rep);
+!!!315689.cpp!!!	has_scale() : bool
+return has_attribute (S_SCALE_NAME, m_rep);
+!!!316713.cpp!!!	has_scale_translation(in a_label : string) : bool
+// local
+bool result(false);
+// require
+REQUIRE(false == a_label.empty (), "Cannot search for an empty label");
+// do
+if (NULL != s_scale_translation_map)
+{
+  result = (s_scale_translation_map->find (a_label) != s_scale_translation_map->end ());
+}
+// end
+return result;
+!!!316073.cpp!!!	is_scale_value() : bool
+// local
+bool result(false);
+// require
+REQUIRE(false == is_source(), "This object has no internal results");
+// do
+if (has_scale())
+{
+  std::string l_scale = get_scale();
+  if (has_scale_translation (l_scale))
+  {
+    result = true;
+  }
+  else
+  {
+    // Use conversion cast attempt with success reporting.
+    /* IGNORE RESULT */ purpletree::conversion_cast< double > (l_scale, result);
+  }
+}
+else
+{
+ result = true;
+}
+// end
+return result;
+!!!326569.cpp!!!	is_source() : bool
+return check_name(S_DATUM_SRC_NAME, m_rep);
+!!!316969.cpp!!!	set_scale_translation(in a_label : string, in a_scale : double) : void
+// require
+REQUIRE(has_scale_translation (a_label), "Cannot change a scale value that does not exist");
+CHECK(NULL != s_scale_translation_map, "Cannot change a scale value in empty map");
+// do
+(*s_scale_translation_map)[a_label] = a_scale;
+!!!324777.cpp!!!	datum(in a_node : purpletree::dom::node)
+// require
+REQUIRE(check_name (S_DATUM_NAME, m_rep) or check_name (S_DATUM_SRC_NAME, m_rep) , "Node name is incorrect for this object");
+!!!325289.cpp!!!	datum(in a_parent : base_result)
+// require
+REQUIRE(check_name (S_DATUM_NAME, m_rep) or check_name (S_DATUM_SRC_NAME, m_rep), "Node name does not match object type");
+!!!325161.cpp!!!	operator=(in source : datum) : datum
+m_rep = source.m_rep;
+return *this;

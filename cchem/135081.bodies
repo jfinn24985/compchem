@@ -1,0 +1,14 @@
+class information
+!!!319657.cpp!!!	get_text() : text
+// require
+CHECK(has_element(S_TEXT_NAME, m_rep), "Invalid_document"); 
+// do
+return info (get_element(S_TEXT_NAME, m_rep)); 
+!!!326825.cpp!!!	information(in a_node : node)
+// require
+REQUIRE(true == check_name (S_INFORMATION_NAME, m_rep), "Node name, object class mismatch");
+!!!327209.cpp!!!	operator=(in source : information) : information
+// do
+m_rep = source.m_rep;
+// end
+return *this;

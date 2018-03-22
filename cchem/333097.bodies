@@ -1,0 +1,6 @@
+class db_locator
+!!!996777.cpp!!!	operator=(in source : db_locator) : db_locator
+database = source.get_database ();
+host = source.get_host ();
+port = source.get_port ();
+return *this;

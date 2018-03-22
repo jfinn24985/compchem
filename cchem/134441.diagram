@@ -1,0 +1,24 @@
+format 29
+
+artifactcanvas 128041 artifact_ref 151977 // gaussian_file
+  xyz 240 247 2000
+artifactcanvas 128169 artifact_ref 154281 // gaussian_file_test
+  xyz 211 355 2000
+artifactcanvas 128425 artifact_ref 153897 // base_linestream
+  xyz 238 157 2005
+artifactcanvas 128553 artifact_ref 153769 // base_bufstream
+  xyz 79 157 2010
+artifactcanvas 128681 artifact_ref 154025 // base_filestream
+  xyz 236 70 2000
+packagecanvas 129193 
+  package_ref 129065 // filetype
+    xyzwh 42 19 2000 388 307
+simplerelationcanvas 128297 simplerelation_ref 130217
+  from ref 128169 z 1999 to ref 128041
+simplerelationcanvas 128809 simplerelation_ref 130345
+  from ref 128425 z 1999 to ref 128681
+simplerelationcanvas 128937 simplerelation_ref 130473
+  from ref 128553 z 1999 to ref 128681
+simplerelationcanvas 129065 simplerelation_ref 130601
+  from ref 128041 z 1999 to ref 128425
+end

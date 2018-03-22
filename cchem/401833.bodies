@@ -1,0 +1,11 @@
+class matcher_regex
+!!!1297065.cpp!!!	process_part(in a_target : string, out a_result : string) : bool
+// LOCAL
+boost::smatch l_result;
+const bool Result (boost::regex_search (a_target, l_result, finder));
+// DO
+if (Result)
+{
+  l_result.format (format).swap (a_result);
+}
+return Result;

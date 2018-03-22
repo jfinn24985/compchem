@@ -1,0 +1,36 @@
+format 61
+
+classcanvas 128041 class_ref 519593 // basic_uri
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 87 23 2005
+end
+classcanvas 128169 class_ref 519977 // xml2_uri_traits
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 274 21 2000
+end
+classcanvas 128297 class_ref 520489 // uri
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 223 278 2000
+end
+classcanvas 128553 class_ref 520617 // test_xml2_uri
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 477 214 2000
+end
+relationcanvas 128425 relation_ref 548009 // <realization>
+  from ref 128297 z 1999 label "<T_traits->xml2_uri_traits>" xyz 118 236 1999 to ref 128041
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128937 relation_ref 548265 // <directional composition>
+  from ref 128553 z 1999 to point 493 163
+  line 129065 z 1999 to point 431 221
+  line 129193 z 1999 to ref 128553
+  role_a_pos 399 221 3000 no_role_b
+  multiplicity_a_pos 459 251 3000 no_multiplicity_b
+end
+relationcanvas 129321 relation_ref 548393 // <dependency>
+  from ref 128553 z 1999 to ref 128297
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

@@ -1,0 +1,395 @@
+format 61
+"/compchem/programs" // /compchem/programs
+  revision 16
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "programs"
+  cpp_src_dir "../src/programs"
+  cpp_namespace "programs"
+  classview 171049 "application"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 168105 // application
+    classdiagram 167849 "application classes"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 505513 "basic_application"
+      visibility package 
+      nformals 1
+      formal name "t_app" type "class" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Template class that provides the boilerplate code required for 
+application initialisation.  It uses the curiously recurring template
+idiom to allow polymorphism without virtual functions. Derived
+class need to implement the following functions.
+
+register_options () => Any initialisation required before option
+processing.
+int main () => The main part of the application to perform operations
+after option processing."
+      classrelation 536361 // <dependency>
+	relation 519081 -_->
+	  a package
+	    cpp default "#include in header"
+	    classrelation_ref 536361 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      operation 1607465 "~basic_application"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw} {}
+"
+	
+	
+	
+	
+      end
+
+      operation 1607209 "main"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param inout name "argv" explicit_type "char"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ** ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process the input file."
+      end
+    end
+
+    class 506921 "application_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 538281 // <dependency>
+	relation 521001 -_->
+	  a default
+	    cpp default "#include in header"
+	    classrelation_ref 538281 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 538153 // <dependency>
+	relation 520873 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 538153 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      attribute 423337 "m_map"
+	private explicit_type "string"
+	multiplicity "*"
+	stereotype "map"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${stereotype}<${type}, ${type}> ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The map of initialisation results.."
+      end
+
+      operation 1609897 "application_py"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: m_map ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1610153 "application_py"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 506921 // application_py
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} &${)}${volatile}${throw};
+"
+	
+	
+	
+	
+	comment "no copy"
+      end
+
+      operation 1610025 "~application_py"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1609641 "initialise"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "a_argv" explicit_type "boost::python::list"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Process the command line/config file etc."
+      end
+
+      operation 1610281 "operator="
+	private return_type class_ref 506921 // application_py
+	nparams 1
+	  param in name "source" type class_ref 506921 // application_py
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} &${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+	comment "no assign"
+      end
+
+      operation 1609513 "option_value"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "a_opt" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  return m_map [${p0}];
+}"
+	
+	
+	
+	
+	comment "Get a value set for a_opt (if any)."
+      end
+
+      operation 1609385 "register_option"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "a_opt" explicit_type "string"
+	  param in name "a_letter" explicit_type "char"
+	  param in name "a_help" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Add an option defined by a_opt to the application. Include a_help message
+in the usage message."
+      end
+
+      operation 1610409 "set_option"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "a_opt" explicit_type "string"
+	  param in name "a_value" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract}
+{
+  m_map [${p0}] = ${p1};
+}
+"
+	
+	
+	
+	
+	comment "Set a configuration option."
+      end
+
+      extra_member 148649 "BOOST_PYTHON_MODULE(program)"
+	
+	cpp "" "// This file defines the python wrappers for the program namespace
+// into the program python module.
+
+BOOST_PYTHON_MODULE(program)
+{
+ boost::python::class_< programs::application_py, boost::noncopyable >(\"application\",
+        \"Initialisation manager class for the compchem system.\",
+        boost::python::init<>()
+        )
+ .def(\"initialise\", &programs::application_py::initialise, 
+         \"Perform application initialisation. This parses the command line, the \\n\"
+         \"configuration file and the environment.\")
+ .def(\"register_option\", &programs::application_py::register_option,
+         \"Add an initialisation option. This only makes sense before calling initialise.\")
+ .def(\"option_value\", &programs::application_py::option_value,
+         \"Get the value of an option. This only makes sense after calling initialise.\")
+ ; 
+}
+
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+  end
+
+  deploymentview 168105 "application"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 246185 "basic_application"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 505513 // basic_application
+      end
+    end
+
+    artifact 247593 "application_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+// Manual header includes
+#include <boost/python/list.hpp>
+// -
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual source includes
+#include <boost/python.hpp>
+#include <boost/python/extract.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 506921 // application_py
+      end
+    end
+  end
+
+  package_ref 147241 // testcode
+
+  package_ref 134313 // expt
+
+  package_ref 129577 // get_freq
+
+  package_ref 133801 // newcalc
+end

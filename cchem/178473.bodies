@@ -1,0 +1,73 @@
+class base_result
+!!!314153.cpp!!!	get_content() : std::vector< base_result >
+// local
+std::vector< base_result > result;
+// require
+REQUIRE(true == has_content (), "Cannot get non-existant content");
+// do
+if (m_rep.has_child_nodes ())
+{
+  // Has nodes, put any "element" nodes into result. Our location means we should not 
+  // need to check for ATTRIBUTE_NODE or DOCUMENT_*_NODEs. 
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (l_child.ELEMENT_NODE == l_child.node_type ())
+    {
+      result.push_back(l_child);
+    }
+    CHECK(l_child.ATTRIBUTE_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_TYPE_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_FRAGMENT_NODE != l_child.node_type (), "Illegal node found");
+  } 
+}
+// ensure
+REQUIRE(false == result.empty(), "Require has_content = true");
+// end
+return result;
+!!!313129.cpp!!!	get_name() : string
+// local
+std::string result;
+// require
+// do
+CHECK(has_attribute (S_NAME_NAME, m_rep), "Invalid document");
+result = get_attribute (S_NAME_NAME, m_rep);
+// ensure
+ENSURE(false == result.empty (), "Datum should have a name");
+// end
+return result;
+!!!323497.cpp!!!	has_content() : bool
+// local
+bool result = (m_rep.node_name () == S_BAG_NAME);
+// require
+#ifdef DEBUG_CHECK
+{
+  bool l_test = false;
+  // Has nodes, check that none of them are "element" nodes. Our location means we should not 
+  // need to check for ATTRIBUTE_NODE or DOCUMENT_*_NODEs. 
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	l_test or not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (l_child.ELEMENT_NODE == l_child.node_type ())
+    {
+      CHECK(result, "Only bag nodes can have sub-trees");
+      l_test = true;
+    }
+    CHECK(l_child.ATTRIBUTE_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_TYPE_NODE != l_child.node_type (), "Illegal node found");
+    CHECK(l_child.DOCUMENT_FRAGMENT_NODE != l_child.node_type (), "Illegal node found");
+  } 
+  CHECK(result and l_test, "bag nodes require a sub-tree");
+}
+#endif // DEBUG_CHECK
+REQUIRE(result and m_rep.has_child_nodes (), "bag elements need children");
+// ensure
+// end
+return result;
+!!!313257.cpp!!!	base_result(in a_node : purpletree::dom::node)
+// require
+REQUIRE(is_element (a_node), "Require a DOM element node");

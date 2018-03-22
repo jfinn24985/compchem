@@ -1,0 +1,17 @@
+class TreeViewColumn
+!!!700201.cpp!!!	TreeViewColumn(in title : Glib::ustring, in column : TreeModelColumn<T_ModelColumnType>)
+  pack_start(column, true /* expand */);
+!!!700585.cpp!!!	pack_start(in column : TreeModelColumn<T_ModelColumnType>, in expand : bool = true) : void
+  //Generate appropriate Renderer for the column:
+  CellRenderer* pCellRenderer = manage( CellRenderer_Generation::generate_cellrenderer<T_ModelColumnType>() );
+
+  //Use the renderer:
+  pack_start(*pCellRenderer, expand);
+  set_renderer(*pCellRenderer, column);
+!!!700713.cpp!!!	pack_end(in column : TreeModelColumn<T_ModelColumnType>, in expand : bool = true) : void
+  //Generate appropriate Renderer for the column:
+  CellRenderer* pCellRenderer= manage( CellRenderer_Generation::generate_cellrenderer<T_ModelColumnType>() );
+
+  //Use the renderer:
+  pack_end(*pCellRenderer, expand);
+  set_renderer(*pCellRenderer, column);

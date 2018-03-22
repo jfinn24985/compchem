@@ -1,0 +1,3 @@
+class _xml_tan_init
+!!!192553.cpp!!!	_xml_tan_init()
+  xml_rb_node::add_maker( "tan",  new maker_cmd_T<xml_tan>() );

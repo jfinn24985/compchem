@@ -1,0 +1,58 @@
+class merge
+!!!311721.cpp!!!	get_compound_label() : string
+// check
+CHECK(true == has_attribute (S_COMPOUND_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_COMPOUND_NAME, m_rep);
+!!!320553.cpp!!!	get_experiments() : std::vector<  experiment >
+// local
+std::vector< experiment > result;
+// do
+// get "experiment" nodes
+for (purpletree::dom::node l_child = m_rep.first_child ();
+     not l_child.is_null ();
+     l_child = l_child.next_sibling ())
+{
+  if (true == check_name (S_EXPERIMENT_NAME, l_child))
+  {
+    result.push_back (l_child);
+  }
+}
+// ensure
+ENSURE(false == result.empty (), "Invalid document, merge must contain experiment sub-nodes");
+// end
+return result;
+!!!336169.cpp!!!	get_formula_label() : string
+// check
+CHECK(true == has_attribute (S_FORMULA_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_FORMULA_NAME, m_rep);
+!!!320681.cpp!!!	get_formulations() : std::vector< formulation >
+// local
+std::vector< formulation > result;
+// do
+// get "formulation" nodes
+for (purpletree::dom::node l_child = m_rep.first_child ();
+     not l_child.is_null ();
+     l_child = l_child.next_sibling ())
+{
+  if (true == check_name (S_FORMULATION_NAME, l_child))
+  {
+    result.push_back (l_child);
+  }
+}
+// end
+return result;
+!!!336297.cpp!!!	get_project_label() : string
+// check
+CHECK(true == has_attribute (S_PROJECT_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_PROJECT_NAME, m_rep);
+!!!336425.cpp!!!	merge(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_MERGE_NAME, m_rep), "Note, object type mismatch");
+!!!336809.cpp!!!	operator=(in source : merge) : merge
+// do
+m_rep = source.m_rep;
+// end
+return *this;

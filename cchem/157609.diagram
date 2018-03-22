@@ -1,0 +1,18 @@
+format 55
+
+fragment 128041 "system initialisation"
+  xyzwh 55 60 2000 163 82
+end
+fragment 128169 "filter initialisation"
+  xyzwh 54 152 2000 184 76
+end
+fragment 128297 "scan data document and build result tree"
+  xyzwh 54 237 2000 271 72
+end
+fragment 128425 "scan XML DB tree for insert position"
+  xyzwh 54 315 2000 245 87
+end
+fragment 128553 "insert new results"
+  xyzwh 50 409 2000 208 106
+end
+end

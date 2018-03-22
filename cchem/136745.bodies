@@ -1,0 +1,419 @@
+class xml_node
+!!!169001.cpp!!!	initialise(in  : void) : void
+  xml_rb_node::initialise();
+  if ( 0 == xml_node::_c_xml_id_set.count( _S_dict( this ) ) ) {
+    // call c'tor only if necessary
+    xml_node::_c_xml_id_set[ _S_dict( this ) ] = std::set< std::string >();
+  };
+!!!169257.cpp!!!	_attribute(inout _attr : dtd_attribute, in name : string, in value : string) : bool
+#ifdef __DEBUG__
+  bool _ret = false;
+  if ( _attr->allow_attribute( _S_get_id_set( this ), name, value ) ){
+    _ret = xml_rb_node::attribute( name, value );
+    std::cerr << "xml_node::_attribute -> Current ID list is now;" << std::endl;
+    copy( _S_get_id_set( this ).begin(), _S_get_id_set( this ).end(), std::ostream_iterator<std::string>( std::cerr, ", ") );
+    std::cerr << std::endl;
+  };
+  return _ret;
+#else
+  if ( _attr->allow_attribute( _S_get_id_set( this ), name, value ) ){
+    return xml_rb_node::attribute( name, value );
+  } else {
+    return false;
+  };
+#endif
+!!!169513.cpp!!!	__S_change_dictionary(in new_dict : uint) : void
+  DEBUG( "xml_node::__S_change_dictionary -> entered" );
+  // Check for children or siblings.
+  if ( !has_child() && !has_sibling() ) {
+    // The node has no children/siblings, use short dictionary change.
+    DEBUG( "use short dictionary change" );
+    // Remove from old dictionary
+    xml_rb_node::_c_xml_node_map[ _S_dict( this ) ].erase( _S_index( this ) );
+    // Find vacant position and add this element 
+    std::set< std::string > &old_list = _S_get_id_set( this );
+    _S_dict( this ) = new_dict;
+    while ( xml_rb_node::_c_xml_node_map[ new_dict ].find( _S_index( this ) ) 
+	    !=  xml_rb_node::_c_xml_node_map[ new_dict ].end() ) {
+      ++_S_index( this );
+    };
+    xml_rb_node::_c_xml_node_map[ new_dict ][ _S_index( this ) ] = this;
+    // Transfer any attributes
+    if ( has_attributes() ) {
+      dtd_attribute* _attr = get_attrib_defn( tag() );
+      if ( _attr && _attr->has_id() ) {
+	std::set< std::string > _tmp = _attr->extract_ids( old_list, this );
+	DEBUG( "xml_node::__S_change_dictionary -> move id (A) transferring",
+	       _tmp.size() );
+	for ( std::set< std::string >::iterator _i = _tmp.begin();
+	      _i != _tmp.end();
+	      ++_i ) {
+	  if ( !_S_get_id_set( this ).insert( *_i ).second )
+	    throw "xml_node::__S_change_dictionary -> duplicate key";
+	};
+      };
+    };
+  } else {
+    // The node has children/siblings, use long dictionary change.
+    DEBUG( "use long dictionary change" );
+    std::set< std::string > &old_list = _S_get_id_set( this );
+
+    std::vector< xml_rb_node::xml_type > _all_list;
+    std::deque< xml_rb_node::xml_type > _l_stack;
+    std::vector< std::pair<unsigned int,unsigned int> > _bad_list;
+    std::map< unsigned int, xml_rb_node::xml_type> &_dict_old = 
+      xml_rb_node::_c_xml_node_map[ _S_dict( this ) ];
+    std::map< unsigned int, xml_rb_node::xml_type> &_dict_new = 
+      xml_rb_node::_c_xml_node_map[ new_dict ];
+
+    xml_rb_node::xml_type _l_tmp = this;
+    _l_stack.push_back( this );
+    while ( !_l_stack.empty() ) {
+      _l_tmp = _l_stack.front();
+      _l_stack.pop_front();
+      _all_list.push_back( _l_tmp );
+      if ( _S_sibling( _l_tmp ) != 0 )
+	_l_stack.push_back( _dict_old[ _S_sibling( _l_tmp ) ] );
+      if ( _S_child( _l_tmp ) != 0 )
+	_l_stack.push_back( _dict_old[ _S_child( _l_tmp ) ] );
+    };
+    
+    //BEBUG cout << "size of list is " << _all_list.size();
+
+    std::vector<xml_rb_node::xml_type>::iterator _i;
+    unsigned int _new_index;
+
+    for( _i = _all_list.begin(); _i != _all_list.end(); ++_i ) {
+      // get node's index
+      _new_index = _S_index( *_i );
+      // remove from old dictionary
+      _dict_old.erase( _new_index );
+      // check if it exists in new dict
+      if ( _dict_new.find( _new_index ) != _dict_new.end() ) {
+	// index exists in new dictionary
+	// increment to find a vacant spot.
+	while ( _dict_new.find( _new_index ) != _dict_new.end() &&
+		_dict_old.find( _new_index ) != _dict_old.end() ) {
+	  ++_new_index;
+	};
+	// add to bad list
+	_bad_list.push_back( std::make_pair( _S_index( *_i ), _new_index ) );
+	// update internal index
+	_S_index( *_i ) = _new_index;
+      };
+      // Ok, add and update
+      _dict_new[ _new_index ] = *_i;
+      _S_dict( *_i ) = new_dict;
+      if ( (*_i)->has_attributes() ) {
+	dtd_attribute* _attr = get_attrib_defn( (*_i)->tag() );
+	if ( _attr && _attr->has_id() ) {
+	  std::set< std::string > _tmp = _attr->extract_ids( old_list, (*_i) );
+	  DEBUG( "xml_node::__S_change_dictionary -> move id (B) transferring ", 
+		 _tmp.size() );
+	for ( std::set< std::string >::iterator _j = _tmp.begin();
+	      _j != _tmp.end();
+	      ++_j ) {
+	  if ( !_S_get_id_set( this ).insert( *_j ).second )
+	    throw "xml_node::__S_change_dictionary -> duplicate key";
+	};
+	};
+      };
+    };
+    if ( !_bad_list.empty() ) {
+      // have some indices changed. search for them and update
+      std::vector< std::pair<unsigned int,unsigned int> >::iterator _j;
+      for( _i = _all_list.begin(); _i != _all_list.end(); ++_i ) {
+	for ( _j = _bad_list.begin(); _j != _bad_list.end(); ++_j ) {
+	  if ( (*_j).first == _S_parent( *_i )  ) _S_parent( *_i )  = (*_j).second;
+	  if ( (*_j).first == _S_child( *_i )   ) _S_child( *_i )   = (*_j).second;
+	  if ( (*_j).first == _S_sibling( *_i ) ) _S_sibling( *_i ) = (*_j).second;
+	  if ( (*_j).first == _S_preface( *_i ) ) _S_preface( *_i ) = (*_j).second;
+	};
+      };    
+    };
+  };
+!!!169641.cpp!!!	append(in new_child : xml_type, in index : uint = 0) : xml_type
+  // This changes the behviour of the xml_rb_node::append statement
+  // minimally.  If the index is given then the content is added at the
+  // first valid position at or before the given index---otherwise an
+  // exception occurs. NOTE that the entire content is not
+  // checked for validity
+
+  DEBUG( "xml_node::append -> entered, append index is", index );
+  if ( !new_child ) {
+    DEBUG( "xml_node::append -> new child is (null), exiting" );
+    return NULL;
+  };
+
+  // Step through the possible list of nodes, disassociating them from
+  // each other as we go. We need to do this because they may not be
+  // added consecutively, (although it would be good if) the relative
+  // ordering was maintained.
+  DEBUG( "xml_node::append -> trying to add item with tag ", 
+	 new_child->tag().c_str() );
+  xml_node::xml_type _current = new_child;
+  xml_node::xml_type _next;
+  int _index = 0;
+  unsigned int _i = 0;
+  unsigned int start;
+  dtd_content* _content = get_content_defn( tag() );
+
+  while( 1 ) {
+    // Get next sibling..
+    if ( 0 != _S_sibling( _current ) ) {
+      // Sibling exists
+      // - get next sibling
+      _next = _S_get_index( _current, _S_sibling( _current ) );
+      // Break connection
+      _S_sibling( _current ) = 0;
+    } else {
+      // no (more) siblings, set _next to NULL
+      _next = NULL;
+    };
+
+    // Foreach item we are adding:
+    DEBUG( "xml_node::append -> trying to add item number ", _i );
+    
+    // Get list of current tags
+    std::string taglist = _list_content_tags( ':' );
+    DEBUG( "xml_node::append -> number of existing nodes is", 
+	   count( taglist.begin(), taglist.end(), ':' ) );
+
+    // Set bounds for insertion positions
+    // -  Check start position is in upper bound
+    unsigned int taglist_size = count( taglist.begin(), taglist.end(), ':' );
+    if ( index > taglist_size ) {
+      start = 0;
+    } else {
+      start = taglist_size - index;
+    };
+
+    // Try each position until valid index is found (when new_index != -1)
+    if ( _content ) {
+      if ( _content->allow_tag( _current->tag() ) ) {
+	for ( unsigned int count = start + 1; count > 0; --count ) {
+	  DEBUG( "xml_node::append -> trying to add item at", count - 1 );
+	  _index = _content->allow_new_tag_at( taglist, 
+					       _current->tag(), 
+					       count - 1 );
+	  if ( _index >= 0 )
+	    break;
+	};
+	DEBUG( "xml_node::append -> found position = ", _index );
+	// If new_index is -1 then searched all possible positions, have error
+	if ( _index == -1 ) {
+	  throw "xml_node::append -> Attempt to add a node incorrectly.";
+	} else {
+	  xml_rb_node::content( _current, _index );
+	};
+      } else {
+	throw "xml_node::append -> Attempt to add invalid node.";
+      };
+    } else {
+      xml_rb_node::content( _current, start );
+    };
+    
+    // Increment counter
+    ++_i;
+    // Check for next sibling
+    if ( _next ) {
+      _current = _next;
+    } else {
+      break;
+    };
+  };
+  DEBUG( "xml_node::append -> done " );
+  return new_child;
+!!!170025.cpp!!!	attributes(in c_str_array : char) : void
+  // This class simply checks that the attribute is allowable in this
+  // situation and is valid. It does not check that the complete
+  // attribute set is valid.
+
+  // If the array is NULL take a short cut by returning true
+  if ( !c_str_array ) 
+    return;
+  // Check for a attribute description object, if it is not found we
+  // revert to the base class behavior, otherwise we perform our
+  // checks.
+  dtd_attribute* _attr = get_attrib_defn( tag() );
+  if ( !_attr ) {
+    xml_rb_node::attributes( c_str_array );    
+  } else {
+    // Ok we have an attribute description AND attributes, lets try
+    // and add them.
+    for ( int i = 0; 
+	  NULL != c_str_array[i] && NULL != c_str_array[i + 1]; 
+	  i += 2 ) {
+      // The string array should be arranged in name:value pairs with
+      // name == c_str_array[i] and value == c_str_array[i + 1]. Lets
+      // try to add them one by one using the internal _attribute
+      // method.
+      if ( !_attribute( _attr, c_str_array[i], c_str_array[i + 1] ) )
+	// Hmmh, this attribute was not allowed,
+	return;
+    };
+  };
+!!!170281.cpp!!!	attribute(in name : string, in value : string) : bool
+  // This class simply checks that the attribute is allowable in this
+  // situation and is valid. It does not check that the complete
+  // attribute set is valid.
+  if ( value.empty() || value == "" ) return true;
+  dtd_attribute* _attr = get_attrib_defn( tag() );
+  if ( !_attr ) {
+    return xml_rb_node::attribute( name, value );
+  } else {
+    return _attribute( _attr, name, value );
+  };
+!!!170409.cpp!!!	content(in new_child : xml_type, in index : uint = 0) : xml_type
+// This changes the behviour of the xml_rb_node::content statement
+// minimally.  If the index is given then the content is added at the
+// first valid position at or after the given index---otherwise an
+// exception occurs. NOTE that the entire content is not
+// checked for validity
+
+  DEBUG( "xml_node::content -> entered, content index is", index );
+  if ( !new_child ) {
+    return NULL;
+  };
+  // Step through the possible list of nodes, disassociating them from
+  // each other as we go. We need to do this because they may not be
+  // added consecutively, (although it would be good if) the relative
+  // ordering was maintained.
+  DEBUG( "xml_node::content -> trying to add item with tag ", 
+	 new_child->tag().c_str() );
+  xml_node::xml_type _current = new_child;
+  xml_node::xml_type _next;
+  int _index = 0;
+  unsigned int _i = 0;
+  unsigned int start;
+  dtd_content* _content = get_content_defn( tag() );
+
+  while( 1 ) {
+    // Get next sibling..
+    if ( 0 != _S_sibling( _current ) ) {
+      // Sibling exists
+      // - get next sibling
+      _next = _S_get_index( _current, _S_sibling( _current ) );
+      // Break connection
+      _S_sibling( _current ) = 0;
+    } else {
+      // no (more) siblings, set _next to NULL
+      _next = NULL;
+    };
+
+    // Foreach item we are adding:
+    DEBUG( "xml_node::content -> trying to add item number ", _i );
+    
+    // Get list of current tags
+    std::string taglist = _list_content_tags( ':' );
+    DEBUG( "xml_node::content -> number of existing nodes is", 
+	   count( taglist.begin(), taglist.end(), ':' ) );
+    DEBUG( "xml_node::content -> existing tag list is", 
+	   taglist.c_str() );
+
+    // Set bounds for insertion positions
+    // -  Check start position is in upper bound
+    unsigned int taglist_size = count( taglist.begin(), taglist.end(), ':' );
+    if ( index > taglist_size ) {
+      start = taglist_size;
+    } else {
+      start = index;
+    };
+
+    // Try each position until valid index is found (when new_index != -1)
+    if ( _content ) {
+      if ( _content->allow_tag( _current->tag() ) ) {
+	for ( unsigned int count = start; 
+	      count <= taglist_size; 
+	      ++count ) {
+	  DEBUG( "xml_node::content -> trying to add item at", count );
+	  _index = _content->allow_new_tag_at( taglist, 
+					       _current->tag(), 
+					       count );
+	  if ( _index >= 0 )
+	    break;
+	};
+	DEBUG( "xml_node::content -> found position = ", _index );
+	// If new_index is -1 then searched all possible positions, have error
+	if ( _index == -1 ) {
+	  throw "xml_node::content -> Attempt to add a node incorrectly.";
+	} else {
+	  xml_rb_node::content( _current, _index );
+	};
+      } else {
+	throw "xml_node::content -> Attempt to add invalid node.";
+      };
+    } else {
+      xml_rb_node::content( _current, start );
+    };
+        
+    // Increment counter
+    ++_i;
+    // Check for next sibling
+    if ( _next ) {
+      _current = _next;
+    } else {
+      break;
+    };
+  };
+  DEBUG( "xml_node::content -> done " );  
+  return new_child;
+!!!170921.cpp!!!	is_attribute_valid(in setid : bool = false) : bool
+  //  Returns true if the current attributes are valid and when no
+  //  attributes have been defined.
+  DEBUG( "xml_node::is_attribute_valid -> entered" );
+  dtd_attribute* _attr = get_attrib_defn( tag() );
+#ifndef __NO_FEEDBACK__
+  if ( !_attr || 
+	   _attr->valid_attributes( _S_get_id_set( this ), 
+				    attribute_dictionary(), 
+				    setid ) ) {
+    return true;
+  } else {
+    std::cerr << "Error with attributes for element " << tag() << std::endl;
+    std::cerr << "Current attribute list : " << _S_attributes( this ) << std::endl;
+    return false;
+  };
+#else
+  return ( !_attr || 
+	   _attr->valid_attributes( _S_get_id_set( this ), 
+				    attribute_dictionary(), 
+				    setid ) );
+#endif
+!!!171049.cpp!!!	is_content_valid(in setid : bool = false) : bool
+  // Returns true if the current contents are valid or if no content.
+  dtd_content* _content = get_content_defn( tag() );
+  return ( !_content || _content->valid_tag_list( _list_content_tags( ':' ) ) );
+!!!171177.cpp!!!	is_valid(in setid : bool = false) : bool
+  xml_rb_node::iterator _it( this );
+  DEBUG( "xml_node::is_valid -> entered" );
+  while ( _it ) {
+    DEBUG( "xml_node::is_valid -> in loop" );
+    if ( !(*_it).is_attribute_valid( setid ) ||
+	 !(*_it).is_content_valid( setid ) ) return false;
+    ++_it;
+  };
+  return true;
+!!!171305.cpp!!!	add_tag_definition(in tag : string, in content_defn : string, in attrib_defn : string) : bool
+  DEBUG( "xml_node::add_tag_definition entered" );
+  // std::cerr << "xml_node::add_tag_definition entered"  << std::endl;
+  dtd_content* _cont;
+  if ( content_defn.empty() ) {
+    _cont = NULL;
+  } else {
+    _cont = new dtd_content( content_defn );
+  };
+  DEBUG( "xml_node::add_tag_definition made dtd_content ptr" );
+  // std::cerr <<  "xml_node::add_tag_definition made dtd_content ptr" << std::endl;
+  dtd_attribute* _attr;
+  if ( attrib_defn.empty() ) {
+    _attr = NULL;
+  } else {
+    _attr = new dtd_attribute( attrib_defn );
+  };
+  DEBUG( "xml_node::add_tag_definition made dtd_attribute ptr" );
+  // std::cerr <<  "xml_node::add_tag_definition made dtd_attribute ptr" << std::endl;
+  xml_node::_C_defn_lib.insert( std::make_pair( tag, std::make_pair( _cont, _attr ) ) );
+  DEBUG( "xml_node::add_tag_definition added to definition library" );
+  // std::cerr << "xml_node::add_tag_definition added to definition library" << std::endl;
+  return true; // Should check for previous tag...

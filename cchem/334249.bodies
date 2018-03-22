@@ -1,0 +1,118 @@
+class plugin_filter
+!!!1003689.cpp!!!	load(in a_filename : string, in a_filetype : base_filetype) : void
+// LOCAL
+REQUIRE (not is_usable (), "Cannot load a plugin into a usable object.");
+REQUIRE (not a_filename.empty (), "Filename cannot be empty string.");
+REQUIRE (posix_fw::filesystem::is_openable (a_filename), "File cannot be found or cannot be read.");
+// DO
+m_lib_handle = dlopen (a_fullname.c_str(), RTLD_NOW);
+// "m_lib_handle" should not be null, unless a problem occured
+if (NULL != m_lib_handle)
+{
+  // Try retrieving the module initialisation function
+  base_filter::new_method_t l_fcn =
+      static_cast<base_filter::new_method_t> (dlsym (m_lib_handle, NEW_METHOD_NAME));
+  bool l_valid (NULL != l_fcn);
+  // "l_fcn" should not be null, unless a problem occured
+  if (l_valid)
+  {
+    // Try using function to create filter_base object
+    l_valid = (0 == (*l_fcn)(&m_filter_state));
+    CHECK (!l_valid
+	 or (NULL != m_filter_state.m_name
+	   and NULL != m_filter_state.m_version
+	   and NULL != m_filter_state.m_state
+	   and NULL != m_filter_state.m_delete_method
+	   and NULL != m_filter_state.m_is_appropriate
+	   and NULL != m_filter_state.m_merge_output_data
+	   and NULL != m_filter_state.m_process_block), "Invalid filter state object.");
+  }
+  else
+  {
+    LOG ("Unable to retrieve function: ", dlerror());
+  }
+  
+  if (l_valid)
+  {
+    // Test if this is a usable object.
+    l_valid = (0 == (*(m_filter_state.m_is_appropriate)(a_filetype.filetype ().c_str ()
+						      , a_filetype.subtype_info ().c_str ()
+						      , a_filetype.flags())));
+  }
+
+  // If not usable, unload.
+  if (!l_valid)
+  {
+    LOG ("Filter " + a_filename + " can not handle this file type");
+    unload ();
+  }
+  else
+  {
+    LOG ("Filter " + a_filename + " can handle this file type");
+  }
+}
+else
+{
+  // "m_lib_handle" was null so a problem occured
+  LOG ("Unable to load library: ", dlerror());
+};
+!!!1003561.cpp!!!	merge_output_data(inout a_twiglet : any) : void
+// DO
+REQUIRE (is_usable (), "Require a usable plugin object to output data");
+// DO
+*(m_filter_state.m_merge_output_data)(a_twiglet);
+// DONE
+!!!1002921.cpp!!!	~plugin_filter()
+if (is_usable ())
+{
+  unload ();
+}
+!!!1003433.cpp!!!	process_block(in a_block : char, in a_size : uint) : void
+// LOCAL
+static const int l_msg_size(1024);
+char l_error_msg[l_msg_size];
+// PRE
+REQUIRE (is_usable (), "Must have a usable plugin to process block");
+// DO
+switch (*(m_filter_state.m_process_block)(&m_filter_state
+	                                 , a_block
+	                                 , a_size
+	                                 , &l_error_msg[0]
+		                         , l_msg_size))
+{
+  case 0:
+    // Success, do nothing.
+    break;
+  case 1:
+    // Fatal error, need to unload plugin.
+    unload ();
+    // fall through
+  default:
+    // All others are non-fatal.  Log error message.
+    LOG (l_error_msg);
+    break;
+}
+// END
+!!!1003817.cpp!!!	unload() : void
+// LOCAL
+// DO
+
+// Unmake the plugin state if it exists.
+if (m_plugin_state->m_state)
+{
+  if (m_plugin_state->m_delete_method)
+  {
+    (*(m_plugin_state->m_delete_method)(&m_plugin_state));
+  }
+  // TODO CHECK/ENSURE that all elements of m_plugin_state are NULL..
+  m_plugin_state->m_state = NULL;
+};
+
+// Close the plugin library.
+if (m_lib_handle)
+{
+  dlclose (m_lib_handle);
+  m_lib_handle = NULL;
+}
+
+ENSURE (not is_usable (), "Unloaded plugin can not be usable.");

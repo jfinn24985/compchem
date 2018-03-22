@@ -1,0 +1,100 @@
+class compound
+!!!335529.cpp!!!	ensure_compound() : void
+// do
+if (true == check_name (S_COMPOUND_SRC_NAME, m_rep))
+{
+  CHECK(true == has_attribute (S_HREF_NAME, m_rep), "Invalid document");
+  purpletree::dom::node l_new_node (data_source::connector::provide_node (get_attribute_priv (S_HREF_NAME, m_rep), m_rep));
+  CHECK(false == l_new_node.is_null (), "Could not find sub-document");
+  ALWAYS(true == check_name (S_COMPOUND_NAME, l_new_node) 
+         and get_attribute_priv (S_LABEL_NAME, m_rep) == get_attribute_priv (S_LABEL_NAME, l_new_node)
+         , "Incorrect node found")
+  m_rep = l_new_node;
+}
+!!!335145.cpp!!!	get_chem_notations() : std::vector< chem_notation >
+// local
+std::vector< chem_notation > result;
+std::string l_chem_note;
+unsigned int l_start(0), l_end(0);
+// require
+REQUIRE(has_chem_notations (), "Cannot get non-existant notations");
+// do
+l_chem_note = get_attribute (S_CHEM_NOTE_NAME, m_rep);
+do
+{
+  // For each substring, find the cross referenced node.
+  l_end = l_chem_note.find (' ', l_start);
+  purpletree::dom::node l_notation(data_source::connector::find_node (S_CHEM_NOTATION_NAME
+                                       , S_LABEL_NAME
+                                       , purpletree::dom::set_utf8(l_chem_note.substr (l_start, (l_end - l_start)))
+                                       , m_rep));
+  if (false == l_notation.is_null ())
+  {
+    result.push_back (chem_notation (l_notation));
+  }
+  else
+  {
+    LOG(("Invalid cross-reference [" + l_chem_note.substr (l_start, (l_end - l_start)) + "] in formulation/@chem_note, cannot find matching chem_notation").c_str());
+  }
+  l_start = l_end;
+}
+while (l_start < l_chem_note.size ());
+// ensure
+ENSURE(false == result.empty (), "Could not find chem_notations from cross-references");
+//end
+return result;
+!!!335401.cpp!!!	get_formulae() : std::vector< formula >
+// local
+std::vector< formula > result;
+// do
+ensure_compound ();
+if (m_rep.has_child_nodes ())
+{
+  for (purpletree::dom::node l_child = m_rep.first_child ();
+	not l_child.is_null ();
+	l_child = l_child.next_sibling ())
+  {
+    if (l_child.ELEMENT_NODE == l_child.node_type () 
+        and (S_FORMULA_NAME == l_child.node_name () or
+             S_FORMULA_SRC_NAME == l_child.node_name ()))
+    {
+      result.push_back(l_child);
+    }
+  } 
+}
+// ensure
+// end
+return result;
+!!!334889.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+
+!!!334761.cpp!!!	get_information() : information
+ensure_compound ();
+// require
+REQUIRE(true == has_element (S_INFORMATION_NAME, m_rep), "No information sub-tree for this chem_notation");
+// do
+return information (get_element (S_INFORMATION_NAME, m_rep));
+!!!335273.cpp!!!	get_iupac_name() : iupac_name
+ensure_compound ();
+// check
+CHECK(has_element (S_IUPAC_NAME_NAME, m_rep), "Invalid document");
+// do
+return get_element (S_IUPAC_NAME_NAME, m_rep);
+!!!335017.cpp!!!	has_chem_notations() : bool
+return has_attribute (S_CHEM_NOTE_NAME, m_rep);
+!!!334633.cpp!!!	has_information() : bool
+// do
+ensure_compound ();
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!335657.cpp!!!	compound(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_COMPOUND_NAME, m_rep)
+        or true == check_name (S_COMPOUND_SRC_NAME, m_rep), "Node, object type mismatch");
+!!!336041.cpp!!!	operator=(in source : compound) : compound
+// do
+m_rep = source.m_rep;
+// end
+return *this;

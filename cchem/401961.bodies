@@ -1,0 +1,15 @@
+class base_matcher
+!!!1291945.cpp!!!	match(in a_buf : char, in a_sz : uint, in a_off : uint = = 0) : bool
+COMPCHEM_REQUIRE (not no_match (), "No match possible");
+bool Result (false);
+//DO
+const unsigned int l_offset (m_offset->first (a_buf, a_sz, a_off));
+if (l_offset < a_sz) {
+  const unsigned int l_sz (a_sz - l_offset);
+  if (virt_match(a_buf + l_offset, l_sz)) {
+    Result = true; }
+  else {
+    const unsigned int l_end (m_offset->last (a_buf + l_offset, l_sz, a_off + l_offset));
+    if (l_end < l_sz) {
+      m_state |= 1; }}}
+return Result;

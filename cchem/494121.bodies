@@ -1,0 +1,56 @@
+class xml_writer_proxy
+!!!1695017.cpp!!!	end_element() : void
+if (not m_done)
+{
+  if (NULL != m_last_child)
+  {
+    m_last_child->end_element ();
+    COMPCHEM_CHECK (NULL == m_last_child, "child should remove itself.");
+  }
+  m_rep->end_element ();
+  m_done = true;
+  if (NULL != m_parent and m_parent->m_last_child == this)
+  {
+    // detach from parent
+     m_parent->m_last_child = NULL;
+  }
+}
+!!!1694889.cpp!!!	set_child(inout a_child : xml_writer_proxy) : void
+if (NULL != m_last_child)
+{
+  m_last_child->end_element ();
+}
+m_last_child = a_child;
+!!!1575977.cpp!!!	xml_writer_proxy(inout a_parent : xml_writer_proxy, in a_label : string)
+: m_rep (a_parent.m_rep)
+, m_done (false)
+, m_last_child (NULL)
+, m_parent (&a_parent)
+{
+  a_parent.set_child (this);
+  m_rep->start_element (a_label);
+}
+!!!1576489.cpp!!!	xml_writer_proxy(inout a_os : ostream, in a_label : string)
+: m_rep (new xml_writer (a_os))
+, m_done (false)
+, m_last_child (NULL)
+, m_parent (NULL)
+{
+  m_rep->start_element (a_label);
+}
+!!!1700009.cpp!!!	xml_writer_proxy(inout a_rep : xml_writer, in a_label : string)
+: m_rep (a_rep)
+, m_done (false)
+, m_last_child (NULL)
+, m_parent (NULL)
+{
+  m_rep->start_element (a_label);
+}
+!!!1687593.cpp!!!	xml_writer_proxy(inout a_os : ostream, in a_label : string, in a_pub_id : string, in a_sys_id : string)
+: m_rep (new xml_writer (a_os, a_label, a_pub_id, a_sys_id))
+, m_done (false)
+, m_last_child (NULL)
+, m_parent (NULL)
+{
+  m_rep->start_element (a_label);
+}

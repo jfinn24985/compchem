@@ -1,0 +1,12 @@
+class scope_local
+!!!1266473.cpp!!!	has_value_virt(in a_path : resource_path, inout a_result : string) : bool
+const_iterator l_ix (m_local.find (a_path.string ()));
+bool Result;
+if (m_local.end () == l_ix) { // No key
+  Result = m_up.has_value_virt (a_path, a_result);
+  if (Result) {
+    m_local.insert (std::make_pair (a_path.string (), a_result)); }}
+else {
+  Result = true;
+  a_result.assign (l_ix->second); }
+return Result; 

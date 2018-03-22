@@ -1,0 +1,102 @@
+format 41
+
+note 130985 "!! Sample resource file
+.template.parts: standard machine setup algo postscript
+.template.if: \"if ( %%predicate%% ) then\", \"else\", \"endif\"
+.template.for: \"%%start%%, %%predicate%%, %%step%%\", \"end\"
+.tempalte.foreach: \"%%var%%, %%range%%\", \"end\"
+.template.switch: \"%%var%%\", \"%%predicate%%\", \"endpart\", \"end\"
+.template.start \"#!/bin/csh\"
+.template.chain: 11
+
+.standard.sections: \"GAUS\", \"SCFOPT\", \"OTHER\", \"GEOMFILE\", \"SOLV\" (include values obtained from application.)
+.standard.method: \"setenv METH=%%3%%\"
+.standard.xbasis: \"setenv XBASIS=%%4:xbasis%%\"
+
+.machine.parts: justinf cluster
+.machine.sections: \"PMEM\"
+.machine.justinf.predicate: \"`hostname` == justinf\"
+.machine.justinf.pmem: ...
+
+--------
+.base.scripts: %%{attr}%%
+.base.filename: ...
+.base.directory: ...
+.base.parts: header comp setup jobs
+.base.shell.value: \"#!/bin/csh\"
+.base.ifok.value: \"$status == 0\"
+.base.if.value: \"if ( %%predicate%% ) then\"
+.base.endif.value: \"endif\"
+
+.base.header.parts: gaus ...
+
+.base.comp.foreach: m01 justinf
+.base.comp.parts: a b c
+.base.comp.m01.if: {predicate}
+.base.comp.m01.a.value: ...
+
+.base.jobs.foreach: %%{job attr}%%
+.base.jobs.type: afterok  !! Indicate that job list must \"nest\" subs-jobs in \"if (ok) then .. endif\"
+.base.jobs.parts: a b c ..
+
+
+."
+  xyzwh 10 447 2000 595 733
+note 131113 "config file search order:
+~/.<app>.ad
+..."
+  xyzwh 21 13 2000 172 115
+classcanvas 133289 class_ref 384681 // scope
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 206 5 2000
+  end
+classcanvas 133801 class_ref 388649 // scope_working
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 347 5 2000
+  end
+classcanvas 136105 class_ref 392105 // scope_local
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 479 6 2004
+  end
+classcanvas 136617 class_ref 393385 // scope_test
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 369 386 2000
+  end
+classcanvas 136745 class_ref 332585 // unit_test
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 386 248 2000
+  end
+classcanvas 137641 class_ref 381353 // newcalc
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 15 134 2010
+  end
+relationcanvas 134057 relation_ref 338345 // <generalisation>
+  from ref 133801 z 1999 to ref 133289
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 136233 relation_ref 344233 // <generalisation>
+  from ref 136105 z 1999 to ref 133289
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 136361 relation_ref 344361 // <directional aggregation>
+  from ref 136105 z 1999 to point 492 208
+  line 136489 z 1999 to ref 133289
+  role_a_pos 320 117 3000 no_role_b
+  multiplicity_a_pos 320 147 3000 no_multiplicity_b
+relationcanvas 136873 relation_ref 345513 // <generalisation>
+  from ref 136617 z 1999 to ref 136745
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 137385 relation_ref 346921 // <dependency>
+  from ref 136617 z 1999 to ref 133801
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 137769 relation_ref 347049 // <dependency>
+  from ref 136617 z 1999 to ref 137641
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 138665 relation_ref 350121 // <dependency>
+  from ref 137641 z 1999 to ref 133289
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end

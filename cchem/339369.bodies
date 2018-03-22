@@ -1,0 +1,250 @@
+class page_ctl
+!!!1040937.cpp!!!	create_item() : item_iterator
+  // PRE
+  is_valid ();
+  // DO
+  const purpletree::dom::dom_string l_pref (purpletree::dom::set_utf8 (generate_pageref ()));
+  purpletree::dom::document l_doc (get_parent_node ().owner_document ());
+  purpletree::dom::element l_node (l_doc.create_element (get_node_name ()));
+  
+  ENSURE (xml_traits::is_element (l_node, get_node_name ())
+  	, "Newly created node should be an element with correct node_name.");
+  
+  // Add to parent node
+  l_node = get_parent_node ().append_child (l_node);
+  
+  // ** Make the 'page' node valid **
+  
+  // Set the start date attribute
+  xml_traits::set_date_attribute (l_node
+  				, START_DATE_ATTR_NAME
+  				, boost::gregorian::day_clock::local_day()
+  				, true);
+  
+  // Set the initial page reference
+  xml_traits::set_attribute (l_node
+  			   , PAGEREF_ATTR_NAME
+  			   , l_pref);
+  
+  // NOTE: The addition sequence 'title node':'info list node':'entry
+  // list node' is required for a valid 'page' node
+  
+  // Set a dummy title node
+  purpletree::dom::element l_title (l_doc.create_element (TITLE_NODE_NAME));
+  l_node.append_child (l_title);
+  
+  xml_traits::set_node_content (l_title, "Enter title");
+  
+  // Add info list parent node
+  l_node.append_child (l_doc.create_element (REFERENCE_NODE_NAME));
+  
+  // Add entry list parent node
+  l_node.append_child (l_doc.create_element (LOG_NODE_NAME));
+  
+  // Indicate that document is dirty.
+  journal_ctl::make_dirty (l_node.owner_document ());
+  
+  // Create iterator
+  item_iterator Result(*this, l_node);
+  ENSURE (Result != end(), "Iterator for new item should not equal end()");
+  // DONE
+  return Result;
+!!!1041065.cpp!!!	finalise(inout a_cursor : item_iterator) : void
+  REQUIRE (not is_done (a_cursor), "Cannot finalise a page that is already finalised.");
+  xml_traits::set_date_attribute (*a_cursor
+                                  , FINAL_DATE_ATTR_NAME
+                                  , boost::gregorian::day_clock::local_day()
+                                  , true);
+  journal_ctl::make_dirty ((*a_cursor).owner_document ());
+  ENSURE (is_done (a_cursor), "Finalised datum is not done.");
+!!!1041193.cpp!!!	find(in a_pageref : string) : item_iterator
+  // PRE
+  is_valid ();
+  // LOCAL
+  const purpletree::dom::dom_string l_reference (purpletree::dom::set_utf8(a_pageref));
+  item_iterator Result (begin ());
+  // DO
+  for (
+       ; Result != end () && (*Result).get_attribute (page_ctl::PAGEREF_ATTR_NAME) != l_reference
+         ; ++Result) {} // Do nothing in loop
+  ENSURE (Result == end()
+  	or (*Result).get_attribute (page_ctl::PAGEREF_ATTR_NAME) == l_reference,
+  	"Find function should return iterator to correct item OR end()");
+  return Result;
+!!!1041321.cpp!!!	generate_pageref() : string
+  // LOCAL
+  std::string Result(get_pageref_format ());
+  std::ostringstream l_writer;
+  unsigned int l_seq(size () + 1);
+  // PRE
+  is_valid ();
+  // DO
+  
+  // A template/format string to use to automatically generate a new
+  // pageref.  The string can contain any characters.  If the string
+  // contains "YYYY" these will be replaced by the year in four digit
+  // form.  If the string contains any sequence of "#"s they will be
+  // replaced by a sequence number. This is padded with zeros if the
+  // size of the sequence number does not equal or exceed the number of
+  // "#". If the string contains "AA" this is replaced by the initials
+  // of the current experimenter.  If there "YYYY" or "#" are not in the
+  // string, the year and sequence number are appended to the string,
+  // preceded by a dash:
+  
+  // "OLYYYY-####" --> "OL2006-0034"
+  // "BNEYYYY-AA-#" --> "BNE2006-JJF-34"
+  // "LON-AA" --> "LON-JJF-2006-34"
+  // "HWK-####" --> "HWK-0034-2006"
+  // If the string is empty, the initials, date and sequence number are used:
+  // "" --> "JJF-2006-34"
+  
+  // TODO !!!
+  if (Result.empty ())
+  {
+    // Empty string, construct simple pageref
+    l_writer << get_experimenter_initials();
+    l_writer << "-";
+    l_writer << boost::gregorian::day_clock::local_day().year ();
+    l_writer << "-";
+    l_writer << l_seq;
+    Result = l_writer.str ();
+  }
+  else
+  {
+    // Not empty, search for strings to replace
+  
+    // Search for YYYY
+    unsigned int l_pos = Result.find ("YYYY");
+    if (l_pos < Result.size ())
+      {
+        l_writer << boost::gregorian::day_clock::local_day().year ();
+        Result.replace (l_pos, 4
+    		      , l_writer.str ());
+      }
+    //  Search for AA
+    l_pos = Result.find ("AA");
+    if (l_pos < Result.size ())
+      {
+        Result.replace (l_pos, 2, get_experimenter_initials ());
+      }
+    //  Search for #
+    l_pos = Result.find ('#');
+    if (l_pos < Result.size ())
+      {
+        unsigned int l_last = Result.find_first_not_of ('#', l_pos);// find last
+        l_writer << Result.substr (0, l_pos);
+        l_writer << std::setw(l_last - l_pos) << std::setfill('0') << l_seq;
+        l_writer << Result.substr (l_last + 1, Result.size ());
+        Result = l_writer.str ();
+      }
+  }
+  // POST
+  is_valid ();
+  // END
+  return Result;
+!!!1041449.cpp!!!	get_entry_parent_node(inout a_cursor : item_iterator) : purpletree::dom::element
+  // PRE
+  require_valid_iterator (a_cursor);
+  // DO
+  purpletree::dom::element Result (xml_traits::find_node_by_name ((*a_cursor).first_child ()
+  								, LOG_NODE_NAME));
+  ENSURE (not Result.is_null ()
+  	, "Invalid 'page' element without an entry list parent node.");
+  return Result;
+!!!1041577.cpp!!!	get_final_date(in a_cursor : item_iterator) : boost::gregorian::date
+  REQUIRE (is_done (a_cursor), "Cannot get final date from unfinalised page");
+  boost::gregorian::date Result (xml_traits::get_date_attribute (*a_cursor, FINAL_DATE_ATTR_NAME));
+  ENSURE (not Result.is_not_a_date ()
+  	, "Final date must be a valid date.");
+  return Result;
+!!!1041705.cpp!!!	get_information_parent_node(inout a_cursor : item_iterator) : purpletree::dom::element
+  // PRE
+  require_valid_iterator (a_cursor);
+  // DO
+  purpletree::dom::element Result (xml_traits::find_node_by_name ((*a_cursor).first_child ()
+  								, REFERENCE_NODE_NAME));
+  ENSURE (not Result.is_null ()
+  	, "Invalid 'page' element without an information list parent node.");
+  return Result;
+!!!1042089.cpp!!!	get_start_date(in a_cursor : item_iterator) : boost::gregorian::date
+  require_valid_iterator (a_cursor);
+  boost::gregorian::date Result (xml_traits::get_date_attribute (*a_cursor, START_DATE_ATTR_NAME));
+  ENSURE (not Result.is_not_a_date (), "A page requires a valid start date.");
+  return Result;
+!!!1042217.cpp!!!	get_title(in a_cursor : item_iterator) : string
+  require_valid_iterator (a_cursor);
+  purpletree::dom::node l_item (xml_traits::find_node_by_name ((*a_cursor).first_child ()
+  							     , TITLE_NODE_NAME));
+  REQUIRE (not l_item.is_null (), "A 'page' must have a 'title'.");
+  std::string Result (xml_traits::get_node_content (l_item));
+  ENSURE (not Result.empty (), "A 'page' must have a non-empty 'title'.");
+  return Result;
+!!!1042601.cpp!!!	is_done(in a_control : item_ctl) : bool
+  // PRE
+  REQUIRE (NULL != a_control, "Control must not be null");
+  purpletree::dom::node l_node (a_control->get_parent_node ().parent_node ());
+  REQUIRE (l_node.node_name () == PAGE_NODE_NAME
+  	 , "List control should be for a sub-list of a \"page\" list.");
+  // DO
+  return not l_node.attributes ().named_item (FINAL_DATE_ATTR_NAME).is_null ();
+!!!1042729.cpp!!!	is_valid() : void
+  base_t::is_valid ();
+  INVARIANT (xml_traits::is_element(get_parent_node (), PARENT_NODE_NAME)
+             , "List control must have a parent element of right type.");
+!!!1042857.cpp!!!	is_valid_iterator(in a_cursor : item_iterator) : bool
+  return xml_traits::is_element (*a_cursor, PAGE_NODE_NAME)
+	and not (*a_cursor).get_attribute (START_DATE_ATTR_NAME).empty ();
+!!!1043241.cpp!!!	page_ctl(in a_parent_node : purpletree::dom::element)
+  is_valid ();
+!!!1043625.cpp!!!	set_pageref(inout a_cursor : item_iterator, in a_value : string) : void
+  // PRE
+  require_valid_iterator (a_cursor);
+  REQUIRE (not a_value.empty (), "Can not set a page reference to an empty string.");
+  // DO
+  if (xml_traits::set_attribute (*a_cursor
+  			       , PAGEREF_ATTR_NAME
+  			       , purpletree::dom::set_utf8 (a_value)))
+  {
+    journal_ctl::make_dirty ((*a_cursor).owner_document ());
+  }
+  ENSURE (a_value == get_pageref (a_cursor)
+  	, "Set value does not equal value input to set_pageref.");
+!!!1043753.cpp!!!	set_title(inout a_cursor : item_iterator, in a_value : string) : void
+  // PRE
+  require_valid_iterator (a_cursor);
+  REQUIRE (not a_value.empty (), "Can not set title to an empty string");
+  // DO
+  purpletree::dom::element l_node (xml_traits::find_node_by_name ((*a_cursor).first_child (), TITLE_NODE_NAME));
+  purpletree::dom::document l_doc ((*a_cursor).owner_document ());
+  // if (l_node.is_null ())
+  // {
+  //   // There is no existing node, we need to add one.
+  //   // A title node is at the start of the entry node.
+  //   if ((*a_cursor).has_child_nodes ())
+  //     {
+  //       purpletree::dom::node l_first((*a_cursor).first_child ());
+  //       // Has other child nodes, prepend to first
+  //       l_node = (*a_cursor).insert_before (l_doc.create_element (TITLE_NODE_NAME), l_first);
+  //     }
+  //   else
+  //     {
+  //       // No other child nodes, simply append
+  //       l_node = (*a_cursor).append_child (l_doc.create_element (TITLE_NODE_NAME));
+  //     }
+  // }
+  CHECK (not l_node.is_null (), "Invalid 'page' element with no 'title' element.");
+  if (xml_traits::set_node_content (l_node, a_value))
+  {
+    journal_ctl::make_dirty (l_doc);
+  }
+  // POST
+  ENSURE (a_value == get_title (a_cursor)
+  	, "Set title does not equal value input to set_title.");
+!!!1044009.cpp!!!	get_experimenter_initials() : string
+  return experimenter_initials;
+!!!1044137.cpp!!!	get_pageref_format() : string
+  return pageref_format;
+!!!1044265.cpp!!!	set_experimenter_initials(in value : string) : void
+  experimenter_initials = value;
+!!!1044393.cpp!!!	set_pageref_format(in value : string) : void
+  pageref_format = value;

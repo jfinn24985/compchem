@@ -1,0 +1,57 @@
+class gaussian
+!!!1375913.cpp!!!	operator ()(in a_begin : ForwardIterator, in a_end : ForwardIterator, in a_destination : OutputIterator) : void
+// PRE
+REQUIRE (validate_input (a_begin, a_end), "Input must be in ascending wavenumber order");
+// Get working parameters
+// Ensure correct order of bounds and increase upper bound slightly in case of rounding
+const value_type l_upper (std::max (m_options.upper_bound (), m_options.lower_bound ()));
+const value_type l_lower_bound (std::min (m_options.upper_bound (), m_options.lower_bound ()));
+// TEST
+REQUIRE (l_lower_bound != l_upper, "Lower and Upper bounds must not be equal");
+// Peakwidth
+const value_type l_width (m_options.half_width ());
+// Working increment
+const value_type l_increment ((l_upper - l_lower_bound) / value_type (m_options.size () - 1));
+const value_type l_halfinc (l_increment / value_type (2.0));
+// Adjust working upper bound in case (size() - 1) * l_increment + l_lower_bound > l_upper
+// (which is possible for floating point maths.)
+const value_type l_upper_bound (l_upper + l_halfinc);
+#ifdef LOCAL_DEBUG
+std::cout << "##UPPER= " << l_upper_bound << "\n";
+std::cout << "##LOWER= " << l_lower_bound << "\n";
+std::cout << "##INC=   " << m_options.increment () << "\n";
+std::cout << "##L INC= " << l_increment << "\n";
+std::cout << "##WIDTH= " << l_width << "\n";
+std::cout << "##SIZE=  " << m_options.size () << "\n";
+#endif
+// Precompute divisor
+const value_type l_C (1 / (l_width * l_width * 2));
+
+// Compute output
+for (value_type l_location (m_options.lower_bound ()); l_location < l_upper_bound; l_location += l_increment, ++a_destination)
+{
+  value_type l_maxpeak (0.0);
+  value_type l_value (0.0);
+  for (ForwardIterator l_begin = a_begin; l_begin != a_end; ++l_begin)
+  {
+    // Do gaussian
+    //  f(x) = Ae-((x-B)^2/2C^2) 
+    l_value += l_begin->second * local_exp (-1.0 * (l_location - l_begin->first) * (l_location - l_begin->first) * l_C);
+
+    // Set max peak
+    if (l_location - l_halfinc <= l_begin->first && l_begin->first <= l_location + l_halfinc)
+    {
+      l_maxpeak = std::max (l_maxpeak, l_begin->second);
+    }
+  }
+  // Set output
+  *a_destination = std::make_pair (l_location, std::max (l_maxpeak, l_value));
+}
+!!!1376169.cpp!!!	validate_input(in a_begin : ForwardIterator, in a_end : ForwardIterator) : bool
+ForwardIterator l_a (a_begin);
+ForwardIterator l_b (a_begin);
+if (l_b != a_end) { // handle a_begin == a_end
+  for (++l_b;
+       l_b != a_end and l_b->first >= l_a->first;
+       ++l_b, ++l_a) {}} // No body
+return (l_b == a_end);

@@ -1,0 +1,256 @@
+format 61
+"py" // /compchem/supplier::py
+  revision 5
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "supplier"
+  cpp_src_dir "../src/supplier"
+  cpp_namespace "supplier"
+  classview 172201 "supplier_py"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 169385 // supplier_py
+    comment "Python interface to the supplier library."
+    class 507049 "filter_manager_py"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 542889 // <dependency>
+	relation 521769 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 542889 // <dependency>
+	  b parent class_ref 356009 // compound
+      end
+
+      classrelation 543145 // <dependency>
+	relation 522025 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 543145 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 542377 // <dependency>
+	relation 521257 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 542377 // <dependency>
+	  b parent class_ref 345513 // filter_manager
+      end
+
+      classrelation 543273 // <dependency>
+	relation 522153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 543273 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 542761 // <dependency>
+	relation 521641 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 542761 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 543017 // <dependency>
+	relation 521897 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 543017 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 542505 // <dependency>
+	relation 521385 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 542505 // <dependency>
+	  b parent class_ref 472873 // supplier_helper
+      end
+
+      classrelation 543401 // <dependency>
+	relation 522281 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 543401 // <dependency>
+	  b parent class_ref 496681 // time_stamp
+      end
+
+      operation 1610921 "memo_src_location"
+	public explicit_return_type "string"
+	nparams 2
+	  param in name "a_path" type class_ref 361513 // path
+	  param in name "a_memo_label" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Create a \"unique\" filename for the memo-src location."
+      end
+
+      operation 1610793 "process"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "a_database" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Perform the configured filter operation on a_database."
+      end
+
+      extra_member 148777 "BOOST_PYTHON_MODULE(supplier)"
+	
+	cpp "" "// This file defines the python wrappers for the data_scheme namespace
+// into the data_scheme python module.
+//
+// * meta_datum
+// * xml_file
+// * xml_write_visitor
+
+BOOST_PYTHON_MODULE(supplier)
+{
+  boost::python::class_< supplier::filter_manager_py, boost::noncopyable >(\"filter_manager\",
+        \"Manage the filter process.\",
+        boost::python::init<>()
+        )
+  .def(\"process\", &supplier::filter_manager_py::process
+       , \"Perform the configured filter process into the named database\")
+   ;
+}
+
+"
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+    end
+  end
+
+  deploymentview 169385 "supplier_py"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 255017 "supplier_py"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 144169 // data_scheme
+	artifact_ref 276009 // python_lib
+	artifact_ref 253353 // xml
+	artifact_ref 252841 // program_options
+	artifact_ref 230057 // data_access
+	artifact_ref 254889 // supplier
+	artifact_ref 247721 // filter_manager_py
+	artifact_ref 230313 // filesystem
+	artifact_ref 253097 // date_time
+	artifact_ref 266281 // data_xml_access
+      end
+      ncouples 1
+      key "butter other" value "python-extension"
+    end
+
+    artifact 247721 "filter_manager_py"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <boost/python.hpp>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 507049 // filter_manager_py
+      end
+    end
+  end
+end

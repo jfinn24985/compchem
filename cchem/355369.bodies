@@ -1,0 +1,103 @@
+class datum
+!!!1421481.cpp!!!	add_child(in a_name : string, inout a_label : string) : basic_datum
+if (data_access::names::datum_name () != a_name)
+{
+  const bool bad_child_name (false);
+  COMPCHEM_ALWAYS (bad_child_name, serial_name() + " class has no child with name " + a_name);
+}
+return add_datum (a_label);
+!!!1407529.cpp!!!	get_attribute(in a_name : string, out a_value : string) : bool
+bool Result (false);
+if (data_access::names::outcome_name () == a_name)
+{
+  if (not m_outcome.empty ())
+  {
+    a_value.assign (m_outcome);
+    Result = true;
+  }
+}
+else if (data_access::names::format_name () == a_name)
+{
+  if (not m_format.empty ())
+  {
+    a_value.assign (m_format);
+    Result = true;
+  }
+}
+else if (data_access::names::scale_name () == a_name)
+{
+  if (not m_scale.empty ())
+  {
+    a_value.assign (m_scale);
+    Result = true;
+  }
+}
+else if (data_access::names::ordinal_name () == a_name)
+{
+  if (m_ordinal != NO_ORDINAL)
+  {
+    a_value.assign (boost::lexical_cast< std::string >(m_ordinal));
+    Result = true;
+  }
+}
+return Result;
+!!!1681449.cpp!!!	remove_priv(inout a_datum : datum) : void
+COMPCHEM_REQUIRE (&(a_datum.parent ()) == this, "attempt to remove an object that is not a child of this object.");
+bool object_is_child (false);
+for (datum_iterator l_f = begin_datum (); l_f != end_datum (); ++l_f)
+{
+  if (&(*l_f) == &a_datum)
+  {
+    m_data.erase (l_f);
+    object_is_child = true;
+    break;
+  }
+}
+COMPCHEM_ENSURE (true == object_is_child, "child object not found in child list");
+!!!1397033.cpp!!!	set_attribute(in a_name : string, in a_value : string) : void
+if (data_access::names::outcome_name () == a_name) 
+{
+  m_outcome.swap (a_value);
+}
+else if (data_access::names::dimension_name () == a_name)
+{
+  m_dim.swap (a_value);
+}
+else if (data_access::names::format_name () == a_name)
+{
+  m_format.swap (a_value);
+}
+else if (data_access::names::scale_name () == a_name)
+{
+  m_scale.swap (a_value);
+}
+else if (data_access::names::ordinal_name () == a_name)
+{
+  try
+  {
+    ordinal (boost::lexical_cast< int >(a_value));
+  }
+  catch (const boost::bad_lexical_cast& a_err)
+  {
+    const bool ordinal_value_is_not_an_integer (false);
+    COMPCHEM_ALWAYS (ordinal_value_is_not_an_integer, a_err.what ());
+  }
+}
+else
+{
+  const bool bad_attribute_name (false);
+  COMPCHEM_ALWAYS (bad_attribute_name, serial_name () + " objects do not have an attribute named " + a_name);
+}
+
+!!!1662633.cpp!!!	virt_remove_child(inout a_datum : basic_datum) : void
+// datum*
+COMPCHEM_ALWAYS (not empty_datum (), "attempt to remove child from empty object");
+// a_datum should be a datum object!
+bool object_is_my_child (false);
+datum * l_tmp (dynamic_cast< datum * >(a_datum));
+if (NULL != l_tmp)
+{
+  object_is_my_child = true;
+  remove_priv (*l_tmp);
+}
+COMPCHEM_ALWAYS (true == object_is_my_child, "attempt to remove non-child object");

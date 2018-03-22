@@ -1,0 +1,13 @@
+format 29
+
+classcanvas 128041 class_ref 139945 // periodic_table
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default shadow default
+  xyz 29 60 2000
+classcanvas 128169 class_ref 346665 // element
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default shadow default
+  xyz 252 52 2000
+relationcanvas 128297 relation_ref 272937 // <directional aggregation by value>
+  from ref 128041 z 1999 to ref 128169
+  role_a_pos 188 135 3000 no_role_b
+  multiplicity_a_pos 227 165 3000 no_multiplicity_b
+end

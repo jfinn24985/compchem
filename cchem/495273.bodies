@@ -1,0 +1,23 @@
+class test_cfm_report
+!!!1579817.cpp!!!	main_test() : void
+// Read database
+data_scheme::program l_program;
+l_program.connect (m_database);
+if (l_program.begin_project () != l_program.end_project ())
+{
+  // Generate report on first project
+  report::project_cfm_report l_reporter;
+  std::ostringstream l_os;
+  l_reporter (*(l_program.begin_project ()), l_os);
+  const std::string l_buffer (l_os.str ());
+  log () << COMM << "Writen file is:\n----\n" << l_buffer << "\n----\n";
+  if (not m_test_file.empty ())
+  {
+    bool_test (utility::filesystem::compare (m_test_file, l_buffer.data (), l_buffer.size ()), "original file matches write buffer");
+  }
+}
+!!!1579945.cpp!!!	register_options() : void
+utility::program_options::helper ().public_options ().add_options ()
+  ("database", boost::program_options::value< std::string >(&m_database), "XML database file")
+  ("test-output", boost::program_options::value< std::string >(&m_test_file), "expected XML output file");
+

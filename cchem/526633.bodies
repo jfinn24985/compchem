@@ -1,0 +1,53 @@
+class xml_writer
+!!!1693097.cpp!!!	add_comment(in a_str : string) : void
+COMPCHEM_REQUIRE (not a_str.empty (), "can not create an empty comment.");
+set_children ();
+m_os << "<!-- " << a_str << " -->";
+!!!1693225.cpp!!!	add_pi(in a_name : string, in a_str : string) : void
+COMPCHEM_REQUIRE (not a_name.empty () and not a_str.empty (), "can not set P.I. with empty content.");
+set_children ();
+m_os << "<?" << a_name << " " << a_str << "?>";
+!!!1693353.cpp!!!	add_text(in a_str : string) : void
+COMPCHEM_REQUIRE (not a_str.empty (), "can not add empty text.");
+set_children ();
+m_os << a_str;
+!!!1692841.cpp!!!	end_element() : void
+if (m_is_empty)
+{
+  m_os << "/>";
+}
+else
+{
+  m_os << "</" << m_element_stack.top () << ">";
+}
+// At end, indicate popped element is non-empty.
+if (m_is_empty) m_is_empty = false;
+m_element_stack.pop ();
+!!!1692969.cpp!!!	start_element(in a_label : string) : void
+set_children ();
+m_is_empty = true;
+m_element_stack.push (a_label);
+m_os << "<" << a_label;
+!!!1692329.cpp!!!	xml_writer(inout a_os : ostream)
+: m_element_stack ()
+, m_is_empty (true)
+, m_os (a_os)
+{}
+!!!1692457.cpp!!!	xml_writer(inout a_os : ostream, in a_label : string, in a_pub_id : string, in a_sys_id : string)
+: m_element_stack ()
+, m_is_empty (true)
+, m_os (a_os)
+{
+  COMPCHEM_REQUIRE (not a_label.empty (), "can not start an XML document without a document element label.");
+  COMPCHEM_REQUIRE (not a_sys_id.empty (), "can not start an XML document without a system ID.");
+  a_os << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+  a_os << "<!DOCTYPE " << a_label;
+  if (not a_pub_id.empty ())
+  {
+    a_os << " PUBLIC \"" << a_pub_id << "\"";
+  }
+  a_os << " \"" << a_sys_id << "\">\n";
+}
+!!!1692585.cpp!!!	~xml_writer()
+set_children ();
+while (not m_element_stack.empty ()) end_element ();

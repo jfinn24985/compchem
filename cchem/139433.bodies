@@ -1,0 +1,152 @@
+class xml_retrieve_helper
+!!!187433.cpp!!!	xml_retrieve_helper(inout basenode : xml_rb_node)
+  if ( !basenode ) {
+    throw "Attempt to create parser with a null initial node.";
+  };
+!!!187561.cpp!!!	~xml_retrieve_helper()
+  while ( !_m_the_stack.empty() ) {
+    _m_the_stack.pop_front();
+  };
+!!!187817.cpp!!!	end_document(in  : void) : xml_import_manager
+ 
+  std::cerr << std::endl;
+  return xml_import_manager::end_document();
+!!!187945.cpp!!!	start_element(in c_tag : char, in c_attrib_dict : char) : xml_import_manager
+  DEBUG( "starttag", "entered" );
+  DEBUG( "starttag, processing tag", c_tag );
+
+#ifdef __FEEDBACK_FOR_READ__
+  static int counter = 0;
+  ++counter;
+  if ( counter > 400 ) {
+    counter = 0;
+    std::cerr << ".";
+  };
+#endif
+
+  // check and process "#PCDATA" in buffer
+  check_for_content( );
+  
+  // check to see if at very first node
+  if ( _m_the_stack.empty() ) {
+    // we are at the "basenode", do some checking
+    if ( !_m_current ) {
+      throw "Parser: Expected to find the root node, found nothing [xml_retrieve_helper.001]";
+    };
+    DEBUG( "starttag (original)", _m_current->tag().c_str() );
+    if ( _m_current->tag() != c_tag ) {
+      // ERROR, trying to change "tag" type of base node
+      std::string msg = std::string("Attempt to change from original node tag  to [" );
+      msg.append( c_tag );
+      msg.append( "]" );
+      DEBUG( "starttag", msg.c_str() );
+      throw msg.c_str();
+    };
+    _m_current->attributes( c_attrib_dict );
+    _m_the_stack.push_front( _m_current );
+  } else {
+    // we are not at the basenode, create a new node
+    if ( !c_tag ) {
+      throw "Request for a new XML object, but no tag name provided [xml_retrieve_helper.002]";
+    };
+    xml_rb_node *newnode;
+
+    DEBUG( "starttag, adding tag", c_tag );
+    // we ask the xml_rb_node virtual construcotr to create the
+    // desired object for us.
+    newnode = xml_rb_node::make( c_tag );
+
+    if ( !newnode ) {
+      DEBUG( "starttag", "Node creation failed" );
+      throw "Node creation failed, NULL pointer returned from maker function";
+    } else {
+      // Add new node to parent
+      _m_current->append( newnode );
+      // Set user_data's "cursor"
+      _m_current = newnode;
+      DEBUG( "starttag", "Node creation done, adding attributes" );
+      // Copy attributes
+      _m_current->attributes( c_attrib_dict );
+    
+      DEBUG( "starttag", "Getting parent (current stack front)" );
+      // Add new node to stack
+      _m_the_stack.push_front( newnode );
+    };
+  };
+  DEBUG( "starttag", "done" );
+  return this;
+!!!188073.cpp!!!	end_element(in tag : char) : xml_import_manager
+  DEBUG( "endtag", "Entered" );
+  // check and process "#PCDATA" in buffer,
+  check_for_content();
+
+  DEBUG( "endtag", "Popping node" );
+  // pop the top node off the stack
+  _m_the_stack.pop_front();
+  // and set the cursor
+  _m_current = _m_the_stack.front();
+  DEBUG( "endtag", "Done" );
+  return this;
+!!!188201.cpp!!!	warning(in msg : char) : xml_import_manager
+  va_list args;
+  
+  va_start( args, msg );
+  print_warning(msg, (const char *)(args) );
+  va_end(args);
+  return this;
+!!!188329.cpp!!!	error(in msg : char) : xml_import_manager
+  va_list args;
+
+  va_start( args, msg );
+  print_warning(msg, (const char *)(args) );
+  va_end(args);
+  throw msg;
+  return this;
+!!!188457.cpp!!!	characters(in data : char, in len : int) : xml_import_manager
+  if ( len == 0 ) {
+    /* do nothing */
+  } else {
+    std::string tmp;
+    tmp.insert( 0, data, len );
+    if ( !std_regex::is_whitespace( data, len ) ) {
+      // The data is not just whitespace so we need to add it the to
+      // _m_content string.
+      _m_content.append( data, len );
+    };
+  };
+  return this;
+!!!188585.cpp!!!	comment(in data : char) : xml_import_manager
+  std::string _comment = std::string( data );
+  _comment.insert( 0, "<!--" );
+  _comment.append( "-->" );
+
+  if ( _m_the_stack.size() == 1 ) {
+    // adding to base node, add to preface
+    _m_current->preface( _comment );
+  } else {
+    // otherwise add to _m_content
+    _m_content.append( _comment );
+  };
+  return this;
+!!!188713.cpp!!!	processing_instructions(in name : char, in data : char) : xml_import_manager
+  std::string _special = std::string( name );
+  _special.insert( 0, "<?" );
+  _special.append( " " );
+  _special.append( data );
+  _special.append( ">" );
+
+  if ( _m_the_stack.size() == 1 ) {
+    // adding to base node, add to preface
+    _m_current->preface( _special );
+  } else {
+    // otherwise add to _m_content
+    _m_content.append( _special );
+  };
+  return this;
+!!!188841.cpp!!!	get_entity(in data : char, inout dat : xmlEntity) : xml_import_manager
+  // Do nothing
+  return this;
+!!!188969.cpp!!!	fatal_error() : xml_import_manager
+  DEBUG( "xml_retrieve_helper::parser_exit", "Called" );
+  throw "xml_retrieve_helper::parser_exit called";
+  return this;

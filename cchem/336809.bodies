@@ -1,0 +1,7 @@
+class widget_control
+!!!1018409.cpp!!!	is_editable() : bool
+  REQUIRE(true == is_initialised(), "Cannot get state before calling add_widget()");
+  return (True == XtIsSensitive (m_widget));
+!!!1018665.cpp!!!	set_editable(in a_is_editable : bool) : void
+  REQUIRE(true == is_initialised(), "Cannot get state before calling add_widget()");
+  XtSetSensitive (m_widget, (a_is_editable?True:False));

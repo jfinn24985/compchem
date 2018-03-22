@@ -1,0 +1,49 @@
+class result
+!!!317481.cpp!!!	get_expt_mechanism() : experiment_mechanism
+// check
+CHECK(true == has_element (S_EXPERIMENT_MECHANISM_NAME, m_rep), "Invalid document");
+// do
+return experiment_mechanism (get_element (S_EXPERIMENT_MECHANISM_NAME, m_rep));
+!!!332457.cpp!!!	get_workers() : std::vector< worker >
+// local
+std::vector< worker > result;
+purpletree::dom::dom_string l_worker_list;
+unsigned int l_start(0), l_end(0);
+// check
+CHECK(true == has_attribute (S_WORKER_NAME, m_rep), "Invalid document");
+// do
+l_worker_list = get_attribute_priv (S_WORKER_NAME, m_rep);
+do
+{
+  // For each substring, find the cross referenced node.
+  l_end = l_worker_list.find (' ', l_start);
+  purpletree::dom::node l_worker(data_source::connector::find_node (S_WORKER_NAME
+                                       , S_LABEL_NAME
+                                       , l_worker_list.substr (l_start, (l_end - l_start))
+                                       , m_rep));
+  if (false == l_worker.is_null ())
+  {
+    result.push_back (l_worker);
+  }
+  else
+  {
+    LOG(("Invalid cross-reference [" + purpletree::dom::get_utf8(l_worker_list.substr (l_start, (l_end - l_start))) + "] in experiment/@worker, cannot find matching worker").c_str());
+  }
+  l_start = l_end;
+}
+while (l_start < l_worker_list.size ());
+// ensure
+ENSURE(false == result.empty (), "Could not find workers from cross-references");
+//end
+return result;
+!!!317225.cpp!!!	has_information() : bool
+// do
+return has_element (S_INFORMATION_NAME, m_rep);
+!!!332585.cpp!!!	result(in a_node : purpletree::dom::node)
+// require
+REQUIRE(true == check_name (S_EXPERIMENT_NAME, m_rep), "Node, object type mismatch");
+!!!332969.cpp!!!	operator=(in source : result) : result
+//do
+m_rep = source.m_rep;
+// end
+return *this;

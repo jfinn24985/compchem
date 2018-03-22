@@ -1,0 +1,162 @@
+class Step
+!!!258473.cpp!!!	processLine(in current_line : string) : void
+      if ( _m_step_reinitialise ) 
+	{
+	  _m_count_mo = false;
+	  _m_energy_mo = 0;
+	  _m_maxforce_mo = false;
+	  _m_rmsforce_mo = false;
+	  _m_maxdisp_mo = false;
+	  _m_step_reinitialise = false;
+	  _m_step_paragraph = false;
+	};
+            
+      if ( !_m_count_mo &&
+	   _m_step_count.search( current_line ) ) 
+	{
+	  // Beginning of optimisation step
+	  _m_step_count.process( current_line );
+	  _m_step_paragraph = true;
+	  _m_count_mo = true;
+	  DEBUG( "Found start of paragraph =", current_line.c_str() );
+	  return;
+	};
+      if ( _m_energy_mo == 0 )
+	{
+	  if ( _m_step_energy.search( current_line ) )
+	    {
+	      _m_step_energy.process( current_line );
+	      _m_energy_mo = 1;
+	      DEBUG( "Found energy 1 =", current_line.c_str() );
+	      return;
+	    }
+	  else if ( _m_step_MM_energy.search( current_line ) ) 
+	    {
+	      _m_step_MM_energy.process( current_line );
+	      _m_energy_mo = 2;
+	      DEBUG( "Found energy 2 =", current_line.c_str() );
+	      return;
+	    };
+	};
+      if ( _m_step_paragraph )
+	{
+	  if ( !_m_maxforce_mo &&
+	       _m_step_maxforce.search( current_line ) )
+	    {
+	      // Grab maxforce
+	      _m_step_maxforce.process( current_line );
+	      _m_maxforce_mo = true; 
+	      DEBUG( "Found max force =", current_line.c_str() );
+	      return;
+	    };
+
+	  if ( !_m_rmsforce_mo &&
+	       _m_step_rmsforce.search( current_line ) )
+	    {
+	      // Grab rmsforce
+	      _m_step_rmsforce.process( current_line );
+	      _m_rmsforce_mo = true; 
+	      DEBUG( "Found rms force =", current_line.c_str() );
+	      return;
+	    };
+
+	  if ( !_m_maxdisp_mo && 
+	       _m_step_maxdisp.search( current_line ) ) 
+	    {
+	      // Grab maxdisp
+	      _m_step_maxdisp.process( current_line );
+	      _m_maxdisp_mo = true; 
+	      DEBUG( "Found max disp =", current_line.c_str() );
+	      return;
+	    };
+
+	  if ( !_m_step_reinitialise &&
+	       _m_step_rmsdisp.search( current_line ) )
+	    {
+	      // Generate the results and store it
+	      _m_step_rmsdisp.process( current_line );
+	      _m_step_reinitialise = true;
+	      DEBUG( "Found rms disp =", current_line.c_str() );
+
+#ifdef __DEBUG__
+	      if ( _m_energy_mo == 0 ||
+		   !_m_maxforce_mo || !_m_rmsforce_mo || 
+		   !_m_maxdisp_mo ) 
+		{
+		  const char _msg[] = "Step Error: Unable to gather data, possibly corrupt gaussian file";
+		  std::cerr << _msg; 
+		  if ( _m_count_mo ) { std::cerr << ", Count missing"; }
+		  if ( !_m_energy_mo == 0 ) { std::cerr << ", Energy missing"; }
+		  if ( !_m_maxforce_mo ) { std::cerr << ", Max Force missing"; }
+		  if ( !_m_rmsforce_mo ) { std::cerr << ", RMS Force missing"; }
+		  if ( !_m_maxdisp_mo ) { std::cerr << ", Max Disp missing"; }
+		  std::cerr << std::endl;
+		  throw Filters::IllegalStateException( _msg );
+		}
+#endif
+	      // Have data
+
+	      // The energy is recorded in two formats. To handle this
+	      // situation semi-transparently we create a pointer to the
+	      // energy regex and set it to the address of the correct
+	      // regex.
+	      PurpleTree::Regex *_energy;
+	      if ( _m_step_energy.matchTest() ) 
+		{
+		  _energy = &_m_step_energy;
+		} 
+	      else
+		{
+		  _energy = &_m_step_MM_energy;
+		};
+	
+	      if ( _m_result.str().empty() )
+		{
+		  // This is the first step, put in the defaults
+		  _m_result << _m_step_count.matchString(2);
+		  _m_result << ",";
+		  _m_result << _m_step_maxforce.matchString(2);
+		  _m_result << ",";
+		  _m_result << _m_step_rmsforce.matchString(2);
+		  _m_result << ",";
+		  _m_result << _m_step_maxdisp.matchString(2);
+		  _m_result << ",";
+		  _m_result << _m_step_rmsdisp.matchString(2);
+		  _m_result << ",\\";
+		};
+	      // Add the current data 
+	      _m_result <<  _m_step_count.matchString(1);
+	      _m_result << ",";
+	      _m_result << _m_step_maxforce.matchString(1);
+	      _m_result << ",";
+	      _m_result << _m_step_rmsforce.matchString(1);
+	      _m_result << ",";
+	      _m_result << _m_step_maxdisp.matchString(1);
+	      _m_result << ",";
+	      _m_result << _m_step_rmsdisp.matchString(1);
+	      _m_result << ",";
+	      _m_result << _energy->matchString(1);
+	      _m_result << "\\";
+	    };
+	};
+    
+!!!258729.cpp!!!	output(inout root_xml_node : DOM::Node) : void
+      if ( !output().empty() )
+	{
+	  DOM::String _l_dan( "dan" );
+	  DOM::String _l_atName( "name" );
+	  DOM::String _l_atValu( "optimisation-path" );
+	  DOM::Element* _l_result;
+	  _l_result = root_xml_node->getOwnerDocument()->createElement( _l_dan.c_str() );
+	  _l_result->setAttribute( _l_atName.c_str(), _l_atValu.c_str() );
+	  _l_atName = "format";
+	  _l_atValu = "ordinal,maxforce,rmsforce,maxdisp,rmsdisp,energy:";
+	  _l_result->setAttribute( _l_atName.c_str(), _l_atValu.c_str() );
+	  _l_atName = "unit";
+	  _l_atValu = ",,,,,hartee:";
+	  _l_result->setAttribute( _l_atName.c_str(), _l_atValu.c_str() );
+	  root_xml_node->appendChild( _l_result );
+	  _l_atValu = output();
+	  _l_result->appendChild( root_xml_node->getOwnerDocument()->createTextNode( _l_atValu.c_str() ) );
+	}
+    

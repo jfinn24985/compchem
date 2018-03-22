@@ -1,0 +1,41 @@
+class text_control
+!!!1024809.cpp!!!	do_allow_widget(in a_widget : Widget) : bool
+  return XtIsSubclass(a_widget, xmTextWidgetClass);
+!!!1025065.cpp!!!	get_string() : string
+  REQUIRE(true == is_initialised(), "Cannot get text before calling add_widget()");
+  // LOCAL
+  std::string Result;
+  // DO
+  // 
+  if (XtIsSubclass(m_widget, xmtInputFieldWidgetClass))
+  {
+    char *l_field = XmtInputFieldGetString (m_widget);
+    if (NULL != l_field)
+      {
+        Result = l_field;
+      }
+  }
+  else if (XtIsSubclass(m_widget, xmTextWidgetClass))
+  {
+    char *l_field = XmTextGetString (m_widget);
+    if (NULL != l_field)
+      {
+        Result = l_field;
+        XtFree (l_field);
+      }
+  }
+  return Result;
+
+!!!1025193.cpp!!!	set_string(in a_value : string) : void
+  REQUIRE(true == is_initialised(), "Cannot get state before calling add_widget()");
+  // LOCAL
+  // DO
+  if (XtIsSubclass(m_widget, xmtInputFieldWidgetClass))
+  {
+    XmtInputFieldSetString (m_widget, const_cast< char* >(a_value.c_str()));
+  }
+  else if (XtIsSubclass(m_widget, xmTextWidgetClass))
+  {
+    XmTextSetString (m_widget, const_cast< char* >(a_value.c_str()));
+  }
+

@@ -1,0 +1,42 @@
+class std_regex
+!!!160041.cpp!!!	python_to_posix_regex(in regex : string) : string
+  std::string _retval(regex);
+  unsigned int _pos = 0;
+  while( 1 ) {
+    _pos = _retval.find( "\\", _pos );
+    DEBUG("Found match at ", _pos);
+    if ( _pos >= _retval.size() ) {
+      break;
+    };
+    switch ( _retval[ _pos + 1 ] ) {
+    case 'A':
+      _retval.replace( _pos, 2, "^" );
+      break;
+    case 'd':
+      _retval.replace( _pos, 2, "[[:digit:]]" );
+      break;
+    case 'D':
+      _retval.replace( _pos, 2, "[^[:digit:]]" );
+      break;
+    case 's':
+      _retval.replace( _pos, 2, "[[:space:]]" );
+      break;
+    case 'S':
+      _retval.replace( _pos, 2, "[^[:space:]]" );
+      break;
+    case 'w':
+      _retval.replace( _pos, 2, "[[:alnum:]]" );
+      break;
+    case 'W':
+      _retval.replace( _pos, 2, "[^[:alnum:]]" );
+      break;
+    case 'Z':
+      _retval.replace( _pos, 2, "$" );
+      break;
+    default:
+      break;
+    };
+    ++_pos; 
+    DEBUG( "String is now ", _retval.c_str() );
+  };
+  return _retval;

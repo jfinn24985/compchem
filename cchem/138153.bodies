@@ -1,0 +1,82 @@
+class xml_import_manager
+!!!168233.cpp!!!	parse(inout top : xml_import_manager, in filename : string) : bool
+  if ( !top ) {
+    throw "xml_import_manager::parse -> Attempt to parse file without a valid xml_import_manager object";
+    return false;
+  };
+  std::ifstream is( filename.c_str() );
+  if ( is ) {
+    return xml_import_manager::parse( top, is );
+  } else {
+    return false;
+  };
+!!!168361.cpp!!!	parse(inout top : xml_import_manager, inout is : std::istream) : bool
+  if ( !top ) {
+    throw "xml_import_manager::parse -> Attempt to parse file without a valid xml_import_manager object";
+    return false;
+  };
+
+  XML_Parser my_parser = XML_ParserCreate( "UTF-8" );
+
+  XML_SetProcessingInstructionHandler( my_parser,
+				       (XML_ProcessingInstructionHandler)xml_reader::processing_instructions );
+
+  XML_SetCommentHandler( my_parser,
+			 (XML_CommentHandler)xml_reader::comment );
+
+  XML_SetElementHandler( my_parser,
+			 (XML_StartElementHandler)xml_reader::start_element,
+			 (XML_EndElementHandler)xml_reader::end_element );
+
+  XML_SetCharacterDataHandler( my_parser,
+			       (XML_CharacterDataHandler)xml_reader::characters );
+
+  DEBUG( "parse", "parser methods initialised" );
+
+  xml_reader *my_data = new xml_reader( top );
+
+  XML_SetUserData( my_parser,
+		   (void*)(my_data) );
+
+  DEBUG( "parse", "parser data initialised" );
+
+  const unsigned int _BUF_SIZE_ = 4096;
+  char buf[_BUF_SIZE_];
+
+  // Parse the XML file
+  unsigned int _l_ret_val = 0;
+  while ( is && !is.eof() ) {
+    DEBUG( "parse", "read input" );
+    is.read( buf, _BUF_SIZE_ );
+    DEBUG( "parse", "give to parser" );
+    _l_ret_val = is.gcount();
+
+    if ( _l_ret_val == 0 ) {
+      throw "Error occured while reading XML file: No content read.";
+      break;
+    } else if ( _l_ret_val < _BUF_SIZE_ ) {
+      DEBUG( "parse: Last section of file", _l_ret_val );
+      _l_ret_val = XML_Parse( my_parser, buf, _l_ret_val, 1 );
+    } else {
+      DEBUG( "parse: Mid section of file", _l_ret_val );
+      _l_ret_val = XML_Parse( my_parser, buf, _l_ret_val, 0 );
+    };
+    if ( _l_ret_val == XML_STATUS_ERROR ) {
+      std::cerr << buf << std::endl;
+      static std::string _l_msg("Error occured while parsing XML file: Unable to parse content.\n");
+      _l_msg += XML_ErrorString( XML_GetErrorCode( my_parser ) );
+      throw _l_msg.c_str();
+    };
+    DEBUG( "parse", "loop to beginning" );
+  };
+
+  DEBUG( "parse", "document processed" );
+
+  // free user data
+  delete my_data;
+
+  XML_ParserFree( my_parser );
+
+  DEBUG( "parse", "done" );
+
+  return true;

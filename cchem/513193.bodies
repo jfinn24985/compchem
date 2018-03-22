@@ -1,0 +1,100 @@
+class data_scheme_initialise
+!!!1629097.cpp!!!	initialise() : void
+/**
+ * The definition object for the compound type
+ */
+static const data_access::meta_datum s_compound (data_access::names::compound_name ()
+      , data_access::names::label_name ()
+      , data_access::names::list (data_access::names::identity_name (), data_access::names::info_name (), data_access::names::formula_name ())
+      , data_access::names::category_name ());
+/**
+ * The definition object for the compound-ref type
+ */
+const static data_access::meta_datum s_compound_ref (data_access::names::compound_ref_name ()
+    , data_access::names::label_name ()
+    , std::string ()
+    , data_access::names::formula_name ());
+/**
+ * The definition object for the datum type.
+ */
+const static data_access::meta_datum s_datum (data_access::names::datum_name (), data_access::names::outcome_name (), data_access::names::datum_name ()
+   , data_access::names::list (data_access::names::dimension_name (), data_access::names::format_name (), data_access::names::scale_name (), data_access::names::ordinal_name ()));
+/**
+ * The definition object for experiment type.
+ */
+const static data_access::meta_datum s_experiment (data_access::names::experiment_name (), data_access::names::reference_name ()
+     , data_access::names::list (data_access::names::info_name (), data_access::names::memo_name (), data_access::names::memo_src_name ())
+     , data_access::names::list (data_access::names::date_start_name (), data_access::names::date_end_name (), data_access::names::priority_name (), data_access::names::worker_name ()));
+/**
+ * The definition object for filter type
+ */
+const static data_access::meta_datum s_filter (data_access::names::filter_name (), data_access::names::label_name (), std::string ()
+   , data_access::names::list (data_access::names::href_name (), data_access::names::outcome_name (), data_access::names::type_name ()));
+/**
+ * The definition object for formula type
+ */
+const static data_access::meta_datum s_formula (data_access::names::formula_name ()
+    , data_access::names::label_name ()
+    , data_access::names::list (data_access::names::info_name (), data_access::names::identity_name ())
+    , std::string ());
+/**
+ * The definition object for identity type.
+ */
+const static data_access::meta_datum s_identity (data_access::names::identity_name (), data_access::names::type_name (), std::string (), std::string ());
+/**
+ * The definition object for info type
+ */
+const static data_access::meta_datum s_info (data_access::names::info_name (), data_access::names::name_name (), std::string (), std::string ());
+/**
+ * The definition object for mechanism type
+ */
+const static data_access::meta_datum s_mechanism (data_access::names::mechanism_name ()
+     , data_access::names::label_name ()
+     , data_access::names::list (data_access::names::info_name (), data_access::names::filter_name (), data_access::names::settings_name ())
+     , std::string ());
+/**
+ * The definition object for memo type
+ */
+const static data_access::meta_datum s_memo (data_access::names::memo_name (), data_access::names::label_name ()
+    , data_access::names::list (data_access::names::datum_name (), data_access::names::info_name ())
+    , data_access::names::list (data_access::names::mechanism_name (), data_access::names::href_name (), data_access::names::filter_name ()
+         , data_access::names::formula_name (), data_access::names::compound_name ()));
+/**
+ * The definition object for memo-src type
+ */
+const static data_access::meta_datum s_memo_src(data_access::names::memo_src_name (), data_access::names::href_name ()
+    , std::string ()
+    , data_access::names::list (data_access::names::label_name (), data_access::names::formula_name (), data_access::names::compound_name ()));
+/**
+ * The definition object for program type
+ */
+const static data_access::meta_datum s_program (data_access::names::program_name (), std::string ()
+    , data_access::names::list (data_access::names::info_name (), data_access::names::worker_name ()
+          , data_access::names::mechanism_name (), data_access::names::compound_name ()
+          , data_access::names::project_name (), data_access::names::project_src_name ())
+    , std::string ());
+/**
+ * The definition object for project type
+ */
+const static data_access::meta_datum s_project (data_access::names::project_name ()
+    , data_access::names::label_name ()
+    , data_access::names::list (data_access::names::info_name (), data_access::names::experiment_name ())
+    , data_access::names::list (data_access::names::outcome_name (), data_access::names::worker_name ()
+          , data_access::names::href_name ()));
+/**
+ * The definition object for project-src type
+ */
+const static data_access::meta_datum s_project_src(data_access::names::project_src_name ()
+     , data_access::names::href_name (), std::string (), data_access::names::label_name ());
+/**
+ * The definition object for settings type
+ */
+const static data_access::meta_datum s_settings (data_access::names::settings_name ()
+   , data_access::names::label_name ()
+   , data_access::names::datum_name () + data_access::names::space () + data_access::names::info_name ()
+   , data_access::names::outcome_name () + data_access::names::space () + data_access::names::filter_name ());
+/**
+ * The definition object for worker type
+ */
+const static data_access::meta_datum s_worker (data_access::names::worker_name ()
+    , data_access::names::label_name (), data_access::names::info_name (), std::string ());

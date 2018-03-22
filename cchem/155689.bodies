@@ -1,0 +1,608 @@
+class Vibration
+!!!261545.cpp!!!	processLine(in current_line : string) : void
+      if ( _m_vibr_table_found ) 
+	{
+	  // short circuit post-vibration table lines
+	  return;
+	};
+
+      if ( !_m_vibr_in_table ) 
+	{
+	  // Search for text that indicates the start of the vibration
+	  // table.
+	  if ( current_line.find( "educed m" ) < current_line.size() ) 
+	    {
+	      // Indicate we have found vibration table
+	      _m_vibr_in_table = true;
+	    }
+	  // short circuit for pre-vibration table lines
+	  return;
+	};
+
+      DEBUG( "Vibration::process_line -> in table ", current_line.c_str() );
+      if ( current_line.size() > 0 ) 
+	{
+	  if ( _m_vectr.process(current_line) ) 
+	    {
+	      // -------------------------------------------
+	      // Found a vibration vector
+	      // -------------------------------------------
+	      int _l_elementNumber;
+	      DEBUG( "GaussianVibration.processLine -> at ", 10 );
+	      // In vibration vector list
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have Vector match" << std::endl;
+	      for ( int _i = 0; _m_vectr.matchTest(_i); ++_i )
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_vectr.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      // Get Atom type.
+	      _l_elementNumber = atoi( _m_vectr.matchString(2).c_str() );
+
+	      // Add this line to vector list
+	      (*_m_vibr_node_1)[VECTOR_LIST] += Chemistry::PeriodicTable::elementSymbol( _l_elementNumber );
+	      (*_m_vibr_node_1)[VECTOR_LIST] += "," + _m_vectr.matchString(4) + "," + _m_vectr.matchString(5) + "," + _m_vectr.matchString(6) + "\\";
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  // Have at least two vectors
+		  (*_m_vibr_node_2)[VECTOR_LIST] += Chemistry::PeriodicTable::elementSymbol( _l_elementNumber );
+		  (*_m_vibr_node_2)[VECTOR_LIST] += "," + _m_vectr.matchString(8) + "," + _m_vectr.matchString(9) + "," + _m_vectr.matchString(10) + "\\";
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      // Have three vectors
+		      (*_m_vibr_node_3)[VECTOR_LIST] += Chemistry::PeriodicTable::elementSymbol( _l_elementNumber );
+		      (*_m_vibr_node_3)[VECTOR_LIST] +=  + "," + _m_vectr.matchString(12) + "," + _m_vectr.matchString(13) + "," + _m_vectr.matchString(14) + "\\";
+		    };
+		};
+	      return;
+	    };
+
+	  if ( _m_atoms.search( current_line ) )
+	    {
+	      // -------------------------------------------
+	      // Found heading line of vibration vector
+	      // -------------------------------------------
+	      DEBUG( "Filters::Vibration::process_line -> at", 9 );
+	      // -------------------------------------------
+	      // Vector list title line, ignore
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have atoms match" << std::endl;
+	      FrameWork::logStream << "Line: " << current_line << std::endl;
+	      for ( int _i = 0; _m_atoms.matchTest(_i); ++_i ) {
+		FrameWork::logStream << " f[" << _i << "] = {" << _m_atoms.matchString(_i) << "}, " << std::endl;
+	      };
+	      FrameWork::logStream << std::endl;
+#endif
+	      return;
+	    } 
+
+	  if ( _m_deplr.process(current_line) )
+	    {
+	      // -------------------------------------------
+	      // Depolar line
+	      // -------------------------------------------
+	      DEBUG( "Filters::Vibration::process_line -> at", 8);
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have depolar match" << std::endl;
+	      for ( int _i = 0; _m_deplr.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_deplr.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[DEPOLAR] = _m_deplr.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[DEPOLAR] = _m_deplr.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[DEPOLAR] = _m_deplr.matchString(6);
+		    };
+		};
+	      return;
+	    };
+
+	  if ( _m_raman.process(current_line) ) 
+	    {
+	      // -------------------------------------------
+	      // Raman Activ line
+	      // -------------------------------------------
+	      DEBUG( "Filters::Vibration::process_line -> at", 7);
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have raman match" << std::endl;
+	      for ( int _i = 0; _m_raman.matchTest(_i); ++_i )
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_raman.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[RAMAN_ACTIVITY] = _m_raman.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[RAMAN_ACTIVITY] = _m_raman.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[RAMAN_ACTIVITY] = _m_raman.matchString(6);
+		    };
+		};
+	      return;
+	    };
+     
+	  if ( _m_inten.process(current_line) )
+	    {
+	      // -------------------------------------------
+	      // IR Inten line
+	      // -------------------------------------------
+	      DEBUG( "Filters::Vibration::process_line -> at", 6);
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have IR inten match" << std::endl;
+	      for ( int _i = 0; _m_inten.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_inten.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[IR_INTENSITY] = _m_inten.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[IR_INTENSITY] = _m_inten.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[IR_INTENSITY] = _m_inten.matchString(6);
+		    };
+		};
+	      return;
+	    };
+
+	  if (_m_force.process(current_line)) 
+	    {
+	      DEBUG( "Filters::Vibration::process_line -> at", 5);
+	      // -------------------------------------------
+	      // Frc consts line
+	      // -------------------------------------------
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have Frc consts match" << std::endl;
+	      for ( int _i = 0; _m_force.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_force.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[FORCE_CONSTANTS] = _m_force.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[FORCE_CONSTANTS] = _m_force.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[FORCE_CONSTANTS] = _m_force.matchString(6);
+		    };
+		};
+	      return;
+	    };
+
+	  if (_m_redms.process(current_line)) 
+	    {
+	      DEBUG( "Filters::Vibration::process_line -> at", 4);
+	      // -------------------------------------------
+	      // Red. masses line
+	      // -------------------------------------------
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have Red. masses match" << std::endl;
+	      for ( int _i = 0; _m_redms.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_redms.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[REDUCED_MASS] = _m_redms.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[REDUCED_MASS] = _m_redms.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[REDUCED_MASS] = _m_redms.matchString(6);
+		    };
+		};
+	      return;
+	    };
+
+	  if (_m_frequ.process(current_line)) 
+	    {
+	      DEBUG( "Filters::Vibration::process_line -> at", 3);
+	      // -------------------------------------------
+	      // Frequencies line
+	      // -------------------------------------------
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have Frequencies match" << std::endl;
+	      for ( int _i = 0; _m_frequ.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_frequ.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      (*_m_vibr_node_1)[FREQUENCY] = _m_frequ.matchString(2);
+	      if ( _m_vibr_node_2 != NULL )
+		{
+		  (*_m_vibr_node_2)[FREQUENCY] = _m_frequ.matchString(4);
+		  if ( _m_vibr_node_3 != NULL )
+		    {
+		      (*_m_vibr_node_3)[FREQUENCY] = _m_frequ.matchString(6);
+		    };
+		};
+	      return;
+	    };
+
+	  if (_m_ordin.process(current_line)) 
+	    {
+	      DEBUG( "Filters::Vibration::process_line -> at", 1);
+	      // -------------------------------------------
+	      // Ordinal line
+	      // -------------------------------------------
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Filters::Vibration::process_line -> Have Ordinal match" << std::endl;
+	      for ( int _i = 0; _m_ordin.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_ordin.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      _m_vibr_have_ord = true;
+	      // If we are here then a new vibration has started, we need to
+	      // store any existing results and create the new data holders.
+	      DEBUG( "Filters::Vibration::process_line -> adding data to _m_peakTable" );
+        
+	      if ( _m_vibr_node_1 != NULL && !(*_m_vibr_node_1)[ORDINAL].empty() ) 
+		{
+		  _m_peakTable.push_back( _m_vibr_node_1 );
+#ifdef __DEBUG__
+		  for ( unsigned int i = 0; i < _m_vibr_node_1->size(); ++i ) 
+		    {
+		      DEBUG( "1. Outputing _m_vibr_node_i", (*_m_vibr_node_1)[i].c_str() );
+		    };
+		}
+	      else
+		{
+		  if ( _m_vibr_node_1 != NULL )
+		    DEBUG( "1. An null element not added to _m_peakTable", _m_peakTable.size() );
+		  else 
+		    DEBUG( "1. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+		};
+	      _m_vibr_node_1 = NULL;
+
+	      if ( _m_vibr_node_2 != NULL && !(*_m_vibr_node_2)[ORDINAL].empty() ) 
+		{
+		  _m_peakTable.push_back( _m_vibr_node_2 );
+#ifdef __DEBUG__
+		  for ( unsigned int i = 0; i < _m_vibr_node_2->size(); ++i ) 
+		    {
+		      DEBUG( "2. Outputing _m_vibr_node_i", (*_m_vibr_node_2)[i].c_str() );
+		    };
+		}
+	      else
+		{
+		  if ( _m_vibr_node_2 != NULL )
+		    DEBUG( "2. An null element not added to _m_peakTable", _m_peakTable.size() );
+		  else 
+		    DEBUG( "2. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+		};
+	      _m_vibr_node_2 = NULL;
+
+	      if ( _m_vibr_node_3 != NULL &&
+		   !(*_m_vibr_node_3)[ORDINAL].empty() ) 
+		{
+		  _m_peakTable.push_back( _m_vibr_node_3 );
+#ifdef __DEBUG__
+		  for ( unsigned int i = 0; i < _m_vibr_node_3->size(); ++i ) 
+		    {
+		      DEBUG( "3. Outputing _m_vibr_node_i", (*_m_vibr_node_3)[i].c_str() );
+		    };
+		}
+	      else
+		{
+		  if ( _m_vibr_node_3 != NULL )
+		    DEBUG( "3. An null element not added to _m_peakTable", _m_peakTable.size() );
+		  else 
+		    DEBUG( "3. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+		};
+	      DEBUG( "Filters::Vibration::processLine -> saved data, number of vibrations",  output().size()); 
+	      _m_vibr_node_3 = NULL;
+
+	      // Beginning of next vibration ??
+	      _m_vibr_node_1 = new std::vector<std::string>(9, std::string());
+	      (*_m_vibr_node_1)[ORDINAL] = _m_ordin.matchString(1);
+	      DEBUG( "Filters::Vibration::process_line -> set ORDINAL", (*_m_vibr_node_1)[ORDINAL].c_str() );
+	      if ( _m_ordin.matchTest(3) ) 
+		{
+		  _m_vibr_node_2 = new std::vector<std::string>(9, std::string());
+		  (*_m_vibr_node_2)[ORDINAL] = _m_ordin.matchString(3);
+		  DEBUG( "Filters::Vibration::process_line -> set ORDINAL", (*_m_vibr_node_2)[ORDINAL].c_str() );
+		  if ( _m_ordin.matchTest(5) ) 
+		    {
+		      _m_vibr_node_3 = new std::vector<std::string>(9, std::string());
+		      (*_m_vibr_node_3)[ORDINAL] = _m_ordin.matchString(5);
+		      DEBUG( "Filters::Vibration::process_line -> set ORDINAL", (*_m_vibr_node_3)[ORDINAL].c_str() );
+		    };
+		};
+            
+	      return;
+	    };
+
+	  // We need to use the 0 != vibcounter to stop this line from
+	  // matching falsely as the regex is fairly naive. This could
+	  // be avoided if we could define a more specific regex.
+	  if ( _m_vibr_have_ord && 
+	       _m_vibr_node_1 != NULL && 
+	       _m_modes.process(current_line) ) 
+	    {
+	      DEBUG( "Filters::Vibration::process_line -> at", 2);
+	      // -------------------------------------------
+	      // Mode line
+	      // -------------------------------------------
+#ifdef __DEBUG__
+	      FrameWork::logStream << "Have Mode match" << std::endl;
+	      for ( int _i = 0; _m_modes.matchTest(_i); ++_i ) 
+		{
+		  FrameWork::logStream << " f[" << _i << "] = {" << _m_modes.matchString(_i) << "}, " << std::endl;
+		};
+	      FrameWork::logStream << std::endl;
+#endif
+	      _m_vibr_have_ord = false;
+	      (*_m_vibr_node_1)[MODE] = _m_modes.matchString(1);
+	      if ( _m_vibr_node_2 )
+		{
+		  (*_m_vibr_node_2)[MODE] = _m_modes.matchString(3);
+		  if ( _m_vibr_node_3 )
+		    {
+		      (*_m_vibr_node_3)[MODE] = _m_modes.matchString(5);
+		    };
+		};
+	      return;
+	    };
+
+	};
+        
+      // ----------------
+      // If we are here then the table has ended or still not begun (for g03)
+      if ( _m_vibr_node_1 == NULL )
+	{
+	  DEBUG( "Filters::Vibration::process_line -> table not started");
+	  return;
+	};
+
+      DEBUG( "Filters::Vibration::process_line -> adding last data to _m_peakTable" );
+        
+      if ( _m_vibr_node_1 != NULL &&
+	   !(*_m_vibr_node_1)[ORDINAL].empty() ) 
+	{
+	  _m_peakTable.push_back( _m_vibr_node_1 );
+#ifdef __DEBUG__
+	  for ( unsigned int i = 0; i < _m_vibr_node_1->size(); ++i ) 
+	    {
+	      DEBUG( "1. Outputing _m_vibr_node_i", (*_m_vibr_node_1)[i].c_str() );
+	    };
+	}
+      else
+	{
+	  if ( _m_vibr_node_1 != NULL )
+	    DEBUG( "1. An null element not added to _m_peakTable", _m_peakTable.size() );
+	  else 
+	    DEBUG( "1. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+	};
+      _m_vibr_node_1 = NULL;
+      if ( _m_vibr_node_2 != NULL && 
+	   !(*_m_vibr_node_2)[ORDINAL].empty() ) 
+	{
+	  _m_peakTable.push_back( _m_vibr_node_2 );
+#ifdef __DEBUG__
+	  for ( unsigned int i = 0; i < _m_vibr_node_2->size(); ++i ) 
+	    {
+	      DEBUG( "2. Outputing _m_vibr_node_i", (*_m_vibr_node_2)[i].c_str() );
+	    };
+	}
+      else
+	{
+	  if ( _m_vibr_node_2 != NULL )
+	    DEBUG( "2. An null element not added to _m_peakTable", _m_peakTable.size() );
+	  else 
+	    DEBUG( "2. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+	};
+      _m_vibr_node_2 = NULL;
+      if ( _m_vibr_node_3 != NULL && 
+	   !(*_m_vibr_node_3)[ORDINAL].empty() ) 
+	{
+	  _m_peakTable.push_back( _m_vibr_node_3 );
+#ifdef __DEBUG__
+	  for ( unsigned int i = 0; i < _m_vibr_node_3->size(); ++i ) 
+	    {
+	      DEBUG( "3. Outputing _m_vibr_node_i", (*_m_vibr_node_3)[i].c_str() );
+	    };
+	}
+      else 
+	{
+	  if ( _m_vibr_node_3 != NULL )
+	    DEBUG( "3. An null element not added to _m_peakTable", _m_peakTable.size() );
+	  else 
+	    DEBUG( "3. An empty element not added to _m_peakTable", _m_peakTable.size() );
+#endif
+	};
+      _m_vibr_node_3 = NULL;
+	      DEBUG( "Filters::Vibration::processLine -> saved last data, number of vibrations",  output().size()); 
+        
+      _m_vibr_in_table = false;
+      _m_vibr_table_found = true;
+      DEBUG( "Filters::Vibration::process_line -> done;");
+    
+!!!261673.cpp!!!	output(inout experimentNode : DOM::Node) : void
+      // Various strings we need to have in DOM type
+      DOM::String _dan( "dan" ); 
+      DOM::String _name( "name" );
+      DOM::String _val;
+      DOM::String _ord( "ordinal" );
+      DOM::String _mod( "mode" );
+      DOM::String _frq( "frequency" );
+      DOM::String _rdm( "reduced-mass" );
+      DOM::String _frc( "force-consts" );
+      DOM::String _iri( "IR-intensity" );
+      DOM::String _ram( "raman-activity" );
+      DOM::String _dpl( "depolar" );
+      DOM::String _vtl( "vector-list" );
+      // The top-level table containing node
+      DOM::Element* _table_node = NULL;
+      // The peak entry currently being built
+      DOM::Element* _vib_node = NULL;
+      // The peak property currently being build
+      DOM::Element* _l_tempNode = NULL;	
+      // Cursor to the current peak entry
+      std::vector< std::vector< std::string >* >::const_iterator _peakEntry;
+
+      DEBUG( "Filters::Vibration::output -> entered, number of vibrations = ", output().size() ); 
+      // Check that we have some results to submit
+      if ( output().size() > 0 )
+	{
+	  DEBUG( "Filters::Vibration::output -> Have content in _m_peakTable, making the vibration-table node");
+	  // Make the vibration-table node and add to the experimentRootNode
+	  _table_node = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+
+	  // Set the attributes of the vibration-table node
+	  _val = "vibration-table";
+	  _table_node->setAttribute( _name.c_str(), _val.c_str() ); 
+	  // Add table to results
+	  experimentNode->appendChild( _table_node );
+
+	  DEBUG( "Filters::Vibration::output -> foreach element in the vibration vector make a vibration node");
+
+	  // For each element in the vibration vector
+	  for( _peakEntry = output().begin(); 
+	       _peakEntry != output().end();
+	       ++_peakEntry )
+	    {
+	      // Create new node for the current peak
+	      _vib_node = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+#ifdef __BADLIB__
+	      if ( !_vib_node )
+		{
+		  // This is truly an exception as we should never get a NULL node
+		  throw Filters::IllegalStateException( "Filters::Vibration::output -> failed create to xml node" );
+		};
+#endif
+	      _val = "vibration";
+	      _vib_node->setAttribute( _name.c_str(), _val.c_str() );
+	      DEBUG( "Filters::Vibration::output -> set \"name\" of node" );
+	      _table_node->appendChild( _vib_node );
+	      DEBUG( "Filters::Vibration::output -> added node to table" );
+                
+#ifdef __DEBUG__
+	    if ( (*_peakEntry)->size() != 0 ) 
+	      {
+		for ( unsigned int __j = 0; __j < (*_peakEntry)->size(); ++__j )
+		  {
+		    DEBUG( "Outputing peak entry: ", (*(*_peakEntry))[__j].c_str() );
+		  };
+	      } 
+	    else
+	      {
+		DEBUG( "A null or empty element found in peak table" );
+		continue;
+	      }
+#endif
+
+	    DEBUG( "Filters::Vibration::output -> about to add data to vibration node" );                
+	    // make a vibration node and add to the vibration table
+                
+	    // Setting the setAttributes of the vibration node
+	    DEBUG( "Setting ORDINAL", (*(*_peakEntry))[ORDINAL].c_str() );
+	    _val = (*(*_peakEntry))[ORDINAL];
+	    _vib_node->setAttribute( _ord.c_str(), _val.c_str() );
+               
+	    // Make the seven sub-nodes and add to the vibration node
+	    if ( (*(*_peakEntry))[DEPOLAR].size() > 0 ) 
+	      {
+		DEBUG( "Setting DEPOLAR", (*(*_peakEntry))[DEPOLAR].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _dpl.c_str() );
+		_val = (*(*_peakEntry))[DEPOLAR];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+                
+	    if ( (*(*_peakEntry))[FORCE_CONSTANTS].size() > 0 ) 
+	      {
+		DEBUG( "Setting FORCE_CONSTANTS", (*(*_peakEntry))[FORCE_CONSTANTS].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _frc.c_str() );
+		_val = (*(*_peakEntry))[FORCE_CONSTANTS];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+                
+	    if ( (*(*_peakEntry))[FREQUENCY].size() > 0 ) 
+	      {
+		DEBUG( "Setting FREQUENCY", (*(*_peakEntry))[FREQUENCY].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _frq.c_str() );
+		_val = (*(*_peakEntry))[FREQUENCY];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+      
+	    if ( (*(*_peakEntry))[IR_INTENSITY].size() > 0 ) 
+	      {
+		DEBUG( "Setting IR_INTENSITY", (*(*_peakEntry))[IR_INTENSITY].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _iri.c_str() );
+		_val = (*(*_peakEntry))[IR_INTENSITY];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+      
+	    if ( (*(*_peakEntry))[MODE].size() > 0 ) 
+	      {
+		DEBUG( "Setting MODE", (*(*_peakEntry))[MODE].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _mod.c_str() );
+		_val = (*(*_peakEntry))[MODE];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+                
+	    if ( (*(*_peakEntry))[RAMAN_ACTIVITY].size() > 0 ) 
+	      {
+		DEBUG( "Setting RAMAN_ACTIVITY", (*(*_peakEntry))[RAMAN_ACTIVITY].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _ram.c_str() );
+		_val = (*(*_peakEntry))[RAMAN_ACTIVITY];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+                
+	    if ( (*(*_peakEntry))[REDUCED_MASS].size() > 0 ) 
+	      {
+		DEBUG( "Setting REDUCED_MASS", (*(*_peakEntry))[REDUCED_MASS].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _rdm.c_str() );
+		_val = (*(*_peakEntry))[REDUCED_MASS];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+                
+	    if ( (*(*_peakEntry))[VECTOR_LIST].size() > 0 ) 
+	      {
+		DEBUG( "Setting VECTOR_LIST", (*(*_peakEntry))[VECTOR_LIST].c_str() );
+		_l_tempNode = experimentNode->getOwnerDocument()->createElement( _dan.c_str() );
+		_l_tempNode->setAttribute( _name.c_str(), _vtl.c_str() );
+		_val = (*(*_peakEntry))[VECTOR_LIST];
+		_l_tempNode->appendChild( experimentNode->getOwnerDocument()->createTextNode( _val.c_str() ) );
+		_vib_node->appendChild( _l_tempNode );
+	      };
+	    DEBUG( "Filters::Vibration::output -> done table row" );
+	  };
+	  DEBUG( "Filters::Vibration::output -> done");
+	};
+    

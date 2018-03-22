@@ -1,0 +1,45 @@
+class cfm_report
+!!!1606441.cpp!!!	main() : int
+int Result (0);
+if (m_database.empty ())
+{
+  std::cout << "Error: No database defined, please set a default database or supply on the\ncommand line.\n";
+}
+else if (data_scheme::data_scheme_helper::helper ().target_project ().empty ())
+{
+  std::cout << "Error: No target project defined, please supply one on the command line.\n";
+}
+else
+{
+// Read database
+  data_scheme::program l_program;
+  l_program.connect (m_database);
+  data_scheme::program::project_iterator l_proj (l_program.find_project (data_scheme::data_scheme_helper::helper ().target_project ()));
+  if (l_proj != l_program.end_project ())
+  {
+    // Generate report on the project
+    data_scheme::scoped_open < data_scheme::project > l_local_open (*l_proj);
+    report::project_cfm_report l_reporter;
+    if (m_output.empty ())
+    {
+      l_reporter (*l_proj, std::cout);
+    }
+    else 
+    {
+      std::ofstream l_out (m_output.c_str ());
+      l_reporter (*l_proj, l_out);
+    }
+  }
+  else
+  {
+    std::cout << "Error: Project \"" << data_scheme::data_scheme_helper::helper ().target_project () << "\" could not be found in the database \"" << m_database << "\"\n";
+    Result = 1;
+  }
+}
+
+return Result;
+!!!1606569.cpp!!!	register_options() : void
+utility::program_options::helper ().public_options ().add_options ()
+  ("database", boost::program_options::value< std::string >(&m_database), "XML database file")
+  ("output,o", boost::program_options::value< std::string >(&m_output),"The output filename.");
+

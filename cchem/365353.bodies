@@ -1,0 +1,955 @@
+class test_utility
+!!!1198761.cpp!!!	main_test() : void
+using data_access::namespace purpletree::dom;
+// LOCAL
+// DO
+try
+{
+  log () << COMM << "Getting test database\n";
+  document l_doc (test_program::document ());
+  if (not l_doc.document_element ().is_null ())
+  {
+    node l_node, l_par;
+    element l_elem;
+    const std::string l_lbl ("my_label");
+    log () << TTLE << "Testing : add_to_list (test-case project@worker)\n";
+    {
+      node_list l_nodelist;
+      l_nodelist = l_doc.document_element ().get_elements_by_tag_name (data_access::names::project_name ());
+      if (l_nodelist.length () > 0)
+      {
+        l_node = l_nodelist.item (0);
+      }
+      else
+      {
+        log () << COMM << "No project elements, adding new one manually.\n";
+        l_node = l_doc.create_element (data_access::names::project_name ());
+        l_doc.document_element ().append_child (l_node);
+      }
+    }
+    COMPCHEM_CHECK (not l_node.is_null (), "Found or created node should not be nul");
+    l_elem = l_node;
+    const dom_string l_orig (l_elem.get_attribute (data_access::names::worker_name ()));
+    try
+    {
+      log () << "add_to_list precondition failure test: reason is null node\n";
+      utility_::add_to_list ("Peter", data_access::names::worker_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "add_to_list precondition failure test: reason is an empty attribute string\n";
+      utility_::add_to_list ("Peter", dom_string(), l_elem);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "add_to_list precondition failure test: reason is an empty item string\n";
+      utility_::add_to_list ("", data_access::names::worker_name (), l_elem);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_orig) << "\"\n";
+    log () << CHCK << "Adding Peter, Paul and Mary\n";
+    utility_::add_to_list ("Peter", data_access::names::worker_name (), l_node);
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_elem.get_attribute (data_access::names::worker_name ())) << "\"\n";
+    utility_::add_to_list ("Paul", data_access::names::worker_name (), l_node);
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_elem.get_attribute (data_access::names::worker_name ())) << "\"\n";
+    utility_::add_to_list ("Mary", data_access::names::worker_name (), l_node);
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_elem.get_attribute (data_access::names::worker_name ())) << "\"\n";
+    log () << CHCK << "Adding Peter again (should not change)\n";
+    utility_::add_to_list ("Peter", data_access::names::worker_name (), l_node);
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_elem.get_attribute (data_access::names::worker_name ())) << "\"\n";
+    log () << COMM << "Check list contains added item\n";
+    std::set< std::string > l_set;
+    log () << TTLE << "Testing : split_attribute_list\n";
+    try
+    {
+      log () << COMM << "split_attribute_list precondition failure test: reason is null node\n";
+      utility_::split_attribute_list (l_set, data_access::names::worker_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "split_attribute_list precondition failure test: reason is an empty name attribute string\n";
+      utility_::split_attribute_list (l_set, dom_string(), l_elem);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    utility_::split_attribute_list (l_set, data_access::names::worker_name (), l_node);
+    log () << WTCH << "Peter is present = " << (l_set.count("Peter") != 0?"yes":"no") << "\n";
+    log () << WTCH << "Paul is present = " << (l_set.count("Paul") != 0?"yes":"no") << "\n";
+    log () << WTCH << "Mary is present = " << (l_set.count("Mary") != 0?"yes":"no") << "\n";
+    log () << COMM << "Reseting attribute\n";
+    l_elem.set_attribute(data_access::names::worker_name (), l_orig);
+    log () << WTCH << "Current attribute \"" << get_utf8 (l_elem.get_attribute (data_access::names::worker_name ())) << "\"\n";
+    log () << TTLE << "Testing : ancestor_with_name (test case doc element)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    log () << WTCH << "Current node_name \"" << get_utf8 (l_node.node_name ()) << "\"\n";
+    try
+    {
+      log () << COMM << "ancestor_with_name precondition failure test: reason is null node\n";
+      utility_::ancestor_with_name (data_access::names::program_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "ancestor_with_name precondition failure test: reason is an empty tag string\n";
+      utility_::ancestor_with_name (dom_string(), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.first_child ().is_null ())
+    {
+      l_par = utility_::ancestor_with_name (data_access::names::program_name (), l_node.first_child ());
+      if (not l_par.is_null())
+      {
+        log () << IFYS << "Correctly found parent node with tag our tag from 'self.first_child'\n";
+      }
+      else
+      {
+        log () << IFNO << "Incorrectly failed to find node with our tag from 'self.first_child'\n";
+      }
+    }
+    l_par = utility_::ancestor_with_name (l_node.node_name (), l_node);
+    if (not l_par.is_null())
+    {
+      log () << IFNO << "Incorrectly found node with our tag name from 'self'\n";
+    }
+    else
+    {
+      log () << IFYS << "Correctly failed to find node with our tag name 'self'\n";
+    }
+    log () << TTLE << "Testing : check_name (test case doc element)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    if (not l_node.is_null ())
+    {
+      try
+      {
+        log () << COMM << "check_name precondition failure test: reason is null node\n";
+        utility_::check_name (data_access::names::program_name (), element ());
+        log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+      }
+      catch (const std::exception & a_err)
+      {
+        log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+      }
+      try
+      {	
+        log () << COMM << "check_name precondition failure test: reason is an empty tag string\n";
+        utility_::check_name (dom_string(), l_node);
+        log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+      }
+      catch (const std::exception & a_err)
+      {
+        log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+      }
+      if (utility_::check_name (data_access::names::program_name (), l_node))
+      {
+        log () << IFYS << "Correctly matched tag = \"program\"\n";
+      }
+      else
+      {
+        log () << IFNO << "Incorrectly dod not match tag = \"program\"\n";
+      }  
+      if (not l_node.is_null () and utility_::check_name (data_access::names::project_name (), l_node))
+      {
+        log () << IFNO << "Incorrectly matched tag = \"project\"\n";
+      }
+      else
+      {
+        log () << IFYS << "Correctly did not matched tag = \"project\"\n";
+      }
+    }
+    // Create a valid non-element node
+    log () << COMM << "Adding text node to 'program/project'.\n";
+    l_node = l_node.append_child (l_doc.create_element (set_utf8 ("text")));
+    node l_text = l_doc.create_text_node (set_utf8 ("Extraordinary!"));
+    l_node.append_child (l_text);
+    if (not l_text.is_null () and utility_::check_name (data_access::names::program_name (), l_text))
+    {
+      log () << IFNO << "Incorrectly matched tag = \"program\" with #text node\n";
+    }
+    else
+    {
+      log () << IFYS << "Correctly did not match tag = \"program\" with #text node\n";
+    }
+    log () << TTLE << "Current document\n";
+    purpletree::dom::implementation::serialise (l_doc, log ());
+    log () << "\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    log () << TTLE << "Testing : create_element\n";
+    try
+    {
+      log () << COMM << "create_element precondition failure test: reason is null node\n";
+      utility_::create_element (data_access::names::project_src_name (), data_access::names::project_name (), l_lbl, true, element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "create_element precondition failure test: reason is empty string 1\n";
+      utility_::create_element (dom_string(), data_access::names::project_name (), l_lbl, true, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "create_element precondition failure test: reason is empty string 2\n";
+      utility_::create_element (data_access::names::project_name (), dom_string(), l_lbl, true, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "create_element precondition failure test: reason is null string\n";
+      utility_::create_element (data_access::names::project_src_name (), data_access::names::project_name (), std::string(), true, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    log () << WTCH << "create_element (\"" << get_utf8(data_access::names::project_src_name ())
+   	<< "\", \"" << get_utf8(data_access::names::project_name ()) << "\", true, doc_elem)\n";
+    std::pair< element, element > l_new_pair (utility_::create_element (data_access::names::project_src_name (), data_access::names::project_name (), l_lbl, true, l_node));
+    COMPCHEM_CHECK (not l_new_pair.first.is_null (), "Failed to create element");
+    log () << IFYS << "Created a main element with tag: \"" << get_utf8 (l_new_pair.first.node_name ()) << "\"\n";
+    if (l_new_pair.second.is_null ())
+    {
+      log () << IFNO << "Failed to create a proxy element. Should not have got here!\n";
+    }
+    else
+    {
+      log () << IFYS << "Created a proxy element with tag: \"" << get_utf8 (l_new_pair.second.node_name ()) << "\"\n";
+      l_node.append_child (l_new_pair.second);
+      log () << IFYS << "Main tag has filename: \"" << implementation::document_filename (l_new_pair.first.owner_document ()) << "\"\n";
+      log () << WTCH << "Document content:\n";
+      implementation::serialise (l_doc, log ());
+      log () << "\n";
+      log () << WTCH << "Proxy document content:\n";
+      implementation::serialise (l_new_pair.first.owner_document (), log ());
+      log () << "\n";
+    }
+    log () << TTLE << "Testing : get_element (str) on document_element\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "get_element(str) precondition failure test: reason is null node\n";
+      utility_::get_element (data_access::names::program_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(str) precondition failure test: reason is an empty tag string\n";
+      utility_::get_element (dom_string(), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not utility_::get_element (data_access::names::program_name (), l_node).is_null ())
+    {
+      log () << IFNO << "Incorrectly found tag = \"program\"\n";
+    }
+    else
+    {
+      log () << IFYS << "Correctly did not find tag = \"program\"\n";
+    }
+    if (not utility_::get_element (data_access::names::project_name (), l_node).is_null ())
+    {
+      log () << IFYS << "Correctly found tag = \"project\"\n";
+    }
+    else
+    {
+      log () << IFNO << "Incorrectly did not find tag = \"project\"\n";
+    }
+    log () << TTLE << "Testing : get_element (str, str) on document_element\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "get_element(str, str) precondition failure test: reason is null node\n";
+      utility_::get_element (data_access::names::project_name (), data_access::names::project_src_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(str, str) precondition failure test: reason is an empty tag string\n";
+      utility_::get_element (dom_string(), data_access::names::project_src_name (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(str, str) precondition failure test: reason is an empty tag string\n";
+      utility_::get_element (data_access::names::project_name (), dom_string(), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    l_elem = utility_::get_element (data_access::names::project_name (), data_access::names::project_src_name (), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFYS << "Found no elements with = \"project\" or \"project-src\"\n";
+    }
+    else if (utility_::check_name (data_access::names::project_name (), l_elem))
+    {
+      log () << IFYS << "Found tag = \"project\"\n";
+    }
+    else if (utility_::check_name (data_access::names::project_src_name (), l_elem))
+    {
+      log () << IFYS << "Found tag = \"project-src\"\n";
+    }
+    else
+    {
+      log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_elem.node_name ()) << "\"\n";
+    }
+    l_elem = utility_::get_element (data_access::names::experiment_name (), data_access::names::label_name (), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFYS << "Found no elements with = \"experiment\" or \"label\"\n";
+    }
+    else
+    {
+      log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_elem.node_name ()) << "\"\n";
+    }
+    log () << TTLE << "Testing : get_element (iter, iter)\n";
+    dom_string l_list[3];
+    l_list[0] = data_access::names::experiment_name (); // List that should not match
+    l_list[1] = data_access::names::label_name ();
+    l_list[2] = data_access::names::datum_name ();
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "get_element(iter, iter) precondition failure test: reason is null node\n";
+      utility_::get_element (&l_list[0], &l_list[3], element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(iter, iter) precondition failure test: reason is an nul start iter.\n";
+      utility_::get_element (&l_list[0], NULL, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(iter, iter) precondition failure test: reason is an nul end iter\n";
+      utility_::get_element (NULL, &l_list[3], l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element(iter, iter) precondition failure test (via check_name): empty string\n";
+      l_list[0] = dom_string();
+      utility_::get_element (&l_list[0], &l_list[3], l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      COMPCHEM_LOG("get_element(iter, iter) precondition failure test: reason is begin after end iter")
+      utility_::get_element (&l_list[3], &l_list[0], l_node);                         
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.first_child ().is_null ())
+    {
+      l_elem = utility_::get_element (&l_list[0], &l_list[3], l_node);
+      if (l_elem.is_null ())
+      {
+        log () << IFYS << "Found no matching tag.\n";
+      }
+      else if (utility_::check_name (l_list[0], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[0]) << "\"\n";
+      }
+      else if (utility_::check_name (l_list[1], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[1]) << "\"\n";
+      }
+      else if (utility_::check_name (l_list[2], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[2]) << "\"\n";
+      }
+      else
+      {
+        log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_elem.node_name ()) << "\"\n";
+      }
+    }
+    if (not l_node.first_child ().is_null ())
+    {
+      l_list[0] = data_access::names::worker_name (); // List that should match
+      l_list[1] = data_access::names::project_name ();
+      l_list[2] = data_access::names::project_src_name ();
+      l_elem = utility_::get_element (&l_list[0], &l_list[3], l_node);
+      if (l_elem.is_null ())
+      {
+        log () << IFYS << "Found no matching tag.\n";
+      }
+      else if (utility_::check_name (l_list[0], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[0]) << "\"\n";
+      }
+      else if (utility_::check_name (l_list[1], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[1]) << "\"\n";
+      }
+      else if (utility_::check_name (l_list[2], l_elem))
+      {
+        log () << IFYS << "Found tag = \"" << get_utf8(l_list[2]) << "\"\n";
+      }
+      else
+      {
+        log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_elem.node_name ()) << "\"\n";
+      }
+    }
+    log () << TTLE << "Testing : get_element_with_attribute\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "get_element_with_attribute precondition failure test: reason is null node\n";
+      utility_::get_element_with_attribute (data_access::names::project_name (), data_access::names::label_name (), set_utf8(l_lbl), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute precondition failure test: reason is empty string\n";
+      utility_::get_element_with_attribute (dom_string (), data_access::names::label_name (), set_utf8(l_lbl), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute precondition failure test: reason is empty string\n";
+      utility_::get_element_with_attribute (data_access::names::project_name (), dom_string (), set_utf8(l_lbl), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute precondition failure test: reason is empty string\n";
+      l_list[0] = dom_string();
+      utility_::get_element_with_attribute (data_access::names::project_name (), data_access::names::label_name (), dom_string (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    l_elem = utility_::get_element_with_attribute (data_access::names::project_name (), data_access::names::label_name (), set_utf8 (l_lbl), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFYS << "Correctly failed to find node with name \"project\" and attribute \"" << l_lbl << "\"\n";
+    }
+    else
+    {
+      log () << IFNO << "Incorrectly found node with name \"project\" and attribute \"" << l_lbl << "\"\n";
+    }
+    l_elem = utility_::get_element_with_attribute (data_access::names::project_src_name (), data_access::names::label_name (), set_utf8 (l_lbl), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFNO << "Incorrectly failed to find node with name \"project-src\" and attribute \"" << l_lbl << "\"\n";
+    }
+    else
+    {
+      log () << IFYS << "Correctly found node with name \"project-src\" and attribute \"" << l_lbl << "\"\n";
+    }
+    log () << TTLE << "Testing : get_element_with_attribute_with_self\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "get_element_with_attribute_with_self precondition failure test: reason is null node\n";
+      utility_::get_element_with_attribute_with_self (data_access::names::project_name (), data_access::names::label_name (), set_utf8(l_lbl), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute_with_self precondition failure test: reason is empty string\n";
+      utility_::get_element_with_attribute_with_self (dom_string (), data_access::names::label_name (), set_utf8(l_lbl), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute_with_self precondition failure test: reason is empty string\n";
+      utility_::get_element_with_attribute_with_self (data_access::names::project_name (), dom_string (), set_utf8(l_lbl), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "get_element_with_attribute_with_self precondition failure test: reason is empty string\n";
+      l_list[0] = dom_string();
+      utility_::get_element_with_attribute_with_self (data_access::names::project_name (), data_access::names::label_name (), dom_string (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    l_elem = utility_::get_element_with_attribute_with_self (data_access::names::project_name (), data_access::names::label_name (), set_utf8 (l_lbl), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFYS << "Correctly failed to find node with name \"project\" and attribute \"" << l_lbl << "\"\n";
+    }
+    else
+    {
+      log () << IFNO << "Incorrectly found node with name \"project\" and attribute \"" << l_lbl << "\"\n";
+    }
+    l_elem = utility_::get_element_with_attribute_with_self (data_access::names::project_src_name (), data_access::names::label_name (), set_utf8 (l_lbl), l_node);
+    if (l_elem.is_null ())
+    {
+      log () << IFNO << "Incorrectly failed to find node with name \"project-src\" and attribute \"" << l_lbl << "\"\n";
+    }
+    else
+    {
+      log () << IFYS << "Correctly found node with name \"project-src\" and attribute \"" << l_lbl << "\"\n";
+    }
+    log () << TTLE << "Testing : insert_element\n";
+    log () << COMM << "Attempt to move project_src to before text: Original doc.\n";
+    implementation::serialise (l_doc, log ());
+    if (l_elem.is_null ())
+    {
+      l_elem = l_node.last_child ();
+    }
+    l_list[0] = data_access::names::worker_name (); // List that should match
+    l_list[1] = data_access::names::info_name ();
+    l_list[2] = data_access::names::project_src_name ();
+    try
+    {
+      log () << COMM << "insert_element precondition failure test: reason is null target node\n";
+      utility_::insert_element (&l_list[0], &l_list[4], l_elem, element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "insert_element precondition failure test: reason is null new node\n";
+      utility_::insert_element (&l_list[0], &l_list[4], element (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "insert_element precondition failure test: reason is null name begin\n";
+      utility_::insert_element (NULL, &l_list[4], l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "insert_element precondition failure test: reason is null name end\n";
+      utility_::insert_element (&l_list[0], NULL, l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "insert_element precondition failure test: reason is name end before name begin\n";
+      utility_::insert_element (&l_list[1], &l_list[0], l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    log () << "insert_element before self should leave doc unchanged: Changed doc.\n";
+    utility_::insert_element (&l_list[2], &l_list[3], l_elem, l_node);
+    implementation::serialise (l_doc, log ());
+    log () << "insert_element before \"text\" should change doc: Changed doc.\n";
+    utility_::insert_element (&l_list[0], &l_list[3], l_elem, l_node);
+    log () << COMM << "Changed doc.\n";
+    implementation::serialise (l_doc, log ());
+    log () << TTLE << "Testing : is_separate_project\n";
+    log () << WTCH << "Current setting is [" << (utility_::is_separate_project()? "yes":"no") << "]\n";
+    log () << TTLE << "Testing : is_separate_compound\n";
+    log () << WTCH << "Current setting is [" << (utility_::is_separate_compound()? "yes":"no") << "]\n";
+    log () << TTLE << "Testing : is_separate_formula\n";
+    log () << WTCH << "Current setting is [" << (utility_::is_separate_formula()? "yes":"no") << "]\n";
+    log () << TTLE << "Testing : next_element_with_name(str)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "next_element_with_name(str) precondition failure test: reason is null node\n";
+      utility_::next_element_with_name (data_access::names::project_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "next_element_with_name(str) precondition failure test: reason is an empty tag name.\n";
+      utility_::next_element_with_name (dom_string (), l_node.first_child ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.first_child ().is_null ())
+    {
+      for (l_elem = utility_::next_element_with_name (data_access::names::project_name (), l_node.first_child ());
+           not l_elem.is_null ();
+           l_elem =utility_::next_element_with_name (data_access::names::project_name (), l_elem))
+      {
+        if (utility_::check_name (data_access::names::project_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project\"\n";
+        }
+        else
+        {
+          log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_node.node_name ()) << "\"\n";
+        }
+      }
+    }
+    log () << TTLE << "Testing : next_element_with_name(str1, str2)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "next_element_with_name(str, str) precondition failure test: reason is null node\n";
+      utility_::next_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "next_element_with_name(str, str) precondition failure test: reason is an empty tag name.\n";
+      utility_::next_element_with_name (dom_string (), data_access::names::project_src_name (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "next_element_with_name(str, str) precondition failure test: reason is an empty tag name.\n";
+      utility_::next_element_with_name (data_access::names::project_name (), dom_string (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.first_child ().is_null ())
+    {
+      for (l_elem = utility_::next_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), l_node.first_child ());
+           not l_elem.is_null ();
+           l_elem = utility_::next_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), l_elem))
+      {
+        if (utility_::check_name (data_access::names::project_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project\"\n";
+        }
+        else if (utility_::check_name (data_access::names::project_src_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project-src\"\n";
+        }
+        else
+        {
+          log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_node.node_name ()) << "\"\n";
+        }
+      }
+    }
+    log () << TTLE << "Testing : previous_element_with_name(str)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "previous_element_with_name(str) precondition failure test: reason is null node\n";
+      utility_::previous_element_with_name (data_access::names::project_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "previous_element_with_name(str) precondition failure test: reason is an empty tag name.\n";
+      utility_::previous_element_with_name (dom_string (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.last_child ().is_null ())
+    {
+      unsigned int l_count(0);
+      for (l_elem = utility_::previous_element_with_name (data_access::names::project_name (), l_node.last_child ());
+           not l_elem.is_null () and l_count < 1000;
+           l_elem =utility_::previous_element_with_name (data_access::names::project_name (), l_elem), ++l_count)
+      {
+        if (utility_::check_name (data_access::names::project_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project\"\n";
+        }
+        else
+        {
+          log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_node.node_name ()) << "\"\n";
+        }
+      }
+    }
+    log () << TTLE << "Testing : previous_element_with_name (str1, str2)\n";
+    l_node = l_doc.document_element (); // Reset l_node to doc element.
+    try
+    {
+      log () << COMM << "previous_element_with_name(str, str) precondition failure test: reason is null node\n";
+      utility_::previous_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "previous_element_with_name(str, str) precondition failure test: reason is an empty tag name.\n";
+      utility_::previous_element_with_name (dom_string (), data_access::names::project_src_name (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {	
+      log () << COMM << "previous_element_with_name(str, str) precondition failure test: reason is an empty tag name.\n";
+      utility_::previous_element_with_name (data_access::names::project_name (), dom_string (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    if (not l_node.last_child ().is_null ())
+    {
+      unsigned int l_count(0);
+      for (l_elem = utility_::previous_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), l_node.last_child ());
+           not l_elem.is_null () and l_count < 1000;
+           l_elem =utility_::previous_element_with_name (data_access::names::project_name (), data_access::names::project_src_name (), l_elem), ++l_count)
+      {
+        if (utility_::check_name (data_access::names::project_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project\"\n";
+        }
+        else if (utility_::check_name (data_access::names::project_src_name (), l_elem))
+        {
+          log () << IFYS << "Found tag = \"project-src\"\n";
+        }
+        else
+        {
+          log () << IFNO << "Incorrectly found tag = \"" << get_utf8 (l_node.node_name ()) << "\"\n";
+        }
+      }
+    }
+    log () << TTLE << "Testing : set_element\n";
+    log () << COMM << "Original doc.\n";
+    implementation::serialise (l_doc, log ());
+    if (l_elem.is_null ())
+    {
+      l_elem = l_node.last_child ();
+    }
+    l_list[0] = data_access::names::project_src_name (); // List that should match
+    l_list[1] = data_access::names::project_name ();
+    l_list[2] = data_access::names::worker_name ();
+    try
+    {
+      log () << COMM << "set_element precondition failure test: reason is null target node\n";
+      utility_::set_element (&l_list[0], &l_list[4], l_elem, element ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "set_element precondition failure test: reason is null new node\n";
+      utility_::set_element (&l_list[0], &l_list[4], element (), l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "set_element precondition failure test: reason is null name begin\n";
+      utility_::set_element (NULL, &l_list[4], l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "set_element precondition failure test: reason is null name end\n";
+      utility_::set_element (&l_list[0], NULL, l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "set_element precondition failure test: reason is name end before name begin\n";
+      utility_::set_element (&l_list[1], &l_list[0], l_elem, l_node);
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    log () << "set_element replace with existing node should leave doc unchanged:\n";
+    utility_::set_element (&l_list[2], &l_list[3], l_elem, l_node);
+    implementation::serialise (l_doc, log ());
+    log () << "set_element with new \"text\" should change doc: Changed doc.\n";
+    info l_txt (l_doc.create_element (data_access::names::info_name ()));
+    l_txt.content ("This is absolutely extraordinary");
+    utility_::set_element (&l_list[0], &l_list[3], l_txt, l_node);
+    log () << COMM << "Changed doc.\n";
+    implementation::serialise (l_doc, log ());
+    log () << TTLE << "Testing : register_options\n";
+    log () << COMM << "untested; already used in initialisation.\n";
+    log () << TTLE << "Testing : target_name\n";
+    try
+    {
+      log () << COMM << "target_name precondition failure test: reason is empty element name\n";
+      utility_::target_name (dom_string());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    try
+    {
+      log () << COMM << "target_name precondition failure test: reason is invalid element name\n";
+      utility_::target_name (data_access::names::program_name ());
+      log () << IFNO << "Should not get here: " << __LINE__ << "\n";
+    }
+    catch (const std::exception & a_err)
+    {
+      log () << IFYS << "Caught exception: " << a_err.what () << "\n";
+    }
+    log () << IFYS << "project_src should give project : " << get_utf8 (utility_::target_name (data_access::names::project_src_name ())) << "\n";
+    log () << IFYS << "compound_src should give compound : " << get_utf8 (utility_::target_name (data_access::names::compound_src_name ())) << "\n";
+    log () << IFYS << "formula_src should give formula : " << get_utf8 (utility_::target_name (data_access::names::formula_src_name ())) << "\n";
+  }
+}
+catch (const std::exception &a_err)
+{
+  log () << EXCP << a_err.what () << "\n";
+}
+!!!1351721.cpp!!!	register_options(inout a_optset : options_description) : void
+if (NULL == a_optset.find_nothrow ("gout", true))
+{
+  // Add option
+  a_optset.add_options () ("gout", boost::program_options::value< std::string >(), "Gaussian output file");
+}

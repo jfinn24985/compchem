@@ -1,0 +1,54 @@
+class script_manager
+!!!1242281.cpp!!!	read_language() : void
+guistate::string_list_t l_list;
+// Get shell statement
+scripter_script::shell_phrase = m_scope.value ("shell");
+// Get if statements;
+guistate::utility::convert_string_to_list (m_scope.value ("if"), l_list);
+if (not l_list.empty ()) {
+  COMPCHEM_ALWAYS (2 == l_list.size () or 3 == l_list.size (), "Language feature 'if' must have 2 or 3 parts.");
+  scripter_if::predicate_phrase.assign (l_list[0]);
+  if (2 == l_list.size ()) {
+    scripter_if::end_phrase.assign (l_list[1]); }
+  else {
+    scripter_if::else_phrase.assign (l_list[1]); 
+    scripter_if::end_phrase.assign (l_list[2]); }}
+l_list.clear ();
+// For
+guistate::utility::convert_string_to_list (m_scope.value ("for"), l_list);
+if (not l_list.empty ()) {
+  COMPCHEM_ALWAYS (2 == l_list.size (), "Language feature 'for' must have only 2 parts.");
+  scripter_for::for_phrase.assign (l_list[0]);
+  scripter_for::end_phrase.assign (l_list[1]); }
+l_list.clear ();
+// For_each
+guistate::utility::convert_string_to_list (m_scope.value ("foreach"), l_list);
+if (not l_list.empty ()) {
+  COMPCHEM_ALWAYS (2 == l_list.size (), "Language feature 'foreach' must have only 2 parts.");
+  scripter_foreach::for_phrase.assign (l_list[0]);
+  scripter_foreach::end_phrase.assign (l_list[1]); }
+l_list.clear ();
+// Switch
+guistate::utility::convert_string_to_list (m_scope.value ("switch"), l_list);
+if (not l_list.empty ()) {
+  COMPCHEM_ALWAYS (2 == l_list.size (), "Language feature 'switch' must have only 4 parts.");
+  scripter_switch::switch_phrase.assign (l_list[0]);
+  scripter_switch_block::predicate_phrase.assign (l_list[1]);
+  scripter_switch_block::end_phrase.assign (l_list[2]);
+  scripter_switch::end_phrase.assign (l_list[3]); }
+l_list.clear ();
+// Done
+!!!1232553.cpp!!!	write() : void
+// Read the list of desired basic scripts
+guistate::string_list_t l_list;
+guistate::utility::convert_string_to_list (m_scope.value ("basic", m_path), l_list);
+// Create basic scripts
+for (guistate::string_list_t::iterator l_ix (l_list.begin ());
+     l_ix != l_list.end ();
+     ++l_ix) {
+  script_block l_script (m_path / *l_ix, guistate::string_list_t (), m_scope, new scripter_script);
+  // Create filename
+  std::string l_filename (create_filename (*l_ix));
+  std::ofstream l_ofs (l_filename.c_str ());
+  l_script.serialise (l_ofs, m_scope); }
+

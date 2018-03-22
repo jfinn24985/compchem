@@ -1,0 +1,31 @@
+class _data_program_init
+!!!152617.cpp!!!	_data_program_init()
+  xml_rb_node::add_maker( "apparatus", new maker_cmd_T<apparatus>() );
+  xml_rb_node::add_maker( "atom-list", new maker_cmd_T<atom_list>() );
+  xml_rb_node::add_maker( "calc-method", new maker_cmd_T<calc_method>() );
+  xml_rb_node::add_maker( "calc-program", new maker_cmd_T<calc_program>() );
+  xml_rb_node::add_maker( "chem-notation", new maker_cmd_T<chem_notation>() );
+  xml_rb_node::add_maker( "comp-program", new maker_cmd_T<comp_program>() );
+  xml_rb_node::add_maker( "compound", new maker_cmd_T<compound>() );
+  xml_rb_node::add_maker( "dataset", new maker_cmd_T<dataset>() );
+  xml_rb_node::add_maker( "experiment", new maker_cmd_T<experiment>() );
+  xml_rb_node::add_maker( "geometry", new maker_cmd_T<geometry>() );
+  xml_rb_node::add_maker( "information", new maker_cmd_T<information>() );
+  xml_rb_node::add_maker( "iupac-name", new maker_cmd_T<iupac_name>() );
+  xml_rb_node::add_maker( "lab-app", new maker_cmd_T<lab_app>() );
+  xml_rb_node::add_maker( "program", new maker_cmd_T<program>() );
+  xml_rb_node::add_maker( "project", new maker_cmd_T<project>() );
+  xml_rb_node::add_maker( "report-form", new maker_cmd_T<report_form>() );
+  xml_rb_node::add_maker( "worker", new maker_cmd_T<worker>() );
+  unsigned int _i = 0;
+  while ( element_desc[_i] ) {
+    if ( !xml_node::add_tag_definition( element_desc[_i],
+				       element_desc[_i + 1],
+				       element_desc[_i + 2] ) ) {
+      // If we can't add the tag definition then we have an error!
+      std::string _msg = "Unuccessfully attempted to add tag ";
+      _msg += element_desc[_i];
+      throw  _msg.c_str();
+    };
+    _i += 3;
+  };

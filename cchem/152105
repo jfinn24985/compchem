@@ -1,0 +1,3288 @@
+format 75
+"Docs" // Docs
+  revision 31
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_src_dir ".."
+  componentview 128169 "Overview"
+    //component diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    comment "A view of the components that make up the cchem system"
+    componentdiagram 128297 "Top overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations no shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    componentdiagram 164009 "Data source overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    component 128297 "comp_chem"
+      comment "The comp_chem component manages the interaction between the user and the data. It manages the other components to view/navigate the data, define projects and input data."
+    end
+
+    component 132649 "data_source"
+      comment "This component manages the storage and realisation of the cchem data base. It
+provides the interface for the importation and querying of the data."
+      component 128681 "data_scheme"
+	stereotype "subsystem"
+	provided_classes
+	  class_ref 432681 // basic_datum
+	  class_ref 458281 // basic_datum_py
+	  class_ref 458537 // basic_text_py
+	  class_ref 443433 // comment
+	  class_ref 356009 // compound
+	  class_ref 458793 // compound_py
+	  class_ref 355369 // datum
+	  class_ref 458665 // datum_py
+	  class_ref 356905 // experiment
+	  class_ref 458921 // experiment_py
+	  class_ref 354729 // filter
+	  class_ref 459049 // filter_py
+	  class_ref 356521 // formula
+	  class_ref 459177 // formula_py
+	  class_ref 356393 // identity
+	  class_ref 459305 // identity_py
+	  class_ref 354601 // info
+	  class_ref 459433 // info_py
+	  class_ref 353705 // mechanism
+	  class_ref 459561 // mechanism_py
+	  class_ref 357033 // memo
+	  class_ref 459689 // memo_py
+	  class_ref 443561 // processing_instruction
+	  class_ref 353321 // program
+	  class_ref 470185 // program_options
+	  class_ref 354089 // project
+	  class_ref 459945 // project_py
+	  class_ref 371497 // settings
+	  class_ref 460073 // settings_py
+	  class_ref 443305 // text
+	  class_ref 353577 // worker
+	  class_ref 460201 // worker_py
+	end
+	required_classes
+	  class_ref 476713 // names
+	  class_ref 449449 // persistence
+	end
+	comment "This component contains classes that define the database structure. All 
+components that directly manipulate the internal representation of the 
+data will do so through these classes.
+
+The objective of this database is to provide a mechanism to compare 
+and organise sets of objects.  Objects in the database have attributes 
+that can be (a) classifying, (b) lucid data or (c) opaque data.  
+
++ Classifying attributes are object types that are native to the database. 
+These types can be directly used to organise sets of objects.  These 
+types can be further divided into global object types and domain object 
+types.
++ Lucid data attributes are object types provided by a plugin module.  
+Lucid data is reportable to the user, through the visual interface or 
+output reports.  Depending on how the plugin module defines the 
+object, lucid data can also be used to organise objects.
++ Opaque data are attributes that contain information that is only 
+meaningful to external programs.
+
+The general view of this database is that it contains data at levels of 
+\"visibility\".  The top most data is \"meta-data\" that describes the 
+relationship between objects and is database centric.  The next level 
+of meta-data is data that is lucid to the database but represents 
+information from the problem domain.  The third level represents 
+meta-data that is opaque to the database directly but can be 
+visualised by domain plugins/reports.  The fourth level represents 
+opaque data for which the database has no visualisation plugin.
+
+The database uses information at the top two levels to manage data
+relationships
+"
+      end
+
+      component 131113 "data_access"
+	stereotype "subsystem"
+	associated_diagram componentdiagram_ref 164009 // Data source overview
+	provided_classes
+	  class_ref 460585 // data_access_py
+	  class_ref 433961 // meta_datum
+	  class_ref 460457 // meta_datum_py
+	  class_ref 476713 // names
+	  class_ref 449449 // persistence
+	end
+	ncouples 1
+	key "target" value "lib"
+	comment "This component provides methods for serialising/deserialising 
+the data_scheme objects.
+
+Version 2 provides this mechanism to/from XML using the 
+xml_access sub-component"
+	component 132905 "xml_access"
+	  provided_classes
+	    class_ref 360233 // xml_access_helper
+	    class_ref 455593 // xml_write_visitor
+	  end
+	  required_classes
+	    class_ref 350761 // options_description
+	    class_ref 361513 // path
+	    class_ref 453161 // xml_reader_t
+	  end
+	  comment "The classes that manage persistence to an XML database"
+	end
+      end
+    end
+
+    component 128809 "data_supplier"
+      provided_classes
+	class_ref 400681 // basic_filter
+	class_ref 345513 // filter_manager
+      end
+      required_classes
+	class_ref 432681 // basic_datum
+	class_ref 354729 // filter
+	class_ref 353705 // mechanism
+	class_ref 354089 // project
+      end
+      comment "This component provides an interface to manage and use data importing filters.
+While some input may be obtained from the user, most input data is obtained 
+by filtering of data files from external sources. It combines the set of desired 
+outcomes from the project element with filters from a mechanism object 
+appropriate for the external data file.
+
+The task of physically instantiating filters is managed by the filter_manager class.
+At this time there are two working filter subsystems, plugin and regex, with a 
+python filter subsystem proposed.
+
+"
+      component 134057 "plugin_supplier"
+	provided_classes
+	  class_ref 344489 // basic_filter_traits
+	  class_ref 349225 // plugin_filter
+	end
+	required_classes
+	  class_ref 432681 // basic_datum
+	  class_ref 355369 // datum
+	  class_ref 354729 // filter
+	end
+	comment "An external plugin (DLL) is expected to provide an instance of the 
+base_filter_traits \"C\" struct.  A plugin_filter object will load the plugin
+library and attempt to obtain a pointer to the base_filter_traits struct.  
+While filtering the plugin can return several non-error conditions.
+* UNUSABLE: to indicate the filter should be discarded.
+* COMPLETE: to indicate the filter does not need to perform more 
+scanning but it's results should be included.
+* SUCCESS: standard result to indicate all is OK
+
+The plugin_filter uses RAII, so that the plugin is automatically unloaded 
+when its associated plugin_filter object goes out of scope."
+      end
+
+      component 134185 "regex_supplier"
+	required_classes
+	  class_ref 354729 // filter
+	  class_ref 482345 // format
+	  class_ref 346153 // regex
+	end
+	comment "This provides a mechanism for using simple regular expressions as
+filters. It uses the boost regular expression and format system."
+      end
+
+      component 134313 "python_supplier"
+	required_classes
+	  class_ref 458281 // basic_datum_py
+	  class_ref 458665 // datum_py
+	  class_ref 354729 // filter
+	  class_ref 459689 // memo_py
+	end
+	comment "This proposed subsystem wll allow plugins to be written in python. The
+script should have an initialise method that returns an object of a class
+derived from compchem_filter."
+      end
+    end
+
+    component 128937 "report"
+      required_classes
+	class_ref 432681 // basic_datum
+	class_ref 178729 // connector
+	class_ref 180393 // project_cursor
+      end
+      comment "Manage operations that provide reports of the data. One of the 
+major reports scans the database and produces an XML document
+that contains a single project with subelements organised by 
+compound/formula/[outcome].
+
+
+visualise and edit project data sets.  This 
+includes textual and graphical display in a user-interface. The display 
+of domain specific information is handled by report plugins.  The 
+data_source component manages physically storing (and locating) 
+these plugins. This component also includes editing of the data set, 
+including management of data import through the supplier component."
+    end
+  end
+
+  usecaseview 128041 "Overview"
+    //use case diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    usecasediagram 128937 "Use-case overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations no class_drawing_mode default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    usecasediagram 169257 "Global Overview"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 508201 "administrator"
+      visibility package stereotype "actor"
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 508329 "project_manager"
+      visibility package stereotype "actor"
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 548521 // <generalisation>
+	relation 527401 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 548521 // <generalisation>
+	  b parent class_ref 381225 // user
+      end
+    end
+  end
+
+  deploymentview 146473 "Overview"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 261417 "buildfile"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "${butter_boost}
+using gcc : : : <cxxflags>\"-std=c++98 -Weffc++ -Woverloaded-virtual -Wstrict-null-sentinel\" <linkflags>\"-rdynamic -lz\" <optimization>speed:<cflags>\"-march=native -mfpmath=sse -msse2\" ;
+# using intel : : :  <cxxflags>\"-D_BOOL -wd383,981,869\" <linkflags>\"-i_dynamic -rdynamic -lz\" <optimization>speed:<cflags>\"-tpp7 -xW -ipo\" ;
+
+import string ;
+# For python-extension
+# using python ;
+"
+    end
+
+    artifact 262569 "cchem.dox"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "# Doxyfile 1.2.18
+
+# This file describes the settings to be used by the documentation system
+# doxygen (www.doxygen.org) for a project
+#
+# All text after a hash (#) is considered a comment and will be ignored
+# The format is:
+#       TAG = value [value, ...]
+# For lists items can also be appended using:
+#       TAG += value [value, ...]
+# Values that contain spaces should be placed between quotes (\" \")
+
+#---------------------------------------------------------------------------
+# General configuration options
+#---------------------------------------------------------------------------
+
+# The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
+# by quotes) that should identify the project.
+
+PROJECT_NAME           = \"comp_chem\"
+
+# The PROJECT_NUMBER tag can be used to enter a project or revision number. 
+# This could be handy for archiving the generated documentation or 
+# if some version control system is used.
+
+PROJECT_NUMBER         = 1.0
+
+# The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
+# base path where the generated documentation will be put. 
+# If a relative path is entered, it will be relative to the location 
+# where doxygen was started. If left blank the current directory will be used.
+
+OUTPUT_DIRECTORY       = doc
+
+# The OUTPUT_LANGUAGE tag is used to specify the language in which all 
+# documentation generated by doxygen is written. Doxygen will use this 
+# information to generate all constant output in the proper language. 
+# The default language is English, other supported languages are: 
+# Brazilian, Catalan, Chinese, Chinese-Traditional, Croatian, Czech, Danish, Dutch, 
+# Finnish, French, German, Greek, Hungarian, Italian, Japanese, Japanese-en 
+# (Japanese with english messages), Korean, Norwegian, Polish, Portuguese, 
+# Romanian, Russian, Serbian, Slovak, Slovene, Spanish, Swedish and Ukrainian.
+
+OUTPUT_LANGUAGE        = English
+
+# If the EXTRACT_ALL tag is set to YES doxygen will assume all entities in 
+# documentation are documented, even if no documentation was available. 
+# Private class members and static file members will be hidden unless 
+# the EXTRACT_PRIVATE and EXTRACT_STATIC tags are set to YES
+
+EXTRACT_ALL            = YES
+
+# If the EXTRACT_PRIVATE tag is set to YES all private members of a class 
+# will be included in the documentation.
+
+EXTRACT_PRIVATE        = YES
+
+# If the EXTRACT_STATIC tag is set to YES all static members of a file 
+# will be included in the documentation.
+
+EXTRACT_STATIC         = YES
+
+# If the EXTRACT_LOCAL_CLASSES tag is set to YES classes (and structs) 
+# defined locally in source files will be included in the documentation. 
+# If set to NO only classes defined in header files are included.
+
+EXTRACT_LOCAL_CLASSES  = YES
+
+# If the HIDE_UNDOC_MEMBERS tag is set to YES, Doxygen will hide all 
+# undocumented members of documented classes, files or namespaces. 
+# If set to NO (the default) these members will be included in the 
+# various overviews, but no documentation section is generated. 
+# This option has no effect if EXTRACT_ALL is enabled.
+
+HIDE_UNDOC_MEMBERS     = NO
+
+# If the HIDE_UNDOC_CLASSES tag is set to YES, Doxygen will hide all 
+# undocumented classes that are normally visible in the class hierarchy. 
+# If set to NO (the default) these class will be included in the various 
+# overviews. This option has no effect if EXTRACT_ALL is enabled.
+
+HIDE_UNDOC_CLASSES     = NO
+
+# If the HIDE_FRIEND_COMPOUNDS tag is set to YES, Doxygen will hide all 
+# friend (class|struct|union) declarations. 
+# If set to NO (the default) these declarations will be included in the 
+# documentation.
+
+HIDE_FRIEND_COMPOUNDS  = NO
+
+# If the BRIEF_MEMBER_DESC tag is set to YES (the default) Doxygen will 
+# include brief member descriptions after the members that are listed in 
+# the file and class documentation (similar to JavaDoc). 
+# Set to NO to disable this.
+
+BRIEF_MEMBER_DESC      = YES
+
+# If the REPEAT_BRIEF tag is set to YES (the default) Doxygen will prepend 
+# the brief description of a member or function before the detailed description. 
+# Note: if both HIDE_UNDOC_MEMBERS and BRIEF_MEMBER_DESC are set to NO, the 
+# brief descriptions will be completely suppressed.
+
+REPEAT_BRIEF           = YES
+
+# If the ALWAYS_DETAILED_SEC and REPEAT_BRIEF tags are both set to YES then 
+# Doxygen will generate a detailed section even if there is only a brief 
+# description.
+
+ALWAYS_DETAILED_SEC    = NO
+
+# If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all inherited 
+# members of a class in the documentation of that class as if those members were 
+# ordinary class members. Constructors, destructors and assignment operators of 
+# the base classes will not be shown.
+
+INLINE_INHERITED_MEMB  = NO
+
+# If the FULL_PATH_NAMES tag is set to YES then Doxygen will prepend the full 
+# path before files name in the file list and in the header files. If set 
+# to NO the shortest path that makes the file name unique will be used.
+
+FULL_PATH_NAMES        = NO
+
+# If the FULL_PATH_NAMES tag is set to YES then the STRIP_FROM_PATH tag 
+# can be used to strip a user defined part of the path. Stripping is 
+# only done if one of the specified strings matches the left-hand part of 
+# the path. It is allowed to use relative paths in the argument list.
+
+STRIP_FROM_PATH        = 
+
+# The INTERNAL_DOCS tag determines if documentation 
+# that is typed after a \\internal command is included. If the tag is set 
+# to NO (the default) then the documentation will be excluded. 
+# Set it to YES to include the internal documentation.
+
+INTERNAL_DOCS          = NO
+
+# Setting the STRIP_CODE_COMMENTS tag to YES (the default) will instruct 
+# doxygen to hide any special comment blocks from generated source code 
+# fragments. Normal C and C++ comments will always remain visible.
+
+STRIP_CODE_COMMENTS    = YES
+
+# If the CASE_SENSE_NAMES tag is set to NO then Doxygen will only generate 
+# file names in lower case letters. If set to YES upper case letters are also 
+# allowed. This is useful if you have classes or files whose names only differ 
+# in case and if your file system supports case sensitive file names. Windows 
+# users are adviced to set this option to NO.
+
+CASE_SENSE_NAMES       = YES
+
+# If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter 
+# (but less readable) file names. This can be useful is your file systems 
+# doesn't support long names like on DOS, Mac, or CD-ROM.
+
+SHORT_NAMES            = NO
+
+# If the HIDE_SCOPE_NAMES tag is set to NO (the default) then Doxygen 
+# will show members with their full class and namespace scopes in the 
+# documentation. If set to YES the scope will be hidden.
+
+HIDE_SCOPE_NAMES       = NO
+
+# If the VERBATIM_HEADERS tag is set to YES (the default) then Doxygen 
+# will generate a verbatim copy of the header file for each class for 
+# which an include is specified. Set to NO to disable this.
+
+VERBATIM_HEADERS       = YES
+
+# If the SHOW_INCLUDE_FILES tag is set to YES (the default) then Doxygen 
+# will put list of the files that are included by a file in the documentation 
+# of that file.
+
+SHOW_INCLUDE_FILES     = YES
+
+# If the JAVADOC_AUTOBRIEF tag is set to YES then Doxygen 
+# will interpret the first line (until the first dot) of a JavaDoc-style 
+# comment as the brief description. If set to NO, the JavaDoc 
+# comments  will behave just like the Qt-style comments (thus requiring an 
+# explict @brief command for a brief description.
+
+JAVADOC_AUTOBRIEF      = NO
+
+# The MULTILINE_CPP_IS_BRIEF tag can be set to YES to make Doxygen 
+# treat a multi-line C++ special comment block (i.e. a block of //! or /// 
+# comments) as a brief description. This used to be the default behaviour. 
+# The new default is to treat a multi-line C++ comment block as a detailed 
+# description. Set this tag to YES if you prefer the old behaviour instead.
+
+MULTILINE_CPP_IS_BRIEF = NO
+
+# If the DETAILS_AT_TOP tag is set to YES then Doxygen 
+# will output the detailed description near the top, like JavaDoc.
+# If set to NO, the detailed description appears after the member 
+# documentation.
+
+DETAILS_AT_TOP         = NO
+
+# If the INHERIT_DOCS tag is set to YES (the default) then an undocumented 
+# member inherits the documentation from any documented member that it 
+# reimplements.
+
+INHERIT_DOCS           = YES
+
+# If the INLINE_INFO tag is set to YES (the default) then a tag [inline] 
+# is inserted in the documentation for inline members.
+
+INLINE_INFO            = YES
+
+# If the SORT_MEMBER_DOCS tag is set to YES (the default) then doxygen 
+# will sort the (detailed) documentation of file and class members 
+# alphabetically by member name. If set to NO the members will appear in 
+# declaration order.
+
+SORT_MEMBER_DOCS       = YES
+
+# If member grouping is used in the documentation and the DISTRIBUTE_GROUP_DOC 
+# tag is set to YES, then doxygen will reuse the documentation of the first 
+# member in the group (if any) for the other members of the group. By default 
+# all members of a group must be documented explicitly.
+
+DISTRIBUTE_GROUP_DOC   = NO
+
+# The TAB_SIZE tag can be used to set the number of spaces in a tab. 
+# Doxygen uses this value to replace tabs by spaces in code fragments.
+
+TAB_SIZE               = 8
+
+# The GENERATE_TODOLIST tag can be used to enable (YES) or 
+# disable (NO) the todo list. This list is created by putting \\todo 
+# commands in the documentation.
+
+GENERATE_TODOLIST      = YES
+
+# The GENERATE_TESTLIST tag can be used to enable (YES) or 
+# disable (NO) the test list. This list is created by putting \\test 
+# commands in the documentation.
+
+GENERATE_TESTLIST      = YES
+
+# The GENERATE_BUGLIST tag can be used to enable (YES) or 
+# disable (NO) the bug list. This list is created by putting \\bug 
+# commands in the documentation.
+
+GENERATE_BUGLIST       = YES
+
+# The GENERATE_DEPRECATEDLIST tag can be used to enable (YES) or 
+# disable (NO) the deprecated list. This list is created by putting \\deprecated commands in the documentation.
+
+GENERATE_DEPRECATEDLIST= YES
+
+# This tag can be used to specify a number of aliases that acts 
+# as commands in the documentation. An alias has the form \"name=value\". 
+# For example adding \"sideeffect=\\par Side Effects:\\n\" will allow you to 
+# put the command \\sideeffect (or @sideeffect) in the documentation, which 
+# will result in a user defined paragraph with heading \"Side Effects:\". 
+# You can put \\n's in the value part of an alias to insert newlines.
+
+ALIASES                = 
+
+# The ENABLED_SECTIONS tag can be used to enable conditional 
+# documentation sections, marked by \\if sectionname ... \\endif.
+
+ENABLED_SECTIONS       = 
+
+# The MAX_INITIALIZER_LINES tag determines the maximum number of lines 
+# the initial value of a variable or define consist of for it to appear in 
+# the documentation. If the initializer consists of more lines than specified 
+# here it will be hidden. Use a value of 0 to hide initializers completely. 
+# The appearance of the initializer of individual variables and defines in the 
+# documentation can be controlled using \\showinitializer or \\hideinitializer 
+# command in the documentation regardless of this setting.
+
+MAX_INITIALIZER_LINES  = 30
+
+# Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources 
+# only. Doxygen will then generate output that is more tailored for C. 
+# For instance some of the names that are used will be different. The list 
+# of all members will be omitted, etc.
+
+OPTIMIZE_OUTPUT_FOR_C  = NO
+
+# Set the OPTIMIZE_OUTPUT_JAVA tag to YES if your project consists of Java sources 
+# only. Doxygen will then generate output that is more tailored for Java. 
+# For instance namespaces will be presented as packages, qualified scopes 
+# will look different, etc.
+
+OPTIMIZE_OUTPUT_JAVA   = NO
+
+# Set the SHOW_USED_FILES tag to NO to disable the list of files generated 
+# at the bottom of the documentation of classes and structs. If set to YES the 
+# list will mention the files that were used to generate the documentation.
+
+SHOW_USED_FILES        = YES
+
+#---------------------------------------------------------------------------
+# configuration options related to warning and progress messages
+#---------------------------------------------------------------------------
+
+# The QUIET tag can be used to turn on/off the messages that are generated 
+# by doxygen. Possible values are YES and NO. If left blank NO is used.
+
+QUIET                  = NO
+
+# The WARNINGS tag can be used to turn on/off the warning messages that are 
+# generated by doxygen. Possible values are YES and NO. If left blank 
+# NO is used.
+
+WARNINGS               = YES
+
+# If WARN_IF_UNDOCUMENTED is set to YES, then doxygen will generate warnings 
+# for undocumented members. If EXTRACT_ALL is set to YES then this flag will 
+# automatically be disabled.
+
+WARN_IF_UNDOCUMENTED   = YES
+
+# The WARN_FORMAT tag determines the format of the warning messages that 
+# doxygen can produce. The string should contain the $file, $line, and $text 
+# tags, which will be replaced by the file and line number from which the 
+# warning originated and the warning text.
+
+WARN_FORMAT            = \"$file:$line: $text\"
+
+# The WARN_LOGFILE tag can be used to specify a file to which warning 
+# and error messages should be written. If left blank the output is written 
+# to stderr.
+
+WARN_LOGFILE           = 
+
+#---------------------------------------------------------------------------
+# configuration options related to the input files
+#---------------------------------------------------------------------------
+
+# The INPUT tag can be used to specify the files and/or directories that contain 
+# documented source files. You may enter file names like \"myfile.cpp\" or 
+# directories like \"/usr/src/myproject\". Separate the files or directories 
+# with spaces.
+
+INPUT                  = Chemistry FileTypes FrameWork Programs DOM Filters Util
+
+# If the value of the INPUT tag contains directories, you can use the 
+# FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
+# and *.h) to filter out the source-files in the directories. If left 
+# blank the following patterns are tested: 
+# *.c *.cc *.cxx *.cpp *.c++ *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp 
+# *.h++ *.idl *.odl
+
+FILE_PATTERNS          = [A-Z]*.cc [A-Z]*.hh
+
+# The RECURSIVE tag can be used to turn specify whether or not subdirectories 
+# should be searched for input files as well. Possible values are YES and NO. 
+# If left blank NO is used.
+
+RECURSIVE              = YES
+
+# The EXCLUDE tag can be used to specify files and/or directories that should 
+# excluded from the INPUT source files. This way you can easily exclude a 
+# subdirectory from a directory tree whose root is specified with the INPUT tag.
+
+EXCLUDE                = doc
+
+# The EXCLUDE_SYMLINKS tag can be used select whether or not files or directories 
+# that are symbolic links (a Unix filesystem feature) are excluded from the input.
+
+EXCLUDE_SYMLINKS       = NO
+
+# If the value of the INPUT tag contains directories, you can use the 
+# EXCLUDE_PATTERNS tag to specify one or more wildcard patterns to exclude 
+# certain files from those directories.
+
+EXCLUDE_PATTERNS       = 
+
+# The EXAMPLE_PATH tag can be used to specify one or more files or 
+# directories that contain example code fragments that are included (see 
+# the \\include command).
+
+EXAMPLE_PATH           = 
+
+# If the value of the EXAMPLE_PATH tag contains directories, you can use the 
+# EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
+# and *.h) to filter out the source-files in the directories. If left 
+# blank all files are included.
+
+EXAMPLE_PATTERNS       = 
+
+# If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be 
+# searched for input files to be used with the \\include or \\dontinclude 
+# commands irrespective of the value of the RECURSIVE tag. 
+# Possible values are YES and NO. If left blank NO is used.
+
+EXAMPLE_RECURSIVE      = NO
+
+# The IMAGE_PATH tag can be used to specify one or more files or 
+# directories that contain image that are included in the documentation (see 
+# the \\image command).
+
+IMAGE_PATH             = 
+
+# The INPUT_FILTER tag can be used to specify a program that doxygen should 
+# invoke to filter for each input file. Doxygen will invoke the filter program 
+# by executing (via popen()) the command <filter> <input-file>, where <filter> 
+# is the value of the INPUT_FILTER tag, and <input-file> is the name of an 
+# input file. Doxygen will then use the output that the filter program writes 
+# to standard output.
+
+INPUT_FILTER           = 
+
+# If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using 
+# INPUT_FILTER) will be used to filter the input files when producing source 
+# files to browse (i.e. when SOURCE_BROWSER is set to YES).
+
+FILTER_SOURCE_FILES    = NO
+
+#---------------------------------------------------------------------------
+# configuration options related to source browsing
+#---------------------------------------------------------------------------
+
+# If the SOURCE_BROWSER tag is set to YES then a list of source files will 
+# be generated. Documented entities will be cross-referenced with these sources.
+
+SOURCE_BROWSER         = NO
+
+# Setting the INLINE_SOURCES tag to YES will include the body 
+# of functions and classes directly in the documentation.
+
+INLINE_SOURCES         = NO
+
+# If the REFERENCED_BY_RELATION tag is set to YES (the default) 
+# then for each documented function all documented 
+# functions referencing it will be listed.
+
+REFERENCED_BY_RELATION = YES
+
+# If the REFERENCES_RELATION tag is set to YES (the default) 
+# then for each documented function all documented entities 
+# called/used by that function will be listed.
+
+REFERENCES_RELATION    = YES
+
+#---------------------------------------------------------------------------
+# configuration options related to the alphabetical class index
+#---------------------------------------------------------------------------
+
+# If the ALPHABETICAL_INDEX tag is set to YES, an alphabetical index 
+# of all compounds will be generated. Enable this if the project 
+# contains a lot of classes, structs, unions or interfaces.
+
+ALPHABETICAL_INDEX     = NO
+
+# If the alphabetical index is enabled (see ALPHABETICAL_INDEX) then 
+# the COLS_IN_ALPHA_INDEX tag can be used to specify the number of columns 
+# in which this list will be split (can be a number in the range [1..20])
+
+COLS_IN_ALPHA_INDEX    = 5
+
+# In case all classes in a project start with a common prefix, all 
+# classes will be put under the same header in the alphabetical index. 
+# The IGNORE_PREFIX tag can be used to specify one or more prefixes that 
+# should be ignored while generating the index headers.
+
+IGNORE_PREFIX          = 
+
+#---------------------------------------------------------------------------
+# configuration options related to the HTML output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_HTML tag is set to YES (the default) Doxygen will 
+# generate HTML output.
+
+GENERATE_HTML          = YES
+
+# The HTML_OUTPUT tag is used to specify where the HTML docs will be put. 
+# If a relative path is entered the value of OUTPUT_DIRECTORY will be 
+# put in front of it. If left blank `html' will be used as the default path.
+
+HTML_OUTPUT            = html
+
+# The HTML_FILE_EXTENSION tag can be used to specify the file extension for 
+# each generated HTML page (for example: .htm,.php,.asp). If it is left blank 
+# doxygen will generate files with .html extension.
+
+HTML_FILE_EXTENSION    = .html
+
+# The HTML_HEADER tag can be used to specify a personal HTML header for 
+# each generated HTML page. If it is left blank doxygen will generate a 
+# standard header.
+
+HTML_HEADER            = 
+
+# The HTML_FOOTER tag can be used to specify a personal HTML footer for 
+# each generated HTML page. If it is left blank doxygen will generate a 
+# standard footer.
+
+HTML_FOOTER            = 
+
+# The HTML_STYLESHEET tag can be used to specify a user defined cascading 
+# style sheet that is used by each HTML page. It can be used to 
+# fine-tune the look of the HTML output. If the tag is left blank doxygen 
+# will generate a default style sheet
+
+HTML_STYLESHEET        = 
+
+# If the HTML_ALIGN_MEMBERS tag is set to YES, the members of classes, 
+# files or namespaces will be aligned in HTML using tables. If set to 
+# NO a bullet list will be used.
+
+HTML_ALIGN_MEMBERS     = YES
+
+# If the GENERATE_HTMLHELP tag is set to YES, additional index files 
+# will be generated that can be used as input for tools like the 
+# Microsoft HTML help workshop to generate a compressed HTML help file (.chm) 
+# of the generated HTML documentation.
+
+GENERATE_HTMLHELP      = NO
+
+# If the GENERATE_HTMLHELP tag is set to YES, the CHM_FILE tag can 
+# be used to specify the file name of the resulting .chm file. You 
+# can add a path in front of the file if the result should not be 
+# written to the html output dir.
+
+CHM_FILE               = 
+
+# If the GENERATE_HTMLHELP tag is set to YES, the HHC_LOCATION tag can 
+# be used to specify the location (absolute path including file name) of 
+# the HTML help compiler (hhc.exe). If non empty doxygen will try to run 
+# the html help compiler on the generated index.hhp.
+
+HHC_LOCATION           = 
+
+# If the GENERATE_HTMLHELP tag is set to YES, the GENERATE_CHI flag 
+# controls if a separate .chi index file is generated (YES) or that 
+# it should be included in the master .chm file (NO).
+
+GENERATE_CHI           = NO
+
+# If the GENERATE_HTMLHELP tag is set to YES, the BINARY_TOC flag 
+# controls whether a binary table of contents is generated (YES) or a 
+# normal table of contents (NO) in the .chm file.
+
+BINARY_TOC             = NO
+
+# The TOC_EXPAND flag can be set to YES to add extra items for group members 
+# to the contents of the Html help documentation and to the tree view.
+
+TOC_EXPAND             = NO
+
+# The DISABLE_INDEX tag can be used to turn on/off the condensed index at 
+# top of each HTML page. The value NO (the default) enables the index and 
+# the value YES disables it.
+
+DISABLE_INDEX          = NO
+
+# This tag can be used to set the number of enum values (range [1..20]) 
+# that doxygen will group on one line in the generated HTML documentation.
+
+ENUM_VALUES_PER_LINE   = 4
+
+# If the GENERATE_TREEVIEW tag is set to YES, a side panel will be
+# generated containing a tree-like index structure (just like the one that 
+# is generated for HTML Help). For this to work a browser that supports 
+# JavaScript and frames is required (for instance Mozilla, Netscape 4.0+, 
+# or Internet explorer 4.0+). Note that for large projects the tree generation 
+# can take a very long time. In such cases it is better to disable this feature. 
+# Windows users are probably better off using the HTML help feature.
+
+GENERATE_TREEVIEW      = NO
+
+# If the treeview is enabled (see GENERATE_TREEVIEW) then this tag can be 
+# used to set the initial width (in pixels) of the frame in which the tree 
+# is shown.
+
+TREEVIEW_WIDTH         = 250
+
+#---------------------------------------------------------------------------
+# configuration options related to the LaTeX output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_LATEX tag is set to YES (the default) Doxygen will 
+# generate Latex output.
+
+GENERATE_LATEX         = YES
+
+# The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put. 
+# If a relative path is entered the value of OUTPUT_DIRECTORY will be 
+# put in front of it. If left blank `latex' will be used as the default path.
+
+LATEX_OUTPUT           = latex
+
+# The LATEX_CMD_NAME tag can be used to specify the LaTeX command name to be invoked. If left blank `latex' will be used as the default command name.
+
+LATEX_CMD_NAME         = latex
+
+# The MAKEINDEX_CMD_NAME tag can be used to specify the command name to 
+# generate index for LaTeX. If left blank `makeindex' will be used as the 
+# default command name.
+
+MAKEINDEX_CMD_NAME     = makeindex
+
+# If the COMPACT_LATEX tag is set to YES Doxygen generates more compact 
+# LaTeX documents. This may be useful for small projects and may help to 
+# save some trees in general.
+
+COMPACT_LATEX          = NO
+
+# The PAPER_TYPE tag can be used to set the paper type that is used 
+# by the printer. Possible values are: a4, a4wide, letter, legal and 
+# executive. If left blank a4wide will be used.
+
+PAPER_TYPE             = a4wide
+
+# The EXTRA_PACKAGES tag can be to specify one or more names of LaTeX 
+# packages that should be included in the LaTeX output.
+
+EXTRA_PACKAGES         = 
+
+# The LATEX_HEADER tag can be used to specify a personal LaTeX header for 
+# the generated latex document. The header should contain everything until 
+# the first chapter. If it is left blank doxygen will generate a 
+# standard header. Notice: only use this tag if you know what you are doing!
+
+LATEX_HEADER           = 
+
+# If the PDF_HYPERLINKS tag is set to YES, the LaTeX that is generated 
+# is prepared for conversion to pdf (using ps2pdf). The pdf file will 
+# contain links (just like the HTML output) instead of page references 
+# This makes the output suitable for online browsing using a pdf viewer.
+
+PDF_HYPERLINKS         = NO
+
+# If the USE_PDFLATEX tag is set to YES, pdflatex will be used instead of 
+# plain latex in the generated Makefile. Set this option to YES to get a 
+# higher quality PDF documentation.
+
+USE_PDFLATEX           = NO
+
+# If the LATEX_BATCHMODE tag is set to YES, doxygen will add the \\\\batchmode. 
+# command to the generated LaTeX files. This will instruct LaTeX to keep 
+# running if errors occur, instead of asking the user for help. 
+# This option is also used when generating formulas in HTML.
+
+LATEX_BATCHMODE        = NO
+
+#---------------------------------------------------------------------------
+# configuration options related to the RTF output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_RTF tag is set to YES Doxygen will generate RTF output 
+# The RTF output is optimised for Word 97 and may not look very pretty with 
+# other RTF readers or editors.
+
+GENERATE_RTF           = NO
+
+# The RTF_OUTPUT tag is used to specify where the RTF docs will be put. 
+# If a relative path is entered the value of OUTPUT_DIRECTORY will be 
+# put in front of it. If left blank `rtf' will be used as the default path.
+
+RTF_OUTPUT             = rtf
+
+# If the COMPACT_RTF tag is set to YES Doxygen generates more compact 
+# RTF documents. This may be useful for small projects and may help to 
+# save some trees in general.
+
+COMPACT_RTF            = NO
+
+# If the RTF_HYPERLINKS tag is set to YES, the RTF that is generated 
+# will contain hyperlink fields. The RTF file will 
+# contain links (just like the HTML output) instead of page references. 
+# This makes the output suitable for online browsing using WORD or other 
+# programs which support those fields. 
+# Note: wordpad (write) and others do not support links.
+
+RTF_HYPERLINKS         = NO
+
+# Load stylesheet definitions from file. Syntax is similar to doxygen's 
+# config file, i.e. a series of assigments. You only have to provide 
+# replacements, missing definitions are set to their default value.
+
+RTF_STYLESHEET_FILE    = 
+
+# Set optional variables used in the generation of an rtf document. 
+# Syntax is similar to doxygen's config file.
+
+RTF_EXTENSIONS_FILE    = 
+
+#---------------------------------------------------------------------------
+# configuration options related to the man page output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_MAN tag is set to YES (the default) Doxygen will 
+# generate man pages
+
+GENERATE_MAN           = NO
+
+# The MAN_OUTPUT tag is used to specify where the man pages will be put. 
+# If a relative path is entered the value of OUTPUT_DIRECTORY will be 
+# put in front of it. If left blank `man' will be used as the default path.
+
+MAN_OUTPUT             = man
+
+# The MAN_EXTENSION tag determines the extension that is added to 
+# the generated man pages (default is the subroutine's section .3)
+
+MAN_EXTENSION          = .3
+
+# If the MAN_LINKS tag is set to YES and Doxygen generates man output, 
+# then it will generate one additional man file for each entity 
+# documented in the real man page(s). These additional files 
+# only source the real man page, but without them the man command 
+# would be unable to find the correct page. The default is NO.
+
+MAN_LINKS              = NO
+
+#---------------------------------------------------------------------------
+# configuration options related to the XML output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_XML tag is set to YES Doxygen will 
+# generate an XML file that captures the structure of 
+# the code including all documentation. Note that this 
+# feature is still experimental and incomplete at the 
+# moment.
+
+GENERATE_XML           = NO
+
+# The XML_SCHEMA tag can be used to specify an XML schema, 
+# which can be used by a validating XML parser to check the 
+# syntax of the XML files.
+
+XML_SCHEMA             = 
+
+# The XML_DTD tag can be used to specify an XML DTD, 
+# which can be used by a validating XML parser to check the 
+# syntax of the XML files.
+
+XML_DTD                = 
+
+#---------------------------------------------------------------------------
+# configuration options for the AutoGen Definitions output
+#---------------------------------------------------------------------------
+
+# If the GENERATE_AUTOGEN_DEF tag is set to YES Doxygen will 
+# generate an AutoGen Definitions (see autogen.sf.net) file 
+# that captures the structure of the code including all 
+# documentation. Note that this feature is still experimental 
+# and incomplete at the moment.
+
+GENERATE_AUTOGEN_DEF   = NO
+
+#---------------------------------------------------------------------------
+# Configuration options related to the preprocessor   
+#---------------------------------------------------------------------------
+
+# If the ENABLE_PREPROCESSING tag is set to YES (the default) Doxygen will 
+# evaluate all C-preprocessor directives found in the sources and include 
+# files.
+
+ENABLE_PREPROCESSING   = YES
+
+# If the MACRO_EXPANSION tag is set to YES Doxygen will expand all macro 
+# names in the source code. If set to NO (the default) only conditional 
+# compilation will be performed. Macro expansion can be done in a controlled 
+# way by setting EXPAND_ONLY_PREDEF to YES.
+
+MACRO_EXPANSION        = NO
+
+# If the EXPAND_ONLY_PREDEF and MACRO_EXPANSION tags are both set to YES 
+# then the macro expansion is limited to the macros specified with the 
+# PREDEFINED and EXPAND_AS_PREDEFINED tags.
+
+EXPAND_ONLY_PREDEF     = NO
+
+# If the SEARCH_INCLUDES tag is set to YES (the default) the includes files 
+# in the INCLUDE_PATH (see below) will be search if a #include is found.
+
+SEARCH_INCLUDES        = YES
+
+# The INCLUDE_PATH tag can be used to specify one or more directories that 
+# contain include files that are not input files but should be processed by 
+# the preprocessor.
+
+INCLUDE_PATH           = 
+
+# You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard 
+# patterns (like *.h and *.hpp) to filter out the header-files in the 
+# directories. If left blank, the patterns specified with FILE_PATTERNS will 
+# be used.
+
+INCLUDE_FILE_PATTERNS  = 
+
+# The PREDEFINED tag can be used to specify one or more macro names that 
+# are defined before the preprocessor is started (similar to the -D option of 
+# gcc). The argument of the tag is a list of macros of the form: name 
+# or name=definition (no spaces). If the definition and the = are 
+# omitted =1 is assumed.
+
+PREDEFINED             = 
+
+# If the MACRO_EXPANSION and EXPAND_PREDEF_ONLY tags are set to YES then 
+# this tag can be used to specify a list of macro names that should be expanded. 
+# The macro definition that is found in the sources will be used. 
+# Use the PREDEFINED tag if you want to use a different macro definition.
+
+EXPAND_AS_DEFINED      = 
+
+# If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then 
+# doxygen's preprocessor will remove all function-like macros that are alone 
+# on a line, have an all uppercase name, and do not end with a semicolon. Such 
+# function macros are typically used for boiler-plate code, and will confuse the 
+# parser if not removed.
+
+SKIP_FUNCTION_MACROS   = YES
+
+#---------------------------------------------------------------------------
+# Configuration::addtions related to external references   
+#---------------------------------------------------------------------------
+
+# The TAGFILES tag can be used to specify one or more tagfiles.
+
+TAGFILES               = 
+
+# When a file name is specified after GENERATE_TAGFILE, doxygen will create 
+# a tag file that is based on the input files it reads.
+
+GENERATE_TAGFILE       = 
+
+# If the ALLEXTERNALS tag is set to YES all external classes will be listed 
+# in the class index. If set to NO only the inherited external classes 
+# will be listed.
+
+ALLEXTERNALS           = NO
+
+# If the EXTERNAL_GROUPS tag is set to YES all external groups will be listed 
+# in the modules index. If set to NO, only the current project's groups will 
+# be listed.
+
+EXTERNAL_GROUPS        = YES
+
+# The PERL_PATH should be the absolute path and name of the perl script 
+# interpreter (i.e. the result of `which perl').
+
+PERL_PATH              = /usr/bin/perl
+
+#---------------------------------------------------------------------------
+# Configuration options related to the dot tool   
+#---------------------------------------------------------------------------
+
+# If the CLASS_DIAGRAMS tag is set to YES (the default) Doxygen will 
+# generate a inheritance diagram (in Html, RTF and LaTeX) for classes with base or 
+# super classes. Setting the tag to NO turns the diagrams off. Note that this 
+# option is superceded by the HAVE_DOT option below. This is only a fallback. It is 
+# recommended to install and use dot, since it yield more powerful graphs.
+
+CLASS_DIAGRAMS         = YES
+
+# If set to YES, the inheritance and collaboration graphs will hide 
+# inheritance and usage relations if the target is undocumented 
+# or is not a class.
+
+HIDE_UNDOC_RELATIONS   = YES
+
+# If you set the HAVE_DOT tag to YES then doxygen will assume the dot tool is 
+# available from the path. This tool is part of Graphviz, a graph visualization 
+# toolkit from AT&T and Lucent Bell Labs. The other options in this section 
+# have no effect if this option is set to NO (the default)
+
+HAVE_DOT               = NO
+
+# If the CLASS_GRAPH and HAVE_DOT tags are set to YES then doxygen 
+# will generate a graph for each documented class showing the direct and 
+# indirect inheritance relations. Setting this tag to YES will force the 
+# the CLASS_DIAGRAMS tag to NO.
+
+CLASS_GRAPH            = YES
+
+# If the COLLABORATION_GRAPH and HAVE_DOT tags are set to YES then doxygen 
+# will generate a graph for each documented class showing the direct and 
+# indirect implementation dependencies (inheritance, containment, and 
+# class references variables) of the class with other documented classes.
+
+COLLABORATION_GRAPH    = YES
+
+# If set to YES, the inheritance and collaboration graphs will show the 
+# relations between templates and their instances.
+
+TEMPLATE_RELATIONS     = YES
+
+# If the ENABLE_PREPROCESSING, SEARCH_INCLUDES, INCLUDE_GRAPH, and HAVE_DOT 
+# tags are set to YES then doxygen will generate a graph for each documented 
+# file showing the direct and indirect include dependencies of the file with 
+# other documented files.
+
+INCLUDE_GRAPH          = YES
+
+# If the ENABLE_PREPROCESSING, SEARCH_INCLUDES, INCLUDED_BY_GRAPH, and 
+# HAVE_DOT tags are set to YES then doxygen will generate a graph for each 
+# documented header file showing the documented files that directly or 
+# indirectly include this file.
+
+INCLUDED_BY_GRAPH      = YES
+
+# If the GRAPHICAL_HIERARCHY and HAVE_DOT tags are set to YES then doxygen 
+# will graphical hierarchy of all classes instead of a textual one.
+
+GRAPHICAL_HIERARCHY    = YES
+
+# The DOT_IMAGE_FORMAT tag can be used to set the image format of the images 
+# generated by dot. Possible values are png, jpg, or gif
+# If left blank png will be used.
+
+DOT_IMAGE_FORMAT       = png
+
+# The tag DOT_PATH can be used to specify the path where the dot tool can be 
+# found. If left blank, it is assumed the dot tool can be found on the path.
+
+DOT_PATH               = 
+
+# The DOTFILE_DIRS tag can be used to specify one or more directories that 
+# contain dot files that are included in the documentation (see the 
+# \\dotfile command).
+
+DOTFILE_DIRS           = 
+
+# The MAX_DOT_GRAPH_WIDTH tag can be used to set the maximum allowed width 
+# (in pixels) of the graphs generated by dot. If a graph becomes larger than 
+# this value, doxygen will try to truncate the graph, so that it fits within 
+# the specified constraint. Beware that most browsers cannot cope with very 
+# large images.
+
+MAX_DOT_GRAPH_WIDTH    = 1024
+
+# The MAX_DOT_GRAPH_HEIGHT tag can be used to set the maximum allows height 
+# (in pixels) of the graphs generated by dot. If a graph becomes larger than 
+# this value, doxygen will try to truncate the graph, so that it fits within 
+# the specified constraint. Beware that most browsers cannot cope with very 
+# large images.
+
+MAX_DOT_GRAPH_HEIGHT   = 1024
+
+# If the GENERATE_LEGEND tag is set to YES (the default) Doxygen will 
+# generate a legend page explaining the meaning of the various boxes and 
+# arrows in the dot generated graphs.
+
+GENERATE_LEGEND        = YES
+
+# If the DOT_CLEANUP tag is set to YES (the default) Doxygen will 
+# remove the intermedate dot files that are used to generate 
+# the various graphs.
+
+DOT_CLEANUP            = YES
+
+#---------------------------------------------------------------------------
+# Configuration::addtions related to the search engine   
+#---------------------------------------------------------------------------
+
+# The SEARCHENGINE tag specifies whether or not a search engine should be 
+# used. If set to NO the values of all tags below this one will be ignored.
+
+SEARCHENGINE           = NO
+
+# The CGI_NAME tag should be the name of the CGI script that 
+# starts the search engine (doxysearch) with the correct parameters. 
+# A script with this name will be generated by doxygen.
+
+CGI_NAME               = search.cgi
+
+# The CGI_URL tag should be the absolute URL to the directory where the 
+# cgi binaries are located. See the documentation of your http daemon for 
+# details.
+
+CGI_URL                = 
+
+# The DOC_URL tag should be the absolute URL to the directory where the 
+# documentation is located. If left blank the absolute path to the 
+# documentation, with file:// prepended to it, will be used.
+
+DOC_URL                = 
+
+# The DOC_ABSPATH tag should be the absolute path to the directory where the 
+# documentation is located. If left blank the directory on the local machine 
+# will be used.
+
+DOC_ABSPATH            = 
+
+# The BIN_ABSPATH tag must point to the directory where the doxysearch binary 
+# is installed.
+
+BIN_ABSPATH            = /usr/local/bin/
+
+# The EXT_DOC_PATHS tag can be used to specify one or more paths to 
+# documentation generated for other projects. This allows doxysearch to search 
+# the documentation for these projects as well.
+
+EXT_DOC_PATHS          = 
+"
+    end
+
+    artifact 217129 "development_plan.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "This document outlines the outstanding development issues
+
+Data_access library v1
+* test cases
+
+Data_scheme library v1
+* test of save-on-change functionality
+* pythonise objects for access by Supplier library python filters
+* test cases
+
+Supplier library v1
+* generalise filter sub-system for any file type (long lines!)
+* update gaussian filters for current DTD
+* Regex filter system
+* Python filter system
+
+Future:
+Data_access library v1
+* better handling of non-element nodes at the document level
+"
+    end
+
+    artifact 189993 "Features.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "Feature Version 1:
+
+* Document definition (DTD)
+
+* Filesystem policy (filenaming and directory structure)
+
+* Base reporting infrastructure that supports DTD
+  * Example report system: Thermochemistry and supporting information reports
+
+* Source document entry filter infrastructure
+  * Example entry system: gaussian(c) output files
+  * Support for \"simple\" regular expression grammars
+  * SUpport for python classes
+
+Future features anticpated in version 1:
+
+* Project assistance
+  * Management reports: project completion
+  * Result reports: generic reports incorporating user-defined relationships
+  * Work-flow tools: work-initiation templates, progress monitors 
+"
+    end
+
+    artifact 253225 "Jamrules"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "# Project: carbon_sheet
+# Author: Orig J. Finnerty: $Author: finnerty $
+# Date  : 12 Feb 2006     : $Date: 2008/01/12 12:30:15 $
+# Version                 : $Revision: 1.1 $
+# Log:
+# $Log: Jamrules,v $
+# Revision 1.1  2008/01/12 12:30:15  finnerty
+# Initial compilation system
+#
+# Revision 1.1.1.1  2006/11/21 08:52:36  finnerty
+#
+#
+# Revision 1.1.1.1  2006/05/16 05:29:53  finnerty
+# Pase, data-centric application development.
+#
+# Revision 1.2  2006/02/28 10:17:03  finnerty
+# Upgraded comments and how TOP is defined
+#
+# Revision 1.1  2006/02/15 07:55:43  finnerty
+# Added jam compilation system
+#
+#
+
+if $(UNIX)      { SUFSHR ?= .so ; }
+else if $(NT)   { SUFSHR ?= .dll ; }
+
+COMP ?= INTEL ;
+XMLLIB ?= NONE ;
+PTLIB ?= NONE ;
+GUILIB ?= NONE ;
+
+# UNIX = true
+# OS = LINUX
+# OSTYPE = Linux
+# CPU = i686
+#  MACHTYPE = i686-suse-linux
+APPOPTIM = -DNO_LOG -DNO_DbC ;
+
+###################################################################
+##
+##  Definitions for compiler suites (TOOLSETS)
+## 
+###################################################################
+switch $(COMP)
+{
+case CYGWIN :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -Wall -pedantic -ansi -D_POSIX_SOURCE ;
+     C++STD = -Wall -pedantic -D_POSIX_SOURCE ;
+     CCCPP = ;
+     C++CPP = ;
+     SHRFLAGS = -mconsole ;
+     SHRXFLAGS = -shared -D__WIN32__ ;
+     SHRLINKLIBS = ;
+     ARCH = -m32 -march=i686 -msse2 -mfpmath=sse ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case GNU :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -std=c99 -pedantic -D_POSIX_SOURCE ;
+     C++STD = -std=c++98 -pedantic -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_SNPRINTF -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fpic ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -m32 -march=pentium4 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+    # C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -Weffc++ ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+     CCCOMP = -Wall -fpic $(CCSTD) $(CCCPP) ;
+     C++COMP = -Wall -fpic $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case PORTLAND :
+     CC = pgcc ;
+     C++ = pgCC ;
+     CCSTD = -ansi -D_POSIX_SOURCE ;
+     C++STD = -D_BOOL -ansi -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_BACKTRACE  ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -fast $(ARCH) ;
+     C++OPTIMCOMP = -fast $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) -I/usr/opt/pgi/linux86/include ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case INTEL :
+     CC = icc ;
+     C++ = icc ;
+     LINK = icc ;
+     CCSTD = -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     C++STD = -D_BOOL -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_STRERROR_R -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+case SGI :
+     CC = cc ;
+     C++ = CC ;
+     CCSTD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     C++STD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP =  -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+}
+
+################################################
+##
+##  Definitions for DOM libraries
+## 
+################################################
+
+CCDEBUGDOM = ;
+C++DEBUGDOM = ;
+CCOPTIMDOM = ;
+C++OPTIMDOM = ;
+LINKDOM = ;
+
+switch $(XMLLIB)
+{
+case EXPAT :
+     CCDOM = -D$(XMLLIB) ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -lexpat ;
+
+case XERCES :
+     CCDOM = -D$(XMLLIB) -DXML_USE_PTHREADS -I`findoffice`/Software/XML/xerces-c-src2_2_0/include ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -L`findoffice`/Software/XML/xerces-c-src2_2_0/lib -lxerces-c -lpthread ;
+
+case GNOME :
+     CCDOM = -DXML_$(XMLLIB) `pkg-config libxml-2.0 --cflags` ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = `pkg-config libxml-2.0 --libs` ;
+
+case * :
+     CCDOM = ;
+     C++DOM = ;
+     LINKDOM = ;
+}
+
+################################################
+##
+##  Define the \"standard\" flags
+## 
+################################################
+
+CCDEBUGPT = ;
+C++DEBUGPT = ;
+CCOPTIMPT = ;
+C++OPTIMPT = ;
+
+switch $(PTLIB)
+{
+case DEBUG :
+     PTDIR = $(TOP)/../purpletree ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = $(CCPT) ;
+     LINKPT = -L$(PTDIR)/lib -lpurpletree_debug ;
+
+case STD :
+     PTDIR = $(TOP)/../ptdom ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = -I$(PTDIR)/include ;
+     LINKPT = ;
+#     LINKPT = -L$(PTDIR)/lib -lpurpletree ;
+
+case * :
+     CCPT = ;
+     C++PT = ;
+     LINKPT = ;
+
+}
+
+################################################
+##
+##  Define the \"standard\" GUI flags
+## 
+################################################
+
+CCDEBUGGUI = ;
+C++DEBUGGUI = ;
+CCOPTIMGUI = ;
+C++OPTIMGUI = ;
+
+XMTCCGUI = -I/usr/X11R6/include ;
+XMTC++GUI = -I/usr/X11R6/include ;
+XMTLINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+switch $(GUILIB)
+{
+case GTK :
+     CCGUI = `pkg-config libglade-2.0 --cflags` ;
+     C++GUI = `pkg-config libglade-2.0 --cflags` ;
+     LINKGUI = `pkg-config libglade-2.0 --libs` ;
+
+case GTKMM :
+     CCGUI = `pkg-config gtkmm-2.4 --cflags` ;
+     C++GUI = `pkg-config gtkmm-2.4 --cflags` ;
+     LINKGUI = `pkg-config gtkmm-2.4 --libs` ;
+
+case XMT :
+     CCGUI = -I/usr/X11R6/include ;
+     C++GUI = -I/usr/X11R6/include ;
+     LINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+
+case * :
+     CCGUI = ;
+     C++GUI = ;
+     LINKGUI = ;
+
+}
+
+################################################
+##
+##  Define the \"standard\" flags
+## 
+################################################
+
+CCFLAGS += $(CCCOMP) $(CCDOM) $(CCPT) $(CCGUI) ;
+C++FLAGS += $(C++COMP) $(C++DOM) $(C++PT) $(C++GUI) ;
+CCDEBUG += $(CCDEBUGCOMP) $(CCDEBUGDOM) $(CCDEBUGPT) $(CCDEBUGGUI) ;
+C++DEBUG += $(C++DEBUGCOMP) $(C++DEBUGDOM) $(C++DEBUGPT) $(C++DEBUGGUI) ;
+CCOPTIM += $(APPOPTIM) $(CCOPTIMCOMP) $(CCOPTIMDOM) $(CCOPTIMPT) $(CCOPTIMGUI) ;
+C++OPTIM += $(APPOPTIM) $(C++OPTIMCOMP) $(C++OPTIMDOM) $(C++OPTIMPT) $(C++OPTIMGUI) ;
+LINKLIBS += $(LINKCOMP) $(LINKDOM) $(LINKPT) $(LINKGUI) ;
+
+CCFLAGS += $(CCDEBUG) ;
+C++FLAGS += $(C++DEBUG) ;
+LINKFLAGS = $(C++FLAGS) ;
+LINK = $(C++) ;
+
+rule Mprleak
+{
+	local l_log = $(1:S=.log) ;
+	Depends all : $(l_log) ;
+	RunMprleak $(l_log) ;
+	CMD on $(l_log) = $(1) ;
+	LOG on $(l_log) = $(1:S=.mpr) ;
+}
+
+actions ignore RunMprleak
+{
+	rm -f log.*.gz 
+	mpr ./$(CMD) > $(1) 
+	mprleak log.*.gz | mprmap ./$(CMD) | mprchain > $(LOG) 	
+	rm -f log.*.gz 
+}
+
+rule Browse
+{
+	local l_dummy = $(1:S=.dummy) ;
+	Depends $(1) : $(l_dummy) ;
+	BrowseAction $(l_dummy) ;
+	OUT on $(l_dummy) = $(1) ;
+}
+
+
+actions ignore BrowseAction
+{
+	findjsrc | ebrowse --output-file=$(OUT)
+}
+
+# The unit test rules run an executable, capture any output
+# to stdout and stderr and compare these files with a 
+# previous invocation.
+rule Test
+{
+	local f = $(1:S=.out) ;
+	local canon = $(1:S=.canon) ;
+	local match = $(1:S=.match) ;
+	MakeLocate $(f) : $(LOCATE_TARGET) ;
+	MakeLocate $(canon) : $(LOCATE_TARGET) ;
+	MakeLocate $(match) : $(LOCATE_TARGET) ;
+        on $(1) TESTFLAG on $(f) ?= $(TESTFLAG) ;
+        Clean clean : $(match) $(f) ;
+	RunTest $(f) : $(1) ;
+	Depends all : $(match) $(canon) ;
+	Depends $(match) : $(f) $(canon) ;
+	Depends $(f) : $(1) ;
+	File $(canon) : $(f) ;
+        NOUPDATE $(canon) ;
+	DiffResults $(match) : $(f) $(canon) ;
+
+	if $(CANONICAL)
+	{
+		Clean clean : $(canon) ;
+	}
+}
+
+actions ignore RunTest
+{
+$(2) $(TESTFLAG)  2>&1 | tee $(1[1]) > /dev/null
+}
+
+# The cmp command `fails` when the log file and canon differ
+# which is when we want to keep the match.  So we invert the
+# result to get it to keep the results.
+actions DiffResults
+{
+diff $(2) > $(1) 2>&1
+cmp -s $(2) 
+}
+
+
+
+
+# Local Variables:
+# mode: makefile
+# End: 
+"
+    end
+
+    artifact 261289 "local.jam"
+      stereotype "document"
+      comment "#
+# local.jam
+#
+# Set constants for installation paths
+path-constant VERSIONDIR : \"cchem-1.0\" ;
+path-constant PREFIX : installdir ;
+path-constant EXEC_PREFIX : $(PREFIX) ;
+path-constant BINDIR : $(EXEC_PREFIX)/bin ;
+path-constant SBINDIR : $(EXEC_PREFIX)/sbin ;
+path-constant LIBEXECDIR : $(EXEC_PREFIX)/libexec ;
+path-constant LIBDIR : $(EXEC_PREFIX)/lib ;
+path-constant DATAROOTDIR : $(PREFIX)/share ;
+path-constant DATADIR : $(PREFIX)/share ;
+path-constant SYSCONFDIR : /etc ;
+path-constant SHAREDSTATEDIR : $(PREFIX)/com ;
+path-constant LOCALSTATEDIR : $(PREFIX)/var ;
+path-constant INCLUDEDIR : $(PREFIX)/include ;
+path-constant LOCALEDIR : $(DATAROOTDIR)/locale ;
+path-constant DOCDIR : $(DATAROOTDIR)/doc/$(VERSIONDIR) ;
+path-constant INFODIR : $(DATAROOTDIR)/info ;
+path-constant MANDIR : $(DATAROOTDIR)/man ;
+path-constant HTMLDIR : $(DOCDIR) ;
+path-constant DVIDIR : $(DOCDIR) ;
+path-constant PDFDIR : $(DOCDIR) ;
+path-constant PSDIR : $(DOCDIR) ;
+path-constant MAN1DIR : $(MANDIR)/man1 ;
+path-constant MAN2DIR : $(MANDIR)/man2 ;
+path-constant MAN3DIR : $(MANDIR)/man3 ;
+path-constant MAN4DIR : $(MANDIR)/man4 ;
+path-constant MAN5DIR : $(MANDIR)/man5 ;
+path-constant MAN6DIR : $(MANDIR)/man6 ;
+path-constant MAN7DIR : $(MANDIR)/man7 ;
+path-constant MAN8DIR : $(MANDIR)/man8 ;
+path-constant MANNDIR : $(MANDIR)/mann ;
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+
+"
+    end
+
+    artifact 251561 "makefile.sys"
+      stereotype "document"
+      comment "#
+# Makefile.sys
+#
+##################################
+# Settings for current environment
+##################################
+
+OS ?= LINUX
+COMP ?= GNU
+VARIANT ?= DEBUG
+XMLLIB ?=
+
+###########################
+##
+## Generic setup below here
+##
+###########################
+
+####################
+## OS SPECIFIC STUFF
+####################
+ifeq ($(OS),WIN32)
+SUFEXE:=.exe
+SUFLIB:=.dll
+endif
+
+ifeq ($(OS),LINUX)
+SUFEXE:=
+SUFLIB:=.so.0
+endif
+
+###############################################
+##  Definitions for GNU g++ compiler for unices
+###############################################
+
+ifeq ($(COMP),GNU)
+## For linux
+CC:=gcc
+CCC:=g++
+STDCFLAGS:=-Wall -ansi -D_POSIX_SOURCE
+STDCXXFLAGS:=-Wall -ansi -D_POSIX_SOURCE -Weffc++
+STDOPTFLAGS:=-O3
+STDDEBUGFLAGS:=-O1 -D__DEBUG__
+STDLDFLAGS:=-lz
+STDSHRLIBS:=-rdynamic -ldl
+STDSHRFLAG:=-fPIC
+STDSHRXFLAGS:=-shared -Wl,-soname,
+endif
+
+######################################################
+##  Example library setup definition for XML libraries
+######################################################
+
+ifeq ($(XMLLIB),EXPAT)
+DOMFLAGS:=-DEXPAT
+DOMLIBS:=-lexpat
+endif
+
+ifeq ($(XMLLIB),XML2)
+DOMFLAGS:=-DXML2 `xml2-config --cflags`
+DOMLIBS:=`xml2-config --libs`
+endif
+
+######################
+##  Combine flags sets
+######################
+
+ifeq ($(VARIANT),DEBUG)
+VARIANTFLAGS=$(STDDEBUGFLAGS) $(DEBUGFLAGS)
+else
+VARIANTFLAGS=$(STDOPTFLAGS)
+endif
+
+CFLAGS=$(VARIANTFLAGS) $(STDCFLAGS) $(DOMFLAGS) $(USERFLAGS)
+CXXFLAGS=$(VARIANTFLAGS) $(STDCXXFLAGS) $(DOMFLAGS) $(USERFLAGS)
+LDFLAGS=$(VARIANTFLAGS) $(STDLDFLAGS) $(DOMLIBS) $(USERLDFLAGS)
+
+#############################################
+##  Define standard directory descent targets
+#############################################
+
+all:: dopart
+
+doit:
+	for WORKDIR in $(DIRS); do \\
+	echo Working on $$WORKDIR; \\
+	pushd $$WORKDIR;\\
+	OS=$(OS) USERHDRS=\"$(USERHDRS)\" USERFLAGS=\"$(USERFLAGS)\" ROOTDIR=\"$(ROOTDIR)\" COMP=\"$(COMP)\" VARIANT=\"$(VARIANT)\"  make $(WHAT); \\
+	popd;\\
+	done
+
+dopart:
+	WHAT=\"all\" make doit
+
+distclean: clean
+	rm -f core core.* $(TARGETS) *~ *.d
+	WHAT=\"distclean\" make doit
+
+clean: 
+	rm -f $(USEROBJ)
+	WHAT=\"clean\" make doit
+
+##############
+## Build rules
+##############
+
+.cc.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+.cpp.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+%.d: %.cc
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \\
+	| sed 's/\\($*\\)\\.o[ :]*/\\1.o $@ : /g' > $@; \\
+	[ -s $@ ] || rm -f $@
+
+%.d: %.cpp
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \\
+	| sed 's/\\($*\\)\\.o[ :]*/\\1.o $@ : /g' > $@; \\
+	[ -s $@ ] || rm -f $@
+
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+
+"
+    end
+
+    artifact 189865 "Mission.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The 'OpenScience' project mission:
+
+To provide work-flow improvements for practising scientists through
+an Open mechanism for organising scientific primary sources and 
+associated meta-information.
+
+Objectives:
+- Flexibility and extensibility.
+- Encourage and enhance collaboration.
+- Enhance productivity
+
+Mechanism:
+- Enhance work-flow with input/output mechanism incorporation via extensions.
+- Foreground (front-end) simplicity via local XML files.
+- Focus on meta-relationships in datasets via document crosslinking.
+- Ease-of-navigation view XSLT/browser.
+
+Possible future directions:
+- Standardisation (ISO etc)
+- Background data management (pullStorage)
+- Controlled external collaboration and visibility (webportal)
+- Legal-compliant activity management (eLabbook)"
+    end
+
+    artifact 196009 "style.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The coding style follows astyle with config file:
+style=ansi
+indent=spaces=2
+
+The older alternative is gnu indent. The following is similar to the
+astyle above, however indent doesn't handle C++ syntax very
+well.
+ indent -bli0 -l0
+in vim
+ %!indent -bli0 -nut -l0 - -o -
+
+Note that gnu indent uses the GNU coding style by default."
+    end
+
+    artifact 190121 "Testing_overview.t2t"
+      stereotype "document"
+      associated_artifacts
+      end
+      comment "The testing overview
+Openscience team
+January 2008
+
+= Introduction =
+== Unit-tests == 
+
+- Each class should have an associated unit-test that ensures compliance with:
+ - the documented contracts and exception reporting
+ - accurately reproduces sample output from sample input
+
+- Class clusters/libraries should have an associated unit-test that ensures:
+ - Cluster intra-compatibility and cooperativity.
+ - compliance with documented contracts, exceptions etc
+ - reproduce complex sample output from input
+
+- Unit-test extension program for testing exceptions and failures as
+they are discovered.
+
+
+== Source style tests ==
+
+The test mechanism for ensuring all code matches a defined style is
+to have GNU indent (with -gnu option) produce an unchanged file.
+
+Other-conventions:
+* Comments, particularly file heading comments should not name individuals, instead 
+the code should be indentified as belonging to the @{project}.
+
+
+
+== Functional tests ==
+
+- Test suite that produces feature coverage reports.
+
+
+= Unit-tests =
+
+== Overview ==
+
+* Each Class should have a corresponding unit-test class.
+* Tests should probe both failure and success conditions.
+* Unit-test classes are combined into a test suite.
+* Test suites can compare current \"output\" to a previous \"output\".
+* Preferrably all tests in a suite are performed and the failed
+tests are reported.
+* Test failure is reported by program exit condition.
+* The boost 'unit-test' target is used to run test suites.
+
+
+== Details ==
+
+: configuration parameters. 
+Commandline options etc. must be passed to the program via a 
+configuration file. These are looked for in a file 
+[root]/canon/[test exe]_args.cpp.  These are created by creating
+a 'source' artifact in a sub-package and putting the arguments in 
+the C++ source window.
+
+
+== Framework ==
+
+The framework currently uses an internal unit-test framework.  To add a 
+new test case you derive a class from utility::unit_test and instantiate
+an object, generally using a static member (by default I name them 
+`exemplar`). This registers the object with the unit test manager.  To
+instantiate the class you need to define a title() method, returns a 
+descriptive title, and the main_test() method, which performs the unit 
+test.  Optionally you can redefine register_options() if you are 
+interested in getting command line/configuration options.
+
+ 
+"
+    end
+
+    artifact 260137 "TODO.current"
+      associated_artifacts
+      end
+      comment "Test system convert to boost unit-test
+- change filter-manager class to handle the following
+ - no-command line parameters
+  -> [X] arguments are in config file in [root]/canon/[$argv[0]_args.cpp. Note this
+is not a real C++ sourcefile.
+  -> [X] convert unit-test to automatically add args to program_options::helper
+  -> [ ] Make test system report failed tests.
+
+Todo
+
+Priority 1
+- update tests for xmlreader
+- utility: unit-test for program_options
+
+Priority 2
+- chemistry tests
+- update tests for xml_writer/xml_writer_proxy
+- complete test-suite for supplier
+- utility: unit-test for scope templates
+
+Priority 3
+- harden tests/classes
+- tests for python!
+
+Priority 4
+
+Priority 5
+- utility: unit-test for time_stamp, pam, epoch_time
+
+
+
+Bugs
+- xmlreader test always has is_empty = 0
+
+Todos
+- data_access::xml_persistence::parse and checking the DOCTYPE
+
+Specifics
+- test_supplier
+  - relative path incorrect! = \"dir/file/../\" ??
+- test_offsetter - convert to use monitor_fn
+- verify_visitor"
+    end
+
+    artifact 128047 "Jamroot"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:17 2012
+##END:date
+##START:preamble
+# Include local constants
+path-constant topdir : . ;
+include local.jam ;
+
+# Set debug as default variant
+variant ?= debug ;
+
+# Set project's global settings
+project cchem
+	: requirements <debug-symbols>on:<define>\"DEBUG=1\"
+	<debug-symbols>off:<define>\"DEBUG=0\"
+	<include>$(topdir)/\"include\" 
+	: build-dir build ;
+##END:preamble
+##START:target boost
+#
+# Section for project: boost
+#
+project boost ;
+alias filesystem : : : : <linkflags>\"-lboost_filesystem\" ;
+
+alias program_options : : : : <linkflags>\"-lboost_program_options\" ;
+
+alias regex : : : : <linkflags>\"-lboost_regex\" ;
+
+alias date_time : : : : <linkflags>\"-lboost_date_time\" ;
+
+alias python_lib : : : : <linkflags>\"-lboost_python\" ;
+
+alias iostreams : : : : <linkflags>\"-lboost_iostreams\" ;
+
+##END:target boost
+##START:target boost-python
+#
+# Section for project: boost-python
+#
+project boost-python ;
+using python ;
+##END:target boost-python
+##START:target xml2
+#
+# Section for project: xml2
+#
+project xml2 ;
+using xml2 ;
+##END:target xml2
+##START:close
+use-project /cchem/chemistry : src/chemistry ;
+build-project src/chemistry ;
+
+use-project /cchem/ccspectrum : src/chemistry/ccspectrum ;
+build-project src/chemistry/ccspectrum ;
+
+use-project /cchem/data_access : src/data_access ;
+build-project src/data_access ;
+
+use-project /cchem/ccverify : src/data_access/ccverify ;
+build-project src/data_access/ccverify ;
+
+use-project /cchem/data_scheme : src/data_scheme ;
+build-project src/data_scheme ;
+
+use-project /cchem/report : src/report ;
+build-project src/report ;
+
+use-project /cchem/filetype : src/report/filetype ;
+build-project src/report/filetype ;
+
+use-project /cchem/supplier : src/supplier ;
+build-project src/supplier ;
+
+use-project /cchem/ccfilter : src/supplier/ccfilter ;
+build-project src/supplier/ccfilter ;
+
+use-project /cchem/filter : src/supplier/filter ;
+build-project src/supplier/filter ;
+
+use-project /cchem/ccregex : src/supplier/ccregex ;
+build-project src/supplier/ccregex ;
+
+use-project /cchem/utility : src/utility ;
+build-project src/utility ;
+
+use-project /cchem/data_access_test : src/test/data_access_test ;
+build-project src/test/data_access_test ;
+
+use-project /cchem/data_scheme_test : src/test/data_scheme_test ;
+build-project src/test/data_scheme_test ;
+
+use-project /cchem/report_test : src/test/report_test ;
+build-project src/test/report_test ;
+
+use-project /cchem/supplier_test : src/test/supplier_test ;
+build-project src/test/supplier_test ;
+
+use-project /cchem/utility_test : src/test/utility_test ;
+build-project src/test/utility_test ;
+
+use-project /cchem/xmlreader_test : src/test/xmlreader_test ;
+build-project src/test/xmlreader_test ;
+
+##END:close
+"
+    end
+  end
+
+  deploymentview 172841 "documentation"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 262697 "doc_0609.xml"
+      associated_artifacts
+      end
+      comment "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<?xml-stylesheet href=\"file://localhost/home/finnerty/Office/Schema/docproject.general.css\" type=\"text/css\"?>
+<!DOCTYPE document SYSTEM \"file://localhost/home/finnerty/Office/Schema/docproject.general.dtd\" [
+<!ENTITY todo \"Documentation still needs to be written for this.\">
+<!ENTITY kjmol \"kJ mol<sup>-1</sup>\">
+<!ENTITY bmk \"BOOKMARK\">
+<!ENTITY idref \"<code>IDREF</code>\">
+<!ENTITY notdef \"Not defined. We include this method but make it
+	    private and don&apos;t define it to completely disallow this
+	    operation.\">
+<!ENTITY id \"<code>ID</code>\">
+]>
+<document>
+  <preamble>
+    <title>Compchem Project</title>
+    <author authorid=\"author-JJF\" type=\"lead\">Justin Finnerty</author>
+    <log author=\"author-JJF\" date=\"20.sep.2003\">Convert from paper to XML</log>
+    <log author=\"author-JJF\" date=\"23.sep.2006\">Updated documentation to reflect changes in design</log>
+  </preamble>
+  <body>
+    <section bookmark=\"proj-concept-definition\">
+      <title>Introduction: Defining the problem</title>
+      <span>
+        <para>The project really commenced when several shell or perl scripts to filter Gaussian output files where written (in ~1999). This progressed to a set of some 35 scripts and programs by 2001. A unified filter with output to an XML file, written in python and later in C++, was completed in 2002. This reduced the number of programs to 5. It is intended to unify these separate programs into a uniform systems. Much experience has been gained and the current project and design owes a lot to these earlier projects.</para>
+        <para>Early in the production of my PhD (finished in 2001) I identified that management of the data I was generating using computational chemistry was important. In particular, when a report was generated over a period of time, maintaining files containing the up-to-date information was problematic.</para>
+        <para>My first attempt at resolving this problem was to develop a series of scripts. These scripts had two flavors; one set to help generate and manage calculations and one set to process the calculation output. The input scripts allowed me to quickly generate a set of templated calculation input files. To assist in this process I developed a script that would hide the machine specific details of batch submission. At the time of writing, these scripts are becoming mature enough for distribution. The output processing scripts filtered the large output files into more manageable files, one for each type of data. This worked very well for individual calculations. However, when trying to derive data from a number of calculations the task of collection and proofing was laborious.</para>
+        <para>The task of this system is to provide a standard method for collection of computational data into a single database. This database can then be queried to retrieve the required data. An XML based database was chosen for it's flexibility. The XML data layout was based on an article by Cushing (1996) that described a conventional database layout. This was modified and generalized to allow arbitrary chemistry related data to be incorporated.</para>
+        <para>One particular incident demonstrated the requirement for a better way to manage the data. I had started my calculations using the \"Gaussian 94\" program, but finished the calculations using \"Gaussian 98\". A few key comparisons were between structures calculated by the two versions of the program which gave energy differences 10-15 &kjmol; larger than expected. This required basically throwing-out and recollecting the existing data-set.</para>
+        <para>The broad goals of the project are:</para>
+        <list type=\"bullet\">
+          <item>Reliably manage the results of experiments, both computational and laboratory.</item>
+          <item>Quickly and accurately generate reports of the results.</item>
+        </list>
+        <para>The broad needs of the project are:</para>
+        <list type=\"bullet\">
+          <item>Cross-platform compatibility.</item>
+        </list>
+      </span>
+      <section bookmark=\"proj-desc-prob-statement\">
+        <title>Problem Statement</title>
+        <span>
+          <para>I want to develop a program that will enable me to manage computational chemistry calculations. In particular I want to be able to take an input structure and generate an input file for the Gaussian 98 program. I also want the program to be sufficiently flexible that alternative computational chemistry programs can be introduced with minimal effort.</para>
+          <para>I also want the program to be able to scan the output file to generate various sets of derived results. These results may be something as simple as whether the calculation was successful to something as complex as a frequency table in RTF/LaTeX format. Ideally, these features would also be extensible to cater to alternative computational chemistry systems and new input/output types.</para>
+          <para>To achieve this flexibility the program could use internal and external filters.</para>
+          <para>Where possible, duplicating the effort of other programs will be avoided by referring the user or using these programs as filters (eg All graphs could be generated by gnuplot and chemical structures constructed in molden.)</para>
+          <para>It is desirable that all information relating to methods/jobs/packages be defined in a way that allows for the rapid inclusion of new methods/jobs/packages.</para>
+        </span>
+      </section>
+      <section>
+        <title>Design Brief</title>
+        <span>
+          <para>A research program involves a series of projects that produce and manipulate a large amount of experimental data. In a synthetic project this data includes methods, spectra and other tests. In a computational project this includes calculation input and output. The projects and program then need to query and summarize this data to produce reports including research papers and theses. Performing this data management manually is time consuming and extremely error prone. It is estimated that data collation can require 30-50 percent of the time spent writing a report with data verification at least an additional 10-20 percent. A database containing the results could substantially reduce the data collation and verification tasks.</para>
+          <para>The focus of data verification changes with the use of a database. Instead of verification by cross-checking during report writing, you verify the data when it enters the database. This has the advantage of requiring the experimenters to evaluate and verify their data when the experiment is fresh in their minds. The system can also apply data-entry restrictions, such as a ensuring a file matches a valid and known file format. Data verification is still done during report generation. At this time the focus is on comparing results. So the verification would look at whether the methods used to generate a result are compatible. A further process occurs where the user decides if the results match expected trends.</para>
+          <para>The focus of writing a discursive report should be the intellectual analysis. Discursive reports usually require data tables and experimental details that are substantially the same format from report to report. For chemistry the experimental section and supplementary material are fairly standard and contain no analysis. Designing and generating some \"standard\" sub-reports should be a simple task in the system.</para>
+          <para>It is envisaged that a database may be able to include the work of both experimental and computational scientists. It should be extensible to include the work of a research program that may involve many projects. It should be able to deal with the work of several researchers. It should be easy to generate reports and have a set of standard reports. The system should be relatively operating system neutral and should be able to incorporate a large number data-set types (eg structures, spectra etc.).</para>
+        </span>
+      </section>
+      <section>
+        <title>Business Needs</title>
+        <span>
+          <para>We need to create, process and display scientific information as rapidly and accurately as possible. The scientific information can be in a wide range of formats which need to be interpreted. A user needs to be able to display a new information type with the minimum of effort.</para>
+          <para>We need to write reports that are accurate and rapid to prepare. This implies compatibility between the application and external word processing applications.</para>
+          <para>We need to display scientific information (datum). A single datum may be viewable in several ways, for example a simulated IR spectrum may be viewed as a peak table and as a simulated graph. We also need to display sets of information, for example a table of the thermodynamics of a reaction mechanism. In such cases we need to be able to manipulate the data, for example adding points to and reordering a table. This gives us a requirement for a system that can be extended to display many different types of information. For certain displays we also need the ability to manipulate the content. <emph>This suggests to me a set of predefined atomic viewers (eg table, graph, datum) and compound viewers (eg table? notebook, form) that can be reused using state information rather than programming</emph>.</para>
+          <para>The business runs on a variety of platforms (initially Linux). It will need to be cross-platform compatible. This includes the import and export of result files into the database and the visual display. Additionally, the system may offer the ability to be extended using various programming languages. <emph>This implies that the extensible interfaces are small and well defined.</emph></para>
+        </span>
+      </section>
+    </section>
+    <section bookmark=\"proj-concept\">
+      <title>Project Conceptualisation</title>
+      <span/>
+      <section bookmark=\"proj-concept-prototypes\">
+        <title>Prototypes</title>
+        <span/>
+        <section bookmark=\"proj-concept-prototypes-one\">
+          <title>Prototype 1</title>
+          <span>
+            <para>My first attempt at resolving this problem was to develop a series of scripts. These scripts had two flavors; one set to help generate and manage calculations and one set to process the calculation output. The input scripts allowed me to quickly generate a set of templated calculation input files. To assist in this process I developed a script that would hide the machine specific details of batch submission. The output processing scripts filtered the large output files into more manageable files, one for each type of data. This worked very well for individual calculations. However, when trying to derive data from a number of calculations the task of collection and proofing was laborious.</para>
+          </span>
+          <section bookmark=\"proj-design-philosophy\">
+            <title>Design Philosophy</title>
+            <span>
+              <para>[2000:10:28] I have decided that the first priority will be to develop a set of X based 'power tools' and a 'sidekick'. The power tools will each take over one aspect of the existing calculation tools in the 'chkcalc' distribution. These tasks are:</para>
+              <list type=\"bullet\">
+                <item>newcalc</item>
+                <item>chkcalc</item>
+                <item>chkcalc2</item>
+                <item>chkstable</item>
+                <item>chkterm</item>
+                <item>energypath</item>
+                <item>g94convplot</item>
+                <item>g94fstops</item>
+                <item>g94ftops</item>
+                <item>gausstoxyz</item>
+                <item>getdip</item>
+                <item>geteng</item>
+                <item>getep</item>
+                <item>getfreqg</item>
+                <item>getgeom</item>
+                <item>getoptstruct</item>
+                <item>getzmt</item>
+                <item>ircextract.awk</item>
+                <item>irplot</item>
+                <item>irplotps</item>
+                <item>longq</item>
+                <item>lorentzian.cc</item>
+                <item>lorper</item>
+                <item>lorper1</item>
+                <item>lorper2</item>
+                <item>makegraph</item>
+                <item>multi_vrml_orbitals</item>
+                <item>newcalc</item>
+                <item>newzmt</item>
+                <item>nhf</item>
+                <item>normalq</item>
+                <item>submitq</item>
+                <item>xlongq</item>
+                <item>xyz</item>
+                <item>xyzmangle</item>
+              </list>
+              <para>Note that many of these scripts cooperate, for instance the chkcalc program simply coordinates the other scripts. Also some scripts can be applied to all calculations (chkterm, getzmt, submitq, normalq, longq, xlongq, xyz, xyzmangle, nhf, gausstoxyz, getdip, newzmt) while others are specific to certain jobs (FREQ: g94fstops, g94ftops, getfreqg, irplot, irplotps, lorentzian.cc, lorper, lorper1, lorper2, makegraph, geteng. OPT: g94convplot. IRC: energypath, getep, getoptstruct, ircextract.awk). While there is not much duplication in these scripts they could do with being made easier to use and collected together.</para>
+              <para>The steps that I see as the first level are: Designing a new calculation 'sequence' then analysing the results. To simplify design, the initial version will use a configuration file in the users' home directories AND in each calculation directory.</para>
+              <para>The first application will be the batch control program. This will actually be a GUI configuration utility and a modification of the existing PERL scripts to read in the users' configuration files.</para>
+            </span>
+          </section>
+        </section>
+        <section bookmark=\"proj-concept-prototypes-two\">
+          <title>Prototype 2</title>
+          <span>
+            <para>Currently, we have developed a series of filters for converting Gaussian calculation data into the program DTD format. This is somewhat site independent and work needs to be done to make the filtering mechanism more general.</para>
+          </span>
+        </section>
+        <section bookmark=\"proj-concept-requirements-database\">
+          <title>Conceptualisation for Program DTD (17/7/2003)</title>
+          <span>
+            <para>The research program system is intended to be an XML system for encapsulating experimental data within some research program and project. It is intended that this system would be used to encapsulate the actual experimental data. Within the existing program DTD self-labeling \"data attribute notation\" elements are used for data.</para>
+            <para>The program schema has been validated elsewhere (Cushing 19??) for encapsulating the data design.</para>
+            <para>This project involves a series of applications that are used to manipulate the document/database. This activity can be broken in to three main area of use: Research project/program management, experiment management and report management.</para>
+            <img src=\"class-diagrams\\context-diagram-2.png\">
+              <caption>Second attempt at concept diagram (17/7/2003)</caption>
+              <alt>concept diagram</alt>
+            </img>
+          </span>
+        </section>
+      </section>
+      <section bookmark=\"proj-concept-usecases\">
+        <title>Use Cases</title>
+        <section bookmark=\"proj-design-usecase-init-proj\">
+          <title>Use Case: Initiate a research project.</title>
+          <span>
+            <para>I decided to investigate the 1,3 shift of NR<sub>2</sub> in oxo ketenimine / imidoyl ketene. I will start with the simplest cast first (Ie NR<sub>2</sub> = NH<sub>2</sub>). Inspection of the molecule revealed that the geometry will have three sets of geometry conformers as well as the 1,3 shift (Group rotation, NR<sub>2</sub> rotation, C=N-R inversion). I set out to investigate all four processes. I decide to optimize each molecule at B3LYP/6-311++G(3df,2p)//B3LYP/6-31G* level of theory and study the processes by comparing the Gibbs free energy. Once the 1,3 migration T.S. is determined I will use an IRC calculation to follow the P.E. surface from T.S. to the G.S.'s. At the end of this I want to produce a report showing the calculated activation energies of each process and the energy of each conformer relative to some defined minimum. I want to produce a graph from the IRC calculation (showing energy and some geometry changes). I want to produce a series of tables that contain key information for each conformer studied.</para>
+            <para>The process may run as follows. The project manager decides to design a series of experiments to investigate some phenomena. They define a project and include a set of <emph>entities</emph> to investigate and the type of results that will be tested. For comp. chem. these entities are generally a combination of compound and geometry or method. For expt. chem. these entities might be compound and method or class and compound. In addition, some of these results may also be in the database. In this case the project manager will create a reference to the existing data. The type of results that can be investigated are dependent on the filters and reports that are available.</para>
+            <para>The project definition will contain</para>
+            <list type=\"bullet\">
+              <item>Minimum of ID, title and description.</item>
+              <item>Define a set of entities, include cross-references if needed.</item>
+              <item>Define a template procedure for experiments.</item>
+              <item>Assign a minimum set of filters to be run on the calculation product files.</item>
+              <item>Assign a set of reports to be used.</item>
+              <item>Write some textual information about the project. This might include the project thesis, goals etc.</item>
+              <item>Define a set of milestones that mark progression of the project.</item>
+            </list>
+            <para>It is anticipated that some of these tasks will be a matter of selecting from available choices. Other tasks, like defining the template procedure, could involve some sort of <emph>coach</emph>.</para>
+            <table cols=\"2\" rule=\"tb\" width=\"100%\">
+              <tr type=\"head\">
+                <td>Fundamental Communications</td>
+                <td width=\"25%\">New project use case</td>
+              </tr>
+              <tr>
+                <td width=\"25%\">Project Manager</td>
+                <td width=\"50%\">Select database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Create new project and commit to database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Display, edit and create or retrieve data objects in the project</td>
+              </tr>
+            </table>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-extend-proj\">
+          <title>Use Case: Extend research project</title>
+          <span>
+            <para>Having calculated the imidoyl ketene / oxo ketenimine above, I decide that I need to compare the results with some other model compounds. Namely, I decide to compare the NH<sub>2</sub> rotation with conjugated and unconjugated amides/amidines and look at the group rotation in these as well. After calculation I want to get the same result tables but with the new molecules included.</para>
+            <table cols=\"2\" rule=\"tb\" width=\"100%\">
+              <tr type=\"head\">
+                <td>Fundamental Communications</td>
+                <td>Extend project use case </td>
+              </tr>
+              <tr>
+                <td>Project Manager</td>
+                <td width=\"50%\">Select database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Select project from database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Display, edit and create or retrieve data objects in the project</td>
+              </tr>
+            </table>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-report-data\">
+          <title>Use Case: View and Report Data (project and entity)</title>
+          <span>
+            <para>The most basic function on the database is to be able to see the data within the database. This is a fundamental operation of both managing and reporting of data. It is also useful when troubleshooting problems with data entry.</para>
+            <para>The operator opens the program to be presented with a view of the database. This view can be negotiated to find information from various parts of the DB. <emph>It is expected that non-textual views of the data could be shown, simultaneously or on request, for some well-defined data types. This implies that the view of the data will have to be data dependent to some extent.</emph></para>
+            <para>I want a table showing the activation energy for the 1,3 shift. I select a project in the database and chemical process in the project. I then get presented with the data in a standard table. If I don't like the table I can perform certain modifications to the table format and content. When satisfied with the table I can save it as either TXT, CSV, XML/HTML, RTF, or LaTeX.</para>
+            <para>I want a table and graph showing the vibration data for a particular entity. I select an entity in the project (or database) and look up the relevant data. I then get presented with the data in a standard table. I can sort the table in various ways (lowest to highest, \"A v 'A etc). I can get internally derived columns (eg relative intensity) and externally derived columns (eg scaled freq. with appropriate reference). If I don't like the table format I can perform certain modifications to the table format and content. When satisfied with the table I can save it as either CSV, TXT, XML/HTML, RTF or LaTeX.</para>
+            <para>The majority of scientific information can be displayed with a limited set of viewers. Other viewers might be compounded of simpler viewers. This limited set may include:</para>
+            <list>
+              <item>Text field (numeric or textual, optionally with a unit/dimension)</item>
+              <item>Array of n-dimension dependent data (display as table or graph)</item>
+              <item>Derived graphic data (eg graph of simulated spectrum from peak table)</item>
+              <item>Tabulated query data (Collection of independent text fields)</item>
+              <item>Image </item>
+              <item>Standard domain specific graphical representations (3D chemical structure, DNA sequence)</item>
+            </list>
+            <table cols=\"2\" rule=\"tb\" width=\"100%\">
+              <tr type=\"head\">
+                <td>Fundamental Communications</td>
+                <td>View and report use case</td>
+              </tr>
+              <tr>
+                <td>User</td>
+                <td>Select database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Select a project</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Select an entity</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Display data for entity or project</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Request a report from a project</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Request a report on an entity</td>
+              </tr>
+            </table>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-progress-report\">
+          <title>Use Case: Progress Report</title>
+          <span>
+            <para>The experimenter or project manager asks the system for a progress report on a project. This progress report should provide data on what key data has been entered for each entity in the project and may include key data derived by comparing multiple entities. Inspection of this report may have several consequence;</para>
+            <list type=\"bullet\">
+              <item>The experimenter may ask for the next task that needs to be performed for the project.</item>
+              <item>The experimenter may identify unexpected results that are flagged for verification.</item>
+            </list>
+            <para>This use case is not that different from the <link src=\"proj-design-usecase-report-data\">View and Report Data use case</link>. The main difference is that the outcome of the report may lead directly to other actions, such as going on to the next task.</para>
+            <table cols=\"2\" rule=\"tb\" width=\"100%\">
+              <tr type=\"head\">
+                <td colspan=\"3\">Fundamental Communications</td>
+                <td rowspan=\"all\" width=\"25%\">Progress report use case</td>
+              </tr>
+              <tr>
+                <td>Project Manager or experimenter</td>
+                <td>Select database and project</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Request progress report</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Perform action based on report, such as jumping to an entity</td>
+              </tr>
+            </table>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-sample-comp\">
+          <title>Use Case: Sample Computation</title>
+          <span>
+            <para>During an experiment several pieces of information are recorded. This includes experimental details such as methodology and \"mechanism\" settings. The experiment produces results either entered by hand or as recorded data. </para>
+            <para>I wish to optimize the geometry of a molecule conformer to compare with other conformers. I decide to use the B3LYP/6-31G* method for optimizing and frequency calculation using, then compute single point energy at B3LYP/6-311++G(3df,2p).</para>
+            <para>A calculation is performed by adding a molecular structure definition to a template from the project. This means a number of decisions were made when the project was set up that relate to the current calculation. These decisions include the following.</para>
+            <list type=\"numbered\">
+              <item>What comp. chem. package to use</item>
+              <item>What computational resource to use</item>
+              <item>What program options to use</item>
+              <item>What calc. level (eg method and basis set).</item>
+              <item>What algorithm and options to use.</item>
+              <item>Any sub-algorithm and respective options</item>
+            </list>
+            <para>Before the computation I need to:</para>
+            <list>
+              <item>Define the structure of the chemical.</item>
+            </list>
+            <para>During computation I want to:</para>
+            <list type=\"bullet\">
+              <item>check on progress of calculation.</item>
+              <item>see if all sequence steps where successful.</item>
+              <item>check that sequence dependencies were met (eg. if we calculate FREQ before STABLE and STABLE changes the orbital then the FREQ calculation will need to be redone.)</item>
+            </list>
+            <para>After computation I want to:</para>
+            <list type=\"bullet\">
+              <item>check all sequence steps where successful.</item>
+              <item>add results to the database.</item>
+            </list>
+            <para>This use case may be activated at several points as follows.</para>
+            <list type=\"bullet\">
+              <item>To establish a default method when the project is defined. </item>
+              <item>When the experimenter adds some variable parameter, such as compound structure, that allows a computation to proceed.</item>
+              <item>If semi-automatic control is being used and the experimenter asks for the next calculation or experiment in the project. The next experiment is dependent on the stage of earlier calculations and the system may present a list of possibilities that the experimenter can choose from.</item>
+            </list>
+            <para>A sub-use-case is when the experimenter decides to change a part of the experimental design for an experiment. This can have several consequences:</para>
+            <list type=\"bullet\">
+              <item>Does the change affect all future experiments in the project?</item>
+              <item>Does this change affect previous experiments such that the current data is invalid and they will need to be reperformed?</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-add-results\">
+          <title>Use Case: Add results to the database</title>
+          <span>
+            <para>After computation The experiment wants to add the results to the database. They have a product file or files that needs to be added to the database. The addition may activate filters that provide a cached subset or a derived value of the result file. The experimenter may need to provide information that ensures the result set is added to the correct location in the database. Some common cached subsets of use in computational chemistry.</para>
+            <list>
+              <item>extract the geometry of the final structure.</item>
+              <item>get the vibration table if calculated.</item>
+              <item>extract any energy or thermochemical data.</item>
+              <item>generally extract the information from each file that was characteristic of the calculation performed.</item>
+            </list>
+            <para>To insert this information there must be a mechanism to identify where this information is placed in the database. This could be manually or automatically inserted.</para>
+          </span>
+          <section>
+            <title>Sub-use case: Move results in the database</title>
+            <span>
+              <para>The experimenter finds that some data added to the database has been put in the wrong place. They alter the database to put the data in the right place. This also moves all the cached subsets and possibly automatically update open Views. This use-case has occurred sufficiently often in the prototypes to make it an important case.</para>
+            </span>
+          </section>
+        </section>
+        <section bookmark=\"proj-design-usecase-define-info\">
+          <title>Use Case: Define standard information.</title>
+          <span>
+            <para>Some information, like details of an experimentalist or computational program or equipment, is not project specific. This information needs to be stored in the database and referred to when needed. The sorts of information that this might involve includes the following;</para>
+            <list>
+              <item>The experimenter enters a description for a piece of equipment used to produce the data for the database. This might occur when the experimenter goes to select, from a list, the equipment used to produce some results but finds it has not been entered yet.</item>
+              <item>The experimenter needs to update the information for a piece of equipment.</item>
+              <item>The experimenter wants to define a set of standard settings or operation sequences for a piece of equipment or a calculation. For example, this might be a standard set-up for an infra-red machine. Note that there will need to be a mechanism for indicating how these settings may have been changed on a per-project or per-experiment basis.</item>
+              <item>Define the details of a experimenter who will be acknowledged for the work they contribute to the database.</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-db-admin\">
+          <title>Use Case: Program management and database administration</title>
+          <span>
+            <para>The program manager of the system will need to perform certain maintenance tasks on the database. These include the following:</para>
+            <list type=\"bullet\">
+              <item>Initialise the database.</item>
+              <item>Allocate access to new workers and projects.</item>
+              <item>Optimise database performance.</item>
+              <item>Backup the data.</item>
+              <item>Retire data-sets.</item>
+              <item>Merge data-sets</item>
+            </list>
+            <para>Additionally they will need to do the following.</para>
+            <list>
+              <item>Create program title and description</item>
+              <item>Worker definition</item>
+              <item>Report template definition <link src=\"proj-design-usecase-report-defn\">(described in the report definition use case.)</link></item>
+              <item>Apparatus/mechanism definition and base templates</item>
+              <item>Chem-notation definitions</item>
+            </list>
+            <table cols=\"2\" rule=\"tb\" width=\"100%\">
+              <tr type=\"head\">
+                <td>Fundamental Communications</td>
+                <td>Program management Use Case</td>
+              </tr>
+              <tr>
+                <td>Program manager</td>
+                <td>Select/create database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Create request and edit database entries</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Commit database entries</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Merge data documents into database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Merge report template documents into database</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Create report template</td>
+              </tr>
+            </table>
+            <para><strong>Sub Use Case A:</strong> A sub-use-case is the retirement/merging of data-sets. In the past I have sometimes gone back to earlier data-sets to include existing calculations in a new project. Another use may be to generate a new report from the retired data. To allow this to happen several bits of information must be available.</para>
+            <list type=\"bullet\">
+              <item>All the data for the entity.</item>
+              <item>All the data for cross-referenced information, such as equipment and experimenter.</item>
+              <item>Leave a copy of information cross referenced in other sections of the database.</item>
+              <item>The ability to integrate the data back into the current database.</item>
+              <item>Some of the data in the database will be cached data filtered from a result element. These do not need to be saved as they can be regenerated when the database is reimported.</item>
+              <item>Result elements that represent the content of a file can be exported as a separate file in their native format.</item>
+              <item>Data duplication must not occur when restoring an archived database. </item>
+            </list>
+            <para>This is achieved by retiring a data-set as a new self-contained database archive. A later version of the system may additionally be able to open the archive and merge a subset back into the master database.</para>
+          </span>
+        </section>
+        <section bookmark=\"proj-design-usecase-report-defn\">
+          <title>Use Case: Report definition.</title>
+          <span>
+            <para>The user needs to define the reports. This involves two action. Selecting the reports to be used for a project and defining the reports. The activities might include:</para>
+            <list type=\"bullet\">
+              <item>A set of template reports defined for each entity and data type.</item>
+              <item>A set of template reports defined for comparing entities.</item>
+              <item>Combining these reports into master reports, for example to generate the supplementary information.</item>
+              <item>Defining these template reports and the data-sets they operate on.</item>
+              <item>Defining new reports.</item>
+            </list>
+            <para><strong>Sub Use Case A.</strong> In a paper for a scientific journal entities are identified by sequential number. The internal entity identifiers used in the database will therefore need to be translated into these numbers on a per \"paper\" basis. A useful mechanism would store these relationships for repeated use and display them when the entity is being displayed.</para>
+          </span>
+        </section>
+        <section>
+          <title>Use Case: Use a mechanism</title>
+          <span>
+            <para>The third task of the system is to provide a mechanism to allow the reliable submitting of jobs to various computer systems. Computational chemistry input files are largely but not completely computer independent. Changing an input file for a calculation to run on a different computer is tedious and therefore error prone. Additionally each machine may have a different queuing scheme. Lastly, a job may require standard files and directories to be present and these to have certain permissions before the calculation will work reliably. The current <code>submitq</code> and <code>newcalc</code> programs have been of great assistance in hiding the computer differences but two deficiencies still exist. Firstly, they both require recoding, rather than reconfiguring, for each machine. Secondly, they don't cooperate so <code>newcalc</code> produces a machine specific input file that must be edited if target machine is changed rather than the machine specific changes being made as the job is submitted.</para>
+          </span>
+        </section>
+        <section>
+          <title>Use Case: Archive data base</title>
+          <span>
+            <para> Using an XML application gives us a wide degree of flexibility. The XML data layout was to be based on an article by Cushing (1996) that described a conventional relational-database schema. As an XML application was being used we could modify this schema to allow (almost) arbitrary chemistry related data to be incorporated. Using an XML application also allows the use of XSLT stylesheets to generate the range of output reports needed. The XSLT technology can produce both XML/XHTML output or arbitrary text based output (including formatted documents as RTF and data tables as CSV files).</para>
+          </span>
+        </section>
+      </section>
+      <section bookmark=\"proj-concept-requirements\">
+        <title>Core Requirements</title>
+        <section bookmark=\"proj-concept-ops-concept\">
+          <title>Operations Concept</title>
+          <span>
+            <para>The first task of this system is to provide a standard method for collection of computational and experimental data into a single database. This database can then be queried to generate reports on the various calculations/experiments undertaken.</para>
+            <para>The second task of the system is to provide a level of project management. The sorts of tasks the project management could undertake include the following:</para>
+            <list type=\"bullet\">
+              <item>\"Manage\" the various workers available</item>
+              <item>\"Manage\" the various methodology available</item>
+              <item>Allow calculation input files for the project to be generated from a template (either standard or project specific).</item>
+              <item>Reports for sets of compounds to be generated based on the contents of the project.</item>
+              <item>Progress reports for the project.</item>
+              <item>Knowledge capture.</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-concept-system-charter\">
+          <title>System Charter V0.1</title>
+          <span>
+            <para>The completed project will be able to take an input structure and generate an input file for the Gaussian program. It should be able to scan the Gaussian output file to collect the results and insert them in the database. These results should be accessible, either individually or in sets, for user inspection and for generating reports. This system should largely replace the existing sets of scripts and programs. Ideally the system should be OS independent and have command-line and GUI capabilities. The system must be extendable to other comp. chem. packages.</para>
+            <list>
+              <item><emph>Create the input file(s)</emph> for a calculation sequence used to generate a set of selected output data.</item>
+              <item><emph>or an experimental method</emph> for generating specific result data.</item>
+              <item><emph>Generate reports</emph> for individual compounds and for sets of compounds in a project.</item>
+              <item><emph>Manage the calculation/experiment</emph> from inception to performing the experiment/calculation to end result reporting.</item>
+              <item><emph>Access data</emph> directly or through reports.</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-desc-system-charter\">
+          <title>System Charter</title>
+          <span>
+            <para>Release V 1 will be able to</para>
+            <list type=\"bullet\">
+              <item><emph>Create the input file(s);</emph> for a calculation sequence used to generate a set of selected output data.</item>
+              <item><emph>Manage the calculation;</emph> during the period the com. chem package is processing the input file(s).</item>
+              <item><emph>Generate reports;</emph> from the selected output data.</item>
+              <item><emph>Combine data;</emph> from several related calculation sets to generate comparative reports.</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-concept-system-function\">
+          <title>System Function statement V0.1</title>
+          <span>
+            <para>The final project will have the following functionality.</para>
+            <list>
+              <item>Define a project based on compound/geometry sets and methodology. <list>
+                  <item>Develop the methodology: eg. assign a calculation sequence based on desired output data.</item>
+                  <item>Define the compound set.</item>
+                  <item>Define the geometry set for each compound.</item>
+                </list> </item>
+              <item>Manage the experiments in a project. <list>
+                  <item>Generate the starting input files/method.</item>
+                  <item>Filter computation output file/experimental data into database.</item>
+                  <item>Provide progress report information.</item>
+                </list> </item>
+              <item>Generate reports from individual experiments, compounds or projects.</item>
+              <item>Allow user to view and manage the data content of the database.</item>
+              <item>Allow database management <list>
+                  <item>Define new projects</item>
+                  <item>Define global information, such as workers and methodology.</item>
+                  <item>Backup and retire completed projects</item>
+                </list> </item>
+              <item>Provide a GUI and command-line interface to these operations.</item>
+              <item>Provide a mechanism for configuring the system.</item>
+            </list>
+            <para>A later version of this:</para>
+            <list>
+              <item>Each level of the program/project/reaction/entity hierarchy can be independently configured and accessed.</item>
+              <item>\"Services\" can be done in independent tasks or threads.</item>
+              <item>The state information maintained by each level of the hierarchy can be queried to see by the services. For example a service that reports an entity's peak-table can query the entity to see if the calculation has been, is being or will be performed.</item>
+              <item>The system should aim for OS/UI independence to assist cross-platform operation. The initial version will use English as the language throughout, although some provision for multilingual support will be considered. This is a valid presumption as the system is targeted at scientific publication which is dominated by this language. The command-line versions will be English language with multilingual support targeted for later releases.</item>
+            </list>
+          </span>
+        </section>
+        <section bookmark=\"proj-desc-system-function\">
+          <title>System Function statement</title>
+          <span>
+            <para>Release V 1 will have the following functionality.</para>
+            <list type=\"bullet\">
+              <item>import a molecular structure(s).</item>
+              <item>define a project based on structure, package, method and basis set.</item>
+              <item>assign a calculation sequence based on desired output data.</item>
+              <item>manage the calculation sequence during computation.</item>
+              <item>filter computation output file for derived output data.</item>
+              <item>manage/store the derived output data.</item>
+              <item>generate a report(s) of output data, based on the data's type.</item>
+              <item>combine results from several computations to generate additional reports.</item>
+            </list>
+          </span>
+        </section>
+      </section>
+    </section>
+    <section bookmark=\"proj-design\">
+      <title>Design</title>
+      <span>
+        <para>Start of the design.</para>
+      </span>
+      <section bookmark=\"proj-concept-identify-actors\">
+        <title>Identify Actors</title>
+        <span>
+          <img bookmark=\"fig-actor-diagram\" src=\"class-diagrams\\context-diagram.png\">
+            <caption>Diagram outlining the main <strong>actors</strong> of the system.</caption>
+            <alt>Actor diagram.</alt>
+          </img>
+        </span>
+        <section bookmark=\"proj-concept-internal-actors\">
+          <title>Internal actors (data concepts)</title>
+          <span>
+            <para>At its most fundamental, a computational chemistry project involves sets of modeled entities and reaction processes. Some of these operations would be more reliably managed by a computer program. The sorts of services that the program might perform are; entity set up, computation management, result extraction and data reporting.</para>
+            <para>The atomic data of the system is an \"entity\". This is a chemical structure that is processed through the computational chemistry program to generate predicted properties. The next level of abstraction is a \"reaction\" process that describes a fixed relationship between independent sets of entities. This not a direct relationship as an entity can be involved in several reaction processes. Above the reaction is a \"project\", which collects sets of reactions and entities to produce a single scientific report. Once again, this is not a fixed relationship as entities and reactions may belong to several projects. The top level abstraction that I want to consider is a \"program\". A program is a broad category of research being undertaken that will logically contain a closed set of projects, entities and reactions. </para>
+            <img bookmark=\"fig-initial-data-concept\" src=\"class-diagrams/data-concept.png\">
+              <caption>Diagram of the major <strong>data</strong> concepts and their relationships.</caption>
+              <alt>Data-concept diagram</alt>
+            </img>
+            <para>The information that is contained in the entity objects is derived from the output files of the computational chemistry. This must be extracted from a result file by some process. This information is then used by reports to generate some meaningful output. The type of output that are possible are dependent on the computational method used on the entity and the relationships defined in a reaction. The basic responsibilities of each object are:</para>
+            <para><strong>program:</strong> (1) Create or select a program of study. (2) provide a framework for managing (creating, selecting etc.) reactions, projects and entities. </para>
+            <para><strong>project:</strong> (1) provide a framework for managing the relationships between entities and reactions. (2) provide reports of these relationships. (3) provide a framework for written reports that contain links to information from the database.</para>
+            <para><strong>reaction:</strong> (1) provide a framework for building relationships between entities such that meaningful reports can be made. </para>
+            <para><strong>entity:</strong> a scientifically meaningful thing, such as a chemical structure in a given geometry. Provides identifiable things to use when creating reports.</para>
+          </span>
+        </section>
+      </section>
+      <section bookmark=\"proj-design-category-diagram\">
+        <title>Category Diagram</title>
+        <span>
+          <para><strong>Analysis model</strong></para>
+          <para>This program seems to be splitting into four distinct categories or states.</para>
+          <list type=\"numbered\">
+            <item>experiment design/computation reactant files.</item>
+            <item>calculation coach or chaperone</item>
+            <item>extraction of data from computation product files.</item>
+            <item>overall calculation and derived data management.</item>
+          </list>
+          <para>The following roles and responsibilities seem to be key to these categories or states</para>
+          <list>
+            <item><emph>Program</emph> Manages set of projects</item>
+            <item><emph>Project </emph> Manages set of derived data</item>
+            <item><emph>Derived data</emph> <list>
+                <item>Implies calculation sequence</item>
+                <item>Has an output filter</item>
+                <item>Has a data report</item>
+              </list></item>
+            <item><emph>Sequence</emph> <list>
+                <item>Manages set of input files</item>
+                <item>Manages set of machines</item>
+              </list></item>
+            <item><emph>Reactant/Products files</emph> Has a chemical structure</item>
+            <item><emph>Structure</emph> (chemical structure specification)</item>
+          </list>
+        </span>
+        <section bookmark=\"proj-concept-context\">
+          <title>Context Diagram</title>
+          <span>
+            <img src=\"class-diagrams\\context-diagram-3.png\">
+              <caption>The context diagram after Use Case 3</caption>
+              <alt>context diagram 3</alt>
+            </img>
+          </span>
+        </section>
+        <section>
+          <title>Proposed classes</title>
+          <span>
+            <img src=\"class_diagrams/class_diagram_all.png\">
+              <caption>Diagram of proposed classes, their attributes, methods and relationships</caption>
+              <alt>Class diagram</alt>
+            </img>
+          </span>
+          <section>
+            <title>chemical_process</title>
+            <span>
+              <para>Documentation</para>
+              <para>Definition</para>
+              <para>A chemical process is some action of one or more molecules that is to be modeled computationally. The results from the same chemical process on different (sets of) molecules should be directly comparable.</para>
+              <para>Constraints</para>
+              <para>A single type of chemical process must be modeled using the same package, algorithm and basis set to allow valid series comparisons.</para>
+              <para>The processes that are able to be modeled is limited by the capabilities of the computational package.</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy: Parent -&gt; Document Holder</para>
+              <para>State Machine: No</para>
+              <para>Concurrency: Sequential</para>
+              <para>Persistence: Transient</para>
+              <para>Public Properties</para>
+            </span>
+          </section>
+          <section>
+            <title>derived property</title>
+            <span>
+              <para>Definition</para>
+              <para>A derived property is the combination of the estimated properties of a set of molecules. This type of property can be used by experiments to combine the results from its reagents into a single property value. For instance it might be activation barrier.</para>
+              <para>Properties can be loosely aggregated to give combined reports.</para>
+              <para>Constraints</para>
+              <para>Derived properties are derived from estimated properties. The constraints on estimated properties must be valid before a derived property can be considered valid.</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy: Parent -&gt; property</para>
+              <para>State Machine: No</para>
+              <para>Concurrency: Sequential</para>
+              <para>Persistence: Transient</para>
+              <para>Public Properties</para>
+              <para>Operation Name</para>
+              <para>Has-A:</para>
+              <para>Protected Properties</para>
+              <para>Operation Name:</para>
+              <para>Has-A</para>
+            </span>
+          </section>
+          <section>
+            <title>estimated property</title>
+            <span>
+              <para>Definition</para>
+              <para>An estimated property is a computed result that helps to describe a molecule. The property can be asked to present itself in various reports and can be combined with other properties to yield more complex properties.</para>
+              <para>Properties can be loosely aggregated to give combined reports.</para>
+              <para>Properties are a loose collection of tagged data that can be associated with a molecule/expt/process/program.</para>
+              <para>Constraints</para>
+              <para>Estimated properties are derived from calculation. They are generated from the output files, therefore the time stamp of the estimated data must be more recent than the output file. If this is not the case then the property must be regenerated.</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy: Parent -&gt; property</para>
+              <para>State Machine: No</para>
+              <para>Concurrency: Sequential</para>
+              <para>Persistence: Transient</para>
+              <para>Public Properties</para>
+            </span>
+          </section>
+          <section>
+            <title>experiment</title>
+            <span>
+              <para>Definition</para>
+              <para>An experiment is the operations performed on a molecule(s) by a comp chem package to derive some information about a molecule and/or chemical process.</para>
+              <para>Constraints</para>
+              <para>The results from several experiments of the same process should be comparable.</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy: Parent -&gt; Property Holder</para>
+              <para>State Machine: Yes [(Before|During|After) Computation]</para>
+              <para>Concurrency: Sequential</para>
+              <para>Persistence: Transient</para>
+              <para>Public Properties</para>
+            </span>
+          </section>
+          <section>
+            <title>molecule</title>
+            <span>
+              <para>Definition</para>
+              <para>A molecule is a structured collection of atoms. Conventionally, the molecular structure is represented by connecting atoms together using bonds. This connected set can be named using certain rules to arrive at a unique chemical name (and vice versa). </para>
+              <para>When viewed in 3D these connected sets have geometrical and 'stereochemical' isomers. While it can be assumed that stereoisomers are energetically equivalent, geometrical isomers are not. Geometrical isomers are not well covered by the naming rules, which are predominantly concerned with stable molecules. In Comp Chem therefore, a molecule may require both a name and a geometry identifier to be uniquely determined.</para>
+              <para>Constraints</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy: Parent -&gt; Directory Holder</para>
+              <para>State Machine: No</para>
+              <para>Concurrency: Sequential</para>
+              <para>Persistence: Transient</para>
+              <para>Public Properties</para>
+              <para>Attribute: molecular_name (string)</para>
+              <para>Attribute: molecular_conformation_tag (specification??)</para>
+            </span>
+          </section>
+          <section>
+            <title>package</title>
+            <span>
+              <para>Definition</para>
+              <para>A comp chem package is a set of programs used to obtain computational results. Associated with the package are sets of possible methods, algorithms, basis sets, derivable results etc..</para>
+              <para>Constraints</para>
+              <para>Structure</para>
+              <para>Export Control: Public</para>
+              <para>Cardinality: N</para>
+              <para>Heirarchy:</para>
+              <para>State Machine: No</para>
+              <para>Concurrency: Sequential </para>
+              <para>Persistence: Persistent</para>
+              <para>Public Properties</para>
+            </span>
+          </section>
+          <section>
+            <title>program</title>
+            <span>
+              <para>A program is a set of chemical structures that are to be compared directly or indirectly using computational chemistry. The direct comparison of chemical structures is done in a project. The results of several projects can be compared in a program. The results from various computations are best compared using the same package, algorithm and basis set. </para>
+              <para>(Ideally, it would be good to allow a program to import molecules and chemical processes from existing directory. I think that if chemical process, molecules and experiments are implemented in subdirectories of a \"program\" directory and the list of molecules/processes is derived by scanning these directories then creating a new program using some results from earlier studies can be handled)</para>
+            </span>
+          </section>
+        </section>
+        <section>
+          <title>Class List</title>
+          <span>
+            <img src=\"class-diagrams/class_diagram_all.png\">
+              <caption>UML like diagram of the classes and their interactions</caption>
+              <alt>UML like class diagram</alt>
+            </img>
+            <para>(Super-classes shown in square brackets.)</para>
+            <para><emph>Computational chemistry database objects</emph></para>
+            <list type=\"bullet\">
+              <item><emph>program</emph> Namespace containing the following database object types. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">apparatus</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object for information about a physical laboratory instrument. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">atom_list</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object for chemical structure representation </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">calc_method</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object for method used for calculation. This includes method (HF, B3LYP etc.), basis-set and algorithm (optimization, vibration etc) information</item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">calc_program</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object for information about program used (cross-references to a comp_program object). The object requires program/version information. The contents should also include calculating machine version.</item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">chem_notation</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object defining a chemical type such as \"amino acid\", \"ketene\" that can be cross-referenced to atom-lists.</item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">comp_program</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object used to hold the description of a computer program used to perform computation experiments. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">compound</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Container object for chemical information. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">data set</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object for managing lists of compounds/geometries used in projects and reports </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">experiment</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object representing the result of a single experiment or calculation </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">geometry</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Container for data about a particular geometrical configuration of a compound. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">information</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object used as a place to put general information about the containing node </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">iupac_name</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object containing the canonical IUPAC name of the object</item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">lab_app</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object referencing laboratory equipment that should hold instance specific configuration information (cross-references to an apparatus object). These objects are used for laboratory experiments. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">program</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Master container for an entire \"program\" of research.</item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">project</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Container that manages data from subsets of the entire research program. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">report_form</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object containing a report template. </item>
+              <item><link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">worker</link> [<link format=\"linkto\" src=\"proj-dictionary\" type=\"footnote\">xml_node</link>] Object representing a person in the research program. Used as a cross-reference target from every experiment. </item>
+            </list>
+          </span>
+        </section>
+        <section>
+          <title>Packages</title>
+          <section bookmark=\"proj-goals\">
+            <title>Project packages</title>
+            <span>
+              <para>The code for the project has been separated into categories and packages (the <link format=\"linkto\" src=\"fig-category-package\" type=\"footnote\">diagram</link> shows these packages and some of the main relationships. The categories that were determined during the analysis phase have been converted directly into Java packages. For convenience of representation I have shown a group category (<emph>data packages</emph>) in the diagram. If you consider the system using <emph>model-delegate</emph> pattern, the data packages represent <emph>models</emph> and the <code>actor</code> and <code>display</code> represent <emph>delegates</emph></para>
+              <para>The following sections describe the intent of each of the packages rather than the classes they contained. Full descriptions of the individual classes are described elsewhere.</para>
+              <img bookmark=\"fig-category-package\" src=\"class-diagrams\\category-packages.png\">
+                <caption>Category/Package diagram</caption>
+                <alt>Category/Package diagram</alt>
+              </img>
+            </span>
+          </section>
+          <section bookmark=\"pack-configuration\">
+            <title>The <code>configuration</code> package</title>
+            <span>
+              <para>The configuration package contains classes that provide a uniform interface to a database of configuration information. The intent of the package is to allow access to the same configuration information from different parts of the system. The intent is that a number of operations can largely be controlled using this configuration information. The idea is to provide a level of independence that can allow for multi-threading and/or client/server operation.</para>
+              <para>The individual configuration can be set up as follows:</para>
+              <list type=\"bullet\">
+                <item>In the users <code>home</code> directory is a configuration file holding the name of the currently used databases. The default action would be to load the most recent database. The choice of database should be accessible from the command line. In addition, the GUI could have an option to offer the list of databases on starting.</item>
+                <item>Once connected to the database, the user's setting are read from their <code>worker</code> description.</item>
+                <item>Configuration </item>
+              </list>
+              <para>The ability to use multi-threading and/or client/server operation entails using a locking mechanism for the configuration. When a program needs to set information and pass this to another class it must get a mutex-like lock of the configuration file. These come in two types, <emph>read</emph> and <emph>write</emph>. The <emph>read</emph> lock can be placed by a number of processes wanting to access the data simultaneously. A <emph>read</emph> lock ensures that no other process can alter the data. A <emph>write</emph> lock is exclusive, meaning that a process must wait until all other locks have been released before proceeding. For simplicity and the lack of experience with locking on this system, only global locks will be initially implemented. A more advanced sub-tree locking mechanism may be introduced at a later time.</para>
+              <para>The typical operation of passing information via the configuration would be:</para>
+              <list type=\"numbered\">
+                <item>Obtain a <emph>read</emph> lock.</item>
+                <item>Check existing configuration (if it is all OK proceed to 6.)</item>
+                <item>Obtain a <emph>write</emph> lock.</item>
+                <item>Change the configuration.</item>
+                <item>Swap the <emph>write</emph> lock for a <emph>read</emph> lock.</item>
+                <item>Pass the <emph>read</emph> lock to the target operation.</item>
+                <item>Target operation copies the information it needs.</item>
+                <item>Target drops the <emph>read</emph> lock.</item>
+                <item>Target begins to process the request.</item>
+              </list>
+            </span>
+            <section>
+              <title>Example 1: Reactant file filtering</title>
+              <span>
+                <para>The user gives a filename of a reactant file to a command line or GUI program (from the <code>actor</code> and <code>display</code> packages). This program sets this information into the configuration database. The program then calls a class in the <code>reactant</code> package. This class then reads the configuration information and performs the filtering operation.</para>
+              </span>
+            </section>
+          </section>
+          <section bookmark=\"pack-util\">
+            <title>The <code>util</code> package</title>
+            <span>
+              <para>This is a collection of classes that may be useful across the system. These are summarized below.</para>
+              <list type=\"bullet\">
+                <item><code>Regex</code> and <code>RegexEnum</code>. Classes for applying a (POSIX) regular expression to string and for converting the match results to an enumerated list.</item>
+                <item><code>NodeHelper[Type]</code></item>
+              </list>
+            </span>
+          </section>
+          <section bookmark=\"pack-reactant\">
+            <title>The <code>reactant</code> package</title>
+            <span>
+              <para>This package contains classes for generating input files for computational chemistry. These classes collaborate with information from XML configuration files to allow wizards to assist producing these files. They also provide the classes used to convert the meta-input files produced from these templates into machine targeted files as the job is submitted. This part of the package can be deployed on each machine.</para>
+              <para>The process of submitting a calculation on a particular machine involves several stages as follows.</para>
+              <list type=\"bullet\">
+                <item>Local pre-setup script</item>
+                <item>Global setup script</item>
+                <item>Local setup script</item>
+                <item>Reactant file conversion (Regex search and replace)</item>
+                <item>Global pre-submit script</item>
+                <item>Local pre-submit script</item>
+                <item>Batch queue pre-submit script</item>
+                <item>Submit to local queuing system</item>
+              </list>
+            </span>
+          </section>
+          <section bookmark=\"pack-product\">
+            <title>The <code>product</code> package</title>
+            <span>
+              <para>This package contains framework code for managing classes that translate comp. chem. program files into XML data for the database. These classes are identified by the program they support. They are then passed a characteristic line from the calc. output file which they internally test to see if the filter is suitable for the current file. </para>
+              <para>The information that each filter is required to provide to the configuration system is:</para>
+              <list type=\"bullet\">
+                <item><emph>Base-type:</emph> The type of files this filter can possibly work on. This could be the name of a comp. chem. system, for example gaussian, or a data class, for example infra-red data.</item>
+                <item><emph>Sub-type:</emph> Given that the file is of the base-type, what sets of these base-types does the filter operate on. For example a Gaussian system <code>freq</code> calculation output file or an infra-red spectrum file in JCAMP-DX format. (This is currently a provisional element.)</item>
+                <item>The class name of the filter.</item>
+              </list>
+            </span>
+          </section>
+          <section bookmark=\"pack-report\">
+            <title>The <code>report</code> package</title>
+            <span>
+              <para>The report packages provides classes for handling the production of reports. The reports are generated from XSLT stylesheets acting on the database. The classes in this package manage the interaction with the <code>Xalan</code> package, which performs the transformation. In addition the package provides the extension framework required to support the use of classes from the <code>viewer</code> package within the stylesheets. In future versions the report package also provide basic support for generating stylesheets.</para>
+              <para>While not exactly part of the package, a set of template stylesheets has been produced that manipulate individual elements. In addition, templates can be registered in the configuration system along with the XPATH statement they match and operate on. Inspection of this information, along with the <link format=\"linkto\" src=\"pack-viewer\" type=\"footnote\"><code>viewer</code> package</link> classes can assist report writers in producing new XSLT stylesheets. This will allow the system to offer wizards within this package for constructing reports that can combine the lower-level templates.</para>
+              <para>Features:</para>
+              <list type=\"bullet\">
+                <item>XSLT template based.</item>
+                <item>Extensions for using Java classes from the <link format=\"linkto\" src=\"pack-viewer\" type=\"footnote\"><code>viewer</code> package</link> to be used in stylesheets</item>
+                <item>Uniform mechanism to allow XSLT template, stylesheets and <link format=\"linkto\" src=\"pack-viewer\" type=\"footnote\"><code>viewer</code> package</link> classes to advertise the data they handle and what they provide.</item>
+              </list>
+              <para>The standard report XSLT templates will output XML containing the results in a standardized text-oriented meta form. This meta form will then be translated by another set of XSLT templates into the final output formats. New stylesheets can then focus on manipulating the data into a single format or on manipulating the meta form to produce new output types.</para>
+            </span>
+          </section>
+          <section bookmark=\"pack-database\">
+            <title>The <code>administrator</code> package</title>
+            <span>
+              <para>The administrator package contains classes that manage interactions between the database and the user. These include classes that most closely represent the <emph>model</emph> of the <code>display</code> package supported <emph>model-delegate</emph>pattern. The administrator package is responsible for complex operations on the database, such as retiring some data sub-set. in addition, the reagent/product files will be archived to a standard location. This location could be virtual (compressed archive) or literal (hard link to some standard locations)</para>
+              <para></para>
+            </span>
+          </section>
+          <section bookmark=\"pack-viewer\">
+            <title>The <code>viewer</code> package</title>
+            <span>
+              <para>The use of xindice and Java allow easy support of extension viewers for the display and output of information. The viewer package contains classes and interfaces to support the provision of extensions to XSLT and the GUI display system. An example for computational chemistry would be a class that supports translating the vibration peak-table from the calculation into a simulated spectrum, which could be displayed visually and saved as a spectrum.</para>
+              <para>These classes are located at run time or through the configuration system. The major piece of information they advertise is an XPATH statement that uniquely defines the elements the class can operate on. This information can then be used by the GUI to offer these extended views when the currently selected node matches the XPATH statement. Additionally, these extended viewers can be accessed from within the XSLT documents used for reports.</para>
+            </span>
+          </section>
+          <section bookmark=\"pack-actor\">
+            <title>The <code>actor</code> package</title>
+            <span>
+              <para>The <emph>actor</emph> package contains encapsulations of several of the high-level data-objects of the system. They provide a locality for validation of these object during editing. The various tasks that the system can perform are also included in this package. This also means that this is the logical place to put the command line tools. The coordination of the various sub-parts of the system are done through this class.</para>
+            </span>
+          </section>
+          <section bookmark=\"pack-display\">
+            <title>The <code>display</code> package</title>
+            <span>
+              <para>The <code>display</code> package contains the classes used in the GUI. The display uses the <emph>actor</emph> package classes to perform actions and the data packages for manipulating the content of the database.</para>
+            </span>
+            <section bookmark=\"pack-display-state\">
+              <title>State behavior</title>
+              <span>
+                <para>The type of actions that are available to the user are dependent on the type of object currently in focus. The four levels of abstraction (program, project, reaction and entity) all have different behavior. A state based interface could be a good choice in assisting the user. This could also be maintained in the command-line utilities.</para>
+              </span>
+            </section>
+          </section>
+        </section>
+      </section>
+      <section>
+        <title>Relation between View and Mechanism</title>
+        <span>
+          <para>These two types represent complimentary concepts. A View is associated with an atomic piece of scientific information. A Mechanism is responsible for the production of the information. Thus a View must know how to extract the information from the result data from a Mechanism. As the View is independent of the Mechanism, it must know how to extract the information from several different Mechanism types.</para>
+          <para>The user defines an experimental design based on the desired result Views. This means that from the View we must somehow manipulate the input of the Mechanism to achieve the desired result. </para>
+          <para>How to manipulate the input and filter results are state of a Mechanism. This implies that a Mechanism must advertise the available result types it can produce. The Mechanism can then be inspected to manipulate the input. Once actioned, the Mechanism can be used to obtain a filter for the result file. The filtered data would be in a format defined by the View object. The View object can then display and save the filtered data.</para>
+        </span>
+      </section>
+      <section bookmark=\"proj-concept-risks\">
+        <title>Project Risks</title>
+        <span>
+          <para><strong>Cross platform compatibility:</strong> Initially develop in C++. Consideration at all stages for co-development in Java.</para>
+          <para><strong>Proposed solution:</strong> It has been decided to shift the project to the Java language. None of the systems will be computationally bound and using Java will improve cross-platform compatibility.</para>
+          <para>Flexibility in data acquisition and retrieval.</para>
+          <para>Database management: Speed v. data validity v. flexibility. Use a RDBMS system for the main data storage. Use an XML application as an archive and exchange format.</para>
+        </span>
+      </section>
+    </section>
+    <section bookmark=\"proj-dictionary\">
+      <title>Project Dictionary</title>
+      <span>
+        <para>Dictionary of important terms.</para>
+      </span>
+      <section bookmark=\"dic-basis-set\">
+        <title>Basis Set</title>
+        <span>
+          <para>Molecular orbital computational chemistry calculations use a mathematical function to represent each atomic electron-orbital. These functions are generally made up of a set of simpler functions called basis sets, the larger the set generally the more accurate the results. These sets of functions are somewhat standardized, in this way results from different users can be more readily compared.</para>
+          <para>It is generally possible to generate new or modify existing basis sets from within the input file. While I have never done this, when it is used it is generally applied consistently to a set of calculations.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-calculation\">
+        <title>Calculation</title>
+        <span>
+          <para> A calculation is the computational process of combining the package with the input (reactant) file to generate an output (product) file. </para>
+        </span>
+      </section>
+      <section bookmark=\"dic-calc-package\">
+        <title>Calculation Package</title>
+        <span>
+          <para>This is a program, or set of programs, that performs computational chemistry calculation on an input chemical structure. The purpose of the package is to predict various physical properties of the chemical structure. These properties can, for instance, then be compared with experimental data or used to look at reaction trends.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-calc-spec\">
+        <title>Calculation Specification</title>
+        <span>
+          <para>When used in any context here, calculation specifications refer to those parts of the calculation description (input/output files) that relate to non-Job type specific options of the calculation. For instance, the program `molden' can use information from the output file to generate electron density graphs only if certain options are chosen.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-charge-mult\">
+        <title>Chemical Charge and Multiplicity</title>
+        <span>
+          <para>A molecule can exist in various `spin' and charge states. In general the most stable form of a compound is the uncharged singlet. Computational chemistry allows you to investigate other combinations of these properties.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-entity\">
+        <title>Entity</title>
+        <span>
+          <para>An entity is an object on which experiments are performed. In computational chemistry this is generally made up of a composite of compound and geometry or compound and method. </para>
+        </span>
+      </section>
+      <section bookmark=\"dic-method\">
+        <title>Computational Chem method</title>
+        <span>
+          <para>The algorithm is the underlying calculation that is used to generate the data. Semi-empirical PM3 and ab-initio MP2 are examples of methods. Semi-empirical methods (here) are used without a basis set. ab-Initio methods are used with basis sets. It is the combination of algorithm and basis set that is the determinant of a comp chem level.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-reactant-file\">
+        <title>Computational Chem input (reactant) file</title>
+        <span>
+          <para>This is the input (reactant) file that contains the job type and structure specifications that are passed to the calculation program for execution. These files generally follow a set pattern requirement that is similar between methods of a single comp chem package. The requirements are also similar between packages.</para>
+          <para>Reactant files at a minimum specify the chemical structure (or its location in a separate file) and what calculations to perform on the structure. Additional specifications are for sequential calculations or machine specific settings.</para>
+          <list>
+            <item>package operation specifications for current calculation/machine</item>
+            <item>calculation title</item>
+            <item>structure definition</item>
+            <item>calculation method specifications</item>
+            <item>sequence specifications</item>
+          </list>
+        </span>
+      </section>
+      <section bookmark=\"dic-level\">
+        <title>Computational Chem Level</title>
+        <span>
+          <para>The computational method is the computational <link src=\"dic-method\">method</link> and <link src=\"dic-basis-set\">basis set</link> used to obtain the calculation result. Such a level is generally independent of the Job type, although restrictions on the job types that can be performed and some of the job type's options may be restricted depending on the choice of Method. Here we will use this term to refer to either the method and basis set or just the method.</para>
+          <para>In general they method and basis set can be considered together as method or basis set specific parameters are uncommon. When these parameters are used they are generally consistently applied to every calculation that uses a particular level.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-job-type\">
+        <title>Computational Chem job type</title>
+        <span>
+          <para>In this context the operation is the type of calculation that the computational package is performing. Geometry optimization, frequency calculations and reaction path searches are examples of an operation</para>
+          <para>Each computational package must be able to perform certain tasks or jobs on the input chemical structure. These job types are tasks such as structural optimization, energy calculation, frequency calculation, transition state structure searching, etc.. For each job type there is often a set of optional parameters that can be applied. </para>
+          <para>The contents of the product file, and so the data that can be derived from it, is determined by the Job type.</para>
+          <para>In addition there may be a set of parameters that are specific to the calculation method regardless of job type. These additional parameters can be operation specific (eg computer memory use, file location) or computational method specific (eg sub-algorithm choice).</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-product-file\">
+        <title>Computational Chem output (product) file </title>
+        <span>
+          <para> This is the file obtained as product of a calculation. The format of this file is more varied than the reactant file as is highly dependent on the operation being performed. There are usually some common parts to the file and some parts that are specific to a particular computational <link src=\"dic-job-type\">job type</link>.</para>
+          <list>
+            <item>repeats information from input file</item>
+            <item>contains details of the calculation as it progresses</item>
+            <item>contains results of specific to job type</item>
+            <item>closes with a section containing summaries results of the calculation</item>
+          </list>
+        </span>
+      </section>
+      <section bookmark=\"dic-report\">
+        <title>Derived Data (Reports)</title>
+        <span>
+          <para> This is the information that we are performing the calculation for. If the calculation completes successfully then it can be obtained from the output file reliably. A report may also contain results from several calculations and data derived from the results.</para>
+          <para>Note that several calculation steps may be needed to derive a single result. For instance to obtain a set of molecular vibrations for a molecule requires the geometry to be optimized and the wave function to be stable before the calculated vibration table can be considered to be reliable. This vibration table can also be post-processed to generate a simulated infra-red spectrum.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-sequence\">
+        <title>Job sequences</title>
+        <span>
+          <para>I generally perform a sequence of Jobs on one Structure. For instance I might determine the optimal structure, then using this structure check the wave function stability, determine the frequency table and perform a single point energy calculation using a more accurate Method. Most Packages allow you to do this within the input file. In addition, most OSs allow you to chain program executions using either a shell script or a batch system.</para>
+          <para>These sequences are generally performed on a set of molecules. In such cases the only difference between input jobs are the Operation specifications and the Structure definitions. </para>
+        </span>
+      </section>
+      <section bookmark=\"dic-machine\">
+        <title>Machine</title>
+        <span>
+          <para>The machine is the computer that the calculation will actually be carried out on. </para>
+        </span>
+      </section>
+      <section bookmark=\"dic-product-filter\">
+        <title>Product Filter</title>
+        <span>
+          <para> This is a program or sub-program that can be used to selectively extract information from the calculation product file. Filters can be used to obtain both status information and derived data.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-program\">
+        <title>Research Program</title>
+        <span>
+          <para>A research program extends the concept of a research project to different chemical isomers of a chemical structure. A program should be a set of research projects that are modeling the same chemical process, but in different structures. This implies that derived thermochemistry data from project level can be compared within a program (For instance the hindered amine rotation energy barrier (T.S. v G.S.) of a set of substituted amides). Other structure (or project) data can also be compared (e.g. carbon-nitrogen bond lengths for the amide example).</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-project\">
+        <title>Research Project</title>
+        <span>
+          <para>When used here, a research project refers to the application of chemically related (eg T.S. v G.S. or Trpl. v Sngl.) Job Sequences to a set of geometry isomers of a chemical structure. The data obtained from these calculations can be compared directly to study the modal of the physical system. An example might be to study the rotational state of a substituent group, where various ground and transition state structures are determined. The derived data might be energy and geometry differences between the structures.</para>
+          <para>The rigorous definition of a research project is a set of calculations whose calculated thermochemistry can (and will only) be meaningfully compared with calculations within this set.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-status\">
+        <title>Status (Calculation)</title>
+        <span>
+          <para> The status of a calculation is information about how the calculation is progressing towards completion and whether it was successful on completion. This information is important as the calculation must complete successfully before the derived results can be relied upon.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-structure\">
+        <title>Structure Definition</title>
+        <span>
+          <para> All comp chem packages require the structure of the molecule(s) as input data. This can be in the input file or recovered from some prior calculation output (g98 uses what it calls checkpoint files). There are many different file layouts used to define a structure definition. Most Packages can only work with a few. For comp chem a definition that specifies the Cartesian coordinates of each atom is generally acceptable. The main alternative is a definition that defines atom locations based on its relative position to atoms that have already been defined.</para>
+        </span>
+      </section>
+      <section bookmark=\"dic-spec-machine\">
+        <title>Operation Specification</title>
+        <span>
+          <para> When used in any context here, operation specifications refer to those parts of the calculation description (input/output files) that relate to the specific machine the calculation is running on. These specifications are independent of the Computational Method and the Job type. This implies that these specifications are tailored for each target machine and that the result is independent of them.</para>
+        </span>
+      </section>
+    </section>
+  </body>
+  <bibliography/>
+</document>
+"
+    end
+
+    artifact 262825 "doc.xml"
+      comment "\\def\\xmlfile{doc_0609.xml}
+\\input xmltex.tex"
+    end
+  end
+end

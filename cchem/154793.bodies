@@ -1,0 +1,29 @@
+class Dipole
+!!!255401.cpp!!!	processLine(in current_line : string) : void
+      if ( _m_dipoleMomentRegex.search( current_line ) ) 
+	{
+	  // Found string, now extract data:
+	  if ( _m_dipoleExtractRegex.process( current_line ) ) 
+	    {
+	      // Save the results, replacing any earlier result.
+	      _m_dipoleMoment = _m_dipoleExtractRegex.matchString(1);
+	      while ( _m_dipoleExtractRegex.process() )
+		{
+		  _m_dipoleMoment += "," + _m_dipoleExtractRegex.matchString(1);
+		};
+	    };
+	};
+    
+!!!255529.cpp!!!	output(inout experimentRootNode : DOM::Node) : void
+      DOM::Element* _l_dipoleNode;
+      if ( !_m_dipoleMoment.empty() )
+	{
+	  _l_dipoleNode = DOM::createElement( experimentRootNode, "dan" );
+	  DOM::setAttribute( _l_dipoleNode, "name", "dipole" );
+	  DOM::setAttribute( _l_dipoleNode, "unit", "debye" );
+	  DOM::setAttribute( _l_dipoleNode, "format", "x,y,z,tot" );
+	  _l_dipoleNode->appendChild( DOM::createTextNode( _l_dipoleNode, 
+							   _m_dipoleMoment ) );
+	  experimentRootNode->appendChild( _l_dipoleNode );
+	};
+    

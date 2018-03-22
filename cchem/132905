@@ -1,0 +1,1948 @@
+format 75
+"test" // /compchem/data_access::test
+  revision 54
+  modified_by 47 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "test/data_access_test"
+  cpp_src_dir "../src/test/data_access_test"
+  cpp_namespace "data_access"
+  classview 130729 "data access test classes"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 132137 // data access test deployment
+    classdiagram 133545 "test classes"
+      draw_all_relations default hide_attributes yes hide_operations yes hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 444969 "test_names"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Unit test for data_access::names."
+      classrelation 434601 // <generalisation>
+	relation 424233 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 434601 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 434857 // <dependency>
+	relation 424489 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 434857 // <dependency>
+	  b parent class_ref 178601 // basic_names
+      end
+
+      attribute 348457 "exemplar"
+	class_attribute private type class_ref 444969 // test_names
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Class exemplar"
+      end
+
+      operation 1402025 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "(1) Test that the data_access::names have the expected values and 
+that they are categorised correctly.
+(2) Test the list methods (which internally use list_add)"
+      end
+
+      operation 1402153 "test_names"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: utility::unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1402281 "~test_names"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1402409 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::names class test\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 515753 "test_data_manager"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test the data_access::manager class"
+      classrelation 564009 // <generalisation>
+	relation 542889 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 564009 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 564137 // <dependency>
+	relation 543017 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 564137 // <dependency>
+	  b parent class_ref 496425 // manager
+      end
+
+      attribute 435113 "s_exemplar"
+	class_attribute private type class_ref 515753 // test_data_manager
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+      end
+
+      operation 1637801 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1637673 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return ${type} (\"Test of data_access::manager class.\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132137 "data access test deployment"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 251305 "test_data_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
+	artifact_ref 208937 // test_names
+	artifact_ref 230313 // filesystem
+	artifact_ref 230057 // data_access
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+      comment "
+"
+    end
+
+    artifact 272553 "test_data_access2"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 252841 // program_options
+	artifact_ref 252969 // regex
+	artifact_ref 230313 // filesystem
+	artifact_ref 230057 // data_access
+	artifact_ref 144169 // data_scheme
+	artifact_ref 271401 // test_data_manager
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
+    artifact 271401 "test_data_manager"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 515753 // test_data_manager
+      end
+    end
+
+    artifact 208937 "test_names"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 444969 // test_names
+      end
+    end
+
+    artifact 129711 "Jamfile"
+      stereotype "document"
+      comment "##START:version
+#Butter version 1.2beta.106
+##END:version
+##START:date
+#Sat Jun 2 10:02:14 2012
+##END:date
+##START:target test_data_access
+make test_data_access :
+	/cchem/utility//utility
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	/boost//regex
+	test_names.cpp
+	/boost//filesystem
+	/cchem/data_access//data_access
+	:
+	;
+
+install install_test_data_access : test_data_access : <location>$(DATADIR) ;
+##END:target test_data_access
+##START:target test_data_access2
+make test_data_access2 :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	/boost//regex
+	/boost//filesystem
+	/cchem/data_access//data_access
+	/cchem/data_scheme//data_scheme
+	test_data_manager.cpp
+	:
+	;
+
+install install_test_data_access2 : test_data_access2 : <location>$(DATADIR) ;
+##END:target test_data_access2
+##START:target test_data_xml_access
+make test_data_xml_access :
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	test_file_helper.cpp
+	test_meta_datum.cpp
+	test_xml_writer.cpp
+	/xml2//xml
+	/cchem/utility//test
+	/boost//date_time
+	/cchem/data_access//data_access
+	/cchem/data_scheme//data_scheme
+	test_xml_persistence.cpp
+	:
+	;
+
+install install_test_data_xml_access : test_data_xml_access : <location>$(DATADIR) ;
+##END:target test_data_xml_access
+"
+    end
+  end
+
+  classview 173353 "xml_data_access tests"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    associated_deployment_view deploymentview_ref 176553 // xml_data_access test deploy
+    class 457001 "test_file_helper"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "utility::unit_test"
+      comment "Test of xml_access_helper
+
+TODO: more rigorous testing.
+
+--search-path	Start path
+--search-base	Start base
+--search-key	Search key
+--autofix -A	(helper) Whether to automatically attempt to fix broken links
+--search-dir -D (*) 	(helper) Add search directory."
+      classrelation 450217 // <generalisation>
+	relation 439337 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450217 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 450473 // <dependency>
+	relation 439593 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 450473 // <dependency>
+	  b parent class_ref 178601 // basic_names
+      end
+
+      classrelation 450729 // <dependency>
+	relation 439849 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 450729 // <dependency>
+	  b parent class_ref 449449 // persistence
+      end
+
+      classrelation 450345 // <dependency>
+	relation 439465 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 450345 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+
+      classrelation 450857 // exemplar (<directional composition>)
+	relation 439977 *-->
+	  a role_name "exemplar" class_relation private
+	    comment "The singleton"
+	    cpp default "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 450857 // exemplar (<directional composition>)
+	  b parent class_ref 457001 // test_file_helper
+      end
+
+      operation 1456425 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test."
+      end
+
+      operation 1456553 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::data_access_helper class test\");
+}"
+	
+	
+	
+	
+      end
+
+      operation 1457193 "test_file_helper"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: @{base_class} ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1457321 "~test_file_helper"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 434089 "test_meta_datum"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Unit test for meta_datum class.
+"
+      classrelation 419625 // <generalisation>
+	relation 409513 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 419625 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 552489 // <dependency>
+	relation 531369 -_->
+	  a package
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 552489 // <dependency>
+	  b parent class_ref 428969 // bind
+      end
+
+      classrelation 420265 // <dependency>
+	relation 410153 -_->
+	  a default
+	    cpp default "#include in source"
+	    classrelation_ref 420265 // <dependency>
+	  b parent class_ref 433961 // meta_datum
+      end
+
+      attribute 334249 "exemplar"
+	class_attribute private type class_ref 434089 // test_meta_datum
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Class exemplar"
+      end
+
+      operation 1369769 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370025 "test_meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: utility::unit_test ()
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370153 "~test_meta_datum"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}
+{}
+"
+	
+	
+	
+	
+      end
+
+      operation 1370281 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"data_access::meta_datum class test\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+
+    class 521769 "test_xml_persistence"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      ncouples 1
+      key "base_class" value "utility::unit_test"
+      comment "Test the xml_persistence and xml_write_visitor classes"
+      classrelation 573353 // <generalisation>
+	relation 552233 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 573353 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 574249 // <dependency>
+	relation 553129 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574249 // <dependency>
+	  b parent class_ref 356905 // experiment
+      end
+
+      classrelation 574377 // <dependency>
+	relation 553257 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574377 // <dependency>
+	  b parent class_ref 357033 // memo
+      end
+
+      classrelation 573993 // <dependency>
+	relation 552873 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573993 // <dependency>
+	  b parent class_ref 353321 // program
+      end
+
+      classrelation 573737 // <dependency>
+	relation 552617 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573737 // <dependency>
+	  b parent class_ref 470185 // program_options
+      end
+
+      classrelation 574121 // <dependency>
+	relation 553001 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 574121 // <dependency>
+	  b parent class_ref 354089 // project
+      end
+
+      classrelation 573481 // <dependency>
+	relation 552361 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 573481 // <dependency>
+	  b parent class_ref 479273 // xml_persistence
+      end
+
+      classrelation 576169 // <dependency>
+	relation 555049 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 576169 // <dependency>
+	  b parent class_ref 455593 // xml_write_visitor
+      end
+
+      attribute 366761 "m_base"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The search \"base\" path"
+      end
+
+      attribute 366889 "m_key"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The search key"
+      end
+
+      attribute 366633 "m_path"
+	private type class_ref 361513 // path
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "The search filename"
+      end
+
+      attribute 438569 "m_test_file"
+	private explicit_type "string"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The file name of the file to compare our result to."
+      end
+
+      attribute 436265 "s_exemplar"
+	class_attribute private type class_ref 521769 // test_xml_persistence
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "Singleton instance."
+      end
+
+      operation 1654569 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Override in derived classes to perform unit test.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1456681 "register_options"
+	private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "This method is called by the manager to allow test types to 
+register program options.  The default implementation does
+nothing."
+      end
+
+      operation 1456809 "set_base"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_base = ${p0};
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1456937 "set_path"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "a_path" explicit_type "string"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract}
+{
+  m_path = ${p0};
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1654441 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"Test xml_persistence class\");
+}
+"
+	
+	
+	
+	
+      end
+
+      operation 1654697 "test_xml_persistence"
+	private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}
+: @{base_class} ()
+, m_base ()
+, m_key ()
+, m_path ()
+, m_test_file ()
+{
+  register_options ();
+}"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      operation 1654825 "~test_xml_persistence"
+	public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} 
+{}
+"
+	
+	
+	python_def "${@}${static}${abstract}def ${name}${(}${)}:
+${docstring}${body}
+"
+	
+      end
+
+      classrelation 589481 // <dependency>
+	relation 568361 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 589481 // <dependency>
+	  b parent class_ref 360233 // xml_access_helper
+      end
+    end
+
+    class 525353 "test_xml_writer"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit}
+{
+${members}
+};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 588201 // <generalisation>
+	relation 567081 ---|>
+	  a public
+	    cpp default "${type}"
+	    python "${type}"
+	    classrelation_ref 588201 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      classrelation 588329 // <dependency>
+	relation 567209 -_->
+	  a default
+	    cpp default "#include in source"
+	    python "${type}"
+	    classrelation_ref 588329 // <dependency>
+	  b parent class_ref 494121 // xml_writer_proxy
+      end
+
+      attribute 447017 "s_exemplar"
+	class_attribute private type class_ref 525353 // test_xml_writer
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl "${comment}${self}${name} = ${value}
+"
+	idl_decl ""
+	comment "The representative for this unit-test"
+      end
+
+      operation 1688873 "main_test"
+	const public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}
+{
+  ${body}
+}
+"
+	
+	
+	
+	
+	comment "Test the xml_writer class.
+
+Failed tests are indicated by an uncaught exception."
+      end
+
+      operation 1689001 "title"
+	const public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract}
+{
+  return std::string (\"Test @{namespace}/${class}\");
+}
+"
+	
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 176553 "xml_data_access test deploy"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 266409 "test_data_xml_access"
+      stereotype "library"
+      associated_artifacts
+	artifact_ref 266281 // data_xml_access
+	artifact_ref 157993 // utility
+	artifact_ref 215977 // test_file_helper
+	artifact_ref 204073 // test_meta_datum
+	artifact_ref 278313 // test_xml_writer
+	artifact_ref 253353 // xml
+	artifact_ref 160553 // test
+	artifact_ref 253097 // date_time
+	artifact_ref 230057 // data_access
+	artifact_ref 144169 // data_scheme
+	artifact_ref 273705 // test_xml_persistence
+      end
+      ncouples 1
+      key "butter other" value "unit-test"
+    end
+
+    artifact 215977 "test_file_helper"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 457001 // test_file_helper
+      end
+    end
+
+    artifact 204073 "test_meta_datum"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 434089 // test_meta_datum
+      end
+      comment "Test meta_datum"
+    end
+
+    artifact 273705 "test_xml_persistence"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes in source
+#include <boost/bind.hpp>
+#include \"utility/filesystem.hpp\"
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 521769 // test_xml_persistence
+      end
+    end
+
+    artifact 278313 "test_xml_writer"
+      stereotype "source"
+      cpp_h "#ifndef @{PREFIX}${NAME}_HPP
+#define @{PREFIX}${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+// Manual includes
+#include <sstream>
+// -
+${namespace_start}
+${members}
+${namespace_end}"
+      python_src "${comment}
+${import}
+${definition}"
+      associated_classes
+	class_ref 525353 // test_xml_writer
+      end
+    end
+  end
+
+  classview 174505 "test sql access"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 332457 "test_sql_connect"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Test of access to a mysql database."
+      class 333225 "db_user"
+	visibility package 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "Information about a user who wants to connect to a db."
+	class 333353 "query_function"
+	  visibility package stereotype "typedef" explicit_base_type "std::string (*query_function)(const std::string &)"
+	  cpp_decl "${comment}typedef ${type};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_2_2 python_decl ""
+	  idl_decl "${comment}typedef ${type} ${name};
+"
+	  explicit_switch_type ""
+	  
+	  comment "A function pointer to ask questions of user."
+	end
+
+	attribute 222249 "username"
+	  private explicit_type "string"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  get_oper operation_ref 997417 // get_username
+	  set_oper operation_ref 997545 // set_username
+	  comment "The username under which to access the database"
+	end
+
+	attribute 222377 "password"
+	  private explicit_type "string"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  get_oper operation_ref 997673 // get_password
+	  set_oper operation_ref 997801 // set_password
+	  comment "DB password for user"
+	end
+
+	operation 997417 "get_username"
+	  const cpp_inline public explicit_return_type "string"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}const ${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return username;
+}
+"
+	  cpp_name_spec "get_${name}"
+	  final 
+	  java_name_spec "get_${name}"
+	  
+	  
+	  
+	  idl_name_spec "get_${name}"
+	  get_of_attribute attribute_ref 222249 // username
+	end
+
+	operation 997673 "get_password"
+	  const cpp_inline public explicit_return_type "string"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}const ${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return password;
+}
+"
+	  cpp_name_spec "get_${name}"
+	  final 
+	  java_name_spec "get_${name}"
+	  
+	  
+	  
+	  idl_name_spec "get_${name}"
+	  get_of_attribute attribute_ref 222377 // password
+	end
+
+	operation 998953 "is_valid"
+	  const cpp_inline public explicit_return_type "bool"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	  comment "Does this object have a non-empty user and password
+
+\\result true implies get_username ().empty () /= true and get_password ().empty () /= true"
+	end
+
+	operation 999081 "query_user"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "a_query_func" type class_ref 333353 // query_function
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	  comment "Ask a user for their username and password.
+
+\\pre false = is_valid ();
+\\post true = is_valid ();"
+	end
+
+	operation 999337 "query_user"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	  comment "Ask a user for their username and password."
+	end
+
+	operation 997801 "set_password"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "value" explicit_type "string"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  password = ${p0};
+}
+"
+	  cpp_name_spec "set_${name}"
+	  
+	  java_name_spec "set_${name}"
+	  
+	  
+	  
+	  idl_name_spec "set_${name}"
+	  set_of_attribute attribute_ref 222377 // password
+	end
+
+	operation 997545 "set_username"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "value" explicit_type "string"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  username = ${p0};
+}
+"
+	  cpp_name_spec "set_${name}"
+	  
+	  java_name_spec "set_${name}"
+	  
+	  
+	  
+	  idl_name_spec "set_${name}"
+	  set_of_attribute attribute_ref 222249 // username
+	end
+
+	operation 998313 "db_user"
+	  cpp_inline public explicit_return_type ""
+	  nparams 0
+	  cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw}
+: username ()
+, password () {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 998825 "db_user"
+	  cpp_inline public explicit_return_type ""
+	  nparams 2
+	    param in name "a_user" explicit_type "string"
+	    param in name "a_passwd" explicit_type "string"
+	  cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${volatile}${throw}
+: username (${p0})
+, password (${p1})
+ {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 998441 "~db_user"
+	  cpp_inline public explicit_return_type ""
+	  nparams 0
+	  cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 998569 "db_user"
+	  stereotype "copy"
+	  public explicit_return_type ""
+	  nparams 1
+	    param in name "source" type class_ref 333225 // db_user
+	  cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: username (${p0}.get_username ())
+, password (${p0}.get_password ())
+{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 998697 "operator="
+	  cpp_inline public return_type class_ref 333225 // db_user
+	  nparams 1
+	    param in name "source" type class_ref 333225 // db_user
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 999209 "s_query_function"
+	  class_operation public explicit_return_type "string"
+	  nparams 1
+	    param in name "a_query" explicit_type "string"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	  comment "Class helper that queries a user through stdin/stdout."
+	end
+      end
+
+      class 333097 "db_locator"
+	visibility package 
+	cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+	java_decl ""
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	
+	comment "Information to connect to a database."
+	attribute 221993 "database"
+	  private explicit_type "string"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  get_oper operation_ref 996905 // get_database
+	  set_oper operation_ref 997033 // set_database
+	  comment "The name of the database to access"
+	end
+
+	attribute 222121 "host"
+	  private explicit_type "string"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  get_oper operation_ref 997161 // get_host
+	  set_oper operation_ref 997289 // set_host
+	  comment "The hostname where the database is located"
+	end
+
+	attribute 222505 "port"
+	  private explicit_type "uint"
+	  cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	  java_decl ""
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  get_oper operation_ref 997929 // get_port
+	  set_oper operation_ref 998057 // set_port
+	  comment "Port to access DB on"
+	end
+
+	operation 996905 "get_database"
+	  const cpp_inline public explicit_return_type "string"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}const ${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return database;
+}
+"
+	  cpp_name_spec "get_${name}"
+	  final 
+	  java_name_spec "get_${name}"
+	  
+	  
+	  
+	  idl_name_spec "get_${name}"
+	  get_of_attribute attribute_ref 221993 // database
+	end
+
+	operation 997161 "get_host"
+	  const cpp_inline public explicit_return_type "string"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}const ${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}const ${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return host;
+}
+"
+	  cpp_name_spec "get_${name}"
+	  final 
+	  java_name_spec "get_${name}"
+	  
+	  
+	  
+	  idl_name_spec "get_${name}"
+	  get_of_attribute attribute_ref 222121 // host
+	end
+
+	operation 997929 "get_port"
+	  const cpp_inline public explicit_return_type "uint"
+	  nparams 0
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return port;
+}
+"
+	  cpp_name_spec "get_${name}"
+	  final 
+	  java_name_spec "get_${name}"
+	  
+	  
+	  
+	  idl_name_spec "get_${name}"
+	  get_of_attribute attribute_ref 222505 // port
+	end
+
+	operation 996393 "db_locator"
+	  cpp_inline public explicit_return_type ""
+	  nparams 3
+	    param in name "a_db" explicit_type "string"
+	    param in name "a_host" explicit_type "string"
+	      defaultvalue "std::string(\"localhost\")"
+	    param in name "a_port" explicit_type "uint"
+	      defaultvalue "3306"
+	  cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${volatile}${throw}
+: database(${p0})
+, host(${p1})
+, port(${p2}) {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 996521 "~db_locator"
+	  cpp_inline public explicit_return_type ""
+	  nparams 0
+	  cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 996649 "db_locator"
+	  stereotype "copy"
+	  cpp_inline public explicit_return_type ""
+	  nparams 1
+	    param in name "source" type class_ref 333097 // db_locator
+	  cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${class}::${name}${(}const ${t0} & ${p0}${)}${volatile}${throw}
+: database(${p0}.get_database ())
+, host(${p0}.get_host ())
+, port(${p0}.get_port ())
+ {
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 996777 "operator="
+	  cpp_inline public return_type class_ref 333097 // db_locator
+	  nparams 1
+	    param in name "source" type class_ref 333097 // db_locator
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	  cpp_def "${comment}${inline}${type} & ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  
+	end
+
+	operation 997033 "set_database"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "value" explicit_type "string"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  database = ${p0};
+}
+"
+	  cpp_name_spec "set_${name}"
+	  
+	  java_name_spec "set_${name}"
+	  
+	  
+	  
+	  idl_name_spec "set_${name}"
+	  set_of_attribute attribute_ref 221993 // database
+	end
+
+	operation 997289 "set_host"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "value" explicit_type "string"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  host = ${p0};
+}
+"
+	  cpp_name_spec "set_${name}"
+	  
+	  java_name_spec "set_${name}"
+	  
+	  
+	  
+	  idl_name_spec "set_${name}"
+	  set_of_attribute attribute_ref 222121 // host
+	end
+
+	operation 998057 "set_port"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 1
+	    param in name "value" explicit_type "uint"
+	  cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw};
+"
+	  cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  port = ${p0};
+}
+"
+	  cpp_name_spec "set_${name}"
+	  
+	  java_name_spec "set_${name}"
+	  
+	  
+	  
+	  idl_name_spec "set_${name}"
+	  set_of_attribute attribute_ref 222505 // port
+	end
+      end
+
+      classrelation 266281 // <generalisation>
+	relation 260265 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 266281 // <generalisation>
+	  b parent class_ref 332585 // unit_test
+      end
+
+      attribute 222633 "exemplar"
+	class_attribute private type class_ref 332457 // test_sql_connect
+	init_value "(std::string(\"test\"))"
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "Exemplar of test"
+      end
+
+      attribute 223017 "url"
+	private type class_ref 333097 // db_locator
+	cpp_decl "    ${comment}${static}${mutable}${volatile}${const}${type}* ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 993961 "main_test"
+	const cpp_virtual public explicit_return_type "int"
+	nparams 2
+	  param in name "argc" explicit_type "int"
+	  param in name "argv" explicit_type "char**"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Main test method"
+      end
+
+      operation 994089 "test_sql_connect"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "a_db" explicit_type "string"
+	  param in name "a_host" explicit_type "string"
+	    defaultvalue "std::string(\"localhost\")"
+	  param in name "a_port" explicit_type "uint"
+	    defaultvalue "3306"
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}=std::string(\"localhost\"),  ${t2} ${p2}=3306${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, ${t2} ${p2}${)}${volatile}${throw}
+: unit_test()
+, url(new db_locator(${p0}, ${p1}, ${p2}))
+ {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 994217 "~test_sql_connect"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${comment}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 994345 "test_sql_connect"
+	stereotype "copy"
+	private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 332457 // test_sql_connect
+	cpp_decl "    ${comment}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	
+	
+	
+	
+      end
+
+      operation 996265 "title"
+	const cpp_virtual cpp_inline public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  return std::string(\"MySQL++ library trial\"); }
+"
+	
+	
+	
+	
+      end
+
+      operation 994473 "operator="
+	private return_type class_ref 332457 // test_sql_connect
+	nparams 1
+	  param in name "source" type class_ref 332457 // test_sql_connect
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 998185 "connection_test"
+	const private explicit_return_type "void"
+	nparams 2
+	  param in name "a_url" type class_ref 333097 // db_locator
+	  param in name "a_user" type class_ref 333225 // db_user
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	
+	comment "Attempt to make a connection using a_url.
+
+\\pre a_user.is_valid () == true"
+      end
+    end
+  end
+
+  deploymentview 177705 "test sql_access"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 145705 "test_sql_connect"
+      stereotype "source"
+      cpp_h "#ifndef ${NAME}_HPP
+#define ${NAME}_HPP
+
+// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+#include \"config.hpp\"
+${includes}
+${declarations}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "// ------------------------------------------------------------
+// class: ${name}
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+${comment}
+${includes}
+#include <mysql++/mysql++.h>
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 332457 // test_sql_connect
+      end
+    end
+  end
+
+  package_ref 155817 // test args
+end

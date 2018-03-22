@@ -1,0 +1,84 @@
+class filesystem
+!!!1655977.cpp!!!	compare(in a_path : string, in a_start : any, in a_sz : size_t) : bool
+bool Result (false);
+// The file buffer is.
+int l_fd = open (a_path.c_str (), O_RDONLY);
+if (l_fd != -1)
+{
+  struct stat l_sb; // To obtain file size
+  if (fstat (l_fd, &l_sb) != -1)
+  {
+    if (a_sz == (size_t)l_sb.st_size)
+    {
+      void * l_start;
+      l_start = mmap (NULL, l_sb.st_size, PROT_READ, MAP_PRIVATE | MAP_POPULATE, l_fd, 0);
+      if (l_start != MAP_FAILED)
+      {
+        Result = (0 == memcmp (l_start, a_start, l_sb.st_size));
+        if (not Result)
+        {
+           DLOG ("Buffer and file ["); DLOG(a_path); DLOG ("] did not compare equal.\n");
+        }
+      }
+      else
+      {
+        DLOG ("Mapping file ["); DLOG(a_path); DLOG ("] failed.\n");
+      }
+    }
+    else
+    {
+      DLOG("Different sizes, file ["); DLOG(a_path); DLOG ("] = "); DLOG(l_sb.st_size); DLOG(", buffer = "); DLOG (a_sz); DLOG ("\n");
+    }
+  }
+  else
+  {
+    DLOG ("Unable to stat file ["); DLOG(a_path); DLOG ("].\n");
+  }
+  close (l_fd);
+}
+else
+{
+  DLOG ("Unable to open file ["); DLOG(a_path); DLOG ("] \n");
+}
+return Result;
+!!!1182761.cpp!!!	standardize(in a_path : path) : path
+boost::filesystem::path Result (a_path);
+if (not Result.is_complete ())
+{
+  Result = boost::filesystem::initial_path () / Result;
+}
+Result.normalize ();
+return Result;
+!!!1178025.cpp!!!	relative_path(in a_base : path, in a_leafer : path) : path
+// Ensure that starting paths are complete
+boost::filesystem::path l_base (standardize (a_base));
+boost::filesystem::path l_leaf (standardize (a_leafer));
+boost::filesystem::path Result;
+boost::filesystem::path::iterator l_lhs (l_base.begin ());
+boost::filesystem::path::iterator l_rhs (l_leaf.begin ());
+// Iterate along a_base and a_leafer for first mismatch.
+if (*l_lhs != *l_rhs)
+{ // No common base, just return a_leafer
+  Result = l_leaf;
+}
+else
+{
+  for (++l_rhs, ++l_lhs; // Iterate to first mismatch.
+	l_lhs != l_base.end () and l_rhs != l_leaf.end () and (*l_lhs) == (*l_rhs);
+	++l_rhs, ++l_lhs); // Do nothing in loop.
+  if (l_lhs != l_base.end ())
+  { // Need to add "parent dirs" until we reach end
+    for (; l_lhs != l_base.end (); ++l_lhs)
+    {
+      Result /= "..";
+    }
+  }
+  if (l_lhs == l_base.end ())
+  { // Now everything from l_rhs is in path.
+    for (; l_rhs != l_leaf.end (); ++l_rhs)
+    {
+      Result /= *l_rhs;
+    }
+  }
+}
+return Result;

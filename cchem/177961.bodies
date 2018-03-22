@@ -1,0 +1,53 @@
+class text
+!!!322857.cpp!!!	is_container() : bool
+// local
+bool result(false);
+// do
+
+// Check for content only if this is an element node.
+if (m_rep.ELEMENT_NODE == m_rep.node_type ())
+{
+ result = has_element (S_TEXT_NAME, m_rep);
+}
+// end
+return result;
+!!!322985.cpp!!!	get_content() : std::vector< text >
+// local
+std::vector< text > result;
+// require
+REQUIRE(is_container (), "Cannot get content on non-container text object.");
+// do
+for (purpletree::dom::node l_child = m_rep.first_child ();
+     not l_child.is_null ();
+     l_child = l_child.next_sibling ())
+{
+  switch (l_child.node_type ())
+  {
+  case m_rep.ELEMENT_NODE:
+  case m_rep.TEXT_NODE:
+  case m_rep.CDATA_SECTION_NODE:
+  case m_rep.ENTITY_REFERENCE_NODE:
+  case m_rep.ENTITY_NODE:
+  case m_rep.NOTATION_NODE:
+    result.push_back (text(l_child));
+    break;
+  default:
+    // do nothing
+    break;
+  }
+}
+// ensure
+ENSURE(false == result.empty(), "Unable to find sub-nodes.");
+// end
+return result;
+
+!!!323113.cpp!!!	get_value() : string
+return names::get_value(m_rep);
+!!!326057.cpp!!!	text(in a_node : purpletree::dom::node)
+// require
+REQUIRE(check_name (S_TEXT_NAME, m_rep) or m_rep.TEXT_NODE == m_rep.node_type (), "Not a text type node");
+!!!326441.cpp!!!	operator=(in source : text) : text
+// do
+m_rep = source.m_rep;
+// end
+return *this;

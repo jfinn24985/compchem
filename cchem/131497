@@ -1,0 +1,357 @@
+format 61
+"External Components" // External Components
+  revision 16
+  modified_by 41 "finnerty"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "external"
+  cpp_src_dir "../src/external"
+  comment "External libraries and non-specific utilities"
+  componentview 128809 "framework"
+    //component diagram settings
+    package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    componentdiagram 163881 "framework components"
+      package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+      draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+      size A4
+    end
+
+    component 129577 "/boost//no_lib"
+      provided_classes
+	class_ref 395689 // bad_lexical_cast
+	class_ref 428969 // bind
+	class_ref 182825 // function2
+	class_ref 182569 // function
+	class_ref 478121 // ptr_map
+	class_ref 458153 // python::wrapper
+      end
+      comment "A publisher/subscriber framework"
+    end
+
+    component 129065 "/boost//date_time"
+      stereotype "component"
+      provided_classes
+	class_ref 349993 // date
+      end
+      comment "This component provides generic application functionality"
+    end
+
+    component 129321 "/boost//filesystem"
+      stereotype "component"
+      provided_classes
+	class_ref 361513 // path
+      end
+      comment "Provide OS independent filesystem services"
+    end
+
+    component 129449 "/boost//program_options"
+      stereotype "component"
+      provided_classes
+	class_ref 350761 // options_description
+	class_ref 423977 // variables_map
+      end
+      comment "Provide OS independent program configuration system.  Provide a single resource for command line, configuration file and default program options."
+    end
+
+    component 129705 "/boost//regex"
+      stereotype "component"
+      provided_classes
+	class_ref 346153 // regex
+      end
+      comment "A library for compiling regex into C++ code."
+    end
+
+    component 129833 "/gtkmm//gui_objects"
+      stereotype "component"
+      provided_classes
+	class_ref 280617 // AccelFlags
+	class_ref 182953 // AccelGroup
+	class_ref 129065 // AccelKey
+	class_ref 129193 // AccelLabel
+	class_ref 130217 // Action
+	class_ref 131753 // ActionGroup
+	class_ref 132521 // Adjustment
+	class_ref 134697 // AlignmentEnum
+	class_ref 282793 // Alignment
+	class_ref 308265 // AnchorType
+	class_ref 283689 // Arrow
+	class_ref 284201 // ArrowType
+	class_ref 284457 // AspectFrame
+	class_ref 308905 // AttachOptions
+	class_ref 281385 // Bin
+	class_ref 287145 // Box
+	class_ref 286761 // BoxList
+	class_ref 281001 // BuiltinIconSize
+	class_ref 242601 // BuiltinStockID
+	class_ref 142377 // ButtonBox
+	class_ref 143145 // ButtonBoxStyle
+	class_ref 141353 // Button
+	class_ref 210601 // ButtonsType
+	class_ref 144809 // CalendarDisplayOptions
+	class_ref 288425 // Calendar
+	class_ref 289065 // CellEditable
+	class_ref 289833 // CellLayout
+	class_ref 290473 // CellRenderer
+	class_ref 291753 // CellRendererMode
+	class_ref 292137 // CellRendererPixbuf
+	class_ref 291369 // CellRendererState
+	class_ref 150185 // CellRendererText
+	class_ref 292777 // CellRendererToggle
+	class_ref 293417 // CheckButton
+	class_ref 294185 // CheckMenuItem
+	class_ref 286121 // Child
+	class_ref 153385 // Clipboard
+	class_ref 295081 // ColorButton
+	class_ref 296489 // ColorSelectionDialog
+	class_ref 295721 // ColorSelection
+	class_ref 302249 // ComboBoxEntry
+	class_ref 302889 // ComboBoxEntryText
+	class_ref 301225 // ComboBox
+	class_ref 303273 // ComboBoxText
+	class_ref 298921 // ComboDropDown
+	class_ref 297769 // ComboDropDownItem
+	class_ref 298537 // ComboDropDownList
+	class_ref 299817 // Combo
+	class_ref 280745 // Container
+	class_ref 313001 // CornerType
+	class_ref 303657 // Curve
+	class_ref 304425 // CurveType
+	class_ref 309801 // DeleteType
+	class_ref 278185 // DestDefaults
+	class_ref 296617 // Dialog
+	class_ref 280361 // DirectionType
+	class_ref 303785 // DrawingArea
+	class_ref 300585 // Editable
+	class_ref 307241 // EntryCompletion
+	class_ref 300457 // Entry
+	class_ref 183593 // EventBox
+	class_ref 184361 // Expander
+	class_ref 310441 // ExpanderStyle
+	class_ref 185129 // FileChooserAction
+	class_ref 186409 // FileChooserDialog
+	class_ref 185513 // FileChooser
+	class_ref 187177 // FileChooserWidget
+	class_ref 186281 // FileFilter
+	class_ref 187945 // FileFilterFlags
+	class_ref 189225 // FileSelection
+	class_ref 190249 // Fixed
+	class_ref 191017 // FontButton
+	class_ref 192681 // FontSelectionDialog
+	class_ref 191785 // FontSelection
+	class_ref 284585 // Frame
+	class_ref 305065 // GammaCurve
+	class_ref 194217 // HandleBox
+	class_ref 140585 // HBox
+	class_ref 144041 // HButtonBox
+	class_ref 215849 // HPaned
+	class_ref 226985 // HRuler
+	class_ref 229289 // HScale
+	class_ref 282409 // HScrollbar
+	class_ref 234921 // HSeparator
+	class_ref 194985 // IconFactory
+	class_ref 195881 // IconInfo
+	class_ref 197673 // IconLookupFlags
+	class_ref 195753 // IconSet
+	class_ref 131241 // IconSize
+	class_ref 196777 // IconSource
+	class_ref 197801 // IconThemeError
+	class_ref 197929 // IconTheme
+	class_ref 131113 // Image
+	class_ref 199721 // ImageMenuItem
+	class_ref 198697 // ImageType
+	class_ref 200489 // InputDialog
+	class_ref 201513 // Invisible
+	class_ref 202281 // Item
+	class_ref 203817 // Justification
+	class_ref 206121 // KeySnooperSig
+	class_ref 129321 // Label
+	class_ref 318249 // Layout
+	class_ref 204457 // ListStore
+	class_ref 206377 // Main
+	class_ref 207657 // MenuBar
+	class_ref 311593 // MenuDirectionType
+	class_ref 203689 // Menu
+	class_ref 131369 // MenuItem
+	class_ref 209065 // MenuList
+	class_ref 206633 // MenuShell
+	class_ref 210985 // MessageDialog
+	class_ref 210217 // MessageType
+	class_ref 311977 // MetricType
+	class_ref 183465 // Misc
+	class_ref 312361 // MovementStep
+	class_ref 326953 // Notebook
+	class_ref 212393 // NotebookTab
+	class_ref 132649 // Object
+	class_ref 190121 // OptionMenu
+	class_ref 281513 // Orientation
+	class_ref 285993 // PackOptions
+	class_ref 286377 // PackType
+	class_ref 213289 // Page
+	class_ref 212777 // PageIterator
+	class_ref 215081 // Paned
+	class_ref 313641 // PathPriorityType
+	class_ref 314025 // PathType
+	class_ref 217385 // Plug
+	class_ref 314409 // PolicyType
+	class_ref 314793 // PositionType
+	class_ref 218921 // ProgressBar
+	class_ref 218537 // ProgressBarOrientation
+	class_ref 218153 // ProgressBarStyle
+	class_ref 205865 // QuitSig
+	class_ref 219689 // RadioAction
+	class_ref 192553 // RadioButton
+	class_ref 220585 // RadioButtonGroup
+	class_ref 221609 // RadioMenuItem
+	class_ref 221737 // RadioToolButton
+	class_ref 282281 // Range
+	class_ref 225321 // RC
+	class_ref 224169 // RcFlags
+	class_ref 224553 // RcStyle
+	class_ref 142121 // ReliefStyle
+	class_ref 285737 // ResizeMode
+	class_ref 305705 // ResponseType
+	class_ref 225449 // Ruler
+	class_ref 205609 // RunSig
+	class_ref 227753 // Scale
+	class_ref 230057 // Scrollbar
+	class_ref 201385 // ScrolledWindow
+	class_ref 282665 // ScrollType
+	class_ref 280489 // SelectionData
+	class_ref 233257 // SelectionData_WithoutOwnership
+	class_ref 179241 // SelectionMode
+	class_ref 233385 // Separator
+	class_ref 235689 // SeparatorMenuItem
+	class_ref 236457 // SeparatorToolItem
+	class_ref 237225 // Settings
+	class_ref 284329 // ShadowType
+	class_ref 274729 // SignalProxy_CellData
+	class_ref 238377 // SizeGroup
+	class_ref 237993 // SizeGroupMode
+	class_ref 239145 // Socket
+	class_ref 317609 // SortType
+	class_ref 240809 // SpinButton
+	class_ref 239913 // SpinButtonUpdatePolicy
+	class_ref 240297 // SpinType
+	class_ref 179881 // StateType
+	class_ref 241577 // Statusbar
+	class_ref 130985 // StockID
+	class_ref 242729 // StockID_Traits
+	class_ref 243497 // StockItem
+	class_ref 243881 // Style
+	class_ref 201257 // Table
+	class_ref 244649 // TableList
+	class_ref 245801 // TargetEntry
+	class_ref 245929 // TargetEntry_Traits
+	class_ref 315817 // TargetFlags
+	class_ref 246441 // TargetList
+	class_ref 246825 // TearoffMenuItem
+	class_ref 247593 // TextAttributes
+	class_ref 248233 // TextBuffer
+	class_ref 250025 // TextChildAnchor
+	class_ref 280233 // TextDirection
+	class_ref 249001 // TextIter
+	class_ref 249769 // TextMark
+	class_ref 250921 // TextSearchFlags
+	class_ref 249257 // TextTag
+	class_ref 249513 // TextTagTable
+	class_ref 255017 // TextView
+	class_ref 254633 // TextWindowType
+	class_ref 255785 // ToggleAction
+	class_ref 293545 // ToggleButton
+	class_ref 222633 // ToggleToolButton
+	class_ref 258089 // Toolbar
+	class_ref 281641 // ToolbarStyle
+	class_ref 257321 // ToolButton
+	class_ref 131497 // ToolItem
+	class_ref 258857 // Tooltips
+	class_ref 204841 // TreeDragDest
+	class_ref 204713 // TreeDragSource
+	class_ref 302121 // TreeModel
+	class_ref 265001 // TreeModelFilter
+	class_ref 262569 // TreeModelFlags
+	class_ref 266025 // TreeModelSort
+	class_ref 264233 // TreePath
+	class_ref 268201 // TreePath_Traits
+	class_ref 264361 // TreeRowReference
+	class_ref 269481 // TreeSelection
+	class_ref 204585 // TreeSortable
+	class_ref 271785 // TreeStore
+	class_ref 273705 // TreeViewColumn
+	class_ref 272681 // TreeViewDropPosition
+	class_ref 189993 // TreeView
+	class_ref 276521 // UIManager
+	class_ref 181033 // UpdateType
+	class_ref 287913 // VBox
+	class_ref 143273 // VButtonBox
+	class_ref 277417 // Viewport
+	class_ref 316329 // Visibility
+	class_ref 216617 // VPaned
+	class_ref 226217 // VRuler
+	class_ref 228521 // VScale
+	class_ref 282537 // VScrollbar
+	class_ref 234153 // VSeparator
+	class_ref 130089 // Widget
+	class_ref 278569 // WidgetFlags
+	class_ref 278953 // WidgetHelpType
+	class_ref 281129 // Window
+	class_ref 318505 // WindowGroup
+	class_ref 181801 // WindowPosition
+	class_ref 306601 // WindowType
+	class_ref 317225 // WrapMode
+      end
+    end
+
+    component 129193 "/ptdom//ptdom"
+      stereotype "component"
+      comment "The Purpletree DOM implementation and xml_reader. This will also
+include an external XML library, currently libxml2."
+    end
+
+    component 129961 "pam::authentication"
+      provided_classes
+	class_ref 181929 // pam_conv
+	class_ref 182057 // pam_handle_t
+	class_ref 182185 // pam_message
+	class_ref 182313 // pam_response
+      end
+      comment "Use PAM (Pluggable Authentication Modules ) to authenticate the user.
+
+In Code use:
+#include <security/pam_appl.h>
+
+To link:
+cc -o application .... -lpam -ldl"
+    end
+  end
+
+  package_ref 132393 // /boost
+
+  package_ref 132649 // gtkmm
+
+  package_ref 138665 // std
+
+  package_ref 153257 // xml2
+end

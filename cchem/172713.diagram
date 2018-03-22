@@ -1,0 +1,58 @@
+format 61
+
+classinstancecanvas 128041 classinstance_ref 129321 // reader
+  xyz 19 18 2005 life_line_z 2000
+end
+classinstancecanvas 128169 classinstance_ref 129449 // top
+  xyz 195 56 2010 life_line_z 2000
+end
+classinstancecanvas 128297 classinstance_ref 129577 // top_derived
+  xyz 328 16 2005 life_line_z 2000
+end
+durationcanvas 128425 classinstance_ref 128041 // reader:xml_persistence
+  xyzwh 86 125 2010 11 203
+end
+durationcanvas 128553 classinstance_ref 128169 // top:basic_datum
+  xyzwh 243 123 2010 11 129
+  overlappingdurationcanvas 129321
+    xyzwh 249 189 2020 11 25
+  end
+end
+durationcanvas 128809 classinstance_ref 128297 // top_derived:compound
+  xyzwh 393 149 2010 11 81
+  overlappingdurationcanvas 129065
+    xyzwh 399 173 2020 11 29
+  end
+end
+msg 128681 synchronous
+  from durationcanvas_ref 128425
+  to durationcanvas_ref 128553
+  yz 127 2015 msg operation_ref 1386921 // "add_child(in a_name : string, inout a_label : string) : basic_datum"
+  show_full_operations_definition default drawing_language default
+  args "\"formula\""
+  label_xy 119 110
+msg 128937 synchronous
+  from durationcanvas_ref 128553
+  to durationcanvas_ref 128809
+  yz 149 2015 msg operation_ref 1383721 // "add_child(in a_name : string, inout a_label : string) : basic_datum"
+  show_full_operations_definition default drawing_language default
+  args "\"formula\""
+  label_xy 262 132
+reflexivemsg 129193 synchronous
+  to durationcanvas_ref 129065
+  yz 173 2025 msg operation_ref 1182889 // "add_formula(in a_label : string) : formula"
+  show_full_operations_definition default drawing_language default
+  args "\"formula\""
+  label_xy 353 156
+msg 129449 synchronous
+  from durationcanvas_ref 129065
+  to durationcanvas_ref 129321
+  yz 189 2030 msg operation_ref 1454377 // "append_child(inout a_new : basic_datum) : void"
+  show_full_operations_definition default drawing_language default
+  label_xy 287 172
+msg 129577 return
+  from durationcanvas_ref 128553
+  to durationcanvas_ref 128425
+  yz 233 2015 unspecifiedmsg
+  show_full_operations_definition default drawing_language default
+end

@@ -1,0 +1,47 @@
+class no_tty_echo
+!!!1002153.cpp!!!	no_tty_echo(in a_filedes : int = -1)
+// LOCAL
+    termios settings;
+// DO
+    if (m_filedes < 0) m_filedes = fileno(stdin);
+    
+    // Get the current settings
+    if (0 > tcgetattr (m_filedes, &settings))
+      {
+	// Print a error.
+	throw std::ios_base::failure ("error in tcgetattr");
+      }
+    else
+      {
+	// Save the existing setting.
+	m_echo = (0 != (settings.c_lflag & ECHO));
+	// Echo is set
+	if (m_echo)
+	  {
+	    // Set new value
+	    settings.c_lflag &= ~ECHO;
+	    if (0 > tcsetattr (m_filedes, TCSANOW, &settings))
+	      {
+		m_echo = false;
+		throw std::ios_base::failure ("error in tcsetattr");
+	      }
+	  }
+      }
+!!!1002281.cpp!!!	~no_tty_echo()
+    if (m_echo)
+      {
+	termios settings;
+	if (0 > tcgetattr (m_filedes, &settings))
+	  {
+	    throw std::ios_base::failure ("error in tcgetattr");
+	  }
+	else
+	  {
+	    // Reset old value
+	    settings.c_lflag |= ECHO;
+	    if (0 > tcsetattr (m_filedes, TCSANOW, &settings))
+	      {
+		throw std::ios_base::failure ("error in tcsetattr");
+	      }
+	  }
+      }

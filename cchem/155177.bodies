@@ -1,0 +1,41 @@
+class Stable
+!!!257449.cpp!!!	processLine(in currentLine : string) : void
+      if ( _m_searchState == 0 )
+	{
+	  // short cut
+	  return;
+	}
+    
+      if ( _m_searchState < 0 )
+	{
+	  if ( currentLine.find( " Stability analysis" ) < currentLine.size() ) 
+	    {
+	      // Match found, grab next 26 lines
+	      _m_searchState = 26;
+	    } else {
+	      // We need to grab the line preceding the match
+	      _m_results.str( currentLine );
+	    };
+	};
+      if ( _m_searchState > 0 ) 
+	{
+	  // We need to grab lines following a match
+	  _m_results << currentLine << std::endl;
+	  // Decrement, when zero we have finised
+	  --_m_searchState;
+	};
+    
+!!!257705.cpp!!!	output(inout experimentNode : DOM::Node) : void
+      DOM::String _l_results = output();
+      if ( !_l_results.empty() )
+	{
+	  DOM::String _l_nodeName( "dan" );
+	  DOM::String _l_attrName( "name" );
+	  DOM::String _l_attrValu( "stability_check" );
+	  // Add new node to root node
+	  DOM::Element* _l_node = experimentNode->getOwnerDocument()->createElement( _l_nodeName.c_str() );
+	  _l_node->setAttribute( _l_attrName.c_str(), _l_attrValu.c_str() );
+	  _l_node->appendChild( experimentNode->getOwnerDocument()->createTextNode( _l_results.c_str() ) );
+	  experimentNode->appendChild(  _l_node );
+	};
+    

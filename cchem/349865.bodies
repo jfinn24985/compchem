@@ -1,0 +1,32 @@
+class output_header
+!!!1094953.cpp!!!	output_header()
+: m_data_type ()
+, m_date (boost::gregorian::day_clock::universal_day())
+, m_header_map ()
+, m_origin ()
+, m_owner ()
+, m_title ()
+{}
+!!!1095209.cpp!!!	output_header(in source : output_header)
+: m_data_type (source.m_data_type)
+, m_date (source.m_date)
+, m_header_map (source.m_header_map)
+, m_origin (source.m_origin)
+, m_owner (source.m_owner)
+, m_title (source.m_title) {}
+!!!1095337.cpp!!!	operator=(in source : output_header) : output_header
+m_data_type.assign (source.m_data_type);
+m_date = source.m_date;
+m_header_map.clear ();
+m_header_map.insert (source.m_header_map.begin (), source.m_header_map.end ());
+m_origin.assign (source.m_origin);
+m_owner.assign (source.m_owner);
+m_title.assign (source.m_title);
+return *this;
+!!!1096873.cpp!!!	clear() : void
+m_data_type.clear ();
+m_date = boost::gregorian::date (boost::gregorian::not_a_date_time);
+m_header_map.clear ();
+m_origin.clear ();
+m_owner.clear ();
+m_title.clear ();

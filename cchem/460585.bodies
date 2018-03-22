@@ -1,0 +1,5 @@
+class data_access_py
+!!!1469353.cpp!!!	pythonise_std::string() : void
+boost::python::to_python_converter< std::string, std::stringo_python_str>();
+
+xml_string_from_python_str();

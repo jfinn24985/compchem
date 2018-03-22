@@ -1,0 +1,88 @@
+class xml_text
+!!!171817.cpp!!!	_writer(inout os : std::ostream, in str_conv : bool = false) : void
+  if ( str_conv ) {
+    DEBUG( "void xml_text::_writer -> entered with conversion" );  
+    os << xml_convert_string( _S_attributes( this ) );
+  } else {
+    DEBUG( "void xml_text::_writer -> entered without conversion" );  
+    os << _S_attributes( this );
+  };
+!!!171945.cpp!!!	child(in new_child : xml_type = NULL) : xml_type
+  if ( new_child ) {
+    if ( _S_tagname( new_child ) == "#PCDATA" ) {
+      // MUST be "xml_text"
+      _S_attributes( this ).insert( 0, _S_attributes( new_child ) );
+      delete new_child;
+    } else {
+      throw "ERROR, attempt to add non-text data to a text only node";
+    };
+  };
+  return NULL;
+!!!172073.cpp!!!	sibling(in new_sibling : xml_type = NULL) : xml_type
+  if ( new_sibling ) {
+    if ( _S_tagname( new_sibling ) == "#PCDATA" && _S_sibling( this ) == 0 ) {
+      // Append if "xml_text"
+      _S_attributes( this ).append( _S_attributes( new_sibling ) );
+      delete new_sibling;
+      return NULL;
+    } else {
+      //DEBUG cout << "In here" << std::endl;
+      // Insert new sibling(s), pushing old siblings away
+      unsigned int old_sib_ind = _S_sibling( this );
+      // Change dictionary of newnode and its descendents
+      _S_change_dictionary( new_sibling, _S_dict( this ) );
+      // Add new sibling and reparent
+      unsigned int new_sib = _S_index( new_sibling );
+      _S_sibling( this ) = new_sib;
+      xml_rb_node::xml_type _l_tmp = new_sibling;
+      while( 1 ) {
+	_S_parent( _l_tmp ) = _S_parent( this );
+	if ( _S_sibling( _l_tmp ) == 0 ) break;
+	_l_tmp = _S_get_index( _l_tmp, _S_sibling( _l_tmp ) );
+      };
+      _l_tmp->_S_sibling( _S_get_index( _l_tmp, old_sib_ind ) );
+      if ( _S_dict( this ) != _S_dict( _l_tmp ) ) {
+	throw "ERROR, Dictionaries are NOT the same after _S_change_dictionary, as they should be";
+      } else if ( new_sibling != _S_get_index( this, _S_sibling( this ) ) ) {
+	throw "ERROR, Sibling passed in and current sibling pointer are not the same";
+      };
+      return new_sibling;
+    };
+  };
+  return NULL;
+!!!172201.cpp!!!	append(in new_child : xml_type = NULL, in index : uint = 0) : xml_type
+  if ( new_child ) {
+    if ( _S_tagname( new_child ) == "#PCDATA" ) {
+      // MUST be "xml_text"
+      _S_attributes( this ).append(  _S_attributes( new_child ) );
+      delete new_child;
+    } else {
+      throw "ERROR, attempt to add non-text data to a text only node";
+    };
+  };
+  return NULL;
+!!!172329.cpp!!!	append(in new_child : char, in index : uint = 0) : xml_type
+  _S_attributes( this ).append( new_child );
+  return NULL;
+!!!172457.cpp!!!	append(in new_child : string, in index : uint = 0) : xml_type
+  _S_attributes( this ).append( new_child );
+  return NULL;
+!!!172585.cpp!!!	content(in new_child : xml_type = NULL, in index : uint = 0) : xml_type
+  if ( new_child ) {
+    if ( _S_tagname( new_child ) == "#PCDATA" ) {
+      // MUST be "xml_text"
+      _S_attributes( this ).insert( 0, _S_attributes( new_child ) );
+      delete new_child;
+    } else {
+      throw "ERROR, attempt to add non-text data to a text only node";
+    };
+  };
+  return NULL;
+!!!172713.cpp!!!	content(in new_child : string, in index : uint = 0) : xml_type
+  _S_attributes( this ).insert( 0, new_child );
+  return NULL;
+!!!172841.cpp!!!	content(in new_child : char, in index : uint = 0) : xml_type
+  _S_attributes( this ).insert( 0, new_child );
+  return NULL;
+!!!172969.cpp!!!	delete_content(in  : void) : void
+  _S_attributes( this ).erase( _S_attributes( this ).begin(), _S_attributes( this ).end() );

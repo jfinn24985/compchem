@@ -1,0 +1,7 @@
+class element
+!!!1613609.cpp!!!	swap(inout a_source : element) : void
+unsigned int l_tmp (a_source.number);
+a_source.number = number;
+number = l_tmp;
+name.swap (a_source.name);
+symbol.swap (a_source.symbol);

@@ -1,0 +1,43 @@
+class mechanism
+!!!143017.cpp!!!	get_label() : string
+// check
+CHECK(has_attribute (S_LABEL_NAME, m_rep), "Invalid document");
+// do
+return get_attribute (S_LABEL_NAME, m_rep);
+!!!320169.cpp!!!	get_text() : text
+// check
+CHECK(has_element (S_TEXT_NAME, m_rep), "Invalid document");
+// do
+return text(get_element (S_TEXT_NAME, m_rep));
+!!!319913.cpp!!!	has_identifiers() : bool
+// do
+return has_element (S_MECHANISM_ID_NAME, m_rep);
+!!!320297.cpp!!!	get_identifiers() : std::vector< std::string >
+// local
+std::vector< std::string > result;
+purpletree::dom::node l_child;
+// require
+REQUIRE(true == has_identifiers(), "Attempt to get non-existant identifiers from mechanism object");
+// do
+for (purpletree::dom::node l_child = m_rep.first_child ();
+     not l_child.is_null ();
+     l_child = l_child.next_sibling ())
+{
+  if (l_child.ELEMENT_NODE == l_child.node_type ()
+      and true == check_name (S_MECHANISM_ID_NAME, l_child))
+  {
+    result.push_back (get_value (l_child));
+  }
+}
+// ensure
+ENSURE(false == result.empty(), "Failed to extract identifiers");
+// end
+return result;
+!!!330281.cpp!!!	mechanism(inout a_parent : site)
+// require
+REQUIRE(true == check_name (S_MECHANISM_NAME, m_rep), "Node, object type mismatch");
+!!!330665.cpp!!!	operator=(in source : mechanism) : mechanism
+// do
+m_rep = source.m_rep;
+// end
+return *this;

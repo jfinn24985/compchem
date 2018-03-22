@@ -1,0 +1,212 @@
+class gaussian_step
+!!!1071529.cpp!!!	can_process(inout a_filter : base_filter_traits, in a_filetype_info : char, in a_isize : int, in a_subtype_info : char, in a_ssize : int, in a_filetype_flags : int, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result (ON_FAILURE);
+try {
+  boost::regex l_command_re ("[[:space:]]opt[[:space:](=]"
+      , boost::regex::extended | boost::regex::icase );
+  // DO
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter object is invalid.");
+  COMPCHEM_CHECK (NULL == a_filter->m_internal_state, "State object should not exist before checking plugin is appropriate.");
+  // Test Gaussian "command" phrase matches our test regular expression
+  if (boost::regex_search (a_subtype_info, a_subtype_info + a_ssize, l_command_re)) {
+    a_filter->m_internal_state = new gaussian_step;
+    Result = ON_SUCCESS; }}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;
+!!!236329.cpp!!!	gaussian_step()
+: m_sequencer (ENERGY_SEARCH)
+, m_cutoff_found (false)
+, m_cutoff ()
+, m_energy ()
+, m_result ()
+, m_energy_re ("^[[:space:]]*SCF Done.*=[[:space:]]*([-.[:digit:]]+)[[:space:]]*.*$", boost::regex::extended)
+, m_MM_energy_re ( "^[[:space:]]*Energy=[[:space:]]*([-.[:digit:]]+)[[:space:]]*NIter=.*$", boost::regex::extended)
+, m_count_re ("^[[:space:]]*Step number[[:space:]]*([.[:digit:]]*)[[:space:]]*out of a maximum of[[:space:]]*([.[:digit:]]*)[[:space:]]*$", boost::regex::extended)
+, m_maxforce_re ("^[[:space:]]*Maximum[[:space:]]*Force[[:space:]]*([-.[:digit:]]*)[[:space:]]*([-.[:digit:]]*)[[:space:]]*(YES|NO)[[:space:]]*", boost::regex::extended)
+, m_rmsforce_re ("^[[:space:]]*RMS[[:space:]]*Force[[:space:]]*([-.[:digit:]]*)[[:space:]]*([-.[:digit:]]*)[[:space:]]*(YES|NO)[[:space:]]*", boost::regex::extended)
+, m_maxdisp_re ("^[[:space:]]*Maximum[[:space:]]*Displacement[[:space:]]*([-.[:digit:]]*)[[:space:]]*([-.[:digit:]]*)[[:space:]]*(YES|NO)[[:space:]]*", boost::regex::extended)
+, m_rmsdisp_re ("^[[:space:]]*RMS[[:space:]]*Displacement[[:space:]]*([-.[:digit:]]*)[[:space:]]*([-.[:digit:]]*)[[:space:]]*(YES|NO)[[:space:]]*", boost::regex::extended)
+{}
+!!!1070889.cpp!!!	output(inout a_filter : base_filter_traits, inout a_cb_data : any, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result = ON_SUCCESS;
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "An nul filter object is invalid.");
+  COMPCHEM_CHECK (NULL != a_filter->m_internal_state, "A filter object with nul state object is invalid.");
+  gaussian_step * l_state = static_cast< gaussian_step * >(a_filter->m_internal_state);
+  // DO
+  if (not l_state->m_result.str().empty ()) {
+    datum_writer l_steps;
+    l_steps.outcome ("optimisation-path");
+    l_steps.format ("ordinal,maxforce,rmsforce,maxdisp,rmsdisp,energy:");
+    l_steps.scale (",,,,,hartree");
+    // Combine cutoffs and values and add to element
+    // Note use substr to remove the trailing '\' here
+    l_state->m_cutoff << l_state->m_result.str ().substr (0, l_state->m_result.str ().size () - 1);
+    l_steps.content (l_state->m_cutoff.str ());
+    const std::string l_final (l_steps.to_string ());
+    (*(a_filter->m_output_cb))(a_cb_data, l_final.data (), l_final.size ()); }
+  else {
+    // Nothing to output, set this as a failure instead of an error?
+    utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+    std::ostream l_err (&l_errbuf);
+    l_err << a_filter->m_name << ": Have no result.";
+    Result = ON_FAILURE; }}
+catch (const std::exception &a_err) {
+  utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+  std::ostream l_err (&l_errbuf);
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;
+!!!1070761.cpp!!!	process_segment(inout a_filter : base_filter_traits, in a_segment : char, in a_ssize : int, inout a_errbuf : char, in a_esize : int) : int
+// LOCAL
+int Result (ON_SUCCESS);
+utility::c_streambuf< char > l_errbuf (a_errbuf, a_esize);
+std::ostream l_err (&l_errbuf);
+try {
+  COMPCHEM_CHECK (NULL != a_filter, "A nul filter is invalid.");
+  COMPCHEM_CHECK (NULL != a_filter->m_internal_state, "A filter with a nul state object is invalid.");
+  gaussian_step * l_state = static_cast< gaussian_step * >(a_filter->m_internal_state);
+  boost::cmatch l_found_data;
+  // DO
+  switch (l_state->m_sequencer) {
+  case ENERGY_SEARCH:
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_energy_re)) {
+      l_state->m_sequencer = STEP_SEARCH;
+      // Cache the current data
+      if (l_found_data[1].matched) {
+        l_state->m_energy = l_found_data.str (1); }
+      else {
+        l_err << a_filter->m_name << ": Found energy line, but no energy value found";
+        Result = ON_ERROR; }}
+    else if (boost::regex_search (a_segment, l_found_data, l_state->m_MM_energy_re)) {
+      l_state->m_sequencer = STEP_SEARCH;
+      // Cache the current data
+      if (l_found_data[1].matched) {
+        l_state->m_energy = l_found_data.str (1); }
+      else {
+        l_err << a_filter->m_name << ": Found energy line, but no energy value found";
+        Result = ON_ERROR; }}
+    break;
+  case STEP_SEARCH:
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_count_re)) {
+      // Beginning of optimisation step
+      l_state->m_sequencer = MAXFORCE_SEARCH;
+      // Add the current data
+      if (l_found_data[1].matched) {
+        l_state->m_result <<  l_found_data.str (1) << ","; }
+      else {
+        l_err << a_filter->m_name << ": Found start of paragraph, but no step ordinal found";
+        Result = ON_ERROR; }
+      if (not l_state->m_cutoff_found) {
+        if (l_found_data[2].matched) {
+          // This is the first step, put in the default cutoffs
+          l_state->m_cutoff << l_found_data.str (2) << ","; }
+        else {
+          l_err << a_filter->m_name << ": Found start of paragraph, but no step ordinal cutoff found";
+          Result = ON_ERROR; }}}
+    break;
+  case MAXFORCE_SEARCH:
+    // If ordinal line found search for paragraph, must find max force first
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_maxforce_re)) {
+      // Grab maxforce
+      l_state->m_sequencer = RMSFORCE_SEARCH;
+      // Add the current data
+      if (l_found_data[1].matched) {
+        l_state->m_result <<  l_found_data.str (1) << ","; }
+      else {
+        l_err << a_filter->m_name << ": Found max force line, but value found";
+        Result = ON_ERROR; }
+      if (not l_state->m_cutoff_found) {
+        if (l_found_data[2].matched) {
+          // This is the first step, put in the default cutoffs
+          l_state->m_cutoff << l_found_data.str (2) << ","; }
+        else {
+          l_err << a_filter->m_name << ": Found max force line, but cutoff value found";
+          Result = ON_ERROR; }}}
+    break;
+  case RMSFORCE_SEARCH:
+    // After max force, find RMS force
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_rmsforce_re)) {
+      // Grab rmsforce
+      l_state->m_sequencer = MAXDISP_SEARCH;
+      // Add the current data
+      if (l_found_data[1].matched) {
+        l_state->m_result <<  l_found_data.str (1) << ","; }
+      else {
+        l_err << a_filter->m_name << ": Found rms force line, but no value found";
+        Result = ON_ERROR; }
+      if (not l_state->m_cutoff_found) {
+        if (l_found_data[2].matched) {
+        // This is the first step, put in the default cutoffs
+        l_state->m_cutoff << l_found_data.str (2) << ","; }
+      else {
+        l_err << a_filter->m_name << ": Found rms force line, but no cutoff value found";
+        Result = ON_ERROR; }}}
+    break;
+  case MAXDISP_SEARCH:
+    // After RMS force, find max disp
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_maxdisp_re)) {
+    // Grab maxdisp
+    l_state->m_sequencer = RMSDISP_SEARCH;
+    // Add the current data
+    if (l_found_data[1].matched) {
+      l_state->m_result <<  l_found_data.str (1) << ","; }
+    else {
+      l_err << a_filter->m_name << ": Found max displacement line, but no value found";
+      Result = ON_ERROR; }
+    if (not l_state->m_cutoff_found) {
+      if (l_found_data[2].matched) {
+      // This is the first step, put in the default cutoffs
+      l_state->m_cutoff << l_found_data.str (2) << ","; }
+    else {
+      l_err << a_filter->m_name << ": Found max displacement line, but cutoff value found";
+      Result = ON_ERROR; }}}
+    break;
+  case RMSDISP_SEARCH:
+    // After max disp, find RMS disp
+    if (boost::regex_search (a_segment, l_found_data, l_state->m_rmsdisp_re)) {
+      // Grab rmsdisp and restart search sequence
+      l_state->m_sequencer = ENERGY_SEARCH;
+      // Add the current data and the energy
+      if (l_found_data[1].matched) {
+        l_state->m_result <<  l_found_data.str (1) << "," << l_state->m_energy << "\\";
+        l_state->m_energy.clear(); }
+      else {
+        l_err << a_filter->m_name << ": Found rms displacement line, but value found";
+        Result = ON_ERROR; }
+      if (not l_state->m_cutoff_found) {
+        // Last cutoff value, set found to true
+        l_state->m_cutoff_found = true;
+        if (l_found_data[2].matched) {
+          // This is the first step, put in the default cutoffs and empty energy value
+          l_state->m_cutoff << l_found_data.str (2) << ",\\"; }
+        else {
+          l_err << a_filter->m_name << ": Found rms displacement, but no cutoff value found";
+          Result = ON_ERROR; }}}
+    break;
+  default:
+    l_err << a_filter->m_name << ": Unknown case value";
+    Result = ON_ERROR;
+    break; }}
+catch (const std::exception &a_err) {
+  if (NULL != a_filter) {
+    l_err << a_filter->m_name << ": "; }
+  l_err << a_err.what ();
+  Result = ON_ERROR; }
+
+// END
+return Result;

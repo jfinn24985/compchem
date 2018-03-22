@@ -1,0 +1,4 @@
+class columns
+!!!1049001.cpp!!!	set_columns(in a_tree_view : list_window_t) : void
+  a_tree_view->append_column("Name", m_name);
+  a_tree_view->append_column("Value", m_value); 

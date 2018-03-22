@@ -1,0 +1,89 @@
+#
+#  Jamfile for the libgtkmm
+#
+#
+
+# libgtkmm library support module
+#
+# The module attempts to detect libgtkmm:
+#
+# toolset.using gtkmm : /usr/local/... ;
+#
+# Example:
+#
+#     exe myapp : myapp.cpp myapp.h  
+#                 /MotifTools//gtkmm ;
+#
+
+# import modules ;
+# import feature ;
+import errors ;
+# import type ;
+# import "class" : new ;
+import project ;
+# import toolset : flags ;
+# import os ;
+# import virtual-target ;
+import string ;
+
+project.initialize $(__name__) ;
+project GtkMM ;
+
+# Save the project so that we tolerate 'import + using' combo.
+.project = [ project.current ] ;
+
+
+# Initialized the XML2 support module. The 'prefix' parameter
+# tells where XML2 is installed. 
+rule init ( )
+{
+    project.push-current $(.project) ;
+    
+    if $(.initialized)
+    {
+         errors.error
+              "Attempt to reinitialize GtkMM with different installation prefix" ;
+    }
+    else
+    {
+        .initialized = true ;
+
+        #~ Setup prefixes for include, binaries and libs.
+        .compileflags = [ string.join [ string.words [ SHELL "pkg-config gtkmm-2.4 --cflags-only-other" ] ] : " " ] ;
+        .incprefix = [ MATCH "-I\(.*\)" : [ string.words [ SHELL "pkg-config gtkmm-2.4 --cflags-only-I" ] ] ] ;
+        .libprefix = [ MATCH "-L\(.*\)" : string.join [ string.words [ SHELL "pkg-config gtkmm-2.4 --libs-only-L" ] ] ] ;
+        .linkflags = [ string.join [ MATCH "-lgtkmm|(.*)" : [ string.words [ SHELL "pkg-config gtkmm-2.4 --libs-only-l --libs-only-other" ] ] ] : " " ] ;
+
+        # Use pre-built gtkmm
+        {
+            local usage-requirements = 
+                  <include>$(.incprefix) 
+                  <library-path>$(.libprefix)
+                  <cflags>$(.compileflags)
+                  <linkflags>$(.linkflags)
+		  <allow>gtkmm
+                ;
+            
+            lib gtkmm : $(main)
+                : # requirements
+                 <name>gtkmm-2.4
+                : # default-build
+                : # usage-requirements
+                  $(usage-requirements)
+                ;
+            
+         }
+    }
+    
+    project.pop-current ;
+}
+
+rule initialized ( )
+{
+    return $(.initialized) ;
+}
+
+
+# Local Variables:
+# mode: makefile
+# End: 

@@ -1,0 +1,768 @@
+class CompChem
+!!!217769.cpp!!!	~CompChem()
+    // Delete all the filter objects
+    while ( !_m_use_list.empty() ) 
+      {
+	delete _m_use_list.back();
+	_m_use_list.pop_back();
+      };
+    // Close all the libraries
+    std::for_each( _m_handle_list.begin(), _m_handle_list.end(), dlclose );
+  
+!!!217897.cpp!!!	_check_index(in value : string) : void
+    std::vector< std::string > _l_XML_ID_List;
+    std::stringstream _l_errorMessage;
+    if ( !dictionary().hasKey( "index" ) || 
+	 dictionary()["index"].empty() )
+      {
+	try {
+	  dictionary().processFile( dictionary()["base_dir"] + "/config.ind" );
+	  FrameWork::__time_stamp( "Index file read complete" );
+	}
+	catch( ... ) {
+	  logStream << "Error reading index file, ignoring";
+	}
+      };
+    _l_XML_ID_List = PurpleTree::Regex::splitByDelimiter( ':', dictionary()["index"] );
+    for ( unsigned int _i = 0;
+	  _i < _l_XML_ID_List.size(); 
+	  ++_i )
+      {
+	DEBUG( "CompChem::_check_index -> found ID", _l_XML_ID_List[ _i ].c_str() );
+	if ( _l_XML_ID_List[ _i ] == value ) 
+	  {
+	    _l_errorMessage << "CompChem::Error ID ["<< value;
+	    _l_errorMessage << "] already exists in index [";
+	    _l_errorMessage <<  dictionary()["index"];
+	    _l_errorMessage << "]. \n\nRemove the index file \"";
+	    _l_errorMessage << dictionary()["base_dir"];
+	    _l_errorMessage << "/config.ind";
+	    _l_errorMessage << "\" if you think this ID should be allowed.";
+	    FrameWork::__time_stamp( "Index check complete, bad exiting" );
+	    throw Exception( _l_errorMessage.str(), 
+			     Exception::CONFIG_BAD_OPTION_VALUE );
+	  };
+      };
+    FrameWork::__time_stamp( "Index check complete, index OK exiting" );
+  
+!!!218025.cpp!!!	_create_database(in  : void) : DOM::Document
+    DOM::Document *_m_database_node = NULL;
+    DOM::Element *_m_root_node = NULL;
+    DOM::Element *_newnode = NULL;
+    DEBUG( "create_database" );
+    _m_database_node = DOM::createDocument( "",
+					    "program",
+					    "",
+					    "program.dtd" );
+    // Get/Set the "program" element
+    _m_root_node = _m_database_node->getDocumentElement();
+    if ( !_m_root_node )
+      {
+	DOM::createElement( _m_database_node, "program" );
+	_m_database_node->appendChild( _m_database_node );
+      }
+    // Add a "worker" element
+    _newnode = DOM::createElement( _m_database_node, "worker" );
+    DOM::setAttribute( _newnode, "label", dictionary()["worker"] );
+    _m_root_node->appendChild(  _newnode );
+    
+    // Add "comp-program" elements for g94. g98 and g03
+    _newnode = DOM::createElement( _m_database_node, "comp-program" );
+    DOM::setAttribute( _newnode, "name", "g94" );
+    _m_root_node->appendChild(  _newnode );
+
+    _newnode = DOM::createElement( _m_database_node, "comp-program" );
+    DOM::setAttribute( _newnode, "name", "g98" );
+    _m_root_node->appendChild(  _newnode );
+
+    _newnode = DOM::createElement( _m_database_node, "comp-program" );
+    DOM::setAttribute( _newnode, "name", "g03" );
+    _m_root_node->appendChild(  _newnode );
+
+    return _m_database_node;
+  
+!!!218153.cpp!!!	_merge(inout _m_database_node : DOM::Document, inout _m_root_node : DOM::Element) : void
+    std::string _label;
+    unsigned int _pos = 0;
+    DOM::String _l_attrName, _l_attrValue, _l_exptName, _l_atmlstName, _l_nodeName;
+    DOM::NodeList *_node_list;
+    // DOM::NodeIterator *_node_iter;
+    DOM::Element *_compound_node = NULL;
+    DOM::Node *_new_node = NULL;
+    DOM::Node *_add_node = NULL;
+
+    DEBUG( "CompChem::_merge -> entered" );
+
+    __DOM_try
+      {
+	//  The main thing we need to check is whether this data, or at
+	//  least part of it, is in the database already and add only what
+	//  is necessary.
+   
+	//  We know there are "compound_label" and "geometry_label"
+	//  entries in the dictionary or we would have got an exception
+	//  in initialisation()
+  
+	// We are in a "program" tree and need to search for the compound
+	// (Remember that the "compound_label" option is in the form
+	// "label:compound-name")
+	//
+	_pos = dictionary()["compound_label"].find( ":" );
+	if ( _pos > dictionary()["compound_label"].size() )
+	  {
+	    throw Exception( "badly formed compound label \"" +
+			     dictionary()["compound_label"] +
+			     "\"",
+			     Exception::CONFIG_TODO );
+	  };
+	DEBUG( "CompChem::_merge -> Got label, search for matching <compound>",
+	       dictionary()["compound_label"].substr( 0, _pos ).c_str() );
+
+	_l_nodeName = "compound";
+	_node_list = _m_database_node->getDocumentElement()->getElementsByTagName( _l_nodeName.c_str() );
+	_l_attrName = "label";
+	_l_attrValue = dictionary()["compound_label"].substr( 0, _pos );
+	for ( unsigned int i = 0;
+	      i < _node_list->getLength();
+	      ++i )
+	  {
+	    if ( ((DOM::Element*)(_node_list->item(i)))->hasAttribute( _l_attrName.c_str() ) &&
+		 _l_attrValue == ((DOM::Element*)(_node_list->item(i)))->getAttribute( _l_attrName.c_str() ) )
+	      {
+		// Set compound node if it exists
+		_compound_node = ((DOM::Element*)(_node_list->item(i)));
+		break;
+	      }
+	  }
+	DEBUG( "CompChem::_merge: Finished search for compound." );
+	if ( NULL == _compound_node ) 
+	  {
+	    DEBUG( "CompChem::_merge -> no compound node found" );
+	    // Compound is not already present, create and add to end of
+	    // program node.
+
+	    _compound_node = _m_database_node->createElement( _l_nodeName.c_str() );
+	    _compound_node->setAttribute( _l_attrName.c_str(), _l_attrValue.c_str() );
+	    _l_nodeName = "iupac-name";
+	    _l_attrValue = dictionary()["compound_label"].substr( _pos + 1 );
+	    _new_node = _m_database_node->createElement( _l_nodeName.c_str() );
+	    DEBUG( "CompChem::_merge: Setting <iupac-name> text content to", dictionary()["compound_label"].substr( _pos + 1 ).c_str() );
+	    _new_node->appendChild( _m_database_node->createTextNode( _l_attrValue.c_str() ) );
+	    _compound_node->appendChild( _new_node );
+	    DEBUG( "CompChem::_merge: Built <compound> twig, adding node to database." );
+	    _m_database_node->getDocumentElement()->appendChild( _compound_node );
+	  };
+
+	//
+	//	Compound exists in database or we have added it
+	//
+	// We now need to see if the geometry is already present.
+	// (_new_node will only be defined if _compound_node is new.)
+	if ( !_new_node )
+	  {
+	    DEBUG( "CompChem::_merge: Searching for geometry node" );
+	    // If previous node list is not empty then we may have geometries
+	    // matching our experiment.
+	    // 	_node_iter = DOM::search( _m_database_node->getDocumentElement(),
+	    // 				  "geometry",
+	    // 				  "label",
+	    // 				  dictionary()["geometry_label"].c_str() );
+	    // 	_new_node = _node_iter->nextNode();
+	    _node_list = DOM::getElementsByTagName( _m_database_node->getDocumentElement(),
+						    "geometry" );
+	    _l_attrName = "label";
+	    _l_attrValue = dictionary()["geometry_label"];
+	    for ( unsigned int i = 0;
+		  i < _node_list->getLength();
+		  ++i )
+	      {
+		if ( ((DOM::Element*)(_node_list->item(i)))->hasAttribute( _l_attrName.c_str() ) &&
+		     _l_attrValue == ((DOM::Element*)(_node_list->item(i)))->getAttribute( _l_attrName.c_str() ) )
+		  {
+		    // Set compound node if it exists
+		    _new_node = _node_list->item( i );
+		    break;
+		  }
+	      }
+#ifdef __DEBUG__
+	    if ( _new_node )
+	      FrameWork::__time_stamp( "CompChem::_merge -> geometry node found" );
+	    else
+	      FrameWork::__time_stamp( "CompChem::_merge -> no geometry node found" );
+#endif
+	    // This time if node list is empty then we have no geometries..
+	    if  ( !_new_node ) 
+	      {
+		// Did not find geometry, add geometry that is the parent of the
+		// _m_root_node to end of compound.
+		_compound_node->appendChild( _m_root_node->getParentNode() );
+		FrameWork::__time_stamp( "CompChem::_merge -> Added geometry node"  );
+	      } 
+	    else
+	      {
+		// Found geometry, copy the contents of the geometry that is the
+		// parent of the _m_root_node.
+		if ( _new_node->hasChildNodes() )
+		  {
+		    // Find the place to insert the "atom_list" nodes just
+		    // before the first "experiment" node.
+		    _l_exptName = "experiment";
+		    _node_list = ((DOM::Element*)(_new_node))->getElementsByTagName( _l_exptName.c_str() );
+		    _add_node = _node_list->item( 0 );
+		    // Insert the atom-list nodes first.
+		    _l_atmlstName = "atom-list";
+		    _node_list = ((DOM::Element*)(_m_root_node->getParentNode()))->getElementsByTagName( _l_atmlstName.c_str() );
+		    while ( 0 < _node_list->getLength() )
+		      {
+			DEBUG( "Number of <atom-list>s is", _node_list->getLength() );
+			_new_node->insertBefore( _node_list->item( 0 ), _add_node );
+			_node_list = ((DOM::Element*)(_m_root_node->getParentNode()))->getElementsByTagName( _l_atmlstName.c_str() );
+		      };
+		    // Now insert the experiment nodes.
+		    while ( _m_root_node->getNextSibling() )
+		      {
+			_new_node->appendChild( _m_root_node->getNextSibling() );
+		      }
+		    _new_node->appendChild( _m_root_node );
+		  }
+		else
+		  {
+		    _node_list = _m_root_node->getChildNodes();
+		    // Here the _node_list should contain only things we need
+		    // to append to the geometry node. Either all the
+		    // "atom-list" nodes have been added or they can be
+		    // appended with the "experiment" nodes.
+		    while ( 0 < _node_list->getLength() )
+		      {
+			DEBUG( "Number of nodes is", _node_list->getLength() );
+			_new_node->appendChild( _node_list->item( 0 ) );
+			_node_list = _m_root_node->getChildNodes();
+		      };
+		  };
+		FrameWork::__time_stamp( "CompChem::_merge -> Added geometry contents node"  );
+	      };
+	  } 
+	else
+	  {
+	    // We have just created and added the compound object, we can now
+	    // just add the geometry from this session.
+	    _compound_node->appendChild( _m_root_node->getParentNode() );
+	    FrameWork::__time_stamp( "CompChem::_merge -> Added geometry node"  );
+	  };
+
+      }
+    __DOM_catch
+      catch (...) 
+	{
+	  throw DOM::Exception( "Writer: Unexpected Exception",
+				1 );
+	};
+    DEBUG( "CompChem::_merge: Merge completed" );
+  
+!!!218537.cpp!!!	_loadPluginsByTask(in  : void) : void
+    std::string _l_pluginFilterListFile;
+    std::string _l_pluginFilterFullPath;
+    std::vector< std::string > _l_pluginFilterFilenames;
+
+    // --private:  filter-initialisation--
+    FrameWork::__time_stamp( "loadPluginsByTask entered" );
+
+    // ---------------------------------------------------------- In
+    // this version of the program we assume that the files is a
+    // gaussian file.
+
+    if ( !dictionary().hasKey( "input_file" ) ) 
+      {
+	throw Exception( "CompChem::loadPluginsByTask, no filename given",
+			 Exception::CONFIG_TODO );
+      };
+
+    // Open the gaussian file and process for the header section. 
+    _m_instream = new FileType::Gaussian();
+    _m_instream->open( dictionary()["input_file"].c_str() );
+    DEBUG( _m_instream->testPhrase().c_str() );
+  
+    FrameWork::__time_stamp( "Gaussian file opened and header retrieved" );
+
+    // ----------------------------------------------------------
+    // Find the filter plugins
+
+    // This routine gives each filter the "gaussian" input command and
+    // asks whether the filter can handle it. If it can it gets added to
+    // the "_m_use_list"
+
+    // Process the plugin filter configuration
+
+    // Check to see if filter list has already been defined, if not then
+    // read configuration file.
+    if ( !( dictionary().hasKey( "gaussianfilters" ) ) ) 
+      {
+
+	//  Check that entries are in the dictionary.
+	if ( !( dictionary().hasKey( "install_dir" ) ||
+		dictionary().hasKey( "filter_dir" ) ) )
+	  {
+	    throw Exception( "Error reading filter configuration file, unable to find file",
+			     Exception::CONFIG_TODO );
+	  };
+  
+	// Not defined, read the configuration file
+	std::string _l_pluginFilterListFile = dictionary()["install_dir"];
+	_l_pluginFilterListFile += dictionary()["filter_dir"];
+	_l_pluginFilterListFile += "-cpp/Filters/config.filterx";
+	DEBUG( "CompChem::loadPluginsByTask -> Reading filter module config file", 
+	       _l_pluginFilterListFile.c_str() );
+	dictionary().processFile( _l_pluginFilterListFile );
+    };
+  
+    // Now we should have entry for filter list.
+    if ( !( dictionary().hasKey( "gaussianfilters" ) ) )
+      {
+	throw Exception( "Error reading filter configuration file, unable to find file",
+			 Exception::CONFIG_TODO );
+      };
+    DEBUG( "CompChem::loadPluginsByTask -> Defined filters are", dictionary()["gaussianfilters"].c_str() );
+
+    _l_pluginFilterFilenames = PurpleTree::Regex::splitByDelimiter( ':', PurpleTree::chomp( dictionary()["gaussianfilters"] ) );
+
+#ifdef __DEBUG__
+    logStream << "Filter data_access::names." << std::endl;
+    for ( unsigned int _i = 0; _i < _l_pluginFilterFilenames.size(); ++_i )
+      {
+	logStream << "[" << _i << "] = \"" << _l_pluginFilterFilenames[_i] << "\"" << std::endl;
+      };
+#endif
+
+    // Find the full path to the plugin 
+    _l_pluginFilterFullPath = dictionary()["install_dir"];
+    _l_pluginFilterFullPath += dictionary()["filter_dir"];
+    _l_pluginFilterFullPath += "-cpp/Filters/";
+    // Now we have the filter data_access::names, open each one and test for
+    // suitability one by one..
+    for ( unsigned int _i = 0; 
+	  _i < _l_pluginFilterFilenames.size(); 
+	  ++_i )
+      {
+	// Ignore any empty strings.
+	if ( !_l_pluginFilterFilenames[_i].empty() ) 
+	  {
+	    DEBUG( "Openning plugin:", _l_pluginFilterFilenames[_i].c_str() );
+	    openFilter(  _l_pluginFilterFullPath + 
+			 PurpleTree::chomp( _l_pluginFilterFilenames[_i] ) );
+	  }
+      };
+    
+    DEBUG( "At end of filter creation the number of filters is", 
+	   _m_use_list.size() );
+  
+    if ( _m_use_list.empty() )
+      {
+	throw Exception( "ChkcalcError, No Filters defined for this input file...",
+			 Exception::CONFIG_TODO );
+      };
+    FrameWork::__time_stamp( "Filter loading complete" );
+  
+!!!218665.cpp!!!	openFilter(in fullfilename : string) : void
+    void *_l_pluginFilterHandle;
+    Filters::Base *_filter_obj;
+
+    // Typedef for the symbol fetched from the filter module
+    // library. This needs to match the ``moduleInitialise'' defined in
+    // "filters/Base\.hpp"
+    typedef Filters::Base *(*modInit)( const std::string & ); 
+
+    // Skip over empty filenames
+    if ( !fullfilename.empty() ) 
+      {
+	// Try opening the library...
+	DEBUG( "Trying pathname = ", fullfilename.c_str() );
+	_l_pluginFilterHandle = dlopen( fullfilename.c_str(), 
+					RTLD_NOW );
+	
+	// "_l_pluginFilterHandle" should not be null, unless a
+	// problem occured
+	if ( NULL != _l_pluginFilterHandle )
+	  {
+	    DEBUG( "Got handle" );
+	    // Try retrieving the "module_initialise" function
+	    modInit fcn = modInit(dlsym( _l_pluginFilterHandle, 
+					 "moduleInitialise" ));
+	    
+	    // "fcn" should not be null, unless a problem occured
+	    if ( NULL != fcn ) 
+	      {
+		DEBUG( "Got \"moduleInitialise\" method" );
+		// Try using function to create filter_base object
+		_filter_obj = (*fcn)( _m_instream->testPhrase() );
+		if ( _filter_obj )
+		  {
+		    // Object created!!
+		    logStream << "Filter [" << fullfilename;
+		    logStream << "] can handle this file type." << std::endl;
+		    _m_use_list.push_back( _filter_obj );
+		    _m_handle_list.push_back( _l_pluginFilterHandle );
+		  } 
+		else
+		  {
+		    // No object, something went wrong or filter cannot handle
+		    // this file type
+		    logStream << "Filter [" << fullfilename;
+		    logStream << "] can *NOT* handle this file type." << std::endl;
+		    dlclose( _l_pluginFilterHandle );
+		  };
+	      } 
+	    else
+	      {
+		// "fcn" was null so a problem occured
+		logStream << "Filter openned but could not retrieve initialisation function.";
+		logStream << fullfilename << std::endl;
+		logStream << "Reason given = " << dlerror() << std::endl;
+		dlclose( _l_pluginFilterHandle );
+	      };
+	  } 
+	else
+	  {
+	    // "_l_pluginFilterHandle" was null so a problem occured
+	    logStream << "Unable to process filter, ignoring |";
+	    logStream << fullfilename << "|" << std::endl;
+	    logStream << "Reason given = " << dlerror() << std::endl;
+	    dlclose( _l_pluginFilterHandle );
+	  };
+      };
+  
+!!!218793.cpp!!!	initialisation(in argc : int = 0, inout argv : char = NULL) : void
+    // --public:  initialisation--"
+    FrameWork::__time_stamp( "CompChem: System initiation start" );
+
+    try {
+      // -----------------------------------------------------
+      // Create the dictionary
+      loadFWConfigDictionary();
+
+      // -----------------------------------------------------
+      // Process any environment variables.
+      dictionary().processENV( "home", "HOME", "LOGDIR" );
+      dictionary().processENV( "user", "USER", "LOGNAME" );
+      
+      // -----------------------------------------------------
+      DEBUG( "CompChem::Add initial dictionary entries" );
+      // Add additional entries to the dictionary object.  These
+      // includes the following keys not in the base initialisation:
+      // "command_str" "compound_label" "filter_dir" "geometry_label"
+      // "header_str" "pageref" "title"
+      dictionary().setKey( "base_dir", dictionary()[ "home" ] + "/.chkcalc" );
+      dictionary().setKey( "filter_dir", "/library" );
+      static const char* _L_keys[] = {
+	"command_str",
+	"compound_label",
+	"geometry_label",
+	"header_str",
+	"index",
+	"input_file",
+	"pageref" };
+      for ( int _L_counter = 0; _L_counter < 7; ++_L_counter )
+	{
+	  dictionary().setKey( _L_keys[ _L_counter ], "" );
+	};
+      DEBUG( "CompChem:: Adding dictionary entries done" );
+
+      // -----------------------------------------------------
+      // Set our own command line options
+      DEBUG( "CompChem:: Command Line Options" );
+      dictionary().addKey( "input_file", 
+			   'i', FWConfigDictionary::OPT_ARG, 
+			   "Gives the filename of the input file. If not present\n\t\tthen stdin or the last argument assumed.", 
+			   "<inputfile>" );
+      dictionary().addKey( "database", 
+			   'o', FWConfigDictionary::OPT_ARG, 
+			   "Output file. Used when the default database is not wanted.", 
+			   "<outputfile>" );
+      dictionary().addKey( "compound_label", 
+			   'c', FWConfigDictionary::OPT_ARG, 
+			   "Needed to input a new compound into the database, it\n\t\tshould be in the form \"label:iupac_name\". The label\n\t\tneeds to be unique.", 
+			   "<compound_label>" );
+      dictionary().addKey( "geometry_label", 
+			   'g', FWConfigDictionary::OPT_ARG, 
+			   "Needed to input a new geometry into the database, it\n\t\tneeds to be unique within a compound.", 
+			   "<geom_label>" );
+      dictionary().addKey( "pageref", 
+			   'p', FWConfigDictionary::OPT_ARG, 
+			   "A unique key to identify this experiment.", 
+			   "<pageref>" );
+      dictionary().addKey( "worker", 
+			   'w', FWConfigDictionary::OPT_ARG, 
+			   "A unique key to identify the experimenter.", 
+			   "<worker>" );
+      dictionary().addKey( "input_file", 
+			   '-', FWConfigDictionary::OPT_ONLY, 
+			   "", "" );
+      DEBUG( "CompChem:: Finished adding our command line options" );
+
+      // -----------------------------------------------------
+      // Process the comand line
+      if ( !dictionary().processArguments( argc, argv ) )
+	{
+	  dictionary().helpMessage( FrameWork::logStream );
+	  this->exit( 1 );
+	};
+
+      // -----------------------------------------------------
+      // Process configuration files
+#ifndef INSTALL_DIR
+#error INSTALL_DIR must be defined 
+#endif
+      // Set install directory to a guess if not defined previously
+      if ( !dictionary().hasKey("install_dir") )
+	{
+	  dictionary().setKey( "install_dir", "INSTALL_DIR" );
+	};
+
+      try 
+	{
+	  //  The user's configuration should be the easiest to find. We
+	  //  load it first in case we need the defns it contains. However,
+	  //  it is not an error for it to be missing. (This should redefine
+	  //  _m_dict["install_dir"] if necesary).
+	  dictionary().processFile( dictionary()["base_dir"] + "/config" );
+	}
+      catch ( const Exception &msg ) 
+	{
+	  logStream << "Warning: Bad user configuration attempting to work without it:" << std::endl;
+	  logStream << msg.what() << std::endl;
+	};
+  
+      try 
+	{
+	  //  Now we process the global configuration file.  Currently it is
+	  //  a fatal error for the global configuration file to be missing.
+	  //  This may be relaxed in later versions
+	  dictionary().processFile( dictionary()["install_dir"] + "/site-config/config" );
+	}
+      catch ( const Exception &msg ) 
+	{
+	  logStream << "Bad system configuration, unable to work without it:" << std::endl;
+	  throw;
+	};
+      
+      try 
+	{
+	  // Process the user's configuration again, to override system defaults
+	  dictionary().processFile( dictionary()["base_dir"] + "/config" );
+	}
+      catch ( const Exception &msg ) 
+	{
+	  // This time we are not concerned with exception, so do nothing
+	};
+
+      // Set the following "derived" data if not already set
+      if ( !dictionary().hasKey("dtd_global") )
+	{
+	  dictionary().setKey( "dtd_global", dictionary()["install_dir"] + "/program.dtd" );
+	};
+      if ( !dictionary().hasKey("data_dir") )
+	{
+	  dictionary().setKey( "data_dir","/db" );
+	};
+      if ( !dictionary().hasKey("database") )
+	{
+	  dictionary().setKey( "database", dictionary()["base_dir"] + dictionary()["data_dir"] + "/main-database.xml" );
+	};
+
+      FrameWork::__time_stamp( "Base system initiation complete" );
+  
+      // Ensure that information for a rudimentary data branch is in
+      // the dictionary
+      static const char* _S_keyValue[] = {
+	 "geometry_label",
+	 "pageref",
+	 "compound_label",
+	 "worker" };
+      for ( int _L_counter = 0; _L_counter < 4; ++_L_counter )
+	{
+	  if ( !dictionary().hasKey( _S_keyValue[_L_counter] ) ) 
+	    {
+	      // Something has gone wrong!!
+	      std::stringstream _L_errMsg;
+	      _L_errMsg << "ChkcalcError, no \"";
+	      _L_errMsg << _S_keyValue[_L_counter];
+	      _L_errMsg << "\" in configuration!!";
+	      throw Exception( _L_errMsg.str(),
+			       Exception::CONFIG_TODO );
+	    }
+	}
+      // If we are here then things appeared to initialise OK"
+      FrameWork::__time_stamp( "All configuration read in" );
+  
+      _check_index( (*_m_config)["pageref"] );
+
+      FrameWork::__time_stamp( "Valid system after initialisation" );
+    }
+    catch ( const Exception &msg ) {
+      FrameWork::logStream << msg.what() << std::endl;
+      dictionary().helpMessage( FrameWork::logStream );
+      this->exit( 1 );
+    }
+    catch (...) {
+      FrameWork::logStream << "CCMngrError: Initialisation error." << std::endl;
+      dictionary().helpMessage( FrameWork::logStream );
+      this->exit( 1 );
+    }
+  
+!!!218921.cpp!!!	main(in  : void) : void
+    DOM::Document *_m_database_node = NULL;
+    DOM::Element *_m_root_node = NULL;
+    DOM::Element *parent = NULL;
+    DOM::String _l_nodeName, _l_attrName, _l_value;
+    // Gaussian files are generally only 70-80 chars wide
+    char current_line[256]; 
+    ProcessLineFunction _l_filterFeeder; 
+    ProcessOutputFunction _l_filterResults;
+    std::ofstream the_ostream;
+
+    DEBUG( "CompChem::main -> entered" );
+    
+    // Initialise the plugins
+    _loadPluginsByTask();
+
+    // Process parent's main method
+    FWManager::main();
+
+    // -----------------------------------------------------------------
+    // This routine "drives" the plugin filters over the "gaussian" file
+            
+    // Step through the main part of the file, giving each filter a line
+    // of the "gaussian" file. We could have read in the whole file, but
+    // as this can be large (>100Mb) we only read a line at a time here.
+    // This may mean that the system is s_l_o_w but we can afford for
+    // the filter operation to be slow as we will not be doing it that
+    // often.
+    FrameWork::__time_stamp( "Filtering initiation complete" );
+
+    _l_filterFeeder.line = current_line;
+#ifdef __DEBUG__
+    unsigned int _D_counter = 1;
+#endif
+    while ( *_m_instream )
+      {
+#ifdef __DEBUG__
+	FrameWork::logStream << "[" << _D_counter << "]";
+	++_D_counter;
+	if ( _D_counter%16 == 0 ) FrameWork::logStream << std::endl; 
+#endif
+	current_line[0] = '\0';
+	_m_instream->getline( current_line, 255, '\n' );
+	for_each( _m_use_list.begin(), 
+		  _m_use_list.end(),
+		  _l_filterFeeder );
+      };
+
+    FrameWork::__time_stamp( "File filtering complete" );
+
+    // -----------------------------------------------------------------
+    // MERGE section
+    //
+    // Data is now in memory, attempt to merge with existing database.
+    // -----------------------------------------------------------------
+    try 
+      {
+	DEBUG( "Attempt to load XML file", dictionary()["database"].c_str() );
+	_m_database_node = DOM::deserialise( dictionary()["database"].c_str() );
+	FrameWork::__time_stamp( "Database read complete" );
+      }
+    catch( const DOM::Exception &err )
+      {
+	DEBUG( "Caught DOM::Exception" );
+	if ( err.errorNumber() == 128 )
+	  {
+	    // No file, create database
+	    _m_database_node = _create_database();
+	    FrameWork::__time_stamp( "Database create complete" );
+	  }
+	else
+	  {
+	    // Some other error, can not procede
+	    throw;
+	  }
+      }
+
+    FrameWork::__time_stamp( "About to merge" );
+    // We have now read the entire "gaussian" file. Now we pass each
+    // filter object the root data node so they can add their data to it
+    // Create a rudimentary root node
+
+    __DOM_try
+      {
+	// Create parent <geometry label='??'> node
+	_l_nodeName = "geometry";
+	parent = _m_database_node->createElement( _l_nodeName.c_str() );
+	_l_attrName = "label";
+	_l_value = dictionary()["geometry_label"];
+	parent->setAttribute( _l_attrName.c_str(), _l_value.c_str() );
+	// Create <atom-list pageref="??"> node
+// 	_l_nodeName = "atom-list";
+// 	_m_root_node = _m_database_node->createElement( _l_nodeName.c_str() );
+// 	// Reuse pageref attribute
+// 	_m_root_node->setAttribute( _l_attrName.c_str(), _l_value.c_str() );
+// 	parent->appendChild( _m_root_node );
+	// Create <experiment pageref="??" type="calc" worker="??"> node
+	_l_nodeName = "experiment";
+	_m_root_node = _m_database_node->createElement( _l_nodeName.c_str() );
+	_l_attrName = "pageref";
+	_l_value = dictionary()["pageref"];
+	_m_root_node->setAttribute( _l_attrName.c_str(), _l_value.c_str() );
+	_l_attrName = "type";
+	_l_value = "calc";
+	_m_root_node->setAttribute( _l_attrName.c_str(), _l_value.c_str() );
+	_l_attrName = "worker";
+	_l_value = dictionary()["worker"];
+	_m_root_node->setAttribute( _l_attrName.c_str(), _l_value.c_str() );
+	parent->appendChild( _m_root_node );
+
+	if ( !_m_root_node ) {
+	  throw "Invalid base node before data collection.";
+	};
+
+	FrameWork::__time_stamp( "Result node created" );
+
+	_l_filterResults.node = _m_root_node;
+	for_each( _m_use_list.begin(), 
+		  _m_use_list.end(), 
+		  _l_filterResults );
+
+      }
+    __DOM_catch;
+
+    FrameWork::__time_stamp( "Data collection complete" );
+
+    try
+      {
+	_merge( _m_database_node, _m_root_node );
+      }
+    catch( const DOM::Exception &err )
+      {
+	logStream << "Caught exception during merge operation" << std::endl;
+	logStream << err.what() << std::endl;
+	return;
+      }
+    FrameWork::__time_stamp( "Database merge complete" );
+
+    try
+      {
+	the_ostream.open( dictionary()["database"].c_str() );
+	DOM::serialiseIfValid( _m_database_node,
+			       the_ostream, 
+			       dictionary()["database"].c_str() );
+	FrameWork::__time_stamp( "Validity check and database save complete" );
+      }
+    catch ( const Exception &err )
+      {
+	if ( err.errorNumber() == 0 )
+	  {
+	    FrameWork::__time_stamp( "Validity check failed" );
+	    DEBUG( "Could not add new data to database. Attempting to save data to \"filter_out.xml\"." );
+	    DOM::serialise( _m_database_node, "filter_out.xml" );
+	    FrameWork::__time_stamp( "Database attempted save complete to file \"filter_out.xml\"" );
+	    throw;
+	  };
+      };
+  

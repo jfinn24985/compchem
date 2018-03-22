@@ -1,0 +1,7 @@
+class base_filter
+!!!1089961.cpp!!!	serialise(inout a_os : std::ostream) : void
+if (is_plugin_loaded ()) {
+  a_os << "Filter Name: " << name () << "\n";
+  a_os << "Filter Version: " << version () << "\n"; }
+else {
+  a_os << "No plugin loaded.\n"; }

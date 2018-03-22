@@ -1,0 +1,115 @@
+class datum_traits
+!!!1547049.cpp!!!	create(in a_node : any, in a_outcome : char, in a_sz : int) : any
+data_scheme::basic_datum * Result (NULL);
+if (NULL != a_node)
+{
+  try
+  {
+    std::string l_outcome (a_outcome, a_sz);
+    data_scheme::basic_datum * l_node (reinterpret_cast < data_scheme::basic_datum * >(a_node));
+    Result = &(l_node->add_child (data_access::names::datum_name (), l_outcome));
+  }
+  catch (const std::exception & a_err)
+  {
+    Result = NULL;
+    utility::implementation::log () << "Error in create_datum: " << a_err.what () << "\n";
+  }
+  catch (...)
+  {
+    Result = NULL;
+    utility::implementation::log () << "Unknown error in create_datum.\n";
+  }
+}
+return reinterpret_cast< void * > (Result);
+
+!!!1547177.cpp!!!	add_content(in a_node : any, in a_content : char, in a_sz : int) : int
+int Result (0);
+if (NULL != a_node)
+{
+  try
+  {
+    const std::string l_content (a_content, a_sz);
+    data_scheme::basic_datum * l_node (static_cast < data_scheme::basic_datum * >(a_node));
+    l_node->add_text (l_content);
+  }
+  catch (const std::exception & a_err)
+  {
+    Result = 1;
+    utility::implementation::log () << "Error: " << a_err.what () << "\n";
+  }
+  catch (...)
+  {
+    Result = 1;
+    utility::implementation::log () << "Unknown error\n";
+  }
+}
+return Result;
+
+!!!1547305.cpp!!!	set_format(in a_node : any, in a_format : char, in a_sz : int) : int
+int Result (0);
+if (NULL != a_node)
+{
+  try
+  {
+    const std::string l_format (a_format, a_sz);
+    data_scheme::basic_datum * l_node (static_cast < data_scheme::basic_datum * >(a_node));
+    l_node->set_attribute (data_access::names::format_name (), l_format);
+  }
+  catch (const std::exception & a_err)
+  {
+    Result = 1;
+    utility::implementation::log () << "Error: " << a_err.what () << "\n";
+  }
+  catch (...)
+  {
+    Result = 1;
+    utility::implementation::log () << "Unknown error\n";
+  }
+}
+return Result;
+
+!!!1547561.cpp!!!	set_ordinal(in a_node : any, in a_ordinal : int) : int
+int Result (0);
+if (NULL != a_node)
+{
+  try
+  {
+    data_scheme::basic_datum * l_node (static_cast < data_scheme::basic_datum * >(a_node));
+    l_node->set_attribute (data_access::names::ordinal_name (), boost::lexical_cast < std::string > (a_ordinal));
+  }
+  catch (const std::exception & a_err)
+  {
+    Result = 1;
+    std::cout << "Error: " << a_err.what () << "\n";
+  }
+  catch (...)
+  {
+    Result = 1;
+    std::cout << "Unknown error\n";
+  }
+}
+return Result;
+
+!!!1547689.cpp!!!	set_scale(in a_node : any, in a_scale : char, in a_sz : int) : int
+int Result (0);
+if (NULL != a_node)
+{
+  try
+  {
+    const std::string l_scale (a_scale, a_sz);
+    data_scheme::basic_datum * l_node (static_cast < data_scheme::basic_datum * >(a_node));
+    l_node->set_attribute (data_access::names::scale_name (), l_scale);
+  }
+  catch (const std::exception & a_err)
+  {
+    Result = 1;
+    std::cout << "Error: " << a_err.what () << "\n";
+  }
+  catch (...)
+  {
+    Result = 1;
+    std::cout << "Unknown error\n";
+  }
+}
+return Result;
+

@@ -1,0 +1,73 @@
+class journal_ctl
+!!!1038633.cpp!!!	create() : std::auto_ptr<journal_ctl>
+  // LOCAL
+  purpletree::dom::document l_doc (purpletree::dom::implementation::create_document (purpletree::dom::dom_string()
+  										   , JOURNAL_DOC_NODE_NAME
+  										   , JOURNAL_DOC_PUBLIC_ID
+  										   , JOURNAL_DOC_SYSTEM_ID));
+  // DO
+  ALWAYS (not l_doc.is_null (), "Unable to create a valid empty document");
+  return std::auto_ptr< journal_ctl > (new journal_ctl (l_doc));
+!!!1039145.cpp!!!	get_is_dirty_signal() : sigc::signal1< void, bool >
+  return is_dirty_signal;
+!!!1039529.cpp!!!	is_journal_document(in a_filename : string) : bool
+  // LOCAL
+  bool Result(false);
+  // DO
+  
+  // We do not test for symbolic_link_exists as we are only interested
+  // in readable files.
+  if (boost::filesystem::exists (a_filename))
+  {
+    purpletree::dom::document l_doc (purpletree::dom::implementation::deserialise (a_filename));
+    // Simply check that the document has the right document element.
+    // To have got a document means that the document was valid.
+    if (not l_doc.is_null ())
+      {
+        purpletree::dom::element l_node (l_doc.document_element ());
+        if (not l_node.is_null ())
+  	{
+  	  Result = (l_node.tag_name () == journal_ctl::JOURNAL_DOC_NODE_NAME);
+  	}
+      }
+  }
+  return Result;
+!!!1039785.cpp!!!	make_dirty(in a_doc : purpletree::dom::document) : void
+  // LOCAL
+  // (find_doc ensures a valid iterator)
+  // Make associated document dirty
+  find_doc (a_doc)->second->make_dirty ();
+!!!1040041.cpp!!!	open(in a_filename : string) : std::auto_ptr<journal_ctl>
+  // LOCAL
+  // PRE
+  REQUIRE (boost::filesystem::exists (a_filename)
+  	 , std::string ("No file with name [" + a_filename + "]").c_str ());
+  // We do not test for symbolic_link_exists as we are only interested
+  // in readable files.
+  purpletree::dom::document l_doc (purpletree::dom::implementation::deserialise (a_filename));
+  // Simply check that the document has the right document element.
+  // To have got a document means that the document was valid.
+  REQUIRE (not l_doc.is_null ()
+  	 and not l_doc.document_element ().is_null ()
+  	 and l_doc.document_element ().tag_name () == journal_ctl::JOURNAL_DOC_NODE_NAME
+  	 , std::string ("Document read from file [" + a_filename + "] is not valid").c_str ());
+  // Document was opened successfully.
+  return std::auto_ptr< journal_ctl > (new journal_ctl (l_doc, a_filename));
+!!!1040169.cpp!!!	serialise() : bool
+  // PRE
+  is_valid ();
+  REQUIRE (has_filename (), "Cannot save document into an unnamed file");
+  // DO
+  purpletree::dom::implementation::serialise (document_node, filename.string ());
+  
+  dirty = false;
+  is_dirty_signal.emit (false);
+  return true;
+!!!1040297.cpp!!!	set_filename(in value : string) : void
+  filename = boost::filesystem::path(value, boost::filesystem::native);
+!!!1040425.cpp!!!	journal_ctl(inout a_doc_node : purpletree::dom::document, in a_filename : string = std::string())
+  REQUIRE (not a_doc_node.is_null (), "Journal requires a valid document node when being created.");
+  S_map.push_back (std::make_pair (document_node, this));
+  is_valid ();
+!!!1040553.cpp!!!	~journal_ctl()
+  S_map.erase (find_doc (document_node));

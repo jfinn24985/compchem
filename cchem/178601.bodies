@@ -1,0 +1,43 @@
+class basic_names
+!!!1525801.cpp!!!	is_element_name(in a_name : string) : bool
+return (a_name == basic_names<T_xml_string>::compound_name ()
+    || a_name == basic_names<T_xml_string>::compound_ref_name ()
+    || a_name == basic_names<T_xml_string>::datum_name ()
+    || a_name == basic_names<T_xml_string>::experiment_name ()
+    || a_name == basic_names<T_xml_string>::filter_name ()
+    || a_name == basic_names<T_xml_string>::formula_name ()
+    || a_name == basic_names<T_xml_string>::info_name ()
+    || a_name == basic_names<T_xml_string>::identity_name ()
+    || a_name == basic_names<T_xml_string>::mechanism_name ()
+    || a_name == basic_names<T_xml_string>::memo_name ()
+    || a_name == basic_names<T_xml_string>::memo_src_name ()
+    || a_name == basic_names<T_xml_string>::program_name ()
+    || a_name == basic_names<T_xml_string>::project_name ()
+    || a_name == basic_names<T_xml_string>::project_src_name ()
+    || a_name == basic_names<T_xml_string>::settings_name ()
+    || a_name == basic_names<T_xml_string>::worker_name ());
+!!!1525929.cpp!!!	is_attribute_name(in a_attr : string) : bool
+return (a_attr == basic_names<T_xml_string>::category_name ()
+    || a_attr == basic_names<T_xml_string>::compound_name ()
+    || a_attr == basic_names<T_xml_string>::date_start_name ()
+    || a_attr == basic_names<T_xml_string>::date_end_name ()
+    || a_attr == basic_names<T_xml_string>::dimension_name ()
+    || a_attr == basic_names<T_xml_string>::filter_name ()
+    || a_attr == basic_names<T_xml_string>::format_name ()
+    || a_attr == basic_names<T_xml_string>::formula_name ()
+    || a_attr == basic_names<T_xml_string>::href_name ()
+    || a_attr == basic_names<T_xml_string>::label_name ()
+    || a_attr == basic_names<T_xml_string>::mechanism_name ()
+    || a_attr == basic_names<T_xml_string>::name_name ()
+    || a_attr == basic_names<T_xml_string>::ordinal_name ()
+    || a_attr == basic_names<T_xml_string>::outcome_name ()
+    || a_attr == basic_names<T_xml_string>::priority_name ()
+    || a_attr == basic_names<T_xml_string>::reference_name ()
+    || a_attr == basic_names<T_xml_string>::scale_name ()
+    || a_attr == basic_names<T_xml_string>::type_name ()
+    || a_attr == basic_names<T_xml_string>::worker_name ());
+!!!1526057.cpp!!!	is_special_name(in a_value : string) : bool
+return (a_value == basic_names<T_xml_string>::detect_filter_name ()
+    || a_value == basic_names<T_xml_string>::file_scheme ()
+    || a_value == basic_names<T_xml_string>::plugin_filter_name ()
+    || a_value == basic_names<T_xml_string>::regex_filter_name ());

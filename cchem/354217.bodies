@@ -1,0 +1,81 @@
+class proxy
+!!!1122729.cpp!!!	connect(in a_rebuild : bool = = false) : element
+purpletree::dom::element Result;
+boost::filesystem::path l_href (href()); // Path from our attribute
+if (not l_href.is_complete ()) {
+ boost::filesystem::path l_base (purpletree::dom::implementation::document_filename (owner_document ())); // Path from our document
+ //If l_href is not complete, assume relative to base document.
+  l_href = l_base.branch_path () / l_href;
+  l_href.normalize (); }
+if (boost::filesystem::exists (l_href)) {
+  Result = find_element (l_href.native_file_string ()); }
+// If link is broken attempt to rebuild.
+if (Result.is_null () and (a_rebuild or proxy_helper::auto_fix ())) {
+  Result = rebuild_link (); }
+return Result;
+!!!1173545.cpp!!!	find_element(in a_filename : string) : element
+COMPCHEM_REQUIRE (boost::filesystem::exists (a_filename), "find_element requires a valid filename.");
+purpletree::dom::element Result;
+LOG("Looking for [" + purpletree::dom::get_utf8 (target_name (node_name ())) + "] element with '@" + purpletree::dom::get_utf8 \(data_access::names::label_name ()) + "' = [" + purpletree::dom::get_utf8 (get_attribute \(data_access::names::label_name ())) + "] in file [" + a_filename + "]");
+// Look if open already
+purpletree::dom::document l_doc (purpletree::dom::implementation::document_filename (a_filename));
+if (l_doc.is_null ()) { // Not open, try to open file.
+  DLOG ("Document is not open\n");
+  std::pair < purpletree::dom::document, bool > l_find (document_type::test_deserialise (a_filename));
+  if (l_find.second) { // Document is valid.
+    l_doc = l_find.first; }}
+if (not l_doc.is_null ()) { // If we have a doc here, see if we can find the element.
+  Result = get_element_with_attribute_with_self (target_name (node_name ())
+						  , data_access::names::label_name ()
+						  , get_attribute \(data_access::names::label_name ())
+						  , l_doc.document_element ()); }
+else { DLOG("Unable to open file\n"); }
+return Result;
+!!!1171881.cpp!!!	rebuild_link() : element
+boost::filesystem::path l_src (href()); // Path from our attribute
+const boost::filesystem::path l_base (purpletree::dom::implementation::document_filename (owner_document ())); // Path from our document
+purpletree::dom::element Result;
+std::deque < boost::filesystem::path > l_dirs;
+// -------------------------
+// -- Get initial paths.
+//If l_src is not complete, assume relative to base document.
+if (not l_src.is_complete ()) {
+  l_src = l_base.branch_path () / l_src; }
+if (boost::filesystem::exists (l_src.branch_path ())
+      and boost::filesystem::is_directory (l_src.branch_path ())) {
+  l_dirs.push_back (l_src.branch_path ()); }
+// Add base document directory too.
+if (boost::filesystem::exists (l_base.branch_path ())
+      and boost::filesystem::is_directory (l_base.branch_path ())) {
+  l_dirs.push_back (l_base.branch_path ()); }
+// Add any other search dirs..
+if (not proxy_helper::helper ().empty ()) {
+  for (proxy_helper::const_iterator l_i (proxy_helper::helper ().begin ());
+       l_i != proxy_helper::helper ().end ();
+       ++l_i) {
+    boost::filesystem::path l_extra (*l_i);
+    if (not l_extra.is_complete ()) {
+      l_extra = boost::filesystem::initial_path () / l_extra; }
+    if (boost::filesystem::exists (l_extra)
+      and boost::filesystem::is_directory (l_extra)) {
+      l_dirs.push_back (l_extra); }}}
+// --------------------------
+// -- Start search
+const boost::filesystem::directory_iterator l_end;
+while (not l_dirs.empty () and Result.is_null ()) {
+  boost::filesystem::directory_iterator l_iterator (l_dirs.front ());
+  l_dirs.pop_front ();
+  for (;
+      l_iterator != l_end;
+      ++l_iterator) {
+    if (boost::filesystem::exists (*l_iterator)) {
+      if (boost::filesystem::is_directory (*l_iterator)) { // Push dirs.
+	l_dirs.push_front (*l_iterator); }
+      else { // Test files
+	Result = find_element (l_iterator->native_file_string ());
+	if (not Result.is_null ()) { // Found element! Update href
+	  href (::utility::filesystem::relative_path (l_base.branch_path (), *l_iterator).string ());
+	  purpletree::dom::implementation::document_dirty (owner_document (), true);
+	  break; }}}}}
+ENSURE (not Result.is_null (), "Unable to rebuild link.");
+return Result;

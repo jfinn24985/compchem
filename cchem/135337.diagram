@@ -1,0 +1,105 @@
+format 29
+
+classinstance 128041 class_ref 360233 // crawler
+  name "" xyz 41 4 2005 life_line_z 2000
+classinstance 128169 class_ref 353321 // program
+  name "" xyz 225 6 2010 life_line_z 2000
+classinstance 128297 class_ref 174249 // implementation
+  name "" xyz 104 4 2010 life_line_z 2000
+classinstance 129193 class_ref 174761 // element
+  name "next_proj" xyz 270 45 2015 life_line_z 2000
+fragment 130473 "consider"
+  xyzwh 13 214 2015 356 128
+end
+fragment 130729 "loop"
+  xyzwh 10 381 2020 350 51
+end
+classinstance 130985 class_ref 354089 // project
+  name "curr_proj" xyz 337 4 2020 life_line_z 2000
+note 131753 "As per first_project.  And in curr_comp, call first_formula"
+  xyzwh 120 476 2015 252 73
+durationcanvas 128425 classinstance_ref 128041 // :crawler
+  xyzwh 63 83 2010 11 514
+durationcanvas 128553 classinstance_ref 128297 // :implementation
+  xyzwh 150 83 2010 11 36
+durationcanvas 128809 classinstance_ref 128169 // :program
+  xyzwh 250 149 2010 11 443
+durationcanvas 129321 classinstance_ref 129193 // next_proj:element
+  xyzwh 321 164 2010 11 426
+durationcanvas 130089 classinstance_ref 128297 // :implementation
+  xyzwh 150 297 2010 11 26
+durationcanvas 131369 classinstance_ref 130985 // curr_proj:project
+  xyzwh 383 357 2010 11 196
+msg 128681 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 128553 // 128297
+  yz 83 2000 explicitmsg "deserialise"
+  show_full_operations_definition default drawing_language default
+  args "main_file_name"
+  label_xy 85 66
+msg 128937 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 128809 // 128169
+  yz 158 2000 msg operation_ref 1138089 // "first_project() : element"
+  show_full_operations_definition default drawing_language default
+  label_xy 125 141
+msg 129577 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 129321 // 129193
+  yz 236 3005 explicitmsg "get_attribute"
+  show_full_operations_definition default drawing_language default
+  args "\"href\""
+  label_xy 162 219
+msg 129705 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 129321 // 129193
+  yz 188 3005 explicitmsg "node_name"
+  show_full_operations_definition default drawing_language default
+  label_xy 165 171
+msg 129833 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 128553 // 128297
+  yz 105 2000 explicitmsg "validate"
+  show_full_operations_definition default drawing_language default
+  label_xy 94 88
+reflexivemsg 129961 synchronous
+  to durationcanvas_ref 128425 // 128041
+  yz 269 2000 explicitmsg "check_link"
+  show_full_operations_definition default drawing_language default
+  label_xy 52 252
+msg 130217 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 130089 // 128297
+  yz 297 2000 explicitmsg "deserialise"
+  show_full_operations_definition default drawing_language default
+  label_xy 81 280
+msg 130345 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 130089 // 128297
+  yz 312 2000 explicitmsg "validate"
+  show_full_operations_definition default drawing_language default
+  label_xy 90 295
+msg 130601 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 129321 // 129193
+  yz 401 2000 explicitmsg "next_sibling"
+  show_full_operations_definition default drawing_language default
+  label_xy 163 384
+msg 131497 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 131369 // 130985
+  yz 357 2000 msg operation_ref 1170473 // "project(in source : element)"
+  show_full_operations_definition default drawing_language default
+  label_xy 205 340
+msg 131625 synchronous
+  from durationcanvas_ref 128425 // 128041
+  to durationcanvas_ref 131369 // 130985
+  yz 461 2000 msg operation_ref 1116585 // "first_compound() : element"
+  show_full_operations_definition default drawing_language default
+  label_xy 180 444
+reflexivemsg 131881 synchronous
+  to durationcanvas_ref 128425 // 128041
+  yz 137 2000 explicitmsg "check_element"
+  show_full_operations_definition default drawing_language default
+  label_xy 39 120
+end

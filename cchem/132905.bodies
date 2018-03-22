@@ -1,0 +1,39 @@
+class compchem_manager
+!!!141737.cpp!!!	~compchem_manager()
+  if ( _m_config ) delete _m_config;
+!!!141865.cpp!!!	initialisation(in argc : int = 0, inout argv : char = NULL) : void
+  // --public: initialisation--
+  try {
+    config_initialisation( _m_progname );
+    if ( _m_config ) {
+      config_system();
+      _m_config->configuration();          
+      commandline_option_setup();
+      if ( !_m_config->processArguments( argc, argv ) ) {
+	_m_config->helpMessage();
+	this->exit( 1 );
+      };
+    } else {
+	throw "CCMngrError: Unable to create configuration object.";
+    };
+  }
+  catch ( const char *msg ) {
+    std::cerr << msg << std::endl;
+    if ( _m_config ) _m_config->helpMessage();
+    this->exit( 1 );
+  }
+  catch (...) {
+    std::cerr << "CCMngrError: Initialisation error." << std::endl;
+    if ( _m_config ) _m_config->helpMessage();
+    this->exit( 1 );
+  }
+!!!142121.cpp!!!	config_initialisation(in progname : string) : void
+  // This sets the configuration object of the manager class. It is
+  // expected that the object will act like a dictionary, with
+  // key/value pairs.
+  _m_config = new compchem_initialisation( progname );
+
+!!!142633.cpp!!!	exit(in lvl : int = 0) : void
+  // Perform any actions required when the program is completed. This
+  // function may be called when an error is recieved.
+  std::exit( lvl );
