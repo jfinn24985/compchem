@@ -1,0 +1,27 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target test_supplier
+unit-test test_supplier :
+	/cchem/utility//test
+	/boost//date_time
+	/boost//regex
+	/boost//program_options
+	test_supplier_helper.cpp
+	/cchem/data_scheme//data_scheme
+	test_matcher.cpp
+	/cchem/data_access//data_access
+	/boost//filesystem
+	/cchem/data_access//data_xml_access
+	test_filtermanager.cpp
+	/cchem/supplier//supplier
+	/cchem/utility//utility
+	:
+	;
+
+install install_test_supplier : test_supplier : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/test/supplier_test" ;
+##END:target test_supplier

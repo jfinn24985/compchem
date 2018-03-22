@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================================= -->
+<!--
+      dtd version 3.0 for version 1.10 of the compchem package
+Date: $Date: 2009/09/04 15:49:45 $
+
+$Log: program.dtd,v $
+Revision 1.4  2009/09/04 15:49:45  finnerty
+Updated the DTD and corresponding XSLT files.
+
+Revision 1.3  2008/01/12 12:35:24  finnerty
+Schema definition
+
+Revision 1.2  2002/02/20 02:05:51  finnerty
+Final version incorporating changes from Cushing 1992.
+
+$Revision: 1.4 $
+
+                                                                   -->
+<!-- ============================================================= -->
+
+<!-- ============================================================= -->
+<!--                    A chemical compound                        -->
+<!--                    This is a container for information about
+                        what a chemist would call a compound.      -->
+<!--                    Note: this can include various different 
+                        geometries/formulations for the same chemical
+                        compound.                                  -->
+<!--                    Note: The relationship between a compound
+                        and a program is uni-directional. Ideally a 
+                        compound may belong to several programs (with
+                        comp-src includes). The compound itself
+                        does not need to know the name of the
+                        program.                                   -->
+<!ELEMENT  compound     (identity*,info?,formula*)                   >
+<!--         label      ID for this compound element
+             category   A set of category IDs that allow formulae to
+                        be grouped in meaningful ways.  Order is not
+                        important, though priority can be flagged by
+                        ending an ID with the ":" and a number (lower
+                        number is higher priority).  For example if
+                        you are studying a reaction with several
+                        steps you would identify each step with an
+                        ID, and if you are making a comparison across
+                        substituents then they could be IDed.  It
+                        would then be possible for a report to
+                        generate a table of reaction v. substituent.
+                                                                  -->
+<!ATTLIST  compound
+             label      NMTOKEN                            #REQUIRED
+             category   CDATA                              #IMPLIED  >
+
+<!-- ============================================================= -->
+<!--                    compound-ref : cross-reference a compound  -->
+<!--                    This element allows you to bring results
+                        for a compound into a project where the
+                        experiments on the compound where not
+                        originally performed.                      -->
+<!ELEMENT  compound-ref EMPTY                                        >
+<!--         label      The compound this refers to
+             formula    The optional subset of formulae to
+                        import. When not specified all formulae are
+                        referenced/imported.                       -->
+<!ATTLIST  compound-ref
+             label      NMTOKEN                            #REQUIRED
+             formula    NMTOKENS                           #IMPLIED  >
+
+<!-- ============================================================= -->
+<!--                    Named datum                                -->
+<!--                    This element contains data for a particular
+                        observable property of a formula(compound). 
+                        It can contain any sort of data.           -->
+<!--  
+     Expected datum elements for chemical structures
+
+             format     How the atoms are listed, such as atom+xyz or
+                        atom+length+angle+dihedral or a map from one
+                        atomlist onto another (for use with
+                        form-memo etc).
+                        format labels mean: "axyz" is atom label
+                        and x,y,z coordinates. "alad" is atom
+                        label and length, angle, dihedral (eg
+                        z-matrix). "map" is pairs of atom numbers
+                        that map one structure onto
+                        another. "stdrep" is a well-defined
+                        representation that is understood by
+                        source/report plugins. "cml" indicates
+                        content is in CML XML format. "lab"
+                        indicates the contents are laboratory
+                        quantities. "free" indicates that
+                        "freeformat" attribute will describe the
+                        data somehow.
+             charge     The charge on the molecule
+             multiplicity
+                        The multiplicity of the structure.         -->
+
+<!ELEMENT  datum        (#PCDATA|datum)*                             >
+<!--         outcome    The name of a special outcome this datum
+                        contains, eg heat of formation, ir spectra
+             format     Optional format that the data can take, for
+                        use by software in reading the data. The
+                        possible values are dependent on 'outcome'
+             scale      Optional scaling info for the datum value.
+                        This can be a recognised non-SI unit name (eg
+                        "hartree") and/or a scalar.
+                        This value is a multiplier of the content to
+                        normalise it to the SI standard.
+                        Additionally some programs can specify data as
+                        a ratio of two integers, here the divisor can
+                        be specified as the scale using "1/.....".
+             ordinal    The (optional) position of this element in a
+                        "set" or "list" element.
+                                                                   -->
+<!ATTLIST  datum
+             outcome    CDATA                              #REQUIRED
+             dim        CDATA                              #IMPLIED
+             format     CDATA                              #IMPLIED
+             scale      CDATA                              #IMPLIED 
+             ordinal    NMTOKEN                            #IMPLIED  >
+
+<!-- ============================================================= -->
+<!--                    Experiment (Lab or Calc)                   -->
+<!--                    The outcome of a set of work done by the
+                        chemist/worker. Also the description of
+                        what was done.
+                        The description of what was performed is
+                        contained in the info elements that are
+                        direct children of the experiment.  The
+                        filtered results of any results is
+                        contained in datum elements that are
+                        children of a memo element.           -->
+<!ELEMENT  experiment   (info*,(memo|memo-src)*)                     >
+<!--         reference  A unique identifier. The equivalent of the 
+                        page number/experiment number in a lab
+                        notebook.
+             date-start The starting date of the experiment
+             date-end   The finish date (default = date-start) 
+             priority   Indicate the relative importance of the
+                        result set.  If you have several experiments
+                        with similar result sets this attribute
+                        allows you to identify which sets should be
+                        used for generating results. (default=0)          
+             worker     The crossreference to the person/worker(s) who
+                        performed the experiment.                  -->
+<!ATTLIST  experiment
+             reference  NMTOKEN                            #REQUIRED
+             date-start NMTOKEN                            #REQUIRED
+             date-end   NMTOKEN                            #IMPLIED 
+             priority   NMTOKEN                            #IMPLIED 
+             worker     NMTOKENS                           #REQUIRED >
+             
+<!-- ============================================================= -->
+<!--                    mechanism filter                           -->
+<!--                    This element caches information about an
+                        external filter that is available for
+                        operating on files created by the
+                        mechanism to import outcomes into the DB   -->
+<!ELEMENT  filter       (#PCDATA)*                                   >
+<!--         href       The locator for the filter object.
+             label      The cross-reference label for this element.
+                        This is often the name of the main outcome of
+                        the filter.
+             outcome    The set of 'outcomes' this filter collects.
+                        These outcomes refer to the 'top-level'
+                        outcome. These are the outcome labels of
+                        datum objects that will be the direct
+                        children of the memo object.
+             type       The type of filter. For example the
+                        originally supported types were 'plugin' (a
+                        dynamic link object), 'regex' (a regular
+                        expression) or 'python'(a python class).
+                        The default type is 'plugin'.
+                        With types like 'regex' the filter can
+                        ctually exist as the content of the
+                        filter element. In these cases the href
+                        attribute contains an identity string.     -->
+<!ATTLIST  filter
+             href       CDATA                              #REQUIRED
+             label      NMTOKEN                            #REQUIRED
+             outcome    NMTOKENS                           #REQUIRED
+             type       (plugin|regex)                     "plugin"  >
+
+<!-- ============================================================= -->
+<!--                    Compound geometry/formula definition       -->
+<!--                    This specifies a particular geometry of a
+                        molecule. Here formula means a particular
+                        set of atom positions which may be
+                        described empirically, such as the "ground
+                        state" for experimental results.
+                        It can also describe the product produced
+                        under a common set of conditions/procedure
+                        or a material made to a certain
+                        composition.
+                        The relationship between a compound and
+                        formula is 1-to-many.  This means that a
+                        formula can only have one parent compound. -->
+<!ELEMENT  formula      (info?,identity*)                            >
+<!--         label      This is a label identifying the formula
+                        within the compound.  It is relatively unique
+                        (ie within each compound).                 -->
+<!ATTLIST  formula
+             label      NMTOKEN                            #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    Identity                                   -->
+<!--                    A compound is universally unique.  Within
+                        a program it is given an arbitrary ID label.
+                        However that are standards for uniquely
+                        identifying a compound across programs, eg
+                        iupac-name, CAS number etc.  The content
+                        of this element contain this information
+                        for use in matching compounds across
+                        programs.                                  -->
+<!ELEMENT  identity     (#PCDATA)*                                   >
+<!--         type       The type of identity information.  This is
+                        from a standard catalog of identity types. -->
+<!ATTLIST  identity
+             type       CDATA                              #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    Named Textual data                         -->
+<!--                    This element contains text. The type attribute
+                        identifies what the text is. This element is
+                        intended to be a general mechanism for 
+                        including arbitrary text markup.           -->
+<!ELEMENT  info         (#PCDATA|info)*                              >
+<!--         name       A descriptive name for the contents of the 
+                        element.                                   -->
+<!ATTLIST  info
+             name       CDATA                              #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    Mechanism: Some apparatus or programme     -->
+<!--                    This contain information about something that
+                        produces results. It can be a computer 
+                        program or a piece of lab equipemnt.
+                        The content should be information that is
+                        common to every time this "mechanism" is 
+                        referred to. This might be the bibliographic
+                        reference for a programme or the manufacturers
+                        address and model number. Set up parameters
+                        may be included if they are common to every
+                        usage (such as detector type). Usage specific 
+                        information is contained in memo
+                        elements.
+
+                        NOTE The contents of this element can also 
+                        refer to a set of published results.       -->
+<!ELEMENT  mechanism    (info,filter*,setting*)                      >
+<!--         label      The cross-reference label for this element -->
+<!ATTLIST  mechanism
+             label      NMTOKEN                            #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    Memo                                       -->
+<!--                    This contains important settings for the 
+                        operation that was performed to generate the 
+                        results. It should provide details specific 
+                        to this experiment and include all critical
+                        input parameters.
+                         
+                        For computational chemistry this would mean
+                        details of the method, basis-set and
+                        calculation type. 
+
+                        The content defines the actions that where 
+                        actually performed in the experiment.      -->
+<!ELEMENT  memo         (datum*,info*)                               >
+<!--         mechanism  A cross reference key to the "mechanism" 
+                        that generated these results.
+             label      A name that identifies this memo.
+             href       The output file from which this result memo
+                        was generated.
+             filter     The labels of filters applied to generate
+                        the contents of this memo.
+             formula    The ids of the compound and the formula this
+                        set of results is attributed to.
+             compound   The compound this memo holds data about.   -->
+<!ATTLIST  memo
+             mechanism  NMTOKEN                            #REQUIRED
+             label      NMTOKEN                            #REQUIRED
+             href       CDATA                              #IMPLIED
+             filter     NMTOKENS                           #IMPLIED
+             formula    NMTOKEN                            #REQUIRED
+             compound   NMTOKEN                            #REQUIRED >
+
+<!--                    memo-src                                   -->
+<!--                    This tag contains a reference to a
+                        separate file containing a memo.           -->
+<!ELEMENT  memo-src     EMPTY                                        >
+<!--         label      This is a label of the referenced memo.
+             href       The URL of the file containing the memo.
+                        In the file referenced by href a memo
+                        object will be the document element.
+             formula    The ids of the compound and the formula this
+                        set of results is attributed to.
+             compound   The compound this memo holds data about.   -->
+<!ATTLIST  memo-src
+             label      NMTOKEN                            #REQUIRED
+             href       CDATA                              #REQUIRED
+             formula    NMTOKEN                            #REQUIRED
+             compound   NMTOKEN                            #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    A target result                            -->
+<!--                    An outcome is one target result of an 
+                        experiment.  It is an abstract concept of
+                        which mechanisms offer to produce.  An 
+                        example is a 'ir_spectra' that could be 
+                        measured from a sample or calculated in
+                        a computer.                                -->
+<!-- ELEMENT  outcome      (#PCDATA)                               -->
+<!--         label      The unique label for this outcome          -->
+<!-- ATTLIST  outcome
+           label      NMTOKEN                            #REQUIRED -->
+
+<!-- ============================================================= -->
+<!--                    Base tag for this dtd                      -->
+<!--                    A program  of research is a broad category
+                        of interest.  It is intended that the
+                        contents of a possible paper do not cross
+                        program boundaries, although several
+                        papers may be contained in a program.      -->
+<!ELEMENT  program
+         (info?,worker+,mechanism*,compound*,(project|proj-src)*)    >
+
+<!-- ============================================================= -->
+<!--                    A branch of the research program           -->
+<!--                    A project should be single consistent
+                        branch of the main research program.  You
+                        should be able to combine the results of a
+                        project into a single meaningful report    -->
+<!--                    The view-memo elements give details about
+                        the outcomes, compounds and their
+                        relationships used in the project.         -->
+<!ELEMENT project       (info?,compound-ref*,experiment*)            >
+<!--         label      The unique label for this project
+             worker     The set of workers associated with this
+                        project. This is used to restrict access.
+             outcome    The set of desired outcomes that should be 
+                        searched for in result files.              -->
+<!ATTLIST  project
+             label      NMTOKEN                            #REQUIRED
+             worker     NMTOKENS                           #IMPLIED
+             outcome    NMTOKENS                           #IMPLIED  >
+
+<!--                    project-src                                -->
+<!--                    A tag containing a URL to a sub-document
+                        containing the actual project content.     -->
+<!ELEMENT  proj-src     EMPTY                                        >
+<!--         label      link target for a compound
+             href       The URL of the data file.
+                        In the document given by href, referenced
+                        project element will be the document
+                        element.                                   -->
+<!ATTLIST  proj-src
+             label      NMTOKEN                            #REQUIRED
+             href       CDATA                              #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    A tag for configuring/tailoring
+                        mechanisms to produce certain outcomes     -->
+<!ELEMENT  settings     ((datum,info?)|(info,datum?))                >
+<!--         label      A name that ids this group of settings
+             outcome    The set of outcomes that these groups of
+                        settings can produce.  An outcome is some
+                        scientific property for example: Heat of
+                        formation, IR spectra.
+             filter     The set of mech filters that are applicable
+                        to results produced by the content of this
+                        element.                                   -->
+<!ATTLIST  settings
+             label      NMTOKEN                            #REQUIRED
+             outcome    NMTOKENS                           #REQUIRED
+             filter     NMTOKENS                           #REQUIRED >
+
+<!-- ============================================================= -->
+<!--                    A person doing the work                    -->
+<!--                    This allowes you to assign people to
+                        programs and projects.                     -->
+<!ELEMENT  worker       (info)+                                      >
+<!--         label      Data to enable cross-referencing an 
+                        experimenter with an experiment            -->
+<!ATTLIST  worker
+             label      NMTOKEN                            #REQUIRED >
+
+
+<!-- ============================================================= -->
+

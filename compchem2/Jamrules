@@ -1,0 +1,346 @@
+# Project: carbon_sheet
+# Author: Orig J. Finnerty: $Author: finnerty $
+# Date  : 12 Feb 2006     : $Date: 2008/01/12 12:30:15 $
+# Version                 : $Revision: 1.1 $
+# Log:
+# $Log: Jamrules,v $
+# Revision 1.1  2008/01/12 12:30:15  finnerty
+# Initial compilation system
+#
+# Revision 1.1.1.1  2006/11/21 08:52:36  finnerty
+#
+#
+# Revision 1.1.1.1  2006/05/16 05:29:53  finnerty
+# Pase, data-centric application development.
+#
+# Revision 1.2  2006/02/28 10:17:03  finnerty
+# Upgraded comments and how TOP is defined
+#
+# Revision 1.1  2006/02/15 07:55:43  finnerty
+# Added jam compilation system
+#
+#
+
+if $(UNIX)      { SUFSHR ?= .so ; }
+else if $(NT)   { SUFSHR ?= .dll ; }
+
+COMP ?= INTEL ;
+XMLLIB ?= NONE ;
+PTLIB ?= NONE ;
+GUILIB ?= NONE ;
+
+# UNIX = true
+# OS = LINUX
+# OSTYPE = Linux
+# CPU = i686
+#  MACHTYPE = i686-suse-linux
+APPOPTIM = -DNO_LOG -DNO_DbC ;
+
+###################################################################
+##
+##  Definitions for compiler suites (TOOLSETS)
+## 
+###################################################################
+switch $(COMP)
+{
+case CYGWIN :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -Wall -pedantic -ansi -D_POSIX_SOURCE ;
+     C++STD = -Wall -pedantic -D_POSIX_SOURCE ;
+     CCCPP = ;
+     C++CPP = ;
+     SHRFLAGS = -mconsole ;
+     SHRXFLAGS = -shared -D__WIN32__ ;
+     SHRLINKLIBS = ;
+     ARCH = -m32 -march=i686 -msse2 -mfpmath=sse ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case GNU :
+     CC = gcc ;
+     C++ = g++ ;
+     CCSTD = -std=c99 -pedantic -D_POSIX_SOURCE ;
+     C++STD = -std=c++98 -pedantic -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_SNPRINTF -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fpic ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -m32 -march=pentium4 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+    # C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -Weffc++ ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 -rdynamic ;
+     CCCOMP = -Wall -fpic $(CCSTD) $(CCCPP) ;
+     C++COMP = -Wall -fpic $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case PORTLAND :
+     CC = pgcc ;
+     C++ = pgCC ;
+     CCSTD = -ansi -D_POSIX_SOURCE ;
+     C++STD = -D_BOOL -ansi -D_POSIX_SOURCE ;
+     CCCPP = -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_BACKTRACE  ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -fast $(ARCH) ;
+     C++OPTIMCOMP = -fast $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) -I/usr/opt/pgi/linux86/include ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = ;
+case INTEL :
+     CC = icc ;
+     C++ = icc ;
+     LINK = icc ;
+     CCSTD = -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     C++STD = -D_BOOL -ansi -c99 -D_POSIX_SOURCE -D_BSD_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_BACKTRACE ;
+     C++CPP = -DHAVE_STRERROR_R -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -shared -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -ggdb -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+case SGI :
+     CC = cc ;
+     C++ = CC ;
+     CCSTD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     C++STD = -LANG:std -ansi -D_POSIX_SOURCE ;
+     CCCPP = -D_POSIX_SOURCE -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     C++CPP =  -DHAVE_STRERROR_R -DHAVE_ALLOCA -DHAVE_BACKTRACE ;
+     SHRFLAGS = -fPIC ;
+     SHRXFLAGS = -shared -Wl,-soname, ;
+     SHRLINKLIBS = -rdynamic -ldl ;
+     ARCH = -tpp7 ;
+
+     CCOPTIMCOMP = -O3 $(ARCH) ;
+     C++OPTIMCOMP = -O3 $(ARCH) ;
+     CCDEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     C++DEBUGCOMP = -O0 -g3 -DDEBUG=1 ;
+     CCCOMP = $(CCSTD) $(CCCPP) ;
+     C++COMP = $(C++STD) $(C++CPP) ;
+     LINKCOMP = -i_dynamic ;
+}
+
+################################################
+##
+##  Definitions for DOM libraries
+## 
+################################################
+
+CCDEBUGDOM = ;
+C++DEBUGDOM = ;
+CCOPTIMDOM = ;
+C++OPTIMDOM = ;
+LINKDOM = ;
+
+switch $(XMLLIB)
+{
+case EXPAT :
+     CCDOM = -D$(XMLLIB) ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -lexpat ;
+
+case XERCES :
+     CCDOM = -D$(XMLLIB) -DXML_USE_PTHREADS -I`findoffice`/Software/XML/xerces-c-src2_2_0/include ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = -L`findoffice`/Software/XML/xerces-c-src2_2_0/lib -lxerces-c -lpthread ;
+
+case GNOME :
+     CCDOM = -DXML_$(XMLLIB) `pkg-config libxml-2.0 --cflags` ;
+     C++DOM = $(CCDOM) ;
+     LINKDOM = `pkg-config libxml-2.0 --libs` ;
+
+case * :
+     CCDOM = ;
+     C++DOM = ;
+     LINKDOM = ;
+}
+
+################################################
+##
+##  Define the "standard" flags
+## 
+################################################
+
+CCDEBUGPT = ;
+C++DEBUGPT = ;
+CCOPTIMPT = ;
+C++OPTIMPT = ;
+
+switch $(PTLIB)
+{
+case DEBUG :
+     PTDIR = $(TOP)/../purpletree ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = $(CCPT) ;
+     LINKPT = -L$(PTDIR)/lib -lpurpletree_debug ;
+
+case STD :
+     PTDIR = $(TOP)/../ptdom ;
+     CCPT = -I$(PTDIR)/include ;
+     C++PT = -I$(PTDIR)/include ;
+     LINKPT = ;
+#     LINKPT = -L$(PTDIR)/lib -lpurpletree ;
+
+case * :
+     CCPT = ;
+     C++PT = ;
+     LINKPT = ;
+
+}
+
+################################################
+##
+##  Define the "standard" GUI flags
+## 
+################################################
+
+CCDEBUGGUI = ;
+C++DEBUGGUI = ;
+CCOPTIMGUI = ;
+C++OPTIMGUI = ;
+
+XMTCCGUI = -I/usr/X11R6/include ;
+XMTC++GUI = -I/usr/X11R6/include ;
+XMTLINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+switch $(GUILIB)
+{
+case GTK :
+     CCGUI = `pkg-config libglade-2.0 --cflags` ;
+     C++GUI = `pkg-config libglade-2.0 --cflags` ;
+     LINKGUI = `pkg-config libglade-2.0 --libs` ;
+
+case GTKMM :
+     CCGUI = `pkg-config gtkmm-2.4 --cflags` ;
+     C++GUI = `pkg-config gtkmm-2.4 --cflags` ;
+     LINKGUI = `pkg-config gtkmm-2.4 --libs` ;
+
+case XMT :
+     CCGUI = -I/usr/X11R6/include ;
+     C++GUI = -I/usr/X11R6/include ;
+     LINKGUI = -L/usr/X11R6/lib -lXmt_d -lXm -lXp -lXpm -lXmu -lXt -lXext -lX11 ;
+
+case * :
+     CCGUI = ;
+     C++GUI = ;
+     LINKGUI = ;
+
+}
+
+################################################
+##
+##  Define the "standard" flags
+## 
+################################################
+
+CCFLAGS += $(CCCOMP) $(CCDOM) $(CCPT) $(CCGUI) ;
+C++FLAGS += $(C++COMP) $(C++DOM) $(C++PT) $(C++GUI) ;
+CCDEBUG += $(CCDEBUGCOMP) $(CCDEBUGDOM) $(CCDEBUGPT) $(CCDEBUGGUI) ;
+C++DEBUG += $(C++DEBUGCOMP) $(C++DEBUGDOM) $(C++DEBUGPT) $(C++DEBUGGUI) ;
+CCOPTIM += $(APPOPTIM) $(CCOPTIMCOMP) $(CCOPTIMDOM) $(CCOPTIMPT) $(CCOPTIMGUI) ;
+C++OPTIM += $(APPOPTIM) $(C++OPTIMCOMP) $(C++OPTIMDOM) $(C++OPTIMPT) $(C++OPTIMGUI) ;
+LINKLIBS += $(LINKCOMP) $(LINKDOM) $(LINKPT) $(LINKGUI) ;
+
+CCFLAGS += $(CCDEBUG) ;
+C++FLAGS += $(C++DEBUG) ;
+LINKFLAGS = $(C++FLAGS) ;
+LINK = $(C++) ;
+
+rule Mprleak
+{
+	local l_log = $(1:S=.log) ;
+	Depends all : $(l_log) ;
+	RunMprleak $(l_log) ;
+	CMD on $(l_log) = $(1) ;
+	LOG on $(l_log) = $(1:S=.mpr) ;
+}
+
+actions ignore RunMprleak
+{
+	rm -f log.*.gz 
+	mpr ./$(CMD) > $(1) 
+	mprleak log.*.gz | mprmap ./$(CMD) | mprchain > $(LOG) 	
+	rm -f log.*.gz 
+}
+
+rule Browse
+{
+	local l_dummy = $(1:S=.dummy) ;
+	Depends $(1) : $(l_dummy) ;
+	BrowseAction $(l_dummy) ;
+	OUT on $(l_dummy) = $(1) ;
+}
+
+
+actions ignore BrowseAction
+{
+	findjsrc | ebrowse --output-file=$(OUT)
+}
+
+# The unit test rules run an executable, capture any output
+# to stdout and stderr and compare these files with a 
+# previous invocation.
+rule Test
+{
+	local f = $(1:S=.out) ;
+	local canon = $(1:S=.canon) ;
+	local match = $(1:S=.match) ;
+	MakeLocate $(f) : $(LOCATE_TARGET) ;
+	MakeLocate $(canon) : $(LOCATE_TARGET) ;
+	MakeLocate $(match) : $(LOCATE_TARGET) ;
+        on $(1) TESTFLAG on $(f) ?= $(TESTFLAG) ;
+        Clean clean : $(match) $(f) ;
+	RunTest $(f) : $(1) ;
+	Depends all : $(match) $(canon) ;
+	Depends $(match) : $(f) $(canon) ;
+	Depends $(f) : $(1) ;
+	File $(canon) : $(f) ;
+        NOUPDATE $(canon) ;
+	DiffResults $(match) : $(f) $(canon) ;
+
+	if $(CANONICAL)
+	{
+		Clean clean : $(canon) ;
+	}
+}
+
+actions ignore RunTest
+{
+$(2) $(TESTFLAG)  2>&1 | tee $(1[1]) > /dev/null
+}
+
+# The cmp command `fails` when the log file and canon differ
+# which is when we want to keep the match.  So we invert the
+# result to get it to keep the results.
+actions DiffResults
+{
+diff $(2) > $(1) 2>&1
+cmp -s $(2) 
+}
+
+
+
+
+# Local Variables:
+# mode: makefile
+# End: 

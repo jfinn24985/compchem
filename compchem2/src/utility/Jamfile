@@ -1,0 +1,53 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target utility
+lib utility :
+	time_stamp.cpp
+	contract_error.cpp
+	/boost//program_options
+	filesystem.cpp
+	call_once.cpp
+	/boost//filesystem
+	program_options.cpp
+	:
+	<link>shared
+	;
+
+install install_utility : utility : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/utility" ;
+##END:target utility
+##START:target test
+lib test :
+	test_manager.cpp
+	/cchem/utility//utility
+	:
+	<link>shared
+	;
+
+install install_test : test : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/utility" ;
+##END:target test
+##START:target posix
+lib posix :
+	filesystem_properties.cpp
+	:
+	<link>shared
+	;
+
+install install_posix : posix : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/utility" ;
+##END:target posix
+##START:target auth
+lib auth :
+	pam_manager.cpp
+	:
+	<link>shared
+	;
+
+install install_auth : auth : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/utility" ;
+##END:target auth

@@ -1,0 +1,38 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DOCTYPE config PUBLIC "http://www.purpletree.net.au/compchem/filter/V1.0.0/" "/home/finnerty/Office/Projects/compchem/schema/filter.dtd" -->
+<config type="filter">
+  <group label="gaussian"> <!-- optional "label" here is informatory only -->
+    <filetype label="g03" type="generic">
+      <!-- optional "label" is also informatory only -->
+      <mechanism start="start" type="regex" label="\1">Entering Gaussian .*0=(g..)</mechanism>
+      <subtype start="0" type="regex" label="\1\4\7">----------------------------------------------------------------------[[:space:]]+#((-[^-\n]+|[^-\n]+)+)\n[[:space:]]+(((-[^-\n]+|[^-\n]+)+)\n[[:space:]]+)?(((-[^-\n]+|[^-\n]+)+)\n[[:space:]]+)?---------------------------------------</subtype>
+    </filetype>
+    <!--  filter src="filename" public="http://.." options="a, b, c" name="frequency" type="file"/ -->
+       <!-- locations to retrieve filter from.
+          "public" attribute may be used for XML catalog style filter lookup.
+          "options"/"name" attributes will be available for dynamic filter configuration. -->
+    <!-- filter type="generic">
+       < ! - - "part" elements will become literal datum elements in the
+          result. They therefore have the attributes necessary for a valid
+          datum element. Container type elements will be searched for in the
+          output twiglet - allowing filters to colaborate - before being 
+          created when necessary. - - >
+       <part type="regex" name="dan-name" match="#"></regex>
+    </filter>
+    <filter type="generic">
+       <part type="container" name="dan-name" repeat="*">
+         <part type="regex" name="dan-name" match="#, #, #"></regex>
+         <part type="regex" name="dan-name" match="#"></regex>
+       </container>
+    </filter>
+    <filter type="python" src="?" public="?"/-->
+    <filter label="energy" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_energy.so"/>
+    <filter label="stable" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_stable.so"/>
+    <filter label="structure" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_structure.so"/>
+    <filter label="status" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_termination_status.so"/>
+    <filter label="dipole" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_dipole.so"/>
+    <filter label="step" type="plugin" src="/home/finnerty/Office/Projects/compchem/src/supplier/filter/gaussian_step.so"/>
+  </group>
+</config>
+ 

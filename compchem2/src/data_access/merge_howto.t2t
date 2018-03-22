@@ -1,0 +1,37 @@
+Merge document HOWTO (for Version 1)
+
+Justin Finnerty
+6 June 2006
+
+= Introduction =
+
+This document describes how the "merge" element is used to move information into the database.  This information provides a "supplier" centric view of what the data_source/data_system components do to add the data to the database.  Note this describe only in general details what occurs. 
+
+== Notes ==
+
+This document gives details about the current implementation (Version 1).  When features are encountered that are planned to change in the future they are marked with "(Version 1)" or "(Not in Version 1)".  In most cases these features are optional and indicate future extensions to the system. 
+
+= What the data_source does. =
+
+When the data_source component recieves a merge document it needs to do a number of things to add the document to the database.
+
++ It assumes the ``site`` of the data is the current one (Version 1).
+
++ It needs to determine the ``project`` tree.
+
+ + It is an error for the ``project`` not to exist. The ``data_source`` component may return an error or initiate the creation of a new ``project``.
+
+ + It needs to determine the submitting ``worker`` is a member of the ``project`` team with write permission. (Not in Verions 1).
+
++ Once it has found the ``project`` tree, it descends the tree looking for, in turn, a ``compound`` and ``formula`` tree in which to insert the new data.
+
+ + If either sub-tree does not exist then a skeleton sub-tree is created.  The ``data_source`` component may initiate a dialog to fill in the tree.
+
++ Once it has descended to the ``formula`` tree it appends the data to the end of the tree's data section.
+
+
+= What the supplier must provide =
+
+This means that the ``merge`` document is composed of the same elements as a ``formula`` sub-tree. This means that it can contains (at least one) ``experiment`` elements and possibly ``formulation`` elements. In addition the ``merge`` element has required attributes that provide the **ID**s of the ``project``, ``compound`` and ``formula`` in which to insert the data.
+
+What the ``merge`` document contains as data of the experiment is based on what a ``supplier`` sub-component can provide and what a corresponding ``report`` sub-component uses.

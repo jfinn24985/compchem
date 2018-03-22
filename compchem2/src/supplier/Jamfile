@@ -1,0 +1,51 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target supplier
+lib supplier :
+	datum_traits.cpp
+	basic_filter.cpp
+	/boost//regex
+	/cchem/data_scheme//data_scheme
+	matcher_filter.cpp
+	/cchem/data_access//data_access
+	basic_plugin_handler.cpp
+	matcher_types.cpp
+	filter_manager.cpp
+	supplier_helper.cpp
+	plugin_filter.cpp
+	/boost//filesystem
+	/cchem/utility//utility
+	:
+	<link>shared
+	;
+
+install install_supplier : supplier : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier" ;
+##END:target supplier
+##START:target test_filterutils
+install install_test_filterutils : test_filterutils : <variant>release:<location>$(INSTALL_PREFIX)/$(BINDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier" ;
+##END:target test_filterutils
+##START:target supplier_py
+python-extension supplier_py :
+	/boost//date_time
+	/boost//python_lib
+	filter_manager_py.cpp
+	/boost//program_options
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	/xml2//xml
+	/cchem/data_access//data_xml_access
+	/boost//filesystem
+	/cchem/supplier//supplier
+	/cchem/utility//utility
+	:
+	;
+
+install install_supplier_py : supplier_py : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier" ;
+##END:target supplier_py

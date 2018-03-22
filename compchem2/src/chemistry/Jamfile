@@ -1,0 +1,17 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target chemistry
+lib chemistry :
+	vibration.cpp
+	periodic_table.cpp
+	:
+	<link>shared
+	;
+
+install install_chemistry : chemistry : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/chemistry" ;
+##END:target chemistry

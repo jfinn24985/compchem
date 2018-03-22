@@ -1,0 +1,17 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target report
+lib report :
+	project_cfm_report.cpp
+	:
+	<link>static
+	: :
+	;
+
+install install_report : report : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/report" ;
+##END:target report

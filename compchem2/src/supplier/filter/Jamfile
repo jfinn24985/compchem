@@ -1,0 +1,51 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target gaussian_detect_plugin
+lib gaussian_detect_plugin :
+	gaussian_detect.cpp
+	basic_plugin.cpp
+	:
+	<link>shared
+	;
+
+install install_gaussian_detect_plugin : gaussian_detect_plugin : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier/filter" ;
+##END:target gaussian_detect_plugin
+##START:target gaussian_summary_plugin
+lib gaussian_summary_plugin :
+	gaussian_summary.cpp
+	basic_plugin.cpp
+	:
+	<link>shared
+	;
+
+install install_gaussian_summary_plugin : gaussian_summary_plugin : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier/filter" ;
+##END:target gaussian_summary_plugin
+##START:target gaussian_thermo_plugin
+lib gaussian_thermo_plugin :
+	gaussian_thermo.cpp
+	basic_plugin.cpp
+	:
+	<link>shared
+	;
+
+install install_gaussian_thermo_plugin : gaussian_thermo_plugin : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier/filter" ;
+##END:target gaussian_thermo_plugin
+##START:target gaussian_vibration_plugin
+lib gaussian_vibration_plugin :
+	basic_plugin.cpp
+	/cchem/chemistry//chemistry
+	gaussian_vibration.cpp
+	:
+	<link>shared
+	;
+
+install install_gaussian_vibration_plugin : gaussian_vibration_plugin : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/supplier/filter" ;
+##END:target gaussian_vibration_plugin

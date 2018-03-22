@@ -1,0 +1,129 @@
+#
+# Makefile.sys
+#
+##################################
+# Settings for current environment
+##################################
+
+OS ?= LINUX
+COMP ?= GNU
+VARIANT ?= DEBUG
+XMLLIB ?=
+
+###########################
+##
+## Generic setup below here
+##
+###########################
+
+####################
+## OS SPECIFIC STUFF
+####################
+ifeq ($(OS),WIN32)
+SUFEXE:=.exe
+SUFLIB:=.dll
+endif
+
+ifeq ($(OS),LINUX)
+SUFEXE:=
+SUFLIB:=.so.0
+endif
+
+###############################################
+##  Definitions for GNU g++ compiler for unices
+###############################################
+
+ifeq ($(COMP),GNU)
+## For linux
+CC:=gcc
+CCC:=g++
+STDCFLAGS:=-Wall -ansi -D_POSIX_SOURCE
+STDCXXFLAGS:=-Wall -ansi -D_POSIX_SOURCE -Weffc++
+STDOPTFLAGS:=-O3
+STDDEBUGFLAGS:=-O1 -D__DEBUG__
+STDLDFLAGS:=-lz
+STDSHRLIBS:=-rdynamic -ldl
+STDSHRFLAG:=-fPIC
+STDSHRXFLAGS:=-shared -Wl,-soname,
+endif
+
+######################################################
+##  Example library setup definition for XML libraries
+######################################################
+
+ifeq ($(XMLLIB),EXPAT)
+DOMFLAGS:=-DEXPAT
+DOMLIBS:=-lexpat
+endif
+
+ifeq ($(XMLLIB),XML2)
+DOMFLAGS:=-DXML2 `xml2-config --cflags`
+DOMLIBS:=`xml2-config --libs`
+endif
+
+######################
+##  Combine flags sets
+######################
+
+ifeq ($(VARIANT),DEBUG)
+VARIANTFLAGS=$(STDDEBUGFLAGS) $(DEBUGFLAGS)
+else
+VARIANTFLAGS=$(STDOPTFLAGS)
+endif
+
+CFLAGS=$(VARIANTFLAGS) $(STDCFLAGS) $(DOMFLAGS) $(USERFLAGS)
+CXXFLAGS=$(VARIANTFLAGS) $(STDCXXFLAGS) $(DOMFLAGS) $(USERFLAGS)
+LDFLAGS=$(VARIANTFLAGS) $(STDLDFLAGS) $(DOMLIBS) $(USERLDFLAGS)
+
+#############################################
+##  Define standard directory descent targets
+#############################################
+
+all:: dopart
+
+doit:
+	for WORKDIR in $(DIRS); do \
+	echo Working on $$WORKDIR; \
+	pushd $$WORKDIR;\
+	OS=$(OS) USERHDRS="$(USERHDRS)" USERFLAGS="$(USERFLAGS)" ROOTDIR="$(ROOTDIR)" COMP="$(COMP)" VARIANT="$(VARIANT)"  make $(WHAT); \
+	popd;\
+	done
+
+dopart:
+	WHAT="all" make doit
+
+distclean: clean
+	rm -f core core.* $(TARGETS) *~ *.d
+	WHAT="distclean" make doit
+
+clean: 
+	rm -f $(USEROBJ)
+	WHAT="clean" make doit
+
+##############
+## Build rules
+##############
+
+.cc.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+.cpp.o: 
+	$(CCC) $(USERHDRS) $(CXXFLAGS) -c $<
+
+%.d: %.cc
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \
+	| sed 's/\($*\)\.o[ :]*/\1.o $@ : /g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+%.d: %.cpp
+	set -e; $(CCC) -MM $(USERHDRS) $(CXXFLAGS) $< \
+	| sed 's/\($*\)\.o[ :]*/\1.o $@ : /g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+

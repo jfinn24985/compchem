@@ -1,0 +1,89 @@
+#
+#  Jamfile for the libglade
+#
+#
+
+# libglade library support module
+#
+# The module attempts to detect libglade:
+#
+# toolset.using glade : /usr/local/... ;
+#
+# Example:
+#
+#     exe myapp : myapp.cpp myapp.h  
+#                 /MotifTools//glade ;
+#
+
+# import modules ;
+# import feature ;
+import errors ;
+# import type ;
+# import "class" : new ;
+import project ;
+# import toolset : flags ;
+# import os ;
+# import virtual-target ;
+import string ;
+
+project.initialize $(__name__) ;
+project Glade ;
+
+# Save the project so that we tolerate 'import + using' combo.
+.project = [ project.current ] ;
+
+
+# Initialized the XML2 support module. The 'prefix' parameter
+# tells where XML2 is installed. 
+rule init ( )
+{
+    project.push-current $(.project) ;
+    
+    if $(.initialized)
+    {
+         errors.error
+              "Attempt to reinitialize GtkMM with different installation prefix" ;
+    }
+    else
+    {
+        .initialized = true ;
+
+        #~ Setup prefixes for include, binaries and libs.
+        .compileflags = [ string.join [ string.words [ SHELL "pkg-config libglade-2.0 --cflags-only-other" ] ] : " " ] ;
+        .incprefix = [ MATCH "-I\(.*\)" : [ string.words [ SHELL "pkg-config libglade-2.0 --cflags-only-I" ] ] ] ;
+        .libprefix = [ MATCH "-L\(.*\)" : string.join [ string.words [ SHELL "pkg-config libglade-2.0 --libs-only-L" ] ] ] ;
+        .linkflags = [ string.join [ MATCH "-lglade|(.*)" : [ string.words [ SHELL "pkg-config libglade-2.0 --libs-only-l --libs-only-other" ] ] ] : " " ] ;
+
+        # Use pre-built glade
+        {
+            local usage-requirements = 
+                  <include>$(.incprefix) 
+                  <library-path>$(.libprefix)
+                  <cflags>$(.compileflags)
+                  <linkflags>$(.linkflags)
+		  <allow>glade
+                ;
+            
+            lib glade : $(main)
+                : # requirements
+                 <name>glade-2.0
+                : # default-build
+                : # usage-requirements
+                  $(usage-requirements)
+                ;
+            
+         }
+    }
+    
+    project.pop-current ;
+}
+
+rule initialized ( )
+{
+    return $(.initialized) ;
+}
+
+
+# Local Variables:
+# mode: makefile
+# End: 

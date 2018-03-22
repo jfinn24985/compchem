@@ -1,0 +1,72 @@
+The testing overview
+Openscience team
+January 2008
+
+= Introduction =
+== Unit-tests == 
+
+- Each class should have an associated unit-test that ensures compliance with:
+ - the documented contracts and exception reporting
+ - accurately reproduces sample output from sample input
+
+- Class clusters/libraries should have an associated unit-test that ensures:
+ - Cluster intra-compatibility and cooperativity.
+ - compliance with documented contracts, exceptions etc
+ - reproduce complex sample output from input
+
+- Unit-test extension program for testing exceptions and failures as
+they are discovered.
+
+
+== Source style tests ==
+
+The test mechanism for ensuring all code matches a defined style is
+to have GNU indent (with -gnu option) produce an unchanged file.
+
+Other-conventions:
+* Comments, particularly file heading comments should not name individuals, instead 
+the code should be indentified as belonging to the @{project}.
+
+
+
+== Functional tests ==
+
+- Test suite that produces feature coverage reports.
+
+
+= Unit-tests =
+
+== Overview ==
+
+* Each Class should have a corresponding unit-test class.
+* Tests should probe both failure and success conditions.
+* Unit-test classes are combined into a test suite.
+* Test suites can compare current "output" to a previous "output".
+* Preferrably all tests in a suite are performed and the failed
+tests are reported.
+* Test failure is reported by program exit condition.
+* The boost 'unit-test' target is used to run test suites.
+
+
+== Details ==
+
+: configuration parameters. 
+Commandline options etc. must be passed to the program via a 
+configuration file. These are looked for in a file 
+[root]/canon/[test exe]_args.cpp.  These are created by creating
+a 'source' artifact in a sub-package and putting the arguments in 
+the C++ source window.
+
+
+== Framework ==
+
+The framework currently uses an internal unit-test framework.  To add a 
+new test case you derive a class from utility::unit_test and instantiate
+an object, generally using a static member (by default I name them 
+`exemplar`). This registers the object with the unit test manager.  To
+instantiate the class you need to define a title() method, returns a 
+descriptive title, and the main_test() method, which performs the unit 
+test.  Optionally you can redefine register_options() if you are 
+interested in getting command line/configuration options.
+
+ 

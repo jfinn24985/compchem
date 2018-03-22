@@ -1,0 +1,26 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target filetypes
+lib filetypes :
+	table_writer.cpp
+	markup.cpp
+	text_decor.cpp
+	/boost//date_time
+	output_header_options.cpp
+	output_header.cpp
+	/boost//regex
+	/boost//program_options
+	csv_decor.cpp
+	jcampdx_decor.cpp
+	:
+	<link>static
+	: :
+	;
+
+install install_filetypes : filetypes : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/report/filetype" ;
+##END:target filetypes

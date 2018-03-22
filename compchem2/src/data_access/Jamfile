@@ -1,0 +1,53 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target data_access
+lib data_access :
+	persistence.cpp
+	manager.cpp
+	:
+	<link>shared
+	;
+
+install install_data_access : data_access : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_access" ;
+##END:target data_access
+##START:target data_xml_access
+lib data_xml_access :
+	xml_writer.cpp
+	xml_write_visitor.cpp
+	xml_access_helper.cpp
+	/cchem/data_access//data_access
+	meta_datum.cpp
+	xml_persistence.cpp
+	/xml2//xml
+	/cchem/utility//utility
+	:
+	<link>shared
+	;
+
+install install_data_xml_access : data_xml_access : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_access" ;
+##END:target data_xml_access
+##START:target data_access_py
+python-extension data_access_py :
+	/boost//date_time
+	/boost//python_lib
+	meta_datum_py.cpp
+	/boost//program_options
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	/xml2//xml
+	data_access_py_main.cpp
+	/boost//filesystem
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	:
+	;
+
+install install_data_access_py : data_access_py : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_access" ;
+##END:target data_access_py

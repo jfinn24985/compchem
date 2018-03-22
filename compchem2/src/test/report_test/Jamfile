@@ -1,0 +1,38 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target test_report
+unit-test test_report :
+	/cchem/utility//test
+	/boost//date_time
+	/boost//program_options
+	/cchem/data_scheme//data_scheme
+	test_cfm_report.cpp
+	/cchem/data_access//data_access
+	/xml2//xml
+	/boost//filesystem
+	/cchem/data_access//data_xml_access
+	/cchem/report//report
+	/cchem/utility//utility
+	:
+	;
+
+install install_test_report : test_report : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/test/report_test" ;
+##END:target test_report
+##START:target test_filetypes
+unit-test test_filetypes :
+	/cchem/utility//test
+	/boost//program_options
+	/cchem/filetype//filetypes
+	test_table_writer.cpp
+	/cchem/report//report
+	:
+	;
+
+install install_test_filetypes : test_filetypes : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/test/report_test" ;
+##END:target test_filetypes

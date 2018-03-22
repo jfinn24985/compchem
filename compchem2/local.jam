@@ -1,0 +1,41 @@
+#
+# local.jam
+#
+# Set constants for installation paths
+path-constant VERSIONDIR : "cchem-1.0" ;
+path-constant PREFIX : installdir ;
+path-constant EXEC_PREFIX : $(PREFIX) ;
+path-constant BINDIR : $(EXEC_PREFIX)/bin ;
+path-constant SBINDIR : $(EXEC_PREFIX)/sbin ;
+path-constant LIBEXECDIR : $(EXEC_PREFIX)/libexec ;
+path-constant LIBDIR : $(EXEC_PREFIX)/lib ;
+path-constant DATAROOTDIR : $(PREFIX)/share ;
+path-constant DATADIR : $(PREFIX)/share ;
+path-constant SYSCONFDIR : /etc ;
+path-constant SHAREDSTATEDIR : $(PREFIX)/com ;
+path-constant LOCALSTATEDIR : $(PREFIX)/var ;
+path-constant INCLUDEDIR : $(PREFIX)/include ;
+path-constant LOCALEDIR : $(DATAROOTDIR)/locale ;
+path-constant DOCDIR : $(DATAROOTDIR)/doc/$(VERSIONDIR) ;
+path-constant INFODIR : $(DATAROOTDIR)/info ;
+path-constant MANDIR : $(DATAROOTDIR)/man ;
+path-constant HTMLDIR : $(DOCDIR) ;
+path-constant DVIDIR : $(DOCDIR) ;
+path-constant PDFDIR : $(DOCDIR) ;
+path-constant PSDIR : $(DOCDIR) ;
+path-constant MAN1DIR : $(MANDIR)/man1 ;
+path-constant MAN2DIR : $(MANDIR)/man2 ;
+path-constant MAN3DIR : $(MANDIR)/man3 ;
+path-constant MAN4DIR : $(MANDIR)/man4 ;
+path-constant MAN5DIR : $(MANDIR)/man5 ;
+path-constant MAN6DIR : $(MANDIR)/man6 ;
+path-constant MAN7DIR : $(MANDIR)/man7 ;
+path-constant MAN8DIR : $(MANDIR)/man8 ;
+path-constant MANNDIR : $(MANDIR)/mann ;
+###############
+## Editor sugar
+###############
+# Local Variables:
+# mode: makefile
+# End:
+

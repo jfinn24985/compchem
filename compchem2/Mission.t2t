@@ -1,0 +1,22 @@
+The 'OpenScience' project mission:
+
+To provide work-flow improvements for practising scientists through
+an Open mechanism for organising scientific primary sources and 
+associated meta-information.
+
+Objectives:
+- Flexibility and extensibility.
+- Encourage and enhance collaboration.
+- Enhance productivity
+
+Mechanism:
+- Enhance work-flow with input/output mechanism incorporation via extensions.
+- Foreground (front-end) simplicity via local XML files.
+- Focus on meta-relationships in datasets via document crosslinking.
+- Ease-of-navigation view XSLT/browser.
+
+Possible future directions:
+- Standardisation (ISO etc)
+- Background data management (pullStorage)
+- Controlled external collaboration and visibility (webportal)
+- Legal-compliant activity management (eLabbook)

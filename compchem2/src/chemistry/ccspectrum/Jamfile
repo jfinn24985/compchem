@@ -1,0 +1,19 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target ccspectrum
+exe ccspectrum :
+	/boost//program_options
+	/cchem/filetype//filetypes
+	spectrum_maker.cpp
+	/boost//filesystem
+	/cchem/utility//utility
+	:
+	;
+
+install install_ccspectrum : ccspectrum : <variant>release:<location>$(INSTALL_PREFIX)/$(BINDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/chemistry/ccspectrum" ;
+##END:target ccspectrum

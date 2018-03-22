@@ -1,0 +1,71 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target data_scheme
+lib data_scheme :
+	basic_datum.cpp
+	formula.cpp
+	info.cpp
+	settings.cpp
+	experiment.cpp
+	program.cpp
+	visitor.cpp
+	text.cpp
+	mechanism.cpp
+	worker.cpp
+	content_visitor.cpp
+	datum.cpp
+	/xml2//xml
+	filter.cpp
+	compound.cpp
+	memo.cpp
+	data_scheme_helper.cpp
+	compound_ref.cpp
+	identity.cpp
+	/cchem/utility//utility
+	project.cpp
+	:
+	<link>shared
+	;
+
+install install_data_scheme : data_scheme : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_scheme" ;
+##END:target data_scheme
+##START:target data_scheme_py
+python-extension data_scheme_py :
+	/boost//date_time
+	data_scheme_py_main.cpp
+	memo_py.cpp
+	experiment_py.cpp
+	worker_py.cpp
+	filter_py.cpp
+	compound_ref_py.cpp
+	basic_datum_py.cpp
+	visitor_py.cpp
+	mechanism_py.cpp
+	/boost//regex
+	/boost//python_lib
+	/boost//program_options
+	/cchem/data_scheme//data_scheme
+	/cchem/data_access//data_access
+	settings_py.cpp
+	text_py.cpp
+	compound_py.cpp
+	datum_py.cpp
+	/xml2//xml
+	info_py.cpp
+	program_py.cpp
+	project_py.cpp
+	identity_py.cpp
+	formula_py.cpp
+	/boost//filesystem
+	/cchem/utility//utility
+	:
+	;
+
+install install_data_scheme_py : data_scheme_py : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_scheme" ;
+##END:target data_scheme_py

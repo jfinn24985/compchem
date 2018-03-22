@@ -1,0 +1,12 @@
+The coding style follows astyle with config file:
+style=ansi
+indent=spaces=2
+
+The older alternative is gnu indent. The following is similar to the
+astyle above, however indent doesn't handle C++ syntax very
+well.
+ indent -bli0 -l0
+in vim
+ %!indent -bli0 -nut -l0 - -o -
+
+Note that gnu indent uses the GNU coding style by default.

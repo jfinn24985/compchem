@@ -1,0 +1,19 @@
+This document outlines the outstanding development issues
+
+Data_access library v1
+* test cases
+
+Data_scheme library v1
+* test of save-on-change functionality
+* pythonise objects for access by Supplier library python filters
+* test cases
+
+Supplier library v1
+* generalise filter sub-system for any file type (long lines!)
+* update gaussian filters for current DTD
+* Regex filter system
+* Python filter system
+
+Future:
+Data_access library v1
+* better handling of non-element nodes at the document level

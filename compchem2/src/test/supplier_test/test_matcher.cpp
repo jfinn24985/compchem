@@ -1,0 +1,461 @@
+// ------------------------------------------------------------
+// class: test_matcher
+// Orig author: Justin Finnerty
+// $author:$
+// Orig date: 
+// $date:$
+// $revision:$
+// $log:$
+// ------------------------------------------------------------
+
+
+#include "test/supplier_test/test_matcher.hpp"
+#include "supplier/matcher_types.hpp"
+#include "utility/program_options.hpp"
+
+//
+// #include <istream>
+#include <boost/bind.hpp>
+#include <algorithm>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
+// -
+namespace supplier {
+
+/**
+ * The class exemplar
+ */
+test_matcher test_matcher::s_exmplr;
+
+/**
+ * Override in derived classes to perform unit test.
+ */
+void test_matcher::main_test() const {
+  const std::string l_str1 ("Entering Link 1");
+  const std::string l_str2 ("Gaussian [[:alnum:]]+: +([[:alnum:]-]+)/([.[:alnum:]-]+) +([[:alnum:]-]+)");
+  const std::string l_str3 ("----------------------------------------------------------------------[[:space:]]+#((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+(((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+)?(((-[^-\\n]+|[^-\\n]+)+)\\n[[:space:]]+)?---------------------------------------");
+  const std::string l_term ("Multiplicity");
+  const std::string l_term2 ("*************************************************");
+  matcher_string l_test1 (l_str1, "<datum outcome=\"mechanism-subtype\">g03</datum>");
+  matcher_string_search l_test1_1 (l_term);
+  matcher_regex l_test2 (l_str2, "<datum outcome=\"mechanism-subtype\">\\1 : \\2 : \\3</datum>");
+  matcher_regex_search l_test3 (l_str3);
+  matcher_bytes l_test4 (1234);
+  matcher_lines l_test5 (5);
+  matcher_end_pair l_test6 (new matcher_regex (l_str2, "<datum outcome=\"mechanism-subtype\">\\1 : \\2 : \\3</datum>")
+                        , new matcher_string_search (l_term));
+  matcher_start_pair l_test7 (new matcher_string_search (l_term2)
+                        , new matcher_regex (l_str2, "<datum outcome=\"mechanism-subtype\">\\1 : \\2 : \\3</datum>"));
+  // Acceptance tests
+  std::ifstream l_is (m_gaussian_file.c_str ());
+  if (not l_is)
+  {
+    log () << EXCP << "Could not open input stream for '" << m_gaussian_file << "'.\n";
+  }
+  else
+  {
+    const unsigned int l_step (256);
+    const unsigned int l_sz (32 * l_step);
+    boost::scoped_array < char >l_buf (new char[l_sz]);
+    l_is.read (l_buf.get (), l_sz - 1);
+    const unsigned int l_read (l_is.gcount ());
+    l_buf[l_read] = '\0';	// Ensure null terminated.
+    log () << COMM << "Test buffer. Size = " << l_read << "\n";
+    log () << l_buf.get () << "\n";
+  
+    log () << COMM << "String matcher 1 by line (\"" << l_str1 << "\", \"g03\")\n";
+    test_string (l_test1, l_buf.get (), l_read, true);
+  
+    log () << COMM << "String searcher 1_1 by line (\"" << l_term << "\")\n";
+    test_string_search (l_test1_1, l_buf.get (), l_read, true);
+  
+    log () << COMM << "Regex matcher 2 by line (\"" << l_str2 << "\")\n";
+    test_regex (l_test2, l_buf.get (), l_read, true);
+  
+    log () << COMM << "Regex searcher 3 all parts (\"" << l_str3 << "\").\n";
+    test_regex_search (l_test3, l_buf.get (), l_read, false);
+  
+    log () << COMM << "Byte counter by line (1234 bytes).\n";
+    test_bytes (l_test4, l_buf.get (), l_read, true);
+  
+    log () << COMM << "Line counter by line (5 lines).\n";
+    test_lines (l_test5, l_buf.get (), l_read, true);
+  
+    log () << COMM << "Paired matchers, (end (\"" << l_term << "\") + main(\"" << l_str2 << "\")).\n";
+    test_end_pair (l_test6, l_buf.get (), l_read, true);
+  
+    log () << COMM << "Paired matchers, (start (\"" << l_term2 << "\") + main(\"" << l_str2 << "\")).\n";
+    test_start_pair (l_test7, l_buf.get (), l_read, true);
+  }
+}
+
+/**
+ * This method is called by the manager to allow test types to 
+ * register program options.  The default implementation does
+ * nothing.
+ */
+void test_matcher::register_options() 
+{
+  // Add option
+  utility::program_options::helper ().public_options ().add_options ()("gout", boost::program_options::value < std::string > (&m_gaussian_file), "Gaussian output file");
+
+}
+
+/**
+ * Test a matcher_bytes object.
+ */
+void test_matcher::test_bytes(matcher_bytes & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const boost::uint64_t l_start_offset = a_matcher.offset;
+  log () << TTLE << "Test matcher_bytes object. Offset = " << l_start_offset << "\n";
+  const boost::uint64_t l_start_count = a_matcher.count;
+  const boost::uint64_t l_zero (0);
+  bool_test (l_zero == l_start_count, "count starts at zero.");
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_start_offset == a_matcher.offset, "offset is unchanged.");
+  const boost::uint64_t l_final (a_matcher.count);
+  const boost::uint64_t l_off1 (2048);
+  const boost::uint64_t l_off2 (1866);
+  const boost::uint64_t & l_off (l_start_offset != l_off1 ? l_off1 : l_off2);
+  matcher_bytes l_swapper (l_off);
+  bool_test (l_off == l_swapper.offset, "created bytes object offset matchs set value");
+  bool_test (l_zero == l_swapper.count, "created bytes object count starts at zero.");
+  l_swapper.swap (a_matcher);
+  bool_test (l_off == a_matcher.offset, "swapped object 1 offset matchs");
+  bool_test (l_zero == a_matcher.count, "swapped object 1 count matchs.");
+  bool_test (l_start_offset == l_swapper.offset, "swapped object 2 offset matches");
+  bool_test (l_final == l_swapper.count, "swapped object 2 count matchs.");
+  l_swapper.swap (a_matcher);
+  bool_test (l_start_offset == a_matcher.offset, "double swapped object 1 offset matchs original");
+  bool_test (l_final == a_matcher.count, "double swapped object 1 count matchs original.");
+  bool_test (l_off == l_swapper.offset, "double swapped object 2 offset matchs original");
+  bool_test (l_zero == l_swapper.count, "double swapped object 2 count matchs original.");
+  if (l_start_count != a_matcher.count)
+  {
+    bool_test (a_matcher.count >= a_matcher.offset, "after match, counter is greater than offset.");
+    a_matcher.reset ();
+    bool_test (l_zero == a_matcher.count, "count resets to zero.");
+    bool_test (l_start_offset == a_matcher.offset, "offset unchanged by reset.");
+  }
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_end_pair(matcher_end_pair & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const basic_matcher * l_main (a_matcher.main.get ());
+  const basic_matcher * l_end (a_matcher.end.get ());
+  log () << TTLE << "Test matcher_end_pair object.\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_main == a_matcher.main.get (), "main matcher is unchanged.");
+  bool_test (l_end == a_matcher.end.get (), "end matcher is unchanged.");
+  const std::string l_result (a_matcher.accumulator);
+  const std::string l_phrase1 ("q2sqEuqU8");
+  const std::string l_phrase2 ("Ngkt8Mk2h");
+  matcher_end_pair l_swapper (new matcher_string_search (l_phrase1), new matcher_string_search (l_phrase2));
+  const basic_matcher * l_main2 (l_swapper.main.get ());
+  const basic_matcher * l_end2 (l_swapper.end.get ());
+  bool_test (l_swapper.accumulator.empty (), "created matcher has empty accumulator");
+  l_swapper.swap (a_matcher);
+  bool_test (l_main2 == a_matcher.main.get (), "swapped object 1 main matches");
+  bool_test (l_end2 == a_matcher.end.get (), "swapped object 1 end matches");
+  bool_test (l_main == l_swapper.main.get (), "swapped object 2 main matches");
+  bool_test (l_end == l_swapper.end.get (), "swapped object 2 get matches");
+  bool_test (a_matcher.accumulator.empty (), "swapped object 1 has empty accumulator");
+  bool_test (l_result == l_swapper.accumulator, "swapped object 2 match accumulator");
+  l_swapper.swap (a_matcher);
+  bool_test (l_main == a_matcher.main.get (), "double swapped object 1 main matches");
+  bool_test (l_end == a_matcher.end.get (), "double swapped object 1 end matches");
+  bool_test (l_main2 == l_swapper.main.get (), "double swapped object 2 main matches");
+  bool_test (l_end2 == l_swapper.end.get (), "double swapped object 2 get matches");
+  bool_test (l_result == a_matcher.accumulator, "swapped object 1 match accumulator");
+  bool_test (l_swapper.accumulator.empty (), "swapped object 2 has empty accumulator");
+  a_matcher.reset ();
+  bool_test (a_matcher.accumulator.empty (), "reset object has empty accumulator");
+  bool_test (l_main == a_matcher.main.get (), "reset object main unchanged");
+  bool_test (l_end == a_matcher.end.get (), "reset object end unchanged");
+
+}
+
+/**
+ * Test a matcher_lines object.
+ */
+void test_matcher::test_lines(matcher_lines & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const unsigned int l_start_offset = a_matcher.offset;
+  log () << TTLE << "Test matcher_lines object. Lines = " << l_start_offset << "\n";
+  const unsigned int l_start_count = a_matcher.count;
+  bool_test (0U == l_start_count, "count starts at zero.");
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_start_offset == a_matcher.offset, "offset is unchanged.");
+  const unsigned int l_final (a_matcher.count);
+  const unsigned int l_off1 (10);
+  const unsigned int l_off2 (11);
+  const unsigned int & l_off (l_start_offset != l_off1 ? l_off1 : l_off2);
+  matcher_lines l_swapper (l_off);
+  bool_test (l_off == l_swapper.offset, "created bytes object offset matches set value");
+  bool_test (0U == l_swapper.count, "created bytes object count starts at zero.");
+  l_swapper.swap (a_matcher);
+  bool_test (l_off == a_matcher.offset, "swapped object 1 offset matches");
+  bool_test (0U == a_matcher.count, "swapped object 1 count matchs.");
+  bool_test (l_start_offset == l_swapper.offset, "swapped object 2 offset matches");
+  bool_test (l_final == l_swapper.count, "swapped object 2 count matchs.");
+  l_swapper.swap (a_matcher);
+  bool_test (l_start_offset == a_matcher.offset, "double swapped object 1 offset offset original");
+  bool_test (l_final == a_matcher.count, "double swapped object 1 count matchs original.");
+  bool_test (l_off == l_swapper.offset, "double swapped object 2 offset offset original");
+  bool_test (0U == l_swapper.count, "double swapped object 2 count matchs original.");
+  if (l_start_count != a_matcher.count)
+  {
+    bool_test (a_matcher.count >= a_matcher.offset, "after match, counter is greater than offset.");
+    a_matcher.reset ();
+    bool_test (0U == a_matcher.count, "count resets to zero.");
+    bool_test (l_start_offset == a_matcher.offset, "offset is unchanged by reset.");
+  }
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_regex(matcher_regex & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const boost::regex l_search (a_matcher.finder);
+  const std::string l_format (a_matcher.format);
+  log () << TTLE << "Test matcher_string_search object. Phrase = \"" << l_search << "\"\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_search == a_matcher.finder, "finder is unchanged.");
+  bool_test (l_format == a_matcher.format, "format is unchanged.");
+  const boost::regex l_finder1 ("(q2sq*)(EuqU8*)");
+  const boost::regex l_finder2 ("(Ngkt*)(8Mk2h*)");
+  const std::string l_fmt1 ("MATCH1 = %1%\nMATCH2 = %2%");
+  const std::string l_fmt2 ("6mmDc4Bjr");
+  const boost::regex & l_phr (l_search != l_finder1 ? l_finder1 : l_finder2);
+  const std::string & l_fmt (l_format != l_fmt1 ? l_fmt1 : l_fmt2);
+  matcher_regex l_swapper (std::string(l_search != l_finder1 ? "(q2sq*)(EuqU8*)": "(Ngkt*)(8Mk2h*)"), l_fmt);
+  bool_test (l_phr == l_swapper.finder, "created regex matcher finder matches set value");
+  bool_test (l_fmt == l_swapper.format, "created regex matcher format matches set value");
+  l_swapper.swap (a_matcher);
+  bool_test (l_phr == a_matcher.finder, "swapped object 1 finder matches");
+  bool_test (l_fmt == a_matcher.format, "swapped object 1 format matches");
+  bool_test (l_search == l_swapper.finder, "swapped object 2 finder matches");
+  bool_test (l_format == l_swapper.format, "swapped object 2 finder matches");
+  l_swapper.swap (a_matcher);
+  bool_test (l_search == a_matcher.finder, "double swapped object 1 finder matches original");
+  bool_test (l_format == a_matcher.format, "double swapped object 1 format matches original");
+  bool_test (l_phr == l_swapper.finder, "double swapped object 2 finder matches original");
+  bool_test (l_fmt == l_swapper.format, "double swapped object 2 format matches original");
+  a_matcher.reset ();
+  bool_test (l_search == a_matcher.finder, "reset object finder unchanged");
+  bool_test (l_format == a_matcher.format, "reset object format unchanged");
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_regex_search(matcher_regex_search & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const boost::regex l_search (a_matcher.finder);
+  log () << TTLE << "Test matcher_regex_search object. Phrase = \"" << l_search << "\"\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_search == a_matcher.finder, "finder is unchanged.");
+  const boost::regex l_finder1 ("q2sqEuqU8");
+  const boost::regex l_finder2 ("Ngkt8Mk2h");
+  const boost::regex & l_phr (l_search != l_finder1 ? l_finder1 : l_finder2);
+  matcher_regex_search l_swapper (std::string (l_search != l_finder1 ? "q2sqEuqU8": "Ngkt8Mk2h"));
+  bool_test (l_phr == l_swapper.finder, "created regex_search object finder matches set value");
+  l_swapper.swap (a_matcher);
+  bool_test (l_phr == a_matcher.finder, "swapped object 1 finder matches");
+  bool_test (l_search == l_swapper.finder, "swapped object 2 finder matches");
+  l_swapper.swap (a_matcher);
+  bool_test (l_search == a_matcher.finder, "double swapped object 1 finder matches original");
+  bool_test (l_phr == l_swapper.finder, "double swapped object 2 finder matches original");
+  a_matcher.reset ();
+  bool_test (l_search == a_matcher.finder, "reset object finder unchanged");
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_start_pair(matcher_start_pair & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const basic_matcher * l_main (a_matcher.main.get ());
+  const basic_matcher * l_end (a_matcher.start.get ());
+  log () << TTLE << "Test matcher_end_pair object.\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_main == a_matcher.main.get (), "main matcher is unchanged.");
+  bool_test (l_end == a_matcher.start.get (), "end matcher is unchanged.");
+  const bool l_result (a_matcher.in_start);
+  const std::string l_phrase1 ("q2sqEuqU8");
+  const std::string l_phrase2 ("Ngkt8Mk2h");
+  matcher_start_pair l_swapper (new matcher_string_search (l_phrase1), new matcher_string_search (l_phrase2));
+  const basic_matcher * l_main2 (l_swapper.main.get ());
+  const basic_matcher * l_start2 (l_swapper.start.get ());
+  bool_test (l_swapper.in_start, "created matcher uses start");
+  l_swapper.swap (a_matcher);
+  bool_test (l_main2 == a_matcher.main.get (), "swapped object 1 main matches");
+  bool_test (l_start2 == a_matcher.start.get (), "swapped object 1 start matches");
+  bool_test (l_main == l_swapper.main.get (), "swapped object 2 main matches");
+  bool_test (l_end == l_swapper.start.get (), "swapped object 2 start matches");
+  bool_test (a_matcher.in_start, "swapped object 1 uses start");
+  bool_test (l_result == l_swapper.in_start, "swapped object 2 match start state");
+  l_swapper.swap (a_matcher);
+  bool_test (l_main == a_matcher.main.get (), "double swapped object 1 main matches");
+  bool_test (l_end == a_matcher.start.get (), "double swapped object 1 start matches");
+  bool_test (l_main2 == l_swapper.main.get (), "double swapped object 2 main matches");
+  bool_test (l_start2 == l_swapper.start.get (), "double swapped object 2 start matches");
+  bool_test (l_result == a_matcher.in_start, "swapped object 1 match start state");
+  bool_test (l_swapper.in_start, "swapped object 2 uses start");
+  a_matcher.reset ();
+  bool_test (a_matcher.in_start, "reset object uses start");
+  bool_test (l_main == a_matcher.main.get (), "reset object main unchanged");
+  bool_test (l_end == a_matcher.start.get (), "reset object start unchanged");
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_string(matcher_string & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const std::string l_search = a_matcher.phrase;
+  const std::string l_format = a_matcher.format;
+  log () << TTLE << "Test matcher_string_search object. Phrase = \"" << l_search << "\"\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_search == a_matcher.phrase, "phrase is unchanged.");
+  bool_test (l_format == a_matcher.format, "format is unchanged.");
+  const std::string l_phrase1 ("q2sqEuqU8");
+  const std::string l_phrase2 ("Ngkt8Mk2h");
+  const std::string l_fmt1 ("LINE = %1%\nMATCH = %2%");
+  const std::string l_fmt2 ("6mmDc4Bjr");
+  const std::string & l_phr (l_search != l_phrase1 ? l_phrase1 : l_phrase2);
+  const std::string & l_fmt (l_format != l_fmt1 ? l_fmt1 : l_fmt2);
+  matcher_string l_swapper (l_phr, l_fmt);
+  bool_test (l_phr == l_swapper.phrase, "created string matcher phrase matches set value");
+  bool_test (l_fmt == l_swapper.format, "created string matcher format matches set value");
+  l_swapper.swap (a_matcher);
+  bool_test (l_phr == a_matcher.phrase, "swapped object 1 phrase matches");
+  bool_test (l_fmt == a_matcher.format, "swapped object 1 format matches");
+  bool_test (l_search == l_swapper.phrase, "swapped object 2 phrase matches");
+  bool_test (l_format == l_swapper.format, "swapped object 2 phrase matches");
+  l_swapper.swap (a_matcher);
+  bool_test (l_search == a_matcher.phrase, "double swapped object 1 phrase matches original");
+  bool_test (l_format == a_matcher.format, "double swapped object 1 format matches original");
+  bool_test (l_phr == l_swapper.phrase, "double swapped object 2 phrase matches original");
+  bool_test (l_fmt == l_swapper.format, "double swapped object 2 format matches original");
+  a_matcher.reset ();
+  bool_test (l_search == a_matcher.phrase, "reset object phrase unchanged");
+  bool_test (l_format == a_matcher.format, "reset object format unchanged");
+
+}
+
+/**
+ * Test a matcher_string_search object.
+ */
+void test_matcher::test_string_search(matcher_string_search & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  const std::string l_search = a_matcher.phrase;
+  log () << TTLE << "Test matcher_string_search object. Phrase = \"" << l_search << "\"\n";
+  log () << WTCH << "Test basic_matcher features.\n";
+  test_first_matching (a_matcher, a_buf, a_sz, a_line_oriented);
+  bool_test (l_search == a_matcher.phrase, "phrase is unchanged.");
+  const std::string l_phrase1 ("q2sqEuqU8");
+  const std::string l_phrase2 ("Ngkt8Mk2h");
+  const std::string & l_phr (l_search != l_phrase1 ? l_phrase1 : l_phrase2);
+  matcher_string_search l_swapper (l_phr);
+  bool_test (l_phr == l_swapper.phrase, "created string_search object phrase matches set value");
+  l_swapper.swap (a_matcher);
+  bool_test (l_phr == a_matcher.phrase, "swapped object 1 phrase matches");
+  bool_test (l_search == l_swapper.phrase, "swapped object 2 phrase matches");
+  l_swapper.swap (a_matcher);
+  bool_test (l_search == a_matcher.phrase, "double swapped object 1 phrase matches original");
+  bool_test (l_phr == l_swapper.phrase, "double swapped object 2 phrase matches original");
+  a_matcher.reset ();
+  bool_test (l_search == a_matcher.phrase, "reset object phrase unchanged");
+
+}
+
+void test_matcher::test_first_matching(basic_matcher & a_matcher, const char *const a_buf, unsigned int a_sz, bool a_line_oriented) const 
+{
+  std::auto_ptr< basic_matcher > l_copy (a_matcher.clone ());
+  std::string l_result1;
+  std::string l_result2;
+  test_first_matching_priv (a_matcher, a_buf, a_sz, a_line_oriented, l_result1);
+  log () << WTCH << "Repeating match with clone.\n";
+  test_first_matching_priv (*(l_copy.get ()), a_buf, a_sz, a_line_oriented, l_result2);
+  bool_test (l_result1 == l_result2, "results from orignal and clone match.");
+  a_matcher.reset ();
+  l_copy->reset ();
+  l_result2.clear ();
+  log () << WTCH << "Repeating match with reset original.\n";
+  test_first_matching_priv (a_matcher, a_buf, a_sz, a_line_oriented, l_result2);
+  bool_test (l_result1 == l_result2, "results from orignal and reset original match.");
+
+}
+
+void test_matcher::test_first_matching_priv(basic_matcher & a_matcher, char const *const a_buf, unsigned int a_sz, bool a_line_oriented, std::string & a_result) const 
+{
+  if (a_line_oriented)
+  {
+    // Go line by line
+    boost::iostreams::array_source l_buf (a_buf, a_sz);
+    boost::iostreams::stream< boost::iostreams::array_source > l_is (l_buf);
+    std::string l_line;
+    log () << "no match at offset: ";
+    for (unsigned int l_ix = 0;
+         l_is;
+         l_ix += l_line.size () + 1)
+    {
+      const std::string l_result (a_result);
+      std::getline (l_is, l_line);
+      if (a_matcher.process_part (l_line, a_result))
+      {
+        log () << "\n" << WTCH << "match in line at offset [" << l_ix << "]: value = " << a_result;
+        break;
+      }
+      else
+      {
+        std::stringstream l_msg;
+        if (l_result == a_result)
+        {
+          log () << "[" << l_ix << "]";
+        }
+        else
+        {
+          l_msg <<  "OLD(result) == NEW(result) in line with no match at offset: [" << l_ix << "]";
+          bool_test (l_result == a_result, l_msg.str ());
+        }
+      }
+    }
+    log () << "\n";
+  }
+  else
+  {
+    // Go piecemeal
+    const std::string l_part (a_buf, a_sz);
+    const std::string l_result (a_result);
+    if (a_matcher.process_part (l_part, a_result))
+    {
+      log () << WTCH << "match in buffer: value = " << a_result << "\n";
+    }
+    else
+    {
+      bool_test (l_result == a_result, "OLD(result) == NEW(result) in buffer with no match");
+    }
+  }
+
+}
+
+
+} // namespace supplier

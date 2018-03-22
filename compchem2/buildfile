@@ -1,0 +1,7 @@
+${butter_boost}
+using gcc : : : <cxxflags>"-std=c++98 -Weffc++ -Woverloaded-virtual -Wstrict-null-sentinel" <linkflags>"-rdynamic -lz" <optimization>speed:<cflags>"-march=native -mfpmath=sse -msse2" ;
+# using intel : : :  <cxxflags>"-D_BOOL -wd383,981,869" <linkflags>"-i_dynamic -rdynamic -lz" <optimization>speed:<cflags>"-tpp7 -xW -ipo" ;
+
+import string ;
+# For python-extension
+# using python ;

@@ -1,0 +1,20 @@
+Feature Version 1:
+
+* Document definition (DTD)
+
+* Filesystem policy (filenaming and directory structure)
+
+* Base reporting infrastructure that supports DTD
+  * Example report system: Thermochemistry and supporting information reports
+
+* Source document entry filter infrastructure
+  * Example entry system: gaussian(c) output files
+  * Support for "simple" regular expression grammars
+  * SUpport for python classes
+
+Future features anticpated in version 1:
+
+* Project assistance
+  * Management reports: project completion
+  * Result reports: generic reports incorporating user-defined relationships
+  * Work-flow tools: work-initiation templates, progress monitors 

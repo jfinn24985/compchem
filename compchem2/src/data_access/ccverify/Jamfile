@@ -1,0 +1,24 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target ccverify
+exe ccverify :
+	/boost//date_time
+	verify_app.cpp
+	/boost//program_options
+	/cchem/data_scheme//data_scheme
+	verify_visitor.cpp
+	/cchem/data_access//data_access
+	/xml2//xml
+	/boost//filesystem
+	/cchem/data_access//data_xml_access
+	/cchem/utility//utility
+	:
+	;
+
+install install_ccverify : ccverify : <variant>release:<location>$(INSTALL_PREFIX)/$(BINDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/data_access/ccverify" ;
+##END:target ccverify

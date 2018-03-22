@@ -1,0 +1,21 @@
+##START:version
+#Butter version 1.2beta.175
+##END:version
+##START:date
+#Thu Mar 22 15:08:49 2018
+##END:date
+##START:target test_xml2reader
+unit-test test_xml2reader :
+	/cchem/utility//test
+	test_xml2_uri.cpp
+	test_xml2_reader.cpp
+	/boost//program_options
+	/xml2//xml
+	/boost//filesystem
+	/cchem/utility//utility
+	:
+	;
+
+install install_test_xml2reader : test_xml2reader : <variant>release:<location>$(INSTALL_PREFIX)/$(LIBDIR) 
+		<variant>debug:<location>$(DEBUG_PREFIX)/"src/test/xmlreader_test" ;
+##END:target test_xml2reader
