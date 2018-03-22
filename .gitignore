@@ -1,3 +1,6 @@
+# BoUML session files
+*.session
+
 # Prerequisites
 *.d
 
