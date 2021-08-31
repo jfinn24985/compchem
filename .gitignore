@@ -33,3 +33,10 @@
 *.exe
 *.out
 *.app
+
+# Log files
+*.log
+
+# Editor files
+*.swp
+*~
